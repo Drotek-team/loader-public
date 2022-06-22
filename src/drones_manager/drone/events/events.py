@@ -1,8 +1,10 @@
 import struct
 from abc import abstractclassmethod
+from dataclasses import dataclass
 from typing import List, Tuple
 
 
+@dataclass(frozen=True)
 class Event:
     def __init__(self, timecode: int):
         self.timecode = timecode

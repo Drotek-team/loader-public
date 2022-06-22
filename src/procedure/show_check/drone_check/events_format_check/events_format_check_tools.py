@@ -31,11 +31,13 @@ def timecode_check(
     timecodes: List[int],
     timecode_rate: int,
     first_timecode: int,
-) -> None:
-    check_int(timecodes)
-    check_timecode_rate(timecodes, timecode_rate)
-    check_increasing_timecode(timecodes)
-    check_first_timecode(timecodes, first_timecode)
+) -> bool:
+    return (
+        check_int(timecodes)
+        and check_timecode_rate(timecodes, timecode_rate)
+        and check_increasing_timecode(timecodes)
+        and check_first_timecode(timecodes, first_timecode)
+    )
 
 
 def xyz_check(
@@ -93,10 +95,10 @@ def takeoff_check(
     takeoff_duration: float,
     takeoff_altitude: float,
 ) -> None:
-    first_timecode = position_events.get_timecode_by_event_index[0]
-    second_timecode = position_events.get_timecode_by_event_index[1]
-    first_position = position_events.get_timecode_by_event_index[0]
-    second_position = position_events.get_timecode_by_event_index[1]
+    first_timecode = position_events.get_timecode_by_event_index(0)
+    second_timecode = position_events.get_timecode_by_event_index(1)
+    first_position = position_events.get_values_by_event_index(0)
+    second_position = position_events.get_values_by_event_index(1)
     standard_takeoff_duration = (second_timecode - first_timecode) == takeoff_duration
     standard_takeoff_translation = (
         first_position[0] == second_position[0]

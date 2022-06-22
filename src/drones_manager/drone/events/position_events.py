@@ -4,7 +4,6 @@ from typing import Tuple
 from .events import Event, Events
 
 
-@dataclass(frozen=True)
 class PositionEvent(Event):
     def __init__(self, timecode: int, x: int, y: int, z: int):
         Event.__init__(self, timecode)

@@ -4,7 +4,6 @@ from typing import Tuple
 from .events import Event, Events
 
 
-@dataclass(frozen=True)
 class ColorEvent(Event):
     def __init__(self, timecode: int, r: int, g: int, b: int, w: int):
         Event.__init__(self, timecode)

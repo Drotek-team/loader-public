@@ -1,4 +1,5 @@
 import json
+import os
 from dataclasses import dataclass
 
 
@@ -38,8 +39,11 @@ class IostarParameter:
 
 
 class Parameter:
+    EXPORT_SETUP_LOCAL_PATH = "/src/parameter/export_setup.json"
+    IOSTAR_SETUP_LOCAL_PATH = "/src/parameter/iostar_setup.json"
+
     def load_export_parameter(self):
-        f = open("export_setup.json", "r")
+        f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
             show_time_begin=data["FIRST_TIMECODE"],
@@ -48,7 +52,7 @@ class Parameter:
         )
 
     def load_iostar_parameter(self):
-        f = open("iostar_setup.json", "r")
+        f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
             takeoff_altitude=int(1e-2 * data["TAKEOFF_ALTITUDE"]),

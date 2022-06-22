@@ -3,7 +3,7 @@ import pytest
 from ......drones_manager.drone.events.position_events import PositionEvents
 from ......parameter.parameter import Parameter
 from ......procedure.show_check.drone_check.events_format_check.events_format_check_procedure import (
-    apply_events_format_check_procedure,
+    position_events_check,
 )
 from ......procedure.show_check.drone_check.events_format_check.events_format_check_report import (
     PositionEventsCheckReport,
@@ -11,7 +11,7 @@ from ......procedure.show_check.drone_check.events_format_check.events_format_ch
 
 
 @pytest.fixture
-def my_position_events():
+def invalid_position_events_takeoff_check():
     parameter = Parameter()
     parameter.load_export_parameter()
     parameter.load_iostar_parameter()
@@ -27,22 +27,34 @@ def my_position_events():
 
 
 @pytest.fixture
-def my_position_events_report():
+def invalid_position_events_timecode_check():
+    parameter = Parameter()
+    parameter.load_export_parameter()
+    parameter.load_iostar_parameter()
+    timecode_parameter = parameter.timecode_parameter
+    position_events = PositionEvents()
+    position_events.add(0, (0, 0, 0))
+    position_events.add(timecode_parameter.position_frequence + 1, (0, 0, 0))
+    return position_events
+
+
+@pytest.fixture
+def position_events_check_report():
     return PositionEventsCheckReport()
 
 
-def test_position_events_timecode_check(
-    my_position_events: PositionEvents,
-    my_position_events_check_report: PositionEventsCheckReport,
+def test_invalid_position_events_timecode_check(
+    invalid_position_events_timecode_check: PositionEvents,
+    position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
     parameter.load_export_parameter()
     parameter.load_iostar_parameter()
-    apply_events_format_check_procedure(
-        my_position_events,
+    position_events_check(
+        invalid_position_events_timecode_check,
+        position_events_check_report,
+        parameter.timecode_parameter,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
-        parameter.timecode_parameter,
-        my_position_events_check_report,
     )
-    assert my_position_events_check_report.timecode_check
+    assert not (position_events_check_report.timecode_check.validation)
