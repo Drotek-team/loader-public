@@ -1,4 +1,4 @@
-class TimecodeCheck:
+class TimecodeCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -6,7 +6,7 @@ class TimecodeCheck:
         self.validation = validation
 
 
-class XyzCheck:
+class XyzCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -14,7 +14,7 @@ class XyzCheck:
         self.validation = validation
 
 
-class RgbwCheck:
+class RgbwCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -22,7 +22,7 @@ class RgbwCheck:
         self.validation = validation
 
 
-class FireValueCheck:
+class FireValueCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -30,7 +30,7 @@ class FireValueCheck:
         self.validation = validation
 
 
-class TakeoffCheck:
+class TakeoffCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -38,7 +38,7 @@ class TakeoffCheck:
         self.validation = validation
 
 
-class FireChanelCheck:
+class FireChanelCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -46,7 +46,7 @@ class FireChanelCheck:
         self.validation = validation
 
 
-class FireDurationCheck:
+class FireDurationCheckReport:
     def __init__(self):
         self.validate = True
 
@@ -54,12 +54,12 @@ class FireDurationCheck:
         self.validation = validation
 
 
-class PositionEventsCheck:
+class PositionEventsCheckReport:
     def __init__(self):
         self.validation = True
-        self.timecode_check = TimecodeCheck()
-        self.xyz_check = XyzCheck()
-        self.takeoff_check = TakeoffCheck()
+        self.timecode_check = TimecodeCheckReport()
+        self.xyz_check = XyzCheckReport()
+        self.takeoff_check = TakeoffCheckReport()
 
     def update(self) -> None:
         self.validation = (
@@ -69,22 +69,22 @@ class PositionEventsCheck:
         )
 
 
-class ColorEventsCheck:
+class ColorEventsCheckReport:
     def __init__(self):
         self.validation = True
-        self.timecode_check = TimecodeCheck()
-        self.rgbw_check = RgbwCheck()
+        self.timecode_check = TimecodeCheckReport()
+        self.rgbw_check = RgbwCheckReport()
 
     def update(self) -> None:
         self.validation = self.timecode_check.validation and self.rgbw_check
 
 
-class FireEventsCheck:
+class FireEventsCheckReport:
     def __init__(self):
         self.validation = True
-        self.timecode_check = TimecodeCheck()
-        self.fire_chanel_check = FireChanelCheck()
-        self.fire_duration_check = FireDurationCheck()
+        self.timecode_check = TimecodeCheckReport()
+        self.fire_chanel_check = FireChanelCheckReport()
+        self.fire_duration_check = FireDurationCheckReport()
 
     def update(self) -> None:
         self.validation = (
@@ -97,9 +97,9 @@ class FireEventsCheck:
 class EventsFormatCheckReport:
     def __init__(self):
         self.validation = True
-        self.position_events_check = PositionEventsCheck()
-        self.color_events_check = ColorEventsCheck()
-        self.fire_events_check = FireEventsCheck()
+        self.position_events_check = PositionEventsCheckReport()
+        self.color_events_check = ColorEventsCheckReport()
+        self.fire_events_check = FireEventsCheckReport()
 
     def update(self) -> None:
         self.validation = (

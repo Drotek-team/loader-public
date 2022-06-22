@@ -8,10 +8,10 @@ from .....parameter.parameter import (
     TimecodeParameter,
 )
 from .events_format_check_report import (
-    ColorEventsCheck,
+    ColorEventsCheckReport,
     EventsFormatCheckReport,
-    FireEventsCheck,
-    PositionEventsCheck,
+    FireEventsCheckReport,
+    PositionEventsCheckReport,
 )
 from .events_format_check_tools import (
     fire_chanel_check,
@@ -25,7 +25,7 @@ from .events_format_check_tools import (
 
 def position_events_check(
     position_events: PositionEvents,
-    position_events_check: PositionEventsCheck,
+    position_events_check: PositionEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameters: IostarParameter,
     takeoff_parameter: TakeoffParameter,
@@ -51,7 +51,7 @@ def position_events_check(
 
 def color_events_check(
     color_events: ColorEvents,
-    color_events_check: ColorEventsCheck,
+    color_events_check: ColorEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameter: IostarParameter,
 ):
@@ -69,7 +69,7 @@ def color_events_check(
 
 def fire_events_check(
     fire_events: FireEvents,
-    fire_events_check: FireEventsCheck,
+    fire_events_check: FireEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameter: IostarParameter,
 ):
