@@ -27,7 +27,7 @@ def invalid_position_events_takeoff_check():
 
 
 @pytest.fixture
-def invalid_position_events_timecode_check():
+def invalid_position_events_timecode_format_check():
     parameter = Parameter()
     parameter.load_export_parameter()
     parameter.load_iostar_parameter()
@@ -43,7 +43,58 @@ def position_events_check_report():
     return PositionEventsCheckReport()
 
 
-def test_invalid_position_events_timecode_check(
+def test_invalid_position_events_timecode_format_check(
+    invalid_position_events_timecode_check: PositionEvents,
+    position_events_check_report: PositionEventsCheckReport,
+):
+    parameter = Parameter()
+    parameter.load_export_parameter()
+    parameter.load_iostar_parameter()
+    position_events_check(
+        invalid_position_events_timecode_check,
+        position_events_check_report,
+        parameter.timecode_parameter,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert not (position_events_check_report.timecode_check.validation)
+
+
+def test_invalid_position_events_timecode_rate_check(
+    invalid_position_events_timecode_check: PositionEvents,
+    position_events_check_report: PositionEventsCheckReport,
+):
+    parameter = Parameter()
+    parameter.load_export_parameter()
+    parameter.load_iostar_parameter()
+    position_events_check(
+        invalid_position_events_timecode_check,
+        position_events_check_report,
+        parameter.timecode_parameter,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert not (position_events_check_report.timecode_check.validation)
+
+
+def test_invalid_position_events_timecode_increasing_check(
+    invalid_position_events_timecode_format_check: PositionEvents,
+    position_events_check_report: PositionEventsCheckReport,
+):
+    parameter = Parameter()
+    parameter.load_export_parameter()
+    parameter.load_iostar_parameter()
+    position_events_check(
+        invalid_position_events_timecode_format_check,
+        position_events_check_report,
+        parameter.timecode_parameter,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert not (position_events_check_report.timecode_check.validation)
+
+
+def test_invalid_position_events_timecode_first_timecode_check(
     invalid_position_events_timecode_check: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
