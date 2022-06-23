@@ -25,28 +25,27 @@ from .events_format_check_tools import (
 
 def position_events_check(
     position_events: PositionEvents,
-    position_events_check: PositionEventsCheckReport,
+    position_events_check_report: PositionEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameters: IostarParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> None:
-    timecodes = [event.timecode for event in position_events.events]
-    positions = [event.get_values() for event in position_events.events]
-    position_events_check.timecode_check.update(
-        timecode_check(
-            timecodes,
-            timecode_parameter.position_frequence,
-            timecode_parameter.show_time_begin,
-        )
+    timecode_check(
+        position_events,
+        position_events_check_report.timecode_check_report,
+        timecode_parameter,
     )
-    position_events_check.xyz_check.update(xyz_check(positions, iostar_parameters))
-    position_events_check.takeoff_check.update(
-        takeoff_check(
-            position_events,
-            takeoff_parameter.takeoff_altitude,
-            takeoff_parameter.takeoff_duration,
-        )
+    xyz_check(
+        position_events,
+        position_events_check_report.xyz_check_report,
+        iostar_parameters,
     )
+    takeoff_check(
+        position_events,
+        position_events_check_report.takeoff_check_report,
+        takeoff_parameter,
+    )
+    position_events_check_report.update()
 
 
 def color_events_check(
@@ -60,8 +59,7 @@ def color_events_check(
     color_events_check.timecode_check.update(
         timecode_check(
             timecodes,
-            timecode_parameter.color_frequence,
-            timecode_parameter.show_time_begin,
+            timecode_parameter,
         )
     )
     color_events_check.rgbw_check.update(rgbw_check(colors, iostar_parameter))
@@ -79,8 +77,7 @@ def fire_events_check(
     fire_events_check.timecode_check.update(
         timecode_check(
             timecodes,
-            timecode_parameter.color_frequence,
-            timecode_parameter.show_time_begin,
+            timecode_parameter,
         )
     )
     fire_events_check.fire_chanel_check.update(

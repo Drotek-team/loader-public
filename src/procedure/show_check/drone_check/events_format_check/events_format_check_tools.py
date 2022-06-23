@@ -1,7 +1,16 @@
 from typing import Any, List, Tuple
 
 from .....drones_manager.drone.events.position_events import PositionEvents
-from .....parameter.parameter import IostarParameter
+from .....parameter.parameter import (
+    IostarParameter,
+    TakeoffParameter,
+    TimecodeParameter,
+)
+from .events_format_check_report import (
+    TakeoffCheckReport,
+    TimecodeCheckReport,
+    XyzCheckReport,
+)
 
 
 def check_int(elements: List[Any]) -> bool:
@@ -13,12 +22,12 @@ def check_int_size(elements: Tuple, size_min: int, size_max: int) -> bool:
 
 
 def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:
-    return all(not (timecode // timecode_rate) for timecode in timecodes)
+    return all(not (timecode % timecode_rate) for timecode in timecodes)
 
 
 def check_increasing_timecode(timecodes: List[int]) -> bool:
     return all(
-        timecodes[timecode_index + 1] > timecodes[timecode_index]
+        timecodes[timecode_index] < timecodes[timecode_index + 1]
         for timecode_index in range(len(timecodes) - 1)
     )
 
@@ -28,22 +37,31 @@ def check_first_timecode(timecodes: List[int], minimal_timecode: int) -> bool:
 
 
 def timecode_check(
-    timecodes: List[int],
-    timecode_rate: int,
-    first_timecode: int,
-) -> bool:
-    return (
-        check_int(timecodes)
-        and check_timecode_rate(timecodes, timecode_rate)
-        and check_increasing_timecode(timecodes)
-        and check_first_timecode(timecodes, first_timecode)
+    position_events: PositionEvents,
+    timecode_check_report: TimecodeCheckReport,
+    timecode_parameter: TimecodeParameter,
+) -> None:
+    timecodes = [event.timecode for event in position_events.event_list]
+    timecode_check_report.timecode_format_check_report.validation = check_int(timecodes)
+    timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
+        timecodes, timecode_parameter.position_rate
     )
+    timecode_check_report.increasing_timecode_check_report.validation = (
+        check_increasing_timecode(timecodes)
+    )
+    timecode_check_report.first_timecode_check_report.validation = check_first_timecode(
+        timecodes, timecode_parameter.show_timecode_begin
+    )
+    timecode_check_report.update()
 
 
 def xyz_check(
-    positions: List[Tuple[int, int, int]], iostar_parameter: IostarParameter
+    position_events: PositionEvents,
+    xyz_check_report: XyzCheckReport,
+    iostar_parameter: IostarParameter,
 ) -> None:
-    all(
+    positions = [event.get_values() for event in position_events.events]
+    xyz_check_report.validation = all(
         check_int_size(
             xyz,
             iostar_parameter.position_format_min,
@@ -92,17 +110,21 @@ def fire_duration_check(
 
 def takeoff_check(
     position_events: PositionEvents,
-    takeoff_duration: float,
-    takeoff_altitude: float,
+    takeoff_check_report: TakeoffCheckReport,
+    takeoff_parameter: TakeoffParameter,
 ) -> None:
     first_timecode = position_events.get_timecode_by_event_index(0)
     second_timecode = position_events.get_timecode_by_event_index(1)
     first_position = position_events.get_values_by_event_index(0)
     second_position = position_events.get_values_by_event_index(1)
-    standard_takeoff_duration = (second_timecode - first_timecode) == takeoff_duration
+    standard_takeoff_duration = (
+        second_timecode - first_timecode
+    ) == takeoff_parameter.takeoff_duration
     standard_takeoff_translation = (
         first_position[0] == second_position[0]
         and first_position[1] == second_position[1]
-        and takeoff_altitude + first_position[2] == second_position[2]
+        and takeoff_parameter.takeoff_altitude + first_position[2] == second_position[2]
     )
-    return standard_takeoff_duration and standard_takeoff_translation
+    takeoff_check_report.validation = (
+        standard_takeoff_duration and standard_takeoff_translation
+    )

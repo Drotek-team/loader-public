@@ -11,8 +11,8 @@ class TakeoffParameter:
 
 @dataclass(frozen=True)
 class TimecodeParameter:
-    show_time_begin: int
-    position_frequence: int
+    show_timecode_begin: int
+    position_rate: int
     color_frequence: int
 
 
@@ -46,17 +46,17 @@ class Parameter:
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
-            show_time_begin=data["FIRST_TIMECODE"],
-            position_frequence=data["POSITION_TIMECODE_FREQUENCE"],
-            color_frequence=data["COLOR_TIMECODE_FREQUENCE"],
+            show_timecode_begin=1e3 * data["FIRST_TIMECODE"],
+            position_rate=1e3 // data["POSITION_TIMECODE_FREQUENCE"],
+            color_frequence=1e3 // data["COLOR_TIMECODE_FREQUENCE"],
         )
 
     def load_iostar_parameter(self):
         f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
-            takeoff_altitude=int(1e-2 * data["TAKEOFF_ALTITUDE"]),
-            takeoff_duration=int(1e-3 * data["TAKEOFF_DURATION"]),
+            takeoff_altitude=int(1e2 * data["TAKEOFF_ALTITUDE"]),
+            takeoff_duration=int(1e3 * data["TAKEOFF_DURATION"]),
         )
         self.iostar_parameter = IostarParameter(
             iostar_mass=data["IOSTAR_MASS"],

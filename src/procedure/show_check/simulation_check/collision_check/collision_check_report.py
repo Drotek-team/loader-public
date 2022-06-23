@@ -3,7 +3,7 @@ from typing import List
 
 class DroneCollisionCheckReport:
     def __init__(self):
-        self.validate = True
+        self.validation = False
 
     def update(self, validation, type: str) -> None:
         self.validation = validation
@@ -11,7 +11,7 @@ class DroneCollisionCheckReport:
 
 class CollisionCheckReport:
     def __init__(self, nb_drone: int):
-        self.validate = True
+        self.validation = False
         self.drones_collision_check_report = [
             DroneCollisionCheckReport() for _ in range(nb_drone)
         ]
