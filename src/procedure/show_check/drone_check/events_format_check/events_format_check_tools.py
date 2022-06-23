@@ -35,14 +35,14 @@ def check_int_size_list_tuple(
     elements: List[Tuple], size_min: int, size_max: int
 ) -> bool:
     return all(
-        size_min < element and element < size_max
+        size_min <= element and element <= size_max
         for tuple_element in elements
         for element in tuple_element
     )
 
 
 def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
-    return all(size_min < element and element < size_max for element in elements)
+    return all(size_min <= element and element <= size_max for element in elements)
 
 
 def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:
@@ -113,8 +113,8 @@ def xyz_check(
     )
     xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
         positions,
-        iostar_parameter.position_format_min,
-        iostar_parameter.position_format_max,
+        iostar_parameter.position_value_min,
+        iostar_parameter.position_value_max,
     )
     xyz_check_report.update()
 
@@ -130,8 +130,8 @@ def rgbw_check(
     )
     rgbw_check_report.rgbw_value_check_report.validation = check_int_size_list_tuple(
         colors,
-        iostar_parameter.color_format_min,
-        iostar_parameter.color_format_max,
+        iostar_parameter.color_value_min,
+        iostar_parameter.color_value_max,
     )
     rgbw_check_report.update()
 

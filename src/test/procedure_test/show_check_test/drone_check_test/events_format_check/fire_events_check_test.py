@@ -17,11 +17,9 @@ def valid_fire_events():
     parameter.load_iostar_parameter()
     timecode_parameter = parameter.timecode_parameter
     fire_events = FireEvents()
-    fire_events.add(timecode_parameter.show_timecode_begin, (0, 0, 0, 0))
-    fire_events.add(
-        timecode_parameter.show_timecode_begin + timecode_parameter.fire_rate,
-        (255, 255, 255, 255),
-    )
+    fire_events.add(timecode_parameter.show_timecode_begin, 0, 1000)
+    fire_events.add(timecode_parameter.show_timecode_begin, 1, 1000)
+    fire_events.add(timecode_parameter.show_timecode_begin, 2, 1000)
     return fire_events
 
 
@@ -43,7 +41,14 @@ def test_valid_fire_events_check(
         parameter.timecode_parameter,
         parameter.iostar_parameter,
     )
-    assert fire_events_check_report.validation
+    assert (
+        fire_events_check_report.fire_duration_check_report.fire_duration_format_check_report.validation
+    )
+    assert (
+        fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.validation
+    )
+    assert fire_events_check_report.fire_duration_check_report.validation
+    assert fire_events_check_report.fire_chanel_check_report.validation
 
 
 def test_invalid_fire_events_timecode_format_check(

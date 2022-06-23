@@ -174,7 +174,7 @@ def test_invalid_position_events_xyz_value_check(
     parameter.load_iostar_parameter()
     valid_position_events.add(
         parameter.timecode_parameter.show_timecode_begin,
-        (parameter.iostar_parameter.position_format_max, 0, 0),
+        (parameter.iostar_parameter.position_value_max, 0, 0),
     )
     position_events_check(
         valid_position_events,

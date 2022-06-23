@@ -20,14 +20,14 @@ class TimecodeParameter:
 class IostarParameter:
     iostar_mass: float
     iostar_drag_vertical_coef: float
-    fire_chanel_format_min: int
-    fire_chanel_format_max: int
-    fire_duration_format_min: int
-    fire_duration_format_max: int
-    position_format_min: int
-    position_format_max: int
-    color_format_min: int
-    color_format_max: int
+    fire_chanel_value_min: int
+    fire_chanel_value_max: int
+    fire_duration_value_min: int
+    fire_duration_value_max: int
+    position_value_min: int
+    position_value_max: int
+    color_value_min: int
+    color_value_max: int
     position_max: float
     horizontal_velocity_max: float
     horizontal_acceleration_max: float
@@ -59,17 +59,15 @@ class Parameter:
             takeoff_duration=int(1e3 * data["TAKEOFF_DURATION"]),
         )
         self.iostar_parameter = IostarParameter(
-            iostar_mass=data["IOSTAR_MASS"],
-            iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
-            fire_chanel_format_min=data["FIRE_CHANEL_FORMAT_MIN"],
-            fire_chanel_format_max=data["FIRE_CHANEL_FORMAT_MAX"],
-            fire_duration_format_min=data["FIRE_DURATION_FORMAT_MIN"],
-            fire_duration_format_max=data["FIRE_DURATION_FORMAT_MAX"],
-            position_format_min=data["POSITION_MIN_FORMAT_CM"],
-            position_format_max=data["POSITION_MAX_FORMAT_CM"],
-            color_format_min=data["COLOR_MIN_FORMAT"],
-            color_format_max=data["COLOR_MAX_FORMAT"],
-            position_max=data["POSITION_MAX_METER"],
+            position_value_min=data["POSITION_VALUE_CM_MIN"],
+            position_value_max=data["POSITION_VALUE_CM_MAX"],
+            color_value_min=data["COLOR_VALUE_MIN"],
+            color_value_max=data["COLOR_VALUE_MAX"],
+            fire_chanel_value_min=data["FIRE_CHANEL_VALUE_MIN"],
+            fire_chanel_value_max=data["FIRE_CHANEL_VALUE_MAX"],
+            fire_duration_value_min=data["FIRE_DURATION_VALUE_SECOND_MIN"],
+            fire_duration_value_max=data["FIRE_DURATION_VALUE_SECOND_MAX"],
+            position_max=data["POS_METER_MAX"],
             horizontal_velocity_max=data["VEL_HOR_MAX_METER_PER_SECOND"],
             horizontal_acceleration_max=data["ACC_HOR_MAX_METER_PER_SECOND_SQUARE"],
             force_up_max=data["FORCE_UP_MAX_NEWTON"],
@@ -77,4 +75,6 @@ class Parameter:
             security_distance_in_air=data["MINIMAL_DISTANCE_BTW_DRONES_IN_AIR"],
             security_distance_on_ground=data["MINIMAL_DISTANCE_BTW_DRONES_ON_GROUND"],
             dance_size_max=data["DANCE_SIZE_MAX_OCTECT"],
+            iostar_mass=data["IOSTAR_MASS"],
+            iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
         )

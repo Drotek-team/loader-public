@@ -164,7 +164,7 @@ def test_invalid_color_events_rgbw_value_check(
     parameter.load_iostar_parameter()
     valid_color_events.add(
         parameter.timecode_parameter.show_timecode_begin,
-        (parameter.iostar_parameter.color_format_max, 0, 0, 0),
+        (parameter.iostar_parameter.color_value_max + 1, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
