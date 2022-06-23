@@ -84,6 +84,7 @@ def fire_events_check(
         fire_events_check_report.fire_duration_check_report,
         iostar_parameter,
     )
+    fire_events_check_report.update()
 
 
 def apply_events_format_check_procedure(

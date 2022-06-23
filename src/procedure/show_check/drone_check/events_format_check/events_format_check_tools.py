@@ -187,13 +187,14 @@ def fire_chanel_check(
     fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
         check_int_size_list(
             channels,
-            iostar_parameter.fire_chanel_format_min,
-            iostar_parameter.fire_chanel_format_max,
+            iostar_parameter.fire_chanel_value_min,
+            iostar_parameter.fire_chanel_value_max,
         )
     )
     fire_events_chanel_check_report.fire_chanel_unicty_check_report.validation = (
         check_chanel_unicity(channels)
     )
+    fire_events_chanel_check_report.update()
 
 
 def fire_duration_check(
@@ -205,10 +206,11 @@ def fire_duration_check(
     fire_events_chanel_check_report.fire_duration_format_check_report.validation = (
         check_is_instance_int_list(durations)
     )
-    fire_events_chanel_check_report.fire_duration_value_check_report = (
+    fire_events_chanel_check_report.fire_duration_value_check_report.validation = (
         check_int_size_list(
             durations,
-            iostar_parameter.fire_duration_format_min,
-            iostar_parameter.fire_duration_format_max,
+            iostar_parameter.fire_duration_value_min,
+            iostar_parameter.fire_duration_value_max,
         )
     )
+    fire_events_chanel_check_report.update()
