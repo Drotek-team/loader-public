@@ -2,24 +2,15 @@ class FirstPositionCoherenceCheck:
     def __init__(self):
         self.validation = False
 
-    def update(self, validation: bool) -> None:
-        self.validation = validation
-
 
 class VerticalityAlignedCheck:
     def __init__(self):
         self.validation = False
 
-    def update(self, validation: bool) -> None:
-        self.validation = validation
-
 
 class RowColumnDistanceCheck:
     def __init__(self):
         self.validation = False
-
-    def update(self, validation: bool) -> None:
-        self.validation = validation
 
 
 class FamilyCheckReport:

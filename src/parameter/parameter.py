@@ -46,9 +46,9 @@ class Parameter:
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
-            show_timecode_begin=1e3 * data["FIRST_TIMECODE"],
-            position_rate=1e3 // data["POSITION_TIMECODE_FREQUENCE"],
-            color_frequence=1e3 // data["COLOR_TIMECODE_FREQUENCE"],
+            show_timecode_begin=int(1e3 * data["FIRST_TIMECODE"]),
+            position_rate=int(1e3 // data["POSITION_TIMECODE_FREQUENCE"]),
+            color_frequence=int(1e3 // data["COLOR_TIMECODE_FREQUENCE"]),
         )
 
     def load_iostar_parameter(self):

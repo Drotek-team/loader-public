@@ -48,9 +48,7 @@ def test_valid_position_events_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert (
-        position_events_check_report.timecode_check_report.first_timecode_check_report.validation
-    )
+    assert position_events_check_report.validation
 
 
 def test_invalid_position_events_timecode_format_check(
@@ -60,10 +58,10 @@ def test_invalid_position_events_timecode_format_check(
     parameter = Parameter()
     parameter.load_export_parameter()
     parameter.load_iostar_parameter()
-    # valid_position_events.add(
-    #     1.23,
-    #     (0, 0, 0),
-    # )
+    valid_position_events.add(
+        1.23,
+        (0, 0, 0),
+    )
     position_events_check(
         valid_position_events,
         position_events_check_report,
@@ -71,7 +69,9 @@ def test_invalid_position_events_timecode_format_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert position_events_check_report.timecode_check.validation
+    assert not (
+        position_events_check_report.timecode_check_report.timecode_format_check_report.validation
+    )
 
 
 def test_invalid_position_events_timecode_rate_check(
@@ -92,7 +92,9 @@ def test_invalid_position_events_timecode_rate_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (position_events_check_report.timecode_check.validation)
+    assert not (
+        position_events_check_report.timecode_check_report.timecode_rate_check_report.validation
+    )
 
 
 def test_invalid_position_events_timecode_increasing_check(
@@ -113,7 +115,9 @@ def test_invalid_position_events_timecode_increasing_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (position_events_check_report.timecode_check.validation)
+    assert not (
+        position_events_check_report.timecode_check_report.increasing_timecode_check_report.validation
+    )
 
 
 def test_invalid_position_events_timecode_first_timecode_check(
@@ -133,7 +137,9 @@ def test_invalid_position_events_timecode_first_timecode_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (position_events_check_report.timecode_check.validation)
+    assert not (
+        position_events_check_report.timecode_check_report.first_timecode_check_report.validation
+    )
 
 
 def test_invalid_position_events_xyz_format_check(
@@ -144,7 +150,7 @@ def test_invalid_position_events_xyz_format_check(
     parameter.load_export_parameter()
     parameter.load_iostar_parameter()
     valid_position_events.add(
-        parameter.timecode_parameter.show_timecode_begin, (1.23, 0, 0)
+        parameter.timecode_parameter.show_timecode_begin, (32800, 0, 0)
     )
     position_events_check(
         valid_position_events,
@@ -153,7 +159,7 @@ def test_invalid_position_events_xyz_format_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (position_events_check_report.timecode_check.validation)
+    assert not (position_events_check_report.xyz_check_report.validation)
 
 
 def test_invalid_position_events_takeoff_duration_check(
@@ -173,7 +179,9 @@ def test_invalid_position_events_takeoff_duration_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (position_events_check_report.timecode_check.validation)
+    assert not (
+        position_events_check_report.takeoff_check_report.takeoff_duration_check_report.validation
+    )
 
 
 def test_invalid_position_events_takeoff_position_check(
@@ -193,4 +201,6 @@ def test_invalid_position_events_takeoff_position_check(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (position_events_check_report.timecode_check.validation)
+    assert not (
+        position_events_check_report.takeoff_check_report.takeoff_position_check_report.validation
+    )

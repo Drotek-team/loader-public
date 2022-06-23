@@ -13,12 +13,24 @@ from .events_format_check_report import (
 )
 
 
-def check_int(elements: List[Any]) -> bool:
+def check_is_instance_int_list(elements: List) -> bool:
     return all(isinstance(element, int) for element in elements)
 
 
-def check_int_size(elements: Tuple, size_min: int, size_max: int) -> bool:
-    return all(size_min < element and element < size_max for element in elements)
+def check_is_instance_int_list_tuple(elements: List[Tuple]) -> bool:
+    return all(
+        isinstance(element, int)
+        for element_tuple in elements
+        for element in element_tuple
+    )
+
+
+def check_int_size(elements: List[Tuple], size_min: int, size_max: int) -> bool:
+    return all(
+        size_min < element and element < size_max
+        for tuple_element in elements
+        for element in tuple_element
+    )
 
 
 def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:
@@ -42,7 +54,9 @@ def timecode_check(
     timecode_parameter: TimecodeParameter,
 ) -> None:
     timecodes = [event.timecode for event in position_events.event_list]
-    timecode_check_report.timecode_format_check_report.validation = check_int(timecodes)
+    timecode_check_report.timecode_format_check_report.validation = (
+        check_is_instance_int_list(timecodes)
+    )
     timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
         timecodes, timecode_parameter.position_rate
     )
@@ -61,14 +75,15 @@ def xyz_check(
     iostar_parameter: IostarParameter,
 ) -> None:
     positions = [event.get_values() for event in position_events.events]
-    xyz_check_report.validation = all(
-        check_int_size(
-            xyz,
-            iostar_parameter.position_format_min,
-            iostar_parameter.position_format_max,
-        )
-        for xyz in positions
+    xyz_check_report.xyz_format_check_report.validation = (
+        check_is_instance_int_list_tuple(positions)
     )
+    xyz_check_report.xyz_value_check_report.validation = check_int_size(
+        positions,
+        iostar_parameter.position_format_min,
+        iostar_parameter.position_format_max,
+    )
+    xyz_check_report.update()
 
 
 def rgbw_check(
@@ -117,14 +132,12 @@ def takeoff_check(
     second_timecode = position_events.get_timecode_by_event_index(1)
     first_position = position_events.get_values_by_event_index(0)
     second_position = position_events.get_values_by_event_index(1)
-    standard_takeoff_duration = (
+    takeoff_check_report.takeoff_duration_check_report.validation = (
         second_timecode - first_timecode
     ) == takeoff_parameter.takeoff_duration
-    standard_takeoff_translation = (
+    takeoff_check_report.takeoff_position_check_report.validation = (
         first_position[0] == second_position[0]
         and first_position[1] == second_position[1]
         and takeoff_parameter.takeoff_altitude + first_position[2] == second_position[2]
     )
-    takeoff_check_report.validation = (
-        standard_takeoff_duration and standard_takeoff_translation
-    )
+    takeoff_check_report.update()
