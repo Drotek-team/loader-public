@@ -13,7 +13,7 @@ class TakeoffParameter:
 class TimecodeParameter:
     show_timecode_begin: int
     position_rate: int
-    color_frequence: int
+    color_rate: int
 
 
 @dataclass(frozen=True)
@@ -48,7 +48,7 @@ class Parameter:
         self.timecode_parameter = TimecodeParameter(
             show_timecode_begin=int(1e3 * data["FIRST_TIMECODE"]),
             position_rate=int(1e3 // data["POSITION_TIMECODE_FREQUENCE"]),
-            color_frequence=int(1e3 // data["COLOR_TIMECODE_FREQUENCE"]),
+            color_rate=int(1e3 // data["COLOR_TIMECODE_FREQUENCE"]),
         )
 
     def load_iostar_parameter(self):

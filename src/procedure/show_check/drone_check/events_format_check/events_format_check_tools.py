@@ -1,5 +1,7 @@
-from typing import Any, List, Tuple
+from typing import List, Tuple
 
+from .....drones_manager.drone.events.color_events import ColorEvents
+from .....drones_manager.drone.events.fire_events import FireEvents
 from .....drones_manager.drone.events.position_events import PositionEvents
 from .....parameter.parameter import (
     IostarParameter,
@@ -7,6 +9,10 @@ from .....parameter.parameter import (
     TimecodeParameter,
 )
 from .events_format_check_report import (
+    FireChanelCheckReport,
+    FireDurationCheckReport,
+    FireTimecodeCheckReport,
+    RgbwCheckReport,
     TakeoffCheckReport,
     TimecodeCheckReport,
     XyzCheckReport,
@@ -25,12 +31,18 @@ def check_is_instance_int_list_tuple(elements: List[Tuple]) -> bool:
     )
 
 
-def check_int_size(elements: List[Tuple], size_min: int, size_max: int) -> bool:
+def check_int_size_list_tuple(
+    elements: List[Tuple], size_min: int, size_max: int
+) -> bool:
     return all(
         size_min < element and element < size_max
         for tuple_element in elements
         for element in tuple_element
     )
+
+
+def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
+    return all(size_min < element and element < size_max for element in elements)
 
 
 def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:
@@ -48,7 +60,7 @@ def check_first_timecode(timecodes: List[int], minimal_timecode: int) -> bool:
     return timecodes[0] >= minimal_timecode
 
 
-def timecode_check(
+def position_timecode_check(
     position_events: PositionEvents,
     timecode_check_report: TimecodeCheckReport,
     timecode_parameter: TimecodeParameter,
@@ -69,6 +81,27 @@ def timecode_check(
     timecode_check_report.update()
 
 
+def color_timecode_check(
+    color_events: ColorEvents,
+    timecode_check_report: TimecodeCheckReport,
+    timecode_parameter: TimecodeParameter,
+) -> None:
+    timecodes = [event.timecode for event in color_events.event_list]
+    timecode_check_report.timecode_format_check_report.validation = (
+        check_is_instance_int_list(timecodes)
+    )
+    timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
+        timecodes, timecode_parameter.color_rate
+    )
+    timecode_check_report.increasing_timecode_check_report.validation = (
+        check_increasing_timecode(timecodes)
+    )
+    timecode_check_report.first_timecode_check_report.validation = check_first_timecode(
+        timecodes, timecode_parameter.show_timecode_begin
+    )
+    timecode_check_report.update()
+
+
 def xyz_check(
     position_events: PositionEvents,
     xyz_check_report: XyzCheckReport,
@@ -78,7 +111,7 @@ def xyz_check(
     xyz_check_report.xyz_format_check_report.validation = (
         check_is_instance_int_list_tuple(positions)
     )
-    xyz_check_report.xyz_value_check_report.validation = check_int_size(
+    xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
         positions,
         iostar_parameter.position_format_min,
         iostar_parameter.position_format_max,
@@ -87,40 +120,20 @@ def xyz_check(
 
 
 def rgbw_check(
-    positions: List[Tuple[int, int, int, int]], iostar_parameter: IostarParameter
+    color_events: ColorEvents,
+    rgbw_check_report: RgbwCheckReport,
+    iostar_parameter: IostarParameter,
 ) -> None:
-    all(
-        check_int_size(
-            xyz, iostar_parameter.color_format_min, iostar_parameter.color_format_max
-        )
-        for xyz in positions
+    colors = [event.get_values() for event in color_events.events]
+    rgbw_check_report.rgbw_format_check_report.validation = (
+        check_is_instance_int_list_tuple(colors)
     )
-
-
-def fire_chanel_check(
-    fire_chanels: List[int], iostar_parameter: IostarParameter
-) -> None:
-    all(
-        check_int_size(
-            tuple([fire_chanel]),
-            iostar_parameter.fire_chanel_format_min,
-            iostar_parameter.fire_chanel_format_max,
-        )
-        for fire_chanel in fire_chanels
+    rgbw_check_report.rgbw_value_check_report.validation = check_int_size_list_tuple(
+        colors,
+        iostar_parameter.color_format_min,
+        iostar_parameter.color_format_max,
     )
-
-
-def fire_duration_check(
-    fire_durations: List[int], iostar_parameter: IostarParameter
-) -> None:
-    all(
-        check_int_size(
-            tuple([fire_duration]),
-            iostar_parameter.fire_duration_format_min,
-            iostar_parameter.fire_duration_format_max,
-        )
-        for fire_duration in fire_durations
-    )
+    rgbw_check_report.update()
 
 
 def takeoff_check(
@@ -141,3 +154,61 @@ def takeoff_check(
         and takeoff_parameter.takeoff_altitude + first_position[2] == second_position[2]
     )
     takeoff_check_report.update()
+
+
+def fire_timecode_check(
+    fire_events: ColorEvents,
+    fire_events_timecode_check_report: FireTimecodeCheckReport,
+    timecode_parameter: TimecodeParameter,
+) -> None:
+    timecodes = [event.timecode for event in fire_events.event_list]
+    fire_events_timecode_check_report.timecode_format_check_report.validation = (
+        check_is_instance_int_list(timecodes)
+    )
+    fire_events_timecode_check_report.first_timecode_check_report.validation = (
+        check_first_timecode(timecodes, timecode_parameter.show_timecode_begin)
+    )
+    fire_events_timecode_check_report.update()
+
+
+def check_chanel_unicity(chanels: List[int]) -> bool:
+    return len(set(chanels)) == len(chanels)
+
+
+def fire_chanel_check(
+    fire_events: FireEvents,
+    fire_events_chanel_check_report: FireChanelCheckReport,
+    iostar_parameter: IostarParameter,
+) -> None:
+    channels = [event.get_values()[0] for event in fire_events.event_list]
+    fire_events_chanel_check_report.fire_chanel_format_check_report.validation = (
+        check_is_instance_int_list(channels)
+    )
+    fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
+        check_int_size_list(
+            channels,
+            iostar_parameter.fire_chanel_format_min,
+            iostar_parameter.fire_chanel_format_max,
+        )
+    )
+    fire_events_chanel_check_report.fire_chanel_unicty_check_report.validation = (
+        check_chanel_unicity(channels)
+    )
+
+
+def fire_duration_check(
+    fire_events: FireEvents,
+    fire_events_chanel_check_report: FireDurationCheckReport,
+    iostar_parameter: IostarParameter,
+) -> None:
+    durations = [event.get_values()[1] for event in fire_events.event_list]
+    fire_events_chanel_check_report.fire_duration_format_check_report.validation = (
+        check_is_instance_int_list(durations)
+    )
+    fire_events_chanel_check_report.fire_duration_value_check_report = (
+        check_int_size_list(
+            durations,
+            iostar_parameter.fire_duration_format_min,
+            iostar_parameter.fire_duration_format_max,
+        )
+    )
