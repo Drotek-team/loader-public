@@ -1,14 +1,9 @@
-class FirstPositionCoherenceCheck:
+class PositionsTheoricalCoherenceCheckReport:
     def __init__(self):
         self.validation = False
 
 
-class VerticalityAlignedCheck:
-    def __init__(self):
-        self.validation = False
-
-
-class RowColumnDistanceCheck:
+class FamilyManagerValuesCheckReport:
     def __init__(self):
         self.validation = False
 
@@ -16,13 +11,7 @@ class RowColumnDistanceCheck:
 class FamilyManagerCheckReport:
     def __init__(self):
         self.validation = False
-        self.first_position_coherence_check = FirstPositionCoherenceCheck()
-        self.verticality_aligned_check = VerticalityAlignedCheck()
-        self.row_column_distance_check = RowColumnDistanceCheck()
-
-    def update(self) -> None:
-        self.validation = (
-            self.first_position_coherence_check
-            and self.verticality_aligned_check
-            and self.row_column_distance_check
+        self.positions_theorical_coherence_check_report = (
+            PositionsTheoricalCoherenceCheckReport()
         )
+        self.family_manager_values_check_report = FamilyManagerValuesCheckReport()

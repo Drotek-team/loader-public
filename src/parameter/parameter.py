@@ -17,6 +17,18 @@ class TimecodeParameter:
 
 
 @dataclass(frozen=True)
+class FamilyParameter:
+    nb_x_value_min: int
+    nb_x_value_max: int
+    nb_y_value_min: int
+    nb_y_value_max: int
+    step_value_min: int
+    step_value_max: int
+    angle_value_min: int
+    angle_value_max: int
+
+
+@dataclass(frozen=True)
 class IostarParameter:
     iostar_mass: float
     iostar_drag_vertical_coef: float
@@ -78,3 +90,7 @@ class Parameter:
             iostar_mass=data["IOSTAR_MASS"],
             iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
         )
+
+    def load_family_parameter(self):
+        f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
+        data = json.load(f)
