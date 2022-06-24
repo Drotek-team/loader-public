@@ -9,7 +9,9 @@ from ..show_check.simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
 )
 from .drone_check.drone_check_procedure import apply_drone_check_procedure
-from .family_check.family_check_procedure import apply_family_check_procedure
+from .family_manager_check.family_manager_check_procedure import (
+    apply_family_check_procedure,
+)
 from .show_check_report import ShowCheckReport
 
 

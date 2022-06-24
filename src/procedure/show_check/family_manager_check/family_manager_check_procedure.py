@@ -4,7 +4,7 @@ import numpy as np
 
 from ....drones_manager.drones_manager import DronesManager
 from ....family_manager.family_manager import FamilyManager
-from .family_check_report import FamilyCheckReport
+from .family_manager_check_report import FamilyManagerCheckReport
 
 
 @dataclass(frozen=True)
@@ -99,7 +99,7 @@ def get_ordered_positions(
 def apply_family_check_procedure(
     drones_manager: DronesManager,
     family_manager: FamilyManager,
-    family_check_report: FamilyCheckReport,
+    family_check_report: FamilyManagerCheckReport,
 ) -> None:
     family_check_parameter = FamilyCheckParameter()
 

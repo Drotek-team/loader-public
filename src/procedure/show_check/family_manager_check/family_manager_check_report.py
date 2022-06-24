@@ -13,7 +13,7 @@ class RowColumnDistanceCheck:
         self.validation = False
 
 
-class FamilyCheckReport:
+class FamilyManagerCheckReport:
     def __init__(self):
         self.validation = False
         self.first_position_coherence_check = FirstPositionCoherenceCheck()
