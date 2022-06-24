@@ -22,10 +22,10 @@ class FamilyParameter:
     nb_x_value_max: int
     nb_y_value_min: int
     nb_y_value_max: int
-    step_value_min: int
-    step_value_max: int
-    angle_value_min: int
-    angle_value_max: int
+    step_takeoff_value_min: int
+    step_takeoff_value_max: int
+    angle_takeoff_value_min: int
+    angle_takeoff_value_max: int
 
 
 @dataclass(frozen=True)
@@ -53,6 +53,7 @@ class IostarParameter:
 class Parameter:
     EXPORT_SETUP_LOCAL_PATH = "/src/parameter/export_setup.json"
     IOSTAR_SETUP_LOCAL_PATH = "/src/parameter/iostar_setup.json"
+    FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
 
     def load_export_parameter(self):
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
@@ -92,5 +93,15 @@ class Parameter:
         )
 
     def load_family_parameter(self):
-        f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
+        f = open(f"{os.getcwd()}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
+        self.family_parameter = FamilyParameter(
+            nb_x_value_min=data["NB_X_VALUE_MIN"],
+            nb_x_value_max=data["NB_X_VALUE_MAX"],
+            nb_y_value_min=data["NB_Y_VALUE_MIN"],
+            nb_y_value_max=data["NB_Y_VALUE_MAX"],
+            step_takeoff_value_min=1e2 * data["STEP_TAKEOFF_VALUE_METER_MIN"],
+            step_takeoff_value_max=1e2 * data["STEP_TAKEOFF_VALUE_METER_MAX"],
+            angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
+            angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
+        )

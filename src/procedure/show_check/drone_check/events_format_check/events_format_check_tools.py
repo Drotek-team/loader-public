@@ -31,6 +31,10 @@ def check_is_instance_int_list_tuple(elements: List[Tuple]) -> bool:
     )
 
 
+def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
+    return all(size_min <= element and element <= size_max for element in elements)
+
+
 def check_int_size_list_tuple(
     elements: List[Tuple], size_min: int, size_max: int
 ) -> bool:
@@ -39,10 +43,6 @@ def check_int_size_list_tuple(
         for tuple_element in elements
         for element in tuple_element
     )
-
-
-def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
-    return all(size_min <= element and element <= size_max for element in elements)
 
 
 def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:

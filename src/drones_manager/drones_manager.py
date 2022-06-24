@@ -14,7 +14,8 @@ class DronesManager:
     @property
     def first_horizontal_positions(self) -> List[Tuple]:
         return [
-            drone.position_events.get_values_by_event_index(0) for drone in self.drones
+            drone.position_events.get_values_by_event_index(0)[0:2]
+            for drone in self.drones
         ]
 
     @property
