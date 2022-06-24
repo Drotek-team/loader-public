@@ -4,7 +4,8 @@ import numpy as np
 
 
 class ShowSimulationSlice:
-    def __init__(self, nb_drones: int):
+    def __init__(self, timecode: int, nb_drones: int):
+        self.timecode = timecode
         self.drone_indices = np.array([drone_index for drone_index in range(nb_drones)])
         self.positions = np.zeros((nb_drones, 3))
         self.velocities = np.zeros((nb_drones, 3))
@@ -22,10 +23,10 @@ class ShowSimulation:
     ):
         self.nb_drones = nb_drones
         self.position_time_rate = position_time_rate
-        self.slices = {
-            position_time_rate * time_index: ShowSimulationSlice(nb_drones)
+        self.slices = [
+            ShowSimulationSlice(position_time_rate * time_index, nb_drones)
             for time_index in range(nb_slices)
-        }
+        ]
 
     def add_dance_simulation(
         self,
@@ -34,15 +35,15 @@ class ShowSimulation:
         drone_in_air_flags: List[bool],
         drone_in_dance_flags: List[bool],
     ) -> None:
-        for (time, drone_position, drone_in_air_index, drone_in_dance_index,) in zip(
-            self.slices.keys(),
+        for (slice, drone_position, drone_in_air_index, drone_in_dance_index,) in zip(
+            self.slices,
             drone_positions,
             drone_in_air_flags,
             drone_in_dance_flags,
         ):
-            self.slices[time].positions[drone_index] = drone_position
-            self.slices[time].in_air_flags[drone_index] = drone_in_air_index
-            self.slices[time].in_dance_flags[drone_index] = drone_in_dance_index
+            slice.positions[drone_index] = drone_position
+            slice.in_air_flags[drone_index] = drone_in_air_index
+            slice.in_dance_flags[drone_index] = drone_in_dance_index
 
     def update_slices_implicit_values(
         self,

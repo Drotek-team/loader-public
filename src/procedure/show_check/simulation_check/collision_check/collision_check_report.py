@@ -1,32 +1,32 @@
-from typing import List
+from dataclasses import dataclass
+from typing import List, Tuple
 
 
-class DroneCollisionCheckReport:
-    def __init__(self):
-        self.validation = False
+@dataclass(frozen=True)
+class CollisionInfo:
+    timecode: int
+    first_drone_index: int
+    second_drone_index: int
+    in_air: bool
 
 
 class CollisionCheckReport:
-    def __init__(self, nb_drone: int):
+    def __init__(self):
         self.validation = False
-        self.drones_collision_check_report = [
-            DroneCollisionCheckReport() for _ in range(nb_drone)
-        ]
+        self.collisions_info: List[CollisionInfo] = []
 
-    def update(
+    def update_collisions(
         self,
-        endangered_drone_on_ground_indices: List[int],
-        endangered_drone_in_air_flags: List[int],
+        timecode: int,
+        endangered_couples_on_ground: List[Tuple[int, int]],
+        in_air: bool,
     ) -> None:
-        for endangered_drone_on_ground_index in endangered_drone_on_ground_indices:
-            self.drones_collision_check_report[endangered_drone_on_ground_index].update(
-                False, "on_ground"
+        for endangered_couple_on_ground in endangered_couples_on_ground:
+            self.collisions_info.append(
+                CollisionInfo(
+                    timecode=timecode,
+                    first_drone_index=endangered_couple_on_ground[0],
+                    second_drone_index=endangered_couple_on_ground[1],
+                    in_air=in_air,
+                )
             )
-        for endangered_drone_in_air_index in endangered_drone_in_air_flags:
-            self.drones_collision_check_report[endangered_drone_in_air_index].update(
-                False, "in_air"
-            )
-        self.validation = all(
-            drone_collision_check_report.validation
-            for drone_collision_check_report in self.drones_collision_check_report
-        )

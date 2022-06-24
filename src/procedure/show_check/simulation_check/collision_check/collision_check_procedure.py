@@ -3,7 +3,7 @@ from typing import List, Tuple
 import numpy as np
 
 from .....parameter.parameter import IostarParameter
-from .....show_simulation.show_simulation import ShowSimulation, ShowSimulationSlice
+from .....show_simulation.show_simulation import ShowSimulation
 from .collision_check_report import CollisionCheckReport
 
 
@@ -13,18 +13,26 @@ def couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
     )
 
 
-def endangered_couples_from_couple_distance_matrix(
-    couple_distance_matrix: np.ndarray, endangered_distance: float
-) -> np.ndarray:
-    return couple_distance_matrix < endangered_distance
-
-
-def get_endangered_indices(
-    drone_positions: np.ndarray,
-    drone_indices: np.ndarray,
+def endangered_couples(
+    local_drone_indices: np.ndarray,
+    local_drone_positions: np.ndarray,
     endangered_distance: float,
 ) -> List[Tuple[int, int]]:
-    return drone_indices[couple_distance_matrix(drone_positions) < endangered_distance]
+    nb_drones_local = len(local_drone_indices)
+    endangered_couples_distance_matrix_indices = (
+        couple_distance_matrix(local_drone_positions) < endangered_distance
+    )
+    return [
+        (
+            local_drone_indices[
+                endangered_couples_distance_matrix_index // nb_drones_local
+            ],
+            local_drone_indices[
+                endangered_couples_distance_matrix_index % nb_drones_local
+            ],
+        )
+        for endangered_couples_distance_matrix_index in endangered_couples_distance_matrix_indices
+    ]
 
 
 def apply_collision_check_procedure(
@@ -33,20 +41,24 @@ def apply_collision_check_procedure(
     iostar_parameter: IostarParameter,
 ) -> None:
     drone_indices = range(len(show_simulation.nb_drones))
-    for show_simulation_slice in show_simulation.slices.values():
-        endangered_drone_on_ground_indices = get_endangered_indices(
-            show_simulation_slice.positions,
-            drone_indices[np.invert(show_simulation_slice.in_air_flags)],
-            iostar_parameter.security_distance_on_ground,
+    for show_simulation_slice in show_simulation.slices:
+        drones_collision_check_report.update_collisions(
+            timecode=show_simulation_slice.timecode,
+            endangered_couples=endangered_couples(
+                show_simulation_slice.positions[
+                    np.invert(show_simulation_slice.in_air_flags)
+                ],
+                drone_indices[np.invert(show_simulation_slice.in_air_flags)],
+                iostar_parameter.security_distance_on_ground,
+            ),
+            in_air=False,
         )
-        drones_collision_check_report.drones_collision_check_report.update_ground_collisions(
-            endangered_drone_on_ground_indices
-        )
-        endangered_drone_in_air_flags = get_endangered_indices(
-            show_simulation_slice.positions,
-            show_simulation_slice.in_air_flags,
-            iostar_parameter.security_distance_in_air,
-        )
-        drones_collision_check_report.drones_collision_check_report.update_in_air_collisions(
-            endangered_drone_in_air_flags
+        drones_collision_check_report.update_collisions(
+            timecode=show_simulation_slice.timecode,
+            endangered_couples=endangered_couples(
+                show_simulation_slice.positions[show_simulation_slice.in_air_flags],
+                drone_indices[show_simulation_slice.in_air_flags],
+                iostar_parameter.security_distance_on_ground,
+            ),
+            in_air=True,
         )
