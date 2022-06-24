@@ -1,17 +1,16 @@
 from typing import List
 
 import numpy as np
-from script.json_manager.parameter.parameter import TimecodeParameter
 
 
 class ShowSimulationSlice:
-    def __init__(self, nb_drones: int, position_size: int):
+    def __init__(self, nb_drones: int):
         self.drone_indices = np.array([drone_index for drone_index in range(nb_drones)])
-        self.positions = np.zeros((nb_drones, position_size))
-        self.velocities = np.zeros((nb_drones, position_size))
-        self.accelerations = np.zeros((nb_drones, position_size))
-        self.in_air_indices = np.array(nb_drones * [False])
-        self.in_dance_indices = np.array(nb_drones * [False])
+        self.positions = np.zeros((nb_drones, 3))
+        self.velocities = np.zeros((nb_drones, 3))
+        self.accelerations = np.zeros((nb_drones, 3))
+        self.in_air_flags = np.array(nb_drones * [False])
+        self.in_dance_flags = np.array(nb_drones * [False])
 
 
 class ShowSimulation:
@@ -20,13 +19,11 @@ class ShowSimulation:
         nb_drones: int,
         nb_slices: int,
         position_time_rate: int,
-        position_size: int,
     ):
         self.nb_drones = nb_drones
         self.position_time_rate = position_time_rate
         self.slices = {
-            position_time_rate
-            * time_index: ShowSimulationSlice(nb_drones, position_size)
+            position_time_rate * time_index: ShowSimulationSlice(nb_drones)
             for time_index in range(nb_slices)
         }
 
@@ -34,18 +31,18 @@ class ShowSimulation:
         self,
         drone_index: int,
         drone_positions: List[np.ndarray],
-        drone_in_air_indices: List[bool],
-        drone_in_dance_indices: List[bool],
+        drone_in_air_flags: List[bool],
+        drone_in_dance_flags: List[bool],
     ) -> None:
         for (time, drone_position, drone_in_air_index, drone_in_dance_index,) in zip(
             self.slices.keys(),
             drone_positions,
-            drone_in_air_indices,
-            drone_in_dance_indices,
+            drone_in_air_flags,
+            drone_in_dance_flags,
         ):
             self.slices[time].positions[drone_index] = drone_position
-            self.slices[time].in_air_indices[drone_index] = drone_in_air_index
-            self.slices[time].in_dance_indices[drone_index] = drone_in_dance_index
+            self.slices[time].in_air_flags[drone_index] = drone_in_air_index
+            self.slices[time].in_dance_flags[drone_index] = drone_in_dance_index
 
     def update_slices_implicit_values(
         self,

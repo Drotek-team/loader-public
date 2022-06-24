@@ -5,9 +5,6 @@ class DroneCollisionCheckReport:
     def __init__(self):
         self.validation = False
 
-    def update(self, validation, type: str) -> None:
-        self.validation = validation
-
 
 class CollisionCheckReport:
     def __init__(self, nb_drone: int):
@@ -19,13 +16,13 @@ class CollisionCheckReport:
     def update(
         self,
         endangered_drone_on_ground_indices: List[int],
-        endangered_drone_in_air_indices: List[int],
+        endangered_drone_in_air_flags: List[int],
     ) -> None:
         for endangered_drone_on_ground_index in endangered_drone_on_ground_indices:
             self.drones_collision_check_report[endangered_drone_on_ground_index].update(
                 False, "on_ground"
             )
-        for endangered_drone_in_air_index in endangered_drone_in_air_indices:
+        for endangered_drone_in_air_index in endangered_drone_in_air_flags:
             self.drones_collision_check_report[endangered_drone_in_air_index].update(
                 False, "in_air"
             )
