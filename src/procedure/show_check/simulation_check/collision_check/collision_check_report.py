@@ -15,18 +15,21 @@ class CollisionCheckReport:
         self.validation = False
         self.collisions_info: List[CollisionInfo] = []
 
-    def update_collisions(
+    def update(self) -> None:
+        self.validation = len(self.collisions_info) == 0
+
+    def update_collisions_info(
         self,
         timecode: int,
-        endangered_couples_on_ground: List[Tuple[int, int]],
+        endangered_couples: List[Tuple[int, int]],
         in_air: bool,
     ) -> None:
-        for endangered_couple_on_ground in endangered_couples_on_ground:
+        for endangered_couple in endangered_couples:
             self.collisions_info.append(
                 CollisionInfo(
                     timecode=timecode,
-                    first_drone_index=endangered_couple_on_ground[0],
-                    second_drone_index=endangered_couple_on_ground[1],
+                    first_drone_index=endangered_couple[0],
+                    second_drone_index=endangered_couple[1],
                     in_air=in_air,
                 )
             )
