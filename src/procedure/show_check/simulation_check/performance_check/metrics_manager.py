@@ -33,16 +33,3 @@ class MetricsManager:
                 acceleration,
                 iostar_parameter,
             )
-
-    def check_observed_metric_report(
-        self,
-        slice_observed_metrics_report,
-    ) -> None:
-        for observed_metrics, observed_metrics_report in zip(
-            self.slice_observed_metrics, slice_observed_metrics_report
-        ):
-            for metric, metric_report in zip(
-                observed_metrics.get_metrics(),
-                observed_metrics_report.get_metrics_report(),
-            ):
-                metric_report.update(metric.validation_ratio >= 1.0)

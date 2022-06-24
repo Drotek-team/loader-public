@@ -1,14 +1,14 @@
 import numpy as np
 import pytest
 
-from ......parameter.parameter import Parameter
-from ......procedure.show_check.simulation_check.collision_check.collision_check_procedure import (
+from .....parameter.parameter import Parameter
+from .....procedure.show_check.simulation_check.collision_check.collision_check_procedure import (
     apply_collision_check_procedure,
 )
-from ......procedure.show_check.simulation_check.collision_check.collision_check_report import (
+from .....procedure.show_check.simulation_check.collision_check.collision_check_report import (
     CollisionCheckReport,
 )
-from ......show_simulation.show_simulation import ShowSimulation
+from .....show_simulation.show_simulation import ShowSimulation
 
 
 @pytest.fixture
