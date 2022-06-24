@@ -43,6 +43,13 @@ class DroneEncoder:
         for event in events:
             dance_binary.extend(event.encode())
 
+    def dance_size(self, drone: Drone) -> int:
+        non_empty_events = [event for event in drone.events_list if event.event_size()]
+        section_start = struct.calcsize(self.FMT_HEADER) + struct.calcsize(
+            self.FMT_SECTION_HEADER
+        ) * len(non_empty_events)
+        return section_start + sum(events.events_size() for events in drone.events_list)
+
     def encode(self, drone: Drone) -> List[int]:
         dance_binary = bytearray()
         non_empty_events = [event for event in drone.events_list if event.event_size()]

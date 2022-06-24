@@ -1,4 +1,5 @@
 from ....drones_manager.drone.drone import Drone
+from ....drones_manager.drone.drone_encoder import DroneEncoder
 from ....parameter.parameter import Parameter
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -18,6 +19,10 @@ def apply_drone_check_procedure(
         parameter.takeoff_parameter,
         parameter.timecode_parameter,
     )
+    drone_encoder = DroneEncoder()
     apply_dance_size_check_procedure(
-        drone, drone_check_report.dance_size_check_report, parameter.iostar_parameter
+        drone,
+        drone_encoder,
+        drone_check_report.dance_size_check_report,
+        parameter.iostar_parameter,
     )
