@@ -53,13 +53,13 @@ class ShowSimulation:
         self,
     ) -> None:
         for slice_index in range(2, len(self.show_slices)):
-            self.show_slices[slice_index].velocities = self.position_time_rate * (
+            self.show_slices[slice_index].velocities = (1 / self.position_time_rate) * (
                 self.show_slices[slice_index].positions
                 - self.show_slices[slice_index - 1].positions
             )
-            self.show_slices[slice_index].velocities = (
-                self.position_time_rate
-                * self.position_time_rate
+            self.show_slices[slice_index].accelerations = (
+                1
+                / (self.position_time_rate * self.position_time_rate)
                 * (
                     self.show_slices[slice_index].positions
                     - 2 * self.show_slices[slice_index - 1].positions

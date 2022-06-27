@@ -12,8 +12,8 @@ class TakeoffParameter:
 @dataclass(frozen=True)
 class TimecodeParameter:
     show_timecode_begin: int
-    position_rate: int
-    color_rate: int
+    position_timecode_rate: int
+    color_timecode_rate: int
 
 
 @dataclass(frozen=True)
@@ -60,8 +60,8 @@ class Parameter:
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
             show_timecode_begin=int(1e3 * data["FIRST_TIMECODE"]),
-            position_rate=int(1e3 // data["POSITION_TIMECODE_FREQUENCE"]),
-            color_rate=int(1e3 // data["COLOR_TIMECODE_FREQUENCE"]),
+            position_timecode_rate=int(1e3 // data["POSITION_TIMECODE_FREQUENCE"]),
+            color_timecode_rate=int(1e3 // data["COLOR_TIMECODE_FREQUENCE"]),
         )
 
     def load_iostar_parameter(self):

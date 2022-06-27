@@ -24,4 +24,5 @@ def apply_performance_check_procedure(
             observed_metrics_slice_check_report,
             iostar_parameter,
         )
+        observed_metrics_slice_check_report.update()
     performance_check_report.update()

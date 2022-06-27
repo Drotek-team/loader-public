@@ -4,14 +4,13 @@ from typing import List
 
 @dataclass(frozen=True)
 class PerformanceIncidence:
-    def __init__(self, drone_index: int, value: float):
-        self.drone_index = drone_index
-        self.value = value
+    drone_index: int
+    value: float
 
 
 class PerformanceCheckReport:
     def __init__(self, type: str):
-        self.validation = True
+        self.validation = False
         self.type = type
         self.performance_check_report: List[PerformanceIncidence] = []
 
@@ -22,7 +21,7 @@ class PerformanceCheckReport:
         self.performance_check_report.append(PerformanceIncidence(drone_index, value))
 
 
-class ObservedMetricsSliceCheckReport:
+class ObservedMetricsCheckReport:
     def __init__(self, timecode: int):
         self.validation = False
         self.timecode = timecode

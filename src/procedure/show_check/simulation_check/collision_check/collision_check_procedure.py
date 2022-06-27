@@ -69,12 +69,10 @@ def apply_collision_check_procedure(
             iostar_parameter.security_distance_on_ground,
         )
         in_air_collision_infractions = get_collision_infractions(
-            drone_indices[np.invert(show_simulation_slice.in_air_flags)],
-            show_simulation_slice.positions[
-                np.invert(show_simulation_slice.in_air_flags)
-            ],
+            drone_indices[show_simulation_slice.in_air_flags],
+            show_simulation_slice.positions[show_simulation_slice.in_air_flags],
             True,
-            iostar_parameter.security_distance_on_ground,
+            iostar_parameter.security_distance_in_air,
         )
         collision_slice_check_report.collision_infractions += (
             on_ground_collision_infractions + in_air_collision_infractions

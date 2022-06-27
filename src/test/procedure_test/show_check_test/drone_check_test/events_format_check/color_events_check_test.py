@@ -19,7 +19,7 @@ def valid_color_events():
     color_events = ColorEvents()
     color_events.add(timecode_parameter.show_timecode_begin, (0, 0, 0, 0))
     color_events.add(
-        timecode_parameter.show_timecode_begin + timecode_parameter.color_rate,
+        timecode_parameter.show_timecode_begin + timecode_parameter.color_timecode_rate,
         (255, 255, 255, 255),
     )
     return color_events
