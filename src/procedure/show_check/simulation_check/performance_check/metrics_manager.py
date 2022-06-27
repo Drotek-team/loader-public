@@ -1,6 +1,8 @@
+from typing import List
+
 from .....parameter.parameter import IostarParameter, TakeoffParameter
 from .....show_simulation.show_simulation import ShowSimulationSlice
-from .check_metrics.check_metrics import ObservedMetrics
+from .observed_metrics.observed_metrics import ObservedMetrics
 
 
 class MetricsManager:
@@ -27,7 +29,7 @@ class MetricsManager:
             show_simulation_slice.velocities,
             show_simulation_slice.accelerations,
         ):
-            observed_metrics.update_metrics(
+            observed_metrics.update_observed_metrics(
                 position,
                 velocity,
                 acceleration,

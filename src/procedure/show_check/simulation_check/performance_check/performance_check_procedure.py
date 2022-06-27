@@ -9,11 +9,12 @@ def apply_performance_check_procedure(
     performance_check_report: PerformanceCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
-    metrics_manager = MetricsManager(len(show_simulation.nb_drones))
+    metrics_manager = MetricsManager(show_simulation.nb_drones)
     for simulation_slice in show_simulation.slices:
         metrics_manager.update_observed_metric_values(
             simulation_slice, iostar_parameter
         )
-        performance_check_report.update(
-            simulation_slice.timecode, metrics_manager.update_observed_metric_report()
+        performance_check_report.update_drones_performance_check_report(
+            simulation_slice.timecode, metrics_manager.get_observed_metric_report()
         )
+    performance_check_report.update()

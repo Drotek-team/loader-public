@@ -22,6 +22,7 @@ class RatioManager:
 
 @dataclass
 class OneSizedRatio(RatioManager):
+    drone_index: int
     min_value: float
     max_value: float
     standard_convention: bool = True
@@ -51,13 +52,8 @@ class TwoSizedRatio(RatioManager):
 
 
 class Metric:
-    value: float = 0
-    validation_ratio: float = 0
-
-    def __init__(self, name: str, ratio_manager: RatioManager):
-        self.name = name
+    def __init__(self, ratio_manager: RatioManager):
         self.ratio_manager = ratio_manager
 
-    def update(self, value: float):
-        self.value = value
-        self.validation_ratio = self.ratio_manager.get_ratio(value)
+    def validation(self, value: float) -> bool:
+        return self.ratio_manager.get_ratio(value) <= 1

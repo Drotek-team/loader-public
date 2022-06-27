@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 
@@ -52,11 +52,13 @@ def get_collision_infractions(
 
 def apply_collision_check_procedure(
     show_simulation: ShowSimulation,
-    drones_collision_check_report: CollisionCheckReport,
+    collision_check_report: CollisionCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
     drone_indices = np.array(range(show_simulation.nb_drones))
-    for show_simulation_slice in show_simulation.slices:
+    for show_simulation_slice, collision_slice_check_report in zip(
+        show_simulation.slices, collision_check_report.collision_slices_check_report
+    ):
         on_ground_collision_infractions = get_collision_infractions(
             drone_indices[np.invert(show_simulation_slice.in_air_flags)],
             show_simulation_slice.positions[
@@ -64,9 +66,6 @@ def apply_collision_check_procedure(
             ],
             False,
             iostar_parameter.security_distance_on_ground,
-        )
-        drones_collision_check_report.update_drones_collision_check_report(
-            on_ground_collision_infractions
         )
         in_air_collision_infractions = get_collision_infractions(
             drone_indices[np.invert(show_simulation_slice.in_air_flags)],
@@ -76,7 +75,7 @@ def apply_collision_check_procedure(
             True,
             iostar_parameter.security_distance_on_ground,
         )
-        drones_collision_check_report.update_drones_collision_check_report(
-            in_air_collision_infractions
+        collision_slice_check_report.collision_infractions += (
+            on_ground_collision_infractions + in_air_collision_infractions
         )
-    drones_collision_check_report.update()
+        collision_slice_check_report.update()

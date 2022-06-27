@@ -41,7 +41,7 @@ def valid_show_simulation():
 
 
 def test_valid_simulation(valid_show_simulation: ShowSimulation):
-    collision_check_report = CollisionCheckReport()
+    collision_check_report = CollisionCheckReport(valid_show_simulation.nb_drones)
     parameter = Parameter()
     parameter.load_iostar_parameter()
     apply_collision_check_procedure(
