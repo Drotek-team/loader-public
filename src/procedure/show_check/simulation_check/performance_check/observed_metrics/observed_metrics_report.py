@@ -23,8 +23,9 @@ class PerformanceCheckReport:
 
 
 class ObservedMetricsSliceCheckReport:
-    def __init__(self):
+    def __init__(self, timecode: int):
         self.validation = False
+        self.timecode = timecode
         self.vertical_position_check_report = PerformanceCheckReport(
             "vertical position"
         )

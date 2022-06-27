@@ -23,10 +23,14 @@ class ShowSimulation:
     ):
         self.nb_drones = nb_drones
         self.position_time_rate = position_time_rate
-        self.slices = [
+        self.show_slices = [
             ShowSimulationSlice(position_time_rate * time_index, nb_drones)
             for time_index in range(nb_slices)
         ]
+
+    @property
+    def timecodes(self) -> List[int]:
+        return [show_slice.timecode for show_slice in self.show_slices]
 
     def add_dance_simulation(
         self,
@@ -36,7 +40,7 @@ class ShowSimulation:
         drone_in_dance_flags: List[bool],
     ) -> None:
         for (slice, drone_position, drone_in_air_index, drone_in_dance_index,) in zip(
-            self.slices,
+            self.show_slices,
             drone_positions,
             drone_in_air_flags,
             drone_in_dance_flags,
@@ -48,17 +52,17 @@ class ShowSimulation:
     def update_slices_implicit_values(
         self,
     ) -> None:
-        for slice_index in range(2, len(self.slices)):
-            self.slices[slice_index].velocities = self.position_time_rate * (
-                self.slices[slice_index].positions
-                - self.slices[slice_index - 1].positions
+        for slice_index in range(2, len(self.show_slices)):
+            self.show_slices[slice_index].velocities = self.position_time_rate * (
+                self.show_slices[slice_index].positions
+                - self.show_slices[slice_index - 1].positions
             )
-            self.slices[slice_index].velocities = (
+            self.show_slices[slice_index].velocities = (
                 self.position_time_rate
                 * self.position_time_rate
                 * (
-                    self.slices[slice_index].positions
-                    - 2 * self.slices[slice_index - 1].positions
-                    + self.slices[slice_index - 1].positions
+                    self.show_slices[slice_index].positions
+                    - 2 * self.show_slices[slice_index - 1].positions
+                    + self.show_slices[slice_index - 1].positions
                 )
             )

@@ -57,7 +57,8 @@ def apply_collision_check_procedure(
 ) -> None:
     drone_indices = np.array(range(show_simulation.nb_drones))
     for show_simulation_slice, collision_slice_check_report in zip(
-        show_simulation.slices, collision_check_report.collision_slices_check_report
+        show_simulation.show_slices,
+        collision_check_report.collision_slices_check_report,
     ):
         on_ground_collision_infractions = get_collision_infractions(
             drone_indices[np.invert(show_simulation_slice.in_air_flags)],
@@ -79,3 +80,4 @@ def apply_collision_check_procedure(
             on_ground_collision_infractions + in_air_collision_infractions
         )
         collision_slice_check_report.update()
+    collision_check_report.update()

@@ -50,16 +50,9 @@ class ObservedMetricsSlice:
     def force_evaluation(
         velocity: np.ndarray, acceleration: np.ndarray, mass: float, drag_coef: float
     ) -> float:
-        if len(velocity) > 1:
-            return float(
-                mass * np.linalg.norm(acceleration)
-                + drag_coef * np.square(np.linalg.norm(velocity))
-            )
-        else:
-            return float(
-                mass * acceleration
-                + np.sign(velocity) * drag_coef * np.square(velocity)
-            )
+        return float(
+            mass * acceleration + np.sign(velocity) * drag_coef * np.square(velocity)
+        )
 
     def update_observed_metrics(
         self,
@@ -132,3 +125,4 @@ class ObservedMetricsSlice:
                         iostar_parameter.iostar_drag_vertical_coef,
                     ),
                 )
+        observed_metrics_report.update()

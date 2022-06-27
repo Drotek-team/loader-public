@@ -31,10 +31,13 @@ def valid_show_simulation():
 
 
 def test_valid_simulation(valid_show_simulation: ShowSimulation):
-    performance_check_report = PerformanceCheckReport(valid_show_simulation.nb_drones)
+    performance_check_report = PerformanceCheckReport(valid_show_simulation.timecodes)
     parameter = Parameter()
     parameter.load_iostar_parameter()
     apply_performance_check_procedure(
-        valid_show_simulation, performance_check_report, parameter.timecode_parameter
+        valid_show_simulation,
+        performance_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
     )
     assert performance_check_report.validation
