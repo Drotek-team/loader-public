@@ -27,7 +27,11 @@ def valid_show_simulation():
 def test_valid_simulation(valid_show_simulation: ShowSimulation):
     valid_show_simulation.add_dance_simulation(
         drone_index=0,
-        drone_positions=[np.array([0, 0, 0]), np.array([0, 0, 0]), np.array([0, 0, 0])],
+        drone_positions=[
+            np.array([0, 0, 1.0]),
+            np.array([0, 0, 1.0]),
+            np.array([0, 0, 1.0]),
+        ],
         drone_in_air_flags=[1, 1, 1],
         drone_in_dance_flags=[1, 1, 1],
     )
@@ -43,7 +47,7 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
     )
     assert performance_check_report.observed_metrics_slices_check_report[
         -1
-    ].horizontal_velocity_check_report.validation
+    ].vertical_position_check_report.validation
 
 
 def test_invalid_simulation(valid_show_simulation: ShowSimulation):
