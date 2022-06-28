@@ -3,19 +3,18 @@ from typing import Dict, List
 import numpy as np
 
 from ...parameter.parameter import TimecodeParameter
-from .position_simulation import PositionSimulation
+from .position_simulation import linear_interpolation
 
 
 def flight_simulation(
     position_events: Dict[int, np.ndarray], timecode_parameter: TimecodeParameter
 ) -> np.ndarray:
-    position_simulation = PositionSimulation()
     previous_timecode = 0
     flight_positions: List[np.ndarray] = []
     for timecode in position_events:
         if timecode != previous_timecode:
             flight_positions += [
-                position_simulation.linear_interpolation(
+                linear_interpolation(
                     position_events[previous_timecode],
                     position_events[timecode],
                     ratio,
