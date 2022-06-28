@@ -6,7 +6,43 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class TakeoffParameter:
     takeoff_altitude: int
-    takeoff_duration: int
+    takeoff_elevation_duration: int
+    takeoff_stabilisation_duration: int
+
+    @property
+    def takeoff_duration(self) -> int:
+        return self.takeoff_elevation_duration + self.takeoff_stabilisation_duration
+
+
+@dataclass(frozen=True)
+class LandParameter:
+    LAND_SPEED_FAST: float = 4.0
+    LAND_SPEED_SLOW: float = 0.4
+    LAND_HGT_SAFE: float = 3.0
+
+    def get_first_land_frame_delta(self, drone_hgt: int) -> float:
+        if drone_hgt < self.LAND_HGT_SAFE:
+            return drone_hgt / self.LAND_SPEED_SLOW
+        else:
+            return (drone_hgt - self.LAND_HGT_SAFE) / self.LAND_SPEED_FAST
+
+    def get_first_land_altitude(self, drone_hgt: float) -> float:
+        if drone_hgt < self.LAND_HGT_SAFE:
+            return 0
+        else:
+            return self.LAND_HGT_SAFE
+
+    def get_second_land_frame_delta(self, drone_hgt: float) -> int:
+        if drone_hgt < self.LAND_HGT_SAFE:
+            return 1
+        else:
+            return int(self.LAND_HGT_SAFE / self.LAND_SPEED_SLOW)
+
+    def get_second_land_altitude_start(self, drone_hgt: float) -> float:
+        if drone_hgt < self.LAND_HGT_SAFE:
+            return 0.0
+        else:
+            return self.LAND_HGT_SAFE
 
 
 @dataclass(frozen=True)
@@ -68,8 +104,22 @@ class Parameter:
         f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
-            takeoff_altitude=int(1e2 * data["TAKEOFF_ALTITUDE"]),
-            takeoff_duration=int(1e3 * data["TAKEOFF_DURATION"]),
+            takeoff_altitude=int(1e2 * data["TAKEOFF_ALTITUDE_METER"]),
+            takeoff_elevation_duration=int(
+                1e3 * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
+            ),
+            takeoff_stabilisation_duration=int(
+                1e3 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
+            ),
+        )
+        self.takeoff_parameter = TakeoffParameter(
+            takeoff_altitude=int(1e2 * data["TAKEOFF_ALTITUDE_METER"]),
+            takeoff_elevation_duration=int(
+                1e3 * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
+            ),
+            takeoff_stabilisation_duration=int(
+                1e3 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
+            ),
         )
         self.iostar_parameter = IostarParameter(
             position_value_min=data["POSITION_VALUE_CM_MIN"],

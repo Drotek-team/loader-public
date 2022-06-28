@@ -2,7 +2,7 @@ from typing import List
 
 import numpy as np
 
-from ...parameter.export_setup import ExportSetup
+from ...parameter.parameter import TimecodeParameter
 from .land_setup import LandSetup
 from .position_simulation import PositionSimulation
 
@@ -14,17 +14,17 @@ class LandSimulation(PositionSimulation):
         self,
         land_start_position: np.ndarray,
         land_start_timecode: int,
-        export_setup: ExportSetup,
+        timecode_parameter: TimecodeParameter,
     ) -> List[np.ndarray]:
         truncated_first_land_start_timecode = self.truncated_integer(
             land_start_timecode,
-            export_setup.POSITION_TIMECODE_FREQUENCE,
+            timecode_parameter.position_timecode_rate,
         )
         land_first_part_frames = list(
             np.arange(
                 truncated_first_land_start_timecode,
                 self.land_setup.get_first_land_frame_delta(),
-                export_setup.POSITION_TIMECODE_FREQUENCE,
+                timecode_parameter.position_timecode_rate,
             )
         )
         return self.linear_interpolation(
@@ -42,17 +42,17 @@ class LandSimulation(PositionSimulation):
     def generate_land_second_part(
         self,
         land_start_timecode: int,
-        export_setup: ExportSetup,
+        timecode_parameter: TimecodeParameter,
     ) -> List[np.ndarray]:
         truncated_second_land_start_timecode = self.truncated_integer(
             land_start_timecode + self.land_setup.get_first_land_frame_delta(),
-            export_setup.POSITION_TIMECODE_FREQUENCE,
+            timecode_parameter.position_timecode_rate,
         )
         land_second_part_frames = list(
             np.arange(
                 truncated_second_land_start_timecode,
                 self.land_setup.get_second_land_frame_delta(),
-                export_setup.POSITION_TIMECODE_FREQUENCE,
+                timecode_parameter.position_timecode_rate,
             )
         )
         return self.linear_interpolation(
@@ -64,17 +64,17 @@ class LandSimulation(PositionSimulation):
     def generate_land_third_part(
         self,
         land_start_timecode: int,
-        export_setup: ExportSetup,
+        timecode_parameter: TimecodeParameter,
     ) -> List[np.ndarray]:
         truncated_second_land_start_timecode = self.truncated_integer(
             land_start_timecode + self.land_setup.get_first_land_frame_delta(),
-            export_setup.POSITION_TIMECODE_FREQUENCE,
+            timecode_parameter.position_timecode_rate,
         )
         land_second_part_frames = list(
             np.arange(
                 truncated_second_land_start_timecode,
                 self.land_setup.get_second_land_frame_delta(),
-                export_setup.POSITION_TIMECODE_FREQUENCE,
+                timecode_parameter.position_timecode_rate,
             )
         )
         return self.linear_interpolation(
@@ -85,13 +85,19 @@ class LandSimulation(PositionSimulation):
 
 
 def land_simulation(
-    land_start_timecode: int, land_start_position: np.ndarray, export_setup: ExportSetup
+    land_start_timecode: int,
+    land_start_position: np.ndarray,
+    timecode_parameter: TimecodeParameter,
 ) -> List[np.ndarray]:
     land_simulation = LandSimulation()
     return (
         land_simulation.generate_land_first_part(
-            land_start_position, land_start_timecode, export_setup
+            land_start_position, land_start_timecode, timecode_parameter
         )
-        + land_simulation.generate_land_second_part(land_start_timecode, export_setup)
-        + land_simulation.generate_land_third_part(land_start_timecode, export_setup)
+        + land_simulation.generate_land_second_part(
+            land_start_timecode, timecode_parameter
+        )
+        + land_simulation.generate_land_third_part(
+            land_start_timecode, timecode_parameter
+        )
     )

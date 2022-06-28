@@ -17,20 +17,20 @@ class TakeoffSimulationTools(PositionSimulation):
     ) -> List[np.ndarray]:
         truncated_takeoff_start_timecode = self.truncated_integer(
             takeoff_start_timecode,
-            timecode_parameter.position_timecode_frequence,
+            timecode_parameter.position_timecode_rate,
         )
         takeoff_first_part_frames = list(
             np.arange(
                 truncated_takeoff_start_timecode,
                 truncated_takeoff_start_timecode
-                + takeoff_parameter.takeoff_duration_timecode,
-                timecode_parameter.position_timecode_frequence,
+                + takeoff_parameter.takeoff_elevation_duration,
+                timecode_parameter.position_timecode_rate,
             )
         )
         return self.linear_interpolation(
             takeoff_start_position,
             takeoff_end_position,
-            takeoff_first_part_frames / takeoff_parameter.takeoff_duration_timecode,
+            takeoff_first_part_frames / takeoff_parameter.takeoff_elevation_duration,
         )
 
     def generate_takeoff_second_part(
@@ -42,14 +42,14 @@ class TakeoffSimulationTools(PositionSimulation):
         takeoff_parameter: TakeoffParameter,
     ) -> List[np.ndarray]:
         truncated_takeoff_second_part_start_frame = self.truncated_integer(
-            takeoff_start_timecode + takeoff_parameter.takeoff_duration_timecode,
-            timecode_parameter.position_timecode_frequence,
+            takeoff_start_timecode + takeoff_parameter.takeoff_stabilisation_duration,
+            timecode_parameter.position_timecode_rate,
         )
         takeoff_second_part_frames = list(
             np.arange(
                 truncated_takeoff_second_part_start_frame,
                 takeoff_end_timecode,
-                timecode_parameter.position_timecode_frequence,
+                timecode_parameter.position_timecode_rate,
             )
         )
         return len(takeoff_second_part_frames) * [takeoff_end_position]

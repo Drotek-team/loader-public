@@ -23,8 +23,8 @@ def valid_position_events():
     position_events = PositionEvents()
     position_events.add(timecode_parameter.show_timecode_begin, (0, 0, 0))
     position_events.add(
-        timecode_parameter.show_timecode_begin + takeoff_parameter.takeoff_duration,
-        (0, 0, takeoff_parameter.takeoff_altitude),
+        timecode_parameter.show_timecode_begin
+        + takeoff_parameter.takeoff_duration(0, 0, takeoff_parameter.takeoff_altitude),
     )
     return position_events
 

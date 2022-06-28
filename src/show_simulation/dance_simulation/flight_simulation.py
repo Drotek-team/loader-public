@@ -2,12 +2,12 @@ from typing import Dict, List
 
 import numpy as np
 
-from ...parameter.export_setup import ExportSetup
+from ...parameter.parameter import TimecodeParameter
 from .position_simulation import PositionSimulation
 
 
 def flight_simulation(
-    position_events: Dict[int, np.ndarray], export_setup: ExportSetup
+    position_events: Dict[int, np.ndarray], timecode_parameter: TimecodeParameter
 ) -> np.ndarray:
     position_simulation = PositionSimulation()
     previous_timecode = 0
@@ -21,9 +21,9 @@ def flight_simulation(
                     ratio,
                 )
                 for ratio in ((timecode - previous_timecode))
-                // export_setup.POSITION_TIMECODE_FREQUENCE
+                // timecode_parameter.position_timecode_rate
             ]
         else:
             flight_positions += [position_events[timecode]]
         previous_timecode = timecode
-    return flight_positions
+    return np.array(flight_positions)
