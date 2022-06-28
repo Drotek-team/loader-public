@@ -3,6 +3,7 @@ from typing import List
 import numpy as np
 
 from ...parameter.parameter import TakeoffParameter, TimecodeParameter
+from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation, truncated_integer
 
 
@@ -60,8 +61,8 @@ def takeoff_simulation(
     takeoff_end_position: np.ndarray,
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
-):
-    return generate_first_part_takeoff(
+) -> DanceSequence:
+    takeoff_positions = generate_first_part_takeoff(
         takeoff_start_timecode,
         takeoff_start_position,
         takeoff_end_position,
@@ -73,4 +74,9 @@ def takeoff_simulation(
         takeoff_end_position,
         timecode_parameter,
         takeoff_parameter,
+    )
+    return DanceSequence(
+        takeoff_positions,
+        len(takeoff_positions) * [True],
+        len(takeoff_positions) * [False],
     )

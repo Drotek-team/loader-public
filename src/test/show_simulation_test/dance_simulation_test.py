@@ -16,6 +16,10 @@ def valid_drone() -> Drone:
 
 
 def test_show_simulation_convertion(valid_drone: Drone):
-    parameter = 0
-    convert_drone_to_dance_simulation(valid_drone)
-    assert True
+    parameter = Parameter()
+    parameter.load_export_parameter()
+    SHOW_END_TIMECODE = 30_000
+    dance_simulation = convert_drone_to_dance_simulation(
+        valid_drone, SHOW_END_TIMECODE, parameter.timecode_parameter
+    )
+    assert dance_simulation.drone_positions == 0

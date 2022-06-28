@@ -1,8 +1,9 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 
 from ...parameter.parameter import LandParameter, TimecodeParameter
+from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation, truncated_integer
 
 
@@ -59,43 +60,20 @@ def generate_land_second_part(
     )
 
 
-def generate_land_third_part(
-    land_start_timecode: int,
-    land_parameter: LandParameter,
-    timecode_parameter: TimecodeParameter,
-) -> List[np.ndarray]:
-    truncated_second_land_start_timecode = truncated_integer(
-        land_start_timecode + land_parameter.get_first_land_frame_delta(),
-        timecode_parameter.position_timecode_rate,
-    )
-    land_second_part_frames = list(
-        np.arange(
-            truncated_second_land_start_timecode,
-            land_parameter.get_second_land_frame_delta(),
-            timecode_parameter.position_timecode_rate,
-        )
-    )
-    return linear_interpolation(
-        land_parameter.get_second_land_altitude_start(),
-        0,
-        land_second_part_frames / land_parameter.get_second_land_frame_delta(),
-    )
-
-
 def land_simulation(
     land_start_timecode: int,
-    land_start_position: np.ndarray,
-    land_parameter: LandParameter,
+    land_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
+    land_parameter: LandParameter,
 ) -> List[np.ndarray]:
-    return [
-        generate_land_first_part(
-            land_start_position, land_start_timecode, land_parameter, timecode_parameter
-        )
-        + generate_land_second_part(
-            land_start_timecode, land_parameter, timecode_parameter
-        )
-        + generate_land_third_part(
-            land_start_timecode, land_parameter, timecode_parameter
-        )
-    ]
+    land_positions = generate_land_first_part(
+        np.array(land_start_position),
+        land_start_timecode,
+        land_parameter,
+        timecode_parameter,
+    ) + generate_land_second_part(
+        land_start_timecode, land_parameter, timecode_parameter
+    )
+    return DanceSequence(
+        land_positions, len(land_positions) * [True], len(land_positions) * [False]
+    )

@@ -1,16 +1,19 @@
-from typing import List, Tuple
-
 import numpy as np
+
+from ...parameter.parameter import TimecodeParameter
+from .dance_simulation import DanceSequence
 
 
 def stand_by_simulation(
-    first_timecode: int,
-    last_timecode: int,
+    timecode_begin: int,
+    timecode_end: int,
     stand_by_position: np.ndarray,
-    position_time_frequence: int,
-) -> Tuple[List[np.ndarray], List[bool], List[bool]]:
-    nb_element = (last_timecode - first_timecode) // position_time_frequence
-    return (
+    timecode_parameter: TimecodeParameter,
+) -> DanceSequence:
+    nb_element = (
+        timecode_end - timecode_begin
+    ) // timecode_parameter.position_timecode_rate
+    return DanceSequence(
         nb_element * [stand_by_position],
         nb_element * [False],
         nb_element * [False],
