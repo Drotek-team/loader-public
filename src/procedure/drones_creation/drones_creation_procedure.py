@@ -1,3 +1,2 @@
-class DronesCreationReport:
-    def __init__(self):
-        self.validation = False
+def apply_drone_creation_procedure():
+    pass

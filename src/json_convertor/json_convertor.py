@@ -1,4 +1,5 @@
 import json
+from dataclasses import dataclass
 from typing import List, Tuple
 
 from ..drones_manager.drone.drone_encoder import DroneEncoder
@@ -6,14 +7,15 @@ from ..drones_manager.drones_manager import Drone
 from ..family_manager.family_manager import FamilyManager
 
 
-class Dance:
+@dataclass(frozen=True)
+class BinaryDance:
     bits: List[int] = []
 
 
 class Family:
     def __init__(self):
         self.family_position: Tuple[int, int, int] = (0, 0, 0)
-        self.dance: List[Dance] = []
+        self.dance: List[BinaryDance] = []
 
     def update_position(self, position: Tuple[int, int, int]) -> None:
         self.family_position = position
@@ -37,15 +39,17 @@ class Show:
     ) -> None:
         drone_index = 0
         drone_encoder = DroneEncoder()
-        for family_row in family_manager.rows:
-            for nb_drone_in_family in family_row:
-                family = Family()
-                family.update_position(drones[drone_index].first_xyz)
-                family.update_dances(
-                    drones[drone_index : drone_index + nb_drone_in_family],
-                    drone_encoder,
-                )
-                drone_index += nb_drone_in_family
+        for drone_index in range(family_manager.nb_x * family_manager.nb_y - 1):
+            family = Family()
+            family.update_position(drones[drone_index].first_xyz)
+            family.update_dances(
+                drones[
+                    drone_index
+                    * family_manager.nb_drone_per_family : (drone_index + 1)
+                    * family_manager.nb_drone_per_family
+                ],
+                drone_encoder,
+            )
 
     def update_parameter(
         self,

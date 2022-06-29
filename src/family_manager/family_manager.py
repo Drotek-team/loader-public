@@ -4,9 +4,17 @@ import numpy as np
 
 
 class FamilyManager:
-    def __init__(self, nb_x: int, nb_y: int, step_takeoff: int, angle_takeoff: int):
+    def __init__(
+        self,
+        nb_x: int,
+        nb_y: int,
+        nb_drone_per_family: int,
+        step_takeoff: int,
+        angle_takeoff: int,
+    ):
         self.nb_x = nb_x
         self.nb_y = nb_y
+        self.nb_drone_per_family = (nb_drone_per_family,)
         self.step_takeoff = step_takeoff
         self.angle_takeoff = angle_takeoff
 
