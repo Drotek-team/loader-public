@@ -1,20 +1,31 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 
+from ...parameter.parameter import JsonConventionConstant
+
 
 def linear_interpolation(
-    point_begin: np.ndarray, point_end: np.ndarray, nb_points: int
+    position_begin: Tuple[int, int, int],
+    position_end: Tuple[int, int, int],
+    nb_points: int,
+    json_convention_constant: JsonConventionConstant,
 ) -> List[np.ndarray]:
+    position_begin_simulation = (
+        json_convention_constant.from_json_position_to_simulation_position(
+            position_begin
+        )
+    )
+    position_end_simulation = (
+        json_convention_constant.from_json_position_to_simulation_position(position_end)
+    )
     return [
-        point_begin * (frame_pct) + point_end * (1 - frame_pct)
-        for frame_pct in np.linspace(
+        position_begin_simulation * (1 - percentile)
+        + position_end_simulation * percentile
+        for percentile in np.linspace(
             0,
             1,
             nb_points,
+            endpoint=False,
         )
     ]
-
-
-def truncated_integer(integer: int, modulo) -> int:
-    return (integer // modulo + 1) * modulo

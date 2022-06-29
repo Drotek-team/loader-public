@@ -1,31 +1,34 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import numpy as np
 
-from ...parameter.parameter import TimecodeParameter
+from ...drones_manager.drone.events.position_events import PositionEvent
+from ...parameter.parameter import JsonConventionConstant, TimecodeParameter
 from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation
 
 
 def flight_simulation(
-    position_events: Dict[int, np.ndarray], timecode_parameter: TimecodeParameter
+    position_events: List[PositionEvent],
+    timecode_parameter: TimecodeParameter,
+    json_convention_constant: JsonConventionConstant,
 ) -> DanceSequence:
-    previous_timecode = 0
     flight_positions: List[np.ndarray] = []
-    for timecode in position_events:
-        if timecode != previous_timecode:
-            flight_positions += [
-                linear_interpolation(
-                    position_events[previous_timecode],
-                    position_events[timecode],
-                    ratio,
-                )
-                for ratio in ((timecode - previous_timecode))
-                // timecode_parameter.position_timecode_rate
-            ]
-        else:
-            flight_positions += [position_events[timecode]]
-        previous_timecode = timecode
+    for position_event, next_position_event in zip(
+        position_events[:-1], position_events[1:]
+    ):
+        flight_positions += linear_interpolation(
+            position_event.get_values(),
+            next_position_event.get_values(),
+            ((next_position_event.timecode - position_event.timecode))
+            // timecode_parameter.position_timecode_rate,
+            json_convention_constant,
+        )
+    # flight_positions.append(
+    #     json_convention_constant.from_json_position_to_simulation_position(
+    #         position_events[-1].get_values()
+    #     )
+    # )
     return DanceSequence(
         flight_positions, len(flight_positions) * [True], len(flight_positions) * [True]
     )

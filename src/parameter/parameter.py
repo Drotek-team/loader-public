@@ -1,6 +1,22 @@
 import json
 import os
 from dataclasses import dataclass
+from typing import Tuple
+
+import numpy as np
+
+
+@dataclass(frozen=True)
+class JsonConventionConstant:
+    CENTIMETER_TO_METER_RATIO: float = 1e-2
+    METER_TO_CENTIMETER_RATIO: float = 1e2
+    TIMECODE_TO_SECOND_RATIO: float = 1e-3
+    SECOND_TO_TIMECODE_RATIO: float = 1e3
+
+    def from_json_position_to_simulation_position(
+        self, json_position: Tuple[int, int, int]
+    ) -> np.ndarray:
+        return self.CENTIMETER_TO_METER_RATIO * np.array(json_position)
 
 
 @dataclass(frozen=True)
@@ -16,33 +32,35 @@ class TakeoffParameter:
 
 @dataclass(frozen=True)
 class LandParameter:
-    LAND_SPEED_FAST: float = 4.0
-    LAND_SPEED_SLOW: float = 0.4
-    LAND_HGT_SAFE: float = 3.0
+    land_fast_speed: float
+    land_low_speed: float
+    land_safe_hgt: float
 
-    def get_first_land_frame_delta(self, drone_hgt: int) -> float:
-        if drone_hgt < self.LAND_HGT_SAFE:
-            return drone_hgt / self.LAND_SPEED_SLOW
+    def get_first_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
+        if drone_hgt_centimeter < self.land_safe_hgt:
+            return int(drone_hgt_centimeter / self.land_low_speed)
         else:
-            return (drone_hgt - self.LAND_HGT_SAFE) / self.LAND_SPEED_FAST
+            return int(
+                (drone_hgt_centimeter - self.land_safe_hgt) / self.land_fast_speed
+            )
 
     def get_first_land_altitude(self, drone_hgt: float) -> float:
-        if drone_hgt < self.LAND_HGT_SAFE:
+        if drone_hgt < self.land_safe_hgt:
             return 0
         else:
-            return self.LAND_HGT_SAFE
+            return self.land_safe_hgt
 
-    def get_second_land_frame_delta(self, drone_hgt: float) -> int:
-        if drone_hgt < self.LAND_HGT_SAFE:
+    def get_second_land_timecode_delta(self, drone_hgt: float) -> int:
+        if drone_hgt < self.land_safe_hgt:
             return 1
         else:
-            return int(self.LAND_HGT_SAFE / self.LAND_SPEED_SLOW)
+            return int(self.land_safe_hgt / self.land_low_speed)
 
     def get_second_land_altitude_start(self, drone_hgt: float) -> float:
-        if drone_hgt < self.LAND_HGT_SAFE:
+        if drone_hgt < self.land_safe_hgt:
             return 0.0
         else:
-            return self.LAND_HGT_SAFE
+            return self.land_safe_hgt
 
 
 @dataclass(frozen=True)
@@ -90,35 +108,59 @@ class Parameter:
     EXPORT_SETUP_LOCAL_PATH = "/src/parameter/export_setup.json"
     IOSTAR_SETUP_LOCAL_PATH = "/src/parameter/iostar_setup.json"
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
+    json_convention_constant = JsonConventionConstant()
 
     def load_export_parameter(self):
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
-            show_timecode_begin=int(1e3 * data["FIRST_TIMECODE"]),
-            position_timecode_rate=int(1e3 // data["POSITION_TIMECODE_FREQUENCE"]),
-            color_timecode_rate=int(1e3 // data["COLOR_TIMECODE_FREQUENCE"]),
+            show_timecode_begin=int(
+                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                * data["FIRST_TIMECODE"]
+            ),
+            position_timecode_rate=int(
+                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                // data["POSITION_TIMECODE_FREQUENCE"]
+            ),
+            color_timecode_rate=int(
+                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                // data["COLOR_TIMECODE_FREQUENCE"]
+            ),
         )
 
     def load_iostar_parameter(self):
         f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
-            takeoff_altitude=int(1e2 * data["TAKEOFF_ALTITUDE_METER"]),
+            takeoff_altitude=int(
+                self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+                * data["TAKEOFF_ALTITUDE_METER"]
+            ),
             takeoff_elevation_duration=int(
-                1e3 * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
+                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
             ),
             takeoff_stabilisation_duration=int(
-                1e3 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
+                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
             ),
         )
-        self.takeoff_parameter = TakeoffParameter(
-            takeoff_altitude=int(1e2 * data["TAKEOFF_ALTITUDE_METER"]),
-            takeoff_elevation_duration=int(
-                1e3 * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
+        self.land_parameter = LandParameter(
+            land_fast_speed=(
+                self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+                / self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+            )
+            * data["LAND_FAST_SPEED_METER_PER_SECOND"],
+            land_low_speed=(
+                (
+                    self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+                    / self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                )
+                * data["LAND_LOW_SPEED_METER_PER_SECOND"]
             ),
-            takeoff_stabilisation_duration=int(
-                1e3 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
+            land_safe_hgt=int(
+                self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+                * data["LAND_SAFE_HGT_METER"]
             ),
         )
         self.iostar_parameter = IostarParameter(
@@ -150,8 +192,10 @@ class Parameter:
             nb_x_value_max=data["NB_X_VALUE_MAX"],
             nb_y_value_min=data["NB_Y_VALUE_MIN"],
             nb_y_value_max=data["NB_Y_VALUE_MAX"],
-            step_takeoff_value_min=1e2 * data["STEP_TAKEOFF_VALUE_METER_MIN"],
-            step_takeoff_value_max=1e2 * data["STEP_TAKEOFF_VALUE_METER_MAX"],
+            step_takeoff_value_min=self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            * data["STEP_TAKEOFF_VALUE_METER_MIN"],
+            step_takeoff_value_max=self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            * data["STEP_TAKEOFF_VALUE_METER_MAX"],
             angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
         )

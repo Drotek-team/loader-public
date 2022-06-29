@@ -2,78 +2,78 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ...parameter.parameter import LandParameter, TimecodeParameter
+from ...parameter.parameter import (
+    JsonConventionConstant,
+    LandParameter,
+    TimecodeParameter,
+)
 from .dance_simulation import DanceSequence
-from .position_simulation import linear_interpolation, truncated_integer
+from .position_simulation import linear_interpolation
 
 
 def generate_land_first_part(
-    land_start_position: np.ndarray,
-    land_start_timecode: int,
-    land_parameter: LandParameter,
+    land_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
+    land_parameter: LandParameter,
+    json_convention_constant,
 ) -> List[np.ndarray]:
-    truncated_first_land_start_timecode = truncated_integer(
-        land_start_timecode,
-        timecode_parameter.position_timecode_rate,
-    )
-    land_first_part_frames = list(
-        np.arange(
-            truncated_first_land_start_timecode,
-            land_parameter.get_first_land_frame_delta(),
-            timecode_parameter.position_timecode_rate,
-        )
+    land_middle_position = (
+        land_start_position[0],
+        land_start_position[1],
+        land_parameter.get_second_land_altitude_start(land_start_position[2]),
     )
     return linear_interpolation(
         land_start_position,
-        np.array(
-            [
-                land_start_position[0],
-                land_start_position[1],
-                land_parameter.get_first_land_altitude(land_start_position[2]),
-            ]
-        ),
-        land_first_part_frames / land_parameter.get_first_land_frame_delta(),
+        land_middle_position,
+        land_parameter.get_first_land_timecode_delta(land_start_position[2])
+        // timecode_parameter.position_timecode_rate,
+        json_convention_constant,
     )
 
 
 def generate_land_second_part(
-    land_start_timecode: int,
-    land_parameter: LandParameter,
+    land_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
+    land_parameter: LandParameter,
+    json_convention_constant: JsonConventionConstant,
 ) -> List[np.ndarray]:
-    truncated_second_land_start_timecode = truncated_integer(
-        land_start_timecode + land_parameter.get_first_land_frame_delta(),
-        timecode_parameter.position_timecode_rate,
+    land_middle_position = (
+        land_start_position[0],
+        land_start_position[1],
+        land_parameter.get_second_land_altitude_start(land_start_position[2]),
     )
-    land_second_part_frames = list(
-        np.arange(
-            truncated_second_land_start_timecode,
-            land_parameter.get_second_land_frame_delta(),
-            timecode_parameter.position_timecode_rate,
-        )
+    land_end_position = (
+        land_start_position[0],
+        land_start_position[1],
+        0,
     )
     return linear_interpolation(
-        land_parameter.get_second_land_altitude_start(),
-        0,
-        land_second_part_frames / land_parameter.get_second_land_frame_delta(),
+        land_middle_position,
+        land_end_position,
+        land_parameter.get_second_land_timecode_delta(land_start_position[2])
+        // timecode_parameter.position_timecode_rate,
+        json_convention_constant,
     )
 
 
 def land_simulation(
-    land_start_timecode: int,
     land_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
     land_parameter: LandParameter,
-) -> List[np.ndarray]:
-    land_positions = generate_land_first_part(
-        np.array(land_start_position),
-        land_start_timecode,
-        land_parameter,
+    json_convention_constant: JsonConventionConstant,
+) -> DanceSequence:
+    land_positions = generate_land_second_part(
+        land_start_position,
         timecode_parameter,
-    ) + generate_land_second_part(
-        land_start_timecode, land_parameter, timecode_parameter
+        land_parameter,
+        json_convention_constant,
     )
+    # + generate_land_second_part(
+    #     land_start_position,
+    #     timecode_parameter,
+    #     land_parameter,
+    #     json_convention_constant,
+    # )
     return DanceSequence(
         land_positions, len(land_positions) * [True], len(land_positions) * [False]
     )
