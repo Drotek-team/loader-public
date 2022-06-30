@@ -11,6 +11,8 @@ def linear_interpolation(
     nb_points: int,
     json_convention_constant: JsonConventionConstant,
 ) -> List[np.ndarray]:
+    if nb_points == 0:
+        return []
     position_begin_simulation = (
         json_convention_constant.from_json_position_to_simulation_position(
             position_begin

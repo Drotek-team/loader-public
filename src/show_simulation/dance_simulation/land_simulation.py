@@ -15,18 +15,21 @@ def generate_land_first_part(
     land_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
     land_parameter: LandParameter,
-    json_convention_constant,
+    json_convention_constant: JsonConventionConstant,
 ) -> List[np.ndarray]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
         land_parameter.get_second_land_altitude_start(land_start_position[2]),
     )
+    nb_iteration = (
+        land_parameter.get_first_land_timecode_delta(land_start_position[2])
+        // timecode_parameter.position_timecode_rate
+    )
     return linear_interpolation(
         land_start_position,
         land_middle_position,
-        land_parameter.get_first_land_timecode_delta(land_start_position[2])
-        // timecode_parameter.position_timecode_rate,
+        nb_iteration,
         json_convention_constant,
     )
 
@@ -62,7 +65,7 @@ def land_simulation(
     land_parameter: LandParameter,
     json_convention_constant: JsonConventionConstant,
 ) -> DanceSequence:
-    land_positions = generate_land_second_part(
+    land_positions = generate_land_first_part(
         land_start_position,
         timecode_parameter,
         land_parameter,

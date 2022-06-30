@@ -55,7 +55,6 @@ def test_valid_drone(valid_drone: Drone):
         // parameter.timecode_parameter.position_timecode_rate
     )
     assert list(dance_sequence.drone_positions[0]) == [0, 0, 0]
-    assert popo == 0
     assert list(
         dance_sequence.drone_positions[
             parameter.takeoff_parameter.takeoff_duration
@@ -67,6 +66,13 @@ def test_valid_drone(valid_drone: Drone):
         parameter.json_convention_constant.CENTIMETER_TO_METER_RATIO
         * parameter.takeoff_parameter.takeoff_altitude,
     ]
+    assert list(dance_sequence.drone_positions[-1]) == [
+        2,
+        2,
+        parameter.json_convention_constant.CENTIMETER_TO_METER_RATIO
+        * parameter.takeoff_parameter.takeoff_altitude,
+    ]
+    assert len(dance_sequence.drone_positions) == 0
 
 
 def test_stand_by_simulation():
@@ -129,12 +135,18 @@ def test_land_simulation():
     parameter = Parameter()
     parameter.load_iostar_parameter()
     parameter.load_export_parameter()
-    first_takeoff_position = (0, 0, 10_00)
+    first_takeoff_position = (0, 0, 5_00)
     dance_sequence = land_simulation(
         first_takeoff_position,
         parameter.timecode_parameter,
         parameter.land_parameter,
         parameter.json_convention_constant,
     )
+    assert (
+        dance_sequence.drone_positions[0][2]
+        == parameter.json_convention_constant.CENTIMETER_TO_METER_RATIO
+        * first_takeoff_position[2]
+    )
+    assert dance_sequence.drone_positions[-1][2] == 0
     assert all(dance_sequence.drone_in_air) == True
     assert all(dance_sequence.drone_in_dance) == False
