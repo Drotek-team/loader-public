@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import Dict, List
 
 
 @dataclass(frozen=True)
@@ -21,8 +21,11 @@ class CollisionSliceCheckReport:
 
 
 class CollisionCheckReport:
-    def __init__(self, timecodes: List[int]):
+    def __init__(self):
         self.validation = False
+        self.collision_slices_check_report: List[CollisionSliceCheckReport] = []
+
+    def initialize_collision_slice_check_report(self, timecodes: List[int]) -> None:
         self.collision_slices_check_report = [
             CollisionSliceCheckReport(timecode) for timecode in timecodes
         ]

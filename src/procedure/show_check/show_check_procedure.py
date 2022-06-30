@@ -21,6 +21,7 @@ def apply_show_check_procedure(
     show_check_report: ShowCheckReport,
 ) -> None:
     parameter = Parameter()
+    parameter.load_parameter()
     for drone, drone_check_report in zip(
         drones_manager.drones, show_check_report.drones_check_report
     ):

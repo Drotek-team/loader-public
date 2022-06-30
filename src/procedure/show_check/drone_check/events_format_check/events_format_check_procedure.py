@@ -27,10 +27,10 @@ from .events_format_check_tools import (
 
 def position_events_check(
     position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameters: IostarParameter,
     takeoff_parameter: TakeoffParameter,
+    position_events_check_report: PositionEventsCheckReport,
 ) -> None:
     position_timecode_check(
         position_events,
@@ -52,9 +52,9 @@ def position_events_check(
 
 def color_events_check(
     color_events: ColorEvents,
-    color_events_check: ColorEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameter: IostarParameter,
+    color_events_check: ColorEventsCheckReport,
 ):
     color_timecode_check(
         color_events,
@@ -67,9 +67,9 @@ def color_events_check(
 
 def fire_events_check(
     fire_events: FireEvents,
-    fire_events_check_report: FireEventsCheckReport,
     timecode_parameter: TimecodeParameter,
     iostar_parameter: IostarParameter,
+    fire_events_check_report: FireEventsCheckReport,
 ) -> None:
     fire_timecode_check(
         fire_events,
@@ -94,26 +94,24 @@ def apply_events_format_check_procedure(
     timecode_parameter: TimecodeParameter,
     events_format_check_report: EventsFormatCheckReport,
 ):
-    timecode_parameter = TimecodeParameter()
-    takeoff_parameter = TakeoffParameter()
     position_events_check(
         drone.position_events,
-        events_format_check_report.position_events_check,
+        timecode_parameter,
         iostar_parameter,
         takeoff_parameter,
-        timecode_parameter,
+        events_format_check_report.position_events_check,
     )
     color_events_check(
         drone.color_events,
-        events_format_check_report.color_events_check,
-        iostar_parameter,
         timecode_parameter,
+        iostar_parameter,
+        events_format_check_report.color_events_check,
     )
     fire_events_check(
         drone.fire_events,
-        events_format_check_report.fire_events_check,
         timecode_parameter,
         iostar_parameter,
+        events_format_check_report.fire_events_check,
     )
 
     events_format_check_report.position_events_check.update()

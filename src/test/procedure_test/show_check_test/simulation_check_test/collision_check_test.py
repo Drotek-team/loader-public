@@ -43,7 +43,7 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
         drone_in_air_flags=[1, 1, 1],
         drone_in_dance_flags=[1, 1, 1],
     )
-    collision_check_report = CollisionCheckReport(valid_show_simulation.timecodes)
+    collision_check_report = CollisionCheckReport()
     apply_collision_check_procedure(
         valid_show_simulation, collision_check_report, parameter.iostar_parameter
     )
@@ -75,7 +75,7 @@ def test_invalid_simulation(valid_show_simulation: ShowSimulation):
         drone_in_air_flags=[1, 1, 1],
         drone_in_dance_flags=[1, 1, 1],
     )
-    collision_check_report = CollisionCheckReport(valid_show_simulation.timecodes)
+    collision_check_report = CollisionCheckReport()
     apply_collision_check_procedure(
         valid_show_simulation, collision_check_report, parameter.iostar_parameter
     )

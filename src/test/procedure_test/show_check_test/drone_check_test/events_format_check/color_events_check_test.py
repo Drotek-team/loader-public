@@ -39,9 +39,9 @@ def test_valid_color_events_check(
     parameter.load_iostar_parameter()
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert color_events_check_report.validation
 
@@ -59,9 +59,9 @@ def test_invalid_color_events_timecode_format_check(
     )
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert not (
         color_events_check_report.timecode_check_report.timecode_format_check_report.validation
@@ -81,9 +81,9 @@ def test_invalid_color_events_timecode_rate_check(
     )
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert not (
         color_events_check_report.timecode_check_report.timecode_rate_check_report.validation
@@ -103,9 +103,9 @@ def test_invalid_color_events_timecode_increasing_check(
     )
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert not (
         color_events_check_report.timecode_check_report.increasing_timecode_check_report.validation
@@ -124,9 +124,9 @@ def test_invalid_color_events_timecode_first_timecode_check(
     )
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert not (
         color_events_check_report.timecode_check_report.first_timecode_check_report.validation
@@ -146,9 +146,9 @@ def test_invalid_color_events_rgbw_format_check(
     )
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert not (
         color_events_check_report.rgbw_check_report.rgbw_format_check_report.validation
@@ -168,9 +168,9 @@ def test_invalid_color_events_rgbw_value_check(
     )
     color_events_check(
         valid_color_events,
-        color_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        color_events_check_report,
     )
     assert not (
         color_events_check_report.rgbw_check_report.rgbw_value_check_report.validation

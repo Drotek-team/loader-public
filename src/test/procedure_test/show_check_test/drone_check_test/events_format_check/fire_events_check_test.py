@@ -37,9 +37,9 @@ def test_valid_fire_events_check(
     parameter.load_iostar_parameter()
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert (
         fire_events_check_report.fire_chanel_check_report.fire_chanel_format_check_report.validation
@@ -79,9 +79,9 @@ def test_invalid_fire_events_timecode_format_check(
     )
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_timecode_check_report.timecode_format_check_report.validation
@@ -100,9 +100,9 @@ def test_invalid_fire_events_timecode_first_timecode_check(
     )
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_timecode_check_report.first_timecode_check_report.validation
@@ -119,9 +119,9 @@ def test_invalid_fire_events_chanel_format_check(
     valid_fire_events.add(parameter.timecode_parameter.show_timecode_begin, 1.23, 0)
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_chanel_check_report.fire_chanel_format_check_report.validation
@@ -142,9 +142,9 @@ def test_invalid_fire_events_chanel_value_check(
     )
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_chanel_check_report.fire_chanel_value_check_report.validation
@@ -170,9 +170,9 @@ def test_invalid_fire_events_chanel_unicity_check(
     )
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_chanel_check_report.fire_chanel_unicty_check_report.validation
@@ -189,9 +189,9 @@ def test_invalid_fire_events_duration_format_check(
     valid_fire_events.add(parameter.timecode_parameter.show_timecode_begin, 0, 1.23)
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_duration_check_report.fire_duration_format_check_report.validation
@@ -212,9 +212,9 @@ def test_invalid_fire_events_duration_value_check(
     )
     fire_events_check(
         valid_fire_events,
-        fire_events_check_report,
         parameter.timecode_parameter,
         parameter.iostar_parameter,
+        fire_events_check_report,
     )
     assert not (
         fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.validation

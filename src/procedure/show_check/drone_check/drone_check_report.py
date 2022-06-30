@@ -4,5 +4,12 @@ from .events_format_check.events_format_check_report import EventsFormatCheckRep
 
 class DroneCheckReport:
     def __init__(self):
+        self.validation = False
         self.events_format_check_report = EventsFormatCheckReport()
         self.dance_size_check_report = DanceSizeCheckReport()
+
+    def update(self) -> None:
+        self.validation = (
+            self.events_format_check_report.validation
+            and self.dance_size_check_report.validation
+        )

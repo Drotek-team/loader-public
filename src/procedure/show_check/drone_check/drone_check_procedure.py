@@ -15,14 +15,15 @@ def apply_drone_check_procedure(
 ) -> None:
     apply_events_format_check_procedure(
         drone,
-        drone_check_report.events_format_check_report,
+        parameter.iostar_parameter,
         parameter.takeoff_parameter,
         parameter.timecode_parameter,
+        drone_check_report.events_format_check_report,
     )
     drone_encoder = DroneEncoder()
     apply_dance_size_check_procedure(
         drone,
         drone_encoder,
-        drone_check_report.dance_size_check_report,
         parameter.iostar_parameter,
+        drone_check_report.dance_size_check_report,
     )

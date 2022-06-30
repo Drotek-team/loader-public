@@ -36,7 +36,7 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
         drone_in_dance_flags=[1, 1, 1],
     )
     valid_show_simulation.update_slices_implicit_values()
-    performance_check_report = PerformanceCheckReport(valid_show_simulation.timecodes)
+    performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
     parameter.load_iostar_parameter()
     apply_performance_check_procedure(
@@ -58,7 +58,7 @@ def test_invalid_simulation(valid_show_simulation: ShowSimulation):
         drone_in_dance_flags=[1, 1, 1],
     )
     valid_show_simulation.update_slices_implicit_values()
-    performance_check_report = PerformanceCheckReport(valid_show_simulation.timecodes)
+    performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
     parameter.load_iostar_parameter()
     apply_performance_check_procedure(
@@ -78,7 +78,7 @@ def test_invalid_horizontal_velocity_simulation(valid_show_simulation: ShowSimul
         drone_in_dance_flags=[1, 1, 1],
     )
     valid_show_simulation.update_slices_implicit_values()
-    performance_check_report = PerformanceCheckReport(valid_show_simulation.timecodes)
+    performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
     parameter.load_iostar_parameter()
     apply_performance_check_procedure(
