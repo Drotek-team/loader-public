@@ -138,7 +138,7 @@ def test_invalid_position_events_timecode_first_timecode_check(
         position_events_check_report,
     )
     assert not (
-        position_events_check_report.timecode_check_report.first_timecode_check_report.validation
+        position_events_check_report.timecode_check_report.timecode_value_check_report.validation
     )
 
 

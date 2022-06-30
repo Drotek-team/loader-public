@@ -1,9 +1,6 @@
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
 from ...parameter.parameter import Parameter
-from ...show_simulation.dance_simulation.convert_drone_to_dance_simulation import (
-    convert_drone_to_dance_simulation,
-)
 from ...show_simulation.show_simulation import ShowSimulation
 from ..show_check.simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
@@ -42,7 +39,7 @@ def apply_show_check_procedure(
         parameter.json_convention_constant,
     )
     for drone in drones_manager:
-        show_simulation.add_dance_simulation(convert_drone_to_dance_simulation(drone))
+        show_simulation.add_dance_simulation(drone)
     apply_simulation_check_procedure(
         show_simulation, show_check_report.simulation_check_report
     )

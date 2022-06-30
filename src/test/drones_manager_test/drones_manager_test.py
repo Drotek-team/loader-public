@@ -9,7 +9,7 @@ from ...drones_manager.drones_manager import Drone, DronesManager
 @pytest.fixture
 def valid_drones_manager() -> DronesManager:
     nb_drones = 10
-    drones = [Drone() for _ in range(nb_drones)]
+    drones = [Drone(drone_index) for drone_index in range(nb_drones)]
     random_positions = [
         (
             int(np.random.normal(scale=10)),

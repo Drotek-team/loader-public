@@ -7,7 +7,8 @@ from .events.position_events import PositionEvent, PositionEvents
 
 
 class Drone:
-    def __init__(self):
+    def __init__(self, index: int):
+        self.index = index
         self.position_events = PositionEvents()
         self.color_events = ColorEvents()
         self.fire_events = FireEvents()
@@ -23,7 +24,7 @@ class Drone:
 
     @property
     def last_position_event(self) -> List[PositionEvent]:
-        return self.position_events[-1]
+        return self.position_events.event_list[-1]
 
     @property
     def first_xyz(self) -> Tuple:

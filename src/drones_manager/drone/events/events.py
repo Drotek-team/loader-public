@@ -31,6 +31,10 @@ class Events:
     def events(self) -> List[Event]:
         return self.event_list
 
+    @property
+    def nb_events(self) -> int:
+        return len(self.event_list)
+
     def get_timecode_by_event_index(self, event_index: int) -> int:
         return self.event_list[event_index].timecode
 

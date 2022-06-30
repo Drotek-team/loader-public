@@ -13,7 +13,7 @@ from ....procedure.show_check.show_check_report import ShowCheckReport
 def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]:
     parameter = Parameter()
     parameter.load_parameter()
-    drone = Drone()
+    drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(0, (0, 0, parameter.takeoff_parameter.takeoff_altitude))
     drone.add_position(0, (0.1, 0, parameter.takeoff_parameter.takeoff_altitude))

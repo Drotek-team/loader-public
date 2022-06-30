@@ -129,7 +129,7 @@ def test_invalid_color_events_timecode_first_timecode_check(
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.timecode_check_report.first_timecode_check_report.validation
+        color_events_check_report.timecode_check_report.timecode_value_check_report.validation
     )
 
 

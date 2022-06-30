@@ -21,13 +21,13 @@ def valid_family_manager():
 
 @pytest.fixture
 def valid_drones_manager():
-    drone_1 = Drone()
+    drone_1 = Drone(0)
     drone_1.add_position(0, (-100, -100, 0))
-    drone_2 = Drone()
+    drone_2 = Drone(1)
     drone_2.add_position(0, (-100, 100, 0))
-    drone_3 = Drone()
+    drone_3 = Drone(2)
     drone_3.add_position(0, (100, -100, 0))
-    drone_4 = Drone()
+    drone_4 = Drone(3)
     drone_4.add_position(0, (100, 100, 0))
     return DronesManager([drone_1, drone_2, drone_3, drone_4])
 
@@ -41,7 +41,7 @@ def test_valid_drone_manager_family_manager(
     apply_family_check_procedure(
         valid_drones_manager,
         valid_family_manager,
-        family_manager_check_report,
         parameter.family_parameter,
+        family_manager_check_report,
     )
     assert family_manager_check_report.validation

@@ -15,7 +15,7 @@ MAGIC_NUMBER = 12495
 
 @pytest.fixture
 def valid_drone_dance_size():
-    drone = Drone()
+    drone = Drone(0)
     for _ in range(MAGIC_NUMBER):
         drone.color_events.add(0, (0, 0, 0, 0))
     return drone
@@ -23,7 +23,7 @@ def valid_drone_dance_size():
 
 @pytest.fixture
 def invalid_drone_dance_size():
-    drone = Drone()
+    drone = Drone(0)
     for _ in range(MAGIC_NUMBER + 1):
         drone.color_events.add(0, (0, 0, 0, 0))
     return drone

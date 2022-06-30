@@ -3,10 +3,15 @@ from typing import List
 import numpy as np
 
 from ..drones_manager.drone.events.position_events import PositionEvent
+from ..drones_manager.drones_manager import Drone
 from ..parameter.parameter import (
     JsonConventionConstant,
     LandParameter,
+    TakeoffParameter,
     TimecodeParameter,
+)
+from .dance_simulation.convert_drone_to_dance_simulation import (
+    convert_drone_to_dance_simulation,
 )
 
 
@@ -62,32 +67,43 @@ class ShowSimulation:
 
     def add_dance_simulation(
         self,
-        drone_index: int,
-        drone_positions: List[np.ndarray],
-        drone_in_air_flags: List[bool],
-        drone_in_dance_flags: List[bool],
+        drone: Drone,
+        timecode_parameter: TimecodeParameter,
+        takeoff_parameter: TakeoffParameter,
+        land_parameter: LandParameter,
+        json_convention_constant: JsonConventionConstant,
     ) -> None:
-        for (slice, drone_position, drone_in_air_index, drone_in_dance_index,) in zip(
+        dance_sequence = convert_drone_to_dance_simulation(
+            drone,
+            self.show_slices[-1].timecode,
+            timecode_parameter,
+            takeoff_parameter,
+            land_parameter,
+            json_convention_constant,
+        ).dance_sequence
+        for show_slice, drone_position, drone_in_air, drone_in_dance in zip(
             self.show_slices,
-            drone_positions,
-            drone_in_air_flags,
-            drone_in_dance_flags,
+            dance_sequence.drone_positions,
+            dance_sequence.drone_in_air,
+            dance_sequence.drone_in_dance,
         ):
-            slice.positions[drone_index] = drone_position
-            slice.in_air_flags[drone_index] = drone_in_air_index
-            slice.in_dance_flags[drone_index] = drone_in_dance_index
+            show_slice.positions[drone.index] = drone_position
+            show_slice.in_air_flags[drone.index] = drone_in_air
+            show_slice.in_dance_flags[drone.index] = drone_in_dance
 
     def update_slices_implicit_values(
         self,
     ) -> None:
         for slice_index in range(2, len(self.show_slices)):
-            self.show_slices[slice_index].velocities = (1 / self.position_time_rate) * (
+            self.show_slices[slice_index].velocities = (
+                1 / self.position_timecode_rate
+            ) * (
                 self.show_slices[slice_index].positions
                 - self.show_slices[slice_index - 1].positions
             )
             self.show_slices[slice_index].accelerations = (
                 1
-                / (self.position_time_rate * self.position_time_rate)
+                / (self.position_timecode_rate * self.position_timecode_rate)
                 * (
                     self.show_slices[slice_index].positions
                     - 2 * self.show_slices[slice_index - 1].positions

@@ -57,7 +57,7 @@ def test_valid_fire_events_check(
         fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.validation
     )
     assert (
-        fire_events_check_report.fire_timecode_check_report.first_timecode_check_report.validation
+        fire_events_check_report.fire_timecode_check_report.timecode_value_check_report.validation
     )
     assert (
         fire_events_check_report.fire_timecode_check_report.timecode_format_check_report.validation
@@ -105,7 +105,7 @@ def test_invalid_fire_events_timecode_first_timecode_check(
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_timecode_check_report.first_timecode_check_report.validation
+        fire_events_check_report.fire_timecode_check_report.timecode_value_check_report.validation
     )
 
 

@@ -13,7 +13,7 @@ from ...show_simulation.dance_simulation.convert_drone_to_dance_simulation impor
 
 @pytest.fixture
 def valid_drone() -> Drone:
-    valid_drone = Drone()
+    valid_drone = Drone(0)
     valid_drone.add_position(0, (0, 0, 0))
     valid_drone.add_position(0, (0, 0, 1000))
     return valid_drone

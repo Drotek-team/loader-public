@@ -56,12 +56,6 @@ def check_increasing_timecode(timecodes: List[int]) -> bool:
     )
 
 
-def check_first_timecode(timecodes: List[int], minimal_timecode: int) -> bool:
-    if timecodes == []:
-        return True
-    return timecodes[0] >= minimal_timecode
-
-
 def position_timecode_check(
     position_events: PositionEvents,
     timecode_check_report: TimecodeCheckReport,
@@ -147,18 +141,26 @@ def takeoff_check(
     takeoff_check_report: TakeoffCheckReport,
     takeoff_parameter: TakeoffParameter,
 ) -> None:
-    first_timecode = position_events.get_timecode_by_event_index(0)
-    second_timecode = position_events.get_timecode_by_event_index(1)
-    first_position = position_events.get_values_by_event_index(0)
-    second_position = position_events.get_values_by_event_index(1)
-    takeoff_check_report.takeoff_duration_check_report.validation = (
-        second_timecode - first_timecode
-    ) == takeoff_parameter.takeoff_duration
-    takeoff_check_report.takeoff_position_check_report.validation = (
-        first_position[0] == second_position[0]
-        and first_position[1] == second_position[1]
-        and takeoff_parameter.takeoff_altitude + first_position[2] == second_position[2]
-    )
+    if position_events.nb_events == 1:
+        first_timecode = position_events.get_timecode_by_event_index(0)
+        first_position = position_events.get_values_by_event_index(0)
+        takeoff_check_report.takeoff_duration_check_report.validation = (
+            takeoff_check_report.takeoff_position_check_report.validation
+        ) = (first_timecode == 0 and first_position[0] == 0 and first_position[1] == 0)
+    else:
+        first_timecode = position_events.get_timecode_by_event_index(0)
+        second_timecode = position_events.get_timecode_by_event_index(1)
+        first_position = position_events.get_values_by_event_index(0)
+        second_position = position_events.get_values_by_event_index(1)
+        takeoff_check_report.takeoff_duration_check_report.validation = (
+            second_timecode - first_timecode
+        ) == takeoff_parameter.takeoff_duration
+        takeoff_check_report.takeoff_position_check_report.validation = (
+            first_position[0] == second_position[0]
+            and first_position[1] == second_position[1]
+            and takeoff_parameter.takeoff_altitude + first_position[2]
+            == second_position[2]
+        )
     takeoff_check_report.update()
 
 
@@ -171,8 +173,12 @@ def fire_timecode_check(
     fire_events_timecode_check_report.timecode_format_check_report.validation = (
         check_is_instance_int_list(timecodes)
     )
-    fire_events_timecode_check_report.first_timecode_check_report.validation = (
-        check_first_timecode(timecodes, timecode_parameter.show_timecode_begin)
+    fire_events_timecode_check_report.timecode_value_check_report.validation = (
+        check_int_size_list(
+            timecodes,
+            timecode_parameter.show_timecode_begin,
+            timecode_parameter.timecode_value_max,
+        )
     )
     fire_events_timecode_check_report.update()
 

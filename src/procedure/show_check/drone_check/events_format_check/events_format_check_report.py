@@ -135,12 +135,12 @@ class FireTimecodeCheckReport:
     def __init__(self):
         self.validation = False
         self.timecode_format_check_report = TimecodeFormatCheckReport()
-        self.first_timecode_check_report = FirstTimecodeCheckReport()
+        self.timecode_value_check_report = TimecodeValueCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.timecode_format_check_report.validation
-            and self.first_timecode_check_report.validation
+            and self.timecode_value_check_report.validation
         )
 
 
