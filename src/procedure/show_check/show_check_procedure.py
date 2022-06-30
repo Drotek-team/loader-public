@@ -27,12 +27,16 @@ def apply_show_check_procedure(
     ):
         apply_drone_check_procedure(drone, drone_check_report, parameter)
     apply_family_check_procedure(
-        drones_manager.first_horizontal_positions(),
+        drones_manager,
         family_manager,
+        parameter.family_parameter,
         show_check_report.family_check_report,
     )
-
-    show_simulation = ShowSimulation()
+    last_position_events = drones_manager.last_position_events
+    show_simulation = ShowSimulation(
+        drones_manager.nb_drone,
+        parameter.timecode_parameter,
+    )
     for drone in drones_manager:
         show_simulation.add_dance_simulation(convert_drone_to_dance_simulation(drone))
     apply_simulation_check_procedure(

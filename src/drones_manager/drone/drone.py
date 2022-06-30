@@ -3,7 +3,7 @@ from typing import List, Tuple
 from .events.color_events import ColorEvents
 from .events.events import Events
 from .events.fire_events import FireEvents
-from .events.position_events import PositionEvents
+from .events.position_events import PositionEvent, PositionEvents
 
 
 class Drone:
@@ -20,6 +20,10 @@ class Drone:
 
     def add_fire(self, timecode: int, value: float) -> None:
         self.fire_events.add(timecode, value)
+
+    @property
+    def last_position_event(self) -> List[PositionEvent]:
+        return self.position_events[-1]
 
     @property
     def first_xyz(self) -> Tuple:

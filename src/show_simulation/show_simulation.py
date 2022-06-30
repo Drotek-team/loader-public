@@ -2,6 +2,13 @@ from typing import List
 
 import numpy as np
 
+from ..drones_manager.drone.events.position_events import PositionEvent
+from ..parameter.parameter import (
+    JsonConventionConstant,
+    LandParameter,
+    TimecodeParameter,
+)
+
 
 class ShowSimulationSlice:
     def __init__(self, timecode: int, nb_drones: int):
@@ -18,14 +25,35 @@ class ShowSimulation:
     def __init__(
         self,
         nb_drones: int,
-        nb_slices: int,
-        position_time_rate: int,
+        timecode_parameter: TimecodeParameter,
     ):
         self.nb_drones = nb_drones
-        self.position_time_rate = position_time_rate
+        self.position_timecode_rate = timecode_parameter.position_timecode_rate
+        self.show_slices: List[ShowSimulationSlice] = []
+
+    def update_show_slices(
+        self,
+        last_position_events: List[PositionEvent],
+        land_parameter: LandParameter,
+        json_convention_constant: JsonConventionConstant,
+    ):
+
+        last_simulation_timecode = max(
+            last_position_event.timecode
+            + land_parameter.get_second_land_timecode_delta(
+                json_convention_constant.CENTIMETER_TO_METER_RATIO
+                * last_position_event.z
+            )
+            for last_position_event in last_position_events
+        )
         self.show_slices = [
-            ShowSimulationSlice(position_time_rate * time_index, nb_drones)
-            for time_index in range(nb_slices)
+            ShowSimulationSlice(
+                self.position_timecode_rate * timecode_index,
+                self.nb_drones,
+            )
+            for timecode_index in range(
+                (last_simulation_timecode // self.position_timecode_rate) + 1
+            )
         ]
 
     @property

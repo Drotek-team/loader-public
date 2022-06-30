@@ -57,6 +57,8 @@ def check_increasing_timecode(timecodes: List[int]) -> bool:
 
 
 def check_first_timecode(timecodes: List[int], minimal_timecode: int) -> bool:
+    if timecodes == []:
+        return True
     return timecodes[0] >= minimal_timecode
 
 

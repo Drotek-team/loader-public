@@ -61,8 +61,8 @@ def positions_theorical_coherence_check(
 def apply_family_check_procedure(
     drones_manager: DronesManager,
     family_manager: FamilyManager,
-    family_manager_check_report: FamilyManagerCheckReport,
     family_parameter: FamilyParameter,
+    family_manager_check_report: FamilyManagerCheckReport,
 ) -> None:
     family_manager_check_report.family_manager_format_check_report.validation = (
         family_format_check(family_manager)

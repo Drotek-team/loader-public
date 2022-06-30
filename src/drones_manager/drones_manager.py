@@ -4,12 +4,21 @@ import numpy as np
 
 from .convex_hull import calculate_convex_hull
 from .drone.drone import Drone
+from .drone.events.position_events import PositionEvent
 from .drone.events_size_easing import apply_dance_size_relief
 
 
 class DronesManager:
     def __init__(self, drones: List[Drone]):
         self.drones = drones
+
+    @property
+    def nb_drone(self) -> int:
+        return len(self.drones)
+
+    @property
+    def last_position_events(self) -> List[PositionEvent]:
+        return [drone.last_position_event for drone in self.drones]
 
     @property
     def first_horizontal_positions(self) -> List[Tuple]:
