@@ -66,6 +66,7 @@ class LandParameter:
 @dataclass(frozen=True)
 class TimecodeParameter:
     show_timecode_begin: int
+    timecode_value_max: int
     position_timecode_rate: int
     color_timecode_rate: int
 
@@ -116,7 +117,11 @@ class Parameter:
         self.timecode_parameter = TimecodeParameter(
             show_timecode_begin=int(
                 self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
-                * data["FIRST_TIMECODE"]
+                * data["FIRST_TIMECODE_SECOND"]
+            ),
+            timecode_value_max=int(
+                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                * data["TIMECODE_VALUE_MAX_SECOND"]
             ),
             position_timecode_rate=int(
                 self.json_convention_constant.SECOND_TO_TIMECODE_RATIO

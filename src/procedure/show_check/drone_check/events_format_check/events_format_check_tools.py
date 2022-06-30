@@ -71,14 +71,16 @@ def position_timecode_check(
     timecode_check_report.timecode_format_check_report.validation = (
         check_is_instance_int_list(timecodes)
     )
+    timecode_check_report.timecode_value_check_report.validation = check_int_size_list(
+        timecodes,
+        timecode_parameter.show_timecode_begin,
+        timecode_parameter.timecode_value_max,
+    )
     timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
         timecodes, timecode_parameter.position_timecode_rate
     )
     timecode_check_report.increasing_timecode_check_report.validation = (
         check_increasing_timecode(timecodes)
-    )
-    timecode_check_report.first_timecode_check_report.validation = check_first_timecode(
-        timecodes, timecode_parameter.show_timecode_begin
     )
     timecode_check_report.update()
 
@@ -92,14 +94,16 @@ def color_timecode_check(
     timecode_check_report.timecode_format_check_report.validation = (
         check_is_instance_int_list(timecodes)
     )
+    timecode_check_report.timecode_value_check_report.validation = check_int_size_list(
+        timecodes,
+        timecode_parameter.show_timecode_begin,
+        timecode_parameter.timecode_value_max,
+    )
     timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
         timecodes, timecode_parameter.color_timecode_rate
     )
     timecode_check_report.increasing_timecode_check_report.validation = (
         check_increasing_timecode(timecodes)
-    )
-    timecode_check_report.first_timecode_check_report.validation = check_first_timecode(
-        timecodes, timecode_parameter.show_timecode_begin
     )
     timecode_check_report.update()
 

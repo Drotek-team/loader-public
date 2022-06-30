@@ -1,12 +1,9 @@
-from black import dataclass
-
-
-class FirstTimecodeCheckReport:
+class TimecodeFormatCheckReport:
     def __init__(self):
         self.validation = False
 
 
-class TimecodeFormatCheckReport:
+class TimecodeValueCheckReport:
     def __init__(self):
         self.validation = False
 
@@ -25,14 +22,14 @@ class TimecodeCheckReport:
     def __init__(self):
         self.validation = False
         self.timecode_format_check_report = TimecodeFormatCheckReport()
-        self.first_timecode_check_report = FirstTimecodeCheckReport()
+        self.timecode_value_check_report = TimecodeValueCheckReport()
         self.increasing_timecode_check_report = IncreasingTimecodeCheckReport()
         self.timecode_rate_check_report = TimecodeRateCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.timecode_format_check_report.validation
-            and self.first_timecode_check_report.validation
+            and self.timecode_value_check_report.validation
             and self.increasing_timecode_check_report.validation
             and self.timecode_rate_check_report.validation
         )
