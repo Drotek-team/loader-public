@@ -10,11 +10,13 @@ def apply_json_creation_procedure(
     json_creation_report: JsonCreationReport,
 ) -> None:
     show = Show()
-    show.update_families(drones_manager, family_manager)
+    show.update_families(drones_manager, family_manager, json_creation_report)
     show.update_parameter(
         family_manager.nb_x,
         family_manager.nb_y,
-        family_manager.step,
-        family_manager.angle_takeoff_degree(drones_manager.first_horizontal_positions),
+        family_manager.step_takeoff,
+        family_manager.angle_takeoff,
         drones_manager.convex_hull,
+        json_creation_report,
     )
+    json_creation_report.validation = True

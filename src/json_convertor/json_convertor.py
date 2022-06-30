@@ -5,6 +5,7 @@ from typing import List, Tuple
 from ..drones_manager.drone.drone_encoder import DroneEncoder
 from ..drones_manager.drones_manager import Drone
 from ..family_manager.family_manager import FamilyManager
+from ..procedure.json_creation.json_creation_report import JsonCreationReport
 
 
 @dataclass(frozen=True)
@@ -35,7 +36,10 @@ class Show:
         self.angle: int = 0
 
     def update_families(
-        self, drones: List[Drone], family_manager: FamilyManager
+        self,
+        drones: List[Drone],
+        family_manager: FamilyManager,
+        json_creation_report: JsonCreationReport,
     ) -> None:
         drone_index = 0
         drone_encoder = DroneEncoder()
@@ -58,6 +62,7 @@ class Show:
         step: float,
         angle: int,
         convex_hull: List[Tuple[float, float]],
+        json_creation_report: JsonCreationReport,
     ):
         self.nb_x = nb_x
         self.nb_y = nb_y
@@ -65,7 +70,7 @@ class Show:
         self.angle = angle
         self.convex_hull = convex_hull
 
-    def create_json(self):
+    def get_json(self) -> str:
         class DummyClass:
             def __init__(self, show: Show):
                 self.show = show

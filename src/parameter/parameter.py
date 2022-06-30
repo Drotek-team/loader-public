@@ -110,7 +110,7 @@ class Parameter:
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
     json_convention_constant = JsonConventionConstant()
 
-    def load_export_parameter(self):
+    def load_export_parameter(self) -> None:
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
@@ -128,7 +128,7 @@ class Parameter:
             ),
         )
 
-    def load_iostar_parameter(self):
+    def load_iostar_parameter(self) -> None:
         f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
@@ -184,7 +184,7 @@ class Parameter:
             iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
         )
 
-    def load_family_parameter(self):
+    def load_family_parameter(self) -> None:
         f = open(f"{os.getcwd()}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.family_parameter = FamilyParameter(
@@ -199,3 +199,8 @@ class Parameter:
             angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
         )
+
+    def load_parameter(self) -> None:
+        self.load_family_parameter()
+        self.load_iostar_parameter()
+        self.load_export_parameter()

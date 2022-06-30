@@ -1,7 +1,7 @@
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
 from ...parameter.parameter import Parameter
-from ...show_simulation.dance_simulation.dance_simulation import (
+from ...show_simulation.dance_simulation.convert_drone_to_dance_simulation import (
     convert_drone_to_dance_simulation,
 )
 from ...show_simulation.show_simulation import ShowSimulation
