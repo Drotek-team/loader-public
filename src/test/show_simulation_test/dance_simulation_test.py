@@ -20,6 +20,7 @@ def valid_drone() -> Drone:
     valid_drone = Drone(0)
     takeoff_timecode = 0
     transition_duration = 2_000
+    transition_position = (200, 200)
     valid_drone.add_position(takeoff_timecode, (0, 0, 0))
     valid_drone.add_position(
         takeoff_timecode + parameter.takeoff_parameter.takeoff_duration,
@@ -29,7 +30,11 @@ def valid_drone() -> Drone:
         takeoff_timecode
         + parameter.takeoff_parameter.takeoff_duration
         + transition_duration,
-        (0, 0, parameter.takeoff_parameter.takeoff_altitude),
+        (
+            transition_position[0],
+            transition_position[1],
+            parameter.takeoff_parameter.takeoff_altitude,
+        ),
     )
     return valid_drone
 
@@ -45,7 +50,23 @@ def test_valid_drone(valid_drone: Drone):
         parameter.land_parameter,
         parameter.json_convention_constant,
     ).dance_sequence
-    assert len(dance_sequence.drone_positions) == 0
+    popo = (
+        parameter.takeoff_parameter.takeoff_duration
+        // parameter.timecode_parameter.position_timecode_rate
+    )
+    assert list(dance_sequence.drone_positions[0]) == [0, 0, 0]
+    assert popo == 0
+    assert list(
+        dance_sequence.drone_positions[
+            parameter.takeoff_parameter.takeoff_duration
+            // parameter.timecode_parameter.position_timecode_rate
+        ]
+    ) == [
+        0,
+        0,
+        parameter.json_convention_constant.CENTIMETER_TO_METER_RATIO
+        * parameter.takeoff_parameter.takeoff_altitude,
+    ]
 
 
 def test_stand_by_simulation():
