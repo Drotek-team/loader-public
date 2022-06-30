@@ -14,7 +14,7 @@ class FamilyManager:
     ):
         self.nb_x = nb_x
         self.nb_y = nb_y
-        self.nb_drone_per_family = (nb_drone_per_family,)
+        self.nb_drone_per_family = nb_drone_per_family
         self.step_takeoff = step_takeoff
         self.angle_takeoff = angle_takeoff
 
