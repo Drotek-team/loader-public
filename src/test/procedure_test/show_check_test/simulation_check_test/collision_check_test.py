@@ -24,10 +24,10 @@ def valid_show_simulation():
         parameter.takeoff_parameter.takeoff_duration,
         (0, 0, parameter.takeoff_parameter.takeoff_altitude),
     )
-    second_drone.add_position(0, (2, 2, 0))
+    second_drone.add_position(0, (200, 200, 0))
     second_drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,
-        (2, 2, parameter.takeoff_parameter.takeoff_altitude),
+        (200, 200, parameter.takeoff_parameter.takeoff_altitude),
     )
     drones_manager = DronesManager([first_drone, second_drone])
     show_simulation.update_show_slices(
@@ -53,7 +53,12 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
     apply_collision_check_procedure(
         valid_show_simulation, collision_check_report, parameter.iostar_parameter
     )
-    assert collision_check_report.validation
+    assert list(valid_show_simulation.show_slices[-1].positions) == 0
+    assert (
+        collision_check_report.collision_slices_check_report[-1].collision_infractions
+        == 0
+    )
+    assert list(valid_show_simulation.show_slices[0].positions) == 0
 
 
 # def test_invalid_simulation(valid_show_simulation: ShowSimulation):

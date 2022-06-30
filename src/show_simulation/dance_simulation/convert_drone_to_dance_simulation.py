@@ -67,11 +67,11 @@ def convert_drone_to_dance_simulation(
             json_convention_constant,
         )
     )
-    last_timeocde = position_events.get_timecode_by_event_index(-1)
+    last_timecode = position_events.get_timecode_by_event_index(-1)
     last_position = position_events.get_values_by_event_index(-1)
     dance_simulation.update(
         stand_by_simulation(
-            last_timeocde,
+            last_timecode,
             timecode_show_end,
             (last_position[0], last_position[1], 0),
             timecode_parameter,

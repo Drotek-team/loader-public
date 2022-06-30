@@ -23,7 +23,7 @@ class Drone:
         self.fire_events.add(timecode, value)
 
     @property
-    def last_position_event(self) -> List[PositionEvent]:
+    def last_position_event(self) -> PositionEvent:
         return self.position_events.event_list[-1]
 
     @property
