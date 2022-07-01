@@ -18,7 +18,6 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter.load_parameter()
     show_simulation = ShowSimulation(
         nb_drones=1,
-        timecode_parameter=parameter.timecode_parameter,
     )
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
@@ -41,7 +40,6 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         drones_manager.last_position_events,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
     )
     show_simulation.add_dance_simulation(
         drone,
@@ -50,7 +48,10 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         parameter.land_parameter,
         parameter.json_convention_constant,
     )
-    show_simulation.update_slices_implicit_values()
+    show_simulation.update_slices_implicit_values(
+        parameter.timecode_parameter,
+        parameter.json_convention_constant,
+    )
     return show_simulation
 
 
@@ -75,7 +76,7 @@ def test_valid_simulation():
 
 def test_invalid_simulation():
     position_event_1 = PositionEvent(250, 0, 0, 0)
-    position_event_2 = PositionEvent(500, 0, 0, 50000)
+    position_event_2 = PositionEvent(500, 0, 0, 10)
     position_event_3 = PositionEvent(750, 0, 0, 0)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
@@ -89,28 +90,23 @@ def test_invalid_simulation():
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert len(valid_show_simulation.show_slices) == 0
-    assert list(valid_show_simulation.show_slices[-1].in_dance_flags) == 0
-    assert performance_check_report.observed_metrics_slices_check_report[
-        -1
-    ].down_force_check_report.validation
+    assert not (performance_check_report.validation)
 
 
-# def test_invalid_simulation(invalid_show_simulation: ShowSimulation):
-#     valid_show_simulation.add_dance_simulation(
-#         drone_index=0,
-#         drone_positions=[np.array([0, 0, 0]), np.array([0, 0, 0]), np.array([0, 0, 1])],
-#         drone_in_air_flags=[1, 1, 1],
-#         drone_in_dance_flags=[1, 1, 1],
-#     )
-#     valid_show_simulation.update_slices_implicit_values()
-#     performance_check_report = PerformanceCheckReport()
-#     parameter = Parameter()
-#     parameter.load_iostar_parameter()
-#     apply_performance_check_procedure(
-#         valid_show_simulation,
-#         performance_check_report,
-#         parameter.iostar_parameter,
-#         parameter.takeoff_parameter,
-#     )
-#     assert not (performance_check_report.validation)
+def test_invalid_velocity_simulation():
+    position_event_1 = PositionEvent(250, 0, 0, 0)
+    position_event_2 = PositionEvent(500, 0, 0, 10)
+    position_event_3 = PositionEvent(750, 0, 0, 0)
+    valid_show_simulation = get_show_simulation(
+        [position_event_1, position_event_2, position_event_3]
+    )
+    performance_check_report = PerformanceCheckReport()
+    parameter = Parameter()
+    parameter.load_iostar_parameter()
+    apply_performance_check_procedure(
+        valid_show_simulation,
+        performance_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert not (performance_check_report.validation)

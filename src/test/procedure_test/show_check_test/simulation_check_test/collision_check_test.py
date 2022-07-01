@@ -17,7 +17,7 @@ def valid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter()
     nb_drones = 2
-    show_simulation = ShowSimulation(nb_drones, parameter.timecode_parameter)
+    show_simulation = ShowSimulation(nb_drones)
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
@@ -47,7 +47,6 @@ def valid_show_simulation():
         drones_manager.last_position_events,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
     )
     for drone in drones_manager.drones:
         show_simulation.add_dance_simulation(
@@ -65,7 +64,7 @@ def invalid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter()
     nb_drones = 2
-    show_simulation = ShowSimulation(nb_drones, parameter.timecode_parameter)
+    show_simulation = ShowSimulation(nb_drones)
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
@@ -97,7 +96,6 @@ def invalid_show_simulation():
         drones_manager.last_position_events,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
     )
     for drone in drones_manager.drones:
         show_simulation.add_dance_simulation(

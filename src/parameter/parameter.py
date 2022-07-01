@@ -52,7 +52,7 @@ class LandParameter:
 
     def get_second_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
         if drone_hgt_centimeter < self.land_safe_hgt:
-            return 1
+            return 0
         else:
             return int(self.land_safe_hgt / self.land_low_speed)
 

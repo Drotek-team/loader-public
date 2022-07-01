@@ -31,13 +31,11 @@ def apply_show_check_procedure(
     )
     show_simulation = ShowSimulation(
         drones_manager.nb_drone,
-        parameter.timecode_parameter,
     )
     show_simulation.update_show_slices(
         drones_manager.last_position_events,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
     )
     for drone in drones_manager.drones:
         show_simulation.add_dance_simulation(drone)

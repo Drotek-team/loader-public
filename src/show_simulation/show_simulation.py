@@ -38,10 +38,8 @@ class ShowSimulation:
     def __init__(
         self,
         nb_drones: int,
-        timecode_parameter: TimecodeParameter,
     ):
         self.nb_drones = nb_drones
-        self.position_timecode_rate = timecode_parameter.position_timecode_rate
         self.show_slices: List[ShowSimulationSlice] = []
 
     def update_show_slices(
@@ -49,24 +47,22 @@ class ShowSimulation:
         last_position_events: List[PositionEvent],
         timecode_parameter: TimecodeParameter,
         land_parameter: LandParameter,
-        json_convention_constant: JsonConventionConstant,
     ):
 
-        self.last_simulation_timecode = timecode_parameter.position_timecode_rate + max(
+        self.last_simulation_timecode = max(
             last_position_event.timecode
-            + land_parameter.get_second_land_timecode_delta(
-                json_convention_constant.CENTIMETER_TO_METER_RATIO
-                * last_position_event.z
-            )
+            + land_parameter.get_land_timecode_delta(last_position_event.z)
             for last_position_event in last_position_events
         )
         self.show_slices = [
             ShowSimulationSlice(
-                self.position_timecode_rate * timecode_index,
+                timecode,
                 self.nb_drones,
             )
-            for timecode_index in range(
-                (self.last_simulation_timecode // self.position_timecode_rate)
+            for timecode in np.arange(
+                0,
+                self.last_simulation_timecode,
+                timecode_parameter.position_timecode_rate,
             )
         ]
 
@@ -102,17 +98,21 @@ class ShowSimulation:
 
     def update_slices_implicit_values(
         self,
+        timecode_parameter: TimecodeParameter,
+        json_convention_constant: JsonConventionConstant,
     ) -> None:
+        time_delta = 1 / (
+            json_convention_constant.TIMECODE_TO_SECOND_RATIO
+            * timecode_parameter.position_timecode_rate
+        )
         for slice_index in range(2, len(self.show_slices)):
-            self.show_slices[slice_index].velocities = (
-                1 / self.position_timecode_rate
-            ) * (
+            self.show_slices[slice_index].velocities = (time_delta) * (
                 self.show_slices[slice_index].positions
                 - self.show_slices[slice_index - 1].positions
             )
             self.show_slices[slice_index].accelerations = (
-                1
-                / (self.position_timecode_rate * self.position_timecode_rate)
+                time_delta
+                * time_delta
                 * (
                     self.show_slices[slice_index].positions
                     - 2 * self.show_slices[slice_index - 1].positions

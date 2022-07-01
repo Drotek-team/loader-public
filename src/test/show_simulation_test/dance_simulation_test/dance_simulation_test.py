@@ -17,7 +17,6 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter.load_parameter()
     show_simulation = ShowSimulation(
         nb_drones=1,
-        timecode_parameter=parameter.timecode_parameter,
     )
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
@@ -40,7 +39,6 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         drones_manager.last_position_events,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
     )
     show_simulation.add_dance_simulation(
         drone,
@@ -49,7 +47,10 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         parameter.land_parameter,
         parameter.json_convention_constant,
     )
-    show_simulation.update_slices_implicit_values()
+    show_simulation.update_slices_implicit_values(
+        parameter.timecode_parameter,
+        parameter.json_convention_constant,
+    )
     return show_simulation
 
 
@@ -73,6 +74,7 @@ def test_valid_show_flags():
         )
         // parameter.timecode_parameter.position_timecode_rate
     )
+    assert len(valid_show_simulation.show_slices) == slice_land_end_index + 1
     assert all(
         show_slice.in_air_flags[0]
         for show_slice in valid_show_simulation.show_slices[:slice_takeoff_end_index]
