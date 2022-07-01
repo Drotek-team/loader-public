@@ -7,3 +7,9 @@ class SimulationCheckReport:
         self.validation = False
         self.performance_check_report = PerformanceCheckReport()
         self.collision_check_report = CollisionCheckReport()
+
+    def update(self) -> None:
+        self.validation = (
+            self.performance_check_report.validation
+            and self.collision_check_report.validation
+        )

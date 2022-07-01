@@ -27,3 +27,4 @@ def apply_drone_check_procedure(
         parameter.iostar_parameter,
         drone_check_report.dance_size_check_report,
     )
+    drone_check_report.update()

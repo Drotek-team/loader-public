@@ -117,3 +117,4 @@ def apply_events_format_check_procedure(
     events_format_check_report.position_events_check.update()
     events_format_check_report.color_events_check.update()
     events_format_check_report.fire_events_check.update()
+    events_format_check_report.update()

@@ -51,3 +51,4 @@ def apply_show_check_procedure(
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
+    show_check_report.update()

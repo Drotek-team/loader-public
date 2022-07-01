@@ -25,3 +25,4 @@ def apply_simulation_check_procedure(
         simulation_check_report.collision_check_report,
         iostar_parameter,
     )
+    simulation_check_report.update()
