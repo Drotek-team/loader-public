@@ -38,7 +38,16 @@ def apply_show_check_procedure(
         parameter.land_parameter,
     )
     for drone in drones_manager.drones:
-        show_simulation.add_dance_simulation(drone)
+        show_simulation.add_dance_simulation(
+            drone,
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+            parameter.json_convention_constant,
+        )
     apply_simulation_check_procedure(
-        show_simulation, show_check_report.simulation_check_report
+        show_simulation,
+        show_check_report.simulation_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
     )
