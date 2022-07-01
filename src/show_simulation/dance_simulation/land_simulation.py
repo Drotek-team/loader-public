@@ -70,13 +70,12 @@ def land_simulation(
         timecode_parameter,
         land_parameter,
         json_convention_constant,
+    ) + generate_land_second_part(
+        land_start_position,
+        timecode_parameter,
+        land_parameter,
+        json_convention_constant,
     )
-    # + generate_land_second_part(
-    #     land_start_position,
-    #     timecode_parameter,
-    #     land_parameter,
-    #     json_convention_constant,
-    # )
     return DanceSequence(
         land_positions, len(land_positions) * [True], len(land_positions) * [False]
     )

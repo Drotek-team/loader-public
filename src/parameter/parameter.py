@@ -34,7 +34,7 @@ class TakeoffParameter:
 class LandParameter:
     land_fast_speed: float
     land_low_speed: float
-    land_safe_hgt: float
+    land_safe_hgt: int
 
     def get_first_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
         if drone_hgt_centimeter < self.land_safe_hgt:
@@ -44,20 +44,20 @@ class LandParameter:
                 (drone_hgt_centimeter - self.land_safe_hgt) / self.land_fast_speed
             )
 
-    def get_first_land_altitude(self, drone_hgt: float) -> float:
-        if drone_hgt < self.land_safe_hgt:
+    def get_first_land_altitude(self, drone_hgt_centimeter: int) -> int:
+        if drone_hgt_centimeter < self.land_safe_hgt:
             return 0
         else:
             return self.land_safe_hgt
 
-    def get_second_land_timecode_delta(self, drone_hgt: float) -> int:
-        if drone_hgt < self.land_safe_hgt:
+    def get_second_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
+        if drone_hgt_centimeter < self.land_safe_hgt:
             return 1
         else:
             return int(self.land_safe_hgt / self.land_low_speed)
 
-    def get_second_land_altitude_start(self, drone_hgt: float) -> float:
-        if drone_hgt < self.land_safe_hgt:
+    def get_second_land_altitude_start(self, drone_hgt_centimeter: int) -> int:
+        if drone_hgt_centimeter < self.land_safe_hgt:
             return 0.0
         else:
             return self.land_safe_hgt
