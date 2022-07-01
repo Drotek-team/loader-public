@@ -11,7 +11,7 @@ from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation
 
 
-def generate_first_part_takeoff(
+def generate_takeoff_first_part(
     takeoff_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
@@ -58,7 +58,7 @@ def takeoff_simulation(
     takeoff_parameter: TakeoffParameter,
     json_convention_constant: JsonConventionConstant,
 ) -> DanceSequence:
-    takeoff_positions = generate_first_part_takeoff(
+    takeoff_positions = generate_takeoff_first_part(
         takeoff_start_position,
         timecode_parameter,
         takeoff_parameter,

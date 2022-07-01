@@ -22,8 +22,11 @@ def linear_interpolation(
         json_convention_constant.from_json_position_to_simulation_position(position_end)
     )
     return [
-        position_begin_simulation * (1 - percentile)
-        + position_end_simulation * percentile
+        np.round(
+            position_begin_simulation * (1 - percentile)
+            + position_end_simulation * percentile,
+            2,
+        )
         for percentile in np.linspace(
             0,
             1,
