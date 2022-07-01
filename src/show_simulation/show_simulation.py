@@ -25,6 +25,14 @@ class ShowSimulationSlice:
         self.in_air_flags = np.array(nb_drones * [False])
         self.in_dance_flags = np.array(nb_drones * [False])
 
+    @property
+    def in_air_drone_indices(self) -> List[int]:
+        return list(self.drone_indices[self.in_air_flags])
+
+    @property
+    def in_dance_drone_indices(self) -> List[int]:
+        return list(self.drone_indices[self.in_dance_flags])
+
 
 class ShowSimulation:
     def __init__(

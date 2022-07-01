@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 
 from ......parameter.parameter import IostarParameter, TakeoffParameter
@@ -44,13 +46,14 @@ class ObservedMetricsSlice:
 
     def update_observed_metrics(
         self,
+        drone_indices: List[int],
         positions: np.ndarray,
         velocities: np.ndarray,
         accelerations: np.ndarray,
         observed_metrics_report: ObservedMetricsCheckReport,
         iostar_parameter: IostarParameter,
     ) -> None:
-        for drone_index in range(self.nb_drones):
+        for drone_index in drone_indices:
             if not (
                 self.vertical_positions[drone_index].validation(
                     positions[drone_index, 2]

@@ -24,10 +24,72 @@ def valid_show_simulation():
         parameter.takeoff_parameter.takeoff_duration,
         (0, 0, parameter.takeoff_parameter.takeoff_altitude),
     )
-    second_drone.add_position(0, (200, 200, 0))
+    second_drone.add_position(
+        0,
+        (
+            parameter.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
+            0,
+            0,
+        ),
+    )
     second_drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,
-        (200, 200, parameter.takeoff_parameter.takeoff_altitude),
+        (
+            parameter.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
+            0,
+            parameter.takeoff_parameter.takeoff_altitude,
+        ),
+    )
+    drones_manager = DronesManager([first_drone, second_drone])
+    show_simulation.update_show_slices(
+        drones_manager.last_position_events,
+        parameter.land_parameter,
+        parameter.json_convention_constant,
+    )
+    for drone in drones_manager.drones:
+        show_simulation.add_dance_simulation(
+            drone,
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+            parameter.json_convention_constant,
+        )
+    return show_simulation
+
+
+@pytest.fixture
+def invalid_show_simulation():
+    parameter = Parameter()
+    parameter.load_parameter()
+    nb_drones = 2
+    show_simulation = ShowSimulation(nb_drones, parameter.timecode_parameter)
+    first_drone, second_drone = Drone(0), Drone(1)
+    first_drone.add_position(0, (0, 0, 0))
+    first_drone.add_position(
+        parameter.takeoff_parameter.takeoff_duration,
+        (0, 0, parameter.takeoff_parameter.takeoff_altitude),
+    )
+    second_drone.add_position(
+        0,
+        (
+            0.99
+            * parameter.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
+            0,
+            0,
+        ),
+    )
+    second_drone.add_position(
+        parameter.takeoff_parameter.takeoff_duration,
+        (
+            0.99
+            * parameter.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
+            0,
+            parameter.takeoff_parameter.takeoff_altitude,
+        ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
     show_simulation.update_show_slices(
@@ -53,41 +115,14 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
     apply_collision_check_procedure(
         valid_show_simulation, collision_check_report, parameter.iostar_parameter
     )
-    assert list(valid_show_simulation.show_slices[-1].positions) == 0
-    assert (
-        collision_check_report.collision_slices_check_report[-1].collision_infractions
-        == 0
+    assert collision_check_report.validation
+
+
+def test_invalid_simulation(invalid_show_simulation: ShowSimulation):
+    parameter = Parameter()
+    parameter.load_iostar_parameter()
+    collision_check_report = CollisionCheckReport()
+    apply_collision_check_procedure(
+        invalid_show_simulation, collision_check_report, parameter.iostar_parameter
     )
-    assert list(valid_show_simulation.show_slices[0].positions) == 0
-
-
-# def test_invalid_simulation(valid_show_simulation: ShowSimulation):
-#     parameter = Parameter()
-#     parameter.load_iostar_parameter()
-#     valid_show_simulation.add_dance_simulation(
-#         drone_index=0,
-#         drone_positions=[np.array([0, 0, 0]), np.array([0, 0, 0]), np.array([0, 0, 0])],
-#         drone_in_air_flags=[1, 1, 1],
-#         drone_in_dance_flags=[1, 1, 1],
-#     )
-#     valid_show_simulation.add_dance_simulation(
-#         drone_index=1,
-#         drone_positions=[
-#             np.array(
-#                 [0.99 * parameter.iostar_parameter.security_distance_in_air, 0, 0]
-#             ),
-#             np.array(
-#                 [0.99 * parameter.iostar_parameter.security_distance_in_air, 0, 0]
-#             ),
-#             np.array(
-#                 [0.99 * parameter.iostar_parameter.security_distance_in_air, 0, 0]
-#             ),
-#         ],
-#         drone_in_air_flags=[1, 1, 1],
-#         drone_in_dance_flags=[1, 1, 1],
-#     )
-#     collision_check_report = CollisionCheckReport()
-#     apply_collision_check_procedure(
-#         valid_show_simulation, collision_check_report, parameter.iostar_parameter
-#     )
-#     assert not (collision_check_report.validation)
+    assert not (collision_check_report.validation)

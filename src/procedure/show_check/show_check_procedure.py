@@ -38,7 +38,7 @@ def apply_show_check_procedure(
         parameter.land_parameter,
         parameter.json_convention_constant,
     )
-    for drone in drones_manager:
+    for drone in drones_manager.drones:
         show_simulation.add_dance_simulation(drone)
     apply_simulation_check_procedure(
         show_simulation, show_check_report.simulation_check_report

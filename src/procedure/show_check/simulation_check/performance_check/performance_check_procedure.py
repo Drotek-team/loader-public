@@ -21,6 +21,7 @@ def apply_performance_check_procedure(
         performance_check_report.observed_metrics_slices_check_report,
     ):
         observed_metrics_slice.update_observed_metrics(
+            simulation_slice.in_dance_drone_indices,
             simulation_slice.positions,
             simulation_slice.velocities,
             simulation_slice.accelerations,
