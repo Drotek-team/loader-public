@@ -34,9 +34,3 @@ class DronesManager:
     def apply_dances_size_relief(self) -> None:
         for drone in self.drones:
             apply_dance_size_relief(drone)
-
-    def get_end_show_timecode(self) -> int:
-        return max(
-            drone.position_events.get_timecode_by_event_index(-1)
-            for drone in self.drones
-        )

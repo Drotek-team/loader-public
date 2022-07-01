@@ -47,11 +47,12 @@ class ShowSimulation:
     def update_show_slices(
         self,
         last_position_events: List[PositionEvent],
+        timecode_parameter: TimecodeParameter,
         land_parameter: LandParameter,
         json_convention_constant: JsonConventionConstant,
     ):
 
-        last_simulation_timecode = max(
+        self.last_simulation_timecode = timecode_parameter.position_timecode_rate + max(
             last_position_event.timecode
             + land_parameter.get_second_land_timecode_delta(
                 json_convention_constant.CENTIMETER_TO_METER_RATIO
@@ -65,7 +66,7 @@ class ShowSimulation:
                 self.nb_drones,
             )
             for timecode_index in range(
-                (last_simulation_timecode // self.position_timecode_rate) + 1
+                (self.last_simulation_timecode // self.position_timecode_rate)
             )
         ]
 
@@ -83,7 +84,7 @@ class ShowSimulation:
     ) -> None:
         dance_sequence = convert_drone_to_dance_simulation(
             drone,
-            self.show_slices[-1].timecode,
+            self.last_simulation_timecode,
             timecode_parameter,
             takeoff_parameter,
             land_parameter,

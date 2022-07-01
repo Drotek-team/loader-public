@@ -1,79 +1,109 @@
+from typing import List
+
 import numpy as np
 import pytest
 from src.drones_manager.drone.events.position_events import PositionEvent
 
-from ....drones_manager.drones_manager import Drone
+from ....drones_manager.drones_manager import Drone, DronesManager
 from ....parameter.parameter import Parameter
-from ....show_simulation.dance_simulation.convert_drone_to_dance_simulation import (
-    DanceSimulation,
-    convert_drone_to_dance_simulation,
-    flight_simulation,
-    land_simulation,
-    stand_by_simulation,
-    takeoff_simulation,
-)
 from ....show_simulation.dance_simulation.position_simulation import (
     linear_interpolation,
 )
+from ....show_simulation.show_simulation import ShowSimulation
 
 
-@pytest.fixture
-def valid_drone() -> Drone:
+def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
     parameter.load_parameter()
-    valid_drone = Drone(0)
-    takeoff_timecode = 0
-    transition_duration = 2_000
-    transition_position = (200, 200)
-    valid_drone.add_position(takeoff_timecode, (0, 0, 0))
-    valid_drone.add_position(
-        takeoff_timecode + parameter.takeoff_parameter.takeoff_duration,
+    show_simulation = ShowSimulation(
+        nb_drones=1,
+        timecode_parameter=parameter.timecode_parameter,
+    )
+    drone = Drone(0)
+    drone.add_position(0, (0, 0, 0))
+    drone.add_position(
+        parameter.takeoff_parameter.takeoff_duration,
         (0, 0, parameter.takeoff_parameter.takeoff_altitude),
     )
-    valid_drone.add_position(
-        takeoff_timecode
-        + parameter.takeoff_parameter.takeoff_duration
-        + transition_duration,
-        (
-            transition_position[0],
-            transition_position[1],
-            parameter.takeoff_parameter.takeoff_altitude,
-        ),
+    for position_event in position_events:
+        position = position_event.get_values()
+        drone.add_position(
+            parameter.takeoff_parameter.takeoff_duration + position_event.timecode,
+            (
+                position[0],
+                position[1],
+                position[2] + parameter.takeoff_parameter.takeoff_altitude,
+            ),
+        )
+    drones_manager = DronesManager([drone])
+    show_simulation.update_show_slices(
+        drones_manager.last_position_events,
+        parameter.timecode_parameter,
+        parameter.land_parameter,
+        parameter.json_convention_constant,
     )
-    return valid_drone
+    show_simulation.add_dance_simulation(
+        drone,
+        parameter.timecode_parameter,
+        parameter.takeoff_parameter,
+        parameter.land_parameter,
+        parameter.json_convention_constant,
+    )
+    show_simulation.update_slices_implicit_values()
+    return show_simulation
 
 
-# def test_valid_drone(valid_drone: Drone):
-#     parameter = Parameter()
-#     parameter.load_parameter()
-#     dance_sequence = convert_drone_to_dance_simulation(
-#         valid_drone,
-#         valid_drone.last_position_event.timecode,
-#         parameter.timecode_parameter,
-#         parameter.takeoff_parameter,
-#         parameter.land_parameter,
-#         parameter.json_convention_constant,
-#     ).dance_sequence
-#     popo = (
-#         parameter.takeoff_parameter.takeoff_duration
-#         // parameter.timecode_parameter.position_timecode_rate
-#     )
-#     assert list(dance_sequence.drone_positions[0]) == [0, 0, 0]
-#     assert list(
-#         dance_sequence.drone_positions[
-#             parameter.takeoff_parameter.takeoff_duration
-#             // parameter.timecode_parameter.position_timecode_rate
-#         ]
-#     ) == [
-#         0,
-#         0,
-#         parameter.json_convention_constant.CENTIMETER_TO_METER_RATIO
-#         * parameter.takeoff_parameter.takeoff_altitude,
-#     ]
-#     assert list(dance_sequence.drone_positions[-1]) == [
-#         2,
-#         2,
-#         parameter.json_convention_constant.CENTIMETER_TO_METER_RATIO
-#         * parameter.takeoff_parameter.takeoff_altitude,
-#     ]
-#     assert len(dance_sequence.drone_positions) == 0
+def test_valid_show_flags():
+    parameter = Parameter()
+    parameter.load_parameter()
+    position_event_1 = PositionEvent(250, 0, 0, 0)
+    position_event_2 = PositionEvent(500, 0, 0, 0)
+    position_event_3 = PositionEvent(750, 0, 0, 0)
+    valid_show_simulation = get_show_simulation(
+        [position_event_1, position_event_2, position_event_3]
+    )
+    slice_takeoff_end_index = (
+        parameter.takeoff_parameter.takeoff_duration
+        // parameter.timecode_parameter.position_timecode_rate
+    )
+    slice_land_begin_index = slice_takeoff_end_index + 3
+    slice_land_end_index = slice_land_begin_index + (
+        parameter.land_parameter.get_land_timecode_delta(
+            parameter.takeoff_parameter.takeoff_altitude
+        )
+        // parameter.timecode_parameter.position_timecode_rate
+    )
+    assert all(
+        show_slice.in_air_flags[0]
+        for show_slice in valid_show_simulation.show_slices[:slice_takeoff_end_index]
+    )
+    assert all(
+        not (show_slice.in_dance_flags[0])
+        for show_slice in valid_show_simulation.show_slices[:slice_takeoff_end_index]
+    )
+    assert all(
+        show_slice.in_air_flags[0]
+        for show_slice in valid_show_simulation.show_slices[
+            slice_takeoff_end_index:slice_land_begin_index
+        ]
+    )
+    assert all(
+        show_slice.in_dance_flags[0]
+        for show_slice in valid_show_simulation.show_slices[
+            slice_takeoff_end_index:slice_land_begin_index
+        ]
+    )
+    assert all(
+        show_slice.in_air_flags[0]
+        for show_slice in valid_show_simulation.show_slices[
+            slice_land_begin_index:slice_land_end_index
+        ]
+    )
+    assert all(
+        not (show_slice.in_dance_flags[0])
+        for show_slice in valid_show_simulation.show_slices[
+            slice_land_begin_index:slice_land_end_index
+        ]
+    )
+    assert not (valid_show_simulation.show_slices[-1].in_air_flags[0])
+    assert not (valid_show_simulation.show_slices[-1].in_dance_flags[0])

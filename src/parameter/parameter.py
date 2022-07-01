@@ -58,9 +58,14 @@ class LandParameter:
 
     def get_second_land_altitude_start(self, drone_hgt_centimeter: int) -> int:
         if drone_hgt_centimeter < self.land_safe_hgt:
-            return 0.0
+            return 0
         else:
             return self.land_safe_hgt
+
+    def get_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
+        return self.get_first_land_timecode_delta(
+            drone_hgt_centimeter
+        ) + self.get_second_land_timecode_delta(drone_hgt_centimeter)
 
 
 @dataclass(frozen=True)

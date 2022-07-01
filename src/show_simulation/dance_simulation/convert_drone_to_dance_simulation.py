@@ -16,7 +16,7 @@ from .takeoff_simulation import takeoff_simulation
 
 def convert_drone_to_dance_simulation(
     drone: Drone,
-    timecode_show_end: int,
+    last_timecode: int,
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
@@ -28,7 +28,6 @@ def convert_drone_to_dance_simulation(
         dance_simulation.update(
             stand_by_simulation(
                 timecode_parameter.show_timecode_begin,
-                timecode_show_end,
                 position_events.get_values_by_event_index(0),
                 timecode_parameter,
                 json_convention_constant,
@@ -71,7 +70,7 @@ def convert_drone_to_dance_simulation(
     dance_simulation.update(
         stand_by_simulation(
             position_events.get_timecode_by_event_index(-1),
-            timecode_show_end,
+            last_timecode + timecode_parameter.position_timecode_rate,
             (last_position[0], last_position[1], 0),
             timecode_parameter,
             json_convention_constant,

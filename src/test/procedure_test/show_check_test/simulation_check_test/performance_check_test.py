@@ -39,6 +39,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     drones_manager = DronesManager([drone])
     show_simulation.update_show_slices(
         drones_manager.last_position_events,
+        parameter.timecode_parameter,
         parameter.land_parameter,
         parameter.json_convention_constant,
     )
