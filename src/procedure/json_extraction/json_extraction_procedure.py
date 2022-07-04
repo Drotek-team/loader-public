@@ -12,7 +12,7 @@ def get_nb_drone_per_family(json_dict: Dict) -> int:
 
 def get_drone(json_dict: Dict) -> List[Drone]:
     drone_encoder = DroneEncoder()
-    return [drone_encoder.decode(json_drone) for json_drone in json_dict]
+    return [drone_encoder.decode_drone(json_drone) for json_drone in json_dict]
 
 
 def apply_json_extraction_procedure(
