@@ -22,3 +22,6 @@ class ColorEvents(Events):
 
     def add(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
         self.event_list.append(ColorEvent(timecode, rgbw[0], rgbw[1], rgbw[2], rgbw[3]))
+
+    def add_raw_data(self, data: Tuple[int, int, int, int, int]) -> None:
+        self.event_list.append(ColorEvent(data[0], data[1], data[2], data[3], data[4]))

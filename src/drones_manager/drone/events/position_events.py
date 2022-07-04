@@ -21,3 +21,6 @@ class PositionEvents(Events):
 
     def add(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.event_list.append(PositionEvent(timecode, xyz[0], xyz[1], xyz[2]))
+
+    def add_raw_data(self, data: Tuple[int, int, int, int]) -> None:
+        self.event_list.append(PositionEvent(data[0], data[1], data[2], data[3]))

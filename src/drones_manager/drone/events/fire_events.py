@@ -20,3 +20,6 @@ class FireEvents(Events):
 
     def add(self, timecode: int, chanel: int, duration: int) -> None:
         self.event_list.append(FireEvent(timecode, chanel, duration))
+
+    def add_raw_data(self, data: Tuple[int, int, int]) -> None:
+        self.event_list.append(FireEvent(data[0], data[1], data[2]))

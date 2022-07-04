@@ -22,6 +22,16 @@ class Drone:
     def add_fire(self, timecode: int, value: float) -> None:
         self.fire_events.add(timecode, value)
 
+    def get_events_by_index(self, event_index: int) -> Events:
+        if 0 < event_index or event_index < 3:
+            raise ValueError
+        event_dict = {
+            0: self.position_events,
+            1: self.color_events,
+            2: self.fire_events,
+        }
+        return event_dict[event_index]
+
     @property
     def last_position_event(self) -> PositionEvent:
         return self.position_events.event_list[-1]
