@@ -1,71 +1,62 @@
 import struct
+from dataclasses import dataclass
 from typing import List, Tuple
 
 from .drone import Drone
-from .drone_encoder_report import DecodeReport
 from .events.events import Events
 from .events.events_encoder import decode_events, encode_events
 
 
+class BytesManager:
+    @property
+    def bytes_data(self) -> bytes:
+        data_list = [value for _, value in self.__dict__.items()]
+        return struct.pack(*data_list)
+
+    @property
+    def size(self) -> int:
+        return len(self.bytes_data)
+
+
+@dataclass(frozen=True)
+class Header(BytesManager):
+    fmt_header: str
+    magic_number: int
+    dance_size: int
+    number_non_empty_events: int
+
+
+@dataclass(frozen=True)
+class SectionHeader(BytesManager):
+    fmt_section_header: str
+    event_id: int
+    byte_array_start_index: int
+    byte_array_end_index: int
+
+
 class DroneEncoder:
-    MAGIC_NB = 0xAA55
+    MAGIC_NUMBER = 0xAA55
     FMT_HEADER = ">HIB"
     FMT_SECTION_HEADER = ">BII"
 
-    def encode_header(
-        self, dance_binary: bytearray, dance_size: int, nb_non_empty_events: int
-    ) -> None:
-        dance_binary.extend(
-            struct.pack(
-                self.FMT_HEADER,
-                self.MAGIC_NB,
-                dance_size,
-                nb_non_empty_events,
-            )
-        )
-
-    def encode_section_headers(
-        self,
-        dance_binary: bytearray,
-        section_start: int,
-        non_empty_events: List[Events],
-    ) -> None:
-        binary_start = section_start
-        for events in non_empty_events:
-            binary_end = binary_start + events.events_size() - 1
-            dance_binary.extend(
-                struct.pack(
-                    self.FMT_SECTION_HEADER, events.id, binary_start, binary_end
-                )
-            )
-            binary_start = binary_end + 1
-
-    def encode_drone_events(dance_binary: bytearray, all_events: List[Events]) -> None:
-        for events in all_events:
-            dance_binary.extend(encode_events(events))
-
-    def dance_size(self, drone: Drone) -> int:
-        non_empty_events = [event for event in drone.events_list if event.event_size()]
-        section_start = struct.calcsize(self.FMT_HEADER) + struct.calcsize(
-            self.FMT_SECTION_HEADER
-        ) * len(non_empty_events)
-        return section_start + sum(events.events_size() for events in drone.events_list)
-
     def encode_drone(self, drone: Drone) -> List[int]:
         dance_binary = bytearray()
-        non_empty_events = [event for event in drone.events_list if event.event_size()]
-        section_start = struct.calcsize(self.FMT_HEADER) + struct.calcsize(
-            self.FMT_SECTION_HEADER
-        ) * len(non_empty_events)
-        dance_size = section_start + sum(
-            event.event_size() for event in drone.events_list
+        non_empty_events_list = drone.non_empty_events_list
+        header = Header(
+            self.FMT_HEADER, self.MAGIC_NUMBER, 0, len(non_empty_events_list)
         )
-        self.encode_header(dance_binary, dance_size, len(non_empty_events))
-        self.encode_section_headers(dance_binary, section_start, non_empty_events)
-        self.encode_drone_events(dance_binary, drone.events_list)
+        dance_binary.extend(header.bytes_data)
+
+        for non_empty_events in non_empty_events_list:
+            section_header = SectionHeader(
+                self.FMT_SECTION_HEADER, non_empty_events.id, header.size
+            )
+            dance_binary.extend(section_header.bytes_data)
+        for non_empty_events in non_empty_events_list:
+            dance_binary.extend(encode_events(non_empty_events))
         return list(map(int, dance_binary))
 
-    def decode_header(self, binary: bytearray, decode_report: DecodeReport) -> int:
+    def decode_header(self, binary: bytearray) -> int:
         magic_nb, dance_size, nb_section = struct.unpack(
             self.FMT_HEADER, binary[: struct.calcsize(self.FMT_HEADER)]
         )
@@ -94,17 +85,17 @@ class DroneEncoder:
         #     decode_report.validation = True
         return events_id, start, end
 
-    def _get_section_binary(self, start, end):
-        return self._binary[start : end + 1]
-
-    def decode_drone(
-        self, binary: List[int], drone_index: int, decode_report: DecodeReport
-    ) -> Drone:
+    def decode_drone(self, binary: List[int], drone_index: int) -> Drone:
         drone = Drone(drone_index)
         byte_array = bytearray(binary)
-        nb_sections = self.decode_header(byte_array, decode_report)
+        nb_sections = self.decode_header(byte_array)
         for index in range(nb_sections):
-            events_id, start, end = self.decode_section_header(byte_array, index)
-            events = drone.get_events_by_index(events_id)
-            events.decode(byte_array[start : end + 1])
-            self._events_list.append(events)
+            (
+                events_id,
+                events_start_index,
+                events_end_index,
+            ) = self.decode_section_header(byte_array, index)
+            decode_events(
+                drone.get_events_by_index(events_id),
+                byte_array[events_start_index : events_end_index + 1],
+            )

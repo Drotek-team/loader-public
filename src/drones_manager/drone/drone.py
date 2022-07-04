@@ -43,3 +43,7 @@ class Drone:
     @property
     def events_list(self) -> List[Events]:
         return [self.position_events, self.color_events, self.fire_events]
+
+    @property
+    def non_empty_events_list(self) -> List[Events]:
+        return [event for event in self.events_list if event.event_size()]
