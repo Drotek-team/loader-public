@@ -107,11 +107,6 @@ class DroneEncoder:
         magic_nb, dance_size, nb_section = struct.unpack(
             self.FMT_HEADER, byte_array[: struct.calcsize(self.FMT_HEADER)]
         )
-        ### These check belong in the procedure, not the object !!!###
-        # if magic_nb == self.MAGIC_NB:
-        #     decode_report.validation = True
-        # if dance_size != len(binary):
-        #     decode_report.validation = True
         return nb_section
 
     def decode_section_header(
@@ -128,14 +123,25 @@ class DroneEncoder:
                 + struct.calcsize(self.FMT_SECTION_HEADER) * (index + 1)
             ],
         )
-        # if start < end:
-        #     decode_report.validation = True
         return events_id, start, end
 
-    def decode_drone(self, binary: List[int], drone_index: int) -> Drone:
+    def decode_drone(
+        self,
+        binary: List[int],
+        drone_index: int,
+    ) -> Drone:
         drone = Drone(drone_index)
         byte_array = bytearray(binary)
         nb_sections = self.decode_header(byte_array)
+
+        ### These check belong in the procedure, not the object !!!###
+        # if magic_nb == self.MAGIC_NB:
+        #     decode_report.validation = True
+        # if dance_size != len(binary):
+        #     decode_report.validation = True
+
+        # if start < end:
+        #     decode_report.validation = True
         for index in range(nb_sections):
             (
                 events_id,
