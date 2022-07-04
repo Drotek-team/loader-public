@@ -64,57 +64,57 @@ class DroneEncoder:
         self.encode_drone_events(dance_binary, drone.events_list)
         return list(map(int, dance_binary))
 
-    # def decode(self, binary, parameter={}):
-    #     self._binary = binary
-    #     self._parameter = defaultdict(dict, parameter)
-    #     self._events_list = []
-    #     _, nb_sections = self._decode_header()
-    #     for index in range(nb_sections):
-    #         events_id, start, end = self._decode_section_header(index)
-    #         events = create_events(events_id)
-    #         events.decode(
-    #             self._get_section_binary(start, end), **self._parameter[events.id]
-    #         )
-    #         self._events_list.append(events)
-    #     return make_events_group(self._events_list)
+    def decode(self, binary, parameter={}):
+        self._binary = binary
+        self._parameter = defaultdict(dict, parameter)
+        self._events_list = []
+        _, nb_sections = self._decode_header()
+        for index in range(nb_sections):
+            events_id, start, end = self._decode_section_header(index)
+            events = create_events(events_id)
+            events.decode(
+                self._get_section_binary(start, end), **self._parameter[events.id]
+            )
+            self._events_list.append(events)
+        return make_events_group(self._events_list)
 
-    # def _decode_header(self):
-    #     magic_nb, dance_size, nb_section = struct.unpack(
-    #         self.FMT_HEADER, self._get_header_binary()
-    #     )
-    #     if magic_nb != self.MAGIC_NB:
-    #         raise DanceMagicNumberError
-    #     elif len(self._binary) > self.max_size:
-    #         raise DanceMaxSizeError
-    #     elif dance_size != len(self._binary):
-    #         raise DanceSizeError
-    #     return dance_size, nb_section
+    def _decode_header(self):
+        magic_nb, dance_size, nb_section = struct.unpack(
+            self.FMT_HEADER, self._get_header_binary()
+        )
+        if magic_nb != self.MAGIC_NB:
+            raise DanceMagicNumberError
+        elif len(self._binary) > self.max_size:
+            raise DanceMaxSizeError
+        elif dance_size != len(self._binary):
+            raise DanceSizeError
+        return dance_size, nb_section
 
-    # def _decode_section_header(self, index):
-    #     events_id, start, end = struct.unpack(
-    #         self.FMT_SECTION_HEADER, self._get_section_header_binary(index)
-    #     )
-    #     if start >= end:
-    #         raise DanceSectionHeaderIndexError
-    #     return events_id, start, end
+    def _decode_section_header(self, index):
+        events_id, start, end = struct.unpack(
+            self.FMT_SECTION_HEADER, self._get_section_header_binary(index)
+        )
+        if start >= end:
+            raise DanceSectionHeaderIndexError
+        return events_id, start, end
 
-    # def _get_header_binary(self):
-    #     return self._binary[: struct.calcsize(self.FMT_HEADER)]
+    def _get_header_binary(self):
+        return self._binary[: struct.calcsize(self.FMT_HEADER)]
 
-    # def _get_section_header_binary(self, index):
-    #     return self._binary[
-    #         struct.calcsize(self.FMT_HEADER)
-    #         + self.struct.calcsize(self.FMT_SECTION_HEADER)
-    #         * index : struct.calcsize(self.FMT_HEADER)
-    #         + self.struct.calcsize(self.FMT_SECTION_HEADER) * (index + 1)
-    #     ]
+    def _get_section_header_binary(self, index):
+        return self._binary[
+            struct.calcsize(self.FMT_HEADER)
+            + self.struct.calcsize(self.FMT_SECTION_HEADER)
+            * index : struct.calcsize(self.FMT_HEADER)
+            + self.struct.calcsize(self.FMT_SECTION_HEADER) * (index + 1)
+        ]
 
-    # def _get_section_binary(self, start, end):
-    #     return self._binary[start : end + 1]
+    def _get_section_binary(self, start, end):
+        return self._binary[start : end + 1]
 
-    # def decode(show, parameter={}):
-    #     show = json.loads(show)["show"]
-    #     families = []
-    #     for family_id, family in enumerate(show["families"]):
-    #         drones = []
-    #         for drone_id, drone in enum
+    def decode(show, parameter={}):
+        show = json.loads(show)["show"]
+        families = []
+        for family_id, family in enumerate(show["families"]):
+            drones = []
+            for drone_id, drone in enum
