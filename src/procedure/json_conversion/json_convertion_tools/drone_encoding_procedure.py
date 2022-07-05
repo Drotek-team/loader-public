@@ -4,6 +4,7 @@ from typing import List
 from ....drones_manager.drone.drone import Drone
 from ....drones_manager.drone.events.events import Events
 from ....parameter.parameter import JsonConvertionParameter
+from .drone_encoding_report import DroneEncodingReport
 from .events_convertion import encode_events
 from .json_format_convention import Header, SectionHeader
 
@@ -58,7 +59,9 @@ def assemble_dance(
 
 
 def encode_drone(
-    drone: Drone, json_convertion_parameter: JsonConvertionParameter
+    drone: Drone,
+    json_convertion_parameter: JsonConvertionParameter,
+    drone_encoding_report: DroneEncodingReport,
 ) -> List[int]:
     non_empty_events_list = drone.non_empty_events_list
     encoded_events_list = [

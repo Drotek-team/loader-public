@@ -3,10 +3,11 @@ from typing import List, Tuple
 
 from ....drones_manager.drone.drone import Drone
 from ....parameter.parameter import JsonConvertionParameter
+from .drone_decoding_report import DroneDecodingReport
 from .events_convertion import decode_events
 
 
-def decode_header(
+def get_nb_section(
     byte_array: bytearray, json_convention_parameter: JsonConvertionParameter
 ) -> int:
     magic_nb, dance_size, nb_section = struct.unpack(
@@ -38,10 +39,11 @@ def decode_drone(
     binary: List[int],
     drone_index: int,
     json_convention_parameter: JsonConvertionParameter,
+    drone_decoding_report: DroneDecodingReport,
 ) -> Drone:
     drone = Drone(drone_index)
     byte_array = bytearray(binary)
-    nb_sections = decode_header(byte_array, json_convention_parameter)
+    nb_sections = get_nb_section(byte_array, json_convention_parameter)
 
     ### These check belong in the procedure, not the object !!!###
     # if magic_nb == json_convention_parameter.MAGIC_NB:
