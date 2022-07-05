@@ -1,4 +1,4 @@
-from .json_creation.json_creation_report import JsonCreationReport
+from .json_conversion.json_creation_report import JsonCreationReport
 from .show_check.show_check_report import ShowCheckReport
 
 

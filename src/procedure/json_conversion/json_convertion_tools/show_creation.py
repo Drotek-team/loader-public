@@ -2,10 +2,8 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ..drones_manager.drones_manager import Drone
-from ..family_manager.family_manager import FamilyManager
-from ..procedure.json_creation.json_creation_report import JsonCreationReport
-from .drone_encoder import DroneEncoder
+from ....drones_manager.drones_manager import Drone
+from ....family_manager.family_manager import FamilyManager
 
 
 @dataclass(frozen=True)
@@ -14,21 +12,16 @@ class BinaryDance:
 
 
 class Family:
-    def __init__(self):
-        self.family_position: Tuple[int, int, int] = (0, 0, 0)
-        self.dance: List[BinaryDance] = []
-
-    def update_position(self, position: Tuple[int, int, int]) -> None:
-        self.family_position = position
-
-    def update_dances(self, drones: List[Drone], drone_encoder: DroneEncoder) -> None:
-        for drone in drones:
-            self.dance.append(drone_encoder.encode(drone))
+    def __init__(
+        self, family_position: Tuple[int, int, int], binaries: List[BinaryDance]
+    ):
+        self.family_position = family_position
+        self.binary_dances = binaries
 
 
 class Show:
     def __init__(self) -> None:
-        self.families: List[List[Family]] = []
+        self.families: List[Family] = []
         self.convex_hull: List[Tuple[float, float]] = []
         self.nb_x: int = 0
         self.nb_y: int = 0
@@ -38,21 +31,20 @@ class Show:
     def update_families(
         self,
         drones: List[Drone],
+        binaries: List[BinaryDance],
         family_manager: FamilyManager,
-        json_creation_report: JsonCreationReport,
     ) -> None:
         drone_index = 0
-        drone_encoder = DroneEncoder()
         for drone_index in range(family_manager.nb_x * family_manager.nb_y - 1):
-            family = Family()
-            family.update_position(drones[drone_index].first_xyz)
-            family.update_dances(
-                drones[
-                    drone_index
-                    * family_manager.nb_drone_per_family : (drone_index + 1)
-                    * family_manager.nb_drone_per_family
-                ],
-                drone_encoder,
+            self.families.append(
+                Family(
+                    drones[drone_index].first_xyz,
+                    binaries[
+                        drone_index
+                        * family_manager.nb_drone_per_family : (drone_index + 1)
+                        * family_manager.nb_drone_per_family
+                    ],
+                )
             )
 
     def update_parameter(
@@ -62,7 +54,6 @@ class Show:
         step: float,
         angle: int,
         convex_hull: List[Tuple[float, float]],
-        json_creation_report: JsonCreationReport,
     ):
         self.nb_x = nb_x
         self.nb_y = nb_y

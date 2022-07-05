@@ -1,7 +1,7 @@
 from ..drones_manager.drones_manager import DronesManager
 from ..family_manager.family_manager import FamilyManager
 from .export_report import ExportReport
-from .json_creation.json_creation_procedure import apply_json_creation_procedure
+from .json_conversion.json_creation_procedure import apply_json_creation_procedure
 from .show_check.show_check_procedure import apply_show_check_procedure
 
 
