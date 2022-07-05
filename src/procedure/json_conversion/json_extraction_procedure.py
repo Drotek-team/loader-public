@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 
 from ...drones_manager.drones_manager import Drone, DronesManager
 from ...family_manager.family_manager import FamilyManager
-from ...json_convertor.drone_encoder import DroneEncoder
+from .json_convertion_tools.drone_encoder import DroneEncoder
 from .json_extraction_report import JsonExtractionReport
 
 

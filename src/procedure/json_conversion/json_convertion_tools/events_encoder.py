@@ -2,7 +2,7 @@ import struct
 
 import numpy as np
 
-from events import Events
+from ....drones_manager.drone.events.events import Events
 
 
 def encode_events(events: Events) -> bytearray:

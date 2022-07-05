@@ -1,6 +1,6 @@
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
-from ...json_convertor.json_convertor import Show
+from .json_convertion_tools.show_creation import Show
 from .json_creation_report import JsonCreationReport
 
 

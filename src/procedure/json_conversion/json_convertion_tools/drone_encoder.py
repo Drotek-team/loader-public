@@ -2,8 +2,8 @@ import struct
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ..drones_manager.drone.drone import Drone
-from ..drones_manager.drone.events.events import Events
+from ....drones_manager.drone.drone import Drone
+from ....drones_manager.drone.events.events import Events
 from .events_encoder import decode_events, encode_events
 
 
