@@ -2,10 +2,10 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ..drones_manager.drone.drone_encoder import DroneEncoder
 from ..drones_manager.drones_manager import Drone
 from ..family_manager.family_manager import FamilyManager
 from ..procedure.json_creation.json_creation_report import JsonCreationReport
+from .drone_encoder import DroneEncoder
 
 
 @dataclass(frozen=True)

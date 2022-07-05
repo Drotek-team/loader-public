@@ -1,9 +1,8 @@
-from src.drones_manager.drone.drone_encoder import DroneEncoder
-
 from .....drones_manager.drone.drone import Drone
 from .....parameter.parameter import IostarParameter
 from .dances_size_check_report import DanceSizeCheckReport
 
+from ....json_e
 
 def apply_dance_size_check_procedure(
     drone: Drone,

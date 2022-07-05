@@ -4,7 +4,7 @@ from import_report import ImportReport
 
 from ..drones_manager.drones_manager import DronesManager
 from ..family_manager.family_manager import FamilyManager
-from .json_extraction.json_extraction_procedure import apply_json_extraction_procedure
+from .json_conversion.json_extraction_procedure import apply_json_extraction_procedure
 from .show_check.show_check_procedure import apply_show_check_procedure
 
 

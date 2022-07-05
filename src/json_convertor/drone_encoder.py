@@ -2,9 +2,9 @@ import struct
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from .drone import Drone
-from .events.events import Events
-from .events.events_encoder import decode_events, encode_events
+from ..drones_manager.drone.drone import Drone
+from ..drones_manager.drone.events.events import Events
+from .events_encoder import decode_events, encode_events
 
 
 class BytesManager:

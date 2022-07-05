@@ -1,7 +1,7 @@
 import pytest
 
 from ......drones_manager.drone.drone import Drone
-from ......drones_manager.drone.drone_encoder import DroneEncoder
+from ......json_convertor.drone_encoder import DroneEncoder
 from ......parameter.parameter import Parameter
 from ......procedure.show_check.drone_check.dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
