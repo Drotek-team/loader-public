@@ -20,6 +20,13 @@ class JsonConventionConstant:
 
 
 @dataclass(frozen=True)
+class JsonConvertionParameter:
+    magic_number: str
+    fmt_header: str
+    fmt_section_header: str
+
+
+@dataclass(frozen=True)
 class TakeoffParameter:
     takeoff_altitude: int
     takeoff_elevation_duration: int
@@ -117,6 +124,15 @@ class Parameter:
     IOSTAR_SETUP_LOCAL_PATH = "/src/parameter/iostar_setup.json"
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
     json_convention_constant = JsonConventionConstant()
+
+    def load_json_convertion_parameter(self) -> None:
+        f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
+        data = json.load(f)
+        self.json_convertion_parameter = JsonConvertionParameter(
+            hex(data["MAGIC_NUMBER_INTEGER"]),
+            data["FMT_HEADER"],
+            data["FMT_SECTION_HEADER"],
+        )
 
     def load_export_parameter(self) -> None:
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
