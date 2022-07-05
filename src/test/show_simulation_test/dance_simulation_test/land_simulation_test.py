@@ -22,7 +22,7 @@ def test_land_simulation_first_case():
         first_takeoff_position,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     THEORICAL_LAST_TAKEOFF_POSITION = (X_CENTIMETER, Y_CENTIMETER, 0)
     THEORICAL_NB_POINT = (
@@ -33,7 +33,7 @@ def test_land_simulation_first_case():
         first_takeoff_position,
         THEORICAL_LAST_TAKEOFF_POSITION,
         THEORICAL_NB_POINT,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     assert len(dance_sequence.drone_positions) == len(theorical_curve)
     assert all(
@@ -60,7 +60,7 @@ def test_land_simulation_second_case():
         first_takeoff_position,
         parameter.timecode_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     THEORICAL_MIDDLE_TAKEOFF_POSITION = (
         X_CENTIMETER,
@@ -80,7 +80,7 @@ def test_land_simulation_second_case():
         first_takeoff_position,
         THEORICAL_MIDDLE_TAKEOFF_POSITION,
         FIRST_THEORICAL_NB_POINT,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     SECOND_THEORICAL_NB_POINT = (
         parameter.land_parameter.get_second_land_timecode_delta(HGT_CENTIMETER)
@@ -90,7 +90,7 @@ def test_land_simulation_second_case():
         THEORICAL_MIDDLE_TAKEOFF_POSITION,
         THEORICAL_END_TAKEOFF_POSITION,
         SECOND_THEORICAL_NB_POINT,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     theorical_curve = first_theorical_curve + second_theorical_curve
     assert len(dance_sequence.drone_positions) == len(theorical_curve)

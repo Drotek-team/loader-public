@@ -2,22 +2,22 @@ import struct
 from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
 class BytesManager:
     def __init__(self, fmt: str):
         self.fmt = fmt
 
     @property
     def bytes_data(self) -> bytes:
-        data_list = [value for _, value in self.__dict__.items()]
+        data_list = [value for _, value in self.__dict__.items()][1:]
         return struct.pack(self.fmt, *data_list)
 
 
-@dataclass(frozen=True)
 class Header(BytesManager):
     def __init__(
         self,
         fmt_header: str,
-        magic_number: str,
+        magic_number: int,
         dance_size: int,
         number_non_empty_events: int,
     ):
@@ -27,7 +27,6 @@ class Header(BytesManager):
         self.number_non_empty_events = number_non_empty_events
 
 
-@dataclass(frozen=True)
 class SectionHeader(BytesManager):
     def __init__(
         self,

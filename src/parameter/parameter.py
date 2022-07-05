@@ -7,7 +7,7 @@ import numpy as np
 
 
 @dataclass(frozen=True)
-class JsonConventionConstant:
+class JsonConvertionConstant:
     CENTIMETER_TO_METER_RATIO: float = 1e-2
     METER_TO_CENTIMETER_RATIO: float = 1e2
     TIMECODE_TO_SECOND_RATIO: float = 1e-3
@@ -20,7 +20,7 @@ class JsonConventionConstant:
 
 
 @dataclass(frozen=True)
-class JsonConvertionParameter:
+class JsonFormatParameter:
     magic_number: str
     fmt_header: str
     fmt_section_header: str
@@ -123,15 +123,15 @@ class Parameter:
     EXPORT_SETUP_LOCAL_PATH = "/src/parameter/export_setup.json"
     IOSTAR_SETUP_LOCAL_PATH = "/src/parameter/iostar_setup.json"
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
-    json_convention_constant = JsonConventionConstant()
+    json_convertion_constant = JsonConvertionConstant()
 
-    def load_json_convertion_parameter(self) -> None:
+    def load_json_format_parameter(self) -> None:
         f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
-        self.json_convertion_parameter = JsonConvertionParameter(
-            hex(data["MAGIC_NUMBER_INTEGER"]),
-            data["FMT_HEADER"],
-            data["FMT_SECTION_HEADER"],
+        self.json_format_parameter = JsonFormatParameter(
+            magic_number=data["MAGIC_NUMBER_INTEGER"],
+            fmt_header=data["FMT_HEADER"],
+            fmt_section_header=data["FMT_SECTION_HEADER"],
         )
 
     def load_export_parameter(self) -> None:
@@ -139,19 +139,19 @@ class Parameter:
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
             show_timecode_begin=int(
-                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["FIRST_TIMECODE_SECOND"]
             ),
             timecode_value_max=int(
-                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TIMECODE_VALUE_MAX_SECOND"]
             ),
             position_timecode_rate=int(
-                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 // data["POSITION_TIMECODE_FREQUENCE"]
             ),
             color_timecode_rate=int(
-                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 // data["COLOR_TIMECODE_FREQUENCE"]
             ),
         )
@@ -161,33 +161,33 @@ class Parameter:
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
             takeoff_altitude=int(
-                self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+                self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
                 * data["TAKEOFF_ALTITUDE_METER"]
             ),
             takeoff_elevation_duration=int(
-                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
             ),
             takeoff_stabilisation_duration=int(
-                self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
             ),
         )
         self.land_parameter = LandParameter(
             land_fast_speed=(
-                self.json_convention_constant.METER_TO_CENTIMETER_RATIO
-                / self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+                / self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
             )
             * data["LAND_FAST_SPEED_METER_PER_SECOND"],
             land_low_speed=(
                 (
-                    self.json_convention_constant.METER_TO_CENTIMETER_RATIO
-                    / self.json_convention_constant.SECOND_TO_TIMECODE_RATIO
+                    self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+                    / self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 )
                 * data["LAND_LOW_SPEED_METER_PER_SECOND"]
             ),
             land_safe_hgt=int(
-                self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+                self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
                 * data["LAND_SAFE_HGT_METER"]
             ),
         )
@@ -222,9 +222,9 @@ class Parameter:
             nb_y_value_max=data["NB_Y_VALUE_MAX"],
             nb_drone_per_family_min=data["NB_DRONE_PER_FAMILY_MIN"],
             nb_drone_per_family_max=data["NB_DRONE_PER_FAMILY_MIN"],
-            step_takeoff_value_min=self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            step_takeoff_value_min=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
             * data["STEP_TAKEOFF_VALUE_METER_MIN"],
-            step_takeoff_value_max=self.json_convention_constant.METER_TO_CENTIMETER_RATIO
+            step_takeoff_value_max=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
             * data["STEP_TAKEOFF_VALUE_METER_MAX"],
             angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
@@ -234,3 +234,4 @@ class Parameter:
         self.load_family_parameter()
         self.load_iostar_parameter()
         self.load_export_parameter()
+        self.load_json_format_parameter()

@@ -41,27 +41,7 @@ def test_valid_fire_events_check(
         parameter.iostar_parameter,
         fire_events_check_report,
     )
-    assert (
-        fire_events_check_report.fire_chanel_check_report.fire_chanel_format_check_report.validation
-    )
-    assert (
-        fire_events_check_report.fire_chanel_check_report.fire_chanel_value_check_report.validation
-    )
-    assert (
-        fire_events_check_report.fire_chanel_check_report.fire_chanel_unicty_check_report.validation
-    )
-    assert (
-        fire_events_check_report.fire_duration_check_report.fire_duration_format_check_report.validation
-    )
-    assert (
-        fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.validation
-    )
-    assert (
-        fire_events_check_report.fire_timecode_check_report.timecode_value_check_report.validation
-    )
-    assert (
-        fire_events_check_report.fire_timecode_check_report.timecode_format_check_report.validation
-    )
+
     assert fire_events_check_report.validation
 
 

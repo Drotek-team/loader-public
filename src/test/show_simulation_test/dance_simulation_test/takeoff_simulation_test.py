@@ -19,7 +19,7 @@ def test_takeoff_simulation():
         first_position,
         parameter.timecode_parameter,
         parameter.takeoff_parameter,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     LAST_THEORICAL_POSITION = (
         first_position[0],
@@ -31,14 +31,14 @@ def test_takeoff_simulation():
         LAST_THEORICAL_POSITION,
         parameter.takeoff_parameter.takeoff_elevation_duration
         // parameter.timecode_parameter.position_timecode_rate,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     second_theorical_curve = linear_interpolation(
         LAST_THEORICAL_POSITION,
         LAST_THEORICAL_POSITION,
         parameter.takeoff_parameter.takeoff_stabilisation_duration
         // parameter.timecode_parameter.position_timecode_rate,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     theorical_curve = first_theorical_curve + second_theorical_curve
     assert len(dance_sequence.drone_positions) == len(theorical_curve)

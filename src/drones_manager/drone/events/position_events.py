@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Tuple
 
 from .events import Event, Events
@@ -13,6 +12,9 @@ class PositionEvent(Event):
 
     def get_values(self) -> Tuple[int, int, int]:
         return (self.x, self.y, self.z)
+
+    def get_raw_data(self) -> Tuple[int, int, int, int]:
+        return (self.timecode, self.x, self.y, self.z)
 
 
 class PositionEvents(Events):

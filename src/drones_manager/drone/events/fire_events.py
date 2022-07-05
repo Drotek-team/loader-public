@@ -13,6 +13,9 @@ class FireEvent(Event):
     def get_values(self) -> Tuple[int, int]:
         return (self.chanel, self.duration)
 
+    def get_raw_data(self) -> Tuple[int, int, int]:
+        return (self.timecode, self.chanel, self.duration)
+
 
 class FireEvents(Events):
     format = ">IBB"

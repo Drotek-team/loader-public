@@ -2,13 +2,13 @@ import struct
 from typing import List, Tuple
 
 from ....drones_manager.drone.drone import Drone
-from ....parameter.parameter import JsonConvertionParameter
+from ....parameter.parameter import JsonFormatParameter
 from .drone_decoding_report import DroneDecodingReport
 from .events_convertion import decode_events
 
 
 def get_nb_section(
-    byte_array: bytearray, json_convention_parameter: JsonConvertionParameter
+    byte_array: bytearray, json_convention_parameter: JsonFormatParameter
 ) -> int:
     magic_nb, dance_size, nb_section = struct.unpack(
         json_convention_parameter.fmt_header,
@@ -20,7 +20,7 @@ def get_nb_section(
 def decode_section_header(
     byte_array: bytearray,
     index: int,
-    json_convention_parameter: JsonConvertionParameter,
+    json_convention_parameter: JsonFormatParameter,
 ) -> Tuple[int, int, int]:
     events_id, start, end = struct.unpack(
         json_convention_parameter.fmt_section_header,
@@ -38,7 +38,7 @@ def decode_section_header(
 def decode_drone(
     binary: List[int],
     drone_index: int,
-    json_convention_parameter: JsonConvertionParameter,
+    json_convention_parameter: JsonFormatParameter,
     drone_decoding_report: DroneDecodingReport,
 ) -> Drone:
     drone = Drone(drone_index)

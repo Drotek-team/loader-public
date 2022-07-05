@@ -43,7 +43,7 @@ def apply_show_check_procedure(
             parameter.timecode_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
-            parameter.json_convention_constant,
+            parameter.json_convertion_constant,
         )
     apply_simulation_check_procedure(
         show_simulation,

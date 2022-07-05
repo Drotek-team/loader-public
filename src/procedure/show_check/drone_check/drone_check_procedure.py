@@ -1,5 +1,4 @@
 from ....drones_manager.drone.drone import Drone
-from ....json_convertor.drone_encoder import DroneEncoder
 from ....parameter.parameter import Parameter
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -20,11 +19,10 @@ def apply_drone_check_procedure(
         parameter.timecode_parameter,
         drone_check_report.events_format_check_report,
     )
-    drone_encoder = DroneEncoder()
     apply_dance_size_check_procedure(
         drone,
-        drone_encoder,
         parameter.iostar_parameter,
+        parameter.json_convertion_constant,
         drone_check_report.dance_size_check_report,
     )
     drone_check_report.update()

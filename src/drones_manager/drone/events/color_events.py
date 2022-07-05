@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Tuple
 
 from .events import Event, Events
@@ -14,6 +13,9 @@ class ColorEvent(Event):
 
     def get_values(self) -> Tuple[int, int, int, int]:
         return (self.r, self.g, self.b, self.w)
+
+    def get_raw_data(self) -> Tuple[int, int, int, int, int]:
+        return (self.timecode, self.r, self.g, self.b, self.w)
 
 
 class ColorEvents(Events):

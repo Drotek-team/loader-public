@@ -1,7 +1,6 @@
 import pytest
 
 from ......drones_manager.drone.drone import Drone
-from ......json_convertor.drone_encoder import DroneEncoder
 from ......parameter.parameter import Parameter
 from ......procedure.show_check.drone_check.dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -30,28 +29,26 @@ def invalid_drone_dance_size():
 
 
 def test_valid_drone_dance_size_check(valid_drone_dance_size: Drone):
-    drone_encoder = DroneEncoder()
     dance_size_check_report = DanceSizeCheckReport()
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     apply_dance_size_check_procedure(
         valid_drone_dance_size,
-        drone_encoder,
         parameter.iostar_parameter,
+        parameter.json_format_parameter,
         dance_size_check_report,
     )
     assert dance_size_check_report.validation
 
 
 def test_invalid_drone_dance_size_check(invalid_drone_dance_size: Drone):
-    drone_encoder = DroneEncoder()
     dance_size_check_report = DanceSizeCheckReport()
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     apply_dance_size_check_procedure(
         invalid_drone_dance_size,
-        drone_encoder,
         parameter.iostar_parameter,
+        parameter.json_format_parameter,
         dance_size_check_report,
     )
     assert not (dance_size_check_report.validation)

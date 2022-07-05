@@ -23,7 +23,7 @@ def test_stand_by_simulation():
         timecode_end,
         first_takeoff_position,
         parameter.timecode_parameter,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     FIRST_THEORICAL_POSITION_EVENT = PositionEvent(
         timecode_start, *first_takeoff_position
@@ -39,7 +39,7 @@ def test_stand_by_simulation():
             - FIRST_THEORICAL_POSITION_EVENT.timecode
         )
         // parameter.timecode_parameter.position_timecode_rate,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     assert len(dance_sequence.drone_positions) == len(theorical_curve)
     assert all(

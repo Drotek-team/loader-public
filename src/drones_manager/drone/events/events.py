@@ -3,8 +3,6 @@ from abc import abstractclassmethod
 from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from numpy import byte
-
 
 @dataclass(frozen=True)
 class Event:
@@ -13,6 +11,10 @@ class Event:
 
     @abstractclassmethod
     def get_values(self) -> Tuple:
+        pass
+
+    @abstractclassmethod
+    def get_raw_data(self) -> Tuple:
         pass
 
 

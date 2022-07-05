@@ -3,7 +3,7 @@ from typing import List, Tuple
 import numpy as np
 
 from ...parameter.parameter import (
-    JsonConventionConstant,
+    JsonConvertionConstant,
     TakeoffParameter,
     TimecodeParameter,
 )
@@ -15,7 +15,7 @@ def generate_takeoff_first_part(
     takeoff_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
-    json_convention_constant: JsonConventionConstant,
+    json_convertion_constant: JsonConvertionConstant,
 ) -> List[np.ndarray]:
     takeoff_end_position = (
         takeoff_start_position[0],
@@ -27,7 +27,7 @@ def generate_takeoff_first_part(
         takeoff_end_position,
         takeoff_parameter.takeoff_elevation_duration
         // timecode_parameter.position_timecode_rate,
-        json_convention_constant,
+        json_convertion_constant,
     )
 
 
@@ -35,7 +35,7 @@ def generate_takeoff_second_part(
     takeoff_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
-    json_convention_constant: JsonConventionConstant,
+    json_convertion_constant: JsonConvertionConstant,
 ) -> List[np.ndarray]:
     takeoff_end_position = (
         takeoff_start_position[0],
@@ -46,7 +46,7 @@ def generate_takeoff_second_part(
         takeoff_parameter.takeoff_stabilisation_duration
         // timecode_parameter.position_timecode_rate
     ) * [
-        json_convention_constant.from_json_position_to_simulation_position(
+        json_convertion_constant.from_json_position_to_simulation_position(
             takeoff_end_position
         )
     ]
@@ -56,18 +56,18 @@ def takeoff_simulation(
     takeoff_start_position: Tuple[int, int, int],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
-    json_convention_constant: JsonConventionConstant,
+    json_convertion_constant: JsonConvertionConstant,
 ) -> DanceSequence:
     takeoff_positions = generate_takeoff_first_part(
         takeoff_start_position,
         timecode_parameter,
         takeoff_parameter,
-        json_convention_constant,
+        json_convertion_constant,
     ) + generate_takeoff_second_part(
         takeoff_start_position,
         timecode_parameter,
         takeoff_parameter,
-        json_convention_constant,
+        json_convertion_constant,
     )
     return DanceSequence(
         takeoff_positions,

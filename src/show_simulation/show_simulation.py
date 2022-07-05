@@ -5,7 +5,7 @@ import numpy as np
 from ..drones_manager.drone.events.position_events import PositionEvent
 from ..drones_manager.drones_manager import Drone
 from ..parameter.parameter import (
-    JsonConventionConstant,
+    JsonConvertionConstant,
     LandParameter,
     TakeoffParameter,
     TimecodeParameter,
@@ -76,7 +76,7 @@ class ShowSimulation:
         timecode_parameter: TimecodeParameter,
         takeoff_parameter: TakeoffParameter,
         land_parameter: LandParameter,
-        json_convention_constant: JsonConventionConstant,
+        json_convertion_constant: JsonConvertionConstant,
     ) -> None:
         dance_sequence = convert_drone_to_dance_simulation(
             drone,
@@ -84,7 +84,7 @@ class ShowSimulation:
             timecode_parameter,
             takeoff_parameter,
             land_parameter,
-            json_convention_constant,
+            json_convertion_constant,
         ).dance_sequence
         for show_slice, drone_position, drone_in_air, drone_in_dance in zip(
             self.show_slices,
@@ -99,10 +99,10 @@ class ShowSimulation:
     def update_slices_implicit_values(
         self,
         timecode_parameter: TimecodeParameter,
-        json_convention_constant: JsonConventionConstant,
+        json_convertion_constant: JsonConvertionConstant,
     ) -> None:
         time_delta = 1 / (
-            json_convention_constant.TIMECODE_TO_SECOND_RATIO
+            json_convertion_constant.TIMECODE_TO_SECOND_RATIO
             * timecode_parameter.position_timecode_rate
         )
         for slice_index in range(2, len(self.show_slices)):

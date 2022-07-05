@@ -46,11 +46,11 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         parameter.timecode_parameter,
         parameter.takeoff_parameter,
         parameter.land_parameter,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     show_simulation.update_slices_implicit_values(
         parameter.timecode_parameter,
-        parameter.json_convention_constant,
+        parameter.json_convertion_constant,
     )
     return show_simulation
 
