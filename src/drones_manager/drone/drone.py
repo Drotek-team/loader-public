@@ -23,7 +23,7 @@ class Drone:
         self.fire_events.add(timecode, value)
 
     def get_events_by_index(self, event_index: int) -> Events:
-        if 0 < event_index or event_index < 3:
+        if event_index < 0 or event_index > 2:
             raise ValueError
         event_dict = {
             0: self.position_events,
@@ -46,4 +46,4 @@ class Drone:
 
     @property
     def non_empty_events_list(self) -> List[Events]:
-        return [event for event in self.events_list if event.event_size()]
+        return [event for event in self.events_list if event.event_size]

@@ -1,3 +1,15 @@
+POSITIONS_RAW_DATA = []
+
+COLORS_RAW_DATA = [
+    (0, 0, 0, 0, 0),
+    (
+        14042,
+        232,
+        232,
+        232,
+        255,
+    ),
+]
 DANCE_EXAMPLE = [
     170,
     85,

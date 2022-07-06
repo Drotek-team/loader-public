@@ -46,3 +46,9 @@ class DroneDecodingReport:
         section_header_format_report = SectionHeaderFormatReport()
         self.section_headers_format_report.append(section_header_format_report)
         return section_header_format_report
+
+    def update(self) -> None:
+        self.validation = self.header_format_report.validation and all(
+            section_header_format_report.validation
+            for section_header_format_report in self.section_headers_format_report
+        )

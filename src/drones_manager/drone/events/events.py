@@ -25,9 +25,11 @@ class Events:
     def __init__(self):
         self.event_list: List[Event] = []
 
+    @property
     def event_size(self):
         return struct.calcsize(self.format)
 
+    @property
     def events_size(self):
         return len(self.event_list) * struct.calcsize(self.format)
 
