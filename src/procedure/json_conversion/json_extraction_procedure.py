@@ -7,8 +7,8 @@ from .json_convertion_tools.drone_decoding_procedure import decode_drone
 from .json_extraction_report import JsonExtractionReport
 
 
-def get_nb_drone_per_family(json_dict: Dict) -> int:
-    return len(json_dict["dances"][0])
+def get_nb_drone_per_family(json_show: Dict) -> int:
+    return len(json_show["families"][0])
 
 
 def apply_json_extraction_procedure(
@@ -16,23 +16,29 @@ def apply_json_extraction_procedure(
     json_format_parameter: JsonFormatParameter,
     json_extraction_report: JsonExtractionReport,
 ) -> Tuple[DronesManager, FamilyManager]:
+    json_show = json_dict["show"]
+    nb_drone_per_family = get_nb_drone_per_family(json_show)
+    json_extraction_report.initialize_drones_decoding_report(
+        nb_drone_per_family * len(json_show["families"])
+    )
     drones_manager = DronesManager(
         [
             decode_drone(
-                json_drone,
-                drone_index,
+                drone_json["dance"],
+                family_index * nb_drone_per_family + drone_index,
                 json_format_parameter,
                 json_extraction_report.drones_decoding_report[drone_index],
             )
-            for drone_index, json_drone in enumerate(json_dict)
+            for family_index, family in enumerate(json_show["families"])
+            for drone_index, drone_json in enumerate(family)
         ]
     )
     family_manager = FamilyManager(
-        json_dict["nb_x"],
-        json_dict["nb_y"],
-        get_nb_drone_per_family(json_dict),
-        json_dict["step"],
-        json_dict["angle_takeoff"],
+        json_show["nb_x"],
+        json_show["nb_y"],
+        nb_drone_per_family,
+        json_show["step"],
+        json_show["angle_takeoff"],
     )
     json_extraction_report.update()
     return drones_manager, family_manager
