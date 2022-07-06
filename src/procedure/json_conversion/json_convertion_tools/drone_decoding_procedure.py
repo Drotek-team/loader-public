@@ -3,7 +3,11 @@ from typing import List, Tuple
 
 from ....drones_manager.drone.drone import Drone
 from ....parameter.parameter import JsonFormatParameter
-from .drone_decoding_report import DroneDecodingReport, HeaderFormatReport
+from .drone_decoding_report import (
+    DroneDecodingReport,
+    HeaderFormatReport,
+    SectionHeaderFormatReport,
+)
 from .events_convertion import decode_events
 from .json_format_convention import Header, SectionHeader
 
@@ -11,7 +15,11 @@ from .json_format_convention import Header, SectionHeader
 def get_header_section_header(
     byte_array: bytearray,
     json_format_parameter: JsonFormatParameter,
+    header_format_report: HeaderFormatReport,
 ) -> Tuple[Header, List[SectionHeader]]:
+    header_format_report.header_sufficient_space_report.validation = struct.calcsize(
+        json_format_parameter.fmt_header
+    ) * len(byte_array)
     header_data = struct.unpack(
         json_format_parameter.fmt_header,
         byte_array[: struct.calcsize(json_format_parameter.fmt_header)],
@@ -54,10 +62,16 @@ def check_header(
     header_format_report.dance_size_format_report.validation = header.dance_size == len(
         byte_array
     )
+    header_format_report.update()
 
 
-def check_section_header(section_header: SectionHeader):
-    section_header.byte_array_start_index
+def check_section_header(
+    section_header: SectionHeader,
+    byte_array: bytearray,
+    json_format_parameter: JsonFormatParameter,
+    section_header_format_report: SectionHeaderFormatReport,
+):
+    pass
 
 
 def decode_drone(
@@ -69,11 +83,21 @@ def decode_drone(
     drone = Drone(drone_index)
     byte_array = bytearray(binary)
     header, section_headers = get_header_section_header(
-        byte_array, json_format_parameter
+        byte_array, json_format_parameter, drone_decoding_report.header_format_report
     )
-    check_header(header, byte_array, json_format_parameter, drone_decoding_report)
+    check_header(
+        header,
+        byte_array,
+        json_format_parameter,
+        drone_decoding_report.header_format_report,
+    )
     for section_header in section_headers:
-        check_section_header(section_header)
+        check_section_header(
+            section_header,
+            byte_array,
+            json_format_parameter,
+            drone_decoding_report.add_section_header_format_report(),
+        )
     for section_header in section_headers:
         decode_events(
             drone.get_events_by_index(section_header.event_id),

@@ -16,18 +16,19 @@ class DanceSizeFormatReport:
         self.validation = False
 
 
-class SectionNumberFormatReport:
-    def __init__(self):
-        self.validation = False
-
-
 class HeaderFormatReport:
     def __init__(self):
         self.validation = False
         self.header_sufficient_space_report = HeaderSufficientSpaceReport()
         self.magic_number_format_report = MagicNumberFormatReport()
         self.dance_size_format_report = DanceSizeFormatReport()
-        self.section_number_format_report = SectionNumberFormatReport()
+
+    def update(self):
+        self.validation = (
+            self.header_sufficient_space_report.validation
+            and self.magic_number_format_report.validation
+            and self.dance_size_format_report.validation
+        )
 
 
 class SectionHeaderFormatReport:
@@ -36,7 +37,12 @@ class SectionHeaderFormatReport:
 
 
 class DroneDecodingReport:
-    def __init__(self, nb_section_max: int):
+    def __init__(self):
         self.validation = False
-        self.correct_header = HeaderFormatReport()
-        self.correct_section_headers = nb_section_max * [SectionHeaderFormatReport()]
+        self.header_format_report = HeaderFormatReport()
+        self.section_headers_format_report = List[SectionHeaderFormatReport()]
+
+    def add_section_header_format_report(self) -> SectionHeaderFormatReport:
+        section_header_format_report = SectionHeaderFormatReport()
+        self.section_headers_format_report.append(section_header_format_report)
+        return section_header_format_report
