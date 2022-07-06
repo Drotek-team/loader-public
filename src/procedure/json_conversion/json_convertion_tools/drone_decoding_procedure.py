@@ -30,23 +30,27 @@ def get_header_section_header(
         header_data[1],
         header_data[2],
     )
-    section_header_data = struct.unpack(
-        json_format_parameter.fmt_header,
-        byte_array[
-            struct.calcsize(json_format_parameter.fmt_header) : struct.calcsize(
-                json_format_parameter.fmt_section_header
-                * header.number_non_empty_events
-            )
-        ],
-    )
-    section_headers = [
-        SectionHeader(
+
+    section_headers = []
+    byte_begin_index = struct.calcsize(json_format_parameter.fmt_header) + 1
+    byte_step_index = struct.calcsize(json_format_parameter.fmt_section_header)
+    for event_index in range(header.number_non_empty_events):
+        section_header_data = struct.unpack(
             json_format_parameter.fmt_section_header,
-            section_header_data[0],
-            section_header_data[1],
-            section_header_data[2],
+            byte_array[
+                byte_begin_index
+                + byte_step_index * event_index : byte_begin_index
+                + byte_step_index * (event_index + 1)
+            ],
         )
-    ]
+        section_headers = [
+            SectionHeader(
+                json_format_parameter.fmt_section_header,
+                section_header_data[0],
+                section_header_data[1],
+                section_header_data[2],
+            )
+        ]
     return header, section_headers
 
 
@@ -98,11 +102,11 @@ def decode_drone(
             json_format_parameter,
             drone_decoding_report.add_section_header_format_report(),
         )
-    for section_header in section_headers:
-        decode_events(
-            drone.get_events_by_index(section_header.event_id),
-            byte_array[
-                section_header.byte_array_start_index : section_header.byte_array_end_index
-            ],
-        )
+    # for section_header in section_headers:
+    #     decode_events(
+    #         drone.get_events_by_index(section_header.event_id),
+    #         byte_array[
+    #             section_header.byte_array_start_index : section_header.byte_array_end_index
+    #         ],
+    #     )
     return drone

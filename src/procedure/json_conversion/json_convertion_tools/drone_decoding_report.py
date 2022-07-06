@@ -40,7 +40,7 @@ class DroneDecodingReport:
     def __init__(self):
         self.validation = False
         self.header_format_report = HeaderFormatReport()
-        self.section_headers_format_report = List[SectionHeaderFormatReport()]
+        self.section_headers_format_report: List[SectionHeaderFormatReport] = []
 
     def add_section_header_format_report(self) -> SectionHeaderFormatReport:
         section_header_format_report = SectionHeaderFormatReport()
