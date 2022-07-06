@@ -30,7 +30,7 @@ def apply_json_extraction_procedure(
                 json_extraction_report.drones_decoding_report[drone_index],
             )
             for family_index, family in enumerate(json_show["families"])
-            for drone_index, drone_json in enumerate(family)
+            for drone_index, drone_json in enumerate(family[0])
         ]
     )
     family_manager = FamilyManager(
