@@ -8,7 +8,7 @@ from .json_extraction_report import JsonExtractionReport
 
 
 def get_nb_drone_per_family(json_show: Dict) -> int:
-    return len(json_show["families"][0])
+    return len(json_show["families"][0]["drones"])
 
 
 def apply_json_extraction_procedure(
@@ -30,7 +30,7 @@ def apply_json_extraction_procedure(
                 json_extraction_report.drones_decoding_report[drone_index],
             )
             for family_index, family in enumerate(json_show["families"])
-            for drone_index, drone_json in enumerate(family[0])
+            for drone_index, drone_json in enumerate(family["drones"])
         ]
     )
     family_manager = FamilyManager(

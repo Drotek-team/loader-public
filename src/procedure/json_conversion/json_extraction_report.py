@@ -9,7 +9,7 @@ class JsonExtractionReport:
         self.drones_decoding_report = [DroneDecodingReport() for _ in range(nb_drones)]
 
     def update(self) -> None:
-        if hasattr(self, "drones_decoding_report"):
+        if not (hasattr(self, "drones_decoding_report")):
             raise ValueError
         self.validation = all(
             drone_decoding_report.validation
