@@ -4,10 +4,12 @@ from .simulation_check.simulation_check_report import SimulationCheckReport
 
 
 class ShowCheckReport:
-    def __init__(self, nb_drones: int):
+    def __init__(self):
         self.validation = False
         self.simulation_check_report = SimulationCheckReport()
         self.family_check_report = FamilyManagerCheckReport()
+
+    def initialize_drones_check_report(self, nb_drones: int) -> None:
         self.drones_check_report = [DroneCheckReport() for _ in range(nb_drones)]
 
     def update(self) -> None:
