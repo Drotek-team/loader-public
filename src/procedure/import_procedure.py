@@ -23,4 +23,5 @@ def apply_import_procedure(
     apply_show_check_procedure(
         drones_manager, family_manager, import_report.show_check_report
     )
+    import_report.update()
     return drones_manager, family_manager
