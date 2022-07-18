@@ -26,7 +26,7 @@ def valid_position_events():
         timecode_parameter.show_timecode_begin
         + takeoff_parameter.takeoff_duration
         + takeoff_parameter.blender_bias,
-        (0, 0, takeoff_parameter.takeoff_altitude),
+        (0, 0, -takeoff_parameter.takeoff_altitude),
     )
     return position_events
 
@@ -50,7 +50,9 @@ def test_valid_position_events_check(
         parameter.takeoff_parameter,
         position_events_check_report,
     )
-    assert position_events_check_report.validation
+    assert (
+        position_events_check_report.takeoff_check_report.takeoff_position_check_report.validation
+    )
 
 
 def test_invalid_position_events_timecode_format_check(
