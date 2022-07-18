@@ -46,7 +46,10 @@ def check_int_size_list_tuple(
 
 
 def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:
-    return all(not (timecode % timecode_rate) for timecode in timecodes)
+    return all(
+        second_timecode - first_timecode >= timecode_rate
+        for first_timecode, second_timecode in zip(timecodes[:-1], timecodes[1:])
+    )
 
 
 def check_increasing_timecode(timecodes: List[int]) -> bool:
@@ -152,13 +155,14 @@ def takeoff_check(
         second_timecode = position_events.get_timecode_by_event_index(1)
         first_position = position_events.get_values_by_event_index(0)
         second_position = position_events.get_values_by_event_index(1)
+        ### TO DO: This 208 is clearly inacceptable, this must be corrected on the new version of the lightshow creator
         takeoff_check_report.takeoff_duration_check_report.validation = (
             second_timecode - first_timecode
-        ) == takeoff_parameter.takeoff_duration
+        ) == takeoff_parameter.takeoff_duration + takeoff_parameter.blender_bias
         takeoff_check_report.takeoff_position_check_report.validation = (
             first_position[0] == second_position[0]
             and first_position[1] == second_position[1]
-            and takeoff_parameter.takeoff_altitude + first_position[2]
+            and -takeoff_parameter.takeoff_altitude + first_position[2]
             == second_position[2]
         )
     takeoff_check_report.update()

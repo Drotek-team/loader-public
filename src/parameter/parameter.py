@@ -16,7 +16,9 @@ class JsonConvertionConstant:
     def from_json_position_to_simulation_position(
         self, json_position: Tuple[int, int, int]
     ) -> np.ndarray:
-        return self.CENTIMETER_TO_METER_RATIO * np.array(json_position)
+        return self.CENTIMETER_TO_METER_RATIO * np.array(
+            [json_position[1], json_position[0], -json_position[2]]
+        )
 
 
 @dataclass(frozen=True)
@@ -31,6 +33,7 @@ class TakeoffParameter:
     takeoff_altitude: int
     takeoff_elevation_duration: int
     takeoff_stabilisation_duration: int
+    blender_bias: int
 
     @property
     def takeoff_duration(self) -> int:
@@ -172,6 +175,7 @@ class Parameter:
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
             ),
+            blender_bias=data["BLENDER_TIMECODE_TAKEOFF_BIAS"],
         )
         self.land_parameter = LandParameter(
             land_fast_speed=(

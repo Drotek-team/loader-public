@@ -76,8 +76,8 @@ def test_valid_simulation():
 
 def test_invalid_simulation():
     position_event_1 = PositionEvent(250, 0, 0, 0)
-    position_event_2 = PositionEvent(500, 0, 0, 10)
-    position_event_3 = PositionEvent(750, 0, 0, 0)
+    position_event_2 = PositionEvent(500, 0, 0, -10_00)
+    position_event_3 = PositionEvent(750, 0, 0, -5_00)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
@@ -95,8 +95,8 @@ def test_invalid_simulation():
 
 def test_invalid_velocity_simulation():
     position_event_1 = PositionEvent(250, 0, 0, 0)
-    position_event_2 = PositionEvent(500, 0, 0, 10)
-    position_event_3 = PositionEvent(750, 0, 0, 0)
+    position_event_2 = PositionEvent(500, 0, 0, -10_00)
+    position_event_3 = PositionEvent(750, 0, 0, -20_00)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )

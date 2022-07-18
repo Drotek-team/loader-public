@@ -65,6 +65,11 @@ def land_simulation(
     land_parameter: LandParameter,
     json_convertion_constant: JsonConvertionConstant,
 ) -> DanceSequence:
+    land_start_position = (
+        json_convertion_constant.from_json_position_to_simulation_position(
+            land_start_position
+        )
+    )
     land_positions = generate_land_first_part(
         land_start_position,
         timecode_parameter,

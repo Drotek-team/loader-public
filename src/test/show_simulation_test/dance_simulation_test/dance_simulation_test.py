@@ -31,7 +31,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             (
                 position[0],
                 position[1],
-                position[2] + parameter.takeoff_parameter.takeoff_altitude,
+                position[2] - parameter.takeoff_parameter.takeoff_altitude,
             ),
         )
     drones_manager = DronesManager([drone])
