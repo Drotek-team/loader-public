@@ -17,11 +17,11 @@ def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,
-        (0, 0, parameter.takeoff_parameter.takeoff_altitude),
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
     )
     drone.add_position(
         parameter.takeoff_parameter.takeoff_duration + 250,
-        (0, 0, parameter.takeoff_parameter.takeoff_altitude),
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
     )
     drone_manager = DronesManager([drone])
     family_manager = FamilyManager(

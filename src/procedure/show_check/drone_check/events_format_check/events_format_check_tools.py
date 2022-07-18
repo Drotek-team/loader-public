@@ -158,7 +158,7 @@ def takeoff_check(
         ### TO DO: This 208 is clearly inacceptable, this must be corrected on the new version of the lightshow creator
         takeoff_check_report.takeoff_duration_check_report.validation = (
             second_timecode - first_timecode
-        ) == takeoff_parameter.takeoff_duration + takeoff_parameter.blender_bias
+        ) == takeoff_parameter.takeoff_duration
         takeoff_check_report.takeoff_position_check_report.validation = (
             first_position[0] == second_position[0]
             and first_position[1] == second_position[1]

@@ -56,9 +56,9 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
 
 
 def test_valid_simulation():
-    position_event_1 = PositionEvent(250, 0, 0, 0)
-    position_event_2 = PositionEvent(500, 0, 0, 0)
-    position_event_3 = PositionEvent(750, 0, 0, 0)
+    position_event_1 = PositionEvent(2_50, 0, 0, -10_00)
+    position_event_2 = PositionEvent(5_00, 0, 0, -10_00)
+    position_event_3 = PositionEvent(7_50, 0, 0, -10_00)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )

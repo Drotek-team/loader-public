@@ -16,7 +16,7 @@ def test_land_simulation_first_case():
     parameter.load_export_parameter()
     X_CENTIMETER = 2_00
     Y_CENTIMETER = 2_00
-    HGT_CENTIMETER = 1_00
+    HGT_CENTIMETER = -1_00
     first_takeoff_position = (X_CENTIMETER, Y_CENTIMETER, HGT_CENTIMETER)
     dance_sequence = land_simulation(
         first_takeoff_position,
