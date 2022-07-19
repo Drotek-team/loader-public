@@ -116,6 +116,6 @@ def decode_drone(
     second_position_event = drone.position_events.event_list[1]
     x, y, z = second_position_event.get_values()
     drone.position_events.event_list[1] = PositionEvent(
-        second_position_event.timecode - 208, x, y, z
+        second_position_event.timecode, x, y, z
     )
     return drone

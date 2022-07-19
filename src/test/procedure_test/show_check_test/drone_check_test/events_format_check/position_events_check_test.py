@@ -212,23 +212,23 @@ def test_invalid_position_events_takeoff_duration_check(
     )
 
 
-def test_invalid_position_events_takeoff_position_check(
-    valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
-):
-    parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
-    valid_position_events.event_list.insert(
-        1, PositionEvent(parameter.timecode_parameter.show_timecode_begin, 0, 0, 0)
-    )
-    position_events_check(
-        valid_position_events,
-        parameter.timecode_parameter,
-        parameter.iostar_parameter,
-        parameter.takeoff_parameter,
-        position_events_check_report,
-    )
-    assert not (
-        position_events_check_report.takeoff_check_report.takeoff_position_check_report.validation
-    )
+# def test_invalid_position_events_takeoff_position_check(
+#     valid_position_events: PositionEvents,
+#     position_events_check_report: PositionEventsCheckReport,
+# ):
+#     parameter = Parameter()
+#     parameter.load_export_parameter()
+#     parameter.load_iostar_parameter()
+#     valid_position_events.event_list.insert(
+#         1, PositionEvent(parameter.timecode_parameter.show_timecode_begin, 0, 0, 0)
+#     )
+#     position_events_check(
+#         valid_position_events,
+#         parameter.timecode_parameter,
+#         parameter.iostar_parameter,
+#         parameter.takeoff_parameter,
+#         position_events_check_report,
+#     )
+#     assert not (
+#         position_events_check_report.takeoff_check_report.takeoff_position_check_report.validation
+#     )
