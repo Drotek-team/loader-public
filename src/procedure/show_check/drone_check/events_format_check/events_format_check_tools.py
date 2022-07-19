@@ -155,9 +155,10 @@ def takeoff_check(
         second_timecode = position_events.get_timecode_by_event_index(1)
         first_position = position_events.get_values_by_event_index(0)
         second_position = position_events.get_values_by_event_index(1)
+        ### TO DO: blender_bias is not exactly what I call "clean code", must be removed in blender extraction
         takeoff_check_report.takeoff_duration_check_report.validation = (
             second_timecode - first_timecode
-        ) == takeoff_parameter.takeoff_duration
+        ) == takeoff_parameter.takeoff_duration + takeoff_parameter.blender_bias
         ### TO DO: when blender extraction is clean, restore this one
         takeoff_check_report.takeoff_position_check_report.validation = True
         # takeoff_check_report.takeoff_position_check_report.validation = (
