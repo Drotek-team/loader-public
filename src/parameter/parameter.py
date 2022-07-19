@@ -44,38 +44,36 @@ class TakeoffParameter:
 class LandParameter:
     land_fast_speed: float
     land_low_speed: float
-    land_safe_hgt: int
+    land_safe_hgt: float
 
-    def get_first_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
-        if drone_hgt_centimeter < self.land_safe_hgt:
-            return int(drone_hgt_centimeter / self.land_low_speed)
+    def get_first_land_second_delta(self, drone_hgt_meter: float) -> float:
+        if drone_hgt_meter < self.land_safe_hgt:
+            return drone_hgt_meter / self.land_low_speed
         else:
-            return int(
-                (drone_hgt_centimeter - self.land_safe_hgt) / self.land_fast_speed
-            )
+            return (drone_hgt_meter - self.land_safe_hgt) / self.land_fast_speed
 
-    def get_first_land_altitude(self, drone_hgt_centimeter: int) -> int:
-        if drone_hgt_centimeter < self.land_safe_hgt:
+    def get_first_land_altitude(self, drone_hgt_meter: float) -> float:
+        if drone_hgt_meter < self.land_safe_hgt:
             return 0
         else:
             return self.land_safe_hgt
 
-    def get_second_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
-        if drone_hgt_centimeter < self.land_safe_hgt:
+    def get_second_land_timecode_delta(self, drone_hgt_meter: float) -> float:
+        if drone_hgt_meter < self.land_safe_hgt:
             return 0
         else:
-            return int(self.land_safe_hgt / self.land_low_speed)
+            return self.land_safe_hgt / self.land_low_speed
 
-    def get_second_land_altitude_start(self, drone_hgt_centimeter: int) -> int:
-        if drone_hgt_centimeter < self.land_safe_hgt:
+    def get_second_land_altitude_start(self, drone_hgt_meter: float) -> float:
+        if drone_hgt_meter < self.land_safe_hgt:
             return 0
         else:
             return self.land_safe_hgt
 
-    def get_land_timecode_delta(self, drone_hgt_centimeter: int) -> int:
-        return self.get_first_land_timecode_delta(
-            drone_hgt_centimeter
-        ) + self.get_second_land_timecode_delta(drone_hgt_centimeter)
+    def get_land_timecode_delta(self, drone_hgt_meter: float) -> float:
+        return self.get_first_land_second_delta(
+            drone_hgt_meter
+        ) + self.get_second_land_timecode_delta(drone_hgt_meter)
 
 
 @dataclass(frozen=True)
@@ -83,7 +81,9 @@ class TimecodeParameter:
     show_timecode_begin: int
     timecode_value_max: int
     position_timecode_rate: int
+    position_second_rate: float
     color_timecode_rate: int
+    color_second_rate: float
 
 
 @dataclass(frozen=True)
@@ -151,12 +151,14 @@ class Parameter:
             ),
             position_timecode_rate=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                // data["POSITION_TIMECODE_FREQUENCE"]
+                // data["POSITION_SECOND_FREQUENCE"]
             ),
+            position_second_rate=1 / data["POSITION_SECOND_FREQUENCE"],
             color_timecode_rate=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                // data["COLOR_TIMECODE_FREQUENCE"]
+                // data["COLOR_SECOND_FREQUENCE"]
             ),
+            color_second_rate=1 / data["COLOR_SECOND_FREQUENCE"],
         )
 
     def load_iostar_parameter(self) -> None:
@@ -178,22 +180,9 @@ class Parameter:
             blender_bias=data["BLENDER_TIMECODE_TAKEOFF_BIAS"],
         )
         self.land_parameter = LandParameter(
-            land_fast_speed=(
-                self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-                / self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-            )
-            * data["LAND_FAST_SPEED_METER_PER_SECOND"],
-            land_low_speed=(
-                (
-                    self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-                    / self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                )
-                * data["LAND_LOW_SPEED_METER_PER_SECOND"]
-            ),
-            land_safe_hgt=int(
-                self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-                * data["LAND_SAFE_HGT_METER"]
-            ),
+            land_fast_speed=data["LAND_FAST_SPEED_METER_PER_SECOND"],
+            land_low_speed=data["LAND_LOW_SPEED_METER_PER_SECOND"],
+            land_safe_hgt=data["LAND_SAFE_HGT_METER"],
         )
         self.iostar_parameter = IostarParameter(
             position_value_min=data["POSITION_VALUE_CM_MIN"],

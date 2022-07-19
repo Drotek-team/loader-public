@@ -1,14 +1,9 @@
 from typing import List
 
-import numpy as np
-import pytest
 from src.drones_manager.drone.events.position_events import PositionEvent
 
 from ....drones_manager.drones_manager import Drone, DronesManager
 from ....parameter.parameter import Parameter
-from ....show_simulation.dance_simulation.position_simulation import (
-    linear_interpolation,
-)
 from ....show_simulation.show_simulation import ShowSimulation
 
 
@@ -22,7 +17,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,
-        (0, 0, parameter.takeoff_parameter.takeoff_altitude),
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
     )
     for position_event in position_events:
         position = position_event.get_values()

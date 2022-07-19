@@ -2,29 +2,19 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ...parameter.parameter import JsonConvertionConstant
-
 
 def linear_interpolation(
-    position_begin: Tuple[int, int, int],
-    position_end: Tuple[int, int, int],
+    position_begin: Tuple[float, float, float],
+    position_end: Tuple[float, float, float],
     nb_points: int,
-    json_convertion_constant: JsonConvertionConstant,
 ) -> List[np.ndarray]:
     if nb_points == 0:
         return []
-    position_begin_simulation = (
-        json_convertion_constant.from_json_position_to_simulation_position(
-            position_begin
-        )
-    )
-    position_end_simulation = (
-        json_convertion_constant.from_json_position_to_simulation_position(position_end)
-    )
+
     return [
         np.round(
-            position_begin_simulation * (1 - percentile)
-            + position_end_simulation * percentile,
+            np.array(position_begin) * (1 - percentile)
+            + np.array(position_end) * percentile,
             2,
         )
         for percentile in np.linspace(
