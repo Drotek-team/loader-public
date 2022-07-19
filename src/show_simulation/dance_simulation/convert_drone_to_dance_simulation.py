@@ -55,9 +55,11 @@ def convert_drone_to_dance_simulation(
         )
     )
     last_position = position_events.get_values_by_event_index(-1)
+
     dance_simulation.update(
         stand_by_simulation(
-            position_events.get_timecode_by_event_index(-1),
+            position_events.get_timecode_by_event_index(-1)
+            + land_parameter.get_land_second_delta(last_position[2]),
             last_second + timecode_parameter.position_second_rate,
             (last_position[0], last_position[1], 0),
             timecode_parameter,

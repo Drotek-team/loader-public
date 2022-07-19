@@ -74,7 +74,7 @@ def test_valid_show_flags():
             / parameter.timecode_parameter.position_second_rate
         )
     )
-    assert len(valid_show_simulation.show_slices) == slice_land_end_index
+    assert len(valid_show_simulation.show_slices) == slice_land_end_index + 1
     assert all(
         show_slice.in_air_flags[0]
         for show_slice in valid_show_simulation.show_slices[:slice_takeoff_end_index]
