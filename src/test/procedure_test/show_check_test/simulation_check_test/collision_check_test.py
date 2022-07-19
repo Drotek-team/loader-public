@@ -16,39 +16,44 @@ from .....show_simulation.show_simulation import ShowSimulation
 def valid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter()
-    nb_drones = 2
-    show_simulation = ShowSimulation(nb_drones)
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
-        parameter.takeoff_parameter.takeoff_simulation_duration,
-        (0, 0, parameter.takeoff_parameter.takeoff_simulation_altitude),
+        parameter.takeoff_parameter.takeoff_duration,
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
     )
     second_drone.add_position(
         0,
         (
-            parameter.iostar_parameter.security_distance_in_air,
+            parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
             0,
             0,
         ),
     )
     second_drone.add_position(
-        parameter.takeoff_parameter.takeoff_simulation_duration,
+        parameter.takeoff_parameter.takeoff_duration,
         (
-            parameter.iostar_parameter.security_distance_in_air,
+            parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
             0,
-            parameter.takeoff_parameter.takeoff_simulation_altitude,
+            -parameter.takeoff_parameter.takeoff_altitude,
         ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
-    show_simulation.update_show_slices(
-        drones_manager.last_position_events,
-        parameter.timecode_parameter,
-        parameter.land_parameter,
+    trajectory_simulation_manager = drones_manager.get_trajectory_simulation_manager(
+        parameter.json_convertion_constant
     )
-    for drone in drones_manager.drones:
+    show_simulation = ShowSimulation(
+        len(trajectory_simulation_manager.trajectories_simulation),
+        trajectory_simulation_manager.get_last_second(parameter.land_parameter),
+    )
+    show_simulation.update_show_slices(
+        parameter.timecode_parameter,
+    )
+    for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
         show_simulation.add_dance_simulation(
-            drone,
+            trajectory_simulation,
             parameter.timecode_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
@@ -60,39 +65,46 @@ def valid_show_simulation():
 def invalid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter()
-    nb_drones = 2
-    show_simulation = ShowSimulation(nb_drones)
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
-        parameter.takeoff_parameter.takeoff_simulation_duration,
-        (0, 0, parameter.takeoff_parameter.takeoff_simulation_altitude),
+        parameter.takeoff_parameter.takeoff_duration,
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
     )
     second_drone.add_position(
         0,
         (
-            0.99 * parameter.iostar_parameter.security_distance_in_air,
+            0.99
+            * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
             0,
             0,
         ),
     )
     second_drone.add_position(
-        parameter.takeoff_parameter.takeoff_simulation_duration,
+        parameter.takeoff_parameter.takeoff_duration,
         (
-            0.99 * parameter.iostar_parameter.security_distance_in_air,
+            0.99
+            * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            * parameter.iostar_parameter.security_distance_in_air,
             0,
-            parameter.takeoff_parameter.takeoff_simulation_altitude,
+            -parameter.takeoff_parameter.takeoff_altitude,
         ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
-    show_simulation.update_show_slices(
-        drones_manager.last_position_events,
-        parameter.timecode_parameter,
-        parameter.land_parameter,
+    trajectory_simulation_manager = drones_manager.get_trajectory_simulation_manager(
+        parameter.json_convertion_constant
     )
-    for drone in drones_manager.drones:
+    show_simulation = ShowSimulation(
+        len(trajectory_simulation_manager.trajectories_simulation),
+        trajectory_simulation_manager.get_last_second(parameter.land_parameter),
+    )
+    show_simulation.update_show_slices(
+        parameter.timecode_parameter,
+    )
+    for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
         show_simulation.add_dance_simulation(
-            drone,
+            trajectory_simulation,
             parameter.timecode_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,

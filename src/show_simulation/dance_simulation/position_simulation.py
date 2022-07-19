@@ -3,6 +3,7 @@ from typing import List, Tuple
 import numpy as np
 
 
+### TO DO: add an exception if nb_points < 0, generally due to negative height
 def linear_interpolation(
     position_begin: Tuple[float, float, float],
     position_end: Tuple[float, float, float],

@@ -16,49 +16,49 @@ from .....show_simulation.show_simulation import ShowSimulation
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
     parameter.load_parameter()
-    show_simulation = ShowSimulation(
-        nb_drones=1,
-    )
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
-        parameter.takeoff_parameter.takeoff_simulation_duration,
-        (0, 0, parameter.takeoff_parameter.takeoff_simulation_altitude),
+        parameter.takeoff_parameter.takeoff_duration,
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
     )
     for position_event in position_events:
         position = position_event.get_values()
         drone.add_position(
-            parameter.takeoff_parameter.takeoff_simulation_duration
-            + position_event.timecode,
+            parameter.takeoff_parameter.takeoff_duration + position_event.timecode,
             (
                 position[0],
                 position[1],
-                parameter.takeoff_parameter.takeoff_simulation_altitude + position[2],
+                -parameter.takeoff_parameter.takeoff_altitude + position[2],
             ),
         )
 
     drones_manager = DronesManager([drone])
+    trajectory_simulation_manager = drones_manager.get_trajectory_simulation_manager(
+        parameter.json_convertion_constant
+    )
+    show_simulation = ShowSimulation(
+        len(trajectory_simulation_manager.trajectories_simulation),
+        trajectory_simulation_manager.get_last_second(parameter.land_parameter),
+    )
     show_simulation.update_show_slices(
-        drones_manager.last_position_events,
-        parameter.timecode_parameter,
-        parameter.land_parameter,
-    )
-    show_simulation.add_dance_simulation(
-        drone,
-        parameter.timecode_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
-    )
-    show_simulation.update_slices_implicit_values(
         parameter.timecode_parameter,
     )
+    for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
+        show_simulation.add_dance_simulation(
+            trajectory_simulation,
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+        )
+    show_simulation.update_slices_implicit_values(parameter.timecode_parameter)
     return show_simulation
 
 
 def test_valid_simulation():
-    position_event_1 = PositionEvent(2.5, 0, 0, 0)
-    position_event_2 = PositionEvent(5.0, 0, 0, 0)
-    position_event_3 = PositionEvent(7.5, 0, 0, 0)
+    position_event_1 = PositionEvent(250, 0, 0, 0)
+    position_event_2 = PositionEvent(500, 0, 0, 0)
+    position_event_3 = PositionEvent(750, 0, 0, 0)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
@@ -75,9 +75,9 @@ def test_valid_simulation():
 
 
 def test_invalid_simulation():
-    position_event_1 = PositionEvent(2.5, 0, 0, 1)
-    position_event_2 = PositionEvent(5.0, 0, 0, 1)
-    position_event_3 = PositionEvent(7.5, 0, 0, 5)
+    position_event_1 = PositionEvent(250, 0, 0, -100)
+    position_event_2 = PositionEvent(500, 0, 0, -100)
+    position_event_3 = PositionEvent(750, 0, 0, -500)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
@@ -94,9 +94,9 @@ def test_invalid_simulation():
 
 
 def test_invalid_velocity_simulation():
-    position_event_1 = PositionEvent(2.5, 0, 0, 1)
-    position_event_2 = PositionEvent(5.0, 0, 0, 1)
-    position_event_3 = PositionEvent(7.5, 0, 0, 2)
+    position_event_1 = PositionEvent(250, 0, 0, -100)
+    position_event_2 = PositionEvent(500, 0, 0, -100)
+    position_event_3 = PositionEvent(750, 0, 0, -200)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )

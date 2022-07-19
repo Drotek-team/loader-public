@@ -1,6 +1,8 @@
 import numpy as np
 
-from ....drones_manager.drone.events.position_events import PositionEvent
+from ....drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
+    PositionSimulation,
+)
 from ....parameter.parameter import Parameter
 from ....show_simulation.dance_simulation.convert_trajectory_to_dance_simulation import (
     flight_simulation,
@@ -14,9 +16,9 @@ def test_flight_simulation():
     parameter = Parameter()
     parameter.load_iostar_parameter()
     parameter.load_export_parameter()
-    FIRST_POSITION_EVENT = PositionEvent(0, 0, 0, 0)
-    SECOND_POSITION_EVENT = PositionEvent(0.25, 0, 0, 1)
-    THIRD_POSITION_EVENT = PositionEvent(1.0, 0, 0, 2)
+    FIRST_POSITION_EVENT = PositionSimulation(0, (0, 0, 0))
+    SECOND_POSITION_EVENT = PositionSimulation(0.25, (0, 0, 1))
+    THIRD_POSITION_EVENT = PositionSimulation(1.0, (0, 0, 2))
     position_events = [
         FIRST_POSITION_EVENT,
         SECOND_POSITION_EVENT,
@@ -27,18 +29,18 @@ def test_flight_simulation():
         parameter.timecode_parameter,
     )
     first_theorical_curve = linear_interpolation(
-        FIRST_POSITION_EVENT.get_values(),
-        SECOND_POSITION_EVENT.get_values(),
+        FIRST_POSITION_EVENT.xyz,
+        SECOND_POSITION_EVENT.xyz,
         int(
-            (SECOND_POSITION_EVENT.timecode - FIRST_POSITION_EVENT.timecode)
+            (SECOND_POSITION_EVENT.second - FIRST_POSITION_EVENT.second)
             / parameter.timecode_parameter.position_second_rate
         ),
     )
     second_theorical_curve = linear_interpolation(
-        SECOND_POSITION_EVENT.get_values(),
-        THIRD_POSITION_EVENT.get_values(),
+        SECOND_POSITION_EVENT.xyz,
+        THIRD_POSITION_EVENT.xyz,
         int(
-            (THIRD_POSITION_EVENT.timecode - SECOND_POSITION_EVENT.timecode)
+            (THIRD_POSITION_EVENT.second - SECOND_POSITION_EVENT.second)
             / parameter.timecode_parameter.position_second_rate
         ),
     )

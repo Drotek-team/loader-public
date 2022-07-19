@@ -34,6 +34,7 @@ def apply_show_check_procedure(
     )
     show_simulation = ShowSimulation(
         len(trajectory_simulation_manager.trajectories_simulation),
+        trajectory_simulation_manager.get_last_second(parameter.land_parameter),
     )
     show_simulation.update_show_slices(
         parameter.timecode_parameter,
@@ -45,6 +46,7 @@ def apply_show_check_procedure(
             parameter.takeoff_parameter,
             parameter.land_parameter,
         )
+    show_simulation.update_slices_implicit_values(parameter.timecode_parameter)
     apply_simulation_check_procedure(
         show_simulation,
         show_check_report.simulation_check_report,

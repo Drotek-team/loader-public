@@ -2,14 +2,10 @@ from typing import List
 
 import numpy as np
 
-from ..drones_manager.drone.events.position_events import PositionEvent
-from ..drones_manager.drones_manager import Drone, TrajectorySimulation
-from ..parameter.parameter import (
-    JsonConvertionConstant,
-    LandParameter,
-    TakeoffParameter,
-    TimecodeParameter,
+from ..drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
+    TrajectorySimulation,
 )
+from ..parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
 from .dance_simulation.convert_trajectory_to_dance_simulation import (
     convert_trajectory_to_dance_simulation,
 )
