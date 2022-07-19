@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 
 from ....drones_manager.drone.events.position_events import PositionEvent
 from ....parameter.parameter import Parameter

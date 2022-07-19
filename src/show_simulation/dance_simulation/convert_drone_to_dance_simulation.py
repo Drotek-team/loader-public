@@ -1,12 +1,5 @@
-from src.drones_manager.drone.events.position_events import PositionEvents
-
 from ...drones_manager.drone.drone import Drone
-from ...parameter.parameter import (
-    JsonConvertionConstant,
-    LandParameter,
-    TakeoffParameter,
-    TimecodeParameter,
-)
+from ...parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
 from .dance_simulation import DanceSimulation
 from .flight_simulation import flight_simulation
 from .land_simulation import land_simulation
@@ -16,72 +9,58 @@ from .takeoff_simulation import takeoff_simulation
 
 def convert_drone_to_dance_simulation(
     drone: Drone,
-    last_timecode: int,
+    last_second: float,
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
-    json_convertion_constant: JsonConvertionConstant,
 ) -> DanceSimulation:
     dance_simulation = DanceSimulation()
     position_events = drone.position_events
-    position_events_simulation = PositionEvents()
-    for position_event in position_events.event_list:
-        position_events_simulation.add(
-            json_convertion_constant.TIMECODE_TO_SECOND_RATIO * position_event.timecode,
-            json_convertion_constant.from_json_position_to_simulation_position(
-                position_event.get_values()
-            ),
-        )
-    if position_events_simulation.nb_events == 1:
+
+    if position_events.nb_events == 1:
         dance_simulation.update(
             stand_by_simulation(
-                timecode_parameter.show_timecode_begin,
-                position_events_simulation.get_values_by_event_index(0),
+                timecode_parameter.show_second_begin,
+                position_events.get_values_by_event_index(0),
                 timecode_parameter,
-                json_convertion_constant,
             )
         )
         return dance_simulation
     dance_simulation.update(
         stand_by_simulation(
-            timecode_parameter.show_timecode_begin,
-            position_events_simulation.get_timecode_by_event_index(0),
-            position_events_simulation.get_values_by_event_index(0),
+            timecode_parameter.show_second_begin,
+            position_events.get_timecode_by_event_index(0),
+            position_events.get_values_by_event_index(0),
             timecode_parameter,
-            json_convertion_constant,
         )
     )
     dance_simulation.update(
         takeoff_simulation(
-            position_events_simulation.get_values_by_event_index(0),
+            position_events.get_values_by_event_index(0),
             timecode_parameter,
             takeoff_parameter,
-            json_convertion_constant,
         )
     )
     dance_simulation.update(
         flight_simulation(
-            position_events_simulation.event_list[1:],
+            position_events.event_list[1:],
             timecode_parameter,
-            json_convertion_constant,
         )
     )
     dance_simulation.update(
         land_simulation(
-            position_events_simulation.get_values_by_event_index(-1),
+            position_events.get_values_by_event_index(-1),
             timecode_parameter,
             land_parameter,
-            json_convertion_constant,
         )
     )
-    last_position = position_events_simulation.get_values_by_event_index(-1)
+    last_position = position_events.get_values_by_event_index(-1)
     dance_simulation.update(
         stand_by_simulation(
-            position_events_simulation.get_timecode_by_event_index(-1),
-            last_timecode + timecode_parameter.position_timecode_rate,
+            position_events.get_timecode_by_event_index(-1),
+            last_second + timecode_parameter.position_second_rate,
             (last_position[0], last_position[1], 0),
             timecode_parameter,
-            json_convertion_constant,
         )
     )
     return dance_simulation

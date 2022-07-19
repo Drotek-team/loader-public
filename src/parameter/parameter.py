@@ -68,7 +68,7 @@ class LandParameter:
         else:
             return self.land_safe_hgt
 
-    def get_second_land_timecode_delta(self, drone_hgt_meter: float) -> float:
+    def get_second_land_second_delta(self, drone_hgt_meter: float) -> float:
         if drone_hgt_meter < self.land_safe_hgt:
             return 0
         else:
@@ -80,15 +80,16 @@ class LandParameter:
         else:
             return self.land_safe_hgt
 
-    def get_land_timecode_delta(self, drone_hgt_meter: float) -> float:
+    def get_land_second_delta(self, drone_hgt_meter: float) -> float:
         return self.get_first_land_second_delta(
             drone_hgt_meter
-        ) + self.get_second_land_timecode_delta(drone_hgt_meter)
+        ) + self.get_second_land_second_delta(drone_hgt_meter)
 
 
 @dataclass(frozen=True)
 class TimecodeParameter:
     show_timecode_begin: int
+    show_second_begin: float
     timecode_value_max: int
     position_timecode_rate: int
     position_second_rate: float
@@ -155,6 +156,7 @@ class Parameter:
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["FIRST_TIMECODE_SECOND"]
             ),
+            show_second_begin=data["FIRST_TIMECODE_SECOND"],
             timecode_value_max=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TIMECODE_VALUE_MAX_SECOND"]

@@ -111,8 +111,6 @@ def decode_drone(
                 section_header.byte_array_start_index : section_header.byte_array_end_index
             ],
         )
-    ### TO DO: Remove this when the extraction in blender is corrected
-    ### Furthermore, the position is not well extracted either, must be corrected
     second_position_event = drone.position_events.event_list[1]
     x, y, z = second_position_event.get_values()
     drone.position_events.event_list[1] = PositionEvent(

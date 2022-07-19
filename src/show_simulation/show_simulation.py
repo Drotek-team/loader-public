@@ -16,8 +16,8 @@ from .dance_simulation.convert_drone_to_dance_simulation import (
 
 
 class ShowSimulationSlice:
-    def __init__(self, timecode: int, nb_drones: int):
-        self.timecode = timecode
+    def __init__(self, second: float, nb_drones: int):
+        self.second = second
         self.drone_indices = np.array([drone_index for drone_index in range(nb_drones)])
         self.positions = np.zeros((nb_drones, 3))
         self.velocities = np.zeros((nb_drones, 3))
@@ -49,26 +49,26 @@ class ShowSimulation:
         land_parameter: LandParameter,
     ):
 
-        self.last_simulation_timecode = max(
+        self.last_second = max(
             last_position_event.timecode
-            + land_parameter.get_land_timecode_delta(last_position_event.z)
+            + land_parameter.get_land_second_delta(last_position_event.z)
             for last_position_event in last_position_events
         )
         self.show_slices = [
             ShowSimulationSlice(
-                timecode,
+                second,
                 self.nb_drones,
             )
-            for timecode in np.arange(
-                0,
-                self.last_simulation_timecode,
-                timecode_parameter.position_timecode_rate,
+            for second in np.arange(
+                timecode_parameter.show_second_begin,
+                self.last_second,
+                timecode_parameter.position_second_rate,
             )
         ]
 
     @property
-    def timecodes(self) -> List[int]:
-        return [show_slice.timecode for show_slice in self.show_slices]
+    def seconds(self) -> List[float]:
+        return [show_slice.second for show_slice in self.show_slices]
 
     def add_dance_simulation(
         self,
@@ -76,15 +76,13 @@ class ShowSimulation:
         timecode_parameter: TimecodeParameter,
         takeoff_parameter: TakeoffParameter,
         land_parameter: LandParameter,
-        json_convertion_constant: JsonConvertionConstant,
     ) -> None:
         dance_sequence = convert_drone_to_dance_simulation(
             drone,
-            self.last_simulation_timecode,
+            self.last_second,
             timecode_parameter,
             takeoff_parameter,
             land_parameter,
-            json_convertion_constant,
         ).dance_sequence
         for show_slice, drone_position, drone_in_air, drone_in_dance in zip(
             self.show_slices,
@@ -99,12 +97,8 @@ class ShowSimulation:
     def update_slices_implicit_values(
         self,
         timecode_parameter: TimecodeParameter,
-        json_convertion_constant: JsonConvertionConstant,
     ) -> None:
-        time_delta = 1 / (
-            json_convertion_constant.TIMECODE_TO_SECOND_RATIO
-            * timecode_parameter.position_timecode_rate
-        )
+        time_delta = 1 / (timecode_parameter.position_second_rate)
         for slice_index in range(2, len(self.show_slices)):
             self.show_slices[slice_index].velocities = (time_delta) * (
                 self.show_slices[slice_index].positions

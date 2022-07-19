@@ -1,6 +1,9 @@
 from typing import List
 
-from src.drones_manager.drone.events.position_events import PositionEvent
+from src.drones_manager.drone.events.position_events import (
+    PositionEvent,
+    PositionEvents,
+)
 
 from ....drones_manager.drones_manager import Drone, DronesManager
 from ....parameter.parameter import Parameter
@@ -30,6 +33,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
                 parameter.takeoff_parameter.takeoff_simulation_altitude + position[2],
             ),
         )
+
     drones_manager = DronesManager([drone])
     show_simulation.update_show_slices(
         drones_manager.last_position_events,
@@ -41,11 +45,9 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         parameter.timecode_parameter,
         parameter.takeoff_parameter,
         parameter.land_parameter,
-        parameter.json_convertion_constant,
     )
     show_simulation.update_slices_implicit_values(
         parameter.timecode_parameter,
-        parameter.json_convertion_constant,
     )
     return show_simulation
 
@@ -54,23 +56,25 @@ def test_valid_show_flags():
     parameter = Parameter()
     parameter.load_parameter()
     position_event_1 = PositionEvent(0.25, 0, 0, 0)
-    position_event_2 = PositionEvent(0.25, 0, 0, 0)
+    position_event_2 = PositionEvent(0.5, 0, 0, 0)
     position_event_3 = PositionEvent(0.75, 0, 0, 0)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
-    slice_takeoff_end_index = (
-        parameter.takeoff_parameter.takeoff_duration
-        // parameter.timecode_parameter.position_timecode_rate
+    slice_takeoff_end_index = int(
+        parameter.takeoff_parameter.takeoff_simulation_duration
+        / parameter.timecode_parameter.position_second_rate
     )
     slice_land_begin_index = slice_takeoff_end_index + 3
-    slice_land_end_index = slice_land_begin_index + (
-        parameter.land_parameter.get_land_timecode_delta(
-            parameter.takeoff_parameter.takeoff_altitude
+    slice_land_end_index = slice_land_begin_index + int(
+        (
+            parameter.land_parameter.get_land_second_delta(
+                parameter.takeoff_parameter.takeoff_simulation_altitude
+            )
+            / parameter.timecode_parameter.position_second_rate
         )
-        // parameter.timecode_parameter.position_timecode_rate
     )
-    assert len(valid_show_simulation.show_slices) == slice_land_end_index + 1
+    assert len(valid_show_simulation.show_slices) == slice_land_end_index
     assert all(
         show_slice.in_air_flags[0]
         for show_slice in valid_show_simulation.show_slices[:slice_takeoff_end_index]

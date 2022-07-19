@@ -47,7 +47,7 @@ def generate_land_second_part(
         land_middle_position,
         land_end_position,
         int(
-            land_parameter.get_second_land_timecode_delta(land_start_position[2])
+            land_parameter.get_second_land_second_delta(land_start_position[2])
             // timecode_parameter.position_second_rate
         ),
     )

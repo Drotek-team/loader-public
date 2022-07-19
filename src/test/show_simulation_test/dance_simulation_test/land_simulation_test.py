@@ -79,7 +79,7 @@ def test_land_simulation_second_case():
         FIRST_THEORICAL_NB_POINT,
     )
     SECOND_THEORICAL_NB_POINT = int(
-        parameter.land_parameter.get_second_land_timecode_delta(HGT_CENTIMETER)
+        parameter.land_parameter.get_second_land_second_delta(HGT_CENTIMETER)
         // parameter.timecode_parameter.position_second_rate
     )
     second_theorical_curve = linear_interpolation(
