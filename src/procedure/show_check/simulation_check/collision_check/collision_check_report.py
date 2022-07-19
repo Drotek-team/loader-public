@@ -11,9 +11,9 @@ class CollisionInfraction:
 
 
 class CollisionSliceCheckReport:
-    def __init__(self, timecode: int):
+    def __init__(self, second: float):
         self.validation = False
-        self.timecode = timecode
+        self.second = second
         self.collision_infractions: List[CollisionInfraction] = []
 
     def update(self) -> None:
@@ -25,9 +25,9 @@ class CollisionCheckReport:
         self.validation = False
         self.collision_slices_check_report: List[CollisionSliceCheckReport] = []
 
-    def initialize_collision_slice_check_report(self, timecodes: List[int]) -> None:
+    def initialize_collision_slice_check_report(self, seconds: List[float]) -> None:
         self.collision_slices_check_report = [
-            CollisionSliceCheckReport(timecode) for timecode in timecodes
+            CollisionSliceCheckReport(second) for second in seconds
         ]
 
     def update(self) -> None:

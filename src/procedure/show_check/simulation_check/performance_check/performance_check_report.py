@@ -8,9 +8,9 @@ class PerformanceCheckReport:
         self.validation = False
         self.observed_metrics_slices_check_report: List[ObservedMetricsCheckReport] = []
 
-    def update_observed_metrics_slices_check_report(self, timecodes: List[int]) -> None:
+    def update_observed_metrics_slices_check_report(self, seconds: List[float]) -> None:
         self.observed_metrics_slices_check_report = [
-            ObservedMetricsCheckReport(timecode) for timecode in timecodes
+            ObservedMetricsCheckReport(second) for second in seconds
         ]
 
     def update(self) -> None:

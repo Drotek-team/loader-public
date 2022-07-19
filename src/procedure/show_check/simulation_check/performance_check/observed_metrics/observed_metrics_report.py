@@ -22,9 +22,9 @@ class PerformanceCheckReport:
 
 
 class ObservedMetricsCheckReport:
-    def __init__(self, timecode: int):
+    def __init__(self, second: float):
         self.validation = False
-        self.timecode = timecode
+        self.second = second
         self.vertical_position_check_report = PerformanceCheckReport(
             "vertical position"
         )

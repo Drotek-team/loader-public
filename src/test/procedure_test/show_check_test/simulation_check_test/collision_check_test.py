@@ -21,25 +21,23 @@ def valid_show_simulation():
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
-        parameter.takeoff_parameter.takeoff_duration,
-        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
+        parameter.takeoff_parameter.takeoff_simulation_duration,
+        (0, 0, parameter.takeoff_parameter.takeoff_simulation_altitude),
     )
     second_drone.add_position(
         0,
         (
-            parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * parameter.iostar_parameter.security_distance_in_air,
+            parameter.iostar_parameter.security_distance_in_air,
             0,
             0,
         ),
     )
     second_drone.add_position(
-        parameter.takeoff_parameter.takeoff_duration,
+        parameter.takeoff_parameter.takeoff_simulation_duration,
         (
-            parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * parameter.iostar_parameter.security_distance_in_air,
+            parameter.iostar_parameter.security_distance_in_air,
             0,
-            -parameter.takeoff_parameter.takeoff_altitude,
+            parameter.takeoff_parameter.takeoff_simulation_altitude,
         ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
@@ -54,7 +52,6 @@ def valid_show_simulation():
             parameter.timecode_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
-            parameter.json_convertion_constant,
         )
     return show_simulation
 
@@ -68,27 +65,23 @@ def invalid_show_simulation():
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
-        parameter.takeoff_parameter.takeoff_duration,
-        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
+        parameter.takeoff_parameter.takeoff_simulation_duration,
+        (0, 0, parameter.takeoff_parameter.takeoff_simulation_altitude),
     )
     second_drone.add_position(
         0,
         (
-            0.99
-            * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * parameter.iostar_parameter.security_distance_in_air,
+            0.99 * parameter.iostar_parameter.security_distance_in_air,
             0,
             0,
         ),
     )
     second_drone.add_position(
-        parameter.takeoff_parameter.takeoff_duration,
+        parameter.takeoff_parameter.takeoff_simulation_duration,
         (
-            0.99
-            * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * parameter.iostar_parameter.security_distance_in_air,
+            0.99 * parameter.iostar_parameter.security_distance_in_air,
             0,
-            -parameter.takeoff_parameter.takeoff_altitude,
+            parameter.takeoff_parameter.takeoff_simulation_altitude,
         ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
@@ -103,7 +96,6 @@ def invalid_show_simulation():
             parameter.timecode_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
-            parameter.json_convertion_constant,
         )
     return show_simulation
 

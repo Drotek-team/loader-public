@@ -56,7 +56,7 @@ def apply_collision_check_procedure(
     iostar_parameter: IostarParameter,
 ) -> None:
     collision_check_report.initialize_collision_slice_check_report(
-        show_simulation.timecodes
+        show_simulation.seconds
     )
     drone_indices = np.array(range(show_simulation.nb_drones))
     for show_simulation_slice, collision_slice_check_report in zip(
