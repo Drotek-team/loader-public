@@ -26,21 +26,22 @@ def test_flight_simulation():
     dance_sequence = flight_simulation(
         position_events,
         parameter.timecode_parameter,
-        parameter.json_convertion_constant,
     )
     first_theorical_curve = linear_interpolation(
         FIRST_POSITION_EVENT.get_values(),
         SECOND_POSITION_EVENT.get_values(),
-        (SECOND_POSITION_EVENT.timecode - FIRST_POSITION_EVENT.timecode)
-        // parameter.timecode_parameter.position_timecode_rate,
-        parameter.json_convertion_constant,
+        int(
+            (SECOND_POSITION_EVENT.timecode - FIRST_POSITION_EVENT.timecode)
+            / parameter.timecode_parameter.position_second_rate
+        ),
     )
     second_theorical_curve = linear_interpolation(
         SECOND_POSITION_EVENT.get_values(),
         THIRD_POSITION_EVENT.get_values(),
-        (THIRD_POSITION_EVENT.timecode - SECOND_POSITION_EVENT.timecode)
-        // parameter.timecode_parameter.position_timecode_rate,
-        parameter.json_convertion_constant,
+        int(
+            (THIRD_POSITION_EVENT.timecode - SECOND_POSITION_EVENT.timecode)
+            / parameter.timecode_parameter.position_second_rate
+        ),
     )
     theorical_curve = first_theorical_curve + second_theorical_curve
     assert len(dance_sequence.drone_positions) == len(theorical_curve)

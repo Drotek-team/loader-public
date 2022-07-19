@@ -16,17 +16,18 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
-        parameter.takeoff_parameter.takeoff_duration,
-        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
+        parameter.takeoff_parameter.takeoff_simulation_duration,
+        (0, 0, parameter.takeoff_parameter.takeoff_simulation_altitude),
     )
     for position_event in position_events:
         position = position_event.get_values()
         drone.add_position(
-            parameter.takeoff_parameter.takeoff_duration + position_event.timecode,
+            parameter.takeoff_parameter.takeoff_simulation_duration
+            + position_event.timecode,
             (
                 position[0],
                 position[1],
-                position[2] - parameter.takeoff_parameter.takeoff_altitude,
+                parameter.takeoff_parameter.takeoff_simulation_altitude + position[2],
             ),
         )
     drones_manager = DronesManager([drone])
@@ -52,9 +53,9 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
 def test_valid_show_flags():
     parameter = Parameter()
     parameter.load_parameter()
-    position_event_1 = PositionEvent(250, 0, 0, 0)
-    position_event_2 = PositionEvent(500, 0, 0, 0)
-    position_event_3 = PositionEvent(750, 0, 0, 0)
+    position_event_1 = PositionEvent(0.25, 0, 0, 0)
+    position_event_2 = PositionEvent(0.25, 0, 0, 0)
+    position_event_3 = PositionEvent(0.75, 0, 0, 0)
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )

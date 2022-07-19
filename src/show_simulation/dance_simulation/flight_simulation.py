@@ -19,8 +19,10 @@ def flight_simulation(
         flight_positions += linear_interpolation(
             position_event.get_values(),
             next_position_event.get_values(),
-            ((next_position_event.timecode - position_event.timecode))
-            // timecode_parameter.position_timecode_rate,
+            int(
+                ((next_position_event.timecode - position_event.timecode))
+                // timecode_parameter.position_second_rate
+            ),
         )
     # flight_positions.append(
     #     json_convertion_constant.from_json_position_to_simulation_position(
