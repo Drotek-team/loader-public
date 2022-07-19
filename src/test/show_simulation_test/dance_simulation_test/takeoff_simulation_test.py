@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from ....parameter.parameter import Parameter
-from ....show_simulation.dance_simulation.convert_drone_to_dance_simulation import (
+from ....show_simulation.dance_simulation.convert_trajectory_to_dance_simulation import (
     takeoff_simulation,
 )
 from ....show_simulation.dance_simulation.position_simulation import (

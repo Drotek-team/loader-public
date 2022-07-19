@@ -2,10 +2,14 @@ from typing import List, Tuple
 
 import numpy as np
 
+from ..parameter.parameter import JsonConvertionConstant
 from .convex_hull import calculate_convex_hull
 from .drone.drone import Drone
 from .drone.events.position_events import PositionEvent
 from .drone.events_size_easing import apply_dance_size_relief
+from .trajectory_simulation_manager.trajectory_simulation_manager import (
+    TrajectorySimulationManager,
+)
 
 
 class DronesManager:
@@ -26,6 +30,18 @@ class DronesManager:
             drone.position_events.get_values_by_event_index(0)[0:2]
             for drone in self.drones
         ]
+
+    def get_trajectory_simulation_manager(
+        self, json_convertion_constant: JsonConvertionConstant
+    ) -> TrajectorySimulationManager:
+        trajectory_simulation_manager = TrajectorySimulationManager(len(self.drones))
+        for trajectory_simulation, drone in zip(
+            trajectory_simulation_manager.trajectories_simulation, self.drones
+        ):
+            trajectory_simulation.initialize_position_simulation(
+                drone.position_events.event_list, json_convertion_constant
+            )
+        return trajectory_simulation_manager
 
     @property
     def convex_hull(self) -> List[np.ndarray]:

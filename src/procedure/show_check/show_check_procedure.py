@@ -29,31 +29,21 @@ def apply_show_check_procedure(
         parameter.family_parameter,
         show_check_report.family_check_report,
     )
-    ### TO DO: Silowski violation => add a new class for that
-    # position_events_simulation = PositionEvents()
-    # for position_event in position_events:
-    #     position_events_simulation.add(
-    #         json_convertion_constant.TIMECODE_TO_SECOND_RATIO * position_event.timecode,
-    #         json_convertion_constant.from_json_position_to_simulation_position(
-    #             position_event.get_values()
-    #         ),
-    #     )
-
+    trajectory_simulation_manager = drones_manager.get_trajectory_simulation_manager(
+        parameter.json_convertion_constant
+    )
     show_simulation = ShowSimulation(
-        drones_manager.nb_drone,
+        len(trajectory_simulation_manager.trajectories_simulation),
     )
     show_simulation.update_show_slices(
-        drones_manager.last_position_events,
         parameter.timecode_parameter,
-        parameter.land_parameter,
     )
-    for drone in drones_manager.drones:
+    for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
         show_simulation.add_dance_simulation(
-            drone,
+            trajectory_simulation,
             parameter.timecode_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
-            parameter.json_convertion_constant,
         )
     apply_simulation_check_procedure(
         show_simulation,

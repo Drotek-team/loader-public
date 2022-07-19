@@ -2,7 +2,7 @@ import numpy as np
 
 from ....drones_manager.drone.events.position_events import PositionEvent
 from ....parameter.parameter import Parameter
-from ....show_simulation.dance_simulation.convert_drone_to_dance_simulation import (
+from ....show_simulation.dance_simulation.convert_trajectory_to_dance_simulation import (
     stand_by_simulation,
 )
 from ....show_simulation.dance_simulation.position_simulation import (

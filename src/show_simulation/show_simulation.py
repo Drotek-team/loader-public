@@ -3,15 +3,15 @@ from typing import List
 import numpy as np
 
 from ..drones_manager.drone.events.position_events import PositionEvent
-from ..drones_manager.drones_manager import Drone
+from ..drones_manager.drones_manager import Drone, TrajectorySimulation
 from ..parameter.parameter import (
     JsonConvertionConstant,
     LandParameter,
     TakeoffParameter,
     TimecodeParameter,
 )
-from .dance_simulation.convert_drone_to_dance_simulation import (
-    convert_drone_to_dance_simulation,
+from .dance_simulation.convert_trajectory_to_dance_simulation import (
+    convert_trajectory_to_dance_simulation,
 )
 
 
@@ -38,22 +38,17 @@ class ShowSimulation:
     def __init__(
         self,
         nb_drones: int,
+        last_second: float,
     ):
         self.nb_drones = nb_drones
         self.show_slices: List[ShowSimulationSlice] = []
+        self.last_second = last_second
 
     def update_show_slices(
         self,
-        last_position_events: List[PositionEvent],
         timecode_parameter: TimecodeParameter,
-        land_parameter: LandParameter,
     ):
 
-        self.last_second = max(
-            last_position_event.timecode
-            + land_parameter.get_land_second_delta(last_position_event.z)
-            for last_position_event in last_position_events
-        )
         self.show_slices = [
             ShowSimulationSlice(
                 second,
@@ -72,13 +67,13 @@ class ShowSimulation:
 
     def add_dance_simulation(
         self,
-        drone: Drone,
+        trajectory_simulation: TrajectorySimulation,
         timecode_parameter: TimecodeParameter,
         takeoff_parameter: TakeoffParameter,
         land_parameter: LandParameter,
     ) -> None:
-        dance_sequence = convert_drone_to_dance_simulation(
-            drone,
+        dance_sequence = convert_trajectory_to_dance_simulation(
+            trajectory_simulation,
             self.last_second,
             timecode_parameter,
             takeoff_parameter,
@@ -90,9 +85,11 @@ class ShowSimulation:
             dance_sequence.drone_in_air,
             dance_sequence.drone_in_dance,
         ):
-            show_slice.positions[drone.index] = drone_position
-            show_slice.in_air_flags[drone.index] = drone_in_air
-            show_slice.in_dance_flags[drone.index] = drone_in_dance
+            show_slice.positions[trajectory_simulation.drone_index] = drone_position
+            show_slice.in_air_flags[trajectory_simulation.drone_index] = drone_in_air
+            show_slice.in_dance_flags[
+                trajectory_simulation.drone_index
+            ] = drone_in_dance
 
     def update_slices_implicit_values(
         self,

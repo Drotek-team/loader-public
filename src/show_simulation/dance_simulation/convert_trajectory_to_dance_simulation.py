@@ -1,4 +1,3 @@
-from ...drones_manager.drone.drone import Drone
 from ...parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
 from .dance_simulation import DanceSimulation
 from .flight_simulation import flight_simulation
@@ -7,8 +6,8 @@ from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
 
 
-def convert_drone_to_dance_simulation(
-    drone: Drone,
+def convert_trajectory_to_dance_simulation(
+    trajectory_simulation: TrajectorySimulation,
     last_second: float,
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
@@ -16,7 +15,6 @@ def convert_drone_to_dance_simulation(
 ) -> DanceSimulation:
     dance_simulation = DanceSimulation()
     position_events = drone.position_events
-
     if position_events.nb_events == 1:
         dance_simulation.update(
             stand_by_simulation(
