@@ -1,3 +1,6 @@
+from ...drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
+    TrajectorySimulation,
+)
 from ...parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
 from .dance_simulation import DanceSimulation
 from .flight_simulation import flight_simulation
@@ -14,12 +17,11 @@ def convert_trajectory_to_dance_simulation(
     land_parameter: LandParameter,
 ) -> DanceSimulation:
     dance_simulation = DanceSimulation()
-    position_events = drone.position_events
-    if position_events.nb_events == 1:
+    if len(trajectory_simulation.positions_simulation) == 1:
         dance_simulation.update(
             stand_by_simulation(
                 timecode_parameter.show_second_begin,
-                position_events.get_values_by_event_index(0),
+                trajectory_simulation.get_position_by_index(0),
                 timecode_parameter,
             )
         )
@@ -27,36 +29,36 @@ def convert_trajectory_to_dance_simulation(
     dance_simulation.update(
         stand_by_simulation(
             timecode_parameter.show_second_begin,
-            position_events.get_timecode_by_event_index(0),
-            position_events.get_values_by_event_index(0),
+            trajectory_simulation.get_second_by_index(0),
+            trajectory_simulation.get_position_by_index(0),
             timecode_parameter,
         )
     )
     dance_simulation.update(
         takeoff_simulation(
-            position_events.get_values_by_event_index(0),
+            trajectory_simulation.get_position_by_index(0),
             timecode_parameter,
             takeoff_parameter,
         )
     )
     dance_simulation.update(
         flight_simulation(
-            position_events.event_list[1:],
+            trajectory_simulation.flight_positions,
             timecode_parameter,
         )
     )
     dance_simulation.update(
         land_simulation(
-            position_events.get_values_by_event_index(-1),
+            trajectory_simulation.get_position_by_index(-1),
             timecode_parameter,
             land_parameter,
         )
     )
-    last_position = position_events.get_values_by_event_index(-1)
+    last_position = trajectory_simulation.get_position_by_index(-1)
 
     dance_simulation.update(
         stand_by_simulation(
-            position_events.get_timecode_by_event_index(-1)
+            trajectory_simulation.get_second_by_index(-1)
             + land_parameter.get_land_second_delta(last_position[2]),
             last_second + timecode_parameter.position_second_rate,
             (last_position[0], last_position[1], 0),

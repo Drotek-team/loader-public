@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-from typing import List
-
-import numpy as np
+from typing import List, Tuple
 
 from ...parameter.parameter import JsonConvertionConstant, LandParameter
 from ..drone.events.position_events import PositionEvent
@@ -10,7 +8,7 @@ from ..drone.events.position_events import PositionEvent
 @dataclass(frozen=True)
 class PositionSimulation:
     second: float
-    xyz: np.ndarray
+    xyz: Tuple[float, float, float]
 
 
 @dataclass
@@ -35,12 +33,22 @@ class TrajectorySimulation:
         ]
 
     @property
+    def flight_positions(self) -> List[PositionSimulation]:
+        return self.positions_simulation[1:]
+
+    @property
     def last_second(self) -> float:
         return self.positions_simulation[-1].second
 
     @property
     def last_height(self) -> float:
         return self.positions_simulation[-1].xyz[2]
+
+    def get_second_by_index(self, index: int) -> float:
+        return self.positions_simulation[index].second
+
+    def get_position_by_index(self, index: int) -> Tuple[float, float, float]:
+        return self.positions_simulation[index].xyz
 
 
 class TrajectorySimulationManager:

@@ -2,26 +2,28 @@ from typing import List
 
 import numpy as np
 
-from ...drones_manager.drone.events.position_events import PositionEvent
+from ...drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
+    PositionSimulation,
+)
 from ...parameter.parameter import TimecodeParameter
 from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation
 
 
 def flight_simulation(
-    position_events: List[PositionEvent],
+    positions_simulation: List[PositionSimulation],
     timecode_parameter: TimecodeParameter,
 ) -> DanceSequence:
     flight_positions: List[np.ndarray] = []
-    for position_event, next_position_event in zip(
-        position_events[:-1], position_events[1:]
+    for position_simulation, next_positions_simulation in zip(
+        positions_simulation[:-1], positions_simulation[1:]
     ):
         flight_positions += linear_interpolation(
-            position_event.get_values(),
-            next_position_event.get_values(),
+            position_simulation.xyz,
+            next_positions_simulation.xyz,
             int(
-                ((next_position_event.timecode - position_event.timecode))
-                // timecode_parameter.position_second_rate
+                ((next_positions_simulation.second - position_simulation.second))
+                / timecode_parameter.position_second_rate
             ),
         )
     # flight_positions.append(
