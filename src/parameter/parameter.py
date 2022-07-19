@@ -31,13 +31,23 @@ class JsonFormatParameter:
 @dataclass(frozen=True)
 class TakeoffParameter:
     takeoff_altitude: int
+    takeoff_simulation_altitude: float
     takeoff_elevation_duration: int
+    takeoff_elevation_simulation_duration: float
     takeoff_stabilisation_duration: int
+    takeoff_stabilisation_simulation_duration: float
     blender_bias: int
 
     @property
     def takeoff_duration(self) -> int:
         return self.takeoff_elevation_duration + self.takeoff_stabilisation_duration
+
+    @property
+    def takeoff_simulation_duration(self) -> float:
+        return (
+            self.takeoff_elevation_simulation_duration
+            + self.takeoff_stabilisation_simulation_duration
+        )
 
 
 @dataclass(frozen=True)
@@ -169,14 +179,21 @@ class Parameter:
                 self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
                 * data["TAKEOFF_ALTITUDE_METER"]
             ),
+            takeoff_simulation_altitude=data["TAKEOFF_ALTITUDE_METER"],
             takeoff_elevation_duration=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
             ),
+            takeoff_elevation_simulation_duration=data[
+                "TAKEOFF_ELEVATION_DURATION_SECOND"
+            ],
             takeoff_stabilisation_duration=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
             ),
+            takeoff_stabilisation_simulation_duration=data[
+                "TAKEOFF_STABILISATION_DURATION_SECOND"
+            ],
             blender_bias=data["BLENDER_TIMECODE_TAKEOFF_BIAS"],
         )
         self.land_parameter = LandParameter(

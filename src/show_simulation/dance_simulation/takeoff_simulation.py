@@ -8,41 +8,43 @@ from .position_simulation import linear_interpolation
 
 
 def generate_takeoff_first_part(
-    takeoff_start_position: Tuple[int, int, int],
+    takeoff_start_position: Tuple[float, float, float],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> List[np.ndarray]:
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + takeoff_parameter.takeoff_altitude,
+        takeoff_start_position[2] + takeoff_parameter.takeoff_simulation_altitude,
     )
     return linear_interpolation(
         takeoff_start_position,
         takeoff_end_position,
-        takeoff_parameter.takeoff_elevation_duration
-        // timecode_parameter.position_timecode_rate,
+        int(
+            takeoff_parameter.takeoff_elevation_simulation_duration
+            / timecode_parameter.position_second_rate
+        ),
     )
 
 
 def generate_takeoff_second_part(
-    takeoff_start_position: Tuple[int, int, int],
+    takeoff_start_position: Tuple[float, float, float],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> List[np.ndarray]:
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + takeoff_parameter.takeoff_altitude,
+        takeoff_start_position[2] + takeoff_parameter.takeoff_simulation_altitude,
     )
-    return (
-        takeoff_parameter.takeoff_stabilisation_duration
-        // timecode_parameter.position_timecode_rate
-    ) * [takeoff_end_position]
+    return int(
+        takeoff_parameter.takeoff_stabilisation_simulation_duration
+        / timecode_parameter.position_second_rate
+    ) * [np.array(takeoff_end_position)]
 
 
 def takeoff_simulation(
-    takeoff_start_position: Tuple[int, int, int],
+    takeoff_start_position: Tuple[float, float, float],
     timecode_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> DanceSequence:

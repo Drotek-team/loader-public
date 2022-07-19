@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 
 from ....drones_manager.drone.events.position_events import PositionEvent
 from ....parameter.parameter import Parameter
@@ -15,31 +14,29 @@ def test_stand_by_simulation():
     parameter = Parameter()
     parameter.load_iostar_parameter()
     parameter.load_export_parameter()
-    timecode_start = 0
-    timecode_end = 1_000
-    first_takeoff_position = (0, 0, 10_00)
+    second_start = 0
+    second_end = 1
+    first_takeoff_position = (0, 0, 10)
     dance_sequence = stand_by_simulation(
-        timecode_start,
-        timecode_end,
+        second_start,
+        second_end,
         first_takeoff_position,
         parameter.timecode_parameter,
-        parameter.json_convertion_constant,
     )
     FIRST_THEORICAL_POSITION_EVENT = PositionEvent(
-        timecode_start, *first_takeoff_position
+        second_start, *first_takeoff_position
     )
-    SECOND_THEORICAL_POSITION_EVENT = PositionEvent(
-        timecode_end, *first_takeoff_position
-    )
+    SECOND_THEORICAL_POSITION_EVENT = PositionEvent(second_end, *first_takeoff_position)
     theorical_curve = linear_interpolation(
         FIRST_THEORICAL_POSITION_EVENT.get_values(),
         SECOND_THEORICAL_POSITION_EVENT.get_values(),
-        (
-            SECOND_THEORICAL_POSITION_EVENT.timecode
-            - FIRST_THEORICAL_POSITION_EVENT.timecode
-        )
-        // parameter.timecode_parameter.position_timecode_rate,
-        parameter.json_convertion_constant,
+        int(
+            (
+                SECOND_THEORICAL_POSITION_EVENT.timecode
+                - FIRST_THEORICAL_POSITION_EVENT.timecode
+            )
+            / parameter.timecode_parameter.position_second_rate
+        ),
     )
     assert len(dance_sequence.drone_positions) == len(theorical_curve)
     assert all(

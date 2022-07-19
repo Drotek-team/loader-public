@@ -16,8 +16,8 @@ def test_flight_simulation():
     parameter.load_iostar_parameter()
     parameter.load_export_parameter()
     FIRST_POSITION_EVENT = PositionEvent(0, 0, 0, 0)
-    SECOND_POSITION_EVENT = PositionEvent(250, 0, 0, 1_00)
-    THIRD_POSITION_EVENT = PositionEvent(1000, 0, 0, 2_00)
+    SECOND_POSITION_EVENT = PositionEvent(0.25, 0, 0, 1)
+    THIRD_POSITION_EVENT = PositionEvent(1.0, 0, 0, 2)
     position_events = [
         FIRST_POSITION_EVENT,
         SECOND_POSITION_EVENT,
