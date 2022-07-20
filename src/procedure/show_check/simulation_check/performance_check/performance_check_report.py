@@ -6,6 +6,7 @@ from .observed_metrics.observed_metrics_report import ObservedMetricsCheckReport
 
 class PerformanceCheckReport(Contenor):
     def __init__(self):
+        self.name = "Performance Check Report"
         self.observed_metrics_slices_check_report: List[ObservedMetricsCheckReport] = []
 
     def update_observed_metrics_slices_check_report(self, seconds: List[float]) -> None:

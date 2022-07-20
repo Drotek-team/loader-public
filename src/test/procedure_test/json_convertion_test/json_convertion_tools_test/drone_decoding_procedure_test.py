@@ -18,7 +18,7 @@ from .dance_example import (
 def test_valid_dance_decoding():
     parameter = Parameter()
     parameter.load_parameter()
-    drone_decoding_report = DroneDecodingReport()
+    drone_decoding_report = DroneDecodingReport(0)
     drone = decode_drone(
         DANCE_EXAMPLE, 0, parameter.json_format_parameter, drone_decoding_report
     )

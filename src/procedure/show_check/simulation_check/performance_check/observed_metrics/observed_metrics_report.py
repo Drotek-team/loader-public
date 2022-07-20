@@ -17,7 +17,7 @@ class PerformanceIncidence(Displayer):
 
 class PerformanceCheckReport:
     def __init__(self, type: str):
-        self.type = type
+        self.name = f"Performance check report of type {type}"
         self.performance_check_report: List[PerformanceIncidence] = []
 
     def update(self) -> None:
@@ -29,18 +29,18 @@ class PerformanceCheckReport:
 
 class ObservedMetricsCheckReport(Contenor):
     def __init__(self, second: float):
-        self.second = second
+        self.name = f"Observed Metrics check report {second}"
         self.vertical_position_check_report = PerformanceCheckReport(
-            "vertical position"
+            "Vertical Position"
         )
         self.horizontal_velocity_check_report = PerformanceCheckReport(
-            "horizontal velocity"
+            "Horizontal Velocity"
         )
         self.horizontal_acceleration_check_report = PerformanceCheckReport(
-            "horizontal acceleration"
+            "Horizontal Acceleration"
         )
-        self.up_force_check_report = PerformanceCheckReport("up force")
-        self.down_force_check_report = PerformanceCheckReport("down force")
+        self.up_force_check_report = PerformanceCheckReport("Up Force")
+        self.down_force_check_report = PerformanceCheckReport("Down Force")
 
     def update(self) -> None:
         self.validation = (

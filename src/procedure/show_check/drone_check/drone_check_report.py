@@ -1,10 +1,11 @@
+from ...report import Contenor
 from .dance_size_check.dances_size_check_report import DanceSizeCheckReport
 from .events_format_check.events_format_check_report import EventsFormatCheckReport
 
 
-class DroneCheckReport:
-    def __init__(self):
-        self.validation = False
+class DroneCheckReport(Contenor):
+    def __init__(self, drone_index: int):
+        self.name = f"Drone {drone_index} check report"
         self.events_format_check_report = EventsFormatCheckReport()
         self.dance_size_check_report = DanceSizeCheckReport()
 

@@ -1,26 +1,29 @@
-class TimecodeFormatCheckReport:
+from ....report import Contenor, Displayer
+
+
+class TimecodeFormatCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Timecode Format Check Report"
+
+
+class TimecodeValueCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Timecode Vakue Check Report"
+
+
+class IncreasingTimecodeCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Increasing Timecode Check Report"
+
+
+class TimecodeRateCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Timecode Rate Check Report"
+
+
+class TimecodeCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
-
-
-class TimecodeValueCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class IncreasingTimecodeCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class TimecodeRateCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class TimecodeCheckReport:
-    def __init__(self):
-        self.validation = False
+        self.name = "Timecode Check Report"
         self.timecode_format_check_report = TimecodeFormatCheckReport()
         self.timecode_value_check_report = TimecodeValueCheckReport()
         self.increasing_timecode_check_report = IncreasingTimecodeCheckReport()
@@ -35,19 +38,19 @@ class TimecodeCheckReport:
         )
 
 
-class XyzFormatCheckReport:
+class XyzFormatCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Xyz Format Check Report"
+
+
+class XyzValueCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Xyz Value Check Report"
+
+
+class XyzCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
-
-
-class XyzValueCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class XyzCheckReport:
-    def __init__(self):
-        self.validation = False
+        self.name = "Xyz Check Report"
         self.xyz_format_check_report = XyzFormatCheckReport()
         self.xyz_value_check_report = XyzValueCheckReport()
 
@@ -58,19 +61,19 @@ class XyzCheckReport:
         )
 
 
-class TakeoffDurationCheckReport:
+class TakeoffDurationCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Takeoff Duration Check Report"
+
+
+class TakeoffPositionCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Takeoff Position Check Report"
+
+
+class TakeoffCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
-
-
-class TakeoffPositionCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class TakeoffCheckReport:
-    def __init__(self):
-        self.validation = False
+        self.name = "Takeoff Check Report"
         self.takeoff_duration_check_report = TakeoffDurationCheckReport()
         self.takeoff_position_check_report = TakeoffPositionCheckReport()
 
@@ -81,9 +84,9 @@ class TakeoffCheckReport:
         )
 
 
-class PositionEventsCheckReport:
+class PositionEventsCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
+        self.name = "Position Events Check Report"
         self.timecode_check_report = TimecodeCheckReport()
         self.xyz_check_report = XyzCheckReport()
         self.takeoff_check_report = TakeoffCheckReport()
@@ -96,19 +99,19 @@ class PositionEventsCheckReport:
         )
 
 
-class RgbwFormatCheckReport:
+class RgbwFormatCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Rgbw Format Check Report"
+
+
+class RgbwValueCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Rgbw Value Check Report"
+
+
+class RgbwCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
-
-
-class RgbwValueCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class RgbwCheckReport:
-    def __init__(self):
-        self.validation = False
+        self.name = "Rgbw Check Report"
         self.rgbw_format_check_report = RgbwFormatCheckReport()
         self.rgbw_value_check_report = RgbwValueCheckReport()
 
@@ -119,9 +122,9 @@ class RgbwCheckReport:
         )
 
 
-class ColorEventsCheckReport:
+class ColorEventsCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
+        self.name = "Color Events Check Report"
         self.timecode_check_report = TimecodeCheckReport()
         self.rgbw_check_report = RgbwCheckReport()
 
@@ -131,9 +134,9 @@ class ColorEventsCheckReport:
         )
 
 
-class FireTimecodeCheckReport:
+class FireTimecodeCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
+        self.name = "Fire Timecode Check Report"
         self.timecode_format_check_report = TimecodeFormatCheckReport()
         self.timecode_value_check_report = TimecodeValueCheckReport()
 
@@ -144,24 +147,24 @@ class FireTimecodeCheckReport:
         )
 
 
-class FireChanelFormatCheckReport:
+class FireChanelFormatCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Fire Chanel Format Check Report"
+
+
+class FireChanelValueCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Fire Chanel Value Check Report"
+
+
+class FireChanelUncityCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Fire Chanel Uncity Check Report"
+
+
+class FireChanelCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
-
-
-class FireChanelValueCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class FireChanelUncityCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class FireChanelCheckReport:
-    def __init__(self):
-        self.validation = False
+        self.name = "Fire Chanel Check Report"
         self.fire_chanel_format_check_report = FireChanelFormatCheckReport()
         self.fire_chanel_value_check_report = FireChanelValueCheckReport()
         self.fire_chanel_unicty_check_report = FireChanelUncityCheckReport()
@@ -172,19 +175,19 @@ class FireChanelCheckReport:
         )
 
 
-class FireDurationFormatCheckReport:
+class FireDurationFormatCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Fire Duration Format Check Report"
+
+
+class FireDurationValueCheckReport(Displayer):
+    def get_report(self) -> str:
+        return "Fire Duration Value Check Report"
+
+
+class FireDurationCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
-
-
-class FireDurationValueCheckReport:
-    def __init__(self):
-        self.validation = False
-
-
-class FireDurationCheckReport:
-    def __init__(self):
-        self.validation = False
+        self.name = "Fire Duration Check Report"
         self.fire_duration_format_check_report = FireDurationFormatCheckReport()
         self.fire_duration_value_check_report = FireDurationValueCheckReport()
 
@@ -195,9 +198,9 @@ class FireDurationCheckReport:
         )
 
 
-class FireEventsCheckReport:
+class FireEventsCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
+        self.name = "Fire Events Check Report"
         self.fire_timecode_check_report = FireTimecodeCheckReport()
         self.fire_chanel_check_report = FireChanelCheckReport()
         self.fire_duration_check_report = FireDurationCheckReport()
@@ -210,9 +213,9 @@ class FireEventsCheckReport:
         )
 
 
-class EventsFormatCheckReport:
+class EventsFormatCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
+        self.name = "Events format check report"
         self.position_events_check = PositionEventsCheckReport()
         self.color_events_check = ColorEventsCheckReport()
         self.fire_events_check = FireEventsCheckReport()
