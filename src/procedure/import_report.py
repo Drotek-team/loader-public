@@ -1,8 +1,9 @@
 from .json_conversion.json_extraction_report import JsonExtractionReport
+from .report import Contenor
 from .show_check.show_check_report import ShowCheckReport
 
 
-class ImportReport:
+class ImportReport(Contenor):
     def __init__(self):
         self.validation = False
         self.json_extraction_report = JsonExtractionReport()

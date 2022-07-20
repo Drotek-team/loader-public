@@ -1,10 +1,8 @@
+from ..report import Contenor
 from .json_convertion_tools.drone_decoding_report import DroneDecodingReport
 
 
-class JsonExtractionReport:
-    def __init__(self):
-        self.validation = False
-
+class JsonExtractionReport(Contenor):
     def initialize_drones_decoding_report(self, nb_drones: int) -> None:
         self.drones_decoding_report = [DroneDecodingReport() for _ in range(nb_drones)]
 

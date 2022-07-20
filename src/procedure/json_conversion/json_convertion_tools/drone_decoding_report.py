@@ -1,22 +1,24 @@
 from typing import List
 
-
-class HeaderSufficientSpaceReport:
-    def __init__(self):
-        self.validation = False
+from ...report import Contenor, Displayer
 
 
-class MagicNumberFormatReport:
-    def __init__(self):
-        self.validation = False
+class HeaderSufficientSpaceReport(Displayer):
+    def get_report(self) -> str:
+        return "The header did not get sufficient space"
 
 
-class DanceSizeFormatReport:
-    def __init__(self):
-        self.validation = False
+class MagicNumberFormatReport(Displayer):
+    def get_report(self) -> str:
+        return "The magic number is wrong"
 
 
-class HeaderFormatReport:
+class DanceSizeFormatReport(Displayer):
+    def get_report(self) -> str:
+        return "The dance size format is not proper"
+
+
+class HeaderFormatReport(Contenor):
     def __init__(self):
         self.validation = False
         self.header_sufficient_space_report = HeaderSufficientSpaceReport()
@@ -31,12 +33,12 @@ class HeaderFormatReport:
         )
 
 
-class SectionHeaderFormatReport:
-    def __init__(self):
-        self.validation = False
+class SectionHeaderFormatReport(Displayer):
+    def get_report(self) -> str:
+        return "The section header does not has the proper format"
 
 
-class DroneDecodingReport:
+class DroneDecodingReport(Contenor):
     def __init__(self):
         self.validation = False
         self.header_format_report = HeaderFormatReport()
