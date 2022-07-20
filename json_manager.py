@@ -6,7 +6,7 @@ from src.procedure.import_report import ImportReport
 def main() -> None:
     import_report = ImportReport()
     apply_import_procedure(JSON_EXAMPLE, import_report)
-    print(import_report.get_children_report(0, "###"))
+    print(import_report.get_contenor_report(0, "   "))
 
 
 if __name__ == "__main__":

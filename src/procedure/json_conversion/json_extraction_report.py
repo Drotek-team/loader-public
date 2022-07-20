@@ -9,7 +9,9 @@ class JsonExtractionReport(Contenor):
     name = "Json Extraction Report"
 
     def initialize_drones_decoding_report(self, nb_drones: int) -> None:
-        self.drones_decoding_report = [DroneDecodingReport() for _ in range(nb_drones)]
+        self.drones_decoding_report = [
+            DroneDecodingReport(drone_index) for drone_index in range(nb_drones)
+        ]
 
     def update(self) -> None:
         if not (hasattr(self, "drones_decoding_report")):

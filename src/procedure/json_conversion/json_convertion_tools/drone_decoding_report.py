@@ -41,12 +41,9 @@ class SectionHeaderFormatReport(Displayer):
         return "The section header does not has the proper format"
 
 
-@dataclass
 class DroneDecodingReport(Contenor):
-    name = "Drone Encoding Report"
-
-    def __init__(self):
-        self.validation = False
+    def __init__(self, drone_index: int):
+        self.name = f"Drone {drone_index} Encoding Report"
         self.header_format_report = HeaderFormatReport()
         self.section_headers_format_report: List[SectionHeaderFormatReport] = []
 
