@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import List
 
 from ...report import Contenor, Displayer
@@ -18,9 +19,11 @@ class DanceSizeFormatReport(Displayer):
         return "The dance size format is not proper"
 
 
+@dataclass
 class HeaderFormatReport(Contenor):
+    name = "Header Format Report"
+
     def __init__(self):
-        self.validation = False
         self.header_sufficient_space_report = HeaderSufficientSpaceReport()
         self.magic_number_format_report = MagicNumberFormatReport()
         self.dance_size_format_report = DanceSizeFormatReport()
@@ -38,7 +41,10 @@ class SectionHeaderFormatReport(Displayer):
         return "The section header does not has the proper format"
 
 
+@dataclass
 class DroneDecodingReport(Contenor):
+    name = "Drone Encoding Report"
+
     def __init__(self):
         self.validation = False
         self.header_format_report = HeaderFormatReport()

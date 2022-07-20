@@ -5,11 +5,9 @@ from .show_check.show_check_report import ShowCheckReport
 
 class ImportReport(Contenor):
     def __init__(self):
-        self.validation = False
+        self.name = "Import Report"
         self.json_extraction_report = JsonExtractionReport()
         self.show_check_report = ShowCheckReport()
 
     def update(self) -> None:
-        self.validation = (
-            self.json_extraction_report.validation and self.show_check_report.validation
-        )
+        self.validation = self.json_extraction_report.validation

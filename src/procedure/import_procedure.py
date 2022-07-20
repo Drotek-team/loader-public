@@ -17,11 +17,11 @@ def apply_import_procedure(
     drones_manager, family_manager = apply_json_extraction_procedure(
         json_dict, parameter.json_format_parameter, import_report.json_extraction_report
     )
-    import_report.show_check_report.initialize_drones_check_report(
-        len(drones_manager.drones)
-    )
-    apply_show_check_procedure(
-        drones_manager, family_manager, import_report.show_check_report
-    )
+    # import_report.show_check_report.initialize_drones_check_report(
+    #     len(drones_manager.drones)
+    # )
+    # apply_show_check_procedure(
+    #     drones_manager, family_manager, import_report.show_check_report
+    # )
     import_report.update()
     return drones_manager, family_manager

@@ -1,16 +1,22 @@
 from dataclasses import dataclass
 from typing import List
 
+from .....report import Contenor, Displayer
+
 
 @dataclass(frozen=True)
-class PerformanceIncidence:
+class PerformanceIncidence(Displayer):
     drone_index: int
     value: float
+
+    def get_report(self) -> str:
+        return (
+            f"Drone {self.drone_index} exceed the performance with value {self.value}"
+        )
 
 
 class PerformanceCheckReport:
     def __init__(self, type: str):
-        self.validation = False
         self.type = type
         self.performance_check_report: List[PerformanceIncidence] = []
 
@@ -21,9 +27,8 @@ class PerformanceCheckReport:
         self.performance_check_report.append(PerformanceIncidence(drone_index, value))
 
 
-class ObservedMetricsCheckReport:
+class ObservedMetricsCheckReport(Contenor):
     def __init__(self, second: float):
-        self.validation = False
         self.second = second
         self.vertical_position_check_report = PerformanceCheckReport(
             "vertical position"

@@ -1,11 +1,11 @@
 from typing import List
 
+from ....report import Contenor
 from .observed_metrics.observed_metrics_report import ObservedMetricsCheckReport
 
 
-class PerformanceCheckReport:
+class PerformanceCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
         self.observed_metrics_slices_check_report: List[ObservedMetricsCheckReport] = []
 
     def update_observed_metrics_slices_check_report(self, seconds: List[float]) -> None:

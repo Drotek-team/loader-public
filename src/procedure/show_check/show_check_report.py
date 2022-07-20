@@ -1,11 +1,11 @@
+from ..report import Contenor
 from .drone_check.drone_check_report import DroneCheckReport
 from .family_manager_check.family_manager_check_report import FamilyManagerCheckReport
 from .simulation_check.simulation_check_report import SimulationCheckReport
 
 
-class ShowCheckReport:
+class ShowCheckReport(Contenor):
     def __init__(self):
-        self.validation = False
         self.simulation_check_report = SimulationCheckReport()
         self.family_check_report = FamilyManagerCheckReport()
 

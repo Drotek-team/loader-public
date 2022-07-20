@@ -1,8 +1,13 @@
+from dataclasses import dataclass
+
 from ..report import Contenor
 from .json_convertion_tools.drone_decoding_report import DroneDecodingReport
 
 
+@dataclass
 class JsonExtractionReport(Contenor):
+    name = "Json Extraction Report"
+
     def initialize_drones_decoding_report(self, nb_drones: int) -> None:
         self.drones_decoding_report = [DroneDecodingReport() for _ in range(nb_drones)]
 
