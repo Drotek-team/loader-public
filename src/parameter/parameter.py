@@ -20,6 +20,15 @@ class JsonConvertionConstant:
             [json_position[1], json_position[0], -json_position[2]]
         )
 
+    def from_simulation_position_to_json_position(
+        self, simulation_position: Tuple[float, float, float]
+    ) -> Tuple[int, int, int]:
+        return (
+            int(self.METER_TO_CENTIMETER_RATIO * simulation_position[1]),
+            int(self.METER_TO_CENTIMETER_RATIO * simulation_position[0]),
+            int(-self.METER_TO_CENTIMETER_RATIO * simulation_position[2]),
+        )
+
 
 @dataclass(frozen=True)
 class JsonFormatParameter:
