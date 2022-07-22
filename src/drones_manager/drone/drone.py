@@ -19,8 +19,8 @@ class Drone:
     def add_color(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
         self.color_events.add(timecode, rgbw)
 
-    def add_fire(self, timecode: int, value: float) -> None:
-        self.fire_events.add(timecode, value)
+    def add_fire(self, timecode: int, channel: int, duration: int) -> None:
+        self.fire_events.add(timecode, channel, duration)
 
     def get_events_by_index(self, event_index: int) -> Events:
         if event_index < 0 or event_index > 2:
