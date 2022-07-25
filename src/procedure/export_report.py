@@ -1,10 +1,12 @@
 from .json_conversion.json_creation_report import JsonCreationReport
+from .report import Contenor
 from .show_check.show_check_report import ShowCheckReport
 
 
-class ExportReport:
+class ExportReport(Contenor):
+    name = "Export Report"
+
     def __init__(self):
-        self.validation = False
         self.show_check_report = ShowCheckReport()
         self.json_creation_report = JsonCreationReport()
 
