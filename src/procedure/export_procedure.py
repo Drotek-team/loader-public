@@ -13,6 +13,9 @@ def apply_export_procedure(
     parameter: Parameter,
 ) -> None:
     # drones_manager.apply_dances_size_relief()
+    export_report.show_check_report.initialize_drones_check_report(
+        len(drones_manager.drones)
+    )
     apply_show_check_procedure(
         drones_manager,
         family_manager,

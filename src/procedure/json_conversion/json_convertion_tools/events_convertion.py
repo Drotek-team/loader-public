@@ -1,7 +1,5 @@
 import struct
 
-import numpy as np
-
 from ....drones_manager.drone.events.events import Events
 
 

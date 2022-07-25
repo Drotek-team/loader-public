@@ -3,15 +3,12 @@ from typing import List, Tuple
 
 from ....drones_manager.drones_manager import DroneExport
 from ....family_manager.family_manager import FamilyManager
-
-
-class BinaryDance:
-    bits: List[int] = []
+from .drone_encoding_report import DroneEncodingReport
 
 
 class Family:
     def __init__(
-        self, family_position: Tuple[int, int, int], binaries: List[BinaryDance]
+        self, family_position: Tuple[int, int, int], binaries: List[List[int]]
     ):
         self.family_position = family_position
         self.binary_dances = binaries
@@ -28,20 +25,23 @@ class Show:
 
     def update_families(
         self,
-        drones: List[DroneExport],
-        binaries: List[BinaryDance],
+        first_positions: List[Tuple[int, int, int]],
+        binaries: List[List[int]],
         family_manager: FamilyManager,
+        drones_encoding_report: List[DroneEncodingReport],
     ) -> None:
         drone_index = 0
         for drone_index in range(family_manager.nb_x * family_manager.nb_y - 1):
             self.families.append(
                 Family(
-                    drones[drone_index].first_xyz,
-                    binaries[
-                        drone_index
-                        * family_manager.nb_drone_per_family : (drone_index + 1)
-                        * family_manager.nb_drone_per_family
-                    ],
+                    first_positions[drone_index],
+                    BinaryDance(
+                        binaries[
+                            drone_index
+                            * family_manager.nb_drone_per_family : (drone_index + 1)
+                            * family_manager.nb_drone_per_family
+                        ]
+                    ),
                 )
             )
 

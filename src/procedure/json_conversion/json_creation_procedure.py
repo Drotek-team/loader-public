@@ -1,5 +1,6 @@
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
+from .json_convertion_tools.drone_encoding_procedure import encode_drone
 from .json_convertion_tools.show_creation import Show
 from .json_creation_report import JsonCreationReport
 
@@ -10,7 +11,12 @@ def apply_json_creation_procedure(
     json_creation_report: JsonCreationReport,
 ) -> None:
     show = Show()
-    show.update_families(drones_manager, family_manager, json_creation_report)
+    show.update_families(
+        [drone_export.first_xyz for drone_export in drones_manager.drones],
+        [encode_drone(drone_export) for drone_export in drones_manager.drones],
+        family_manager,
+        json_creation_report.drones_encoding_report,
+    )
     show.update_parameter(
         family_manager.nb_x,
         family_manager.nb_y,
