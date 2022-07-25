@@ -76,4 +76,5 @@ def encode_drone(
         dance_size(section_headers, encoded_events_list, json_format_parameter),
         len(non_empty_events_list),
     )
+    drone_encoding_report.validation = True
     return assemble_dance(header, section_headers, encoded_events_list)

@@ -22,7 +22,13 @@ def apply_export_procedure(
         export_report.show_check_report,
         parameter,
     )
+    export_report.json_creation_report.initialize_drones_encoding_report(
+        len(drones_manager.drones)
+    )
     apply_json_creation_procedure(
-        drones_manager, family_manager, export_report.json_creation_report
+        drones_manager,
+        family_manager,
+        parameter.json_format_parameter,
+        export_report.json_creation_report,
     )
     export_report.update()

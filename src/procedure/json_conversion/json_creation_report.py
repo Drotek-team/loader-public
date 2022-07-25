@@ -9,7 +9,7 @@ class JsonCreationReport:
         self.drones_encoding_report = [DroneEncodingReport() for _ in range(nb_drones)]
 
     def update(self) -> None:
-        if hasattr(self, "drones_encoding_report"):
+        if not (hasattr(self, "drones_encoding_report")):
             raise ValueError
         self.validation = all(
             drone_encoding_report.validation
