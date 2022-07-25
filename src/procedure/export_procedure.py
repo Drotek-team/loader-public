@@ -10,7 +10,7 @@ def apply_export_procedure(
     family_manager: FamilyManager,
     export_report: ExportReport,
 ) -> None:
-    drones_manager.apply_dances_size_relief()
+    # drones_manager.apply_dances_size_relief()
     apply_show_check_procedure(
         drones_manager,
         family_manager,

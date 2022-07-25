@@ -6,9 +6,10 @@ from ..parameter.parameter import JsonConvertionConstant
 from .convex_hull import calculate_convex_hull
 from .drone.drone import DroneExport
 from .drone.events.position_events import PositionEvent
-from .drone.events_size_easing import apply_dance_size_relief
-from .trajectory_simulation_manager.trajectory_simulation_manager import \
-    TrajectorySimulationManager
+from .drone.events_size_easing import EventsSizeEasing, apply_dance_size_relief
+from .trajectory_simulation_manager.trajectory_simulation_manager import (
+    TrajectorySimulationManager,
+)
 
 
 class DronesManager:
@@ -47,5 +48,6 @@ class DronesManager:
         return calculate_convex_hull(np.array(self.first_horizontal_positions))
 
     def apply_dances_size_relief(self) -> None:
+        events_size_easing = EventsSizeEasing()
         for drone in self.drones:
-            apply_dance_size_relief(drone)
+            apply_dance_size_relief(drone, events_size_easing)
