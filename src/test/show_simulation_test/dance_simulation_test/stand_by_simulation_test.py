@@ -12,8 +12,7 @@ from ....show_simulation.dance_simulation.position_simulation import (
 
 def test_stand_by_simulation():
     parameter = Parameter()
-    parameter.load_iostar_parameter()
-    parameter.load_export_parameter()
+    parameter.load_parameter()
     second_start = 0
     second_end = 1
     first_takeoff_position = (0, 0, 10)

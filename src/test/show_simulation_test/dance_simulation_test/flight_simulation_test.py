@@ -14,8 +14,7 @@ from ....show_simulation.dance_simulation.position_simulation import (
 
 def test_flight_simulation():
     parameter = Parameter()
-    parameter.load_iostar_parameter()
-    parameter.load_export_parameter()
+    parameter.load_parameter()
     FIRST_POSITION_EVENT = PositionSimulation(0, (0, 0, 0))
     SECOND_POSITION_EVENT = PositionSimulation(0.25, (0, 0, 1))
     THIRD_POSITION_EVENT = PositionSimulation(1.0, (0, 0, 2))

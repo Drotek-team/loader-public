@@ -148,8 +148,8 @@ class Parameter:
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
     json_convertion_constant = JsonConvertionConstant()
 
-    def load_json_format_parameter(self) -> None:
-        f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
+    def load_json_format_parameter(self, local_path: str) -> None:
+        f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.json_format_parameter = JsonFormatParameter(
             magic_number=data["MAGIC_NUMBER_INTEGER"],
@@ -157,8 +157,8 @@ class Parameter:
             fmt_section_header=data["FMT_SECTION_HEADER"],
         )
 
-    def load_export_parameter(self) -> None:
-        f = open(f"{os.getcwd()}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
+    def load_timecode_parameter(self, local_path: str) -> None:
+        f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.timecode_parameter = TimecodeParameter(
             show_timecode_begin=int(
@@ -182,8 +182,8 @@ class Parameter:
             color_second_rate=1 / data["COLOR_SECOND_FREQUENCE"],
         )
 
-    def load_iostar_parameter(self) -> None:
-        f = open(f"{os.getcwd()}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
+    def load_iostar_parameter(self, local_path: str) -> None:
+        f = open(f"{local_path}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
             takeoff_altitude=int(
@@ -233,8 +233,8 @@ class Parameter:
             iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
         )
 
-    def load_family_parameter(self) -> None:
-        f = open(f"{os.getcwd()}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
+    def load_family_parameter(self, local_path: str) -> None:
+        f = open(f"{local_path}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.family_parameter = FamilyParameter(
             nb_x_value_min=data["NB_X_VALUE_MIN"],
@@ -252,7 +252,8 @@ class Parameter:
         )
 
     def load_parameter(self) -> None:
-        self.load_family_parameter()
-        self.load_iostar_parameter()
-        self.load_export_parameter()
-        self.load_json_format_parameter()
+        local_path = os.getcwd()
+        self.load_family_parameter(local_path)
+        self.load_iostar_parameter(local_path)
+        self.load_timecode_parameter(local_path)
+        self.load_json_format_parameter(local_path)

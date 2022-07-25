@@ -36,7 +36,7 @@ def test_valid_drone_manager_family_manager(
     valid_drones_manager: DronesManager, valid_family_manager: FamilyManager
 ):
     parameter = Parameter()
-    parameter.load_family_parameter()
+    parameter.load_parameter()
     family_manager_check_report = FamilyManagerCheckReport()
     apply_family_check_procedure(
         valid_drones_manager,

@@ -114,7 +114,7 @@ def invalid_show_simulation():
 
 def test_valid_simulation(valid_show_simulation: ShowSimulation):
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     collision_check_report = CollisionCheckReport()
     apply_collision_check_procedure(
         valid_show_simulation, collision_check_report, parameter.iostar_parameter
@@ -124,7 +124,7 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
 
 def test_invalid_simulation(invalid_show_simulation: ShowSimulation):
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     collision_check_report = CollisionCheckReport()
     apply_collision_check_procedure(
         invalid_show_simulation, collision_check_report, parameter.iostar_parameter

@@ -1,5 +1,4 @@
 from typing import List
-from webbrowser import get
 
 from .....drones_manager.drone.events.position_events import PositionEvent
 from .....drones_manager.drones_manager import Drone, DronesManager
@@ -64,7 +63,7 @@ def test_valid_simulation():
     )
     performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     apply_performance_check_procedure(
         valid_show_simulation,
         performance_check_report,
@@ -83,7 +82,7 @@ def test_invalid_simulation():
     )
     performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     apply_performance_check_procedure(
         valid_show_simulation,
         performance_check_report,
@@ -102,7 +101,7 @@ def test_invalid_velocity_simulation():
     )
     performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     apply_performance_check_procedure(
         valid_show_simulation,
         performance_check_report,

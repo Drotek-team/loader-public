@@ -12,8 +12,7 @@ from ....show_simulation.dance_simulation.position_simulation import (
 
 def test_takeoff_simulation():
     parameter = Parameter()
-    parameter.load_iostar_parameter()
-    parameter.load_export_parameter()
+    parameter.load_parameter()
     first_position = (2.35, 5.36, 0.0)
     dance_sequence = takeoff_simulation(
         first_position,

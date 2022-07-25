@@ -16,8 +16,7 @@ from ......procedure.show_check.drone_check.events_format_check.events_format_ch
 @pytest.fixture
 def valid_position_events():
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     takeoff_parameter = parameter.takeoff_parameter
     timecode_parameter = parameter.timecode_parameter
     position_events = PositionEvents()
@@ -39,8 +38,7 @@ def test_valid_position_events_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
@@ -58,8 +56,7 @@ def test_invalid_position_events_timecode_format_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.add(
         1.23,
         (0, 0, 0),
@@ -81,8 +78,7 @@ def test_invalid_position_events_timecode_rate_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.add(
         parameter.timecode_parameter.show_timecode_begin + 1,
         (0, 0, 0),
@@ -104,8 +100,7 @@ def test_invalid_position_events_timecode_increasing_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         (0, 0, 0),
@@ -127,8 +122,7 @@ def test_invalid_position_events_timecode_first_timecode_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.event_list.insert(
         0, PositionEvent(parameter.timecode_parameter.show_timecode_begin - 1, 0, 0, 0)
     )
@@ -149,8 +143,7 @@ def test_invalid_position_events_xyz_format_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         (1.23, 0, 0),
@@ -172,8 +165,7 @@ def test_invalid_position_events_xyz_value_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         (parameter.iostar_parameter.position_value_max + 1, 0, 0),
@@ -195,8 +187,7 @@ def test_invalid_position_events_takeoff_duration_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_export_parameter()
-    parameter.load_iostar_parameter()
+    parameter.load_parameter()
     valid_position_events.event_list.insert(
         1, PositionEvent(parameter.timecode_parameter.show_timecode_begin + 1, 0, 0, 0)
     )
