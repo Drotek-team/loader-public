@@ -33,6 +33,7 @@ def calculate_convex_hull(positions: List[np.ndarray]) -> List[np.ndarray]:
     pivot = evaluate_pivot(positions)
     positions.remove(pivot)
     convex_hull = [pivot]
+    positions = np.array(positions)
     sorted_positions = sorted_by_pivot(positions, pivot)
     for position in sorted_positions:
         while (

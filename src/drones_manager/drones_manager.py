@@ -25,6 +25,10 @@ class DronesManager:
         return [drone.last_position_event for drone in self.drones]
 
     @property
+    def duration(self) -> int:
+        return max(drone.last_position_event.timecode for drone in self.drones)
+
+    @property
     def first_horizontal_positions(self) -> List[Tuple]:
         return [
             drone.position_events.get_values_by_event_index(0)[0:2]
@@ -45,7 +49,7 @@ class DronesManager:
 
     @property
     def convex_hull(self) -> List[np.ndarray]:
-        return calculate_convex_hull(np.array(self.first_horizontal_positions))
+        return calculate_convex_hull(list(np.array(self.first_horizontal_positions)))
 
     def apply_dances_size_relief(self) -> None:
         events_size_easing = EventsSizeEasing()
