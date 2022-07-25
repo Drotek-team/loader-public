@@ -45,7 +45,6 @@ class TakeoffParameter:
     takeoff_elevation_simulation_duration: float
     takeoff_stabilisation_duration: int
     takeoff_stabilisation_simulation_duration: float
-    blender_bias: int
 
     @property
     def takeoff_duration(self) -> int:
@@ -205,7 +204,6 @@ class Parameter:
             takeoff_stabilisation_simulation_duration=data[
                 "TAKEOFF_STABILISATION_DURATION_SECOND"
             ],
-            blender_bias=data["BLENDER_TIMECODE_TAKEOFF_BIAS"],
         )
         self.land_parameter = LandParameter(
             land_fast_speed=data["LAND_FAST_SPEED_METER_PER_SECOND"],
