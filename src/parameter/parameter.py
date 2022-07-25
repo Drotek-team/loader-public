@@ -240,11 +240,9 @@ class Parameter:
             nb_y_value_min=data["NB_Y_VALUE_MIN"],
             nb_y_value_max=data["NB_Y_VALUE_MAX"],
             nb_drone_per_family_min=data["NB_DRONE_PER_FAMILY_MIN"],
-            nb_drone_per_family_max=data["NB_DRONE_PER_FAMILY_MIN"],
-            step_takeoff_value_min=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * data["STEP_TAKEOFF_VALUE_METER_MIN"],
-            step_takeoff_value_max=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * data["STEP_TAKEOFF_VALUE_METER_MAX"],
+            nb_drone_per_family_max=data["NB_DRONE_PER_FAMILY_MAX"],
+            step_takeoff_value_min=data["STEP_TAKEOFF_VALUE_METER_MIN"],
+            step_takeoff_value_max=data["STEP_TAKEOFF_VALUE_METER_MAX"],
             angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
         )
