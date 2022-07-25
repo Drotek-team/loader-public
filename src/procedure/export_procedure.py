@@ -19,3 +19,4 @@ def apply_export_procedure(
     apply_json_creation_procedure(
         drones_manager, family_manager, export_report.json_creation_report
     )
+    export_report.update()

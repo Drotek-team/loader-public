@@ -4,5 +4,11 @@ from .show_check.show_check_report import ShowCheckReport
 
 class ExportReport:
     def __init__(self):
+        self.validation = False
         self.show_check_report = ShowCheckReport()
         self.json_creation_report = JsonCreationReport()
+
+    def update(self) -> None:
+        self.validation = (
+            self.show_check_report.validation and self.json_creation_report.validation
+        )
