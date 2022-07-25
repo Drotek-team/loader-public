@@ -38,5 +38,9 @@ def test_valid_show_check_procedure(
     drones_manager, family_manager = valid_drones_manager_family_manager
     show_check_report = ShowCheckReport()
     show_check_report.initialize_drones_check_report(len(drones_manager.drones))
-    apply_show_check_procedure(drones_manager, family_manager, show_check_report)
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    apply_show_check_procedure(
+        drones_manager, family_manager, show_check_report, parameter
+    )
     assert show_check_report.validation

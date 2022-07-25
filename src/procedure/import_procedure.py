@@ -12,9 +12,8 @@ from .show_check.show_check_procedure import apply_show_check_procedure
 def apply_import_procedure(
     json_dict: Dict,
     import_report: ImportReport,
+    parameter: Parameter,
 ) -> Tuple[DronesManager, FamilyManager]:
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     drones_manager, family_manager = apply_json_extraction_procedure(
         json_dict, parameter.json_format_parameter, import_report.json_extraction_report
     )
@@ -22,7 +21,7 @@ def apply_import_procedure(
         len(drones_manager.drones)
     )
     apply_show_check_procedure(
-        drones_manager, family_manager, import_report.show_check_report
+        drones_manager, family_manager, import_report.show_check_report, parameter
     )
     import_report.update()
     return drones_manager, family_manager
