@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from ....drones_manager.drone.events.position_events import PositionEvent
@@ -8,7 +9,7 @@ from ....show_simulation.show_simulation import ShowSimulation
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
@@ -49,7 +50,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
 
 def test_valid_show_flags():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     position_event_1 = PositionEvent(250, 0, 0, 0)
     position_event_2 = PositionEvent(500, 0, 0, 0)
     position_event_3 = PositionEvent(750, 0, 0, 0)

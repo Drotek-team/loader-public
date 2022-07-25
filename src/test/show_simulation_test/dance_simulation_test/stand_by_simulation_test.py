@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 from ....drones_manager.drone.events.position_events import PositionEvent
@@ -12,7 +14,7 @@ from ....show_simulation.dance_simulation.position_simulation import (
 
 def test_stand_by_simulation():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     second_start = 0
     second_end = 1
     first_takeoff_position = (0, 0, 10)

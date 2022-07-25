@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pytest
 
@@ -15,7 +17,7 @@ from .....show_simulation.show_simulation import ShowSimulation
 @pytest.fixture
 def valid_show_simulation():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
@@ -64,7 +66,7 @@ def valid_show_simulation():
 @pytest.fixture
 def invalid_show_simulation():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     first_drone, second_drone = Drone(0), Drone(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
@@ -114,7 +116,7 @@ def invalid_show_simulation():
 
 def test_valid_simulation(valid_show_simulation: ShowSimulation):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     collision_check_report = CollisionCheckReport()
     apply_collision_check_procedure(
         valid_show_simulation, collision_check_report, parameter.iostar_parameter
@@ -124,7 +126,7 @@ def test_valid_simulation(valid_show_simulation: ShowSimulation):
 
 def test_invalid_simulation(invalid_show_simulation: ShowSimulation):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     collision_check_report = CollisionCheckReport()
     apply_collision_check_procedure(
         invalid_show_simulation, collision_check_report, parameter.iostar_parameter

@@ -251,8 +251,7 @@ class Parameter:
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
         )
 
-    def load_parameter(self) -> None:
-        local_path = os.getcwd()
+    def load_parameter(self, local_path: str) -> None:
         self.load_family_parameter(local_path)
         self.load_iostar_parameter(local_path)
         self.load_timecode_parameter(local_path)

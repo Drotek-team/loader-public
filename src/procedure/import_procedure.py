@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Tuple
 
 from ..drones_manager.drones_manager import DronesManager
@@ -13,7 +14,7 @@ def apply_import_procedure(
     import_report: ImportReport,
 ) -> Tuple[DronesManager, FamilyManager]:
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     drones_manager, family_manager = apply_json_extraction_procedure(
         json_dict, parameter.json_format_parameter, import_report.json_extraction_report
     )

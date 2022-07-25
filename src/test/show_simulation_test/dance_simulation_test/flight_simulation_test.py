@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 from ....drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
@@ -14,7 +16,7 @@ from ....show_simulation.dance_simulation.position_simulation import (
 
 def test_flight_simulation():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     FIRST_POSITION_EVENT = PositionSimulation(0, (0, 0, 0))
     SECOND_POSITION_EVENT = PositionSimulation(0.25, (0, 0, 1))
     THIRD_POSITION_EVENT = PositionSimulation(1.0, (0, 0, 2))

@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from ......drones_manager.drone.events.fire_events import FireEvent, FireEvents
@@ -13,7 +15,7 @@ from ......procedure.show_check.drone_check.events_format_check.events_format_ch
 @pytest.fixture
 def valid_fire_events():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     timecode_parameter = parameter.timecode_parameter
     fire_events = FireEvents()
     fire_events.add(timecode_parameter.show_timecode_begin, 0, 1000)
@@ -32,7 +34,7 @@ def test_valid_fire_events_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     fire_events_check(
         valid_fire_events,
         parameter.timecode_parameter,
@@ -48,7 +50,7 @@ def test_invalid_fire_events_timecode_format_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
         1.23,
         0,
@@ -70,7 +72,7 @@ def test_invalid_fire_events_timecode_first_timecode_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.event_list.insert(
         0, FireEvent(parameter.timecode_parameter.show_timecode_begin - 1, 0, 0)
     )
@@ -90,7 +92,7 @@ def test_invalid_fire_events_chanel_format_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.add(parameter.timecode_parameter.show_timecode_begin, 1.23, 0)
     fire_events_check(
         valid_fire_events,
@@ -108,7 +110,7 @@ def test_invalid_fire_events_chanel_value_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         parameter.iostar_parameter.fire_chanel_value_max + 1,
@@ -130,7 +132,7 @@ def test_invalid_fire_events_chanel_unicity_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         parameter.iostar_parameter.fire_chanel_value_max,
@@ -157,7 +159,7 @@ def test_invalid_fire_events_duration_format_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.add(parameter.timecode_parameter.show_timecode_begin, 0, 1.23)
     fire_events_check(
         valid_fire_events,
@@ -175,7 +177,7 @@ def test_invalid_fire_events_duration_value_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         0,

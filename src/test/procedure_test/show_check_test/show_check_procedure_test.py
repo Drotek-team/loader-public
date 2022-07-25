@@ -1,3 +1,4 @@
+import os
 from typing import Tuple
 
 import pytest
@@ -12,7 +13,7 @@ from ....procedure.show_check.show_check_report import ShowCheckReport
 @pytest.fixture
 def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]:
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(

@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from ......drones_manager.drone.drone import Drone
@@ -31,7 +33,7 @@ def invalid_drone_dance_size():
 def test_valid_drone_dance_size_check(valid_drone_dance_size: Drone):
     dance_size_check_report = DanceSizeCheckReport()
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     apply_dance_size_check_procedure(
         valid_drone_dance_size,
         parameter.iostar_parameter,
@@ -44,7 +46,7 @@ def test_valid_drone_dance_size_check(valid_drone_dance_size: Drone):
 def test_invalid_drone_dance_size_check(invalid_drone_dance_size: Drone):
     dance_size_check_report = DanceSizeCheckReport()
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     apply_dance_size_check_procedure(
         invalid_drone_dance_size,
         parameter.iostar_parameter,

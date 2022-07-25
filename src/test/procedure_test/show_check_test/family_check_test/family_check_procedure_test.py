@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from .....drones_manager.drone.drone import Drone
@@ -36,7 +38,7 @@ def test_valid_drone_manager_family_manager(
     valid_drones_manager: DronesManager, valid_family_manager: FamilyManager
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     family_manager_check_report = FamilyManagerCheckReport()
     apply_family_check_procedure(
         valid_drones_manager,

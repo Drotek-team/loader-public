@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from ......drones_manager.drone.events.color_events import ColorEvent, ColorEvents
@@ -13,7 +15,7 @@ from ......procedure.show_check.drone_check.events_format_check.events_format_ch
 @pytest.fixture
 def valid_color_events():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     timecode_parameter = parameter.timecode_parameter
     color_events = ColorEvents()
     color_events.add(timecode_parameter.show_timecode_begin, (0, 0, 0, 0))
@@ -34,7 +36,7 @@ def test_valid_color_events_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
@@ -49,7 +51,7 @@ def test_invalid_color_events_timecode_format_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_color_events.add(
         1.23,
         (0, 0, 0, 0),
@@ -70,7 +72,7 @@ def test_invalid_color_events_timecode_rate_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_color_events.add(
         parameter.timecode_parameter.show_timecode_begin + 1,
         (0, 0, 0, 0),
@@ -91,7 +93,7 @@ def test_invalid_color_events_timecode_increasing_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_color_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         (0, 0, 0, 0),
@@ -112,7 +114,7 @@ def test_invalid_color_events_timecode_first_timecode_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_color_events.event_list.insert(
         0, ColorEvent(parameter.timecode_parameter.show_timecode_begin - 1, 0, 0, 0, 0)
     )
@@ -132,7 +134,7 @@ def test_invalid_color_events_rgbw_format_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_color_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         (1.23, 0, 0, 0),
@@ -153,7 +155,7 @@ def test_invalid_color_events_rgbw_value_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     valid_color_events.add(
         parameter.timecode_parameter.show_timecode_begin,
         (parameter.iostar_parameter.color_value_max + 1, 0, 0, 0),

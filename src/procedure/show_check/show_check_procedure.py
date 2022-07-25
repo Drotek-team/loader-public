@@ -1,3 +1,5 @@
+import os
+
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
 from ...parameter.parameter import Parameter
@@ -18,7 +20,7 @@ def apply_show_check_procedure(
     show_check_report: ShowCheckReport,
 ) -> None:
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     for drone, drone_check_report in zip(
         drones_manager.drones, show_check_report.drones_check_report
     ):

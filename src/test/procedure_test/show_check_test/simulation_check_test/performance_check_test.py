@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from .....drones_manager.drone.events.position_events import PositionEvent
@@ -14,7 +15,7 @@ from .....show_simulation.show_simulation import ShowSimulation
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     drone = Drone(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
@@ -63,7 +64,7 @@ def test_valid_simulation():
     )
     performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
         performance_check_report,
@@ -82,7 +83,7 @@ def test_invalid_simulation():
     )
     performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
         performance_check_report,
@@ -101,7 +102,7 @@ def test_invalid_velocity_simulation():
     )
     performance_check_report = PerformanceCheckReport()
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
         performance_check_report,

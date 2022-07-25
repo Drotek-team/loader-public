@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from .....parameter.parameter import Parameter
@@ -17,7 +19,7 @@ from .dance_example import (
 
 def test_valid_dance_decoding():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     drone_decoding_report = DroneDecodingReport(0)
     drone = decode_drone(
         DANCE_EXAMPLE, 0, parameter.json_format_parameter, drone_decoding_report

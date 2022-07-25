@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 from ....parameter.parameter import Parameter
@@ -11,7 +13,7 @@ from ....show_simulation.dance_simulation.position_simulation import (
 
 def test_land_simulation_first_case():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     X_METER = 2
     Y_METER = 2
     HGT_CENTIMETER = 1
@@ -47,7 +49,7 @@ def test_land_simulation_first_case():
 
 def test_land_simulation_second_case():
     parameter = Parameter()
-    parameter.load_parameter()
+    parameter.load_parameter(os.getcwd())
     X_METER = 2
     Y_METER = 2
     HGT_CENTIMETER = 5
