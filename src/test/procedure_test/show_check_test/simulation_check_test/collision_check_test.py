@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pytest
 
-from .....drones_manager.drones_manager import Drone, DronesManager
+from .....drones_manager.drones_manager import DroneExport, DronesManager
 from .....parameter.parameter import Parameter
 from .....procedure.show_check.simulation_check.collision_check.collision_check_procedure import (
     apply_collision_check_procedure,
@@ -18,7 +18,7 @@ from .....show_simulation.show_simulation import ShowSimulation
 def valid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    first_drone, second_drone = Drone(0), Drone(1)
+    first_drone, second_drone = DroneExport(0), DroneExport(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,
@@ -67,7 +67,7 @@ def valid_show_simulation():
 def invalid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    first_drone, second_drone = Drone(0), Drone(1)
+    first_drone, second_drone = DroneExport(0), DroneExport(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,

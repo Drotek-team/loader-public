@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from .....drones_manager.drone.drone import Drone
+from .....drones_manager.drone.drone import DroneExport
 from .....drones_manager.drones_manager import DronesManager
 from .....family_manager.family_manager import FamilyManager
 from .....parameter.parameter import Parameter
@@ -23,13 +23,13 @@ def valid_family_manager():
 
 @pytest.fixture
 def valid_drones_manager():
-    drone_1 = Drone(0)
+    drone_1 = DroneExport(0)
     drone_1.add_position(0, (-100, -100, 0))
-    drone_2 = Drone(1)
+    drone_2 = DroneExport(1)
     drone_2.add_position(0, (-100, 100, 0))
-    drone_3 = Drone(2)
+    drone_3 = DroneExport(2)
     drone_3.add_position(0, (100, -100, 0))
-    drone_4 = Drone(3)
+    drone_4 = DroneExport(3)
     drone_4.add_position(0, (100, 100, 0))
     return DronesManager([drone_1, drone_2, drone_3, drone_4])
 

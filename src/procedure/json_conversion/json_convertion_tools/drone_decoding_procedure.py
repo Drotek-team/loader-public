@@ -1,7 +1,7 @@
 import struct
 from typing import List, Tuple
 
-from ....drones_manager.drone.drone import Drone
+from ....drones_manager.drone.drone import DroneExport
 from ....drones_manager.drone.events.position_events import PositionEvent
 from ....parameter.parameter import JsonFormatParameter
 from .drone_decoding_report import (
@@ -84,8 +84,8 @@ def decode_drone(
     drone_index: int,
     json_format_parameter: JsonFormatParameter,
     drone_decoding_report: DroneDecodingReport,
-) -> Drone:
-    drone = Drone(drone_index)
+) -> DroneExport:
+    drone = DroneExport(drone_index)
     byte_array = bytearray(binary)
     header, section_headers = get_header_section_header(
         byte_array, json_format_parameter, drone_decoding_report.header_format_report

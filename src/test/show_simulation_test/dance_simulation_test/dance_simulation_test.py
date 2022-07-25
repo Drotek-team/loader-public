@@ -2,7 +2,7 @@ import os
 from typing import List
 
 from ....drones_manager.drone.events.position_events import PositionEvent
-from ....drones_manager.drones_manager import Drone, DronesManager
+from ....drones_manager.drones_manager import DroneExport, DronesManager
 from ....parameter.parameter import Parameter
 from ....show_simulation.show_simulation import ShowSimulation
 
@@ -10,7 +10,7 @@ from ....show_simulation.show_simulation import ShowSimulation
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    drone = Drone(0)
+    drone = DroneExport(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,

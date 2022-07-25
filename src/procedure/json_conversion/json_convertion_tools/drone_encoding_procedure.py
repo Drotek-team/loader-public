@@ -1,7 +1,7 @@
 import struct
 from typing import List
 
-from ....drones_manager.drone.drone import Drone
+from ....drones_manager.drone.drone import DroneExport
 from ....drones_manager.drone.events.events import Events
 from ....parameter.parameter import JsonFormatParameter
 from .drone_encoding_report import DroneEncodingReport
@@ -59,7 +59,7 @@ def assemble_dance(
 
 
 def encode_drone(
-    drone: Drone,
+    drone: DroneExport,
     json_format_parameter: JsonFormatParameter,
     drone_encoding_report: DroneEncodingReport,
 ) -> List[int]:

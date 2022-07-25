@@ -3,7 +3,7 @@ from typing import Tuple
 
 import pytest
 
-from ....drones_manager.drones_manager import Drone, DronesManager
+from ....drones_manager.drones_manager import DroneExport, DronesManager
 from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import Parameter
 from ....procedure.show_check.show_check_procedure import apply_show_check_procedure
@@ -14,7 +14,7 @@ from ....procedure.show_check.show_check_report import ShowCheckReport
 def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    drone = Drone(0)
+    drone = DroneExport(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         parameter.takeoff_parameter.takeoff_duration

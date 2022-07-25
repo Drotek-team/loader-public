@@ -1,4 +1,4 @@
-from .....drones_manager.drone.drone import Drone
+from .....drones_manager.drone.drone import DroneExport
 from .....drones_manager.drone.events.color_events import ColorEvents
 from .....drones_manager.drone.events.fire_events import FireEvents
 from .....drones_manager.drone.events.position_events import PositionEvents
@@ -88,7 +88,7 @@ def fire_events_check(
 
 
 def apply_events_format_check_procedure(
-    drone: Drone,
+    drone: DroneExport,
     iostar_parameter: IostarParameter,
     takeoff_parameter: TakeoffParameter,
     timecode_parameter: TimecodeParameter,

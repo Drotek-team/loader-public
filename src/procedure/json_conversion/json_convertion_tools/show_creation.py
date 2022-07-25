@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ....drones_manager.drones_manager import Drone
+from ....drones_manager.drones_manager import DroneExport
 from ....family_manager.family_manager import FamilyManager
 
 
@@ -30,7 +30,7 @@ class Show:
 
     def update_families(
         self,
-        drones: List[Drone],
+        drones: List[DroneExport],
         binaries: List[BinaryDance],
         family_manager: FamilyManager,
     ) -> None:
