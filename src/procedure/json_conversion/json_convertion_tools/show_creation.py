@@ -1,12 +1,10 @@
 import json
-from dataclasses import dataclass
 from typing import List, Tuple
 
 from ....drones_manager.drones_manager import DroneExport
 from ....family_manager.family_manager import FamilyManager
 
 
-@dataclass(frozen=True)
 class BinaryDance:
     bits: List[int] = []
 

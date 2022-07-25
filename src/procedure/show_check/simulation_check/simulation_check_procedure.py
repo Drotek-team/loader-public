@@ -1,5 +1,4 @@
-from src.parameter.parameter import IostarParameter, TakeoffParameter
-
+from ....parameter.parameter import IostarParameter, TakeoffParameter
 from ....show_simulation.show_simulation import ShowSimulation
 from .collision_check.collision_check_procedure import apply_collision_check_procedure
 from .performance_check.performance_check_procedure import (
