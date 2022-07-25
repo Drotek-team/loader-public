@@ -193,8 +193,8 @@ class FireDurationCheckReport(Contenor):
 
     def update(self) -> None:
         self.validation = (
-            self.fire_duration_format_check_report
-            and self.fire_duration_value_check_report
+            self.fire_duration_format_check_report.validation
+            and self.fire_duration_value_check_report.validation
         )
 
 
@@ -224,5 +224,5 @@ class EventsFormatCheckReport(Contenor):
         self.validation = (
             self.position_events_check.validation
             and self.color_events_check.validation
-            and self.fire_events_check
+            and self.fire_events_check.validation
         )
