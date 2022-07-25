@@ -5,7 +5,7 @@ from ...show_simulation.show_simulation import ShowSimulation
 from ..show_check.simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
 )
-from .drone_check.drone_check_procedure import apply_drone_check_procedure
+from .drone_check.dance_check_procedure import apply_dance_check_procedure
 from .family_manager_check.family_manager_check_procedure import (
     apply_family_check_procedure,
 )
@@ -18,10 +18,10 @@ def apply_show_check_procedure(
     show_check_report: ShowCheckReport,
     parameter: Parameter,
 ) -> None:
-    for drone, drone_check_report in zip(
+    for drone, dance_check_report in zip(
         drones_manager.drones, show_check_report.drones_check_report
     ):
-        apply_drone_check_procedure(drone, drone_check_report, parameter)
+        apply_dance_check_procedure(drone, dance_check_report, parameter)
     apply_family_check_procedure(
         drones_manager,
         family_manager,

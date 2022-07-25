@@ -21,13 +21,14 @@ class FamilyManager:
     def get_family_index(self, row_index: int, column_index: int) -> int:
         return self.nb_y * row_index + column_index
 
+    ### This 100 is ugly but it is the inheritance of Jon so must be corrected in v2
     @property
     def theorical_grid(self) -> np.ndarray:
         unrotate_theorical_position = np.array(
             [
                 [
-                    self.step_takeoff * (index_x - (self.nb_x - 1) / 2),
-                    self.step_takeoff * (index_y - (self.nb_y - 1) / 2),
+                    100 * self.step_takeoff * (index_x - (self.nb_x - 1) / 2),
+                    100 * self.step_takeoff * (index_y - (self.nb_y - 1) / 2),
                 ]
                 for index_x in range(self.nb_x)
                 for index_y in range(self.nb_y)

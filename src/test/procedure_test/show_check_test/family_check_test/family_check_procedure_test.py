@@ -17,7 +17,7 @@ from .....procedure.show_check.family_manager_check.family_manager_check_report 
 @pytest.fixture
 def valid_family_manager():
     return FamilyManager(
-        nb_x=2, nb_y=2, nb_drone_per_family=1, step_takeoff=200, angle_takeoff=0
+        nb_x=2, nb_y=2, nb_drone_per_family=1, step_takeoff=2.0, angle_takeoff=0
     )
 
 

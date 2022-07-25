@@ -1,5 +1,5 @@
 from ..report import Contenor
-from .drone_check.drone_check_report import DroneCheckReport
+from .drone_check.dance_check_report import DanceCheckReport
 from .family_manager_check.family_manager_check_report import FamilyManagerCheckReport
 from .simulation_check.simulation_check_report import SimulationCheckReport
 
@@ -12,7 +12,7 @@ class ShowCheckReport(Contenor):
 
     def initialize_drones_check_report(self, nb_drones: int) -> None:
         self.drones_check_report = [
-            DroneCheckReport(drone_index) for drone_index in range(nb_drones)
+            DanceCheckReport(drone_index) for drone_index in range(nb_drones)
         ]
 
     def update(self) -> None:
@@ -20,7 +20,7 @@ class ShowCheckReport(Contenor):
             self.simulation_check_report.validation
             and self.family_check_report.validation
             and all(
-                drone_check_report.validation
-                for drone_check_report in self.drones_check_report
+                dance_check_report.validation
+                for dance_check_report in self.drones_check_report
             )
         )
