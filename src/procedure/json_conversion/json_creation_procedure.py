@@ -19,4 +19,4 @@ def apply_json_creation_procedure(
         drones_manager.convex_hull,
         json_creation_report,
     )
-    json_creation_report.validation = True
+    json_creation_report.update()
