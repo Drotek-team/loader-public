@@ -42,10 +42,14 @@ class Drone:
 
     @property
     def last_xyz(self) -> Tuple:
+        if self.position_events.event_list == []:
+            return (0, 0, 0)
         return self.position_events.get_values_by_event_index(-1)
 
     @property
     def last_rgbw(self) -> Tuple:
+        if self.color_events.event_list == []:
+            return (0, 0, 0, 0)
         return self.color_events.get_values_by_event_index(-1)
 
     @property
