@@ -31,11 +31,15 @@ class Contenor:
         for attribute in self.__dict__.values():
             if isinstance(attribute, list):
                 for attribute_element in attribute:
-                    if isinstance(attribute_element, Contenor):
+                    if isinstance(attribute_element, Contenor) and not (
+                        attribute_element.validation
+                    ):
                         children_report += attribute_element.get_contenor_report(
                             indentation_level + 1, indentation_type
                         )
-                    if isinstance(attribute_element, Displayer):
+                    if isinstance(attribute_element, Displayer) and not (
+                        attribute_element.validation
+                    ):
                         children_report += self.displayer_formater(
                             attribute_element.get_report(),
                             indentation_level + 1,
