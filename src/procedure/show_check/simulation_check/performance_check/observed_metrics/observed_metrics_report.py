@@ -29,7 +29,7 @@ class PerformanceCheckReport:
 
 class ObservedMetricsCheckReport(Contenor):
     def __init__(self, second: float):
-        self.name = f"Observed Metrics check report {second}"
+        self.name = f"Observed Metrics check report {second} second"
         self.vertical_position_check_report = PerformanceCheckReport(
             "Vertical Position"
         )
