@@ -48,7 +48,7 @@ class DronesManager:
         return trajectory_simulation_manager
 
     @property
-    def convex_hull(self) -> List[Tuple[int,int]]:
+    def convex_hull(self) -> List[Tuple[int, int]]:
         return calculate_convex_hull(self.first_horizontal_positions)
 
     @property
