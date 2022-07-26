@@ -23,7 +23,7 @@ class Show:
         self,
         nb_x: int,
         nb_y: int,
-        step: float,
+        step: int,
         angle_takeoff: int,
         duration: int,
         hull: List[Tuple],

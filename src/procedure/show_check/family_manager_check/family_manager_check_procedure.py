@@ -9,7 +9,7 @@ from .family_manager_check_report import FamilyManagerCheckReport
 def family_format_check(family_manager: FamilyManager):
     nb_x_validation = isinstance(family_manager.nb_x, int)
     nb_y_validation = isinstance(family_manager.nb_y, int)
-    step_takeoff_validation = isinstance(family_manager.step_takeoff, float)
+    step_takeoff_validation = isinstance(family_manager.step_takeoff, int)
     angle_takeoff_validation = isinstance(family_manager.angle_takeoff, int)
     return (
         nb_x_validation

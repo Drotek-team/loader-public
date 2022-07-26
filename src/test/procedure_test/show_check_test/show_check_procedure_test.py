@@ -26,7 +26,7 @@ def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]
     )
     drone_manager = DronesManager([drone])
     family_manager = FamilyManager(
-        nb_x=1, nb_y=1, nb_drone_per_family=1, step_takeoff=1.0, angle_takeoff=0
+        nb_x=1, nb_y=1, nb_drone_per_family=1, step_takeoff=100, angle_takeoff=0
     )
     return drone_manager, family_manager
 
