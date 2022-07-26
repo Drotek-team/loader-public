@@ -13,12 +13,13 @@ def apply_json_creation_procedure(
     json_creation_report: JsonCreationReport,
 ) -> None:
     show = Show(
-        family_manager.nb_x,
-        family_manager.nb_y,
-        family_manager.step_takeoff,
-        family_manager.angle_takeoff,
-        drones_manager.convex_hull,
-        drones_manager.duration,
+        nb_x=family_manager.nb_x,
+        nb_y=family_manager.nb_y,
+        step=family_manager.step_takeoff,
+        angle_takeoff=family_manager.angle_takeoff,
+        duration=drones_manager.duration,
+        hull=drones_manager.convex_hull,
+        altitude_range=drones_manager.altitude_range,
     )
     show.update_families(
         [drone_export.first_xyz for drone_export in drones_manager.drones],

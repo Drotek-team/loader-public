@@ -51,6 +51,15 @@ class DronesManager:
     def convex_hull(self) -> List[np.ndarray]:
         return calculate_convex_hull(list(np.array(self.first_horizontal_positions)))
 
+    @property
+    def altitude_range(self) -> Tuple[int, int]:
+        z_positions = [
+            position_event.get_values()[2]
+            for drone in self.drones
+            for position_event in drone.position_events.event_list
+        ]
+        return (min(z_positions), max(z_positions))
+
     def apply_dances_size_relief(self) -> None:
         events_size_easing = EventsSizeEasing()
         for drone in self.drones:

@@ -18,24 +18,25 @@ class Family:
     z: int
 
 
-@dataclass
 class Show:
     def __init__(
         self,
         nb_x: int,
         nb_y: int,
         step: float,
-        angle: int,
-        hull: List[Tuple[float, float]],
+        angle_takeoff: int,
         duration: int,
+        hull: List[Tuple],
+        altitude_range: Tuple[int, int],
     ):
-        self.families: List[Family] = []
         self.nb_x = nb_x
         self.nb_y = nb_y
         self.step = step
-        self.angle = angle
-        self.hull = hull
+        self.angle_takeoff = angle_takeoff
         self.duration = duration
+        self.hull = hull
+        self.altitude_range = altitude_range
+        self.families: List[Family] = []
 
     def update_families(
         self,
