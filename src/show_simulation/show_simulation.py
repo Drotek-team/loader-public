@@ -52,7 +52,7 @@ class ShowSimulation:
             )
             for second in np.arange(
                 timecode_parameter.show_second_begin,
-                self.last_second + timecode_parameter.position_second_rate,
+                self.last_second,
                 timecode_parameter.position_second_rate,
             )
         ]
