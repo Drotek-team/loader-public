@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 
@@ -28,21 +28,21 @@ def two_dimensionnal_cross_product(
     ) * (position_2[0] - position_0[0])
 
 
-def calculate_convex_hull(positions: List[np.ndarray]) -> List[np.ndarray]:
+def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
     pivot = evaluate_pivot(positions)
     positions.remove(pivot)
     convex_hull = [pivot]
-    positions = np.array(positions)
-    sorted_positions = sorted_by_pivot(positions, pivot)
-    for position in sorted_positions:
+    positions_array = np.array(positions)
+    sorted_array_positions = sorted_by_pivot(positions_array, pivot)
+    for sorted_array_position in sorted_array_positions:
         while (
-            len(convex_hull) > 1
-            and two_dimensionnal_cross_product(
-                convex_hull[-1], convex_hull[-2], position
+            two_dimensionnal_cross_product(
+                convex_hull[-1], convex_hull[-2], sorted_array_position
             )
             >= 0
         ):
             convex_hull.pop()
-        convex_hull.append(position)
+        convex_hull.append(sorted_array_position)
+    convex_hull = [tuple(point) for point in convex_hull]
     return convex_hull
