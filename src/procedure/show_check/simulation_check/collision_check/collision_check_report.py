@@ -12,7 +12,8 @@ class CollisionInfraction(Displayer):
     collision_distance: float
 
     def get_report(self) -> str:
-        return f"The drone {self.first_drone_index} and {self.second_drone_index} which are {self.in_air} in air are of a distance of {self.collision_distance}"
+        status = "in air" if self.in_air else "on ground"
+        return f"The drone {self.first_drone_index} and {self.second_drone_index} which are {status} are at a distance of {self.collision_distance}"
 
 
 class CollisionSliceCheckReport(Contenor):
