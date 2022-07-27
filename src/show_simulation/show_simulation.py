@@ -44,6 +44,11 @@ class ShowSimulation:
         self,
         timecode_parameter: TimecodeParameter,
     ):
+        bias_second = (
+            timecode_parameter.position_second_rate
+            if not (self.last_second % timecode_parameter.position_second_rate)
+            else 0
+        )
 
         self.show_slices = [
             ShowSimulationSlice(
@@ -52,7 +57,7 @@ class ShowSimulation:
             )
             for second in np.arange(
                 timecode_parameter.show_second_begin,
-                self.last_second,
+                bias_second + self.last_second,
                 timecode_parameter.position_second_rate,
             )
         ]

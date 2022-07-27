@@ -12,7 +12,6 @@ def apply_export_procedure(
     export_report: ExportReport,
     parameter: Parameter,
 ) -> None:
-    # drones_manager.apply_dances_size_relief()
     export_report.show_check_report.initialize_drones_check_report(
         len(drones_manager.drones)
     )
