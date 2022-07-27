@@ -103,6 +103,6 @@ class ShowSimulation:
                 * (
                     self.show_slices[slice_index].positions
                     - 2 * self.show_slices[slice_index - 1].positions
-                    + self.show_slices[slice_index - 1].positions
+                    + self.show_slices[slice_index - 2].positions
                 )
             )
