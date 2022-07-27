@@ -10,12 +10,10 @@ class PerformanceIncidence(Displayer):
     value: float
 
     def get_report(self) -> str:
-        return (
-            f"Drone {self.drone_index} exceed the performance with value {self.value}"
-        )
+        return f"Drone {self.drone_index} exceeds the performance with {self.value}"
 
 
-class PerformanceCheckReport:
+class PerformanceCheckReport(Contenor):
     def __init__(self, type: str):
         self.name = f"Performance check report of type {type}"
         self.performance_check_report: List[PerformanceIncidence] = []
