@@ -192,3 +192,30 @@ def test_invalid_fire_events_duration_value_check(
     assert not (
         fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.validation
     )
+
+
+def test_invalid_fire_events_simulteanous_value_check(
+    valid_fire_events: FireEvents,
+    fire_events_check_report: FireEventsCheckReport,
+):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    valid_fire_events.add(
+        parameter.timecode_parameter.show_timecode_begin,
+        0,
+        parameter.iostar_parameter.fire_duration_value_max,
+    )
+    valid_fire_events.add(
+        parameter.timecode_parameter.show_timecode_begin,
+        0,
+        parameter.iostar_parameter.fire_duration_value_max,
+    )
+    fire_events_check(
+        valid_fire_events,
+        parameter.timecode_parameter,
+        parameter.iostar_parameter,
+        fire_events_check_report,
+    )
+    assert not (
+        fire_events_check_report.fire_timecode_check_report.increasing_timecode_check_report.validation
+    )

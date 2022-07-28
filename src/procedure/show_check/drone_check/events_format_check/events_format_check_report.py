@@ -139,11 +139,13 @@ class FireTimecodeCheckReport(Contenor):
         self.name = "Fire Timecode Check Report"
         self.timecode_format_check_report = TimecodeFormatCheckReport()
         self.timecode_value_check_report = TimecodeValueCheckReport()
+        self.increasing_timecode_check_report = IncreasingTimecodeCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.timecode_format_check_report.validation
             and self.timecode_value_check_report.validation
+            and self.increasing_timecode_check_report
         )
 
 

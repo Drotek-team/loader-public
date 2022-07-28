@@ -187,6 +187,9 @@ def fire_timecode_check(
             timecode_parameter.timecode_value_max,
         )
     )
+    fire_events_timecode_check_report.increasing_timecode_check_report.validation = (
+        check_increasing_timecode(timecodes)
+    )
     fire_events_timecode_check_report.update()
 
 
