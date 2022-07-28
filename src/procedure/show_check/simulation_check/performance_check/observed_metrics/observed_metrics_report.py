@@ -39,6 +39,7 @@ class ObservedMetricsCheckReport(Contenor):
         )
         self.up_force_check_report = PerformanceCheckReport("Up Force")
         self.down_force_check_report = PerformanceCheckReport("Down Force")
+        self.thrust_limitation_check_report = PerformanceCheckReport("Thrust Limiation")
 
     def update(self) -> None:
         self.validation = (

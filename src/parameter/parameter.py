@@ -133,6 +133,8 @@ class IostarParameter:
     color_value_max: int
     position_max: float
     horizontal_velocity_max: float
+    horizontal_velocity_lower_bound: float
+    horizontal_velocity_upper_bound: float
     horizontal_acceleration_max: float
     force_up_max: float
     force_down_max: float
@@ -221,6 +223,10 @@ class Parameter:
             fire_duration_value_max=data["FIRE_DURATION_VALUE_SECOND_MAX"],
             position_max=data["POS_METER_MAX"],
             horizontal_velocity_max=data["VEL_HOR_MAX_METER_PER_SECOND"],
+            horizontal_velocity_lower_bound=data[
+                "VEL_HOR_MAX_METER_PER_SECOND_DURING_ELEVATION_MAX"
+            ],
+            horizontal_velocity_upper_bound=data["VEL_HOR_MAX_METER_PER_SECOND"],
             horizontal_acceleration_max=data["ACC_HOR_MAX_METER_PER_SECOND_SQUARE"],
             force_up_max=data["FORCE_UP_MAX_NEWTON"],
             force_down_max=data["FORCE_DOWN_MAX_NEWTON"],
@@ -241,8 +247,10 @@ class Parameter:
             nb_y_value_max=data["NB_Y_VALUE_MAX"],
             nb_drone_per_family_min=data["NB_DRONE_PER_FAMILY_MIN"],
             nb_drone_per_family_max=data["NB_DRONE_PER_FAMILY_MAX"],
-            step_takeoff_value_min=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO*data["STEP_TAKEOFF_VALUE_METER_MIN"],
-            step_takeoff_value_max=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO*data["STEP_TAKEOFF_VALUE_METER_MAX"],
+            step_takeoff_value_min=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            * data["STEP_TAKEOFF_VALUE_METER_MIN"],
+            step_takeoff_value_max=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            * data["STEP_TAKEOFF_VALUE_METER_MAX"],
             angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
         )

@@ -35,6 +35,9 @@ class ObservedMetricsSlice:
             Metric(drone_index, -iostar_parameter.force_down_max, 0, False)
             for drone_index in range(nb_drones)
         ]
+        self.thrust_ratios = [
+            Metric(drone_index, 0, 1) for drone_index in range(nb_drones)
+        ]
 
     @staticmethod
     def force_evaluation(
@@ -42,6 +45,30 @@ class ObservedMetricsSlice:
     ) -> float:
         return float(
             mass * acceleration + np.sign(velocity) * drag_coef * np.square(velocity)
+        )
+
+    def thrust_ratio_evaluation(
+        self,
+        up_velocity: float,
+        up_acceleration: float,
+        iostar_mass: float,
+        iostar_drag_vertical_coef: float,
+        force_up_max: float,
+        horizontal_velocity: float,
+        horizontal_velocity_lower_bound: float,
+        horizontal_velocity_upper_bound: float,
+    ):
+        horizontal_velocity_ratio = (
+            horizontal_velocity - horizontal_velocity_lower_bound
+        ) / (horizontal_velocity_upper_bound - horizontal_velocity_lower_bound)
+        up_force_ratio = (
+            self.force_evaluation(
+                up_velocity, up_acceleration, iostar_mass, iostar_drag_vertical_coef
+            )
+            / force_up_max
+        )
+        return min(1, max(0, horizontal_velocity_ratio)) + min(
+            1, max(0, up_force_ratio)
         )
 
     def update_observed_metrics(
@@ -116,8 +143,36 @@ class ObservedMetricsSlice:
                         iostar_parameter.iostar_drag_vertical_coef,
                     ),
                 )
+            if not (
+                self.thrust_ratios[drone_index].validation(
+                    self.thrust_ratio_evaluation(
+                        velocities[drone_index, 2],
+                        accelerations[drone_index, 2],
+                        iostar_parameter.iostar_mass,
+                        iostar_parameter.iostar_drag_vertical_coef,
+                        iostar_parameter.force_up_max,
+                        np.linalg.norm(velocities[drone_index, 0:2]),
+                        iostar_parameter.horizontal_velocity_lower_bound,
+                        iostar_parameter.horizontal_velocity_upper_bound,
+                    )
+                )
+            ):
+                observed_metrics_report.down_force_check_report.add_incident(
+                    drone_index,
+                    self.thrust_ratio_evaluation(
+                        velocities[drone_index, 2],
+                        accelerations[drone_index, 2],
+                        iostar_parameter.iostar_mass,
+                        iostar_parameter.iostar_drag_vertical_coef,
+                        iostar_parameter.force_up_max,
+                        np.linalg.norm(velocities[drone_index, 0:2]),
+                        iostar_parameter.horizontal_velocity_lower_bound,
+                        iostar_parameter.horizontal_velocity_upper_bound,
+                    ),
+                ),
         observed_metrics_report.vertical_position_check_report.update()
         observed_metrics_report.horizontal_velocity_check_report.update()
         observed_metrics_report.horizontal_acceleration_check_report.update()
         observed_metrics_report.up_force_check_report.update()
         observed_metrics_report.down_force_check_report.update()
+        observed_metrics_report.thrust_limitation_check_report.update()
