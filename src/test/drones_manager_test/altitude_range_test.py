@@ -1,6 +1,4 @@
 from ...drones_manager.drones_manager import DroneExport, DronesManager
-from ...parameter.parameter import Parameter
-import os
 
 
 def valid_drones_manager(altitude_max: int) -> DronesManager:

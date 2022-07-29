@@ -133,7 +133,7 @@ def test_invalid_drone_manager_first_positions(
         family_manager_check_report,
     )
     assert not (
-        family_manager_check_report.theorical_coherence_check_report.position_theorical_coherence_check_report.validation
+        family_manager_check_report.coherence_check_report.position_coherence_check_report.validation
     )
 
 
@@ -151,7 +151,7 @@ def test_invalid_drone_manager_inverse_first_positions(
         family_manager_check_report,
     )
     assert not (
-        family_manager_check_report.theorical_coherence_check_report.position_theorical_coherence_check_report.validation
+        family_manager_check_report.coherence_check_report.position_coherence_check_report.validation
     )
 
 
@@ -169,5 +169,5 @@ def test_invalid_family_manager_drone_per_family(
         family_manager_check_report,
     )
     assert not (
-        family_manager_check_report.theorical_coherence_check_report.nb_drone_theorical_coherence_check_report.validation
+        family_manager_check_report.coherence_check_report.nb_drone_coherence_check_report.validation
     )

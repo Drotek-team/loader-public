@@ -5,7 +5,11 @@ from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import FamilyParameter
 from .family_manager_check_report import (
     FamilyManagerCheckReport,
-    TheoricalCoherenceCheckReport,
+    CoherenceCheckReport,
+    NbDroneCoherenceCheckReport,
+    PositionCoherenceCheckReport,
+    AltitudeRangeCoherenceCheckReport,
+    ShowDurationCoherenceCheckReport,
 )
 from typing import List, Tuple
 
@@ -51,32 +55,89 @@ def family_value_check(
     )
 
 
-def positions_theorical_coherence_check(
+def update_nb_drone_coherence_check_report(
     family_manager: FamilyManager,
     first_positions: List[Tuple],
-    theorical_coherence_check_report: TheoricalCoherenceCheckReport,
+    nb_drone_coherence_check_report: NbDroneCoherenceCheckReport,
 ) -> None:
-    ROW_ALIGNED_TOLERANCE = 1
     if len(first_positions) != len(family_manager.theorical_grid):
-        theorical_coherence_check_report.nb_drone_theorical_coherence_check_report.update_report(
+        nb_drone_coherence_check_report.update_report(
             len(first_positions), family_manager.theorical_grid.size
         )
-        return
-    theorical_coherence_check_report.nb_drone_theorical_coherence_check_report.validation = (
-        True
-    )
+    else:
+        nb_drone_coherence_check_report.validation = True
+
+
+def update_position_coherence_check_report(
+    family_manager: FamilyManager,
+    first_positions: List[Tuple],
+    position_coherence_check_report: PositionCoherenceCheckReport,
+) -> None:
+    ROW_ALIGNED_CENTIMETER_TOLERANCE = 1
     if (
         np.max(np.array(first_positions) - family_manager.theorical_grid)
-        > ROW_ALIGNED_TOLERANCE
+        > ROW_ALIGNED_CENTIMETER_TOLERANCE
     ):
-        theorical_coherence_check_report.position_theorical_coherence_check_report.update_report(
+        position_coherence_check_report.update_report(
             np.max(np.array(first_positions) - family_manager.theorical_grid)
         )
-        return
-    theorical_coherence_check_report.position_theorical_coherence_check_report.validation = (
-        True
+    else:
+        position_coherence_check_report.validation = True
+
+
+def update_show_duration_coherence_check_report(
+    drones_manager: DronesManager,
+    theorical_show_duration: int,
+    show_duration_coherence_check_report: ShowDurationCoherenceCheckReport,
+):
+    if drones_manager.duration != theorical_show_duration:
+        show_duration_coherence_check_report.update_report(
+            drones_manager.duration, theorical_show_duration
+        )
+    else:
+        show_duration_coherence_check_report.validation = True
+
+
+def update_altitude_range_coherence_check_report(
+    drones_manager: DronesManager,
+    theorical_altitude_range: int,
+    altitude_range_coherence_check_report: AltitudeRangeCoherenceCheckReport,
+):
+    if drones_manager.duration != theorical_altitude_range:
+        altitude_range_coherence_check_report.update_report(
+            drones_manager.duration, theorical_altitude_range
+        )
+    else:
+        altitude_range_coherence_check_report.validation = True
+
+
+def coherence_check(
+    family_manager: FamilyManager,
+    first_positions: List[Tuple],
+    coherence_check_report: CoherenceCheckReport,
+) -> None:
+    update_nb_drone_coherence_check_report(
+        family_manager,
+        first_positions,
+        coherence_check_report.nb_drone_coherence_check_report,
     )
-    theorical_coherence_check_report.update()
+    if coherence_check_report.nb_drone_coherence_check_report.validation:
+        update_position_coherence_check_report(
+            family_manager,
+            first_positions,
+            coherence_check_report.position_coherence_check_report,
+        )
+    # update_show_duration_coherence_check_report(
+    #     family_manager,
+    #     first_positions,
+    #     coherence_check_report.position_coherence_check_report,
+    # )
+    # update_altitude_range_coherence_check_report(
+    #     family_manager,
+    #     first_positions,
+    #     coherence_check_report.position_coherence_check_report,
+    # )
+    coherence_check_report.update()
 
 
 def apply_family_check_procedure(
@@ -91,9 +152,9 @@ def apply_family_check_procedure(
     family_manager_check_report.family_manager_value_check_report.validation = (
         family_value_check(family_manager, family_parameter)
     )
-    positions_theorical_coherence_check(
+    coherence_check(
         family_manager,
         drones_manager.first_horizontal_positions,
-        family_manager_check_report.theorical_coherence_check_report,
+        family_manager_check_report.coherence_check_report,
     )
     family_manager_check_report.update()
