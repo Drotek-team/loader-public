@@ -56,7 +56,7 @@ def positions_theorical_coherence_check(
     first_positions: List[Tuple],
     theorical_coherence_check_report: TheoricalCoherenceCheckReport,
 ) -> None:
-    ROW_ALIGNED_TOLERANCE = 1e-6
+    ROW_ALIGNED_TOLERANCE = 1
     if len(first_positions) != len(family_manager.theorical_grid):
         theorical_coherence_check_report.nb_drone_theorical_coherence_check_report.update_report(
             len(first_positions), family_manager.theorical_grid.size
