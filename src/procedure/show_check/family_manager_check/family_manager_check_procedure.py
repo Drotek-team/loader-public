@@ -3,7 +3,11 @@ import numpy as np
 from ....drones_manager.drones_manager import DronesManager
 from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import FamilyParameter
-from .family_manager_check_report import FamilyManagerCheckReport
+from .family_manager_check_report import (
+    FamilyManagerCheckReport,
+    TheoricalCoherenceCheckReport,
+)
+from typing import List, Tuple
 
 
 def family_format_check(family_manager: FamilyManager):
@@ -49,13 +53,30 @@ def family_value_check(
 
 def positions_theorical_coherence_check(
     family_manager: FamilyManager,
-    first_positions: np.ndarray,
-) -> bool:
-    ROW_ALIGNED_TOLERANCE = 1e-3
-    return (
-        np.linalg.norm(first_positions - family_manager.theorical_grid)
-        < ROW_ALIGNED_TOLERANCE
+    first_positions: List[Tuple],
+    theorical_coherence_check_report: TheoricalCoherenceCheckReport,
+) -> None:
+    ROW_ALIGNED_TOLERANCE = 1e-6
+    if len(first_positions) != len(family_manager.theorical_grid):
+        theorical_coherence_check_report.nb_drone_theorical_coherence_check_report.update_report(
+            len(first_positions), family_manager.theorical_grid.size
+        )
+        return
+    theorical_coherence_check_report.nb_drone_theorical_coherence_check_report.validation = (
+        True
     )
+    if (
+        np.max(np.array(first_positions) - family_manager.theorical_grid)
+        > ROW_ALIGNED_TOLERANCE
+    ):
+        theorical_coherence_check_report.position_theorical_coherence_check_report.update_report(
+            np.max(np.array(first_positions) - family_manager.theorical_grid)
+        )
+        return
+    theorical_coherence_check_report.position_theorical_coherence_check_report.validation = (
+        True
+    )
+    theorical_coherence_check_report.update()
 
 
 def apply_family_check_procedure(
@@ -70,7 +91,9 @@ def apply_family_check_procedure(
     family_manager_check_report.family_manager_value_check_report.validation = (
         family_value_check(family_manager, family_parameter)
     )
-    family_manager_check_report.positions_theorical_coherence_check_report.validation = positions_theorical_coherence_check(
-        family_manager, np.array(drones_manager.first_horizontal_positions)
+    positions_theorical_coherence_check(
+        family_manager,
+        drones_manager.first_horizontal_positions,
+        family_manager_check_report.theorical_coherence_check_report,
     )
     family_manager_check_report.update()

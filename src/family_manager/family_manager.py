@@ -31,6 +31,7 @@ class FamilyManager:
                 ]
                 for index_x in range(self.nb_x)
                 for index_y in range(self.nb_y)
+                for _ in range(self.nb_drone_per_family)
             ]
         )
         angle_radian = radians(self.angle_takeoff)
