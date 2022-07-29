@@ -37,7 +37,8 @@ def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, i
     sorted_array_positions = sorted_by_pivot(positions_array, pivot)
     for sorted_array_position in sorted_array_positions:
         while (
-            two_dimensionnal_cross_product(
+            len(convex_hull) > 1
+            and two_dimensionnal_cross_product(
                 convex_hull[-1], convex_hull[-2], sorted_array_position
             )
             >= 0
