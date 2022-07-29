@@ -62,38 +62,12 @@ def points_intersect(A: Point, B: Point, C: Point, D: Point) -> bool:
     return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
 
 
-def points_equal(A: Point, B: Point, C: Point, D: Point) -> bool:
-    return A == C and B == D
-
-
 def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:
     point_segment = Segment(Point(0, 0), point)
     polygon_segments = [
         Segment(first_polygon_point, second_polygon_point)
         for first_polygon_point, second_polygon_point in zip(polygon[1:], polygon[:-1])
     ]
-    if any(
-        points_intersect(
-            point_segment.first_point,
-            point_segment.second_point,
-            polygon_segment.first_point,
-            polygon_segment.second_point,
-        )
-        for polygon_segment in polygon_segments
-    ):
-        for polygon_segment in polygon_segments:
-            if points_intersect(
-                point_segment.first_point,
-                point_segment.second_point,
-                polygon_segment.first_point,
-                polygon_segment.second_point,
-            ):
-                raise ValueError(
-                    point_segment.first_point,
-                    point_segment.second_point,
-                    polygon_segment.first_point,
-                    polygon_segment.second_point,
-                )
     return not (
         any(
             points_intersect(
@@ -101,6 +75,13 @@ def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:
                 point_segment.second_point,
                 polygon_segment.first_point,
                 polygon_segment.second_point,
+            )
+            and not (
+                ccw(
+                    point_segment.second_point,
+                    polygon_segment.first_point,
+                    polygon_segment.second_point,
+                )
             )
             for polygon_segment in polygon_segments
         )
@@ -119,7 +100,6 @@ def from_tuple_list_to_point_list(
 
 ### TO DO: add hypothesis/strategies to these tests
 def test_valid_convex_hull(valid_drones_manager_list: List[DronesManager]):
-    ### TO DO: Exception when points are exctaly crossing: see the drawing
     assert all(
         is_point_inside_convex_polygon(
             from_tuple_to_point(horizontal_position),
