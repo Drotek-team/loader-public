@@ -127,6 +127,7 @@ def coherence_check(
             first_positions,
             coherence_check_report.position_coherence_check_report,
         )
+    ### TO DO: create a class for this kind of parameter like JsonParameter or something else i dont know im tired
     # update_show_duration_coherence_check_report(
     #     family_manager,
     #     first_positions,
