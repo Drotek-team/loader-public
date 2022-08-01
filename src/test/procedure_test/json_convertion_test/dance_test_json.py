@@ -1,5 +1,8 @@
 JSON_EXAMPLE = {
     "show": {
+        "altitude_range": [-100, 0],
+        "angle_takeoff": 0,
+        "duration": 14208,
         "families": [
             {
                 "drones": [
@@ -113,12 +116,9 @@ JSON_EXAMPLE = {
                 "z": 0,
             }
         ],
-        "duration": 11042,
-        "hull": [[-20, -20], [0, 0]],
-        "altitude_range": [-100, 0],
-        "step": 200,
+        "hull": [[0, 0]],
         "nb_x": 1,
         "nb_y": 1,
-        "angle_takeoff": 0,
+        "step": 200,
     }
 }
