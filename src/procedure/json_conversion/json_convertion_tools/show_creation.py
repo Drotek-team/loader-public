@@ -12,7 +12,7 @@ class Dance:
 
 @dataclass
 class Family:
-    dances: List[Dance]
+    drones: List[Dance]
     x: int
     y: int
     z: int
