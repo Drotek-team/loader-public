@@ -15,7 +15,9 @@ def get_section_headers(
     non_empty_events_list: List[Events],
     json_format_parameter: JsonFormatParameter,
 ) -> List[SectionHeader]:
-    byte_array_start_index = struct.calcsize(json_format_parameter.fmt_header)
+    byte_array_start_index = struct.calcsize(json_format_parameter.fmt_header) + len(
+        non_empty_events_list
+    ) * struct.calcsize(json_format_parameter.fmt_section_header)
     section_headers: List[SectionHeader] = []
     for non_empty_events, encoded_events in zip(
         non_empty_events_list, encoded_events_list
