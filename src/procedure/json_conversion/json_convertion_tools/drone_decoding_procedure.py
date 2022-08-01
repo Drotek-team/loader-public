@@ -49,7 +49,7 @@ def get_header_section_header(
                 json_format_parameter.fmt_section_header,
                 section_header_data[0],
                 section_header_data[1],
-                section_header_data[2] + 1,
+                section_header_data[2],
             )
         )
     return header, section_headers
@@ -61,6 +61,7 @@ def check_header(
     json_format_parameter: JsonFormatParameter,
     header_format_report: HeaderFormatReport,
 ) -> None:
+
     header_format_report.magic_number_format_report.validation = (
         header.magic_number == json_format_parameter.magic_number
     )
