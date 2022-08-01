@@ -4,6 +4,7 @@ import numpy as np
 
 from ..drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
     TrajectorySimulation,
+    TrajectorySimulationManager,
 )
 from ..parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
 from .dance_simulation.convert_trajectory_to_dance_simulation import (
@@ -31,23 +32,14 @@ class ShowSimulationSlice:
 
 
 class ShowSimulation:
-    def __init__(
+    def initialize_show_slices(
         self,
-        nb_drones: int,
-        last_second: float,
-    ):
-        self.nb_drones = nb_drones
-        self.show_slices: List[ShowSimulationSlice] = []
-        self.last_second = last_second
-
-    def update_show_slices(
-        self,
-        timecode_parameter: TimecodeParameter,
-    ):
+        show_second_begin: int,
+        last_second: int,
+        position_second_rate: int,
+    ) -> None:
         bias_second = (
-            timecode_parameter.position_second_rate
-            if not (self.last_second % timecode_parameter.position_second_rate)
-            else 0
+            position_second_rate if not (last_second % position_second_rate) else 0
         )
 
         self.show_slices = [
@@ -56,9 +48,9 @@ class ShowSimulation:
                 self.nb_drones,
             )
             for second in np.arange(
-                timecode_parameter.show_second_begin,
-                bias_second + self.last_second,
-                timecode_parameter.position_second_rate,
+                show_second_begin,
+                bias_second + last_second,
+                position_second_rate,
             )
         ]
 
@@ -75,7 +67,7 @@ class ShowSimulation:
     ) -> None:
         dance_sequence = convert_trajectory_to_dance_simulation(
             trajectory_simulation,
-            self.last_second,
+            self.show_slices[-1].second,
             timecode_parameter,
             takeoff_parameter,
             land_parameter,
@@ -94,9 +86,8 @@ class ShowSimulation:
 
     def update_slices_implicit_values(
         self,
-        timecode_parameter: TimecodeParameter,
+        time_delta: TimecodeParameter,
     ) -> None:
-        time_delta = 1 / (timecode_parameter.position_second_rate)
         for slice_index in range(2, len(self.show_slices)):
             self.show_slices[slice_index].velocities = (time_delta) * (
                 self.show_slices[slice_index].positions
@@ -111,3 +102,29 @@ class ShowSimulation:
                     + self.show_slices[slice_index - 2].positions
                 )
             )
+
+    def set_slices(
+        self,
+        trajectory_simulation_manager: TrajectorySimulationManager,
+        timecode_parameter: TimecodeParameter,
+        takeoff_parameter: TakeoffParameter,
+        land_parameter: LandParameter,
+    ) -> None:
+        self.nb_drones = len(trajectory_simulation_manager.trajectories_simulation)
+        self.initialize_show_slices(
+            show_second_begin=timecode_parameter.show_second_begin,
+            last_second=trajectory_simulation_manager.get_last_second(land_parameter),
+            position_second_rate=timecode_parameter.position_second_rate,
+        )
+        for (
+            trajectory_simulation
+        ) in trajectory_simulation_manager.trajectories_simulation:
+            self.add_dance_simulation(
+                trajectory_simulation,
+                timecode_parameter,
+                takeoff_parameter,
+                land_parameter,
+            )
+        self.update_slices_implicit_values(
+            time_delta=1 / (timecode_parameter.position_second_rate)
+        )

@@ -34,24 +34,15 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         )
 
     drones_manager = DronesManager([drone])
-    trajectory_simulation_manager = drones_manager.get_trajectory_simulation_manager(
-        parameter.json_convertion_constant
-    )
-    show_simulation = ShowSimulation(
-        len(trajectory_simulation_manager.trajectories_simulation),
-        trajectory_simulation_manager.get_last_second(parameter.land_parameter),
-    )
-    show_simulation.update_show_slices(
+    show_simulation = ShowSimulation()
+    show_simulation.set_slices(
+        drones_manager.get_trajectory_simulation_manager(
+            parameter.json_convertion_constant
+        ),
         parameter.timecode_parameter,
+        parameter.takeoff_parameter,
+        parameter.land_parameter,
     )
-    for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
-        show_simulation.add_dance_simulation(
-            trajectory_simulation,
-            parameter.timecode_parameter,
-            parameter.takeoff_parameter,
-            parameter.land_parameter,
-        )
-    show_simulation.update_slices_implicit_values(parameter.timecode_parameter)
     return show_simulation
 
 
