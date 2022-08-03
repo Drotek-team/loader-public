@@ -11,6 +11,9 @@ from .....procedure.show_check.simulation_check.performance_check.performance_ch
     PerformanceCheckReport,
 )
 from .....show_simulation.show_simulation import ShowSimulation, get_slices
+from .....procedure.show_check.simulation_check.simulation_check_report import (
+    SimulationCheckReport,
+)
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
@@ -73,16 +76,19 @@ def test_invalid_simulation():
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
-    performance_check_report = PerformanceCheckReport()
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.performance_check_report = PerformanceCheckReport(
+        valid_show_simulation.seconds
+    )
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
-        performance_check_report,
+        simulation_check_report.performance_check_report,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (performance_check_report.validation)
+    assert not (simulation_check_report.performance_check_report.validation)
 
 
 def test_invalid_velocity_simulation():
@@ -92,13 +98,16 @@ def test_invalid_velocity_simulation():
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
-    performance_check_report = PerformanceCheckReport()
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.performance_check_report = PerformanceCheckReport(
+        valid_show_simulation.seconds
+    )
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
-        performance_check_report,
+        simulation_check_report.performance_check_report,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (performance_check_report.validation)
+    assert not (simulation_check_report.performance_check_report.validation)

@@ -10,9 +10,6 @@ def apply_performance_check_procedure(
     iostar_parameter: IostarParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> None:
-    performance_check_report.update_observed_metrics_slices_check_report(
-        show_simulation.seconds
-    )
     observed_metrics_slice = ObservedMetricsSlice(
         show_simulation.nb_drones, iostar_parameter, takeoff_parameter
     )
