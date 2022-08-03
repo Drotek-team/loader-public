@@ -18,9 +18,6 @@ def apply_json_extraction_procedure(
 ) -> Tuple[DronesManager, FamilyManager]:
     json_show = json_dict["show"]
     nb_drone_per_family = get_nb_drone_per_family(json_show)
-    json_extraction_report.initialize_drones_decoding_report(
-        nb_drone_per_family * len(json_show["families"])
-    )
     drones_manager = DronesManager(
         [
             decode_drone(

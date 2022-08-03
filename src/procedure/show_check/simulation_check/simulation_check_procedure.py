@@ -4,7 +4,7 @@ from .collision_check.collision_check_procedure import apply_collision_check_pro
 from .performance_check.performance_check_procedure import (
     apply_performance_check_procedure,
 )
-from .simulation_check_report import SimulationCheckReport
+from .simulation_check_report import SimulationCheckReport, CollisionCheckReport
 
 
 def apply_simulation_check_procedure(
@@ -18,6 +18,9 @@ def apply_simulation_check_procedure(
         simulation_check_report.performance_check_report,
         iostar_parameter,
         takeoff_parameter,
+    )
+    simulation_check_report.collision_check_report = CollisionCheckReport(
+        show_simulation.seconds
     )
     apply_collision_check_procedure(
         show_simulation,

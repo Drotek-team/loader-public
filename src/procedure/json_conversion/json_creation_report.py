@@ -2,10 +2,8 @@ from .json_convertion_tools.drone_encoding_report import DroneEncodingReport
 
 
 class JsonCreationReport:
-    def __init__(self):
+    def __init__(self, nb_drones: int = 0):
         self.validation = False
-
-    def initialize_drones_encoding_report(self, nb_drones: int) -> None:
         self.drones_encoding_report = [DroneEncodingReport() for _ in range(nb_drones)]
 
     def update(self) -> None:

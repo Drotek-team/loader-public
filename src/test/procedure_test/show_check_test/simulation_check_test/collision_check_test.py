@@ -2,13 +2,17 @@ import os
 
 import pytest
 
+from src.procedure.show_check.simulation_check.collision_check.collision_check_report import (
+    CollisionCheckReport,
+)
+
 from .....drones_manager.drones_manager import DroneExport, DronesManager
 from .....parameter.parameter import Parameter
 from .....procedure.show_check.simulation_check.collision_check.collision_check_procedure import (
     apply_collision_check_procedure,
 )
-from .....procedure.show_check.simulation_check.collision_check.collision_check_report import (
-    CollisionCheckReport,
+from .....procedure.show_check.simulation_check.simulation_check_report import (
+    SimulationCheckReport,
 )
 from .....show_simulation.show_simulation import ShowSimulation, get_slices
 
@@ -102,18 +106,28 @@ def invalid_show_simulation():
 def test_valid_simulation(valid_show_simulation: ShowSimulation):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    collision_check_report = CollisionCheckReport()
-    apply_collision_check_procedure(
-        valid_show_simulation, collision_check_report, parameter.iostar_parameter
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.collision_check_report = CollisionCheckReport(
+        valid_show_simulation.seconds
     )
-    assert collision_check_report.validation
+    apply_collision_check_procedure(
+        valid_show_simulation,
+        simulation_check_report.collision_check_report,
+        parameter.iostar_parameter,
+    )
+    assert simulation_check_report.collision_check_report.validation
 
 
 def test_invalid_simulation(invalid_show_simulation: ShowSimulation):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    collision_check_report = CollisionCheckReport()
-    apply_collision_check_procedure(
-        invalid_show_simulation, collision_check_report, parameter.iostar_parameter
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.collision_check_report = CollisionCheckReport(
+        invalid_show_simulation.seconds
     )
-    assert not (collision_check_report.validation)
+    apply_collision_check_procedure(
+        invalid_show_simulation,
+        simulation_check_report.collision_check_report,
+        parameter.iostar_parameter,
+    )
+    assert not (simulation_check_report.collision_check_report.validation)

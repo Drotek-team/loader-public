@@ -5,12 +5,10 @@ from .simulation_check.simulation_check_report import SimulationCheckReport
 
 
 class ShowCheckReport(Contenor):
-    def __init__(self):
+    def __init__(self, nb_drones: int = 0):
         self.name = "Show Check Report"
         self.simulation_check_report = SimulationCheckReport()
         self.family_check_report = FamilyManagerCheckReport()
-
-    def initialize_drones_check_report(self, nb_drones: int) -> None:
         self.drones_check_report = [
             DanceCheckReport(drone_index) for drone_index in range(nb_drones)
         ]
