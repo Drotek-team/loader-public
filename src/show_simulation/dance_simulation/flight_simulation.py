@@ -26,11 +26,6 @@ def flight_simulation(
                 / timecode_parameter.position_second_rate
             ),
         )
-    # flight_positions.append(
-    #     json_convertion_constant.from_json_position_to_simulation_position(
-    #         position_events[-1].get_values()
-    #     )
-    # )
     return DanceSequence(
         flight_positions, len(flight_positions) * [True], len(flight_positions) * [True]
     )
