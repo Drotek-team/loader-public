@@ -47,6 +47,8 @@ def convert_trajectory_to_dance_simulation(
             timecode_parameter,
         )
     )
+    ### TO DO: As the first position of the land is not a part of the dance, there is a corner case where you can teleport yourself at the last position of your dance
+    ### Not critical because this teleportation last only 0.25 seconds so the drone can not do much during this period
     dance_simulation.update(
         land_simulation(
             trajectory_simulation.get_position_by_index(-1),
