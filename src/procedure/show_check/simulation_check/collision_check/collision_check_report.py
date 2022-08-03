@@ -27,7 +27,7 @@ class CollisionSliceCheckReport(Contenor):
 
 
 class CollisionCheckReport(Contenor):
-    def __init__(self, seconds: List[float] = []):
+    def __init__(self, seconds: List[float] = [0]):
         self.name = "Collision check report"
         self.collision_slices_check_report = [
             CollisionSliceCheckReport(second) for second in seconds

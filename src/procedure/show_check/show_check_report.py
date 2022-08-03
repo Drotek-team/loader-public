@@ -5,7 +5,7 @@ from .simulation_check.simulation_check_report import SimulationCheckReport
 
 
 class ShowCheckReport(Contenor):
-    def __init__(self, nb_drones: int = 0):
+    def __init__(self, nb_drones: int = 1):
         self.name = "Show Check Report"
         self.simulation_check_report = SimulationCheckReport()
         self.family_check_report = FamilyManagerCheckReport()
