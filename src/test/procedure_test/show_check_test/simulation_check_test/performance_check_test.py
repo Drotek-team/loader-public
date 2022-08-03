@@ -1,6 +1,6 @@
 import os
 from typing import List
-
+import numpy as np
 from .....drones_manager.drone.events.position_events import PositionEvent
 from .....drones_manager.drones_manager import DroneExport, DronesManager
 from .....parameter.parameter import Parameter
@@ -69,45 +69,245 @@ def test_valid_simulation():
     assert performance_check_report.validation
 
 
-def test_invalid_simulation():
-    position_event_1 = PositionEvent(250, 0, 0, -100)
-    position_event_2 = PositionEvent(500, 0, 0, -100)
-    position_event_3 = PositionEvent(750, 0, 0, -500)
-    valid_show_simulation = get_show_simulation(
-        [position_event_1, position_event_2, position_event_3]
+def test_invalid_horizontal_velocity_simulation():
+    ### The second position event is mandatory as it is the last position of the show so it is not a part of the dance (so the associate TO DO)
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    distance_max = (
+        parameter.iostar_parameter.horizontal_velocity_max
+        * parameter.timecode_parameter.position_second_rate
     )
+    position_event_1 = PositionEvent(
+        250,
+        int(
+            distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+        ),
+        0,
+        0,
+    )
+    position_event_2 = PositionEvent(500, 1250_00, 0, 0)
+    valid_show_simulation = get_show_simulation([position_event_1, position_event_2])
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.performance_check_report = PerformanceCheckReport(
         valid_show_simulation.seconds
     )
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
         simulation_check_report.performance_check_report,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (simulation_check_report.performance_check_report.validation)
-
-
-def test_invalid_velocity_simulation():
-    position_event_1 = PositionEvent(250, 0, 0, -100)
-    position_event_2 = PositionEvent(500, 0, 0, -100)
-    position_event_3 = PositionEvent(750, 0, 0, -200)
-    valid_show_simulation = get_show_simulation(
-        [position_event_1, position_event_2, position_event_3]
+    assert not (
+        simulation_check_report.performance_check_report.performance_slices_check_report[
+            41
+        ].horizontal_velocity_check_report.validation
     )
+
+
+def test_valid_horizontal_velocity_limitatition_simulation():
+    ### The second position event is mandatory as it is the last position of the show so it is not a part of the dance (so the associate TO DO)
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    distance_max = (
+        parameter.iostar_parameter.horizontal_velocity_max
+        * parameter.timecode_parameter.position_second_rate
+    )
+    position_event_1 = PositionEvent(
+        250,
+        int(distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO)
+        - 1,
+        0,
+        0,
+    )
+    position_event_2 = PositionEvent(500, 1250_00, 0, 0)
+    valid_show_simulation = get_show_simulation([position_event_1, position_event_2])
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.performance_check_report = PerformanceCheckReport(
         valid_show_simulation.seconds
     )
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     apply_performance_check_procedure(
         valid_show_simulation,
         simulation_check_report.performance_check_report,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
     )
-    assert not (simulation_check_report.performance_check_report.validation)
+    assert simulation_check_report.performance_check_report.performance_slices_check_report[
+        41
+    ].horizontal_velocity_check_report.validation
+
+
+def test_invalid_horizontal_acceleration_simulation():
+    ### The second position event is mandatory as it is the last position of the show so it is not a part of the dance (so the associate TO DO)
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    distance_max = (
+        parameter.iostar_parameter.horizontal_acceleration_max
+        * parameter.timecode_parameter.position_second_rate
+        * parameter.timecode_parameter.position_second_rate
+    )
+    position_event_1 = PositionEvent(
+        250,
+        int(distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO)
+        + 1,
+        0,
+        0,
+    )
+    position_event_2 = PositionEvent(500, 0, 0, 0)
+    valid_show_simulation = get_show_simulation([position_event_1, position_event_2])
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.performance_check_report = PerformanceCheckReport(
+        valid_show_simulation.seconds
+    )
+    apply_performance_check_procedure(
+        valid_show_simulation,
+        simulation_check_report.performance_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert not (
+        simulation_check_report.performance_check_report.performance_slices_check_report[
+            41
+        ].horizontal_acceleration_check_report.validation
+    )
+
+
+def test_invalid_horizontal_acceleration_limitation_simulation():
+    ### The second position event is mandatory as it is the last position of the show so it is not a part of the dance (so the associate TO DO)
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    distance_max = (
+        parameter.iostar_parameter.horizontal_acceleration_max
+        * parameter.timecode_parameter.position_second_rate
+        * parameter.timecode_parameter.position_second_rate
+    )
+    position_event_1 = PositionEvent(
+        250,
+        int(
+            distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+        ),
+        0,
+        0,
+    )
+    position_event_2 = PositionEvent(500, 0, 0, 0)
+    valid_show_simulation = get_show_simulation([position_event_1, position_event_2])
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.performance_check_report = PerformanceCheckReport(
+        valid_show_simulation.seconds
+    )
+    apply_performance_check_procedure(
+        valid_show_simulation,
+        simulation_check_report.performance_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert simulation_check_report.performance_check_report.performance_slices_check_report[
+        41
+    ].horizontal_acceleration_check_report.validation
+
+
+def test_invalid_up_force_simulation():
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    distance_max = parameter.timecode_parameter.position_second_rate * np.sqrt(
+        parameter.iostar_parameter.force_up_max
+        / parameter.iostar_parameter.iostar_drag_vertical_coef
+    )
+    position_event_1 = PositionEvent(
+        250,
+        0,
+        0,
+        -distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO,
+    )
+    position_event_2 = PositionEvent(
+        500,
+        0,
+        0,
+        -2
+        * (distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO),
+    )
+    position_event_3 = PositionEvent(
+        750,
+        0,
+        0,
+        -2
+        * (
+            distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            + 1
+        ),
+    )
+    valid_show_simulation = get_show_simulation(
+        [
+            position_event_1,
+            position_event_2,
+            position_event_3,
+        ]
+    )
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.performance_check_report = PerformanceCheckReport(
+        valid_show_simulation.seconds
+    )
+    apply_performance_check_procedure(
+        valid_show_simulation,
+        simulation_check_report.performance_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert not (
+        simulation_check_report.performance_check_report.performance_slices_check_report[
+            42
+        ].up_force_check_report.validation
+    )
+
+
+def test_invalid_up_force_limitation_simulation():
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    distance_max = parameter.timecode_parameter.position_second_rate * np.sqrt(
+        parameter.iostar_parameter.force_up_max
+        / parameter.iostar_parameter.iostar_drag_vertical_coef
+    )
+    position_event_1 = PositionEvent(
+        250,
+        0,
+        0,
+        -distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+        + 1,
+    )
+    position_event_2 = PositionEvent(
+        500,
+        0,
+        0,
+        -2
+        * (distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO)
+        + 2,
+    )
+    position_event_3 = PositionEvent(
+        750,
+        0,
+        0,
+        -2
+        * (
+            distance_max * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            + 1
+        ),
+    )
+    valid_show_simulation = get_show_simulation(
+        [
+            position_event_1,
+            position_event_2,
+            position_event_3,
+        ]
+    )
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.performance_check_report = PerformanceCheckReport(
+        valid_show_simulation.seconds
+    )
+    apply_performance_check_procedure(
+        valid_show_simulation,
+        simulation_check_report.performance_check_report,
+        parameter.iostar_parameter,
+        parameter.takeoff_parameter,
+    )
+    assert simulation_check_report.performance_check_report.performance_slices_check_report[
+        42
+    ].up_force_check_report.validation
