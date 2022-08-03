@@ -4,7 +4,7 @@ import numpy as np
 
 from ......parameter.parameter import IostarParameter, TakeoffParameter
 from .metric import Metric
-from .observed_metrics_report import ObservedMetricsCheckReport
+from .observed_metrics_report import PerformanceSliceCheckReport
 
 
 class ObservedMetricsSlice:
@@ -77,7 +77,7 @@ class ObservedMetricsSlice:
         positions: np.ndarray,
         velocities: np.ndarray,
         accelerations: np.ndarray,
-        observed_metrics_report: ObservedMetricsCheckReport,
+        performance_slice_check_report: PerformanceSliceCheckReport,
         iostar_parameter: IostarParameter,
     ) -> None:
         for drone_index in drone_indices:
@@ -86,7 +86,7 @@ class ObservedMetricsSlice:
                     positions[drone_index, 2]
                 )
             ):
-                observed_metrics_report.vertical_position_check_report.add_incident(
+                performance_slice_check_report.vertical_position_check_report.add_infraction(
                     drone_index, positions[drone_index, 2]
                 )
             if not (
@@ -94,7 +94,7 @@ class ObservedMetricsSlice:
                     np.linalg.norm(velocities[drone_index, 0:2])
                 )
             ):
-                observed_metrics_report.horizontal_velocity_check_report.add_incident(
+                performance_slice_check_report.horizontal_velocity_check_report.add_infraction(
                     drone_index, np.linalg.norm(velocities[drone_index, 0:2])
                 )
             if not (
@@ -102,7 +102,7 @@ class ObservedMetricsSlice:
                     np.linalg.norm(accelerations[drone_index, 0:2])
                 )
             ):
-                observed_metrics_report.horizontal_acceleration_check_report.add_incident(
+                performance_slice_check_report.horizontal_acceleration_check_report.add_infraction(
                     drone_index, np.linalg.norm(accelerations[drone_index, 0:2])
                 )
             if not (
@@ -115,7 +115,7 @@ class ObservedMetricsSlice:
                     )
                 )
             ):
-                observed_metrics_report.up_force_check_report.add_incident(
+                performance_slice_check_report.up_force_check_report.add_infraction(
                     drone_index,
                     self.force_evaluation(
                         velocities[drone_index, 2],
@@ -134,7 +134,7 @@ class ObservedMetricsSlice:
                     )
                 )
             ):
-                observed_metrics_report.down_force_check_report.add_incident(
+                performance_slice_check_report.down_force_check_report.add_infraction(
                     drone_index,
                     self.force_evaluation(
                         velocities[drone_index, 2],
@@ -157,7 +157,7 @@ class ObservedMetricsSlice:
                     )
                 )
             ):
-                observed_metrics_report.down_force_check_report.add_incident(
+                performance_slice_check_report.down_force_check_report.add_infraction(
                     drone_index,
                     self.thrust_ratio_evaluation(
                         velocities[drone_index, 2],
@@ -170,9 +170,9 @@ class ObservedMetricsSlice:
                         iostar_parameter.horizontal_velocity_upper_bound,
                     ),
                 ),
-        observed_metrics_report.vertical_position_check_report.update()
-        observed_metrics_report.horizontal_velocity_check_report.update()
-        observed_metrics_report.horizontal_acceleration_check_report.update()
-        observed_metrics_report.up_force_check_report.update()
-        observed_metrics_report.down_force_check_report.update()
-        observed_metrics_report.thrust_limitation_check_report.update()
+        performance_slice_check_report.vertical_position_check_report.update()
+        performance_slice_check_report.horizontal_velocity_check_report.update()
+        performance_slice_check_report.horizontal_acceleration_check_report.update()
+        performance_slice_check_report.up_force_check_report.update()
+        performance_slice_check_report.down_force_check_report.update()
+        performance_slice_check_report.thrust_check_report.update()

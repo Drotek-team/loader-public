@@ -13,17 +13,17 @@ def apply_performance_check_procedure(
     observed_metrics_slice = ObservedMetricsSlice(
         show_simulation.nb_drones, iostar_parameter, takeoff_parameter
     )
-    for simulation_slice, observed_metrics_slice_check_report in zip(
+    for simulation_slice, performance_slice_check_report in zip(
         show_simulation.show_slices,
-        performance_check_report.observed_metrics_slices_check_report,
+        performance_check_report.performance_slices_check_report,
     ):
         observed_metrics_slice.update_observed_metrics(
             simulation_slice.in_dance_drone_indices,
             simulation_slice.positions,
             simulation_slice.velocities,
             simulation_slice.accelerations,
-            observed_metrics_slice_check_report,
+            performance_slice_check_report,
             iostar_parameter,
         )
-        observed_metrics_slice_check_report.update()
+        performance_slice_check_report.update()
     performance_check_report.update()

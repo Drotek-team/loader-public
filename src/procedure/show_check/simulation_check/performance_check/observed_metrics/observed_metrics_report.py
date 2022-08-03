@@ -5,29 +5,32 @@ from .....report import Contenor, Displayer
 
 
 @dataclass(frozen=True)
-class PerformanceIncidence(Displayer):
+class PerformanceInfraction(Displayer):
     drone_index: int
-    value: float
+    performance_value: float
 
     def get_report(self) -> str:
-        return f"Drone {self.drone_index} exceeds the performance with {self.value}"
+        return f"The drone {self.drone_index} has the value {self.performance_value}"
 
 
 class PerformanceCheckReport(Contenor):
-    def __init__(self, type: str):
-        self.name = f"Performance check report of type {type}"
-        self.performance_check_report: List[PerformanceIncidence] = []
+    def __init__(self, name: str):
+        self.name = name
+        self.performance_infractions: List[PerformanceInfraction] = []
 
-    def update(self) -> None:
-        self.validation = self.performance_check_report == []
+    def add_infraction(self, drone_index: int, performance_value: float) -> None:
+        self.performance_infractions.append(
+            PerformanceInfraction(drone_index, performance_value)
+        )
 
-    def add_incident(self, drone_index: int, value: float) -> None:
-        self.performance_check_report.append(PerformanceIncidence(drone_index, value))
+    def update(self) -> str:
+        self.validation = len(self.performance_infractions) == 0
 
 
-class ObservedMetricsCheckReport(Contenor):
+class PerformanceSliceCheckReport(Contenor):
     def __init__(self, second: float):
-        self.name = f"Observed Metrics check report {second} second"
+        self.name = f"Performance Slice {second} check report"
+        self.second = second
         self.vertical_position_check_report = PerformanceCheckReport(
             "Vertical Position"
         )
@@ -39,7 +42,7 @@ class ObservedMetricsCheckReport(Contenor):
         )
         self.up_force_check_report = PerformanceCheckReport("Up Force")
         self.down_force_check_report = PerformanceCheckReport("Down Force")
-        self.thrust_limitation_check_report = PerformanceCheckReport("Thrust Limiation")
+        self.thrust_check_report = PerformanceCheckReport("Thrust Limiation")
 
     def update(self) -> None:
         self.validation = (
