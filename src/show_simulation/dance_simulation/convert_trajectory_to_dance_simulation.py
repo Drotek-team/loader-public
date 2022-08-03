@@ -17,7 +17,7 @@ def convert_trajectory_to_dance_simulation(
     land_parameter: LandParameter,
 ) -> DanceSimulation:
     dance_simulation = DanceSimulation()
-    if len(trajectory_simulation.positions_simulation) == 1:
+    if len(trajectory_simulation.position_simulation_list) == 1:
         dance_simulation.update(
             stand_by_simulation(
                 timecode_parameter.show_second_begin,

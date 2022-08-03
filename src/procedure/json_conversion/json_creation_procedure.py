@@ -33,7 +33,7 @@ def apply_json_creation_procedure(
     )
     json = show.get_json()
     filename = "popo.json"
-    
+
     with open(filename, "w") as f:
         f.write(json)
 

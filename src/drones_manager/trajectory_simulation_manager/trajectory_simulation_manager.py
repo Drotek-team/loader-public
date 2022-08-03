@@ -11,17 +11,40 @@ class PositionSimulation:
     xyz: Tuple[float, float, float]
 
 
-@dataclass
 class TrajectorySimulation:
-    drone_index: int
+    def __init__(
+        self, drone_index: int, position_simulation_list: List[PositionSimulation]
+    ):
+        self.drone_index = drone_index
+        self.position_simulation_list = position_simulation_list
 
-    def initialize_position_simulation(
-        self,
-        position_events: List[PositionEvent],
-        json_convertion_constant: JsonConvertionConstant,
-    ) -> None:
+    @property
+    def flight_positions(self) -> List[PositionSimulation]:
+        return self.position_simulation_list[1:]
 
-        self.positions_simulation = [
+    @property
+    def last_second(self) -> float:
+        return self.position_simulation_list[-1].second
+
+    @property
+    def last_height(self) -> float:
+        return self.position_simulation_list[-1].xyz[2]
+
+    def get_second_by_index(self, index: int) -> float:
+        return self.position_simulation_list[index].second
+
+    def get_position_by_index(self, index: int) -> Tuple[float, float, float]:
+        return self.position_simulation_list[index].xyz
+
+
+def get_trajectory_simulation(
+    drone_index: int,
+    position_events: List[PositionEvent],
+    json_convertion_constant: JsonConvertionConstant,
+) -> TrajectorySimulation:
+    return TrajectorySimulation(
+        drone_index,
+        [
             PositionSimulation(
                 json_convertion_constant.TIMECODE_TO_SECOND_RATIO
                 * position_event.timecode,
@@ -30,32 +53,13 @@ class TrajectorySimulation:
                 ),
             )
             for position_event in position_events
-        ]
-
-    @property
-    def flight_positions(self) -> List[PositionSimulation]:
-        return self.positions_simulation[1:]
-
-    @property
-    def last_second(self) -> float:
-        return self.positions_simulation[-1].second
-
-    @property
-    def last_height(self) -> float:
-        return self.positions_simulation[-1].xyz[2]
-
-    def get_second_by_index(self, index: int) -> float:
-        return self.positions_simulation[index].second
-
-    def get_position_by_index(self, index: int) -> Tuple[float, float, float]:
-        return self.positions_simulation[index].xyz
+        ],
+    )
 
 
 class TrajectorySimulationManager:
-    def __init__(self, nb_drones: int):
-        self.trajectories_simulation = [
-            TrajectorySimulation(drone_index) for drone_index in range(nb_drones)
-        ]
+    def __init__(self, trajectories_simulation: List[TrajectorySimulation]):
+        self.trajectories_simulation = trajectories_simulation
 
     def get_last_second(self, land_parameter: LandParameter) -> float:
         return max(

@@ -1,6 +1,5 @@
 from typing import List, Tuple
 
-import numpy as np
 
 from ..parameter.parameter import JsonConvertionConstant
 from .convex_hull import calculate_convex_hull
@@ -9,6 +8,7 @@ from .drone.events.position_events import PositionEvent
 from .drone.events_size_easing import EventsSizeEasing, apply_dance_size_relief
 from .trajectory_simulation_manager.trajectory_simulation_manager import (
     TrajectorySimulationManager,
+    get_trajectory_simulation,
 )
 
 
@@ -38,13 +38,16 @@ class DronesManager:
     def get_trajectory_simulation_manager(
         self, json_convertion_constant: JsonConvertionConstant
     ) -> TrajectorySimulationManager:
-        trajectory_simulation_manager = TrajectorySimulationManager(len(self.drones))
-        for trajectory_simulation, drone in zip(
-            trajectory_simulation_manager.trajectories_simulation, self.drones
-        ):
-            trajectory_simulation.initialize_position_simulation(
-                drone.position_events.event_list, json_convertion_constant
-            )
+        trajectory_simulation_manager = TrajectorySimulationManager(
+            [
+                get_trajectory_simulation(
+                    drone.index,
+                    drone.position_events.event_list,
+                    json_convertion_constant,
+                )
+                for drone in self.drones
+            ],
+        )
         return trajectory_simulation_manager
 
     @property
