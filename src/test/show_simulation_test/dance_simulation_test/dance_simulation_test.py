@@ -4,7 +4,7 @@ from typing import List
 from ....drones_manager.drone.events.position_events import PositionEvent
 from ....drones_manager.drones_manager import DroneExport, DronesManager
 from ....parameter.parameter import Parameter
-from ....show_simulation.show_simulation import ShowSimulation
+from ....show_simulation.show_simulation import ShowSimulation, get_slices
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
@@ -28,14 +28,15 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         )
 
     drones_manager = DronesManager([drone])
-    show_simulation = ShowSimulation()
-    show_simulation.set_slices(
-        drones_manager.get_trajectory_simulation_manager(
-            parameter.json_convertion_constant
-        ),
-        parameter.timecode_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
+    show_simulation = ShowSimulation(
+        get_slices(
+            drones_manager.get_trajectory_simulation_manager(
+                parameter.json_convertion_constant
+            ),
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+        )
     )
     return show_simulation
 

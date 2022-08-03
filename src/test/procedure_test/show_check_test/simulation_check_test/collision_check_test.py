@@ -10,7 +10,7 @@ from .....procedure.show_check.simulation_check.collision_check.collision_check_
 from .....procedure.show_check.simulation_check.collision_check.collision_check_report import (
     CollisionCheckReport,
 )
-from .....show_simulation.show_simulation import ShowSimulation
+from .....show_simulation.show_simulation import ShowSimulation, get_slices
 
 
 @pytest.fixture
@@ -42,14 +42,15 @@ def valid_show_simulation():
         ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
-    show_simulation = ShowSimulation()
-    show_simulation.set_slices(
-        drones_manager.get_trajectory_simulation_manager(
-            parameter.json_convertion_constant
-        ),
-        parameter.timecode_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
+    show_simulation = ShowSimulation(
+        get_slices(
+            drones_manager.get_trajectory_simulation_manager(
+                parameter.json_convertion_constant
+            ),
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+        )
     )
     return show_simulation
 
@@ -85,14 +86,15 @@ def invalid_show_simulation():
         ),
     )
     drones_manager = DronesManager([first_drone, second_drone])
-    show_simulation = ShowSimulation()
-    show_simulation.set_slices(
-        drones_manager.get_trajectory_simulation_manager(
-            parameter.json_convertion_constant
-        ),
-        parameter.timecode_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
+    show_simulation = ShowSimulation(
+        get_slices(
+            drones_manager.get_trajectory_simulation_manager(
+                parameter.json_convertion_constant
+            ),
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+        )
     )
     return show_simulation
 

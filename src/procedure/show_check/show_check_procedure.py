@@ -1,7 +1,7 @@
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
 from ...parameter.parameter import Parameter
-from ...show_simulation.show_simulation import ShowSimulation
+from ...show_simulation.show_simulation import ShowSimulation, get_slices
 from ..show_check.simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
 )
@@ -28,14 +28,15 @@ def apply_show_check_procedure(
         parameter.family_parameter,
         show_check_report.family_check_report,
     )
-    show_simulation = ShowSimulation()
-    show_simulation.set_slices(
-        drones_manager.get_trajectory_simulation_manager(
-            parameter.json_convertion_constant
-        ),
-        parameter.timecode_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
+    show_simulation = ShowSimulation(
+        get_slices(
+            drones_manager.get_trajectory_simulation_manager(
+                parameter.json_convertion_constant
+            ),
+            parameter.timecode_parameter,
+            parameter.takeoff_parameter,
+            parameter.land_parameter,
+        )
     )
     apply_simulation_check_procedure(
         show_simulation,
