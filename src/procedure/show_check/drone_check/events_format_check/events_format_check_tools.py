@@ -144,6 +144,10 @@ def takeoff_check(
     takeoff_check_report: TakeoffCheckReport,
     takeoff_parameter: TakeoffParameter,
 ) -> None:
+
+    if position_events.nb_events == 0:
+        takeoff_check_report.takeoff_duration_check_report.validation = False
+        takeoff_check_report.takeoff_position_check_report.validation = False
     if position_events.nb_events == 1:
         first_timecode = position_events.get_timecode_by_event_index(0)
         first_position = position_events.get_values_by_event_index(0)
@@ -153,7 +157,7 @@ def takeoff_check(
         takeoff_check_report.takeoff_position_check_report.validation = (
             first_position[2] == 0
         )
-    else:
+    if position_events.nb_events > 1:
         first_timecode = position_events.get_timecode_by_event_index(0)
         second_timecode = position_events.get_timecode_by_event_index(1)
         first_position = position_events.get_values_by_event_index(0)
