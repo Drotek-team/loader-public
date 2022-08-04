@@ -44,7 +44,7 @@ class Show:
         binaries: List[List[int]],
         family_manager: FamilyManager,
     ) -> None:
-        dances = [Dance(binary) for binary in binaries]
+        drones = [Dance(binary) for binary in binaries]
         for family_index in range(
             (family_manager.nb_x * family_manager.nb_y)
             // family_manager.nb_drone_per_family,
@@ -52,7 +52,7 @@ class Show:
 
             self.families.append(
                 Family(
-                    dances=dances[
+                    drones=drones[
                         family_index : family_index + family_manager.nb_drone_per_family
                     ],
                     x=first_positions[family_index][0],
