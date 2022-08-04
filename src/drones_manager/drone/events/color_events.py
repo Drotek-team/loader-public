@@ -19,7 +19,7 @@ class ColorEvent(Event):
 
 
 class ColorEvents(Events):
-    format = ">IBBBB"
+    format = ">HBBBB"
     id: int = 1
 
     def add(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:

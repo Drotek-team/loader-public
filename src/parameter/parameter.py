@@ -141,6 +141,8 @@ class IostarParameter:
     security_distance_in_air: float
     security_distance_on_ground: float
     dance_size_max: int
+    timecode_reformat_factor: float
+    position_reformat_factor: float
 
 
 class Parameter:
@@ -235,6 +237,8 @@ class Parameter:
             dance_size_max=data["DANCE_SIZE_MAX_OCTECT"],
             iostar_mass=data["IOSTAR_MASS"],
             iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
+            timecode_reformat_factor=1 / data["TIMECODE_REFORMAT_FACTOR"],
+            position_reformat_factor=1 / data["POSITION_REFORMAT_FACTOR"],
         )
 
     def load_family_parameter(self, local_path: str) -> None:

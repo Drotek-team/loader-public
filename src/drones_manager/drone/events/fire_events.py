@@ -18,7 +18,7 @@ class FireEvent(Event):
 
 
 class FireEvents(Events):
-    format = ">IBB"
+    format = ">HBB"
     id = 2
 
     def add(self, timecode: int, chanel: int, duration: int) -> None:

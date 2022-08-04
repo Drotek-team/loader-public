@@ -16,9 +16,14 @@ class PositionEvent(Event):
     def get_raw_data(self) -> Tuple[int, int, int, int]:
         return (self.timecode, self.x, self.y, self.z)
 
+    def scale_data(self, data_factor: float) -> None:
+        self.x = int(data_factor * self.x)
+        self.y = int(data_factor * self.y)
+        self.z = int(data_factor * self.z)
+
 
 class PositionEvents(Events):
-    format = ">Ihhh"
+    format = ">Hhhh"
     id: int = 0
 
     def add(self, timecode: int, xyz: Tuple[int, int, int]) -> None:

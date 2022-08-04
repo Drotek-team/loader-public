@@ -17,6 +17,13 @@ class Event:
     def get_raw_data(self) -> Tuple:
         pass
 
+    def scale_timecode(self, timecode_factor: float) -> None:
+        self.timecode = int(self.timecode * timecode_factor)
+
+    @abstractclassmethod
+    def scale_data(self, data_factor: float) -> None:
+        pass
+
 
 class Events:
     format: str
@@ -46,6 +53,14 @@ class Events:
 
     def get_values_by_event_index(self, event_index: int) -> Tuple:
         return self.event_list[event_index].get_values()
+
+    def scale_timecode_events(self, timecode_factor: float) -> None:
+        for event in self.event_list:
+            event.scale_timecode(timecode_factor)
+
+    def scale_data_events(self, data_factor: float) -> None:
+        for event in self.event_list:
+            event.scale_data(data_factor)
 
     @abstractclassmethod
     def add(self, timecode: int, data: Any) -> None:
