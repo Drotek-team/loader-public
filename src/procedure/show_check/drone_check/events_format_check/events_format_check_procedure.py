@@ -4,6 +4,7 @@ from .....drones_manager.drone.events.fire_events import FireEvents
 from .....drones_manager.drone.events.position_events import PositionEvents
 from .....parameter.parameter import (
     IostarParameter,
+    JsonConvertionConstant,
     TakeoffParameter,
     TimecodeParameter,
 )
@@ -28,7 +29,8 @@ from .events_format_check_tools import (
 def position_events_check(
     position_events: PositionEvents,
     timecode_parameter: TimecodeParameter,
-    iostar_parameters: IostarParameter,
+    json_convertion_constant: JsonConvertionConstant,
+    iostar_parameter: IostarParameter,
     takeoff_parameter: TakeoffParameter,
     position_events_check_report: PositionEventsCheckReport,
 ) -> None:
@@ -36,11 +38,12 @@ def position_events_check(
         position_events,
         position_events_check_report.timecode_check_report,
         timecode_parameter,
+        json_convertion_constant,
     )
     xyz_check(
         position_events,
         position_events_check_report.xyz_check_report,
-        iostar_parameters,
+        iostar_parameter,
     )
     takeoff_check(
         position_events,
@@ -53,6 +56,7 @@ def position_events_check(
 def color_events_check(
     color_events: ColorEvents,
     timecode_parameter: TimecodeParameter,
+    json_convertion_constant: JsonConvertionConstant,
     iostar_parameter: IostarParameter,
     color_events_check: ColorEventsCheckReport,
 ):
@@ -60,6 +64,7 @@ def color_events_check(
         color_events,
         color_events_check.timecode_check_report,
         timecode_parameter,
+        json_convertion_constant,
     )
     rgbw_check(color_events, color_events_check.rgbw_check_report, iostar_parameter)
     color_events_check.update()
@@ -90,6 +95,7 @@ def fire_events_check(
 def apply_events_format_check_procedure(
     drone: DroneExport,
     iostar_parameter: IostarParameter,
+    json_convertion_constant: JsonConvertionConstant,
     takeoff_parameter: TakeoffParameter,
     timecode_parameter: TimecodeParameter,
     events_format_check_report: EventsFormatCheckReport,
@@ -97,6 +103,7 @@ def apply_events_format_check_procedure(
     position_events_check(
         drone.position_events,
         timecode_parameter,
+        json_convertion_constant,
         iostar_parameter,
         takeoff_parameter,
         events_format_check_report.position_events_check,
@@ -104,6 +111,7 @@ def apply_events_format_check_procedure(
     color_events_check(
         drone.color_events,
         timecode_parameter,
+        json_convertion_constant,
         iostar_parameter,
         events_format_check_report.color_events_check,
     )

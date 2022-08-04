@@ -1,5 +1,41 @@
 import struct
 from dataclasses import dataclass
+from ....drones_manager.drone.drone import DroneExport
+from ....parameter.parameter import IostarParameter
+
+
+def apply_reformat_events(
+    drone_export: DroneExport, iostar_parameter: IostarParameter
+) -> None:
+    drone_export.position_events.scale_timecode_events(
+        iostar_parameter.timecode_reformat_factor
+    )
+    drone_export.position_events.scale_data_events(
+        iostar_parameter.position_reformat_factor
+    )
+    drone_export.color_events.scale_timecode_events(
+        iostar_parameter.timecode_reformat_factor
+    )
+    drone_export.fire_events.scale_timecode_events(
+        iostar_parameter.timecode_reformat_factor
+    )
+
+
+def unapply_reformat_events(
+    drone_export: DroneExport, iostar_parameter: IostarParameter
+) -> None:
+    drone_export.position_events.scale_timecode_events(
+        1 / iostar_parameter.timecode_reformat_factor
+    )
+    drone_export.position_events.scale_data_events(
+        1 / iostar_parameter.position_reformat_factor
+    )
+    drone_export.color_events.scale_timecode_events(
+        1 / iostar_parameter.timecode_reformat_factor
+    )
+    drone_export.fire_events.scale_timecode_events(
+        1 / iostar_parameter.timecode_reformat_factor
+    )
 
 
 @dataclass(frozen=True)

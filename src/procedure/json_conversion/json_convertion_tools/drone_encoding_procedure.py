@@ -3,11 +3,11 @@ from typing import List
 
 from ....drones_manager.drone.drone import DroneExport
 from ....drones_manager.drone.events.events import Events
-from ....parameter.parameter import JsonFormatParameter
+from ....parameter.parameter import JsonFormatParameter, IostarParameter
 from .drone_encoding_report import DroneEncodingReport
 from .events_convertion import encode_events
-from .json_format_convention import Header, SectionHeader
-
+from .json_format_convention import Header, SectionHeader, apply_reformat_events
+import copy
 
 # TO DO: A cumsum will prevent the loop but it is kind of convulated for not very much
 def get_section_headers(
@@ -61,11 +61,14 @@ def assemble_dance(
 
 
 def encode_drone(
-    drone: DroneExport,
+    drone_export: DroneExport,
+    iostar_parameter: IostarParameter,
     json_format_parameter: JsonFormatParameter,
     drone_encoding_report: DroneEncodingReport,
 ) -> List[int]:
-    non_empty_events_list = drone.non_empty_events_list
+    drone_export_copy = copy.deepcopy(drone_export)
+    apply_reformat_events(drone_export_copy, iostar_parameter)
+    non_empty_events_list = drone_export_copy.non_empty_events_list
     encoded_events_list = [
         encode_events(non_empty_events) for non_empty_events in non_empty_events_list
     ]

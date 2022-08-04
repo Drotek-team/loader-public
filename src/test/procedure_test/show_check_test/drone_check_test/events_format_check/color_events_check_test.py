@@ -40,6 +40,7 @@ def test_valid_color_events_check(
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -59,6 +60,7 @@ def test_invalid_color_events_timecode_format_check(
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -74,12 +76,13 @@ def test_invalid_color_events_timecode_rate_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_color_events.add(
-        parameter.timecode_parameter.show_timecode_begin + 1,
+        valid_color_events.event_list[-1].timecode + 1,
         (0, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -101,6 +104,7 @@ def test_invalid_color_events_timecode_increasing_check(
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -121,6 +125,7 @@ def test_invalid_color_events_timecode_first_timecode_check(
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -142,6 +147,7 @@ def test_invalid_color_events_rgbw_format_check(
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -163,6 +169,7 @@ def test_invalid_color_events_rgbw_value_check(
     color_events_check(
         valid_color_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )

@@ -3,14 +3,14 @@ from typing import List, Tuple
 
 from ....drones_manager.drone.drone import DroneExport
 from ....drones_manager.drone.events.position_events import PositionEvent
-from ....parameter.parameter import JsonFormatParameter
+from ....parameter.parameter import JsonFormatParameter, IostarParameter
 from .drone_decoding_report import (
     DroneDecodingReport,
     HeaderFormatReport,
     SectionHeaderFormatReport,
 )
 from .events_convertion import decode_events
-from .json_format_convention import Header, SectionHeader
+from .json_format_convention import Header, SectionHeader, unapply_reformat_events
 
 
 def get_header_section_header(
@@ -83,6 +83,7 @@ def check_section_header(
 def decode_drone(
     binary: List[int],
     drone_index: int,
+    iostar_parameter: IostarParameter,
     json_format_parameter: JsonFormatParameter,
     drone_decoding_report: DroneDecodingReport,
 ) -> DroneExport:
@@ -117,4 +118,5 @@ def decode_drone(
     drone.position_events.event_list[1] = PositionEvent(
         second_position_event.timecode, x, y, z
     )
+    unapply_reformat_events(drone, iostar_parameter)
     return drone

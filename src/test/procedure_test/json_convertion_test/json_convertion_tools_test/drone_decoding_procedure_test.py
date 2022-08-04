@@ -22,7 +22,11 @@ def test_valid_dance_decoding():
     parameter.load_parameter(os.getcwd())
     drone_decoding_report = DroneDecodingReport(0)
     drone = decode_drone(
-        DANCE_EXAMPLE, 0, parameter.json_format_parameter, drone_decoding_report
+        DANCE_EXAMPLE,
+        0,
+        parameter.iostar_parameter,
+        parameter.json_format_parameter,
+        drone_decoding_report,
     )
     assert drone_decoding_report.validation
     for decoded_position_event, theorical_position_raw_data in zip(

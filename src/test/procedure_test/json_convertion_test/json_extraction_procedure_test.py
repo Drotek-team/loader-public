@@ -17,6 +17,9 @@ def test_valid_json_extraction():
         * len(JSON_EXAMPLE["show"]["families"])
     )
     apply_json_extraction_procedure(
-        JSON_EXAMPLE, parameter.json_format_parameter, json_extraction_report
+        JSON_EXAMPLE,
+        parameter.iostar_parameter,
+        parameter.json_format_parameter,
+        json_extraction_report,
     )
     assert json_extraction_report.validation

@@ -1,6 +1,6 @@
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
-from ...parameter.parameter import JsonFormatParameter
+from ...parameter.parameter import JsonFormatParameter, IostarParameter
 from .json_convertion_tools.drone_encoding_procedure import encode_drone
 from .json_convertion_tools.show_creation import Show
 from .json_creation_report import JsonCreationReport
@@ -9,6 +9,7 @@ from .json_creation_report import JsonCreationReport
 def apply_json_creation_procedure(
     drones_manager: DronesManager,
     family_manager: FamilyManager,
+    iostar_parameter: IostarParameter,
     json_format_parameter: JsonFormatParameter,
     json_creation_report: JsonCreationReport,
 ) -> None:
@@ -24,7 +25,12 @@ def apply_json_creation_procedure(
     show.update_families(
         [drone_export.first_xyz for drone_export in drones_manager.drones],
         [
-            encode_drone(drone_export, json_format_parameter, drone_encoding_report)
+            encode_drone(
+                drone_export,
+                iostar_parameter,
+                json_format_parameter,
+                drone_encoding_report,
+            )
             for drone_export, drone_encoding_report in zip(
                 drones_manager.drones, json_creation_report.drones_encoding_report
             )

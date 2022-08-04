@@ -1,3 +1,4 @@
+from time import time
 from typing import List, Tuple
 
 from .....drones_manager.drone.events.color_events import ColorEvents
@@ -7,6 +8,7 @@ from .....parameter.parameter import (
     IostarParameter,
     TakeoffParameter,
     TimecodeParameter,
+    JsonConvertionConstant,
 )
 from .events_format_check_report import (
     FireChanelCheckReport,
@@ -45,10 +47,34 @@ def check_int_size_list_tuple(
     )
 
 
-def check_timecode_rate(timecodes: List[int], timecode_rate: int) -> bool:
+def check_timecode_rate(
+    timecodes: List[int],
+    timecode_second_frequence: int,
+    json_convertion_constant: JsonConvertionConstant,
+) -> bool:
+
+    floor_timecodes = [
+        timecode
+        - int(json_convertion_constant.SECOND_TO_TIMECODE_RATIO)
+        * int(timecode * json_convertion_constant.TIMECODE_TO_SECOND_RATIO)
+        for timecode in timecodes
+    ]
+    acceptable_decimals = [
+        frame_index / timecode_second_frequence
+        for frame_index in range(timecode_second_frequence)
+    ]
+    acceptable_decimals_rounded = [
+        int(json_convertion_constant.SECOND_TO_TIMECODE_RATIO * acceptable_decimal)
+        for acceptable_decimal in acceptable_decimals
+    ]
+    # raise ValueError(
+    #     timecodes,
+    #     floor_timecodes,
+    #     acceptable_decimals_rounded,
+    # )
     return all(
-        second_timecode - first_timecode >= timecode_rate
-        for first_timecode, second_timecode in zip(timecodes[:-2], timecodes[2:])
+        floor_timecode in acceptable_decimals_rounded
+        for floor_timecode in floor_timecodes
     )
 
 
@@ -63,6 +89,7 @@ def position_timecode_check(
     position_events: PositionEvents,
     timecode_check_report: TimecodeCheckReport,
     timecode_parameter: TimecodeParameter,
+    json_convertion_check: JsonConvertionConstant,
 ) -> None:
     timecodes = [event.timecode for event in position_events.event_list]
     timecode_check_report.timecode_format_check_report.validation = (
@@ -74,7 +101,7 @@ def position_timecode_check(
         timecode_parameter.timecode_value_max,
     )
     timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
-        timecodes, timecode_parameter.position_timecode_rate
+        timecodes, timecode_parameter.position_second_frequence, json_convertion_check
     )
     timecode_check_report.increasing_timecode_check_report.validation = (
         check_increasing_timecode(timecodes)
@@ -86,6 +113,7 @@ def color_timecode_check(
     color_events: ColorEvents,
     timecode_check_report: TimecodeCheckReport,
     timecode_parameter: TimecodeParameter,
+    json_convertion_check: JsonConvertionConstant,
 ) -> None:
     timecodes = [event.timecode for event in color_events.event_list]
     timecode_check_report.timecode_format_check_report.validation = (
@@ -97,7 +125,9 @@ def color_timecode_check(
         timecode_parameter.timecode_value_max,
     )
     timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
-        timecodes, timecode_parameter.color_timecode_rate
+        timecodes,
+        timecode_parameter.color_second_frequence,
+        json_convertion_check,
     )
     timecode_check_report.increasing_timecode_check_report.validation = (
         check_increasing_timecode(timecodes)

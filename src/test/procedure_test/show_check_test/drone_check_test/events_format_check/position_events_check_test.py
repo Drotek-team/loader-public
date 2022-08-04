@@ -44,6 +44,7 @@ def test_valid_position_events_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -66,6 +67,7 @@ def test_invalid_position_events_timecode_format_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -88,6 +90,7 @@ def test_invalid_position_events_timecode_rate_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -110,6 +113,7 @@ def test_invalid_position_events_timecode_increasing_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -131,6 +135,7 @@ def test_invalid_position_events_timecode_first_timecode_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -153,6 +158,7 @@ def test_invalid_position_events_xyz_format_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -175,6 +181,7 @@ def test_invalid_position_events_xyz_value_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -196,6 +203,7 @@ def test_invalid_position_events_takeoff_duration_check(
     position_events_check(
         valid_position_events,
         parameter.timecode_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,

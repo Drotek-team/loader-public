@@ -2,7 +2,7 @@ from typing import Dict, Tuple
 
 from ...drones_manager.drones_manager import DronesManager
 from ...family_manager.family_manager import FamilyManager
-from ...parameter.parameter import JsonFormatParameter
+from ...parameter.parameter import JsonFormatParameter, IostarParameter
 from .json_convertion_tools.drone_decoding_procedure import decode_drone
 from .json_extraction_report import JsonExtractionReport
 
@@ -13,6 +13,7 @@ def get_nb_drone_per_family(json_show: Dict) -> int:
 
 def apply_json_extraction_procedure(
     json_dict: Dict,
+    iostar_parameter: IostarParameter,
     json_format_parameter: JsonFormatParameter,
     json_extraction_report: JsonExtractionReport,
 ) -> Tuple[DronesManager, FamilyManager]:
@@ -23,6 +24,7 @@ def apply_json_extraction_procedure(
             decode_drone(
                 drone_json["dance"],
                 family_index * nb_drone_per_family + drone_index,
+                iostar_parameter,
                 json_format_parameter,
                 json_extraction_report.drones_decoding_report[drone_index],
             )
