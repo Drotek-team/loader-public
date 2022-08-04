@@ -1,4 +1,4 @@
-from src.procedure.show_check.simulation_check.performance_check.performance_check_report import (
+from .performance_check.performance_check_report import (
     PerformanceCheckReport,
 )
 from ....parameter.parameter import IostarParameter, TakeoffParameter
