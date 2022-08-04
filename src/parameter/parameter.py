@@ -101,8 +101,10 @@ class TimecodeParameter:
     timecode_value_max: int
     position_timecode_rate: int
     position_second_rate: float
+    position_second_frequence: int
     color_timecode_rate: int
     color_second_rate: float
+    color_second_frequence: int
 
 
 @dataclass(frozen=True)
@@ -178,11 +180,13 @@ class Parameter:
                 // data["POSITION_SECOND_FREQUENCE"]
             ),
             position_second_rate=1 / data["POSITION_SECOND_FREQUENCE"],
+            position_second_frequence=data["POSITION_SECOND_FREQUENCE"],
             color_timecode_rate=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 // data["COLOR_SECOND_FREQUENCE"]
             ),
             color_second_rate=1 / data["COLOR_SECOND_FREQUENCE"],
+            color_second_frequence=data["COLOR_SECOND_FREQUENCE"],
         )
 
     def load_iostar_parameter(self, local_path: str) -> None:
