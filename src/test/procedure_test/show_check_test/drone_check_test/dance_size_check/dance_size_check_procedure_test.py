@@ -11,13 +11,13 @@ from ......procedure.show_check.drone_check.dance_size_check.dances_size_check_r
     DanceSizeCheckReport,
 )
 
-MAGIC_NUMBER = 12495
+MAGIC_BREAKER_NUMBER = 16660
 
 
 @pytest.fixture
 def valid_drone_dance_size():
     drone = DroneExport(0)
-    for _ in range(MAGIC_NUMBER):
+    for _ in range(MAGIC_BREAKER_NUMBER):
         drone.color_events.add(0, (0, 0, 0, 0))
     return drone
 
@@ -25,7 +25,7 @@ def valid_drone_dance_size():
 @pytest.fixture
 def invalid_drone_dance_size():
     drone = DroneExport(0)
-    for _ in range(MAGIC_NUMBER + 1):
+    for _ in range(MAGIC_BREAKER_NUMBER + 1):
         drone.color_events.add(0, (0, 0, 0, 0))
     return drone
 
