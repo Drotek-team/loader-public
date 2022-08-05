@@ -21,8 +21,10 @@ def flight_simulation(
         flight_positions += linear_interpolation(
             position_simulation.xyz,
             next_position_simulation_list.xyz,
-            (next_position_simulation_list.frame - position_simulation.frame)
-            * frame_parameter.position_fps,
+            int(
+                (next_position_simulation_list.frame - position_simulation.frame)
+                // frame_parameter.position_rate_frame
+            ),
         )
     return DanceSequence(
         flight_positions, len(flight_positions) * [True], len(flight_positions) * [True]

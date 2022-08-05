@@ -32,14 +32,18 @@ def test_flight_simulation():
     first_theorical_curve = linear_interpolation(
         FIRST_POSITION_EVENT.xyz,
         SECOND_POSITION_EVENT.xyz,
-        (SECOND_POSITION_EVENT.frame - FIRST_POSITION_EVENT.frame)
-        * parameter.frame_parameter.position_fps,
+        int(
+            (SECOND_POSITION_EVENT.frame - FIRST_POSITION_EVENT.frame)
+            // parameter.frame_parameter.position_rate_frame
+        ),
     )
     second_theorical_curve = linear_interpolation(
         SECOND_POSITION_EVENT.xyz,
         THIRD_POSITION_EVENT.xyz,
-        (THIRD_POSITION_EVENT.frame - SECOND_POSITION_EVENT.frame)
-        * parameter.frame_parameter.position_fps,
+        int(
+            (THIRD_POSITION_EVENT.frame - SECOND_POSITION_EVENT.frame)
+            // parameter.frame_parameter.position_rate_frame
+        ),
     )
     theorical_curve = first_theorical_curve + second_theorical_curve
     assert len(dance_sequence.drone_positions) == len(theorical_curve)
