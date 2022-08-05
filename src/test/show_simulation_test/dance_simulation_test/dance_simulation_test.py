@@ -14,7 +14,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         parameter.takeoff_parameter.takeoff_duration,
-        (0, 0, -parameter.takeoff_parameter.takeoff_altitude),
+        (0, 0, -parameter.takeoff_parameter.takeoff_altitude_meter),
     )
     for position_event in position_events:
         position = position_event.get_values()

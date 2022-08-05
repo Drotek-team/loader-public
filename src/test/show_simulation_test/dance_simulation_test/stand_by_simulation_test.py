@@ -17,26 +17,24 @@ def test_stand_by_simulation():
     parameter.load_parameter(os.getcwd())
     second_start = 0
     second_end = 1
-    first_takeoff_position = (0, 0, 10)
+    position = (0.0, 0.0, 10.0)
     dance_sequence = stand_by_simulation(
         second_start,
         second_end,
-        first_takeoff_position,
+        position,
         parameter.frame_parameter,
     )
-    FIRST_THEORICAL_POSITION_EVENT = PositionEvent(
-        second_start, *first_takeoff_position
-    )
-    SECOND_THEORICAL_POSITION_EVENT = PositionEvent(second_end, *first_takeoff_position)
+    FIRST_THEORICAL_POSITION_EVENT = PositionEvent(second_start, *position)
+    SECOND_THEORICAL_POSITION_EVENT = PositionEvent(second_end, *position)
     theorical_curve = linear_interpolation(
         FIRST_THEORICAL_POSITION_EVENT.get_values(),
         SECOND_THEORICAL_POSITION_EVENT.get_values(),
-        int(
+        (
             (
                 SECOND_THEORICAL_POSITION_EVENT.frame
                 - FIRST_THEORICAL_POSITION_EVENT.frame
             )
-            / parameter.frame_parameter.position_second_rate
+            * parameter.frame_parameter.position_fps
         ),
     )
     assert len(dance_sequence.drone_positions) == len(theorical_curve)
