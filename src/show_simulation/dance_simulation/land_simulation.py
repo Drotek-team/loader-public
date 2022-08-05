@@ -19,7 +19,7 @@ def generate_land_first_part(
     )
     nb_iteration = int(
         land_parameter.get_first_land_second_delta(land_start_position[2])
-        / frame_parameter.position_rate_frame
+        / frame_parameter.position_rate_second
     )
     return linear_interpolation(
         land_start_position,
@@ -48,7 +48,7 @@ def generate_land_second_part(
         land_end_position,
         int(
             land_parameter.get_second_land_second_delta(land_start_position[2])
-            // frame_parameter.position_rate_frame
+            // frame_parameter.position_rate_second
         ),
     )
 

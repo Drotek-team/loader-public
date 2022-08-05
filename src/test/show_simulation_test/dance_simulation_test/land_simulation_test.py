@@ -27,7 +27,7 @@ def test_land_simulation_first_case():
     THEORICAL_LAST_TAKEOFF_POSITION = (X_METER, Y_METER, 0)
     THEORICAL_NB_POINT = int(
         parameter.land_parameter.get_first_land_second_delta(HGT_CENTIMETER)
-        // parameter.frame_parameter.position_second_rate
+        // parameter.frame_parameter.position_rate_second
     )
     theorical_curve = linear_interpolation(
         first_takeoff_position,
@@ -71,7 +71,7 @@ def test_land_simulation_second_case():
     )
     FIRST_THEORICAL_NB_POINT = int(
         parameter.land_parameter.get_first_land_second_delta(HGT_CENTIMETER)
-        // parameter.frame_parameter.position_second_rate
+        // parameter.frame_parameter.position_rate_second
     )
     first_theorical_curve = linear_interpolation(
         first_takeoff_position,
@@ -80,7 +80,7 @@ def test_land_simulation_second_case():
     )
     SECOND_THEORICAL_NB_POINT = int(
         parameter.land_parameter.get_second_land_second_delta(HGT_CENTIMETER)
-        // parameter.frame_parameter.position_second_rate
+        // parameter.frame_parameter.position_rate_second
     )
     second_theorical_curve = linear_interpolation(
         THEORICAL_MIDDLE_TAKEOFF_POSITION,
