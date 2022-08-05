@@ -63,6 +63,25 @@ class TrajectorySimulationManager:
     def get_last_frame(
         self, land_parameter: LandParameter, frame_parameter: FrameParameter
     ) -> int:
+        # raise ValueError(
+        #     self.trajectories_simulation[0].last_frame,
+        #     int(
+        #         frame_parameter.json_fps
+        #         * land_parameter.get_land_second_delta(
+        #             self.trajectories_simulation[0].last_height
+        #         )
+        #     ),
+        #     max(
+        #         trajectory_simulation.last_frame
+        #         + int(
+        #             frame_parameter.json_fps
+        #             * land_parameter.get_land_second_delta(
+        #                 trajectory_simulation.last_height
+        #             )
+        #         )
+        #         for trajectory_simulation in self.trajectories_simulation
+        #     ),
+        # )
         return max(
             trajectory_simulation.last_frame
             + int(

@@ -20,7 +20,8 @@ def convert_trajectory_to_dance_simulation(
     if len(trajectory_simulation.position_simulation_list) == 1:
         dance_simulation.update(
             stand_by_simulation(
-                frame_parameter.show_duration_min_second,
+                frame_parameter.show_duration_min_frame,
+                frame_parameter.show_duration_max_frame,
                 trajectory_simulation.get_position_by_index(0),
                 frame_parameter,
             )
@@ -28,7 +29,7 @@ def convert_trajectory_to_dance_simulation(
         return dance_simulation
     dance_simulation.update(
         stand_by_simulation(
-            frame_parameter.show_duration_min_second,
+            frame_parameter.show_duration_min_frame,
             trajectory_simulation.get_frame_by_index(0),
             trajectory_simulation.get_position_by_index(0),
             frame_parameter,
@@ -57,13 +58,14 @@ def convert_trajectory_to_dance_simulation(
         )
     )
     last_position = trajectory_simulation.get_position_by_index(-1)
-
     dance_simulation.update(
         stand_by_simulation(
-            frame_begin=trajectory_simulation.get_frame_by_index(-1)
-            + frame_parameter.json_fps
-            * land_parameter.get_land_second_delta(last_position[2]),
-            frame_end=last_frame + frame_parameter.position_rate_second,
+            frame_begin=int(
+                trajectory_simulation.get_frame_by_index(-1)
+                + frame_parameter.json_fps
+                * land_parameter.get_land_second_delta(last_position[2])
+            ),
+            frame_end=last_frame + frame_parameter.position_rate_frame,
             stand_by_position=(last_position[0], last_position[1], 0),
             frame_parameter=frame_parameter,
         )

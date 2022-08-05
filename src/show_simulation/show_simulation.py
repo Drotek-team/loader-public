@@ -51,7 +51,7 @@ def get_empty_show_slices(
         )
         for frame in range(
             frame_parameter.show_duration_min_frame,
-            last_frame,
+            last_frame + frame_parameter.position_rate_frame,
             frame_parameter.position_rate_frame,
         )
     ]

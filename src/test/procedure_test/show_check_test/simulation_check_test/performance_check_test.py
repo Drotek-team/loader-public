@@ -75,7 +75,7 @@ def test_invalid_horizontal_velocity_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_velocity_max
-        * parameter.frame_parameter.position_second_rate
+        * parameter.frame_parameter.position_rate_second
     )
     position_event_1 = PositionEvent(
         250,
@@ -110,7 +110,7 @@ def test_valid_horizontal_velocity_limitatition_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_velocity_max
-        * parameter.frame_parameter.position_second_rate
+        * parameter.frame_parameter.position_rate_second
     )
     position_event_1 = PositionEvent(
         250,
@@ -142,8 +142,8 @@ def test_invalid_horizontal_acceleration_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_acceleration_max
-        * parameter.frame_parameter.position_second_rate
-        * parameter.frame_parameter.position_second_rate
+        * parameter.frame_parameter.position_rate_second
+        * parameter.frame_parameter.position_rate_second
     )
     position_event_1 = PositionEvent(
         250,
@@ -177,8 +177,8 @@ def test_invalid_horizontal_acceleration_limitation_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_acceleration_max
-        * parameter.frame_parameter.position_second_rate
-        * parameter.frame_parameter.position_second_rate
+        * parameter.frame_parameter.position_rate_second
+        * parameter.frame_parameter.position_rate_second
     )
     position_event_1 = PositionEvent(
         250,
@@ -208,7 +208,7 @@ def test_invalid_horizontal_acceleration_limitation_simulation():
 def test_invalid_up_force_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    distance_max = parameter.frame_parameter.position_second_rate * np.sqrt(
+    distance_max = parameter.frame_parameter.position_rate_second * np.sqrt(
         parameter.iostar_parameter.force_up_max
         / parameter.iostar_parameter.iostar_drag_vertical_coef
     )
@@ -262,7 +262,7 @@ def test_invalid_up_force_simulation():
 def test_invalid_up_force_limitation_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    distance_max = parameter.frame_parameter.position_second_rate * np.sqrt(
+    distance_max = parameter.frame_parameter.position_rate_second * np.sqrt(
         parameter.iostar_parameter.force_up_max
         / parameter.iostar_parameter.iostar_drag_vertical_coef
     )
