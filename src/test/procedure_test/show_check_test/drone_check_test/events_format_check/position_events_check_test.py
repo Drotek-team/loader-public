@@ -24,8 +24,19 @@ def valid_position_events():
     position_events = PositionEvents()
     position_events.add(frame_parameter.show_duration_min_frame, (0, 0, 0))
     position_events.add(
-        frame_parameter.show_duration_min_frame + takeoff_parameter.takeoff_duration,
-        (0, 0, -takeoff_parameter.takeoff_altitude),
+        frame_parameter.show_duration_min_frame
+        + int(
+            parameter.takeoff_parameter.takeoff_duration_second
+            * parameter.frame_parameter.json_fps
+        ),
+        (
+            0,
+            0,
+            -int(
+                takeoff_parameter.takeoff_altitude_meter
+                * parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
+            ),
+        ),
     )
     return position_events
 
@@ -44,13 +55,12 @@ def test_valid_position_events_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
     )
-    assert (
-        position_events_check_report.takeoff_check_report.takeoff_position_check_report.validation
-    )
+    assert position_events_check_report.validation
 
 
 def test_invalid_position_events_frame_format_check(
@@ -66,6 +76,7 @@ def test_invalid_position_events_frame_format_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -88,6 +99,7 @@ def test_invalid_position_events_frame_rate_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -110,6 +122,7 @@ def test_invalid_position_events_frame_increasing_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -131,6 +144,7 @@ def test_invalid_position_events_frame_first_frame_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -153,6 +167,7 @@ def test_invalid_position_events_xyz_format_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -175,6 +190,7 @@ def test_invalid_position_events_xyz_value_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
@@ -196,6 +212,7 @@ def test_invalid_position_events_takeoff_duration_check(
     position_events_check(
         valid_position_events,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         parameter.takeoff_parameter,
         position_events_check_report,
