@@ -7,7 +7,7 @@ from .....drones_manager.drone.events.position_events import PositionEvents
 from .....parameter.parameter import (
     IostarParameter,
     TakeoffParameter,
-    TimecodeParameter,
+    FrameParameter,
     JsonConvertionConstant,
 )
 from .events_format_check_report import (
@@ -49,32 +49,11 @@ def check_int_size_list_tuple(
 
 def check_frame_rate(
     frames: List[int],
-    frame_second_frequence: int,
-    json_convertion_constant: JsonConvertionConstant,
+    frame_per_second: int,
+    json_fps: int,
 ) -> bool:
-
-    floor_frames = [
-        frame
-        - int(json_convertion_constant.SECOND_TO_TIMECODE_RATIO)
-        * int(frame * json_convertion_constant.TIMECODE_TO_SECOND_RATIO)
-        for frame in frames
-    ]
-    acceptable_decimals = [
-        frame_index / frame_second_frequence
-        for frame_index in range(frame_second_frequence)
-    ]
-    acceptable_decimals_rounded = [
-        int(json_convertion_constant.SECOND_TO_TIMECODE_RATIO * acceptable_decimal)
-        for acceptable_decimal in acceptable_decimals
-    ]
-    # raise ValueError(
-    #     frames,
-    #     floor_frames,
-    #     acceptable_decimals_rounded,
-    # )
-    return all(
-        floor_frame in acceptable_decimals_rounded for floor_frame in floor_frames
-    )
+    frame_rate = int(json_fps // frame_per_second)
+    return all(not (frame % frame_rate) for frame in frames)
 
 
 def check_increasing_frame(frames: List[int]) -> bool:
@@ -87,8 +66,7 @@ def check_increasing_frame(frames: List[int]) -> bool:
 def position_frame_check(
     position_events: PositionEvents,
     frame_check_report: TimecodeCheckReport,
-    frame_parameter: TimecodeParameter,
-    json_convertion_check: JsonConvertionConstant,
+    frame_parameter: FrameParameter,
 ) -> None:
     frames = [event.frame for event in position_events.event_list]
     frame_check_report.frame_format_check_report.validation = (
@@ -96,11 +74,11 @@ def position_frame_check(
     )
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
-        frame_parameter.show_frame_begin,
-        frame_parameter.frame_value_max,
+        frame_parameter.show_duration_min_frame,
+        frame_parameter.show_duration_max_frame,
     )
     frame_check_report.frame_rate_check_report.validation = check_frame_rate(
-        frames, frame_parameter.position_second_frequence, json_convertion_check
+        frames, frame_parameter.position_fps, frame_parameter.json_fps
     )
     frame_check_report.increasing_frame_check_report.validation = (
         check_increasing_frame(frames)
@@ -111,8 +89,7 @@ def position_frame_check(
 def color_frame_check(
     color_events: ColorEvents,
     frame_check_report: TimecodeCheckReport,
-    frame_parameter: TimecodeParameter,
-    json_convertion_check: JsonConvertionConstant,
+    frame_parameter: FrameParameter,
 ) -> None:
     frames = [event.frame for event in color_events.event_list]
     frame_check_report.frame_format_check_report.validation = (
@@ -120,13 +97,13 @@ def color_frame_check(
     )
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
-        frame_parameter.show_frame_begin,
-        frame_parameter.frame_value_max,
+        frame_parameter.show_duration_min_frame,
+        frame_parameter.show_duration_max_frame,
     )
     frame_check_report.frame_rate_check_report.validation = check_frame_rate(
         frames,
-        frame_parameter.color_second_frequence,
-        json_convertion_check,
+        frame_parameter.color_fps,
+        frame_parameter.json_fps,
     )
     frame_check_report.increasing_frame_check_report.validation = (
         check_increasing_frame(frames)
@@ -207,7 +184,7 @@ def takeoff_check(
 def fire_frame_check(
     fire_events: ColorEvents,
     fire_events_frame_check_report: FireTimecodeCheckReport,
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
 ) -> None:
     frames = [event.frame for event in fire_events.event_list]
     fire_events_frame_check_report.frame_format_check_report.validation = (
@@ -216,8 +193,8 @@ def fire_frame_check(
     fire_events_frame_check_report.frame_value_check_report.validation = (
         check_int_size_list(
             frames,
-            frame_parameter.show_frame_begin,
-            frame_parameter.frame_value_max,
+            frame_parameter.show_duration_min_frame,
+            frame_parameter.show_duration_max_frame,
         )
     )
     fire_events_frame_check_report.increasing_frame_check_report.validation = (

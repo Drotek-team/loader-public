@@ -95,16 +95,20 @@ class LandParameter:
 
 
 @dataclass(frozen=True)
-class TimecodeParameter:
-    show_frame_begin: int
-    show_second_begin: float
-    frame_value_max: int
-    position_frame_rate: int
-    position_second_rate: float
-    position_second_frequence: int
-    color_frame_rate: int
-    color_second_rate: float
-    color_second_frequence: int
+class FrameParameter:
+    show_duration_min_second: float
+    show_duration_max_second: float
+    position_fps: int
+    color_fps: int
+    json_fps: int
+
+    @property
+    def show_duration_min_frame(self) -> int:
+        return int(self.show_duration_min_second * self.json_fps)
+
+    @property
+    def show_duration_max_frame(self) -> int:
+        return int(self.show_duration_max_second * self.json_fps)
 
 
 @dataclass(frozen=True)
@@ -165,28 +169,12 @@ class Parameter:
     def load_frame_parameter(self, local_path: str) -> None:
         f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
-        self.frame_parameter = TimecodeParameter(
-            show_frame_begin=int(
-                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                * data["FIRST_TIMECODE_SECOND"]
-            ),
-            show_second_begin=data["FIRST_TIMECODE_SECOND"],
-            frame_value_max=int(
-                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                * data["TIMECODE_VALUE_MAX_SECOND"]
-            ),
-            position_frame_rate=int(
-                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                // data["POSITION_SECOND_FREQUENCE"]
-            ),
-            position_second_rate=1 / data["POSITION_SECOND_FREQUENCE"],
-            position_second_frequence=data["POSITION_SECOND_FREQUENCE"],
-            color_frame_rate=int(
-                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                // data["COLOR_SECOND_FREQUENCE"]
-            ),
-            color_second_rate=1 / data["COLOR_SECOND_FREQUENCE"],
-            color_second_frequence=data["COLOR_SECOND_FREQUENCE"],
+        self.frame_parameter = FrameParameter(
+            show_duration_min_second=data["SHOW_DURATION_MIN_SECOND"],
+            show_duration_max_second=data["SHOW_DURATION_MAX_SECOND"],
+            position_fps=data["POSITION_FPS"],
+            color_fps=data["COLOR_FPS"],
+            json_fps=data["JSON_FPS"],
         )
 
     def load_iostar_parameter(self, local_path: str) -> None:

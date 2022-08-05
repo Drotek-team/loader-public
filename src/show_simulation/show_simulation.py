@@ -6,7 +6,7 @@ from ..drones_manager.trajectory_simulation_manager.trajectory_simulation_manage
     TrajectorySimulation,
     TrajectorySimulationManager,
 )
-from ..parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
+from ..parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .dance_simulation.convert_trajectory_to_dance_simulation import (
     convert_trajectory_to_dance_simulation,
 )
@@ -43,7 +43,7 @@ class ShowSimulation:
 
 def get_empty_show_slices(
     nb_drones: int,
-    show_second_begin: int,
+    show_begin_second: int,
     last_second: int,
     position_second_rate: int,
 ) -> List[ShowSimulationSlice]:
@@ -56,7 +56,7 @@ def get_empty_show_slices(
             nb_drones,
         )
         for second in np.arange(
-            show_second_begin,
+            show_begin_second,
             bias_second + last_second,
             position_second_rate,
         )
@@ -66,7 +66,7 @@ def get_empty_show_slices(
 def update_show_slices_from_trajectory_simulation(
     show_slices: List[ShowSimulationSlice],
     trajectory_simulation: TrajectorySimulation,
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
     last_second: float,
@@ -110,13 +110,13 @@ def update_slices_implicit_values(
 
 def get_slices(
     trajectory_simulation_manager: TrajectorySimulationManager,
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> List[ShowSimulationSlice]:
     show_slices = get_empty_show_slices(
         nb_drones=len(trajectory_simulation_manager.trajectories_simulation),
-        show_second_begin=frame_parameter.show_second_begin,
+        show_begin_second=frame_parameter.show_begin_second,
         last_second=trajectory_simulation_manager.get_last_second(land_parameter),
         position_second_rate=frame_parameter.position_second_rate,
     )

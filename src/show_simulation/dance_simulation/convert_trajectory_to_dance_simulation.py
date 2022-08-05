@@ -1,7 +1,7 @@
 from ...drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
     TrajectorySimulation,
 )
-from ...parameter.parameter import LandParameter, TakeoffParameter, TimecodeParameter
+from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .dance_simulation import DanceSimulation
 from .flight_simulation import flight_simulation
 from .land_simulation import land_simulation
@@ -12,7 +12,7 @@ from .takeoff_simulation import takeoff_simulation
 def convert_trajectory_to_dance_simulation(
     trajectory_simulation: TrajectorySimulation,
     last_second: float,
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> DanceSimulation:
@@ -20,7 +20,7 @@ def convert_trajectory_to_dance_simulation(
     if len(trajectory_simulation.position_simulation_list) == 1:
         dance_simulation.update(
             stand_by_simulation(
-                frame_parameter.show_second_begin,
+                frame_parameter.show_begin_second,
                 trajectory_simulation.get_position_by_index(0),
                 frame_parameter,
             )
@@ -28,7 +28,7 @@ def convert_trajectory_to_dance_simulation(
         return dance_simulation
     dance_simulation.update(
         stand_by_simulation(
-            frame_parameter.show_second_begin,
+            frame_parameter.show_begin_second,
             trajectory_simulation.get_second_by_index(0),
             trajectory_simulation.get_position_by_index(0),
             frame_parameter,

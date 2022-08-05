@@ -2,14 +2,14 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ...parameter.parameter import LandParameter, TimecodeParameter
+from ...parameter.parameter import LandParameter, FrameParameter
 from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation
 
 
 def generate_land_first_part(
     land_start_position: Tuple[float, float, float],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     land_parameter: LandParameter,
 ) -> List[np.ndarray]:
     land_middle_position = (
@@ -30,7 +30,7 @@ def generate_land_first_part(
 
 def generate_land_second_part(
     land_start_position: Tuple[float, float, float],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     land_parameter: LandParameter,
 ) -> List[np.ndarray]:
     land_middle_position = (
@@ -55,7 +55,7 @@ def generate_land_second_part(
 
 def land_simulation(
     land_start_position: Tuple[float, float, float],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     land_parameter: LandParameter,
 ) -> DanceSequence:
     land_positions = generate_land_first_part(

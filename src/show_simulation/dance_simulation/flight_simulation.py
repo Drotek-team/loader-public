@@ -5,14 +5,14 @@ import numpy as np
 from ...drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
     PositionSimulation,
 )
-from ...parameter.parameter import TimecodeParameter
+from ...parameter.parameter import FrameParameter
 from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation
 
 
 def flight_simulation(
     position_simulation_list: List[PositionSimulation],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
 ) -> DanceSequence:
     flight_positions: List[np.ndarray] = []
     for position_simulation, next_position_simulation_list in zip(

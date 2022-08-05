@@ -2,14 +2,14 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ...parameter.parameter import TakeoffParameter, TimecodeParameter
+from ...parameter.parameter import TakeoffParameter, FrameParameter
 from .dance_simulation import DanceSequence
 from .position_simulation import linear_interpolation
 
 
 def generate_takeoff_first_part(
     takeoff_start_position: Tuple[float, float, float],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> List[np.ndarray]:
     takeoff_end_position = (
@@ -29,7 +29,7 @@ def generate_takeoff_first_part(
 
 def generate_takeoff_second_part(
     takeoff_start_position: Tuple[float, float, float],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> List[np.ndarray]:
     takeoff_end_position = (
@@ -45,7 +45,7 @@ def generate_takeoff_second_part(
 
 def takeoff_simulation(
     takeoff_start_position: Tuple[float, float, float],
-    frame_parameter: TimecodeParameter,
+    frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
 ) -> DanceSequence:
     takeoff_positions = generate_takeoff_first_part(
