@@ -38,8 +38,8 @@ def generate_takeoff_second_part(
         takeoff_start_position[2] + takeoff_parameter.takeoff_altitude_meter,
     )
     return int(
-        frame_parameter.position_fps
-        * takeoff_parameter.takeoff_stabilisation_duration_second
+        takeoff_parameter.takeoff_stabilisation_duration_second
+        * frame_parameter.position_fps
     ) * [np.array(takeoff_end_position)]
 
 

@@ -10,6 +10,7 @@ def stand_by_simulation(
     stand_by_position: Tuple[float, float, float],
     frame_parameter: FrameParameter,
 ) -> DanceSequence:
+    # raise ValueError((frame_end, frame_begin, frame_parameter.position_fps))
     nb_element = (frame_end - frame_begin) * frame_parameter.position_fps
     return DanceSequence(
         nb_element * [stand_by_position],
