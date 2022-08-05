@@ -96,13 +96,13 @@ class LandParameter:
 
 @dataclass(frozen=True)
 class TimecodeParameter:
-    show_timecode_begin: int
+    show_frame_begin: int
     show_second_begin: float
-    timecode_value_max: int
-    position_timecode_rate: int
+    frame_value_max: int
+    position_frame_rate: int
     position_second_rate: float
     position_second_frequence: int
-    color_timecode_rate: int
+    color_frame_rate: int
     color_second_rate: float
     color_second_frequence: int
 
@@ -143,7 +143,7 @@ class IostarParameter:
     security_distance_in_air: float
     security_distance_on_ground: float
     dance_size_max: int
-    timecode_reformat_factor: float
+    frame_reformat_factor: float
     position_reformat_factor: float
 
 
@@ -162,26 +162,26 @@ class Parameter:
             fmt_section_header=data["FMT_SECTION_HEADER"],
         )
 
-    def load_timecode_parameter(self, local_path: str) -> None:
+    def load_frame_parameter(self, local_path: str) -> None:
         f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
-        self.timecode_parameter = TimecodeParameter(
-            show_timecode_begin=int(
+        self.frame_parameter = TimecodeParameter(
+            show_frame_begin=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["FIRST_TIMECODE_SECOND"]
             ),
             show_second_begin=data["FIRST_TIMECODE_SECOND"],
-            timecode_value_max=int(
+            frame_value_max=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 * data["TIMECODE_VALUE_MAX_SECOND"]
             ),
-            position_timecode_rate=int(
+            position_frame_rate=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 // data["POSITION_SECOND_FREQUENCE"]
             ),
             position_second_rate=1 / data["POSITION_SECOND_FREQUENCE"],
             position_second_frequence=data["POSITION_SECOND_FREQUENCE"],
-            color_timecode_rate=int(
+            color_frame_rate=int(
                 self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
                 // data["COLOR_SECOND_FREQUENCE"]
             ),
@@ -241,7 +241,7 @@ class Parameter:
             dance_size_max=data["DANCE_SIZE_MAX_OCTECT"],
             iostar_mass=data["IOSTAR_MASS"],
             iostar_drag_vertical_coef=data["VERTICAL_DRAG_COEF"],
-            timecode_reformat_factor=1 / data["TIMECODE_REFORMAT_FACTOR"],
+            frame_reformat_factor=1 / data["TIMECODE_REFORMAT_FACTOR"],
             position_reformat_factor=1 / data["POSITION_REFORMAT_FACTOR"],
         )
 
@@ -266,5 +266,5 @@ class Parameter:
     def load_parameter(self, local_path: str) -> None:
         self.load_family_parameter(local_path)
         self.load_iostar_parameter(local_path)
-        self.load_timecode_parameter(local_path)
+        self.load_frame_parameter(local_path)
         self.load_json_format_parameter(local_path)

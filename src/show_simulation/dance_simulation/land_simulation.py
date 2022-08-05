@@ -9,7 +9,7 @@ from .position_simulation import linear_interpolation
 
 def generate_land_first_part(
     land_start_position: Tuple[float, float, float],
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
     land_parameter: LandParameter,
 ) -> List[np.ndarray]:
     land_middle_position = (
@@ -19,7 +19,7 @@ def generate_land_first_part(
     )
     nb_iteration = int(
         land_parameter.get_first_land_second_delta(land_start_position[2])
-        / timecode_parameter.position_second_rate
+        / frame_parameter.position_second_rate
     )
     return linear_interpolation(
         land_start_position,
@@ -30,7 +30,7 @@ def generate_land_first_part(
 
 def generate_land_second_part(
     land_start_position: Tuple[float, float, float],
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
     land_parameter: LandParameter,
 ) -> List[np.ndarray]:
     land_middle_position = (
@@ -48,23 +48,23 @@ def generate_land_second_part(
         land_end_position,
         int(
             land_parameter.get_second_land_second_delta(land_start_position[2])
-            // timecode_parameter.position_second_rate
+            // frame_parameter.position_second_rate
         ),
     )
 
 
 def land_simulation(
     land_start_position: Tuple[float, float, float],
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
     land_parameter: LandParameter,
 ) -> DanceSequence:
     land_positions = generate_land_first_part(
         land_start_position,
-        timecode_parameter,
+        frame_parameter,
         land_parameter,
     ) + generate_land_second_part(
         land_start_position,
-        timecode_parameter,
+        frame_parameter,
         land_parameter,
     )
     return DanceSequence(

@@ -33,7 +33,7 @@ def apply_show_check_procedure(
             drones_manager.get_trajectory_simulation_manager(
                 parameter.json_convertion_constant
             ),
-            parameter.timecode_parameter,
+            parameter.frame_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
         )

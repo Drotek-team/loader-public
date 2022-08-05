@@ -13,14 +13,14 @@ class DroneExport:
         self.color_events = ColorEvents()
         self.fire_events = FireEvents()
 
-    def add_position(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
-        self.position_events.add(timecode, xyz)
+    def add_position(self, frame: int, xyz: Tuple[int, int, int]) -> None:
+        self.position_events.add(frame, xyz)
 
-    def add_color(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self.color_events.add(timecode, rgbw)
+    def add_color(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
+        self.color_events.add(frame, rgbw)
 
-    def add_fire(self, timecode: int, channel: int, duration: int) -> None:
-        self.fire_events.add(timecode, channel, duration)
+    def add_fire(self, frame: int, channel: int, duration: int) -> None:
+        self.fire_events.add(frame, channel, duration)
 
     def get_events_by_index(self, event_index: int) -> Events:
         if event_index < 0 or event_index > 2:

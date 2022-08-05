@@ -16,11 +16,11 @@ from ......procedure.show_check.drone_check.events_format_check.events_format_ch
 def valid_color_events():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    timecode_parameter = parameter.timecode_parameter
+    frame_parameter = parameter.frame_parameter
     color_events = ColorEvents()
-    color_events.add(timecode_parameter.show_timecode_begin, (0, 0, 0, 0))
+    color_events.add(frame_parameter.show_frame_begin, (0, 0, 0, 0))
     color_events.add(
-        timecode_parameter.show_timecode_begin + timecode_parameter.color_timecode_rate,
+        frame_parameter.show_frame_begin + frame_parameter.color_frame_rate,
         (255, 255, 255, 255),
     )
     return color_events
@@ -39,7 +39,7 @@ def test_valid_color_events_check(
     parameter.load_parameter(os.getcwd())
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
@@ -47,7 +47,7 @@ def test_valid_color_events_check(
     assert color_events_check_report.validation
 
 
-def test_invalid_color_events_timecode_format_check(
+def test_invalid_color_events_frame_format_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
@@ -59,78 +59,78 @@ def test_invalid_color_events_timecode_format_check(
     )
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.timecode_check_report.timecode_format_check_report.validation
+        color_events_check_report.frame_check_report.frame_format_check_report.validation
     )
 
 
-def test_invalid_color_events_timecode_rate_check(
+def test_invalid_color_events_frame_rate_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_color_events.add(
-        valid_color_events.event_list[-1].timecode + 1,
+        valid_color_events.event_list[-1].frame + 1,
         (0, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.timecode_check_report.timecode_rate_check_report.validation
+        color_events_check_report.frame_check_report.frame_rate_check_report.validation
     )
 
 
-def test_invalid_color_events_timecode_increasing_check(
+def test_invalid_color_events_frame_increasing_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_color_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         (0, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.timecode_check_report.increasing_timecode_check_report.validation
+        color_events_check_report.frame_check_report.increasing_frame_check_report.validation
     )
 
 
-def test_invalid_color_events_timecode_first_timecode_check(
+def test_invalid_color_events_frame_first_frame_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_color_events.event_list.insert(
-        0, ColorEvent(parameter.timecode_parameter.show_timecode_begin - 1, 0, 0, 0, 0)
+        0, ColorEvent(parameter.frame_parameter.show_frame_begin - 1, 0, 0, 0, 0)
     )
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.timecode_check_report.timecode_value_check_report.validation
+        color_events_check_report.frame_check_report.frame_value_check_report.validation
     )
 
 
@@ -141,12 +141,12 @@ def test_invalid_color_events_rgbw_format_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_color_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         (1.23, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
@@ -163,12 +163,12 @@ def test_invalid_color_events_rgbw_value_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_color_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         (parameter.iostar_parameter.color_value_max + 1, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,

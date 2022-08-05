@@ -26,7 +26,7 @@ class DronesManager:
 
     @property
     def duration(self) -> int:
-        return max(drone.last_position_event.timecode for drone in self.drones)
+        return max(drone.last_position_event.frame for drone in self.drones)
 
     @property
     def first_horizontal_positions(self) -> List[Tuple]:

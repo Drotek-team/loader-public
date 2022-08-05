@@ -22,7 +22,7 @@ def test_stand_by_simulation():
         second_start,
         second_end,
         first_takeoff_position,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
     )
     FIRST_THEORICAL_POSITION_EVENT = PositionEvent(
         second_start, *first_takeoff_position
@@ -33,10 +33,10 @@ def test_stand_by_simulation():
         SECOND_THEORICAL_POSITION_EVENT.get_values(),
         int(
             (
-                SECOND_THEORICAL_POSITION_EVENT.timecode
-                - FIRST_THEORICAL_POSITION_EVENT.timecode
+                SECOND_THEORICAL_POSITION_EVENT.frame
+                - FIRST_THEORICAL_POSITION_EVENT.frame
             )
-            / parameter.timecode_parameter.position_second_rate
+            / parameter.frame_parameter.position_second_rate
         ),
     )
     assert len(dance_sequence.drone_positions) == len(theorical_curve)

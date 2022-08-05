@@ -19,7 +19,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     for position_event in position_events:
         position = position_event.get_values()
         drone.add_position(
-            parameter.takeoff_parameter.takeoff_duration + position_event.timecode,
+            parameter.takeoff_parameter.takeoff_duration + position_event.frame,
             (
                 position[0],
                 position[1],
@@ -33,7 +33,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             drones_manager.get_trajectory_simulation_manager(
                 parameter.json_convertion_constant
             ),
-            parameter.timecode_parameter,
+            parameter.frame_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
         )
@@ -52,7 +52,7 @@ def test_valid_show_flags():
     )
     slice_takeoff_end_index = int(
         parameter.takeoff_parameter.takeoff_simulation_duration
-        / parameter.timecode_parameter.position_second_rate
+        / parameter.frame_parameter.position_second_rate
     )
     slice_land_begin_index = slice_takeoff_end_index + 3
     slice_land_end_index = slice_land_begin_index + int(
@@ -60,7 +60,7 @@ def test_valid_show_flags():
             parameter.land_parameter.get_land_second_delta(
                 parameter.takeoff_parameter.takeoff_simulation_altitude
             )
-            / parameter.timecode_parameter.position_second_rate
+            / parameter.frame_parameter.position_second_rate
         )
     )
     assert len(valid_show_simulation.show_slices) == slice_land_end_index + 1

@@ -16,11 +16,11 @@ from ......procedure.show_check.drone_check.events_format_check.events_format_ch
 def valid_fire_events():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    timecode_parameter = parameter.timecode_parameter
+    frame_parameter = parameter.frame_parameter
     fire_events = FireEvents()
-    fire_events.add(timecode_parameter.show_timecode_begin, 0, 1000)
-    fire_events.add(timecode_parameter.show_timecode_begin, 1, 1000)
-    fire_events.add(timecode_parameter.show_timecode_begin, 2, 1000)
+    fire_events.add(frame_parameter.show_frame_begin, 0, 1000)
+    fire_events.add(frame_parameter.show_frame_begin, 1, 1000)
+    fire_events.add(frame_parameter.show_frame_begin, 2, 1000)
     return fire_events
 
 
@@ -37,7 +37,7 @@ def test_valid_fire_events_check(
     parameter.load_parameter(os.getcwd())
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
@@ -45,7 +45,7 @@ def test_valid_fire_events_check(
     assert fire_events_check_report.validation
 
 
-def test_invalid_fire_events_timecode_format_check(
+def test_invalid_fire_events_frame_format_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
@@ -58,32 +58,32 @@ def test_invalid_fire_events_timecode_format_check(
     )
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_timecode_check_report.timecode_format_check_report.validation
+        fire_events_check_report.fire_frame_check_report.frame_format_check_report.validation
     )
 
 
-def test_invalid_fire_events_timecode_first_timecode_check(
+def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_fire_events.event_list.insert(
-        0, FireEvent(parameter.timecode_parameter.show_timecode_begin - 1, 0, 0)
+        0, FireEvent(parameter.frame_parameter.show_frame_begin - 1, 0, 0)
     )
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_timecode_check_report.timecode_value_check_report.validation
+        fire_events_check_report.fire_frame_check_report.frame_value_check_report.validation
     )
 
 
@@ -93,10 +93,10 @@ def test_invalid_fire_events_chanel_format_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(parameter.timecode_parameter.show_timecode_begin, 1.23, 0)
+    valid_fire_events.add(parameter.frame_parameter.show_frame_begin, 1.23, 0)
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
@@ -112,13 +112,13 @@ def test_invalid_fire_events_chanel_value_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         parameter.iostar_parameter.fire_chanel_value_max + 1,
         0,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
@@ -134,18 +134,18 @@ def test_invalid_fire_events_chanel_unicity_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         parameter.iostar_parameter.fire_chanel_value_max,
         0,
     )
     valid_fire_events.add(
-        parameter.timecode_parameter.show_timecode_begin + 1,
+        parameter.frame_parameter.show_frame_begin + 1,
         parameter.iostar_parameter.fire_chanel_value_max,
         0,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
@@ -160,10 +160,10 @@ def test_invalid_fire_events_duration_format_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(parameter.timecode_parameter.show_timecode_begin, 0, 1.23)
+    valid_fire_events.add(parameter.frame_parameter.show_frame_begin, 0, 1.23)
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
@@ -179,13 +179,13 @@ def test_invalid_fire_events_duration_value_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         0,
         parameter.iostar_parameter.fire_duration_value_max + 1,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
@@ -201,21 +201,21 @@ def test_invalid_fire_events_simulteanous_value_check(
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     valid_fire_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         0,
         parameter.iostar_parameter.fire_duration_value_max,
     )
     valid_fire_events.add(
-        parameter.timecode_parameter.show_timecode_begin,
+        parameter.frame_parameter.show_frame_begin,
         0,
         parameter.iostar_parameter.fire_duration_value_max,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_timecode_check_report.increasing_timecode_check_report.validation
+        fire_events_check_report.fire_frame_check_report.increasing_frame_check_report.validation
     )

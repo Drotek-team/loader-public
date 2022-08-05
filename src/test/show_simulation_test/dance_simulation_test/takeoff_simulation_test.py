@@ -18,7 +18,7 @@ def test_takeoff_simulation():
     first_position = (2.35, 5.36, 0.0)
     dance_sequence = takeoff_simulation(
         first_position,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.takeoff_parameter,
     )
     LAST_THEORICAL_POSITION = (
@@ -31,7 +31,7 @@ def test_takeoff_simulation():
         LAST_THEORICAL_POSITION,
         int(
             parameter.takeoff_parameter.takeoff_elevation_duration
-            / parameter.timecode_parameter.position_timecode_rate,
+            / parameter.frame_parameter.position_frame_rate,
         ),
     )
     second_theorical_curve = linear_interpolation(
@@ -39,7 +39,7 @@ def test_takeoff_simulation():
         LAST_THEORICAL_POSITION,
         int(
             parameter.takeoff_parameter.takeoff_stabilisation_duration
-            / parameter.timecode_parameter.position_timecode_rate
+            / parameter.frame_parameter.position_frame_rate
         ),
     )
     theorical_curve = first_theorical_curve + second_theorical_curve

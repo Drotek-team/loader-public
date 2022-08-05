@@ -17,7 +17,7 @@ def apply_dance_check_procedure(
         parameter.iostar_parameter,
         parameter.json_convertion_constant,
         parameter.takeoff_parameter,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         dance_check_report.events_format_check_report,
     )
     apply_dance_size_check_procedure(

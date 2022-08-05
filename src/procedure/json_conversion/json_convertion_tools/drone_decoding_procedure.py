@@ -116,7 +116,7 @@ def decode_drone(
     second_position_event = drone.position_events.event_list[1]
     x, y, z = second_position_event.get_values()
     drone.position_events.event_list[1] = PositionEvent(
-        second_position_event.timecode, x, y, z
+        second_position_event.frame, x, y, z
     )
     unapply_reformat_events(drone, iostar_parameter)
     return drone

@@ -12,7 +12,7 @@ from .position_simulation import linear_interpolation
 
 def flight_simulation(
     position_simulation_list: List[PositionSimulation],
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
 ) -> DanceSequence:
     flight_positions: List[np.ndarray] = []
     for position_simulation, next_position_simulation_list in zip(
@@ -23,7 +23,7 @@ def flight_simulation(
             next_position_simulation_list.xyz,
             int(
                 ((next_position_simulation_list.second - position_simulation.second))
-                / timecode_parameter.position_second_rate
+                / frame_parameter.position_second_rate
             ),
         )
     return DanceSequence(

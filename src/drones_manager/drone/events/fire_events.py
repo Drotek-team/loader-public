@@ -5,8 +5,8 @@ from .events import Event, Events
 
 
 class FireEvent(Event):
-    def __init__(self, timecode: int, chanel: int, duration: int):
-        Event.__init__(self, timecode)
+    def __init__(self, frame: int, chanel: int, duration: int):
+        Event.__init__(self, frame)
         self.chanel = chanel
         self.duration = duration
 
@@ -14,15 +14,15 @@ class FireEvent(Event):
         return (self.chanel, self.duration)
 
     def get_raw_data(self) -> Tuple[int, int, int]:
-        return (self.timecode, self.chanel, self.duration)
+        return (self.frame, self.chanel, self.duration)
 
 
 class FireEvents(Events):
     format = ">HBB"
     id = 2
 
-    def add(self, timecode: int, chanel: int, duration: int) -> None:
-        self.event_list.append(FireEvent(timecode, chanel, duration))
+    def add(self, frame: int, chanel: int, duration: int) -> None:
+        self.event_list.append(FireEvent(frame, chanel, duration))
 
     def add_raw_data(self, data: Tuple[int, int, int]) -> None:
         self.event_list.append(FireEvent(data[0], data[1], data[2]))

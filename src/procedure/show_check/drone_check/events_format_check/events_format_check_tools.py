@@ -47,92 +47,91 @@ def check_int_size_list_tuple(
     )
 
 
-def check_timecode_rate(
-    timecodes: List[int],
-    timecode_second_frequence: int,
+def check_frame_rate(
+    frames: List[int],
+    frame_second_frequence: int,
     json_convertion_constant: JsonConvertionConstant,
 ) -> bool:
 
-    floor_timecodes = [
-        timecode
+    floor_frames = [
+        frame
         - int(json_convertion_constant.SECOND_TO_TIMECODE_RATIO)
-        * int(timecode * json_convertion_constant.TIMECODE_TO_SECOND_RATIO)
-        for timecode in timecodes
+        * int(frame * json_convertion_constant.TIMECODE_TO_SECOND_RATIO)
+        for frame in frames
     ]
     acceptable_decimals = [
-        frame_index / timecode_second_frequence
-        for frame_index in range(timecode_second_frequence)
+        frame_index / frame_second_frequence
+        for frame_index in range(frame_second_frequence)
     ]
     acceptable_decimals_rounded = [
         int(json_convertion_constant.SECOND_TO_TIMECODE_RATIO * acceptable_decimal)
         for acceptable_decimal in acceptable_decimals
     ]
     # raise ValueError(
-    #     timecodes,
-    #     floor_timecodes,
+    #     frames,
+    #     floor_frames,
     #     acceptable_decimals_rounded,
     # )
     return all(
-        floor_timecode in acceptable_decimals_rounded
-        for floor_timecode in floor_timecodes
+        floor_frame in acceptable_decimals_rounded for floor_frame in floor_frames
     )
 
 
-def check_increasing_timecode(timecodes: List[int]) -> bool:
+def check_increasing_frame(frames: List[int]) -> bool:
     return all(
-        timecodes[timecode_index] < timecodes[timecode_index + 1]
-        for timecode_index in range(len(timecodes) - 1)
+        frames[frame_index] < frames[frame_index + 1]
+        for frame_index in range(len(frames) - 1)
     )
 
 
-def position_timecode_check(
+def position_frame_check(
     position_events: PositionEvents,
-    timecode_check_report: TimecodeCheckReport,
-    timecode_parameter: TimecodeParameter,
+    frame_check_report: TimecodeCheckReport,
+    frame_parameter: TimecodeParameter,
     json_convertion_check: JsonConvertionConstant,
 ) -> None:
-    timecodes = [event.timecode for event in position_events.event_list]
-    timecode_check_report.timecode_format_check_report.validation = (
-        check_is_instance_int_list(timecodes)
+    frames = [event.frame for event in position_events.event_list]
+    frame_check_report.frame_format_check_report.validation = (
+        check_is_instance_int_list(frames)
     )
-    timecode_check_report.timecode_value_check_report.validation = check_int_size_list(
-        timecodes,
-        timecode_parameter.show_timecode_begin,
-        timecode_parameter.timecode_value_max,
+    frame_check_report.frame_value_check_report.validation = check_int_size_list(
+        frames,
+        frame_parameter.show_frame_begin,
+        frame_parameter.frame_value_max,
     )
-    timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
-        timecodes, timecode_parameter.position_second_frequence, json_convertion_check
+    frame_check_report.frame_rate_check_report.validation = check_frame_rate(
+        frames, frame_parameter.position_second_frequence, json_convertion_check
     )
-    timecode_check_report.increasing_timecode_check_report.validation = (
-        check_increasing_timecode(timecodes)
+    frame_check_report.increasing_frame_check_report.validation = (
+        check_increasing_frame(frames)
     )
-    timecode_check_report.update()
+    frame_check_report.update()
 
 
-def color_timecode_check(
+def color_frame_check(
     color_events: ColorEvents,
-    timecode_check_report: TimecodeCheckReport,
-    timecode_parameter: TimecodeParameter,
+    frame_check_report: TimecodeCheckReport,
+    frame_parameter: TimecodeParameter,
     json_convertion_check: JsonConvertionConstant,
 ) -> None:
-    timecodes = [event.timecode for event in color_events.event_list]
-    timecode_check_report.timecode_format_check_report.validation = (
-        check_is_instance_int_list(timecodes)
+    frames = [event.frame for event in color_events.event_list]
+    frame_check_report.frame_format_check_report.validation = (
+        check_is_instance_int_list(frames)
     )
-    timecode_check_report.timecode_value_check_report.validation = check_int_size_list(
-        timecodes,
-        timecode_parameter.show_timecode_begin,
-        timecode_parameter.timecode_value_max,
+    frame_check_report.frame_value_check_report.validation = check_int_size_list(
+        frames,
+        frame_parameter.show_frame_begin,
+        frame_parameter.frame_value_max,
     )
-    timecode_check_report.timecode_rate_check_report.validation = check_timecode_rate(
-        timecodes,
-        timecode_parameter.color_second_frequence,
+    frame_check_report.frame_rate_check_report.validation = check_frame_rate(
+        frames,
+        frame_parameter.color_second_frequence,
         json_convertion_check,
     )
-    timecode_check_report.increasing_timecode_check_report.validation = (
-        check_increasing_timecode(timecodes)
+    frame_check_report.increasing_frame_check_report.validation = (
+        check_increasing_frame(frames)
     )
-    timecode_check_report.update()
+    frame_check_report.update()
 
 
 def xyz_check(
@@ -179,21 +178,21 @@ def takeoff_check(
         takeoff_check_report.takeoff_duration_check_report.validation = False
         takeoff_check_report.takeoff_position_check_report.validation = False
     if position_events.nb_events == 1:
-        first_timecode = position_events.get_timecode_by_event_index(0)
+        first_frame = position_events.get_frame_by_event_index(0)
         first_position = position_events.get_values_by_event_index(0)
         takeoff_check_report.takeoff_duration_check_report.validation = (
             takeoff_check_report.takeoff_position_check_report.validation
-        ) = (first_timecode == 0)
+        ) = (first_frame == 0)
         takeoff_check_report.takeoff_position_check_report.validation = (
             first_position[2] == 0
         )
     if position_events.nb_events > 1:
-        first_timecode = position_events.get_timecode_by_event_index(0)
-        second_timecode = position_events.get_timecode_by_event_index(1)
+        first_frame = position_events.get_frame_by_event_index(0)
+        second_frame = position_events.get_frame_by_event_index(1)
         first_position = position_events.get_values_by_event_index(0)
         second_position = position_events.get_values_by_event_index(1)
         takeoff_check_report.takeoff_duration_check_report.validation = (
-            second_timecode - first_timecode
+            second_frame - first_frame
         ) == takeoff_parameter.takeoff_duration
         takeoff_check_report.takeoff_position_check_report.validation = True
         takeoff_check_report.takeoff_position_check_report.validation = (
@@ -205,26 +204,26 @@ def takeoff_check(
     takeoff_check_report.update()
 
 
-def fire_timecode_check(
+def fire_frame_check(
     fire_events: ColorEvents,
-    fire_events_timecode_check_report: FireTimecodeCheckReport,
-    timecode_parameter: TimecodeParameter,
+    fire_events_frame_check_report: FireTimecodeCheckReport,
+    frame_parameter: TimecodeParameter,
 ) -> None:
-    timecodes = [event.timecode for event in fire_events.event_list]
-    fire_events_timecode_check_report.timecode_format_check_report.validation = (
-        check_is_instance_int_list(timecodes)
+    frames = [event.frame for event in fire_events.event_list]
+    fire_events_frame_check_report.frame_format_check_report.validation = (
+        check_is_instance_int_list(frames)
     )
-    fire_events_timecode_check_report.timecode_value_check_report.validation = (
+    fire_events_frame_check_report.frame_value_check_report.validation = (
         check_int_size_list(
-            timecodes,
-            timecode_parameter.show_timecode_begin,
-            timecode_parameter.timecode_value_max,
+            frames,
+            frame_parameter.show_frame_begin,
+            frame_parameter.frame_value_max,
         )
     )
-    fire_events_timecode_check_report.increasing_timecode_check_report.validation = (
-        check_increasing_timecode(timecodes)
+    fire_events_frame_check_report.increasing_frame_check_report.validation = (
+        check_increasing_frame(frames)
     )
-    fire_events_timecode_check_report.update()
+    fire_events_frame_check_report.update()
 
 
 def check_chanel_unicity(chanels: List[int]) -> bool:

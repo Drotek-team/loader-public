@@ -28,7 +28,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     for position_event in position_events:
         position = position_event.get_values()
         drone.add_position(
-            parameter.takeoff_parameter.takeoff_duration + position_event.timecode,
+            parameter.takeoff_parameter.takeoff_duration + position_event.frame,
             (
                 position[0],
                 position[1],
@@ -42,7 +42,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             drones_manager.get_trajectory_simulation_manager(
                 parameter.json_convertion_constant
             ),
-            parameter.timecode_parameter,
+            parameter.frame_parameter,
             parameter.takeoff_parameter,
             parameter.land_parameter,
         )
@@ -75,7 +75,7 @@ def test_invalid_horizontal_velocity_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_velocity_max
-        * parameter.timecode_parameter.position_second_rate
+        * parameter.frame_parameter.position_second_rate
     )
     position_event_1 = PositionEvent(
         250,
@@ -110,7 +110,7 @@ def test_valid_horizontal_velocity_limitatition_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_velocity_max
-        * parameter.timecode_parameter.position_second_rate
+        * parameter.frame_parameter.position_second_rate
     )
     position_event_1 = PositionEvent(
         250,
@@ -142,8 +142,8 @@ def test_invalid_horizontal_acceleration_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_acceleration_max
-        * parameter.timecode_parameter.position_second_rate
-        * parameter.timecode_parameter.position_second_rate
+        * parameter.frame_parameter.position_second_rate
+        * parameter.frame_parameter.position_second_rate
     )
     position_event_1 = PositionEvent(
         250,
@@ -177,8 +177,8 @@ def test_invalid_horizontal_acceleration_limitation_simulation():
     parameter.load_parameter(os.getcwd())
     distance_max = (
         parameter.iostar_parameter.horizontal_acceleration_max
-        * parameter.timecode_parameter.position_second_rate
-        * parameter.timecode_parameter.position_second_rate
+        * parameter.frame_parameter.position_second_rate
+        * parameter.frame_parameter.position_second_rate
     )
     position_event_1 = PositionEvent(
         250,
@@ -208,7 +208,7 @@ def test_invalid_horizontal_acceleration_limitation_simulation():
 def test_invalid_up_force_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    distance_max = parameter.timecode_parameter.position_second_rate * np.sqrt(
+    distance_max = parameter.frame_parameter.position_second_rate * np.sqrt(
         parameter.iostar_parameter.force_up_max
         / parameter.iostar_parameter.iostar_drag_vertical_coef
     )
@@ -262,7 +262,7 @@ def test_invalid_up_force_simulation():
 def test_invalid_up_force_limitation_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    distance_max = parameter.timecode_parameter.position_second_rate * np.sqrt(
+    distance_max = parameter.frame_parameter.position_second_rate * np.sqrt(
         parameter.iostar_parameter.force_up_max
         / parameter.iostar_parameter.iostar_drag_vertical_coef
     )

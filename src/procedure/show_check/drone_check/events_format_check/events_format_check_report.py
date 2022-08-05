@@ -24,17 +24,17 @@ class TimecodeRateCheckReport(Displayer):
 class TimecodeCheckReport(Contenor):
     def __init__(self):
         self.name = "Timecode Check Report"
-        self.timecode_format_check_report = TimecodeFormatCheckReport()
-        self.timecode_value_check_report = TimecodeValueCheckReport()
-        self.increasing_timecode_check_report = IncreasingTimecodeCheckReport()
-        self.timecode_rate_check_report = TimecodeRateCheckReport()
+        self.frame_format_check_report = TimecodeFormatCheckReport()
+        self.frame_value_check_report = TimecodeValueCheckReport()
+        self.increasing_frame_check_report = IncreasingTimecodeCheckReport()
+        self.frame_rate_check_report = TimecodeRateCheckReport()
 
     def update(self) -> None:
         self.validation = (
-            self.timecode_format_check_report.validation
-            and self.timecode_value_check_report.validation
-            and self.increasing_timecode_check_report.validation
-            and self.timecode_rate_check_report.validation
+            self.frame_format_check_report.validation
+            and self.frame_value_check_report.validation
+            and self.increasing_frame_check_report.validation
+            and self.frame_rate_check_report.validation
         )
 
 
@@ -87,13 +87,13 @@ class TakeoffCheckReport(Contenor):
 class PositionEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Position Events Check Report"
-        self.timecode_check_report = TimecodeCheckReport()
+        self.frame_check_report = TimecodeCheckReport()
         self.xyz_check_report = XyzCheckReport()
         self.takeoff_check_report = TakeoffCheckReport()
 
     def update(self) -> None:
         self.validation = (
-            self.timecode_check_report.validation
+            self.frame_check_report.validation
             and self.xyz_check_report.validation
             and self.takeoff_check_report.validation
         )
@@ -125,27 +125,25 @@ class RgbwCheckReport(Contenor):
 class ColorEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Color Events Check Report"
-        self.timecode_check_report = TimecodeCheckReport()
+        self.frame_check_report = TimecodeCheckReport()
         self.rgbw_check_report = RgbwCheckReport()
 
     def update(self) -> None:
-        self.validation = (
-            self.timecode_check_report.validation and self.rgbw_check_report
-        )
+        self.validation = self.frame_check_report.validation and self.rgbw_check_report
 
 
 class FireTimecodeCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Timecode Check Report"
-        self.timecode_format_check_report = TimecodeFormatCheckReport()
-        self.timecode_value_check_report = TimecodeValueCheckReport()
-        self.increasing_timecode_check_report = IncreasingTimecodeCheckReport()
+        self.frame_format_check_report = TimecodeFormatCheckReport()
+        self.frame_value_check_report = TimecodeValueCheckReport()
+        self.increasing_frame_check_report = IncreasingTimecodeCheckReport()
 
     def update(self) -> None:
         self.validation = (
-            self.timecode_format_check_report.validation
-            and self.timecode_value_check_report.validation
-            and self.increasing_timecode_check_report
+            self.frame_format_check_report.validation
+            and self.frame_value_check_report.validation
+            and self.increasing_frame_check_report
         )
 
 
@@ -203,13 +201,13 @@ class FireDurationCheckReport(Contenor):
 class FireEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Events Check Report"
-        self.fire_timecode_check_report = FireTimecodeCheckReport()
+        self.fire_frame_check_report = FireTimecodeCheckReport()
         self.fire_chanel_check_report = FireChanelCheckReport()
         self.fire_duration_check_report = FireDurationCheckReport()
 
     def update(self) -> None:
         self.validation = (
-            self.fire_timecode_check_report.validation
+            self.fire_frame_check_report.validation
             and self.fire_chanel_check_report.validation
             and self.fire_duration_check_report.validation
         )

@@ -27,14 +27,14 @@ def test_flight_simulation():
     ]
     dance_sequence = flight_simulation(
         position_events,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
     )
     first_theorical_curve = linear_interpolation(
         FIRST_POSITION_EVENT.xyz,
         SECOND_POSITION_EVENT.xyz,
         int(
             (SECOND_POSITION_EVENT.second - FIRST_POSITION_EVENT.second)
-            / parameter.timecode_parameter.position_second_rate
+            / parameter.frame_parameter.position_second_rate
         ),
     )
     second_theorical_curve = linear_interpolation(
@@ -42,7 +42,7 @@ def test_flight_simulation():
         THIRD_POSITION_EVENT.xyz,
         int(
             (THIRD_POSITION_EVENT.second - SECOND_POSITION_EVENT.second)
-            / parameter.timecode_parameter.position_second_rate
+            / parameter.frame_parameter.position_second_rate
         ),
     )
     theorical_curve = first_theorical_curve + second_theorical_curve

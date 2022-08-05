@@ -21,13 +21,13 @@ def test_land_simulation_first_case():
 
     dance_sequence = land_simulation(
         first_takeoff_position,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.land_parameter,
     )
     THEORICAL_LAST_TAKEOFF_POSITION = (X_METER, Y_METER, 0)
     THEORICAL_NB_POINT = int(
         parameter.land_parameter.get_first_land_second_delta(HGT_CENTIMETER)
-        // parameter.timecode_parameter.position_second_rate
+        // parameter.frame_parameter.position_second_rate
     )
     theorical_curve = linear_interpolation(
         first_takeoff_position,
@@ -56,7 +56,7 @@ def test_land_simulation_second_case():
     first_takeoff_position = (X_METER, Y_METER, HGT_CENTIMETER)
     dance_sequence = land_simulation(
         first_takeoff_position,
-        parameter.timecode_parameter,
+        parameter.frame_parameter,
         parameter.land_parameter,
     )
     THEORICAL_MIDDLE_TAKEOFF_POSITION = (
@@ -71,7 +71,7 @@ def test_land_simulation_second_case():
     )
     FIRST_THEORICAL_NB_POINT = int(
         parameter.land_parameter.get_first_land_second_delta(HGT_CENTIMETER)
-        // parameter.timecode_parameter.position_second_rate
+        // parameter.frame_parameter.position_second_rate
     )
     first_theorical_curve = linear_interpolation(
         first_takeoff_position,
@@ -80,7 +80,7 @@ def test_land_simulation_second_case():
     )
     SECOND_THEORICAL_NB_POINT = int(
         parameter.land_parameter.get_second_land_second_delta(HGT_CENTIMETER)
-        // parameter.timecode_parameter.position_second_rate
+        // parameter.frame_parameter.position_second_rate
     )
     second_theorical_curve = linear_interpolation(
         THEORICAL_MIDDLE_TAKEOFF_POSITION,

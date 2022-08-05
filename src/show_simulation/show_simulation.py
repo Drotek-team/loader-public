@@ -66,7 +66,7 @@ def get_empty_show_slices(
 def update_show_slices_from_trajectory_simulation(
     show_slices: List[ShowSimulationSlice],
     trajectory_simulation: TrajectorySimulation,
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
     last_second: float,
@@ -74,7 +74,7 @@ def update_show_slices_from_trajectory_simulation(
     dance_sequence = convert_trajectory_to_dance_simulation(
         trajectory_simulation,
         last_second,
-        timecode_parameter,
+        frame_parameter,
         takeoff_parameter,
         land_parameter,
     ).dance_sequence
@@ -110,26 +110,26 @@ def update_slices_implicit_values(
 
 def get_slices(
     trajectory_simulation_manager: TrajectorySimulationManager,
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> List[ShowSimulationSlice]:
     show_slices = get_empty_show_slices(
         nb_drones=len(trajectory_simulation_manager.trajectories_simulation),
-        show_second_begin=timecode_parameter.show_second_begin,
+        show_second_begin=frame_parameter.show_second_begin,
         last_second=trajectory_simulation_manager.get_last_second(land_parameter),
-        position_second_rate=timecode_parameter.position_second_rate,
+        position_second_rate=frame_parameter.position_second_rate,
     )
     for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
         update_show_slices_from_trajectory_simulation(
             show_slices,
             trajectory_simulation,
-            timecode_parameter,
+            frame_parameter,
             takeoff_parameter,
             land_parameter,
             show_slices[-1].second,
         )
     update_slices_implicit_values(
-        show_slices, time_delta=1 / (timecode_parameter.position_second_rate)
+        show_slices, time_delta=1 / (frame_parameter.position_second_rate)
     )
     return show_slices

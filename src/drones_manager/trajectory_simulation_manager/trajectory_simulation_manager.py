@@ -47,7 +47,7 @@ def get_trajectory_simulation(
         [
             PositionSimulation(
                 json_convertion_constant.TIMECODE_TO_SECOND_RATIO
-                * position_event.timecode,
+                * position_event.frame,
                 json_convertion_constant.from_json_position_to_simulation_position(
                     position_event.get_values()
                 ),

@@ -8,11 +8,9 @@ def stand_by_simulation(
     second_begin: float,
     second_end: float,
     stand_by_position: Tuple[float, float, float],
-    timecode_parameter: TimecodeParameter,
+    frame_parameter: TimecodeParameter,
 ) -> DanceSequence:
-    nb_element = int(
-        (second_end - second_begin) / timecode_parameter.position_second_rate
-    )
+    nb_element = int((second_end - second_begin) / frame_parameter.position_second_rate)
     return DanceSequence(
         nb_element * [stand_by_position],
         nb_element * [False],
