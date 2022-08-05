@@ -135,7 +135,7 @@ def test_valid_horizontal_velocity_limitatition_simulation():
         0,
         0,
     )
-    position_event_2 = PositionEvent(2, 11_00, 0, 0)
+    position_event_2 = PositionEvent(12, 11_00, 0, 0)
     valid_show_simulation = get_show_simulation([position_event_1, position_event_2])
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.performance_check_report = PerformanceCheckReport(
@@ -209,7 +209,7 @@ def test_invalid_horizontal_acceleration_limitation_simulation():
         0,
         0,
     )
-    position_event_2 = PositionEvent(2, 0, 0, 0)
+    position_event_2 = PositionEvent(12, 0, 0, 0)
     valid_show_simulation = get_show_simulation([position_event_1, position_event_2])
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.performance_check_report = PerformanceCheckReport(
@@ -303,7 +303,7 @@ def test_invalid_up_force_limitation_simulation():
         + 2,
     )
     position_event_3 = PositionEvent(
-        3,
+        18,
         0,
         0,
         -2
