@@ -7,7 +7,7 @@ from ..drone.events.position_events import PositionEvent
 
 @dataclass(frozen=True)
 class PositionSimulation:
-    frame: float
+    frame: int
     xyz: Tuple[float, float, float]
 
 
