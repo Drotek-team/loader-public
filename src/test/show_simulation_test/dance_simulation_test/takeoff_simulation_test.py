@@ -24,22 +24,22 @@ def test_takeoff_simulation():
     LAST_THEORICAL_POSITION = (
         first_position[0],
         first_position[1],
-        parameter.takeoff_parameter.takeoff_simulation_altitude,
+        parameter.takeoff_parameter.takeoff_altitude_meter,
     )
     first_theorical_curve = linear_interpolation(
         first_position,
         LAST_THEORICAL_POSITION,
         int(
-            parameter.takeoff_parameter.takeoff_elevation_duration
-            / parameter.frame_parameter.position_frame_rate,
+            parameter.takeoff_parameter.takeoff_elevation_duration_second
+            * parameter.frame_parameter.position_fps
         ),
     )
     second_theorical_curve = linear_interpolation(
         LAST_THEORICAL_POSITION,
         LAST_THEORICAL_POSITION,
         int(
-            parameter.takeoff_parameter.takeoff_stabilisation_duration
-            / parameter.frame_parameter.position_frame_rate
+            parameter.takeoff_parameter.takeoff_stabilisation_duration_second
+            * parameter.frame_parameter.position_fps
         ),
     )
     theorical_curve = first_theorical_curve + second_theorical_curve
