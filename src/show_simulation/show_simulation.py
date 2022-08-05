@@ -84,15 +84,15 @@ def update_show_slices_from_trajectory_simulation(
 
 def update_slices_implicit_values(
     show_slices: List[ShowSimulationSlice],
-    position_rate_second: float,
+    position_fps: int,
 ) -> None:
     for slice_index in range(2, len(show_slices)):
-        show_slices[slice_index].velocities = (position_rate_second) * (
+        show_slices[slice_index].velocities = position_fps * (
             show_slices[slice_index].positions - show_slices[slice_index - 1].positions
         )
         show_slices[slice_index].accelerations = (
-            position_rate_second
-            * position_rate_second
+            position_fps
+            * position_fps
             * (
                 show_slices[slice_index].positions
                 - 2 * show_slices[slice_index - 1].positions
@@ -123,6 +123,6 @@ def get_slices(
             land_parameter=land_parameter,
         )
     update_slices_implicit_values(
-        show_slices, position_rate_second=frame_parameter.position_rate_second
+        show_slices, position_fps=frame_parameter.position_fps
     )
     return show_slices
