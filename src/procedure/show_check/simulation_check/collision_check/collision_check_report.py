@@ -7,19 +7,19 @@ from ....report import Contenor, Displayer
 @dataclass(frozen=True)
 class CollisionInfraction(Displayer):
     first_drone_index: int
-    second_drone_index: int
+    frame_drone_index: int
     in_air: bool
     collision_distance: float
 
     def get_report(self) -> str:
         status = "in air" if self.in_air else "on ground"
-        return f"The drone {self.first_drone_index} and {self.second_drone_index} which are {status} are at a distance of {self.collision_distance}"
+        return f"The drone {self.first_drone_index} and {self.frame_drone_index} which are {status} are at a distance of {self.collision_distance}"
 
 
 class CollisionSliceCheckReport(Contenor):
-    def __init__(self, second: float):
-        self.name = f"Collsion Slice {second} check report"
-        self.second = second
+    def __init__(self, frame: float):
+        self.name = f"Collsion Slice {frame} check report"
+        self.frame = frame
         self.collision_infractions: List[CollisionInfraction] = []
 
     def update(self) -> None:
@@ -27,10 +27,10 @@ class CollisionSliceCheckReport(Contenor):
 
 
 class CollisionCheckReport(Contenor):
-    def __init__(self, seconds: List[float] = [0]):
+    def __init__(self, frames: List[float] = [0]):
         self.name = "Collision check report"
         self.collision_slices_check_report = [
-            CollisionSliceCheckReport(second) for second in seconds
+            CollisionSliceCheckReport(frame) for frame in frames
         ]
 
     def update(self) -> None:

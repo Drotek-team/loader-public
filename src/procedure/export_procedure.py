@@ -26,7 +26,7 @@ def apply_export_procedure(
         drones_manager,
         family_manager,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         export_report.json_creation_report,
     )
     export_report.update()

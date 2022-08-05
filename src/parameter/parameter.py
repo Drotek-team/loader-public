@@ -15,9 +15,11 @@ class JsonConvertionConstant:
 
     def from_json_position_to_simulation_position(
         self, json_position: Tuple[int, int, int]
-    ) -> np.ndarray:
-        return self.CENTIMETER_TO_METER_RATIO * np.array(
-            [json_position[1], json_position[0], -json_position[2]]
+    ) -> Tuple[float, float, float]:
+        return (
+            self.CENTIMETER_TO_METER_RATIO * json_position[1],
+            self.CENTIMETER_TO_METER_RATIO * json_position[0],
+            -self.CENTIMETER_TO_METER_RATIO * json_position[2],
         )
 
     def from_simulation_position_to_json_position(
@@ -31,7 +33,7 @@ class JsonConvertionConstant:
 
 
 @dataclass(frozen=True)
-class JsonFormatParameter:
+class JsonBinaryParameter:
     magic_number: str
     fmt_header: str
     fmt_section_header: str
@@ -39,22 +41,15 @@ class JsonFormatParameter:
 
 @dataclass(frozen=True)
 class TakeoffParameter:
-    takeoff_altitude: int
-    takeoff_simulation_altitude: float
-    takeoff_elevation_duration: int
-    takeoff_elevation_simulation_duration: float
-    takeoff_stabilisation_duration: int
-    takeoff_stabilisation_simulation_duration: float
+    takeoff_altitude_meter: float
+    takeoff_elevation_duration_second: float
+    takeoff_stabilisation_duration_second: float
 
     @property
-    def takeoff_duration(self) -> int:
-        return self.takeoff_elevation_duration + self.takeoff_stabilisation_duration
-
-    @property
-    def takeoff_simulation_duration(self) -> float:
+    def takeoff_duration_second(self) -> float:
         return (
-            self.takeoff_elevation_simulation_duration
-            + self.takeoff_stabilisation_simulation_duration
+            self.takeoff_elevation_duration_second
+            + self.takeoff_stabilisation_duration_second
         )
 
 
@@ -110,6 +105,14 @@ class FrameParameter:
     def show_duration_max_frame(self) -> int:
         return int(self.show_duration_max_second * self.json_fps)
 
+    @property
+    def position_rate_frame(self) -> int:
+        return int(self.json_fps / self.position_fps)
+
+    @property
+    def position_rate_second(self) -> float:
+        return self.position_rate_frame / self.json_fps
+
 
 @dataclass(frozen=True)
 class FamilyParameter:
@@ -157,10 +160,10 @@ class Parameter:
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
     json_convertion_constant = JsonConvertionConstant()
 
-    def load_json_format_parameter(self, local_path: str) -> None:
+    def load_json_binary_parameter(self, local_path: str) -> None:
         f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
-        self.json_format_parameter = JsonFormatParameter(
+        self.json_binary_parameter = JsonBinaryParameter(
             magic_number=data["MAGIC_NUMBER_INTEGER"],
             fmt_header=data["FMT_HEADER"],
             fmt_section_header=data["FMT_SECTION_HEADER"],
@@ -181,26 +184,13 @@ class Parameter:
         f = open(f"{local_path}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
-            takeoff_altitude=int(
-                self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-                * data["TAKEOFF_ALTITUDE_METER"]
-            ),
-            takeoff_simulation_altitude=data["TAKEOFF_ALTITUDE_METER"],
-            takeoff_elevation_duration=int(
-                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                * data["TAKEOFF_ELEVATION_DURATION_SECOND"]
-            ),
-            takeoff_elevation_simulation_duration=data[
-                "TAKEOFF_ELEVATION_DURATION_SECOND"
-            ],
-            takeoff_stabilisation_duration=int(
-                self.json_convertion_constant.SECOND_TO_TIMECODE_RATIO
-                * data["TAKEOFF_STABILISATION_DURATION_SECOND"]
-            ),
-            takeoff_stabilisation_simulation_duration=data[
+            takeoff_altitude_meter=data["TAKEOFF_ALTITUDE_METER"],
+            takeoff_elevation_duration_second=data["TAKEOFF_ELEVATION_DURATION_SECOND"],
+            takeoff_stabilisation_duration_second=data[
                 "TAKEOFF_STABILISATION_DURATION_SECOND"
             ],
         )
+
         self.land_parameter = LandParameter(
             land_fast_speed=data["LAND_FAST_SPEED_METER_PER_SECOND"],
             land_low_speed=data["LAND_LOW_SPEED_METER_PER_SECOND"],
@@ -255,4 +245,4 @@ class Parameter:
         self.load_family_parameter(local_path)
         self.load_iostar_parameter(local_path)
         self.load_frame_parameter(local_path)
-        self.load_json_format_parameter(local_path)
+        self.load_json_binary_parameter(local_path)

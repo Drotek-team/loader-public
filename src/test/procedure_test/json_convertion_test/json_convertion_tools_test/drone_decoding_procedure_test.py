@@ -25,7 +25,7 @@ def test_valid_dance_decoding():
         DANCE_EXAMPLE,
         0,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         drone_decoding_report,
     )
     assert drone_decoding_report.validation

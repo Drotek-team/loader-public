@@ -25,7 +25,7 @@ def apply_import_procedure(
     drones_manager, family_manager = apply_json_extraction_procedure(
         json_dict,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         import_report.json_extraction_report,
     )
     import_report.show_check_report = ShowCheckReport(len(drones_manager.drones))

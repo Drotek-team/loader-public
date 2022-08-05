@@ -15,15 +15,15 @@ def apply_dance_check_procedure(
     apply_events_format_check_procedure(
         drone,
         parameter.iostar_parameter,
-        parameter.json_convertion_constant,
         parameter.takeoff_parameter,
         parameter.frame_parameter,
+        parameter.json_convertion_constant,
         dance_check_report.events_format_check_report,
     )
     apply_dance_size_check_procedure(
         drone,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         dance_check_report.dance_size_check_report,
     )
     dance_check_report.update()

@@ -13,8 +13,8 @@ from .dance_simulation.convert_trajectory_to_dance_simulation import (
 
 
 class ShowSimulationSlice:
-    def __init__(self, second: float, nb_drones: int):
-        self.second = second
+    def __init__(self, frame: int, nb_drones: int):
+        self.frame = frame
         self.drone_indices = np.array([drone_index for drone_index in range(nb_drones)])
         self.positions = np.zeros((nb_drones, 3))
         self.velocities = np.zeros((nb_drones, 3))
@@ -37,28 +37,22 @@ class ShowSimulation:
         self.show_slices = show_slices
 
     @property
-    def seconds(self) -> List[float]:
-        return [show_slice.second for show_slice in self.show_slices]
+    def frames(self) -> List[float]:
+        return [show_slice.frame for show_slice in self.show_slices]
 
 
 def get_empty_show_slices(
-    nb_drones: int,
-    show_begin_second: int,
-    last_second: int,
-    position_second_rate: int,
+    last_frame: int, nb_drones: int, frame_parameter: FrameParameter
 ) -> List[ShowSimulationSlice]:
-    bias_second = (
-        position_second_rate if not (last_second % position_second_rate) else 0
-    )
     return [
         ShowSimulationSlice(
-            second,
+            frame,
             nb_drones,
         )
-        for second in np.arange(
-            show_begin_second,
-            bias_second + last_second,
-            position_second_rate,
+        for frame in range(
+            frame_parameter.show_duration_min_frame,
+            last_frame,
+            frame_parameter.position_rate_frame,
         )
     ]
 
@@ -69,11 +63,10 @@ def update_show_slices_from_trajectory_simulation(
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
-    last_second: float,
 ) -> None:
     dance_sequence = convert_trajectory_to_dance_simulation(
         trajectory_simulation,
-        last_second,
+        show_slices[-1].frame,
         frame_parameter,
         takeoff_parameter,
         land_parameter,
@@ -91,15 +84,15 @@ def update_show_slices_from_trajectory_simulation(
 
 def update_slices_implicit_values(
     show_slices: List[ShowSimulationSlice],
-    time_delta: float,
+    position_rate_second: float,
 ) -> None:
     for slice_index in range(2, len(show_slices)):
-        show_slices[slice_index].velocities = (time_delta) * (
+        show_slices[slice_index].velocities = (position_rate_second) * (
             show_slices[slice_index].positions - show_slices[slice_index - 1].positions
         )
         show_slices[slice_index].accelerations = (
-            time_delta
-            * time_delta
+            position_rate_second
+            * position_rate_second
             * (
                 show_slices[slice_index].positions
                 - 2 * show_slices[slice_index - 1].positions
@@ -115,21 +108,21 @@ def get_slices(
     land_parameter: LandParameter,
 ) -> List[ShowSimulationSlice]:
     show_slices = get_empty_show_slices(
+        last_frame=trajectory_simulation_manager.get_last_frame(
+            land_parameter, frame_parameter
+        ),
         nb_drones=len(trajectory_simulation_manager.trajectories_simulation),
-        show_begin_second=frame_parameter.show_begin_second,
-        last_second=trajectory_simulation_manager.get_last_second(land_parameter),
-        position_second_rate=frame_parameter.position_second_rate,
+        frame_parameter=frame_parameter,
     )
     for trajectory_simulation in trajectory_simulation_manager.trajectories_simulation:
         update_show_slices_from_trajectory_simulation(
-            show_slices,
-            trajectory_simulation,
-            frame_parameter,
-            takeoff_parameter,
-            land_parameter,
-            show_slices[-1].second,
+            show_slices=show_slices,
+            trajectory_simulation=trajectory_simulation,
+            frame_parameter=frame_parameter,
+            takeoff_parameter=takeoff_parameter,
+            land_parameter=land_parameter,
         )
     update_slices_implicit_values(
-        show_slices, time_delta=1 / (frame_parameter.position_second_rate)
+        show_slices, position_rate_second=frame_parameter.position_rate_second
     )
     return show_slices

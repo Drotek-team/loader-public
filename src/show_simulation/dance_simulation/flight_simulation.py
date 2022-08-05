@@ -22,8 +22,8 @@ def flight_simulation(
             position_simulation.xyz,
             next_position_simulation_list.xyz,
             int(
-                ((next_position_simulation_list.second - position_simulation.second))
-                / frame_parameter.position_second_rate
+                ((next_position_simulation_list.frame - position_simulation.frame))
+                / frame_parameter.position_rate_frame
             ),
         )
     return DanceSequence(

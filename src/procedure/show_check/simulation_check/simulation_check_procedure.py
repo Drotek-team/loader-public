@@ -17,7 +17,7 @@ def apply_simulation_check_procedure(
     takeoff_parameter: TakeoffParameter,
 ) -> None:
     simulation_check_report.performance_check_report = PerformanceCheckReport(
-        show_simulation.seconds
+        show_simulation.frames
     )
     apply_performance_check_procedure(
         show_simulation,
@@ -26,7 +26,7 @@ def apply_simulation_check_procedure(
         takeoff_parameter,
     )
     simulation_check_report.collision_check_report = CollisionCheckReport(
-        show_simulation.seconds
+        show_simulation.frames
     )
     apply_collision_check_procedure(
         show_simulation,

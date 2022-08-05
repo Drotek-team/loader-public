@@ -20,7 +20,7 @@ def valid_color_events():
     color_events = ColorEvents()
     color_events.add(frame_parameter.show_duration_min_frame, (0, 0, 0, 0))
     color_events.add(
-        frame_parameter.show_duration_min_frame + frame_parameter.color_frame_rate,
+        frame_parameter.show_duration_min_frame + 1,
         (255, 255, 255, 255),
     )
     return color_events
@@ -40,7 +40,6 @@ def test_valid_color_events_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -60,7 +59,6 @@ def test_invalid_color_events_frame_format_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -82,7 +80,6 @@ def test_invalid_color_events_frame_rate_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -104,7 +101,6 @@ def test_invalid_color_events_frame_increasing_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -125,7 +121,6 @@ def test_invalid_color_events_frame_first_frame_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -147,7 +142,6 @@ def test_invalid_color_events_rgbw_format_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )
@@ -169,7 +163,6 @@ def test_invalid_color_events_rgbw_value_check(
     color_events_check(
         valid_color_events,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.iostar_parameter,
         color_events_check_report,
     )

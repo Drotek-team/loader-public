@@ -37,7 +37,7 @@ def test_valid_drone_dance_size_check(valid_drone_dance_size: DroneExport):
     apply_dance_size_check_procedure(
         valid_drone_dance_size,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         dance_size_check_report,
     )
     assert dance_size_check_report.validation
@@ -50,7 +50,7 @@ def test_invalid_drone_dance_size_check(invalid_drone_dance_size: DroneExport):
     apply_dance_size_check_procedure(
         invalid_drone_dance_size,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         dance_size_check_report,
     )
     assert not (dance_size_check_report.validation)

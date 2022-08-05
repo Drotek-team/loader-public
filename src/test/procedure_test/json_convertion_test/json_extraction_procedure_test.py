@@ -19,7 +19,7 @@ def test_valid_json_extraction():
     apply_json_extraction_procedure(
         JSON_EXAMPLE,
         parameter.iostar_parameter,
-        parameter.json_format_parameter,
+        parameter.json_binary_parameter,
         json_extraction_report,
     )
     assert json_extraction_report.validation

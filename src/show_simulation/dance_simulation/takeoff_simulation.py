@@ -15,14 +15,15 @@ def generate_takeoff_first_part(
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + takeoff_parameter.takeoff_simulation_altitude,
+        takeoff_start_position[2] + takeoff_parameter.takeoff_altitude_meter,
     )
     return linear_interpolation(
         takeoff_start_position,
         takeoff_end_position,
         int(
-            takeoff_parameter.takeoff_elevation_simulation_duration
-            / frame_parameter.position_second_rate
+            frame_parameter.json_fps
+            * takeoff_parameter.takeoff_altitude_meter
+            / frame_parameter.position_rate_frame
         ),
     )
 
@@ -35,11 +36,12 @@ def generate_takeoff_second_part(
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + takeoff_parameter.takeoff_simulation_altitude,
+        takeoff_start_position[2] + takeoff_parameter.takeoff_altitude_meter,
     )
     return int(
-        takeoff_parameter.takeoff_stabilisation_simulation_duration
-        / frame_parameter.position_second_rate
+        frame_parameter.json_fps
+        // frame_parameter.position_rate_frame
+        * takeoff_parameter.takeoff_stabilisation_duration_second
     ) * [np.array(takeoff_end_position)]
 
 

@@ -147,10 +147,11 @@ def rgbw_check(
 
 def takeoff_check(
     position_events: PositionEvents,
-    takeoff_check_report: TakeoffCheckReport,
     takeoff_parameter: TakeoffParameter,
+    frame_parameter: FrameParameter,
+    json_convertion_constant: JsonConvertionConstant,
+    takeoff_check_report: TakeoffCheckReport,
 ) -> None:
-
     if position_events.nb_events == 0:
         takeoff_check_report.takeoff_duration_check_report.validation = False
         takeoff_check_report.takeoff_position_check_report.validation = False
@@ -170,12 +171,16 @@ def takeoff_check(
         second_position = position_events.get_values_by_event_index(1)
         takeoff_check_report.takeoff_duration_check_report.validation = (
             second_frame - first_frame
-        ) == takeoff_parameter.takeoff_duration
+        ) == int(frame_parameter.json_fps * takeoff_parameter.takeoff_duration_second)
         takeoff_check_report.takeoff_position_check_report.validation = True
         takeoff_check_report.takeoff_position_check_report.validation = (
             first_position[0] == second_position[0]
             and first_position[1] == second_position[1]
-            and -takeoff_parameter.takeoff_altitude + first_position[2]
+            and -int(
+                json_convertion_constant.METER_TO_CENTIMETER_RATIO
+                * takeoff_parameter.takeoff_altitude_meter
+            )
+            + first_position[2]
             == second_position[2]
         )
     takeoff_check_report.update()

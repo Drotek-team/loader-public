@@ -16,7 +16,7 @@ class ObservedMetricsSlice:
     ):
         self.nb_drones = nb_drones
         self.vertical_positions = [
-            Metric(drone_index, 0, takeoff_parameter.takeoff_altitude, False)
+            Metric(drone_index, 0, takeoff_parameter.takeoff_altitude_meter, False)
             for drone_index in range(nb_drones)
         ]
         self.horizontal_velocites = [

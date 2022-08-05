@@ -11,7 +11,7 @@ from .takeoff_simulation import takeoff_simulation
 
 def convert_trajectory_to_dance_simulation(
     trajectory_simulation: TrajectorySimulation,
-    last_second: float,
+    last_frame: int,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
@@ -20,7 +20,7 @@ def convert_trajectory_to_dance_simulation(
     if len(trajectory_simulation.position_simulation_list) == 1:
         dance_simulation.update(
             stand_by_simulation(
-                frame_parameter.show_begin_second,
+                frame_parameter.show_duration_min_second,
                 trajectory_simulation.get_position_by_index(0),
                 frame_parameter,
             )
@@ -28,8 +28,8 @@ def convert_trajectory_to_dance_simulation(
         return dance_simulation
     dance_simulation.update(
         stand_by_simulation(
-            frame_parameter.show_begin_second,
-            trajectory_simulation.get_second_by_index(0),
+            frame_parameter.show_duration_min_second,
+            trajectory_simulation.get_frame_by_index(0),
             trajectory_simulation.get_position_by_index(0),
             frame_parameter,
         )
@@ -60,11 +60,12 @@ def convert_trajectory_to_dance_simulation(
 
     dance_simulation.update(
         stand_by_simulation(
-            trajectory_simulation.get_second_by_index(-1)
-            + land_parameter.get_land_second_delta(last_position[2]),
-            last_second + frame_parameter.position_second_rate,
-            (last_position[0], last_position[1], 0),
-            frame_parameter,
+            frame_begin=trajectory_simulation.get_frame_by_index(-1)
+            + frame_parameter.json_fps
+            * land_parameter.get_land_second_delta(last_position[2]),
+            frame_end=last_frame + frame_parameter.position_rate_second,
+            stand_by_position=(last_position[0], last_position[1], 0),
+            frame_parameter=frame_parameter,
         )
     )
     return dance_simulation

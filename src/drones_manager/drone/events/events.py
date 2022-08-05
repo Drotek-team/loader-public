@@ -6,8 +6,8 @@ from typing import Any, List, Tuple
 
 @dataclass(frozen=True)
 class Event:
-    def __init__(self, timecode: int):
-        self.timecode = timecode
+    def __init__(self, frame: int):
+        self.frame = frame
 
     @abstractclassmethod
     def get_values(self) -> Tuple:
@@ -45,8 +45,8 @@ class Events:
     def nb_events(self) -> int:
         return len(self.event_list)
 
-    def get_timecode_by_event_index(self, event_index: int) -> int:
-        return self.event_list[event_index].timecode
+    def get_frame_by_event_index(self, event_index: int) -> int:
+        return self.event_list[event_index].frame
 
     def get_values_by_event_index(self, event_index: int) -> Tuple:
         return self.event_list[event_index].get_values()
@@ -56,7 +56,7 @@ class Events:
             event.scale_data(data_factor)
 
     @abstractclassmethod
-    def add(self, timecode: int, data: Any) -> None:
+    def add(self, frame: int, data: Any) -> None:
         pass
 
     @abstractclassmethod
