@@ -92,6 +92,7 @@ class FrameParameter:
     show_duration_max_second: float
     position_fps: int
     color_fps: int
+    fire_fps: int
     json_fps: int
 
     @property
@@ -109,6 +110,22 @@ class FrameParameter:
     @property
     def position_rate_second(self) -> float:
         return self.position_rate_frame / self.json_fps
+
+    @property
+    def color_rate_frame(self) -> int:
+        return int(self.json_fps / self.color_fps)
+
+    @property
+    def color_rate_second(self) -> float:
+        return self.color_rate_frame / self.json_fps
+
+    @property
+    def fire_rate_frame(self) -> int:
+        return int(self.json_fps / self.fire_fps)
+
+    @property
+    def fire_rate_second(self) -> float:
+        return self.fire_rate_frame / self.json_fps
 
 
 @dataclass(frozen=True)
@@ -174,6 +191,7 @@ class Parameter:
             show_duration_max_second=data["SHOW_DURATION_MAX_SECOND"],
             position_fps=data["POSITION_FPS"],
             color_fps=data["COLOR_FPS"],
+            fire_fps=data["FIRE_FPS"],
             json_fps=data["JSON_FPS"],
         )
 
