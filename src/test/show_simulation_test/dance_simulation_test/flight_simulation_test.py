@@ -18,8 +18,8 @@ def test_flight_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     FIRST_POSITION_EVENT = PositionSimulation(0, (0, 0, 0))
-    SECOND_POSITION_EVENT = PositionSimulation(0.25, (0, 0, 1))
-    THIRD_POSITION_EVENT = PositionSimulation(1.0, (0, 0, 2))
+    SECOND_POSITION_EVENT = PositionSimulation(6, (0, 0, 100))
+    THIRD_POSITION_EVENT = PositionSimulation(24, (0, 0, 200))
     position_events = [
         FIRST_POSITION_EVENT,
         SECOND_POSITION_EVENT,
@@ -33,16 +33,16 @@ def test_flight_simulation():
         FIRST_POSITION_EVENT.xyz,
         SECOND_POSITION_EVENT.xyz,
         int(
-            (SECOND_POSITION_EVENT.second - FIRST_POSITION_EVENT.second)
-            / parameter.frame_parameter.position_second_rate
+            (SECOND_POSITION_EVENT.frame - FIRST_POSITION_EVENT.frame)
+            / parameter.frame_parameter.position_rate_frame
         ),
     )
     second_theorical_curve = linear_interpolation(
         SECOND_POSITION_EVENT.xyz,
         THIRD_POSITION_EVENT.xyz,
         int(
-            (THIRD_POSITION_EVENT.second - SECOND_POSITION_EVENT.second)
-            / parameter.frame_parameter.position_second_rate
+            (THIRD_POSITION_EVENT.frame - SECOND_POSITION_EVENT.frame)
+            / parameter.frame_parameter.position_rate_frame
         ),
     )
     theorical_curve = first_theorical_curve + second_theorical_curve

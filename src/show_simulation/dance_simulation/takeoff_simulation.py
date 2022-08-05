@@ -17,11 +17,6 @@ def generate_takeoff_first_part(
         takeoff_start_position[1],
         takeoff_start_position[2] + takeoff_parameter.takeoff_altitude_meter,
     )
-    # raise ValueError(
-    #     frame_parameter.json_fps,
-    #     takeoff_parameter.takeoff_altitude_meter,
-    #     frame_parameter.position_rate_frame,
-    # )
     return linear_interpolation(
         takeoff_start_position,
         takeoff_end_position,
