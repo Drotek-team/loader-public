@@ -157,7 +157,7 @@ class ObservedMetricsSlice:
                     )
                 )
             ):
-                performance_slice_check_report.down_force_check_report.add_infraction(
+                performance_slice_check_report.thrust_check_report.add_infraction(
                     drone_index,
                     self.thrust_ratio_evaluation(
                         velocities[drone_index, 2],
