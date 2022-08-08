@@ -42,7 +42,7 @@ class PerformanceSliceCheckReport(Contenor):
         )
         self.up_force_check_report = PerformanceCheckReport("Up Force")
         self.down_force_check_report = PerformanceCheckReport("Down Force")
-        self.thrust_check_report = PerformanceCheckReport("Thrust Limiation")
+        self.thrust_check_report = PerformanceCheckReport("Thrust Limitation")
 
     def update(self) -> None:
         self.validation = (
