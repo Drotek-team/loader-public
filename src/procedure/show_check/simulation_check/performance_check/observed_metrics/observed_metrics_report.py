@@ -20,7 +20,7 @@ class PerformanceCheckReport(Contenor):
 
     def add_infraction(self, drone_index: int, performance_value: float) -> None:
         self.performance_infractions.append(
-            PerformanceInfraction(drone_index, performance_value)
+            PerformanceInfraction(drone_index, round(performance_value, 2))
         )
 
     def update(self) -> str:
