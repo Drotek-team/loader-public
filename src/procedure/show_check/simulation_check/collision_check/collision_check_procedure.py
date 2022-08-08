@@ -8,7 +8,9 @@ from .collision_check_report import CollisionCheckReport, CollisionInfraction
 
 
 def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
-    return 1e8 * np.identity(len(positions_numpy)) + np.linalg.norm(
+    config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
+    print(config_matrix)
+    return config_matrix + np.linalg.norm(
         positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
     )
 
@@ -22,7 +24,7 @@ def get_collision_infractions(
     nb_drones_local = len(local_drone_indices)
     couples_distance_matrix_indices = np.array(
         [
-            row_index * nb_drones_local + column_index
+            column_index * nb_drones_local + row_index
             for column_index in range(nb_drones_local)
             for row_index in range(nb_drones_local)
         ]
