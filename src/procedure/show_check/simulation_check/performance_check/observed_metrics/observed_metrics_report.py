@@ -28,9 +28,9 @@ class PerformanceCheckReport(Contenor):
 
 
 class PerformanceSliceCheckReport(Contenor):
-    def __init__(self, second: float):
-        self.name = f"Performance Slice {second} check report"
-        self.second = second
+    def __init__(self, frame: int):
+        self.name = f"Performance Slice {frame} check report"
+        self.frame = frame
         self.vertical_position_check_report = PerformanceCheckReport(
             "Vertical Position"
         )
