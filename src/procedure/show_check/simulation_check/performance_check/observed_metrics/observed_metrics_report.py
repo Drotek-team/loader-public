@@ -10,7 +10,7 @@ class PerformanceInfraction(Displayer):
     performance_value: float
 
     def get_report(self) -> str:
-        return f"The drone {self.drone_index} has the value {self.performance_value}"
+        return f"The drone {self.drone_index} has the value: {self.performance_value}"
 
 
 class PerformanceCheckReport(Contenor):
