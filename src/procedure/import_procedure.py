@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-from src.procedure.show_check.show_check_report import ShowCheckReport
+from .show_check.show_check_report import ShowCheckReport
 
 from ..drones_manager.drones_manager import DronesManager
 from ..family_manager.family_manager import FamilyManager

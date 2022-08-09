@@ -18,8 +18,15 @@ class FamilyManager:
         self.step_takeoff = step_takeoff
         self.angle_takeoff = angle_takeoff
 
+    @property
+    def nb_family(self) -> int:
+        return self.nb_x * self.nb_y
+
     def get_family_index(self, row_index: int, column_index: int) -> int:
         return self.nb_y * row_index + column_index
+
+    def get_drone_index(self, family_index: int, family_drone_index: int) -> int:
+        return self.nb_drone_per_family * family_index + family_drone_index
 
     @property
     def theorical_grid(self) -> np.ndarray:
