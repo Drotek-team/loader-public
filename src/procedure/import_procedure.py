@@ -19,6 +19,7 @@ def apply_import_procedure(
     import_report: ImportReport,
     parameter: Parameter,
 ) -> Tuple[DronesManager, FamilyManager]:
+    ### TO DO: Make a try into report for that
     import_report.json_extraction_report = JsonExtractionReport(
         get_nb_drone_per_family(json_dict["show"]) * len(json_dict["show"]["families"])
     )
