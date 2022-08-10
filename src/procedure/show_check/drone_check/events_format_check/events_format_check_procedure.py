@@ -17,7 +17,7 @@ from .events_format_check_report import (
 from .events_format_check_tools import (
     color_frame_check,
     fire_chanel_check,
-    fire_duration_check,
+    fire_duration_frame_check,
     fire_frame_check,
     position_frame_check,
     rgbw_check,
@@ -85,7 +85,7 @@ def fire_events_check(
     fire_chanel_check(
         fire_events, fire_events_check_report.fire_chanel_check_report, iostar_parameter
     )
-    fire_duration_check(
+    fire_duration_frame_check(
         fire_events,
         fire_events_check_report.fire_duration_check_report,
         iostar_parameter,

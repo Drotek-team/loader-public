@@ -148,8 +148,8 @@ class IostarParameter:
     iostar_drag_vertical_coef: float
     fire_chanel_value_min: int
     fire_chanel_value_max: int
-    fire_duration_value_min: int
-    fire_duration_value_max: int
+    fire_duration_value_frame_min: int
+    fire_duration_value_frame_max: int
     position_value_min: int
     position_value_max: int
     color_value_min: int
@@ -218,8 +218,8 @@ class Parameter:
             color_value_max=data["COLOR_VALUE_MAX"],
             fire_chanel_value_min=data["FIRE_CHANEL_VALUE_MIN"],
             fire_chanel_value_max=data["FIRE_CHANEL_VALUE_MAX"],
-            fire_duration_value_min=data["FIRE_DURATION_VALUE_SECOND_MIN"],
-            fire_duration_value_max=data["FIRE_DURATION_VALUE_SECOND_MAX"],
+            fire_duration_value_frame_min=data["FIRE_DURATION_VALUE_FRAME_MIN"],
+            fire_duration_value_frame_max=data["FIRE_DURATION_VALUE_FRAME_MAX"],
             position_max=data["POS_METER_MAX"],
             horizontal_velocity_max=data["VEL_HOR_MAX_METER_PER_SECOND"],
             horizontal_velocity_lower_bound=data[

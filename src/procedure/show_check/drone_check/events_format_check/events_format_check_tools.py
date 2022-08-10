@@ -234,7 +234,7 @@ def fire_chanel_check(
     fire_events_chanel_check_report.update()
 
 
-def fire_duration_check(
+def fire_duration_frame_check(
     fire_events: FireEvents,
     fire_events_chanel_check_report: FireDurationCheckReport,
     iostar_parameter: IostarParameter,
@@ -246,8 +246,8 @@ def fire_duration_check(
     fire_events_chanel_check_report.fire_duration_value_check_report.validation = (
         check_int_size_list(
             durations,
-            iostar_parameter.fire_duration_value_min,
-            iostar_parameter.fire_duration_value_max,
+            iostar_parameter.fire_duration_value_frame_min,
+            iostar_parameter.fire_duration_value_frame_max,
         )
     )
     fire_events_chanel_check_report.update()

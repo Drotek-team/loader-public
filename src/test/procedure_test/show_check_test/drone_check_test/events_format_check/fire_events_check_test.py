@@ -181,7 +181,7 @@ def test_invalid_fire_events_duration_value_check(
     valid_fire_events.add(
         parameter.frame_parameter.show_duration_min_frame,
         0,
-        parameter.iostar_parameter.fire_duration_value_max + 1,
+        parameter.iostar_parameter.fire_duration_value_frame_max + 1,
     )
     fire_events_check(
         valid_fire_events,
@@ -203,12 +203,12 @@ def test_invalid_fire_events_simulteanous_value_check(
     valid_fire_events.add(
         parameter.frame_parameter.show_duration_min_frame,
         0,
-        parameter.iostar_parameter.fire_duration_value_max,
+        parameter.iostar_parameter.fire_duration_value_frame_max,
     )
     valid_fire_events.add(
         parameter.frame_parameter.show_duration_min_frame,
         0,
-        parameter.iostar_parameter.fire_duration_value_max,
+        parameter.iostar_parameter.fire_duration_value_frame_max,
     )
     fire_events_check(
         valid_fire_events,
