@@ -28,7 +28,15 @@ class TakeoffAngleValueCheckReport(Displayer):
 class FamilyManagerValueCheckReport(Contenor):
     def __init__(self):
         self.name = "Family Manager Value Check Report"
-        self.nbx_value_check_report = NbxValueCheckReport()
-        self.nby_value_check_report = NbyValueCheckReport()
+        self.nb_x_value_check_report = NbxValueCheckReport()
+        self.nb_y_value_check_report = NbyValueCheckReport()
         self.step_value_check_report = StepValueCheckReport()
         self.takeoff_angle_value_check_report = TakeoffAngleValueCheckReport()
+
+    def update(self) -> None:
+        self.validation = (
+            self.nb_x_value_check_report.validation
+            and self.nb_y_value_check_report.validation
+            and self.step_value_check_report.validation
+            and self.takeoff_angle_value_check_report.validation
+        )

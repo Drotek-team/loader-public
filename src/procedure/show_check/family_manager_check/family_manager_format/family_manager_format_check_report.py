@@ -29,7 +29,15 @@ class TakeoffAngleFormatCheckReport(Displayer):
 class FamilyManagerFormatCheckReport(Contenor):
     def __init__(self):
         self.name = "Family Manager Format Check Report"
-        self.nbx_format_check_report = NbxFormatCheckReport()
-        self.nby_format_check_report = NbyFormatCheckReport()
+        self.nb_x_format_check_report = NbxFormatCheckReport()
+        self.nb_y_format_check_report = NbyFormatCheckReport()
         self.step_format_check_report = StepFormatCheckReport()
         self.takeoff_angle_format_check_report = TakeoffAngleFormatCheckReport()
+
+    def update(self) -> None:
+        self.validation = (
+            self.nb_x_format_check_report.validation
+            and self.nb_y_format_check_report.validation
+            and self.step_format_check_report.validation
+            and self.takeoff_angle_format_check_report.validation
+        )

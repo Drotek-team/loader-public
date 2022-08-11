@@ -1,3 +1,4 @@
+from curses.ascii import alt
 import os
 from typing import Tuple
 
@@ -47,7 +48,13 @@ def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]
     )
     drone_manager = DronesManager([drone])
     family_manager = FamilyManager(
-        nb_x=1, nb_y=1, nb_drone_per_family=1, step_takeoff=100, angle_takeoff=0
+        nb_x=1,
+        nb_y=1,
+        nb_drone_per_family=1,
+        step_takeoff=100,
+        angle_takeoff=0,
+        show_duration_second=drone_manager.duration,
+        altitude_range_meter=drone_manager.altitude_range,
     )
     return drone_manager, family_manager
 

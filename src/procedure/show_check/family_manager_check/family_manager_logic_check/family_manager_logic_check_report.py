@@ -14,7 +14,7 @@ class NbDroneLogicCheckReport(Displayer):
         self.nb_drone_drones_manager = nb_drone_drones_manager
 
 
-class PositionLogicCheckReport(Displayer):
+class FirstPositionLogicCheckReport(Displayer):
     def get_report(self) -> str:
         return f"The positions of the drones do not match the expectation of the families (distance max:{self.distance_max}"
 
@@ -46,18 +46,18 @@ class AltitudeRangeLogicCheckReport(Displayer):
         self.drones_manager_altitude_range = drones_manager_altitude_range
 
 
-class LogicCheckReport(Contenor):
+class FamilyManagerLogicCheckReport(Contenor):
     def __init__(self):
         self.name = " logic check report"
         self.nb_drone_logic_check_report = NbDroneLogicCheckReport()
-        self.position_logic_check_report = PositionLogicCheckReport()
+        self.first_position_logic_check_report = FirstPositionLogicCheckReport()
         self.show_duration_logic_check_report = ShowDurationLogicCheckReport()
         self.altitude_range_logic_check_report = AltitudeRangeLogicCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.nb_drone_logic_check_report.validation
-            and self.position_logic_check_report.validation
+            and self.first_position_logic_check_report.validation
             and self.show_duration_logic_check_report
             and self.altitude_range_logic_check_report
         )

@@ -25,6 +25,8 @@ def apply_show_check_procedure(
     apply_family_check_procedure(
         drones_manager,
         family_manager,
+        parameter.frame_parameter,
+        parameter.json_convertion_constant,
         parameter.family_parameter,
         show_check_report.family_check_report,
     )

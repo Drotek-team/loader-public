@@ -2,6 +2,12 @@ from ...report import Contenor
 from .family_manager_format.family_manager_format_check_report import (
     FamilyManagerFormatCheckReport,
 )
+from .family_manager_value_check.family_manager_value_check_report import (
+    FamilyManagerValueCheckReport,
+)
+from .family_manager_logic_check.family_manager_logic_check_report import (
+    FamilyManagerLogicCheckReport,
+)
 
 
 class FamilyManagerCheckReport(Contenor):
@@ -9,11 +15,11 @@ class FamilyManagerCheckReport(Contenor):
         self.name = "Family Manager Check Report"
         self.family_manager_format_check_report = FamilyManagerFormatCheckReport()
         self.family_manager_value_check_report = FamilyManagerValueCheckReport()
-        self.coherence_check_report = CoherenceCheckReport()
+        self.family_manager_logic_check_report = FamilyManagerLogicCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.family_manager_format_check_report.validation
             and self.family_manager_value_check_report.validation
-            and self.coherence_check_report.validation
+            and self.family_manager_logic_check_report.validation
         )
