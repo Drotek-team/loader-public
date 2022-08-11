@@ -38,7 +38,7 @@ def apply_json_extraction_procedure(
         nb_drone_per_family,
         json_show["step"],
         json_show["angle_takeoff"],
-        json_show["show_duration"],
+        json_show["duration"],
         json_show["altitude_range"],
     )
     json_extraction_report.update()
