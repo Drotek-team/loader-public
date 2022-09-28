@@ -1,4 +1,4 @@
-from .drones_user import DroneUser, DronesPx4
+from .drones_px4 import DroneUser, DronesPx4
 from ..parameter.parameter import Parameter
 import os
 

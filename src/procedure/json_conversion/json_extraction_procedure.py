@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-from ...drones_px4.drones_user import DronesPx4
+from ...drones_px4.drones_px4 import DronesPx4
 from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import JsonBinaryParameter, IostarParameter
 from .json_convertion_tools.drone_decoding_procedure import decode_drone
