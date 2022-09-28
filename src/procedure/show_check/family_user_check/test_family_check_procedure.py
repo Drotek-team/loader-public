@@ -4,7 +4,7 @@ from typing import ParamSpec
 import pytest
 
 from ....drones_px4.drone.drone import DronePx4
-from ....drones_px4.drones_user import DronesPx4
+from ....drones_px4.drones_px4 import DronesPx4
 from ....family_user.family_user import FamilyUser
 from ....parameter.parameter import Parameter
 from .family_user_check_procedure import (
@@ -17,7 +17,7 @@ import numpy as np
 
 
 @pytest.fixture
-def invalid_drones_user_inverse_first_positions():
+def invalid_drones_px4_inverse_first_positions():
     drone_1 = DronePx4(0)
     drone_1.add_position(0, (-100, 100, 0))
     drone_2 = DronePx4(1)
@@ -59,7 +59,7 @@ def test_valid_drone_manager_family():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     family_user_check_report = FamilyUserCheckReport()
-    # Define drones_user
+    # Define drones_px4
     drone_1 = DronePx4(0)
     drone_1.add_position(0, (-100, -100, 0))
     drone_2 = DronePx4(1)
@@ -68,7 +68,7 @@ def test_valid_drone_manager_family():
     drone_3.add_position(0, (100, -100, 0))
     drone_4 = DronePx4(3)
     drone_4.add_position(0, (100, 100, 0))
-    valid_drones_user = DronesPx4([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_px4 = DronesPx4([drone_1, drone_2, drone_3, drone_4])
     # Define family_user
     valid_family_user = FamilyUser(
         nb_x=2,
@@ -76,12 +76,12 @@ def test_valid_drone_manager_family():
         nb_drone_per_family=1,
         step_takeoff=200,
         angle_takeoff=0,
-        show_duration_second=valid_drones_user.duration
+        show_duration_second=valid_drones_px4.duration
         * parameter.frame_parameter.json_fps,
-        altitude_range_meter=valid_drones_user.altitude_range,
+        altitude_range_meter=valid_drones_px4.altitude_range,
     )
     apply_family_check_procedure(
-        valid_drones_user,
+        valid_drones_px4,
         valid_family_user,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
@@ -91,7 +91,7 @@ def test_valid_drone_manager_family():
     assert family_user_check_report.validation
 
 
-def test_valid_drones_user_family_angle():
+def test_valid_drones_px4_family_angle():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     angle_radian = 45
@@ -107,20 +107,20 @@ def test_valid_drones_user_family_angle():
         0,
         (int(new_distance * 100), 0, 0),
     )
-    valid_drones_user_angle = DronesPx4([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_px4_angle = DronesPx4([drone_1, drone_2, drone_3, drone_4])
     valid_family_user_angle = FamilyUser(
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
         step_takeoff=200,
         angle_takeoff=angle_radian,
-        show_duration_second=valid_drones_user_angle.duration
+        show_duration_second=valid_drones_px4_angle.duration
         * parameter.frame_parameter.json_fps,
-        altitude_range_meter=valid_drones_user_angle.altitude_range,
+        altitude_range_meter=valid_drones_px4_angle.altitude_range,
     )
     family_user_check_report = FamilyUserCheckReport()
     apply_family_check_procedure(
-        valid_drones_user_angle,
+        valid_drones_px4_angle,
         valid_family_user_angle,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
@@ -134,7 +134,7 @@ def test_invalid_drone_manager_first_positions():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
-    # Define drones_user
+    # Define drones_px4
     drone_1 = DronePx4(0)
     drone_1.add_position(0, (-100, 100, 0))
     drone_2 = DronePx4(1)
@@ -143,7 +143,7 @@ def test_invalid_drone_manager_first_positions():
     drone_3.add_position(0, (100, 100, 0))
     drone_4 = DronePx4(3)
     drone_4.add_position(0, (-100, -99, 0))
-    invalid_first_position_drones_user = DronesPx4([drone_1, drone_2, drone_3, drone_4])
+    invalid_first_position_drones_px4 = DronesPx4([drone_1, drone_2, drone_3, drone_4])
 
     # Define family_user
     valid_family_user = FamilyUser(
@@ -152,13 +152,13 @@ def test_invalid_drone_manager_first_positions():
         nb_drone_per_family=1,
         step_takeoff=200,
         angle_takeoff=0,
-        show_duration_second=invalid_first_position_drones_user.duration
+        show_duration_second=invalid_first_position_drones_px4.duration
         * parameter.frame_parameter.json_fps,
-        altitude_range_meter=invalid_first_position_drones_user.altitude_range,
+        altitude_range_meter=invalid_first_position_drones_px4.altitude_range,
     )
     family_user_check_report = FamilyUserCheckReport()
     apply_family_check_procedure(
-        invalid_first_position_drones_user,
+        invalid_first_position_drones_px4,
         valid_family_user,
         parameter.frame_parameter,
         parameter.json_convertion_constant,

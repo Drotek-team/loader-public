@@ -3,7 +3,7 @@ from ..parameter.parameter import Parameter
 import os
 
 
-def valid_drones_user(show_duration: int) -> DronesPx4:
+def valid_drones_px4(show_duration: int) -> DronesPx4:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     takeoff_parameter = parameter.takeoff_parameter
@@ -20,5 +20,5 @@ def valid_drones_user(show_duration: int) -> DronesPx4:
 
 def test_show_dutation():
     SHOW_DURATION = 225_368
-    drones_user = valid_drones_user(SHOW_DURATION)
-    assert drones_user.duration == SHOW_DURATION
+    drones_px4 = valid_drones_px4(SHOW_DURATION)
+    assert drones_px4.duration == SHOW_DURATION

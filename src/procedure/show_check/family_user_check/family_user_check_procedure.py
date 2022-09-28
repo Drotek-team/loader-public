@@ -1,6 +1,6 @@
 import numpy as np
 
-from ....drones_px4.drones_user import DronesPx4
+from ....drones_px4.drones_px4 import DronesPx4
 from ....family_user.family_user import FamilyUser
 from ....parameter.parameter import (
     FamilyParameter,
@@ -22,7 +22,7 @@ from .family_user_logic_check.family_user_logic_check_procedure import (
 
 
 def apply_family_check_procedure(
-    drones_user: DronesPx4,
+    drones_px4: DronesPx4,
     family_user: FamilyUser,
     frame_parameter: FrameParameter,
     json_convertion_constant: JsonConvertionConstant,
@@ -38,7 +38,7 @@ def apply_family_check_procedure(
         family_user_check_report.family_user_value_check_report,
     )
     apply_family_user_logic_check_procedure(
-        drones_user,
+        drones_px4,
         family_user,
         frame_parameter,
         json_convertion_constant,

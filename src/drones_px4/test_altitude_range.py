@@ -1,7 +1,7 @@
 from .drones_px4 import DronePx4, DronesPx4
 
 
-def valid_drones_user(altitude_max: int) -> DronesPx4:
+def valid_drones_px4(altitude_max: int) -> DronesPx4:
     drone_0 = DronePx4(0)
     drone_0.add_position(0, (0, 0, 0))
     drone_0.add_position(0, (0, 0, -altitude_max))
@@ -13,5 +13,5 @@ def valid_drones_user(altitude_max: int) -> DronesPx4:
 
 def test_show_dutation():
     ALTITUDE_MAX = 1_532
-    drones_user = valid_drones_user(ALTITUDE_MAX)
-    assert drones_user.altitude_range == (-ALTITUDE_MAX, 0)
+    drones_px4 = valid_drones_px4(ALTITUDE_MAX)
+    assert drones_px4.altitude_range == (-ALTITUDE_MAX, 0)

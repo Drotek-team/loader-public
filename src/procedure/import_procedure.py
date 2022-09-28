@@ -23,15 +23,15 @@ def apply_import_procedure(
     import_report.json_extraction_report = JsonExtractionReport(
         get_nb_drone_per_family(json_dict["show"]) * len(json_dict["show"]["families"])
     )
-    drones_user, family_user = apply_json_extraction_procedure(
+    drones_px4, family_user = apply_json_extraction_procedure(
         json_dict,
         parameter.iostar_parameter,
         parameter.json_binary_parameter,
         import_report.json_extraction_report,
     )
-    import_report.show_check_report = ShowCheckReport(len(drones_user.drones))
+    import_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
     apply_show_check_procedure(
-        drones_user, family_user, import_report.show_check_report, parameter
+        drones_px4, family_user, import_report.show_check_report, parameter
     )
     import_report.update()
-    return drones_user, family_user
+    return drones_px4, family_user

@@ -7,7 +7,7 @@ from .json_creation_report import JsonCreationReport
 
 
 def apply_json_creation_procedure(
-    drones_user: DronesPx4,
+    drones_px4: DronesPx4,
     family_user: FamilyUser,
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
@@ -18,12 +18,12 @@ def apply_json_creation_procedure(
         nb_y=family_user.nb_y,
         step=family_user.step_takeoff,
         angle_takeoff=family_user.angle_takeoff,
-        duration=drones_user.duration,
-        hull=drones_user.convex_hull,
-        altitude_range=drones_user.altitude_range,
+        duration=drones_px4.duration,
+        hull=drones_px4.convex_hull,
+        altitude_range=drones_px4.altitude_range,
     )
     show.update_families(
-        [drone_user.first_xyz for drone_user in drones_user.drones],
+        [drone_user.first_xyz for drone_user in drones_px4.drones],
         [
             encode_drone(
                 drone_user,
@@ -32,7 +32,7 @@ def apply_json_creation_procedure(
                 drone_encoding_report,
             )
             for drone_user, drone_encoding_report in zip(
-                drones_user.drones, json_creation_report.drones_encoding_report
+                drones_px4.drones, json_creation_report.drones_encoding_report
             )
         ],
         family_user,

@@ -1,5 +1,5 @@
 from .show_check.show_check_report import ShowCheckReport
-from ..drones_px4.drones_user import DronesPx4
+from ..drones_px4.drones_px4 import DronesPx4
 from ..family_user.family_user import FamilyUser
 from ..parameter.parameter import Parameter
 from .export_report import ExportReport
@@ -9,21 +9,21 @@ from .json_conversion.json_creation_report import JsonCreationReport
 
 
 def apply_export_procedure(
-    drones_user: DronesPx4,
+    drones_px4: DronesPx4,
     family_user: FamilyUser,
     export_report: ExportReport,
     parameter: Parameter,
 ) -> None:
-    export_report.show_check_report = ShowCheckReport(len(drones_user.drones))
+    export_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
     apply_show_check_procedure(
-        drones_user,
+        drones_px4,
         family_user,
         export_report.show_check_report,
         parameter,
     )
-    export_report.json_creation_report = JsonCreationReport(len(drones_user.drones))
+    export_report.json_creation_report = JsonCreationReport(len(drones_px4.drones))
     apply_json_creation_procedure(
-        drones_user,
+        drones_px4,
         family_user,
         parameter.iostar_parameter,
         parameter.json_binary_parameter,

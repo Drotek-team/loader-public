@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from ...drones_px4.drones_user import DronePx4, DronesPx4
+from ...drones_px4.drones_px4 import DronePx4, DronesPx4
 from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import Parameter
 from .show_check_procedure import apply_show_check_procedure
@@ -12,7 +12,7 @@ from .show_check_report import ShowCheckReport
 
 
 @pytest.fixture
-def valid_drones_user_family_user() -> Tuple[DronesPx4, FamilyUser]:
+def valid_drones_px4_family_user() -> Tuple[DronesPx4, FamilyUser]:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     drone = DronePx4(0)
@@ -60,11 +60,11 @@ def valid_drones_user_family_user() -> Tuple[DronesPx4, FamilyUser]:
 
 
 def test_valid_show_check_procedure(
-    valid_drones_user_family_user: Tuple[DronesPx4, FamilyUser]
+    valid_drones_px4_family_user: Tuple[DronesPx4, FamilyUser]
 ):
-    drones_user, family_user = valid_drones_user_family_user
-    show_check_report = ShowCheckReport(len(drones_user.drones))
+    drones_px4, family_user = valid_drones_px4_family_user
+    show_check_report = ShowCheckReport(len(drones_px4.drones))
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    apply_show_check_procedure(drones_user, family_user, show_check_report, parameter)
+    apply_show_check_procedure(drones_px4, family_user, show_check_report, parameter)
     assert show_check_report.validation

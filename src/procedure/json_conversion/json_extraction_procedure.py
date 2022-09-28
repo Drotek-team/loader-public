@@ -19,7 +19,7 @@ def apply_json_extraction_procedure(
 ) -> Tuple[DronesPx4, FamilyUser]:
     json_show = json_dict["show"]
     nb_drone_per_family = get_nb_drone_per_family(json_show)
-    drones_user = DronesPx4(
+    drones_px4 = DronesPx4(
         [
             decode_drone(
                 drone_json["dance"],
@@ -42,4 +42,4 @@ def apply_json_extraction_procedure(
         json_show["altitude_range"],
     )
     json_extraction_report.update()
-    return drones_user, family_user
+    return drones_px4, family_user
