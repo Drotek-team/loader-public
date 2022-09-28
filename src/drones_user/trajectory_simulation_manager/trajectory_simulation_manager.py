@@ -23,7 +23,7 @@ class TrajectorySimulation:
         return self.position_simulation_list[1:]
 
     @property
-    def last_frame(self) -> float:
+    def last_frame(self) -> int:
         return self.position_simulation_list[-1].frame
 
     @property
