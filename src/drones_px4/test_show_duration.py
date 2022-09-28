@@ -1,9 +1,9 @@
-from .drones_user import DroneUser, DronesUser
+from .drones_user import DroneUser, DronesPx4
 from ..parameter.parameter import Parameter
 import os
 
 
-def valid_drones_user(show_duration: int) -> DronesUser:
+def valid_drones_user(show_duration: int) -> DronesPx4:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     takeoff_parameter = parameter.takeoff_parameter
@@ -15,7 +15,7 @@ def valid_drones_user(show_duration: int) -> DronesUser:
     drone_1.add_position(
         show_duration - 1, (0, 0, -takeoff_parameter.takeoff_altitude_meter)
     )
-    return DronesUser([drone_0, drone_1])
+    return DronesPx4([drone_0, drone_1])
 
 
 def test_show_dutation():

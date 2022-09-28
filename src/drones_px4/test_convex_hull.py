@@ -4,12 +4,12 @@ from typing import List, Tuple
 import numpy as np
 import pytest
 
-from .drones_user import DroneUser, DronesUser
+from .drones_user import DroneUser, DronesPx4
 
 
 def generate_drones_user_from_first_position(
     first_positions: List[Tuple[int, int, int]]
-) -> DronesUser:
+) -> DronesPx4:
     drones = [DroneUser(drone_index) for drone_index in range(len(first_positions))]
     for first_position, drone in zip(first_positions, drones):
         drone.add_position(0, first_position)
@@ -18,11 +18,11 @@ def generate_drones_user_from_first_position(
     drone_center.add_position(0, (0, 0, 0))
     drones += [drone_center]
 
-    return DronesUser(drones)
+    return DronesPx4(drones)
 
 
 @pytest.fixture
-def valid_drones_user_list() -> List[DronesUser]:
+def valid_drones_user_list() -> List[DronesPx4]:
     NB_DRONES_MANAGER = 10
     nb_drones_per_drones_user = 100
     np.random.seed(42)
@@ -99,7 +99,7 @@ def from_tuple_list_to_point_list(
 
 
 ### TO DO: add hypothesis/strategies to these tests
-def test_valid_convex_hull(valid_drones_user_list: List[DronesUser]):
+def test_valid_convex_hull(valid_drones_user_list: List[DronesPx4]):
     assert all(
         is_point_inside_convex_polygon(
             from_tuple_to_point(horizontal_position),

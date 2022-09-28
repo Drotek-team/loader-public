@@ -1,5 +1,5 @@
 from .show_check.show_check_report import ShowCheckReport
-from ..drones_px4.drones_user import DronesUser
+from ..drones_px4.drones_user import DronesPx4
 from ..family_user.family_user import FamilyUser
 from ..parameter.parameter import Parameter
 from .export_report import ExportReport
@@ -9,7 +9,7 @@ from .json_conversion.json_creation_report import JsonCreationReport
 
 
 def apply_export_procedure(
-    drones_user: DronesUser,
+    drones_user: DronesPx4,
     family_user: FamilyUser,
     export_report: ExportReport,
     parameter: Parameter,

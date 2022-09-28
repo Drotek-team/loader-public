@@ -1,4 +1,4 @@
-from ...drones_px4.drones_user import DronesUser
+from ...drones_px4.drones_user import DronesPx4
 from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import Parameter
 from ...show_simulation.show_simulation import ShowSimulation, get_slices
@@ -13,7 +13,7 @@ from .show_check_report import ShowCheckReport
 
 
 def apply_show_check_procedure(
-    drones_user: DronesUser,
+    drones_user: DronesPx4,
     family_user: FamilyUser,
     show_check_report: ShowCheckReport,
     parameter: Parameter,

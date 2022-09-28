@@ -4,7 +4,7 @@ from typing import ParamSpec
 import pytest
 
 from ....drones_px4.drone.drone import DroneUser
-from ....drones_px4.drones_user import DronesUser
+from ....drones_px4.drones_user import DronesPx4
 from ....family_user.family_user import FamilyUser
 from ....parameter.parameter import Parameter
 from .family_user_check_procedure import (
@@ -26,7 +26,7 @@ def invalid_drones_user_inverse_first_positions():
     drone_3.add_position(0, (100, 100, 0))
     drone_4 = DroneUser(3)
     drone_4.add_position(0, (-100, -100, 0))
-    return DronesUser([drone_1, drone_2, drone_3, drone_4])
+    return DronesPx4([drone_1, drone_2, drone_3, drone_4])
 
 
 @pytest.fixture
@@ -68,7 +68,7 @@ def test_valid_drone_manager_family():
     drone_3.add_position(0, (100, -100, 0))
     drone_4 = DroneUser(3)
     drone_4.add_position(0, (100, 100, 0))
-    valid_drones_user = DronesUser([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_user = DronesPx4([drone_1, drone_2, drone_3, drone_4])
     # Define family_user
     valid_family_user = FamilyUser(
         nb_x=2,
@@ -107,7 +107,7 @@ def test_valid_drones_user_family_angle():
         0,
         (int(new_distance * 100), 0, 0),
     )
-    valid_drones_user_angle = DronesUser([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_user_angle = DronesPx4([drone_1, drone_2, drone_3, drone_4])
     valid_family_user_angle = FamilyUser(
         nb_x=2,
         nb_y=2,
@@ -143,9 +143,7 @@ def test_invalid_drone_manager_first_positions():
     drone_3.add_position(0, (100, 100, 0))
     drone_4 = DroneUser(3)
     drone_4.add_position(0, (-100, -99, 0))
-    invalid_first_position_drones_user = DronesUser(
-        [drone_1, drone_2, drone_3, drone_4]
-    )
+    invalid_first_position_drones_user = DronesPx4([drone_1, drone_2, drone_3, drone_4])
 
     # Define family_user
     valid_family_user = FamilyUser(
