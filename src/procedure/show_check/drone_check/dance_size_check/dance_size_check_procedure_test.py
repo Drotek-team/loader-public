@@ -2,12 +2,12 @@ import os
 
 import pytest
 
-from ......drones_manager.drone.drone import DroneExport
-from ......parameter.parameter import Parameter
-from ......procedure.show_check.drone_check.dance_size_check.dances_size_check_procedure import (
+from .....drones_manager.drone.drone import DroneExport
+from .....parameter.parameter import Parameter
+from .dances_size_check_procedure import (
     apply_dance_size_check_procedure,
 )
-from ......procedure.show_check.drone_check.dance_size_check.dances_size_check_report import (
+from .dances_size_check_report import (
     DanceSizeCheckReport,
 )
 
