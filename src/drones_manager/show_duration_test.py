@@ -1,5 +1,5 @@
-from ...drones_manager.drones_manager import DroneExport, DronesManager
-from ...parameter.parameter import Parameter
+from .drones_manager import DroneExport, DronesManager
+from ..parameter.parameter import Parameter
 import os
 
 

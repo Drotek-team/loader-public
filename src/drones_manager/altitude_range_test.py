@@ -1,4 +1,4 @@
-from ...drones_manager.drones_manager import DroneExport, DronesManager
+from .drones_manager import DroneExport, DronesManager
 
 
 def valid_drones_manager(altitude_max: int) -> DronesManager:

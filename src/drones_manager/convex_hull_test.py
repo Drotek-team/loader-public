@@ -4,7 +4,7 @@ from typing import List, Tuple
 import numpy as np
 import pytest
 
-from ...drones_manager.drones_manager import DroneExport, DronesManager
+from .drones_manager import DroneExport, DronesManager
 
 
 def generate_drones_manager_from_first_position(
