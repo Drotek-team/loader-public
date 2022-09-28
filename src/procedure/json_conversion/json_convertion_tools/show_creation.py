@@ -26,7 +26,7 @@ class Show:
         step: int,
         angle_takeoff: int,
         duration: int,
-        hull: List[Tuple],
+        hull: List[Tuple[int, int]],
         altitude_range: Tuple[int, int],
     ):
         self.nb_x = nb_x
