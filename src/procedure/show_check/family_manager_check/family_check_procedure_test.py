@@ -3,14 +3,14 @@ from typing import ParamSpec
 
 import pytest
 
-from .....drones_manager.drone.drone import DroneExport
-from .....drones_manager.drones_manager import DronesManager
-from .....family_manager.family_manager import FamilyManager
-from .....parameter.parameter import Parameter
-from .....procedure.show_check.family_manager_check.family_manager_check_procedure import (
+from ....drones_manager.drone.drone import DroneExport
+from ....drones_manager.drones_manager import DronesManager
+from ....family_manager.family_manager import FamilyManager
+from ....parameter.parameter import Parameter
+from .family_manager_check_procedure import (
     apply_family_check_procedure,
 )
-from .....procedure.show_check.family_manager_check.family_manager_check_report import (
+from .family_manager_check_report import (
     FamilyManagerCheckReport,
 )
 import numpy as np
