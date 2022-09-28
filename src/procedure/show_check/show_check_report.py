@@ -1,6 +1,6 @@
 from ..report import Contenor
 from .drone_check.dance_check_report import DanceCheckReport
-from .family_manager_check.family_manager_check_report import FamilyUserCheckReport
+from .family_user_check.family_user_check_report import FamilyUserCheckReport
 from .simulation_check.simulation_check_report import SimulationCheckReport
 
 

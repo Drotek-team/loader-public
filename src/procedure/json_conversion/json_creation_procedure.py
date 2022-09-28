@@ -1,5 +1,5 @@
 from ...drones_user.drones_user import DronesUser
-from ...family_manager.family_manager import FamilyUser
+from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import JsonBinaryParameter, IostarParameter
 from .json_convertion_tools.drone_encoding_procedure import encode_drone
 from .json_convertion_tools.show_creation import Show
@@ -8,16 +8,16 @@ from .json_creation_report import JsonCreationReport
 
 def apply_json_creation_procedure(
     drones_user: DronesUser,
-    family_manager: FamilyUser,
+    family_user: FamilyUser,
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
     json_creation_report: JsonCreationReport,
 ) -> None:
     show = Show(
-        nb_x=family_manager.nb_x,
-        nb_y=family_manager.nb_y,
-        step=family_manager.step_takeoff,
-        angle_takeoff=family_manager.angle_takeoff,
+        nb_x=family_user.nb_x,
+        nb_y=family_user.nb_y,
+        step=family_user.step_takeoff,
+        angle_takeoff=family_user.angle_takeoff,
         duration=drones_user.duration,
         hull=drones_user.convex_hull,
         altitude_range=drones_user.altitude_range,
@@ -35,7 +35,7 @@ def apply_json_creation_procedure(
                 drones_user.drones, json_creation_report.drones_encoding_report
             )
         ],
-        family_manager,
+        family_user,
     )
     json = show.get_json()
     filename = "popo.json"

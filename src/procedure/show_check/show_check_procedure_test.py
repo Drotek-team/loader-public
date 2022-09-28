@@ -5,14 +5,14 @@ from typing import Tuple
 import pytest
 
 from ...drones_user.drones_user import DroneUser, DronesUser
-from ...family_manager.family_manager import FamilyUser
+from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import Parameter
 from .show_check_procedure import apply_show_check_procedure
 from .show_check_report import ShowCheckReport
 
 
 @pytest.fixture
-def valid_drones_user_family_manager() -> Tuple[DronesUser, FamilyUser]:
+def valid_drones_user_family_user() -> Tuple[DronesUser, FamilyUser]:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     drone = DroneUser(0)
@@ -47,7 +47,7 @@ def valid_drones_user_family_manager() -> Tuple[DronesUser, FamilyUser]:
         ),
     )
     drone_manager = DronesUser([drone])
-    family_manager = FamilyUser(
+    family_user = FamilyUser(
         nb_x=1,
         nb_y=1,
         nb_drone_per_family=1,
@@ -56,17 +56,15 @@ def valid_drones_user_family_manager() -> Tuple[DronesUser, FamilyUser]:
         show_duration_second=drone_manager.duration,
         altitude_range_meter=drone_manager.altitude_range,
     )
-    return drone_manager, family_manager
+    return drone_manager, family_user
 
 
 def test_valid_show_check_procedure(
-    valid_drones_user_family_manager: Tuple[DronesUser, FamilyUser]
+    valid_drones_user_family_user: Tuple[DronesUser, FamilyUser]
 ):
-    drones_user, family_manager = valid_drones_user_family_manager
+    drones_user, family_user = valid_drones_user_family_user
     show_check_report = ShowCheckReport(len(drones_user.drones))
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    apply_show_check_procedure(
-        drones_user, family_manager, show_check_report, parameter
-    )
+    apply_show_check_procedure(drones_user, family_user, show_check_report, parameter)
     assert show_check_report.validation

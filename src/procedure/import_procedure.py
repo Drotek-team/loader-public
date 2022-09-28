@@ -3,7 +3,7 @@ from typing import Dict, Tuple
 from .show_check.show_check_report import ShowCheckReport
 
 from ..drones_user.drones_user import DronesUser
-from ..family_manager.family_manager import FamilyUser
+from ..family_user.family_user import FamilyUser
 from ..parameter.parameter import Parameter
 from .import_report import ImportReport
 from .json_conversion.json_extraction_procedure import (
@@ -23,7 +23,7 @@ def apply_import_procedure(
     import_report.json_extraction_report = JsonExtractionReport(
         get_nb_drone_per_family(json_dict["show"]) * len(json_dict["show"]["families"])
     )
-    drones_user, family_manager = apply_json_extraction_procedure(
+    drones_user, family_user = apply_json_extraction_procedure(
         json_dict,
         parameter.iostar_parameter,
         parameter.json_binary_parameter,
@@ -31,7 +31,7 @@ def apply_import_procedure(
     )
     import_report.show_check_report = ShowCheckReport(len(drones_user.drones))
     apply_show_check_procedure(
-        drones_user, family_manager, import_report.show_check_report, parameter
+        drones_user, family_user, import_report.show_check_report, parameter
     )
     import_report.update()
-    return drones_user, family_manager
+    return drones_user, family_user

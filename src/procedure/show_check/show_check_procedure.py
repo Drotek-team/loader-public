@@ -1,12 +1,12 @@
 from ...drones_user.drones_user import DronesUser
-from ...family_manager.family_manager import FamilyUser
+from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import Parameter
 from ...show_simulation.show_simulation import ShowSimulation, get_slices
 from ..show_check.simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
 )
 from .drone_check.dance_check_procedure import apply_dance_check_procedure
-from .family_manager_check.family_manager_check_procedure import (
+from .family_user_check.family_user_check_procedure import (
     apply_family_check_procedure,
 )
 from .show_check_report import ShowCheckReport
@@ -14,7 +14,7 @@ from .show_check_report import ShowCheckReport
 
 def apply_show_check_procedure(
     drones_user: DronesUser,
-    family_manager: FamilyUser,
+    family_user: FamilyUser,
     show_check_report: ShowCheckReport,
     parameter: Parameter,
 ) -> None:
@@ -24,7 +24,7 @@ def apply_show_check_procedure(
         apply_dance_check_procedure(drone, dance_check_report, parameter)
     apply_family_check_procedure(
         drones_user,
-        family_manager,
+        family_user,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.family_parameter,

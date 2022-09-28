@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ....family_manager.family_manager import FamilyUser
+from ....family_user.family_user import FamilyUser
 
 
 @dataclass
@@ -42,18 +42,17 @@ class Show:
         self,
         first_positions: List[Tuple[int, int, int]],
         binaries: List[List[int]],
-        family_manager: FamilyUser,
+        family_user: FamilyUser,
     ) -> None:
         drones = [Dance(binary) for binary in binaries]
         for family_index in range(
-            (family_manager.nb_x * family_manager.nb_y)
-            // family_manager.nb_drone_per_family,
+            (family_user.nb_x * family_user.nb_y) // family_user.nb_drone_per_family,
         ):
 
             self.families.append(
                 Family(
                     drones=drones[
-                        family_index : family_index + family_manager.nb_drone_per_family
+                        family_index : family_index + family_user.nb_drone_per_family
                     ],
                     x=first_positions[family_index][0],
                     y=first_positions[family_index][1],

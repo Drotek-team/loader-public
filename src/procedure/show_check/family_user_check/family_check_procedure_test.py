@@ -5,12 +5,12 @@ import pytest
 
 from ....drones_user.drone.drone import DroneUser
 from ....drones_user.drones_user import DronesUser
-from ....family_manager.family_manager import FamilyUser
+from ....family_user.family_user import FamilyUser
 from ....parameter.parameter import Parameter
-from .family_manager_check_procedure import (
+from .family_user_check_procedure import (
     apply_family_check_procedure,
 )
-from .family_manager_check_report import (
+from .family_user_check_report import (
     FamilyUserCheckReport,
 )
 import numpy as np
@@ -30,7 +30,7 @@ def invalid_drones_user_inverse_first_positions():
 
 
 @pytest.fixture
-def valid_family_manager_angle():
+def valid_family_user_angle():
     return FamilyUser(
         nb_x=2,
         nb_y=2,
@@ -43,7 +43,7 @@ def valid_family_manager_angle():
 
 
 @pytest.fixture
-def invalid_family_manager_drone_per_family():
+def invalid_family_user_drone_per_family():
     return FamilyUser(
         nb_x=2,
         nb_y=2,
@@ -58,7 +58,7 @@ def invalid_family_manager_drone_per_family():
 def test_valid_drone_manager_family():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    family_manager_check_report = FamilyUserCheckReport()
+    family_user_check_report = FamilyUserCheckReport()
     # Define drones_user
     drone_1 = DroneUser(0)
     drone_1.add_position(0, (-100, -100, 0))
@@ -69,8 +69,8 @@ def test_valid_drone_manager_family():
     drone_4 = DroneUser(3)
     drone_4.add_position(0, (100, 100, 0))
     valid_drones_user = DronesUser([drone_1, drone_2, drone_3, drone_4])
-    # Define family_manager
-    valid_family_manager = FamilyUser(
+    # Define family_user
+    valid_family_user = FamilyUser(
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
@@ -82,13 +82,13 @@ def test_valid_drone_manager_family():
     )
     apply_family_check_procedure(
         valid_drones_user,
-        valid_family_manager,
+        valid_family_user,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.family_parameter,
-        family_manager_check_report,
+        family_user_check_report,
     )
-    assert family_manager_check_report.validation
+    assert family_user_check_report.validation
 
 
 def test_valid_drones_user_family_angle():
@@ -108,7 +108,7 @@ def test_valid_drones_user_family_angle():
         (int(new_distance * 100), 0, 0),
     )
     valid_drones_user_angle = DronesUser([drone_1, drone_2, drone_3, drone_4])
-    valid_family_manager_angle = FamilyUser(
+    valid_family_user_angle = FamilyUser(
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
@@ -118,16 +118,16 @@ def test_valid_drones_user_family_angle():
         * parameter.frame_parameter.json_fps,
         altitude_range_meter=valid_drones_user_angle.altitude_range,
     )
-    family_manager_check_report = FamilyUserCheckReport()
+    family_user_check_report = FamilyUserCheckReport()
     apply_family_check_procedure(
         valid_drones_user_angle,
-        valid_family_manager_angle,
+        valid_family_user_angle,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.family_parameter,
-        family_manager_check_report,
+        family_user_check_report,
     )
-    assert family_manager_check_report.validation
+    assert family_user_check_report.validation
 
 
 def test_invalid_drone_manager_first_positions():
@@ -147,8 +147,8 @@ def test_invalid_drone_manager_first_positions():
         [drone_1, drone_2, drone_3, drone_4]
     )
 
-    # Define family_manager
-    valid_family_manager = FamilyUser(
+    # Define family_user
+    valid_family_user = FamilyUser(
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
@@ -158,15 +158,13 @@ def test_invalid_drone_manager_first_positions():
         * parameter.frame_parameter.json_fps,
         altitude_range_meter=invalid_first_position_drones_user.altitude_range,
     )
-    family_manager_check_report = FamilyUserCheckReport()
+    family_user_check_report = FamilyUserCheckReport()
     apply_family_check_procedure(
         invalid_first_position_drones_user,
-        valid_family_manager,
+        valid_family_user,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
         parameter.family_parameter,
-        family_manager_check_report,
+        family_user_check_report,
     )
-    assert not (
-        family_manager_check_report.family_manager_logic_check_report.validation
-    )
+    assert not (family_user_check_report.family_user_logic_check_report.validation)
