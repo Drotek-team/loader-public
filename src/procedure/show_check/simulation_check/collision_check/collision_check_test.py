@@ -8,10 +8,10 @@ from src.procedure.show_check.simulation_check.collision_check.collision_check_r
 
 from .....drones_manager.drones_manager import DroneExport, DronesManager
 from .....parameter.parameter import Parameter
-from .....procedure.show_check.simulation_check.collision_check.collision_check_procedure import (
+from .collision_check_procedure import (
     apply_collision_check_procedure,
 )
-from .....procedure.show_check.simulation_check.simulation_check_report import (
+from ..simulation_check_report import (
     SimulationCheckReport,
 )
 from .....show_simulation.show_simulation import ShowSimulation, get_slices

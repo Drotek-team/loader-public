@@ -4,14 +4,14 @@ import numpy as np
 from .....drones_manager.drone.events.position_events import PositionEvent
 from .....drones_manager.drones_manager import DroneExport, DronesManager
 from .....parameter.parameter import Parameter
-from .....procedure.show_check.simulation_check.performance_check.performance_check_procedure import (
+from .performance_check_procedure import (
     apply_performance_check_procedure,
 )
-from .....procedure.show_check.simulation_check.performance_check.performance_check_report import (
+from .performance_check_report import (
     PerformanceCheckReport,
 )
 from .....show_simulation.show_simulation import ShowSimulation, get_slices
-from .....procedure.show_check.simulation_check.simulation_check_report import (
+from ..simulation_check_report import (
     SimulationCheckReport,
 )
 
