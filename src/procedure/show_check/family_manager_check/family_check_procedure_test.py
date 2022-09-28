@@ -3,7 +3,7 @@ from typing import ParamSpec
 
 import pytest
 
-from ....drones_user.drone.drone import DroneExport
+from ....drones_user.drone.drone import DroneUser
 from ....drones_user.drones_user import DronesUser
 from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import Parameter
@@ -18,13 +18,13 @@ import numpy as np
 
 @pytest.fixture
 def invalid_drones_user_inverse_first_positions():
-    drone_1 = DroneExport(0)
+    drone_1 = DroneUser(0)
     drone_1.add_position(0, (-100, 100, 0))
-    drone_2 = DroneExport(1)
+    drone_2 = DroneUser(1)
     drone_2.add_position(0, (100, -100, 0))
-    drone_3 = DroneExport(2)
+    drone_3 = DroneUser(2)
     drone_3.add_position(0, (100, 100, 0))
-    drone_4 = DroneExport(3)
+    drone_4 = DroneUser(3)
     drone_4.add_position(0, (-100, -100, 0))
     return DronesUser([drone_1, drone_2, drone_3, drone_4])
 
@@ -60,13 +60,13 @@ def test_valid_drone_manager_family():
     parameter.load_parameter(os.getcwd())
     family_manager_check_report = FamilyManagerCheckReport()
     # Define drones_user
-    drone_1 = DroneExport(0)
+    drone_1 = DroneUser(0)
     drone_1.add_position(0, (-100, -100, 0))
-    drone_2 = DroneExport(1)
+    drone_2 = DroneUser(1)
     drone_2.add_position(0, (-100, 100, 0))
-    drone_3 = DroneExport(2)
+    drone_3 = DroneUser(2)
     drone_3.add_position(0, (100, -100, 0))
-    drone_4 = DroneExport(3)
+    drone_4 = DroneUser(3)
     drone_4.add_position(0, (100, 100, 0))
     valid_drones_user = DronesUser([drone_1, drone_2, drone_3, drone_4])
     # Define family_manager
@@ -96,13 +96,13 @@ def test_valid_drones_user_family_angle():
     parameter.load_parameter(os.getcwd())
     angle_radian = 45
     new_distance = np.sqrt(2)
-    drone_1 = DroneExport(0)
+    drone_1 = DroneUser(0)
     drone_1.add_position(0, (-int(new_distance * 100), 0, 0))
-    drone_2 = DroneExport(1)
+    drone_2 = DroneUser(1)
     drone_2.add_position(0, (0, int(new_distance * 100), 0))
-    drone_3 = DroneExport(2)
+    drone_3 = DroneUser(2)
     drone_3.add_position(0, (0, -int(new_distance * 100), 0))
-    drone_4 = DroneExport(3)
+    drone_4 = DroneUser(3)
     drone_4.add_position(
         0,
         (int(new_distance * 100), 0, 0),
@@ -135,13 +135,13 @@ def test_invalid_drone_manager_first_positions():
     parameter.load_parameter(os.getcwd())
 
     # Define drones_user
-    drone_1 = DroneExport(0)
+    drone_1 = DroneUser(0)
     drone_1.add_position(0, (-100, 100, 0))
-    drone_2 = DroneExport(1)
+    drone_2 = DroneUser(1)
     drone_2.add_position(0, (100, -100, 0))
-    drone_3 = DroneExport(2)
+    drone_3 = DroneUser(2)
     drone_3.add_position(0, (100, 100, 0))
-    drone_4 = DroneExport(3)
+    drone_4 = DroneUser(3)
     drone_4.add_position(0, (-100, -99, 0))
     invalid_first_position_drones_user = DronesUser(
         [drone_1, drone_2, drone_3, drone_4]

@@ -6,7 +6,7 @@ from .events.fire_events import FireEvents
 from .events.position_events import PositionEvent, PositionEvents
 
 
-class DroneExport:
+class DroneUser:
     def __init__(self, index: int):
         self.index = index
         self.position_events = PositionEvents()

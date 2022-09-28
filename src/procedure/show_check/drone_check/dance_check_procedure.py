@@ -1,4 +1,4 @@
-from ....drones_user.drone.drone import DroneExport
+from ....drones_user.drone.drone import DroneUser
 from ....parameter.parameter import Parameter
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -10,7 +10,7 @@ from .events_format_check.events_format_check_procedure import (
 
 
 def apply_dance_check_procedure(
-    drone: DroneExport, dance_check_report: DanceCheckReport, parameter: Parameter
+    drone: DroneUser, dance_check_report: DanceCheckReport, parameter: Parameter
 ) -> None:
     apply_events_format_check_procedure(
         drone,

@@ -1,11 +1,11 @@
 import struct
 from dataclasses import dataclass
-from ....drones_user.drone.drone import DroneExport
+from ....drones_user.drone.drone import DroneUser
 from ....parameter.parameter import IostarParameter
 
 
 def apply_reformat_events(
-    drone_export: DroneExport, iostar_parameter: IostarParameter
+    drone_export: DroneUser, iostar_parameter: IostarParameter
 ) -> None:
     drone_export.position_events.scale_data_events(
         iostar_parameter.position_reformat_factor
@@ -13,7 +13,7 @@ def apply_reformat_events(
 
 
 def unapply_reformat_events(
-    drone_export: DroneExport, iostar_parameter: IostarParameter
+    drone_export: DroneUser, iostar_parameter: IostarParameter
 ) -> None:
     drone_export.position_events.scale_data_events(
         1 / iostar_parameter.position_reformat_factor

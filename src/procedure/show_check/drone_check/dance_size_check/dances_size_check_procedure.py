@@ -1,4 +1,4 @@
-from .....drones_user.drone.drone import DroneExport
+from .....drones_user.drone.drone import DroneUser
 from .....parameter.parameter import IostarParameter, JsonBinaryParameter
 from ....json_conversion.json_convertion_tools.drone_encoding_procedure import (
     encode_drone,
@@ -7,7 +7,7 @@ from .dances_size_check_report import DanceSizeCheckReport
 
 
 def apply_dance_size_check_procedure(
-    drone: DroneExport,
+    drone: DroneUser,
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
     dance_size_check_report: DanceSizeCheckReport,

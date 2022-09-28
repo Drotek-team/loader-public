@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from .drone import DroneExport
+from .drone import DroneUser
 
 
 @dataclass
@@ -24,7 +24,7 @@ class EventsSizeEasing:
         return valid_event
 
 
-def apply_dance_size_relief(drone: DroneExport, events_size_easing: EventsSizeEasing):
+def apply_dance_size_relief(drone: DroneUser, events_size_easing: EventsSizeEasing):
     events_size_easing.reset_previous_events()
     valid_position_indices = []
     for position_event_index, position_event in enumerate(drone.position_events.events):

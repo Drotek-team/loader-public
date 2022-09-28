@@ -6,7 +6,7 @@ from src.procedure.show_check.simulation_check.collision_check.collision_check_r
     CollisionCheckReport,
 )
 
-from .....drones_user.drones_user import DroneExport, DronesUser
+from .....drones_user.drones_user import DroneUser, DronesUser
 from .....parameter.parameter import Parameter
 from .collision_check_procedure import (
     apply_collision_check_procedure,
@@ -21,7 +21,7 @@ from .....show_simulation.show_simulation import ShowSimulation, get_slices
 def valid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    first_drone, second_drone = DroneExport(0), DroneExport(1)
+    first_drone, second_drone = DroneUser(0), DroneUser(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
         int(
@@ -79,7 +79,7 @@ def valid_show_simulation():
 def invalid_show_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    first_drone, second_drone = DroneExport(0), DroneExport(1)
+    first_drone, second_drone = DroneUser(0), DroneUser(1)
     first_drone.add_position(0, (0, 0, 0))
     first_drone.add_position(
         int(

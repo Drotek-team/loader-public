@@ -4,17 +4,17 @@ from typing import List, Tuple
 import numpy as np
 import pytest
 
-from .drones_user import DroneExport, DronesUser
+from .drones_user import DroneUser, DronesUser
 
 
 def generate_drones_user_from_first_position(
     first_positions: List[Tuple[int, int, int]]
 ) -> DronesUser:
-    drones = [DroneExport(drone_index) for drone_index in range(len(first_positions))]
+    drones = [DroneUser(drone_index) for drone_index in range(len(first_positions))]
     for first_position, drone in zip(first_positions, drones):
         drone.add_position(0, first_position)
 
-    drone_center = DroneExport(len(first_positions))
+    drone_center = DroneUser(len(first_positions))
     drone_center.add_position(0, (0, 0, 0))
     drones += [drone_center]
 
