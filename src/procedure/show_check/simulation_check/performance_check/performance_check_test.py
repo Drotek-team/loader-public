@@ -2,7 +2,7 @@ import os
 from typing import List
 import numpy as np
 from .....drones_manager.drone.events.position_events import PositionEvent
-from .....drones_manager.drones_manager import DroneExport, DronesManager
+from .....drones_manager.drones_manager import DroneExport, DronesUser
 from .....parameter.parameter import Parameter
 from .performance_check_procedure import (
     apply_performance_check_procedure,
@@ -52,7 +52,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             ),
         )
 
-    drones_manager = DronesManager([drone])
+    drones_manager = DronesUser([drone])
     show_simulation = ShowSimulation(
         get_slices(
             drones_manager.get_trajectory_simulation_manager(

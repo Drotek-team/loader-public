@@ -4,7 +4,7 @@ from typing import ParamSpec
 import pytest
 
 from ....drones_manager.drone.drone import DroneExport
-from ....drones_manager.drones_manager import DronesManager
+from ....drones_manager.drones_manager import DronesUser
 from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import Parameter
 from .family_manager_check_procedure import (
@@ -26,7 +26,7 @@ def invalid_drones_manager_inverse_first_positions():
     drone_3.add_position(0, (100, 100, 0))
     drone_4 = DroneExport(3)
     drone_4.add_position(0, (-100, -100, 0))
-    return DronesManager([drone_1, drone_2, drone_3, drone_4])
+    return DronesUser([drone_1, drone_2, drone_3, drone_4])
 
 
 @pytest.fixture
@@ -68,7 +68,7 @@ def test_valid_drone_manager_family():
     drone_3.add_position(0, (100, -100, 0))
     drone_4 = DroneExport(3)
     drone_4.add_position(0, (100, 100, 0))
-    valid_drones_manager = DronesManager([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_manager = DronesUser([drone_1, drone_2, drone_3, drone_4])
     # Define family_manager
     valid_family_manager = FamilyManager(
         nb_x=2,
@@ -107,7 +107,7 @@ def test_valid_drones_manager_family_angle():
         0,
         (int(new_distance * 100), 0, 0),
     )
-    valid_drones_manager_angle = DronesManager([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_manager_angle = DronesUser([drone_1, drone_2, drone_3, drone_4])
     valid_family_manager_angle = FamilyManager(
         nb_x=2,
         nb_y=2,
@@ -143,7 +143,7 @@ def test_invalid_drone_manager_first_positions():
     drone_3.add_position(0, (100, 100, 0))
     drone_4 = DroneExport(3)
     drone_4.add_position(0, (-100, -99, 0))
-    invalid_first_position_drones_manager = DronesManager(
+    invalid_first_position_drones_manager = DronesUser(
         [drone_1, drone_2, drone_3, drone_4]
     )
 

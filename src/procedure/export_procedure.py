@@ -1,5 +1,5 @@
 from .show_check.show_check_report import ShowCheckReport
-from ..drones_manager.drones_manager import DronesManager
+from ..drones_manager.drones_manager import DronesUser
 from ..family_manager.family_manager import FamilyManager
 from ..parameter.parameter import Parameter
 from .export_report import ExportReport
@@ -9,7 +9,7 @@ from .json_conversion.json_creation_report import JsonCreationReport
 
 
 def apply_export_procedure(
-    drones_manager: DronesManager,
+    drones_manager: DronesUser,
     family_manager: FamilyManager,
     export_report: ExportReport,
     parameter: Parameter,

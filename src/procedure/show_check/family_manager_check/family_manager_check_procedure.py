@@ -1,6 +1,6 @@
 import numpy as np
 
-from ....drones_manager.drones_manager import DronesManager
+from ....drones_manager.drones_manager import DronesUser
 from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import (
     FamilyParameter,
@@ -22,7 +22,7 @@ from .family_manager_logic_check.family_manager_logic_check_procedure import (
 
 
 def apply_family_check_procedure(
-    drones_manager: DronesManager,
+    drones_manager: DronesUser,
     family_manager: FamilyManager,
     frame_parameter: FrameParameter,
     json_convertion_constant: JsonConvertionConstant,

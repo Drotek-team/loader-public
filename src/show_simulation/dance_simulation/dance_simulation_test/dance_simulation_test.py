@@ -2,7 +2,7 @@ import os
 from typing import List
 
 from ....drones_manager.drone.events.position_events import PositionEvent
-from ....drones_manager.drones_manager import DroneExport, DronesManager
+from ....drones_manager.drones_manager import DroneExport, DronesUser
 from ....parameter.parameter import Parameter
 from ....show_simulation.show_simulation import ShowSimulation, get_slices
 
@@ -37,7 +37,7 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             ),
         )
 
-    drones_manager = DronesManager([drone])
+    drones_manager = DronesUser([drone])
     show_simulation = ShowSimulation(
         get_slices(
             drones_manager.get_trajectory_simulation_manager(

@@ -12,7 +12,7 @@ from .trajectory_simulation_manager.trajectory_simulation_manager import (
 )
 
 
-class DronesManager:
+class DronesUser:
     def __init__(self, drones: List[DroneExport]):
         self.drones = drones
 

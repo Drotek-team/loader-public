@@ -8,7 +8,7 @@ from .family_manager_logic_check_report import (
     ShowDurationLogicCheckReport,
     FamilyManagerLogicCheckReport,
 )
-from .....drones_manager.drones_manager import DronesManager
+from .....drones_manager.drones_manager import DronesUser
 from .....parameter.parameter import FrameParameter, JsonConvertionConstant
 
 
@@ -43,7 +43,7 @@ def apply_position_logic_check_report(
 
 
 def apply_show_duration_logic_check_report(
-    drones_manager: DronesManager,
+    drones_manager: DronesUser,
     family_manager: FamilyManager,
     frame_parameter: FrameParameter,
     show_duration_logic_check_report: ShowDurationLogicCheckReport,
@@ -60,7 +60,7 @@ def apply_show_duration_logic_check_report(
 
 
 def apply_altitude_range_logic_check_report(
-    drones_manager: DronesManager,
+    drones_manager: DronesUser,
     family_manager: FamilyManager,
     json_convertion_constant: JsonConvertionConstant,
     altitude_range_logic_check_report: AltitudeRangeLogicCheckReport,
@@ -81,7 +81,7 @@ def apply_altitude_range_logic_check_report(
 
 
 def apply_family_manager_logic_check_procedure(
-    drones_manager: DronesManager,
+    drones_manager: DronesUser,
     family_manager: FamilyManager,
     frame_parameter: FrameParameter,
     json_convertion_constant: JsonConvertionConstant,

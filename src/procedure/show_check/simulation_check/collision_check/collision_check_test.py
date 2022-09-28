@@ -6,7 +6,7 @@ from src.procedure.show_check.simulation_check.collision_check.collision_check_r
     CollisionCheckReport,
 )
 
-from .....drones_manager.drones_manager import DroneExport, DronesManager
+from .....drones_manager.drones_manager import DroneExport, DronesUser
 from .....parameter.parameter import Parameter
 from .collision_check_procedure import (
     apply_collision_check_procedure,
@@ -61,7 +61,7 @@ def valid_show_simulation():
             ),
         ),
     )
-    drones_manager = DronesManager([first_drone, second_drone])
+    drones_manager = DronesUser([first_drone, second_drone])
     show_simulation = ShowSimulation(
         get_slices(
             drones_manager.get_trajectory_simulation_manager(
@@ -121,7 +121,7 @@ def invalid_show_simulation():
             ),
         ),
     )
-    drones_manager = DronesManager([first_drone, second_drone])
+    drones_manager = DronesUser([first_drone, second_drone])
     show_simulation = ShowSimulation(
         get_slices(
             drones_manager.get_trajectory_simulation_manager(

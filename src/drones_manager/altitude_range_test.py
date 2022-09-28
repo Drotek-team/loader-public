@@ -1,14 +1,14 @@
-from .drones_manager import DroneExport, DronesManager
+from .drones_manager import DroneExport, DronesUser
 
 
-def valid_drones_manager(altitude_max: int) -> DronesManager:
+def valid_drones_manager(altitude_max: int) -> DronesUser:
     drone_0 = DroneExport(0)
     drone_0.add_position(0, (0, 0, 0))
     drone_0.add_position(0, (0, 0, -altitude_max))
     drone_1 = DroneExport(1)
     drone_1.add_position(0, (0, 0, 0))
     drone_1.add_position(0, (0, 0, -altitude_max + 1))
-    return DronesManager([drone_0, drone_1])
+    return DronesUser([drone_0, drone_1])
 
 
 def test_show_dutation():

@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from ...drones_manager.drones_manager import DroneExport, DronesManager
+from ...drones_manager.drones_manager import DroneExport, DronesUser
 from ...family_manager.family_manager import FamilyManager
 from ...parameter.parameter import Parameter
 from .show_check_procedure import apply_show_check_procedure
@@ -12,7 +12,7 @@ from .show_check_report import ShowCheckReport
 
 
 @pytest.fixture
-def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]:
+def valid_drones_manager_family_manager() -> Tuple[DronesUser, FamilyManager]:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     drone = DroneExport(0)
@@ -46,7 +46,7 @@ def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]
             ),
         ),
     )
-    drone_manager = DronesManager([drone])
+    drone_manager = DronesUser([drone])
     family_manager = FamilyManager(
         nb_x=1,
         nb_y=1,
@@ -60,7 +60,7 @@ def valid_drones_manager_family_manager() -> Tuple[DronesManager, FamilyManager]
 
 
 def test_valid_show_check_procedure(
-    valid_drones_manager_family_manager: Tuple[DronesManager, FamilyManager]
+    valid_drones_manager_family_manager: Tuple[DronesUser, FamilyManager]
 ):
     drones_manager, family_manager = valid_drones_manager_family_manager
     show_check_report = ShowCheckReport(len(drones_manager.drones))
