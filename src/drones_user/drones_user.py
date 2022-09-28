@@ -29,7 +29,7 @@ class DronesUser:
         return max(drone.last_position_event.frame for drone in self.drones)
 
     @property
-    def first_horizontal_positions(self) -> List[Tuple]:
+    def first_horizontal_positions(self) -> List[Tuple[int, int]]:
         return [
             drone.position_events.get_values_by_event_index(0)[0:2]
             for drone in self.drones
