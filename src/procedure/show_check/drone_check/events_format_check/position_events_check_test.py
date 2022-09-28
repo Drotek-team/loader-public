@@ -2,15 +2,15 @@ import os
 
 import pytest
 
-from ......drones_manager.drone.events.position_events import (
+from .....drones_manager.drone.events.position_events import (
     PositionEvent,
     PositionEvents,
 )
-from ......parameter.parameter import Parameter
-from ......procedure.show_check.drone_check.events_format_check.events_format_check_procedure import (
+from .....parameter.parameter import Parameter
+from .events_format_check_procedure import (
     position_events_check,
 )
-from ......procedure.show_check.drone_check.events_format_check.events_format_check_report import (
+from .events_format_check_report import (
     PositionEventsCheckReport,
 )
 

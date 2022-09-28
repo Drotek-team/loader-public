@@ -2,12 +2,12 @@ import os
 
 import pytest
 
-from ......drones_manager.drone.events.fire_events import FireEvent, FireEvents
-from ......parameter.parameter import Parameter
-from ......procedure.show_check.drone_check.events_format_check.events_format_check_procedure import (
+from .....drones_manager.drone.events.fire_events import FireEvent, FireEvents
+from .....parameter.parameter import Parameter
+from .events_format_check_procedure import (
     fire_events_check,
 )
-from ......procedure.show_check.drone_check.events_format_check.events_format_check_report import (
+from .events_format_check_report import (
     FireEventsCheckReport,
 )
 
