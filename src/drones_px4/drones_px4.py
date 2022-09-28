@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 from ..parameter.parameter import JsonConvertionConstant
 from .convex_hull import calculate_convex_hull
-from .drone_px4.drone import DronePx4
+from .drone_px4.drone_px4 import DronePx4
 from .drone_px4.events.position_events import PositionEvent
 from .drone_px4.events_size_easing import EventsSizeEasing, apply_dance_size_relief
 from .trajectory_simulation_manager.trajectory_simulation_manager import (

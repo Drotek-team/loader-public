@@ -1,4 +1,4 @@
-from .....drones_px4.drone_px4.drone import DronePx4
+from .....drones_px4.drone_px4.drone_px4 import DronePx4
 from .....parameter.parameter import IostarParameter, JsonBinaryParameter
 from ....json_conversion.json_convertion_tools.drone_encoding_procedure import (
     encode_drone,

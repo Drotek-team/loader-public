@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from .drone import DronePx4
+from .drone_px4 import DronePx4
 
 
 @dataclass
