@@ -1,9 +1,9 @@
-from .drones_manager import DroneExport, DronesUser
+from .drones_user import DroneExport, DronesUser
 from ..parameter.parameter import Parameter
 import os
 
 
-def valid_drones_manager(show_duration: int) -> DronesUser:
+def valid_drones_user(show_duration: int) -> DronesUser:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     takeoff_parameter = parameter.takeoff_parameter
@@ -20,5 +20,5 @@ def valid_drones_manager(show_duration: int) -> DronesUser:
 
 def test_show_dutation():
     SHOW_DURATION = 225_368
-    drones_manager = valid_drones_manager(SHOW_DURATION)
-    assert drones_manager.duration == SHOW_DURATION
+    drones_user = valid_drones_user(SHOW_DURATION)
+    assert drones_user.duration == SHOW_DURATION

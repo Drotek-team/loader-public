@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from .....drones_manager.drone.events.color_events import ColorEvent, ColorEvents
+from .....drones_user.drone.events.color_events import ColorEvent, ColorEvents
 from .....parameter.parameter import Parameter
 from .events_format_check_procedure import (
     color_events_check,

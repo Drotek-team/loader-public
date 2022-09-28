@@ -2,7 +2,7 @@ from typing import List
 
 import numpy as np
 
-from ...drones_manager.trajectory_simulation_manager.trajectory_simulation_manager import (
+from ...drones_user.trajectory_simulation_manager.trajectory_simulation_manager import (
     PositionSimulation,
 )
 from ...parameter.parameter import FrameParameter

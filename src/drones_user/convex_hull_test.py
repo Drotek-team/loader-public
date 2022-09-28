@@ -4,10 +4,10 @@ from typing import List, Tuple
 import numpy as np
 import pytest
 
-from .drones_manager import DroneExport, DronesUser
+from .drones_user import DroneExport, DronesUser
 
 
-def generate_drones_manager_from_first_position(
+def generate_drones_user_from_first_position(
     first_positions: List[Tuple[int, int, int]]
 ) -> DronesUser:
     drones = [DroneExport(drone_index) for drone_index in range(len(first_positions))]
@@ -22,19 +22,19 @@ def generate_drones_manager_from_first_position(
 
 
 @pytest.fixture
-def valid_drones_manager_list() -> List[DronesUser]:
+def valid_drones_user_list() -> List[DronesUser]:
     NB_DRONES_MANAGER = 10
-    nb_drones_per_drones_manager = 100
+    nb_drones_per_drones_user = 100
     np.random.seed(42)
     return [
-        generate_drones_manager_from_first_position(
+        generate_drones_user_from_first_position(
             [
                 (
                     int(np.random.normal(scale=10)),
                     int(np.random.normal(scale=10)),
                     int(np.random.normal(scale=10)),
                 )
-                for _ in range(nb_drones_per_drones_manager)
+                for _ in range(nb_drones_per_drones_user)
             ]
         )
         for _ in range(NB_DRONES_MANAGER)
@@ -99,12 +99,12 @@ def from_tuple_list_to_point_list(
 
 
 ### TO DO: add hypothesis/strategies to these tests
-def test_valid_convex_hull(valid_drones_manager_list: List[DronesUser]):
+def test_valid_convex_hull(valid_drones_user_list: List[DronesUser]):
     assert all(
         is_point_inside_convex_polygon(
             from_tuple_to_point(horizontal_position),
-            from_tuple_list_to_point_list(valid_drones_manager.convex_hull),
+            from_tuple_list_to_point_list(valid_drones_user.convex_hull),
         )
-        for valid_drones_manager in valid_drones_manager_list
-        for horizontal_position in valid_drones_manager.first_horizontal_positions
+        for valid_drones_user in valid_drones_user_list
+        for horizontal_position in valid_drones_user.first_horizontal_positions
     )

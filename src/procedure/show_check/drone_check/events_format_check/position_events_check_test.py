@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from .....drones_manager.drone.events.position_events import (
+from .....drones_user.drone.events.position_events import (
     PositionEvent,
     PositionEvents,
 )

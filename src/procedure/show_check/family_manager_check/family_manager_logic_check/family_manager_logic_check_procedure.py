@@ -8,7 +8,7 @@ from .family_manager_logic_check_report import (
     ShowDurationLogicCheckReport,
     FamilyManagerLogicCheckReport,
 )
-from .....drones_manager.drones_manager import DronesUser
+from .....drones_user.drones_user import DronesUser
 from .....parameter.parameter import FrameParameter, JsonConvertionConstant
 
 
@@ -43,45 +43,45 @@ def apply_position_logic_check_report(
 
 
 def apply_show_duration_logic_check_report(
-    drones_manager: DronesUser,
+    drones_user: DronesUser,
     family_manager: FamilyManager,
     frame_parameter: FrameParameter,
     show_duration_logic_check_report: ShowDurationLogicCheckReport,
 ):
     if (
-        int(frame_parameter.json_fps * drones_manager.duration)
+        int(frame_parameter.json_fps * drones_user.duration)
         != family_manager.show_duration_second
     ):
         show_duration_logic_check_report.update_report(
-            drones_manager.duration, family_manager.show_duration_second
+            drones_user.duration, family_manager.show_duration_second
         )
     else:
         show_duration_logic_check_report.validation = True
 
 
 def apply_altitude_range_logic_check_report(
-    drones_manager: DronesUser,
+    drones_user: DronesUser,
     family_manager: FamilyManager,
     json_convertion_constant: JsonConvertionConstant,
     altitude_range_logic_check_report: AltitudeRangeLogicCheckReport,
 ):
     if (
-        drones_manager.altitude_range[0]
+        drones_user.altitude_range[0]
         != family_manager.altitude_range_meter[0]
         * json_convertion_constant.METER_TO_CENTIMETER_RATIO
-        and drones_manager.altitude_range[1]
+        and drones_user.altitude_range[1]
         != family_manager.altitude_range_meter[1]
         * json_convertion_constant.METER_TO_CENTIMETER_RATIO
     ):
         altitude_range_logic_check_report.update_report(
-            drones_manager.altitude_range, family_manager.altitude_range_meter
+            drones_user.altitude_range, family_manager.altitude_range_meter
         )
     else:
         altitude_range_logic_check_report.validation = True
 
 
 def apply_family_manager_logic_check_procedure(
-    drones_manager: DronesUser,
+    drones_user: DronesUser,
     family_manager: FamilyManager,
     frame_parameter: FrameParameter,
     json_convertion_constant: JsonConvertionConstant,
@@ -89,23 +89,23 @@ def apply_family_manager_logic_check_procedure(
 ) -> None:
     apply_nb_drone_logic_check_report(
         family_manager,
-        drones_manager.first_horizontal_positions,
+        drones_user.first_horizontal_positions,
         family_manager_logic_check_report.nb_drone_logic_check_report,
     )
     if family_manager_logic_check_report.nb_drone_logic_check_report.validation:
         apply_position_logic_check_report(
             family_manager,
-            drones_manager.first_horizontal_positions,
+            drones_user.first_horizontal_positions,
             family_manager_logic_check_report.first_position_logic_check_report,
         )
         apply_show_duration_logic_check_report(
-            drones_manager,
+            drones_user,
             family_manager,
             frame_parameter,
             family_manager_logic_check_report.show_duration_logic_check_report,
         )
         apply_altitude_range_logic_check_report(
-            drones_manager,
+            drones_user,
             family_manager,
             json_convertion_constant,
             family_manager_logic_check_report.altitude_range_logic_check_report,

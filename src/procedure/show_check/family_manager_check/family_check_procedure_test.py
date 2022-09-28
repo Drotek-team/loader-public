@@ -3,8 +3,8 @@ from typing import ParamSpec
 
 import pytest
 
-from ....drones_manager.drone.drone import DroneExport
-from ....drones_manager.drones_manager import DronesUser
+from ....drones_user.drone.drone import DroneExport
+from ....drones_user.drones_user import DronesUser
 from ....family_manager.family_manager import FamilyManager
 from ....parameter.parameter import Parameter
 from .family_manager_check_procedure import (
@@ -17,7 +17,7 @@ import numpy as np
 
 
 @pytest.fixture
-def invalid_drones_manager_inverse_first_positions():
+def invalid_drones_user_inverse_first_positions():
     drone_1 = DroneExport(0)
     drone_1.add_position(0, (-100, 100, 0))
     drone_2 = DroneExport(1)
@@ -59,7 +59,7 @@ def test_valid_drone_manager_family():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     family_manager_check_report = FamilyManagerCheckReport()
-    # Define drones_manager
+    # Define drones_user
     drone_1 = DroneExport(0)
     drone_1.add_position(0, (-100, -100, 0))
     drone_2 = DroneExport(1)
@@ -68,7 +68,7 @@ def test_valid_drone_manager_family():
     drone_3.add_position(0, (100, -100, 0))
     drone_4 = DroneExport(3)
     drone_4.add_position(0, (100, 100, 0))
-    valid_drones_manager = DronesUser([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_user = DronesUser([drone_1, drone_2, drone_3, drone_4])
     # Define family_manager
     valid_family_manager = FamilyManager(
         nb_x=2,
@@ -76,12 +76,12 @@ def test_valid_drone_manager_family():
         nb_drone_per_family=1,
         step_takeoff=200,
         angle_takeoff=0,
-        show_duration_second=valid_drones_manager.duration
+        show_duration_second=valid_drones_user.duration
         * parameter.frame_parameter.json_fps,
-        altitude_range_meter=valid_drones_manager.altitude_range,
+        altitude_range_meter=valid_drones_user.altitude_range,
     )
     apply_family_check_procedure(
-        valid_drones_manager,
+        valid_drones_user,
         valid_family_manager,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
@@ -91,7 +91,7 @@ def test_valid_drone_manager_family():
     assert family_manager_check_report.validation
 
 
-def test_valid_drones_manager_family_angle():
+def test_valid_drones_user_family_angle():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     angle_radian = 45
@@ -107,20 +107,20 @@ def test_valid_drones_manager_family_angle():
         0,
         (int(new_distance * 100), 0, 0),
     )
-    valid_drones_manager_angle = DronesUser([drone_1, drone_2, drone_3, drone_4])
+    valid_drones_user_angle = DronesUser([drone_1, drone_2, drone_3, drone_4])
     valid_family_manager_angle = FamilyManager(
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
         step_takeoff=200,
         angle_takeoff=angle_radian,
-        show_duration_second=valid_drones_manager_angle.duration
+        show_duration_second=valid_drones_user_angle.duration
         * parameter.frame_parameter.json_fps,
-        altitude_range_meter=valid_drones_manager_angle.altitude_range,
+        altitude_range_meter=valid_drones_user_angle.altitude_range,
     )
     family_manager_check_report = FamilyManagerCheckReport()
     apply_family_check_procedure(
-        valid_drones_manager_angle,
+        valid_drones_user_angle,
         valid_family_manager_angle,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
@@ -134,7 +134,7 @@ def test_invalid_drone_manager_first_positions():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
-    # Define drones_manager
+    # Define drones_user
     drone_1 = DroneExport(0)
     drone_1.add_position(0, (-100, 100, 0))
     drone_2 = DroneExport(1)
@@ -143,7 +143,7 @@ def test_invalid_drone_manager_first_positions():
     drone_3.add_position(0, (100, 100, 0))
     drone_4 = DroneExport(3)
     drone_4.add_position(0, (-100, -99, 0))
-    invalid_first_position_drones_manager = DronesUser(
+    invalid_first_position_drones_user = DronesUser(
         [drone_1, drone_2, drone_3, drone_4]
     )
 
@@ -154,13 +154,13 @@ def test_invalid_drone_manager_first_positions():
         nb_drone_per_family=1,
         step_takeoff=200,
         angle_takeoff=0,
-        show_duration_second=invalid_first_position_drones_manager.duration
+        show_duration_second=invalid_first_position_drones_user.duration
         * parameter.frame_parameter.json_fps,
-        altitude_range_meter=invalid_first_position_drones_manager.altitude_range,
+        altitude_range_meter=invalid_first_position_drones_user.altitude_range,
     )
     family_manager_check_report = FamilyManagerCheckReport()
     apply_family_check_procedure(
-        invalid_first_position_drones_manager,
+        invalid_first_position_drones_user,
         valid_family_manager,
         parameter.frame_parameter,
         parameter.json_convertion_constant,

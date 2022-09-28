@@ -1,9 +1,9 @@
 from time import time
 from typing import List, Tuple
 
-from .....drones_manager.drone.events.color_events import ColorEvents
-from .....drones_manager.drone.events.fire_events import FireEvents
-from .....drones_manager.drone.events.position_events import PositionEvents
+from .....drones_user.drone.events.color_events import ColorEvents
+from .....drones_user.drone.events.fire_events import FireEvents
+from .....drones_user.drone.events.position_events import PositionEvents
 from .....parameter.parameter import (
     IostarParameter,
     TakeoffParameter,

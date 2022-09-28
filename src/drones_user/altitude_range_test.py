@@ -1,7 +1,7 @@
-from .drones_manager import DroneExport, DronesUser
+from .drones_user import DroneExport, DronesUser
 
 
-def valid_drones_manager(altitude_max: int) -> DronesUser:
+def valid_drones_user(altitude_max: int) -> DronesUser:
     drone_0 = DroneExport(0)
     drone_0.add_position(0, (0, 0, 0))
     drone_0.add_position(0, (0, 0, -altitude_max))
@@ -13,5 +13,5 @@ def valid_drones_manager(altitude_max: int) -> DronesUser:
 
 def test_show_dutation():
     ALTITUDE_MAX = 1_532
-    drones_manager = valid_drones_manager(ALTITUDE_MAX)
-    assert drones_manager.altitude_range == (-ALTITUDE_MAX, 0)
+    drones_user = valid_drones_user(ALTITUDE_MAX)
+    assert drones_user.altitude_range == (-ALTITUDE_MAX, 0)

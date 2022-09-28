@@ -1,6 +1,6 @@
 import struct
 
-from ....drones_manager.drone.events.events import Events
+from ....drones_user.drone.events.events import Events
 
 
 def encode_events(events: Events) -> bytearray:

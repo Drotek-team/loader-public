@@ -1,4 +1,4 @@
-from ...drones_manager.drones_manager import DronesUser
+from ...drones_user.drones_user import DronesUser
 from ...family_manager.family_manager import FamilyManager
 from ...parameter.parameter import Parameter
 from ...show_simulation.show_simulation import ShowSimulation, get_slices
@@ -13,17 +13,17 @@ from .show_check_report import ShowCheckReport
 
 
 def apply_show_check_procedure(
-    drones_manager: DronesUser,
+    drones_user: DronesUser,
     family_manager: FamilyManager,
     show_check_report: ShowCheckReport,
     parameter: Parameter,
 ) -> None:
     for drone, dance_check_report in zip(
-        drones_manager.drones, show_check_report.drones_check_report
+        drones_user.drones, show_check_report.drones_check_report
     ):
         apply_dance_check_procedure(drone, dance_check_report, parameter)
     apply_family_check_procedure(
-        drones_manager,
+        drones_user,
         family_manager,
         parameter.frame_parameter,
         parameter.json_convertion_constant,
@@ -32,7 +32,7 @@ def apply_show_check_procedure(
     )
     show_simulation = ShowSimulation(
         get_slices(
-            drones_manager.get_trajectory_simulation_manager(
+            drones_user.get_trajectory_simulation_manager(
                 parameter.json_convertion_constant
             ),
             parameter.frame_parameter,
