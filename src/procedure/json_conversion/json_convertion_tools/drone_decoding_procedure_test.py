@@ -2,11 +2,11 @@ import os
 
 import pytest
 
-from .....parameter.parameter import Parameter
-from .....procedure.json_conversion.json_convertion_tools.drone_decoding_procedure import (
+from ....parameter.parameter import Parameter
+from .drone_decoding_procedure import (
     decode_drone,
 )
-from .....procedure.json_conversion.json_convertion_tools.drone_decoding_report import (
+from .drone_decoding_report import (
     DroneDecodingReport,
 )
 from .dance_example import (
