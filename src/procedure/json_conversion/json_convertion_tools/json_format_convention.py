@@ -5,17 +5,17 @@ from ....parameter.parameter import IostarParameter
 
 
 def apply_reformat_events(
-    drone_export: DroneUser, iostar_parameter: IostarParameter
+    drone_user: DroneUser, iostar_parameter: IostarParameter
 ) -> None:
-    drone_export.position_events.scale_data_events(
+    drone_user.position_events.scale_data_events(
         iostar_parameter.position_reformat_factor
     )
 
 
 def unapply_reformat_events(
-    drone_export: DroneUser, iostar_parameter: IostarParameter
+    drone_user: DroneUser, iostar_parameter: IostarParameter
 ) -> None:
-    drone_export.position_events.scale_data_events(
+    drone_user.position_events.scale_data_events(
         1 / iostar_parameter.position_reformat_factor
     )
 

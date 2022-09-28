@@ -61,14 +61,14 @@ def assemble_dance(
 
 
 def encode_drone(
-    drone_export: DroneUser,
+    drone_user: DroneUser,
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
     drone_encoding_report: DroneEncodingReport,
 ) -> List[int]:
-    drone_export_copy = copy.deepcopy(drone_export)
-    apply_reformat_events(drone_export_copy, iostar_parameter)
-    non_empty_events_list = drone_export_copy.non_empty_events_list
+    drone_user_copy = copy.deepcopy(drone_user)
+    apply_reformat_events(drone_user_copy, iostar_parameter)
+    non_empty_events_list = drone_user_copy.non_empty_events_list
     encoded_events_list = [
         encode_events(non_empty_events) for non_empty_events in non_empty_events_list
     ]

@@ -23,15 +23,15 @@ def apply_json_creation_procedure(
         altitude_range=drones_user.altitude_range,
     )
     show.update_families(
-        [drone_export.first_xyz for drone_export in drones_user.drones],
+        [drone_user.first_xyz for drone_user in drones_user.drones],
         [
             encode_drone(
-                drone_export,
+                drone_user,
                 iostar_parameter,
                 json_binary_parameter,
                 drone_encoding_report,
             )
-            for drone_export, drone_encoding_report in zip(
+            for drone_user, drone_encoding_report in zip(
                 drones_user.drones, json_creation_report.drones_encoding_report
             )
         ],
