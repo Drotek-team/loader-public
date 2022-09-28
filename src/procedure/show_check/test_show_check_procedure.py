@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from ...drones_user.drones_user import DroneUser, DronesUser
+from ...drones_px4.drones_user import DroneUser, DronesUser
 from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import Parameter
 from .show_check_procedure import apply_show_check_procedure

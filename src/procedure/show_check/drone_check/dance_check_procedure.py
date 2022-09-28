@@ -1,4 +1,4 @@
-from ....drones_user.drone.drone import DroneUser
+from ....drones_px4.drone.drone import DroneUser
 from ....parameter.parameter import Parameter
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,

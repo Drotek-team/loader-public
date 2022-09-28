@@ -1,4 +1,4 @@
-from ...drones_user.trajectory_simulation_manager.trajectory_simulation_manager import (
+from ...drones_px4.trajectory_simulation_manager.trajectory_simulation_manager import (
     TrajectorySimulation,
 )
 from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter

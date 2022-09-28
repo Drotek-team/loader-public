@@ -1,8 +1,8 @@
 import os
 from typing import List
 import numpy as np
-from .....drones_user.drone.events.position_events import PositionEvent
-from .....drones_user.drones_user import DroneUser, DronesUser
+from .....drones_px4.drone.events.position_events import PositionEvent
+from .....drones_px4.drones_user import DroneUser, DronesUser
 from .....parameter.parameter import Parameter
 from .performance_check_procedure import (
     apply_performance_check_procedure,

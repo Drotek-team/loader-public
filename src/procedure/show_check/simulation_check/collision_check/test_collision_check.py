@@ -6,7 +6,7 @@ from src.procedure.show_check.simulation_check.collision_check.collision_check_r
     CollisionCheckReport,
 )
 
-from .....drones_user.drones_user import DroneUser, DronesUser
+from .....drones_px4.drones_user import DroneUser, DronesUser
 from .....parameter.parameter import Parameter
 from .collision_check_procedure import (
     apply_collision_check_procedure,

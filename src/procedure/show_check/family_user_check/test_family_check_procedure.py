@@ -3,8 +3,8 @@ from typing import ParamSpec
 
 import pytest
 
-from ....drones_user.drone.drone import DroneUser
-from ....drones_user.drones_user import DronesUser
+from ....drones_px4.drone.drone import DroneUser
+from ....drones_px4.drones_user import DronesUser
 from ....family_user.family_user import FamilyUser
 from ....parameter.parameter import Parameter
 from .family_user_check_procedure import (
