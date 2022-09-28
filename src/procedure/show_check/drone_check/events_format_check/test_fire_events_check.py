@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from .....drones_px4.drone.events.fire_events import FireEvent, FireEvents
+from .....drones_px4.drone_px4.events.fire_events import FireEvent, FireEvents
 from .....parameter.parameter import Parameter
 from .events_format_check_procedure import (
     fire_events_check,

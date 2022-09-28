@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 from ...parameter.parameter import JsonConvertionConstant, LandParameter, FrameParameter
-from ..drone.events.position_events import PositionEvent
+from ..drone_px4.events.position_events import PositionEvent
 
 
 @dataclass(frozen=True)

@@ -1,6 +1,6 @@
 import struct
 from dataclasses import dataclass
-from ....drones_px4.drone.drone import DronePx4
+from ....drones_px4.drone_px4.drone import DronePx4
 from ....parameter.parameter import IostarParameter
 
 

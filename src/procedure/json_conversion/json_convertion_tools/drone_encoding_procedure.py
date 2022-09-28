@@ -1,8 +1,8 @@
 import struct
 from typing import List
 
-from ....drones_px4.drone.drone import DronePx4
-from ....drones_px4.drone.events.events import Events
+from ....drones_px4.drone_px4.drone import DronePx4
+from ....drones_px4.drone_px4.events.events import Events
 from ....parameter.parameter import JsonBinaryParameter, IostarParameter
 from .drone_encoding_report import DroneEncodingReport
 from .events_convertion import encode_events
