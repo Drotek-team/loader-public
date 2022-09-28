@@ -4,7 +4,7 @@ from typing import List
 from ....drones_user.drone.events.position_events import PositionEvent
 from ....drones_user.drones_user import DroneUser, DronesUser
 from ....parameter.parameter import Parameter
-from ....show_simulation.show_simulation import ShowSimulation, get_slices
+from ...show_simulation import ShowSimulation, get_slices
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:

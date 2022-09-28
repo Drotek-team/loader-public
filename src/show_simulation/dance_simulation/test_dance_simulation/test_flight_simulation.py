@@ -6,10 +6,10 @@ from ....drones_user.trajectory_simulation_manager.trajectory_simulation_manager
     PositionSimulation,
 )
 from ....parameter.parameter import Parameter
-from ....show_simulation.dance_simulation.convert_trajectory_to_dance_simulation import (
+from ..convert_trajectory_to_dance_simulation import (
     flight_simulation,
 )
-from ....show_simulation.dance_simulation.position_simulation import (
+from ..position_simulation import (
     linear_interpolation,
 )
 
