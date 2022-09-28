@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from ...drones_px4.drones_user import DroneUser, DronesPx4
+from ...drones_px4.drones_user import DronePx4, DronesPx4
 from ...family_user.family_user import FamilyUser
 from ...parameter.parameter import Parameter
 from .show_check_procedure import apply_show_check_procedure
@@ -15,7 +15,7 @@ from .show_check_report import ShowCheckReport
 def valid_drones_user_family_user() -> Tuple[DronesPx4, FamilyUser]:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    drone = DroneUser(0)
+    drone = DronePx4(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         int(

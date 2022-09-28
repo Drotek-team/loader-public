@@ -2,7 +2,7 @@ import os
 from typing import List
 
 from ....drones_px4.drone.events.position_events import PositionEvent
-from ....drones_px4.drones_user import DroneUser, DronesPx4
+from ....drones_px4.drones_user import DronePx4, DronesPx4
 from ....parameter.parameter import Parameter
 from ...show_simulation import ShowSimulation, get_slices
 
@@ -10,7 +10,7 @@ from ...show_simulation import ShowSimulation, get_slices
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    drone = DroneUser(0)
+    drone = DronePx4(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         parameter.frame_parameter.json_fps

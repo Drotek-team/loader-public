@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from .....drones_px4.drone.drone import DroneUser
+from .....drones_px4.drone.drone import DronePx4
 from .....parameter.parameter import Parameter
 from .dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -16,7 +16,7 @@ MAGIC_BREAKER_NUMBER = 16660
 
 @pytest.fixture
 def valid_drone_dance_size():
-    drone = DroneUser(0)
+    drone = DronePx4(0)
     for _ in range(MAGIC_BREAKER_NUMBER):
         drone.color_events.add(0, (0, 0, 0, 0))
     return drone
@@ -24,13 +24,13 @@ def valid_drone_dance_size():
 
 @pytest.fixture
 def invalid_drone_dance_size():
-    drone = DroneUser(0)
+    drone = DronePx4(0)
     for _ in range(MAGIC_BREAKER_NUMBER + 1):
         drone.color_events.add(0, (0, 0, 0, 0))
     return drone
 
 
-def test_valid_drone_dance_size_check(valid_drone_dance_size: DroneUser):
+def test_valid_drone_dance_size_check(valid_drone_dance_size: DronePx4):
     dance_size_check_report = DanceSizeCheckReport()
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
@@ -43,7 +43,7 @@ def test_valid_drone_dance_size_check(valid_drone_dance_size: DroneUser):
     assert dance_size_check_report.validation
 
 
-def test_invalid_drone_dance_size_check(invalid_drone_dance_size: DroneUser):
+def test_invalid_drone_dance_size_check(invalid_drone_dance_size: DronePx4):
     dance_size_check_report = DanceSizeCheckReport()
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())

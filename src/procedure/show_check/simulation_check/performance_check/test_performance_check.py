@@ -2,7 +2,7 @@ import os
 from typing import List
 import numpy as np
 from .....drones_px4.drone.events.position_events import PositionEvent
-from .....drones_px4.drones_user import DroneUser, DronesPx4
+from .....drones_px4.drones_user import DronePx4, DronesPx4
 from .....parameter.parameter import Parameter
 from .performance_check_procedure import (
     apply_performance_check_procedure,
@@ -19,7 +19,7 @@ from ..simulation_check_report import (
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    drone = DroneUser(0)
+    drone = DronePx4(0)
     drone.add_position(0, (0, 0, 0))
     drone.add_position(
         int(

@@ -1,7 +1,7 @@
 import struct
 from typing import List, Tuple
 
-from ....drones_px4.drone.drone import DroneUser
+from ....drones_px4.drone.drone import DronePx4
 from ....drones_px4.drone.events.position_events import PositionEvent
 from ....parameter.parameter import JsonBinaryParameter, IostarParameter
 from .drone_decoding_report import (
@@ -86,8 +86,8 @@ def decode_drone(
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
     drone_decoding_report: DroneDecodingReport,
-) -> DroneUser:
-    drone = DroneUser(drone_index)
+) -> DronePx4:
+    drone = DronePx4(drone_index)
     byte_array = bytearray(binary)
     header, section_headers = get_header_section_header(
         byte_array, json_binary_parameter, drone_decoding_report.header_format_report

@@ -1,4 +1,4 @@
-from .....drones_px4.drone.drone import DroneUser
+from .....drones_px4.drone.drone import DronePx4
 from .....drones_px4.drone.events.color_events import ColorEvents
 from .....drones_px4.drone.events.fire_events import FireEvents
 from .....drones_px4.drone.events.position_events import PositionEvents
@@ -94,7 +94,7 @@ def fire_events_check(
 
 
 def apply_events_format_check_procedure(
-    drone: DroneUser,
+    drone: DronePx4,
     iostar_parameter: IostarParameter,
     takeoff_parameter: TakeoffParameter,
     frame_parameter: FrameParameter,

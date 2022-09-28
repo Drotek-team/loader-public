@@ -1,7 +1,7 @@
 import struct
 from typing import List
 
-from ....drones_px4.drone.drone import DroneUser
+from ....drones_px4.drone.drone import DronePx4
 from ....drones_px4.drone.events.events import Events
 from ....parameter.parameter import JsonBinaryParameter, IostarParameter
 from .drone_encoding_report import DroneEncodingReport
@@ -61,7 +61,7 @@ def assemble_dance(
 
 
 def encode_drone(
-    drone_user: DroneUser,
+    drone_user: DronePx4,
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
     drone_encoding_report: DroneEncodingReport,
