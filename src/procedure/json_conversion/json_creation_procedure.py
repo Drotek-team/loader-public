@@ -1,5 +1,5 @@
 from ...drones_user.drones_user import DronesUser
-from ...family_manager.family_manager import FamilyManager
+from ...family_manager.family_manager import FamilyUser
 from ...parameter.parameter import JsonBinaryParameter, IostarParameter
 from .json_convertion_tools.drone_encoding_procedure import encode_drone
 from .json_convertion_tools.show_creation import Show
@@ -8,7 +8,7 @@ from .json_creation_report import JsonCreationReport
 
 def apply_json_creation_procedure(
     drones_user: DronesUser,
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
     json_creation_report: JsonCreationReport,

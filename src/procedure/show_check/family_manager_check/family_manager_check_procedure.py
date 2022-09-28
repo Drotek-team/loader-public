@@ -1,14 +1,14 @@
 import numpy as np
 
 from ....drones_user.drones_user import DronesUser
-from ....family_manager.family_manager import FamilyManager
+from ....family_manager.family_manager import FamilyUser
 from ....parameter.parameter import (
     FamilyParameter,
     FrameParameter,
     JsonConvertionConstant,
 )
 from .family_manager_check_report import (
-    FamilyManagerCheckReport,
+    FamilyUserCheckReport,
 )
 from .family_manager_format.family_manager_format_check_procedure import (
     apply_family_manager_format_check,
@@ -23,11 +23,11 @@ from .family_manager_logic_check.family_manager_logic_check_procedure import (
 
 def apply_family_check_procedure(
     drones_user: DronesUser,
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     frame_parameter: FrameParameter,
     json_convertion_constant: JsonConvertionConstant,
     family_parameter: FamilyParameter,
-    family_manager_check_report: FamilyManagerCheckReport,
+    family_manager_check_report: FamilyUserCheckReport,
 ) -> None:
     apply_family_manager_format_check(
         family_manager, family_manager_check_report.family_manager_format_check_report

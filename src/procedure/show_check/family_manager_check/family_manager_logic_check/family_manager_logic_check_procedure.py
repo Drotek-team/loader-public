@@ -1,4 +1,4 @@
-from .....family_manager.family_manager import FamilyManager
+from .....family_manager.family_manager import FamilyUser
 from typing import List, Tuple
 import numpy as np
 from .family_manager_logic_check_report import (
@@ -6,14 +6,14 @@ from .family_manager_logic_check_report import (
     FirstPositionLogicCheckReport,
     AltitudeRangeLogicCheckReport,
     ShowDurationLogicCheckReport,
-    FamilyManagerLogicCheckReport,
+    FamilyUserLogicCheckReport,
 )
 from .....drones_user.drones_user import DronesUser
 from .....parameter.parameter import FrameParameter, JsonConvertionConstant
 
 
 def apply_nb_drone_logic_check_report(
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     first_positions: List[Tuple],
     nb_drone_logic_check_report: NbDroneLogicCheckReport,
 ) -> None:
@@ -26,7 +26,7 @@ def apply_nb_drone_logic_check_report(
 
 
 def apply_position_logic_check_report(
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     first_positions: List[Tuple],
     position_logic_check_report: FirstPositionLogicCheckReport,
 ) -> None:
@@ -44,7 +44,7 @@ def apply_position_logic_check_report(
 
 def apply_show_duration_logic_check_report(
     drones_user: DronesUser,
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     frame_parameter: FrameParameter,
     show_duration_logic_check_report: ShowDurationLogicCheckReport,
 ):
@@ -61,7 +61,7 @@ def apply_show_duration_logic_check_report(
 
 def apply_altitude_range_logic_check_report(
     drones_user: DronesUser,
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     json_convertion_constant: JsonConvertionConstant,
     altitude_range_logic_check_report: AltitudeRangeLogicCheckReport,
 ):
@@ -82,10 +82,10 @@ def apply_altitude_range_logic_check_report(
 
 def apply_family_manager_logic_check_procedure(
     drones_user: DronesUser,
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     frame_parameter: FrameParameter,
     json_convertion_constant: JsonConvertionConstant,
-    family_manager_logic_check_report: FamilyManagerLogicCheckReport,
+    family_manager_logic_check_report: FamilyUserLogicCheckReport,
 ) -> None:
     apply_nb_drone_logic_check_report(
         family_manager,

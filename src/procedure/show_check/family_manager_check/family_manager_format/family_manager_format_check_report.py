@@ -26,7 +26,7 @@ class TakeoffAngleFormatCheckReport(Displayer):
         return f"The takeoff angle does not have the right format"
 
 
-class FamilyManagerFormatCheckReport(Contenor):
+class FamilyUserFormatCheckReport(Contenor):
     def __init__(self):
         self.name = "Family Manager Format Check Report"
         self.nb_x_format_check_report = NbxFormatCheckReport()

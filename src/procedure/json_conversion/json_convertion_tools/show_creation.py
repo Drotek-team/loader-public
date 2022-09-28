@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ....family_manager.family_manager import FamilyManager
+from ....family_manager.family_manager import FamilyUser
 
 
 @dataclass
@@ -42,7 +42,7 @@ class Show:
         self,
         first_positions: List[Tuple[int, int, int]],
         binaries: List[List[int]],
-        family_manager: FamilyManager,
+        family_manager: FamilyUser,
     ) -> None:
         drones = [Dance(binary) for binary in binaries]
         for family_index in range(

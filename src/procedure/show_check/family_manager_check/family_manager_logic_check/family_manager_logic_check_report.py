@@ -46,7 +46,7 @@ class AltitudeRangeLogicCheckReport(Displayer):
         self.drones_user_altitude_range = drones_user_altitude_range
 
 
-class FamilyManagerLogicCheckReport(Contenor):
+class FamilyUserLogicCheckReport(Contenor):
     def __init__(self):
         self.name = " logic check report"
         self.nb_drone_logic_check_report = NbDroneLogicCheckReport()

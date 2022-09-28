@@ -1,5 +1,5 @@
 from ...drones_user.drones_user import DronesUser
-from ...family_manager.family_manager import FamilyManager
+from ...family_manager.family_manager import FamilyUser
 from ...parameter.parameter import Parameter
 from ...show_simulation.show_simulation import ShowSimulation, get_slices
 from ..show_check.simulation_check.simulation_check_procedure import (
@@ -14,7 +14,7 @@ from .show_check_report import ShowCheckReport
 
 def apply_show_check_procedure(
     drones_user: DronesUser,
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     show_check_report: ShowCheckReport,
     parameter: Parameter,
 ) -> None:

@@ -1,12 +1,12 @@
-from .....family_manager.family_manager import FamilyManager
-from .family_manager_value_check_report import FamilyManagerValueCheckReport
+from .....family_manager.family_manager import FamilyUser
+from .family_manager_value_check_report import FamilyUserValueCheckReport
 from .....parameter.parameter import FamilyParameter
 
 
 def apply_family_manager_value_check(
-    family_manager: FamilyManager,
+    family_manager: FamilyUser,
     family_parameter: FamilyParameter,
-    family_manager_value_check_report: FamilyManagerValueCheckReport,
+    family_manager_value_check_report: FamilyUserValueCheckReport,
 ) -> None:
     family_manager_value_check_report.nb_x_value_check_report.validation = (
         family_parameter.nb_x_value_min <= family_manager.nb_x

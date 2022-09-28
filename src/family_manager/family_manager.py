@@ -4,7 +4,7 @@ import numpy as np
 from typing import Tuple
 
 
-class FamilyManager:
+class FamilyUser:
     def __init__(
         self,
         nb_x: int,
