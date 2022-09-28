@@ -1,11 +1,11 @@
 import os
 
-from ....parameter.parameter import Parameter
-from ....procedure.json_conversion.json_extraction_procedure import (
+from ...parameter.parameter import Parameter
+from .json_extraction_procedure import (
     apply_json_extraction_procedure,
     get_nb_drone_per_family,
 )
-from ....procedure.json_conversion.json_extraction_report import JsonExtractionReport
+from .json_extraction_report import JsonExtractionReport
 from .dance_test_json import JSON_EXAMPLE
 
 

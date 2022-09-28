@@ -3,7 +3,7 @@ import os
 from ..parameter.parameter import Parameter
 from .import_procedure import apply_import_procedure
 from .import_report import ImportReport
-from ..test.procedure_test.json_convertion_test.dance_test_json import JSON_EXAMPLE
+from .json_conversion.dance_test_json import JSON_EXAMPLE
 
 ### TO DO: old json invalid takeoff separation, change JSON EXAMPLE with corrected version
 # def test_apply_import_procedure():
