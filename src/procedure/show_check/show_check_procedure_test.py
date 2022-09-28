@@ -4,11 +4,11 @@ from typing import Tuple
 
 import pytest
 
-from ....drones_manager.drones_manager import DroneExport, DronesManager
-from ....family_manager.family_manager import FamilyManager
-from ....parameter.parameter import Parameter
-from ....procedure.show_check.show_check_procedure import apply_show_check_procedure
-from ....procedure.show_check.show_check_report import ShowCheckReport
+from ...drones_manager.drones_manager import DroneExport, DronesManager
+from ...family_manager.family_manager import FamilyManager
+from ...parameter.parameter import Parameter
+from .show_check_procedure import apply_show_check_procedure
+from .show_check_report import ShowCheckReport
 
 
 @pytest.fixture
