@@ -71,14 +71,13 @@ def test_valid_drone_manager_family():
     valid_drones_px4 = DronesPx4([drone_1, drone_2, drone_3, drone_4])
     # Define family_user
     valid_family_user = FamilyUser(
-        nb_x=2,
-        nb_y=2,
-        nb_drone_per_family=1,
-        step_takeoff=200,
-        angle_takeoff=0,
-        show_duration_second=valid_drones_px4.duration
-        * parameter.frame_parameter.json_fps,
-        altitude_range_meter=valid_drones_px4.altitude_range,
+        **{
+            "nb_x": 2,
+            "nb_y": 2,
+            "nb_drone_per_family": 1,
+            "step_takeoff": 200,
+            "angle_takeoff": 0,
+        }
     )
     apply_family_check_procedure(
         valid_drones_px4,

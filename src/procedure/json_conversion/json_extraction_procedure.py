@@ -33,13 +33,13 @@ def apply_json_extraction_procedure(
         ]
     )
     family_user = FamilyUser(
-        json_show["nb_x"],
-        json_show["nb_y"],
-        nb_drone_per_family,
-        json_show["step"],
-        json_show["angle_takeoff"],
-        json_show["duration"],
-        json_show["altitude_range"],
+        **{
+            "nb_x": json_show["nb_x"],
+            "nb_y": json_show["nb_y"],
+            "nb_drone_per_family": nb_drone_per_family,
+            "step_takeoff": json_show["step"],
+            "angle_takeoff": json_show["angle_takeoff"],
+        }
     )
     json_extraction_report.update()
     return drones_px4, family_user

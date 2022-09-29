@@ -98,16 +98,16 @@ def apply_family_user_logic_check_procedure(
             drones_px4.first_horizontal_positions,
             family_user_logic_check_report.first_position_logic_check_report,
         )
-        apply_show_duration_logic_check_report(
-            drones_px4,
-            family_user,
-            frame_parameter,
-            family_user_logic_check_report.show_duration_logic_check_report,
-        )
-        apply_altitude_range_logic_check_report(
-            drones_px4,
-            family_user,
-            json_convertion_constant,
-            family_user_logic_check_report.altitude_range_logic_check_report,
-        )
+        # apply_show_duration_logic_check_report(
+        #     drones_px4,
+        #     family_user,
+        #     frame_parameter,
+        #     family_user_logic_check_report.show_duration_logic_check_report,
+        # )
+        # apply_altitude_range_logic_check_report(
+        #     drones_px4,
+        #     family_user,
+        #     json_convertion_constant,
+        #     family_user_logic_check_report.altitude_range_logic_check_report,
+        # )
     family_user_logic_check_report.update()
