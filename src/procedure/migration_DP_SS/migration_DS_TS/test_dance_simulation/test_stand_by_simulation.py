@@ -20,8 +20,8 @@ def test_stand_by_simulation():
         position,
         parameter.frame_parameter,
     )
-    FIRST_THEORICAL_POSITION_EVENT = PositionEventSimulation(frame_start, *position)
-    SECOND_THEORICAL_POSITION_EVENT = PositionEventSimulation(frame_end, *position)
+    FIRST_THEORICAL_POSITION_EVENT = PositionEventSimulation(frame_start, position)
+    SECOND_THEORICAL_POSITION_EVENT = PositionEventSimulation(frame_end, position)
     theorical_curve = linear_interpolation(
         FIRST_THEORICAL_POSITION_EVENT.xyz,
         SECOND_THEORICAL_POSITION_EVENT.xyz,
