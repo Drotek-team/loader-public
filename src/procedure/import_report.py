@@ -1,6 +1,6 @@
-from .json_conversion.json_extraction_report import JsonExtractionReport
+from .migration_IJ_DP.IJ_to_DP_report import JsonExtractionReport
 from .report import Contenor
-from .show_check.show_check_report import ShowCheckReport
+from .show_check_report import ShowCheckReport
 
 
 class ImportReport(Contenor):

@@ -9,7 +9,7 @@ def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
     return u_vector[0]
 
 
-def sorted_by_pivot(positions: List[np.ndarray], pivot: np.ndarray) -> List[np.ndarray]:
+def sorted_by_pivot(positions: List[np.ndarray], pivot: np.ndarray) -> np.ndarray:
     argsort = np.argsort(
         [get_relative_angle(pivot, position) for position in positions]
     )
@@ -28,6 +28,7 @@ def two_dimensionnal_cross_product(
     ) * (position_2[0] - position_0[0])
 
 
+### TO DO: Clean this typing thing
 def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
     pivot = evaluate_pivot(positions)

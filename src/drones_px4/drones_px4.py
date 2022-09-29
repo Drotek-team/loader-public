@@ -1,15 +1,10 @@
 from typing import List, Tuple
 
 
-from ..parameter.parameter import JsonConvertionConstant
 from .convex_hull import calculate_convex_hull
 from .drone_px4.drone_px4 import DronePx4
 from .drone_px4.events.position_events import PositionEvent
 from .drone_px4.events_size_easing import EventsSizeEasing, apply_dance_size_relief
-from .trajectory_simulation_manager.trajectory_simulation_manager import (
-    TrajectorySimulationManager,
-    get_trajectory_simulation,
-)
 
 
 class DronesPx4:
@@ -34,21 +29,6 @@ class DronesPx4:
             drone.position_events.get_values_by_event_index(0)[0:2]
             for drone in self.drones
         ]
-
-    def get_trajectory_simulation_manager(
-        self, json_convertion_constant: JsonConvertionConstant
-    ) -> TrajectorySimulationManager:
-        trajectory_simulation_manager = TrajectorySimulationManager(
-            [
-                get_trajectory_simulation(
-                    drone.index,
-                    drone.position_events.event_list,
-                    json_convertion_constant,
-                )
-                for drone in self.drones
-            ],
-        )
-        return trajectory_simulation_manager
 
     @property
     def convex_hull(self) -> List[Tuple[int, int]]:
