@@ -4,7 +4,6 @@ from ....drones_px4.drone_px4.events.fire_events import FireEvents
 from ....drones_px4.drone_px4.events.position_events import PositionEvents
 from ....parameter.parameter import (
     IostarParameter,
-    JsonConvertionConstant,
     TakeoffParameter,
     FrameParameter,
 )
@@ -29,7 +28,6 @@ from .events_format_check_tools import (
 def position_events_check(
     position_events: PositionEvents,
     frame_parameter: FrameParameter,
-    json_convertion_constant: JsonConvertionConstant,
     iostar_parameter: IostarParameter,
     takeoff_parameter: TakeoffParameter,
     position_events_check_report: PositionEventsCheckReport,
@@ -48,7 +46,6 @@ def position_events_check(
         position_events,
         takeoff_parameter,
         frame_parameter,
-        json_convertion_constant,
         position_events_check_report.takeoff_check_report,
     )
     position_events_check_report.update()
@@ -98,13 +95,11 @@ def apply_events_format_check_procedure(
     iostar_parameter: IostarParameter,
     takeoff_parameter: TakeoffParameter,
     frame_parameter: FrameParameter,
-    json_convertion_constant: JsonConvertionConstant,
     events_format_check_report: EventsFormatCheckReport,
 ):
     position_events_check(
         drone.position_events,
         frame_parameter,
-        json_convertion_constant,
         iostar_parameter,
         takeoff_parameter,
         events_format_check_report.position_events_check,

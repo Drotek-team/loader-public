@@ -6,15 +6,17 @@ from .migration_IJ_DP.DP_to_IJ_procedure import apply_json_creation_procedure
 from .show_check_procedure import apply_show_check_procedure
 from typing import Dict
 from ..show_user.show_user import FamilyUser
+from ..show_user.show_user import ShowUser
 
 
 def apply_export_procedure(
-    # : Dict,
-    drones_px4: DronesPx4,
+    show_user_json: Dict,
     family_user: FamilyUser,
     export_report: ExportReport,
     parameter: Parameter,
 ) -> None:
+    show_user = ShowUser(**show_user_json)
+    drones_px4 = DU_to_DP_procedure(show_user.drones_user)
     export_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
     apply_show_check_procedure(
         drones_px4,

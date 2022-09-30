@@ -3,7 +3,6 @@ from ...show_user.show_user import FamilyUser
 from ...parameter.parameter import (
     FamilyParameter,
     FrameParameter,
-    JsonConvertionConstant,
 )
 from .family_user_check_report import (
     FamilyUserCheckReport,
@@ -23,7 +22,6 @@ def apply_family_check_procedure(
     drones_px4: DronesPx4,
     family_user: FamilyUser,
     frame_parameter: FrameParameter,
-    json_convertion_constant: JsonConvertionConstant,
     family_parameter: FamilyParameter,
     family_user_check_report: FamilyUserCheckReport,
 ) -> None:
@@ -39,7 +37,6 @@ def apply_family_check_procedure(
         drones_px4,
         family_user,
         frame_parameter,
-        json_convertion_constant,
         family_user_check_report.family_user_logic_check_report,
     )
     family_user_check_report.update()

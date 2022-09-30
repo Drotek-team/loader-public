@@ -4,32 +4,6 @@ from typing import Tuple
 
 
 @dataclass(frozen=True)
-class JsonConvertionConstant:
-    CENTIMETER_TO_METER_RATIO: float = 1e-2
-    METER_TO_CENTIMETER_RATIO: float = 1e2
-    TIMECODE_TO_SECOND_RATIO: float = 1e-3
-    SECOND_TO_TIMECODE_RATIO: float = 1e3
-
-    def from_json_position_to_simulation_position(
-        self, json_position: Tuple[int, int, int]
-    ) -> Tuple[float, float, float]:
-        return (
-            self.CENTIMETER_TO_METER_RATIO * json_position[1],
-            self.CENTIMETER_TO_METER_RATIO * json_position[0],
-            -self.CENTIMETER_TO_METER_RATIO * json_position[2],
-        )
-
-    def from_simulation_position_to_json_position(
-        self, simulation_position: Tuple[float, float, float]
-    ) -> Tuple[int, int, int]:
-        return (
-            int(self.METER_TO_CENTIMETER_RATIO * simulation_position[1]),
-            int(self.METER_TO_CENTIMETER_RATIO * simulation_position[0]),
-            int(-self.METER_TO_CENTIMETER_RATIO * simulation_position[2]),
-        )
-
-
-@dataclass(frozen=True)
 class JsonBinaryParameter:
     magic_number: str
     fmt_header: str
@@ -172,7 +146,6 @@ class Parameter:
     EXPORT_SETUP_LOCAL_PATH = "/src/parameter/export_setup.json"
     IOSTAR_SETUP_LOCAL_PATH = "/src/parameter/iostar_setup.json"
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
-    json_convertion_constant = JsonConvertionConstant()
 
     def load_json_binary_parameter(self, local_path: str) -> None:
         f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
@@ -248,10 +221,8 @@ class Parameter:
             nb_y_value_max=data["NB_Y_VALUE_MAX"],
             nb_drone_per_family_min=data["NB_DRONE_PER_FAMILY_MIN"],
             nb_drone_per_family_max=data["NB_DRONE_PER_FAMILY_MAX"],
-            step_takeoff_value_min=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * data["STEP_TAKEOFF_VALUE_METER_MIN"],
-            step_takeoff_value_max=self.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-            * data["STEP_TAKEOFF_VALUE_METER_MAX"],
+            step_takeoff_value_min=data["STEP_TAKEOFF_VALUE_METER_MIN"],
+            step_takeoff_value_max=data["STEP_TAKEOFF_VALUE_METER_MAX"],
             angle_takeoff_value_min=data["ANGLE_TAKEOFF_VALUE_MIN"],
             angle_takeoff_value_max=data["ANGLE_TAKEOFF_VALUE_MAX"],
         )

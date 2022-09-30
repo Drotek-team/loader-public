@@ -82,7 +82,6 @@ def test_valid_drone_manager_family():
         valid_drones_px4,
         valid_family_user,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.family_parameter,
         family_user_check_report,
     )
@@ -121,7 +120,6 @@ def test_valid_drones_px4_family_angle():
         valid_drones_px4_angle,
         valid_family_user_angle,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.family_parameter,
         family_user_check_report,
     )
@@ -159,7 +157,6 @@ def test_invalid_drone_manager_first_positions():
         invalid_first_position_drones_px4,
         valid_family_user,
         parameter.frame_parameter,
-        parameter.json_convertion_constant,
         parameter.family_parameter,
         family_user_check_report,
     )

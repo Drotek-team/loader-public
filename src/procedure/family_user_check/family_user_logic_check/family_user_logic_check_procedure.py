@@ -9,7 +9,7 @@ from .family_user_logic_check_report import (
     FamilyUserLogicCheckReport,
 )
 from ....drones_px4.drones_px4 import DronesPx4
-from ....parameter.parameter import FrameParameter, JsonConvertionConstant
+from ....parameter.parameter import FrameParameter
 
 
 def apply_nb_drone_logic_check_report(
@@ -62,16 +62,11 @@ def apply_show_duration_logic_check_report(
 def apply_altitude_range_logic_check_report(
     drones_px4: DronesPx4,
     family_user: FamilyUser,
-    json_convertion_constant: JsonConvertionConstant,
     altitude_range_logic_check_report: AltitudeRangeLogicCheckReport,
 ):
     if (
-        drones_px4.altitude_range[0]
-        != family_user.altitude_range_meter[0]
-        * json_convertion_constant.METER_TO_CENTIMETER_RATIO
-        and drones_px4.altitude_range[1]
-        != family_user.altitude_range_meter[1]
-        * json_convertion_constant.METER_TO_CENTIMETER_RATIO
+        drones_px4.altitude_range[0] != family_user.altitude_range_meter[0]
+        and drones_px4.altitude_range[1] != family_user.altitude_range_meter[1]
     ):
         altitude_range_logic_check_report.update_report(
             drones_px4.altitude_range, family_user.altitude_range_meter
@@ -84,7 +79,6 @@ def apply_family_user_logic_check_procedure(
     drones_px4: DronesPx4,
     family_user: FamilyUser,
     frame_parameter: FrameParameter,
-    json_convertion_constant: JsonConvertionConstant,
     family_user_logic_check_report: FamilyUserLogicCheckReport,
 ) -> None:
     apply_nb_drone_logic_check_report(

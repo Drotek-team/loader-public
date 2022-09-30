@@ -3,7 +3,6 @@ from ...parameter.parameter import (
     FrameParameter,
     TakeoffParameter,
     LandParameter,
-    JsonConvertionConstant,
 )
 from ...show_simulation.show_simulation import ShowSimulationSlice
 from typing import List
@@ -78,12 +77,11 @@ def update_slices_implicit_values(
 
 def DP_to_SS_procedure(
     drones_px4: DronesPx4,
-    json_convertion_constant: JsonConvertionConstant,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> ShowSimulation:
-    drones_simulation = DP_to_DS_procedure(drones_px4, json_convertion_constant)
+    drones_simulation = DP_to_DS_procedure(drones_px4)
     show_slices = get_empty_show_slices(
         last_frame=get_last_frame(drones_simulation, land_parameter, frame_parameter),
         nb_drones=len(drones_simulation),
