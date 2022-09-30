@@ -19,7 +19,7 @@ def get_family_dict_from_drones_px4(
     }
 
 
-def apply_json_creation_procedure(
+def DP_to_IJ_procedure(
     drones_px4: DronesPx4,
     family_user: FamilyUser,
     iostar_parameter: IostarParameter,

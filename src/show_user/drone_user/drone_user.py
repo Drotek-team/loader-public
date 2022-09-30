@@ -1,30 +1,24 @@
-from lib2to3.pytree import Base
 from pydantic import BaseModel
-from typing import List
+from typing import List, Tuple
 
 
-class PositionEvent(BaseModel):
+class PositionEventUser(BaseModel):
     frame: int
-    x: float
-    y: float
-    z: float
+    xyz: Tuple[float, float, float]
 
 
-class ColorEvent(BaseModel):
+class ColorEventUser(BaseModel):
     frame: int
-    r: float
-    g: float
-    b: float
-    w: float
+    rgbw: Tuple[float, float, float, float]
 
 
-class FireEvent(BaseModel):
+class FireEventUser(BaseModel):
     frame: int
     chanel: float
     duration: float
 
 
 class DroneUser(BaseModel):
-    position_events: List[PositionEvent]
-    color_events: List[ColorEvent]
-    fire_events: List[FireEvent]
+    position_events: List[PositionEventUser]
+    color_events: List[ColorEventUser]
+    fire_events: List[FireEventUser]
