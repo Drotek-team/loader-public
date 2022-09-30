@@ -73,7 +73,7 @@ def test_invalid_fire_events_frame_first_frame_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.event_list.insert(
+    valid_fire_events.events.insert(
         0, FireEvent(parameter.frame_parameter.show_duration_min_frame - 1, 0, 0)
     )
     fire_events_check(

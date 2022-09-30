@@ -66,7 +66,7 @@ def position_frame_check(
     frame_check_report: TimecodeCheckReport,
     frame_parameter: FrameParameter,
 ) -> None:
-    frames = [event.frame for event in position_events.event_list]
+    frames = [event.frame for event in position_events.events]
     frame_check_report.frame_format_check_report.validation = (
         check_is_instance_int_list(frames)
     )
@@ -89,7 +89,7 @@ def color_frame_check(
     frame_check_report: TimecodeCheckReport,
     frame_parameter: FrameParameter,
 ) -> None:
-    frames = [event.frame for event in color_events.event_list]
+    frames = [event.frame for event in color_events.events]
     frame_check_report.frame_format_check_report.validation = (
         check_is_instance_int_list(frames)
     )
@@ -114,7 +114,7 @@ def xyz_check(
     xyz_check_report: XyzCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
-    positions = [event.get_values() for event in position_events.events]
+    positions = [event.xyz for event in position_events.events]
     xyz_check_report.xyz_format_check_report.validation = (
         check_is_instance_int_list_tuple(positions)
     )
@@ -131,7 +131,7 @@ def rgbw_check(
     rgbw_check_report: RgbwCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
-    colors = [event.get_values() for event in color_events.events]
+    colors = [event.rgbw for event in color_events.events]
     rgbw_check_report.rgbw_format_check_report.validation = (
         check_is_instance_int_list_tuple(colors)
     )
@@ -188,7 +188,7 @@ def fire_frame_check(
     fire_events_frame_check_report: FireTimecodeCheckReport,
     frame_parameter: FrameParameter,
 ) -> None:
-    frames = [event.frame for event in fire_events.event_list]
+    frames = [event.frame for event in fire_events.events]
     fire_events_frame_check_report.frame_format_check_report.validation = (
         check_is_instance_int_list(frames)
     )
@@ -214,7 +214,7 @@ def fire_chanel_check(
     fire_events_chanel_check_report: FireChanelCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
-    channels = [event.get_values()[0] for event in fire_events.event_list]
+    channels = [event.chanel for event in fire_events.events]
     fire_events_chanel_check_report.fire_chanel_format_check_report.validation = (
         check_is_instance_int_list(channels)
     )
@@ -236,7 +236,7 @@ def fire_duration_frame_check(
     fire_events_chanel_check_report: FireDurationCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
-    durations = [event.get_values()[1] for event in fire_events.event_list]
+    durations = [event.duration for event in fire_events.events]
     fire_events_chanel_check_report.fire_duration_format_check_report.validation = (
         check_is_instance_int_list(durations)
     )

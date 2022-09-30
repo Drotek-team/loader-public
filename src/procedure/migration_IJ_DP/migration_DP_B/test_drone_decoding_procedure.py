@@ -27,21 +27,21 @@ def test_valid_dance_decoding():
         drone_decoding_report,
     )
     # raise ValueError(
-    #     drone.position_events.event_list[0].get_raw_data(),
-    #     drone.position_events.event_list[1].get_raw_data(),
-    #     drone.position_events.event_list[2].get_raw_data(),
+    #     drone.position_events.events[0].get_data(),
+    #     drone.position_events.events[1].get_data(),
+    #     drone.position_events.events[2].get_data(),
     # )
     assert drone_decoding_report.validation
     for decoded_position_event, theorical_position_raw_data in zip(
-        drone.position_events.event_list, POSITIONS_RAW_DATA
+        drone.position_events.events, POSITIONS_RAW_DATA
     ):
-        assert decoded_position_event.get_raw_data() == theorical_position_raw_data
+        assert decoded_position_event.get_data() == theorical_position_raw_data
     for decoded_color_event, theorical_color_raw_data in zip(
-        drone.color_events.event_list, COLORS_RAW_DATA
+        drone.color_events.events, COLORS_RAW_DATA
     ):
-        assert decoded_color_event.get_raw_data() == theorical_color_raw_data
+        assert decoded_color_event.get_data() == theorical_color_raw_data
 
     for decoded_fire_event, theorical_fire_raw_data in zip(
-        drone.fire_events.event_list, FIRES_RAW_DATA
+        drone.fire_events.events, FIRES_RAW_DATA
     ):
-        assert decoded_fire_event.get_raw_data() == theorical_fire_raw_data
+        assert decoded_fire_event.get_data() == theorical_fire_raw_data

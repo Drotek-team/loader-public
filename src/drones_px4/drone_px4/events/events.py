@@ -1,64 +1,34 @@
-import struct
-from abc import abstractclassmethod
-from dataclasses import dataclass
-from typing import Any, List, Tuple
+from abc import ABC
+from typing import List, Tuple
 
 
-@dataclass(frozen=True)
-class Event:
-    def __init__(self, frame: int):
-        self.frame = frame
-
-    @abstractclassmethod
-    def get_values(self) -> Tuple:
-        pass
-
-    @abstractclassmethod
-    def get_raw_data(self) -> Tuple:
-        pass
-
-    @abstractclassmethod
-    def scale_data(self, data_factor: float) -> None:
+class Event(ABC):
+    def get_data(self) -> Tuple:
         pass
 
 
-class Events:
+class Events(ABC):
     format: str
     id: int
+    events: List[Event]
 
-    def __init__(self):
-        self.event_list: List[Event] = []
-
-    @property
-    def event_size(self):
-        return struct.calcsize(self.format)
+    def add_data(self, data: Tuple) -> None:
+        pass
 
     @property
-    def events_size(self):
-        return len(self.event_list) * struct.calcsize(self.format)
+    def event_size(self) -> int:
+        pass
 
     @property
-    def events(self) -> List[Event]:
-        return self.event_list
+    def events_size(self) -> int:
+        pass
 
     @property
     def nb_events(self) -> int:
-        return len(self.event_list)
-
-    def get_frame_by_event_index(self, event_index: int) -> int:
-        return self.event_list[event_index].frame
-
-    def get_values_by_event_index(self, event_index: int) -> Tuple:
-        return self.event_list[event_index].get_values()
-
-    def scale_data_events(self, data_factor: float) -> None:
-        for event in self.event_list:
-            event.scale_data(data_factor)
-
-    @abstractclassmethod
-    def add(self, frame: int, data: Any) -> None:
         pass
 
-    @abstractclassmethod
-    def add_raw_data(self, data: Tuple) -> None:
+    def get_frame_by_event_index(self, event_index: int) -> int:
+        pass
+
+    def get_values_by_event_index(self, event_index: int) -> Tuple:
         pass

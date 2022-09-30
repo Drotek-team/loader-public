@@ -1,33 +1,52 @@
-from typing import Tuple
+from typing import Tuple, List
 
 from .events import Event, Events
+import struct
 
 
 class PositionEvent(Event):
     def __init__(self, frame: int, x: int, y: int, z: int):
-        Event.__init__(self, frame)
+        self.frame = frame
         self.x = x
         self.y = y
         self.z = z
 
-    def get_values(self) -> Tuple[int, int, int]:
+    @property
+    def xyz(self) -> Tuple[int, int, int]:
         return (self.x, self.y, self.z)
 
-    def get_raw_data(self) -> Tuple[int, int, int, int]:
+    def get_data(self) -> Tuple[int, int, int, int]:
         return (self.frame, self.x, self.y, self.z)
-
-    def scale_data(self, data_factor: float) -> None:
-        self.x = int(data_factor * self.x)
-        self.y = int(data_factor * self.y)
-        self.z = int(data_factor * self.z)
 
 
 class PositionEvents(Events):
+    events: List[PositionEvent]
     format = ">Hhhh"
-    id: int = 0
+    id = 0
 
-    def add(self, frame: int, xyz: Tuple[int, int, int]) -> None:
-        self.event_list.append(PositionEvent(frame, xyz[0], xyz[1], xyz[2]))
+    def __init__(self):
+        self.events = []
 
-    def add_raw_data(self, data: Tuple[int, int, int, int]) -> None:
-        self.event_list.append(PositionEvent(data[0], data[1], data[2], data[3]))
+    def add_frame_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
+        self.events.append(PositionEvent(frame, xyz[0], xyz[1], xyz[2]))
+
+    def add_data(self, data: Tuple) -> None:
+        self.events.append(PositionEvent(data[0], data[1], data[2], data[3]))
+
+    @property
+    def event_size(self):
+        return struct.calcsize(self.format)
+
+    @property
+    def events_size(self):
+        return len(self.events) * struct.calcsize(self.format)
+
+    @property
+    def nb_events(self) -> int:
+        return len(self.events)
+
+    def get_frame_by_event_index(self, event_index: int) -> int:
+        return self.events[event_index].frame
+
+    def get_xyz_by_event_index(self, event_index: int) -> Tuple:
+        return self.events[event_index].xyz

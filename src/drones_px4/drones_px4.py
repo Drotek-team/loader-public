@@ -26,7 +26,10 @@ class DronesPx4:
     @property
     def first_horizontal_positions(self) -> List[Tuple[int, int]]:
         return [
-            drone.position_events.get_values_by_event_index(0)[0:2]
+            (
+                drone.position_events.get_xyz_by_event_index(0)[0],
+                drone.position_events.get_xyz_by_event_index(0)[1],
+            )
             for drone in self.drones
         ]
 
@@ -37,9 +40,9 @@ class DronesPx4:
     @property
     def altitude_range(self) -> Tuple[int, int]:
         z_positions = [
-            position_event.get_values()[2]
+            position_event.xyz[2]
             for drone in self.drones
-            for position_event in drone.position_events.event_list
+            for position_event in drone.position_events.events
         ]
         return (min(z_positions), max(z_positions))
 

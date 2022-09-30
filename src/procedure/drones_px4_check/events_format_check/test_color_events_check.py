@@ -76,7 +76,7 @@ def test_invalid_color_events_frame_format_check(
 #     parameter = Parameter()
 #     parameter.load_parameter(os.getcwd())
 #     valid_color_events.add(
-#         valid_color_events.event_list[-1].frame + 1,
+#         valid_color_events.events[-1].frame + 1,
 #         (0, 0, 0, 0),
 #     )
 #     color_events_check(
@@ -117,7 +117,7 @@ def test_invalid_color_events_frame_first_frame_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_color_events.event_list.insert(
+    valid_color_events.events.insert(
         0, ColorEvent(parameter.frame_parameter.show_duration_min_frame - 1, 0, 0, 0, 0)
     )
     color_events_check(

@@ -26,7 +26,7 @@ def drone_px4_to_drone_user_procedure(
                 position_event_px4.get_values()
             ),
         )
-        for position_event_px4 in drone_px4.position_events.event_list
+        for position_event_px4 in drone_px4.position_events.events
     ]
     color_events_user = [
         ColorEventUser(
@@ -35,7 +35,7 @@ def drone_px4_to_drone_user_procedure(
                 color_event_px4.get_values()
             ),
         )
-        for color_event_px4 in drone_px4.color_events.event_list
+        for color_event_px4 in drone_px4.color_events.events
     ]
 
     fire_events_user = [
@@ -46,7 +46,7 @@ def drone_px4_to_drone_user_procedure(
                 fire_event_px4.get_values()[1]
             ),
         )
-        for fire_event_px4 in drone_px4.fire_events.event_list
+        for fire_event_px4 in drone_px4.fire_events.events
     ]
 
     return DroneUser(

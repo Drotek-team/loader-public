@@ -138,7 +138,7 @@ from .events_format_check_report import (
 # ):
 #     parameter = Parameter()
 #     parameter.load_parameter(os.getcwd())
-#     valid_position_events.event_list.insert(
+#     valid_position_events.events.insert(
 #         0, PositionEvent(parameter.frame_parameter.show_duration_min_frame - 1, 0, 0, 0)
 #     )
 #     position_events_check(
@@ -206,7 +206,7 @@ from .events_format_check_report import (
 # ):
 #     parameter = Parameter()
 #     parameter.load_parameter(os.getcwd())
-#     valid_position_events.event_list.insert(
+#     valid_position_events.events.insert(
 #         1, PositionEvent(parameter.frame_parameter.show_duration_min_frame + 1, 0, 0, 0)
 #     )
 #     position_events_check(
@@ -229,7 +229,7 @@ from .events_format_check_report import (
 #     parameter = Parameter()
 #     parameter.load_export_parameter()
 #     parameter.load_iostar_parameter()
-#     valid_position_events.event_list.insert(
+#     valid_position_events.events.insert(
 #         1, PositionEvent(parameter.frame_parameter.show_duration_min_frame, 0, 0, 0)
 #     )
 #     position_events_check(
