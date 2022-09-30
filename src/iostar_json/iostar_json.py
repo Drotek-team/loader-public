@@ -17,8 +17,8 @@ class Family(BaseModel):
 
 
 ### TO DO: comment each attribute
-class IostarJson(BaseModel):
-    familes: List[Family]
+class Show(BaseModel):
+    families: List[Family]
     nb_x: int
     nb_y: int
     step: int
@@ -26,6 +26,10 @@ class IostarJson(BaseModel):
     duration: int
     hull: List[Tuple[int, int]]
     altitude_range: Tuple[int, int]
+
+
+class IostarJson(BaseModel):
+    show: Show
 
     def get_json(self) -> str:
         class DummyClass:
