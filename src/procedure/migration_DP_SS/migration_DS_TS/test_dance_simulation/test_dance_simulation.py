@@ -6,10 +6,12 @@ from .....drones_px4.drones_px4 import DronePx4, DronesPx4
 from .....parameter.parameter import Parameter
 from .....show_simulation.show_simulation import ShowSimulation
 from ...DP_to_SS_procedure import DP_to_SS_procedure
+from ....migration_DP_DU.data_convertion_format import XyzConvertionStandard
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
     parameter = Parameter()
+    xyz_convertion_standard = XyzConvertionStandard()
     parameter.load_parameter(os.getcwd())
     drone = DronePx4(0)
     drone.add_position(0, (0, 0, 0))
@@ -18,13 +20,12 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             parameter.frame_parameter.json_fps
             * parameter.takeoff_parameter.takeoff_duration_second
         ),
-        (
-            0,
-            0,
-            -int(
-                parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-                * parameter.takeoff_parameter.takeoff_altitude_meter
-            ),
+        xyz_convertion_standard.from_user_xyz_to_px4_xyz(
+            (
+                0,
+                0,
+                parameter.takeoff_parameter.takeoff_altitude_meter,
+            )
         ),
     )
     for position_event in position_events:
@@ -35,21 +36,18 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
                 * parameter.takeoff_parameter.takeoff_duration_second
             )
             + position_event.frame,
-            (
-                position[0],
-                position[1],
-                -int(
-                    parameter.json_convertion_constant.METER_TO_CENTIMETER_RATIO
-                    * parameter.takeoff_parameter.takeoff_altitude_meter
-                    + position[2]
-                ),
+            xyz_convertion_standard.from_user_xyz_to_px4_xyz(
+                (
+                    position[0],
+                    position[1],
+                    parameter.takeoff_parameter.takeoff_altitude_meter,
+                )
             ),
         )
 
     drones_px4 = DronesPx4([drone])
     show_simulation = DP_to_SS_procedure(
         drones_px4,
-        parameter.json_convertion_constant,
         parameter.frame_parameter,
         parameter.takeoff_parameter,
         parameter.land_parameter,
