@@ -27,7 +27,7 @@ class FireEvents(Events):
     def __init__(self):
         self.events = []
 
-    def add_frame_rgbw(self, frame: int, chanel: int, duration: int) -> None:
+    def add_frame_chanel_duration(self, frame: int, chanel: int, duration: int) -> None:
         self.events.append(FireEvent(frame, chanel, duration))
 
     def add_data(self, data: Tuple) -> None:

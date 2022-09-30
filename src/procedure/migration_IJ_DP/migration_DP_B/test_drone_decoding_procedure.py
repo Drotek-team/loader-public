@@ -26,11 +26,6 @@ def test_valid_dance_decoding():
         parameter.json_binary_parameter,
         drone_decoding_report,
     )
-    # raise ValueError(
-    #     drone.position_events.events[0].get_data(),
-    #     drone.position_events.events[1].get_data(),
-    #     drone.position_events.events[2].get_data(),
-    # )
     assert drone_decoding_report.validation
     for decoded_position_event, theorical_position_raw_data in zip(
         drone.position_events.events, POSITIONS_RAW_DATA

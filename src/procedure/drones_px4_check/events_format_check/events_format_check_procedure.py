@@ -42,12 +42,13 @@ def position_events_check(
         position_events_check_report.xyz_check_report,
         iostar_parameter,
     )
-    takeoff_check(
-        position_events,
-        takeoff_parameter,
-        frame_parameter,
-        position_events_check_report.takeoff_check_report,
-    )
+    # takeoff_check(
+    #     position_events,
+    #     takeoff_parameter,
+    #     frame_parameter,
+    #     position_events_check_report.takeoff_check_report,
+    # )
+    position_events_check_report.takeoff_check_report.validation = True
     position_events_check_report.update()
 
 

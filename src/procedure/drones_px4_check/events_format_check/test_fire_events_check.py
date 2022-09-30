@@ -18,9 +18,15 @@ def valid_fire_events():
     parameter.load_parameter(os.getcwd())
     frame_parameter = parameter.frame_parameter
     fire_events = FireEvents()
-    fire_events.add(frame_parameter.show_duration_min_frame, 0, 1000)
-    fire_events.add(frame_parameter.show_duration_min_frame, 1, 1000)
-    fire_events.add(frame_parameter.show_duration_min_frame, 2, 1000)
+    fire_events.add_frame_chanel_duration(
+        frame_parameter.show_duration_min_frame, 0, 1000
+    )
+    fire_events.add_frame_chanel_duration(
+        frame_parameter.show_duration_min_frame, 1, 1000
+    )
+    fire_events.add_frame_chanel_duration(
+        frame_parameter.show_duration_min_frame, 2, 1000
+    )
     return fire_events
 
 
@@ -51,7 +57,7 @@ def test_invalid_fire_events_frame_format_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         1.23,
         0,
         0,
@@ -93,7 +99,9 @@ def test_invalid_fire_events_chanel_format_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(parameter.frame_parameter.show_duration_min_frame, 1.23, 0)
+    valid_fire_events.add_frame_chanel_duration(
+        parameter.frame_parameter.show_duration_min_frame, 1.23, 0
+    )
     fire_events_check(
         valid_fire_events,
         parameter.frame_parameter,
@@ -111,7 +119,7 @@ def test_invalid_fire_events_chanel_value_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         parameter.frame_parameter.show_duration_min_frame,
         parameter.iostar_parameter.fire_chanel_value_max + 1,
         0,
@@ -133,12 +141,12 @@ def test_invalid_fire_events_chanel_unicity_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         parameter.frame_parameter.show_duration_min_frame,
         parameter.iostar_parameter.fire_chanel_value_max,
         0,
     )
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         parameter.frame_parameter.show_duration_min_frame + 1,
         parameter.iostar_parameter.fire_chanel_value_max,
         0,
@@ -160,7 +168,9 @@ def test_invalid_fire_events_duration_format_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(parameter.frame_parameter.show_duration_min_frame, 0, 1.23)
+    valid_fire_events.add_frame_chanel_duration(
+        parameter.frame_parameter.show_duration_min_frame, 0, 1.23
+    )
     fire_events_check(
         valid_fire_events,
         parameter.frame_parameter,
@@ -178,7 +188,7 @@ def test_invalid_fire_events_duration_value_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         parameter.frame_parameter.show_duration_min_frame,
         0,
         parameter.iostar_parameter.fire_duration_value_frame_max + 1,
@@ -200,12 +210,12 @@ def test_invalid_fire_events_simulteanous_value_check(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         parameter.frame_parameter.show_duration_min_frame,
         0,
         parameter.iostar_parameter.fire_duration_value_frame_max,
     )
-    valid_fire_events.add(
+    valid_fire_events.add_frame_chanel_duration(
         parameter.frame_parameter.show_duration_min_frame,
         0,
         parameter.iostar_parameter.fire_duration_value_frame_max,

@@ -28,7 +28,7 @@ def get_empty_show_slices(
     ]
 
 
-def update_show_slices_from_trajectory_simulation(
+def update_show_slices_from_drone_simulation_simulation(
     show_slices: List[ShowSimulationSlice],
     drone_simulation: DroneSimulation,
     frame_parameter: FrameParameter,
@@ -58,15 +58,15 @@ MINIMAL_ACCELERATION_ESTIMATION_INDEX = 2
 
 def update_slices_implicit_values(
     show_slices: List[ShowSimulationSlice],
-    position_fps: int,
+    frame_parameter: FrameParameter,
 ) -> None:
     for slice_index in range(MINIMAL_ACCELERATION_ESTIMATION_INDEX, len(show_slices)):
-        show_slices[slice_index].velocities = position_fps * (
+        show_slices[slice_index].velocities = frame_parameter.position_fps * (
             show_slices[slice_index].positions - show_slices[slice_index - 1].positions
         )
         show_slices[slice_index].accelerations = (
-            position_fps
-            * position_fps
+            frame_parameter.position_fps
+            * frame_parameter.position_fps
             * (
                 show_slices[slice_index].positions
                 - 2 * show_slices[slice_index - 1].positions
@@ -88,14 +88,12 @@ def DP_to_SS_procedure(
         frame_parameter=frame_parameter,
     )
     for drone_simulation in drones_simulation:
-        update_show_slices_from_trajectory_simulation(
+        update_show_slices_from_drone_simulation_simulation(
             show_slices=show_slices,
             drone_simulation=drone_simulation,
             frame_parameter=frame_parameter,
             takeoff_parameter=takeoff_parameter,
             land_parameter=land_parameter,
         )
-    update_slices_implicit_values(
-        show_slices, position_fps=frame_parameter.position_fps
-    )
+    update_slices_implicit_values(show_slices, frame_parameter)
     return ShowSimulation(show_slices)

@@ -214,19 +214,19 @@ def fire_chanel_check(
     fire_events_chanel_check_report: FireChanelCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
-    channels = [event.chanel for event in fire_events.events]
+    chanels = [event.chanel for event in fire_events.events]
     fire_events_chanel_check_report.fire_chanel_format_check_report.validation = (
-        check_is_instance_int_list(channels)
+        check_is_instance_int_list(chanels)
     )
     fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
         check_int_size_list(
-            channels,
+            chanels,
             iostar_parameter.fire_chanel_value_min,
             iostar_parameter.fire_chanel_value_max,
         )
     )
     fire_events_chanel_check_report.fire_chanel_unicty_check_report.validation = (
-        check_chanel_unicity(channels)
+        check_chanel_unicity(chanels)
     )
     fire_events_chanel_check_report.update()
 

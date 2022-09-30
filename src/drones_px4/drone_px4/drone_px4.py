@@ -19,8 +19,8 @@ class DronePx4:
     def add_color(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
         self.color_events.add_frame_rgbw(frame, rgbw)
 
-    def add_fire(self, frame: int, channel: int, duration_frame: int) -> None:
-        self.fire_events.add_frame_rgbw(frame, channel, duration_frame)
+    def add_fire(self, frame: int, chanel: int, duration_frame: int) -> None:
+        self.fire_events.add_frame_chanel_duration(frame, chanel, duration_frame)
 
     def get_events_by_index(self, event_index: int) -> Events:
         if event_index < 0 or event_index > 2:
