@@ -28,10 +28,10 @@ def apply_dance_size_relief(drone: DronePx4, events_size_easing: EventsSizeEasin
     events_size_easing.reset_previous_events()
     valid_position_indices = []
     for position_event_index, position_event in enumerate(drone.position_events.events):
-        if events_size_easing.is_xyz_valid(position_event.get_values()):
+        if events_size_easing.is_xyz_valid(position_event.xyz):
             valid_position_indices.append(position_event_index)
     drone.position_events.events = drone.position_events.events
     valid_color_indices = []
     for color_event_index, color_event in enumerate(drone.color_events.events):
-        if events_size_easing.is_rgbw_valid(color_event.get_values()):
+        if events_size_easing.is_rgbw_valid(color_event.rgbw):
             valid_color_indices.append(color_event_index)

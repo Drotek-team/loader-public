@@ -154,7 +154,7 @@ def takeoff_check(
         takeoff_check_report.takeoff_position_check_report.validation = False
     if position_events.nb_events == 1:
         first_frame = position_events.get_frame_by_event_index(0)
-        first_position = position_events.get_values_by_event_index(0)
+        first_position = position_events.get_xyz_by_event_index(0)
         takeoff_check_report.takeoff_duration_check_report.validation = (
             takeoff_check_report.takeoff_position_check_report.validation
         ) = (first_frame == 0)
@@ -164,8 +164,8 @@ def takeoff_check(
     if position_events.nb_events > 1:
         first_frame = position_events.get_frame_by_event_index(0)
         second_frame = position_events.get_frame_by_event_index(1)
-        first_position = position_events.get_values_by_event_index(0)
-        second_position = position_events.get_values_by_event_index(1)
+        first_position = position_events.get_xyz_by_event_index(0)
+        second_position = position_events.get_xyz_by_event_index(1)
         takeoff_check_report.takeoff_duration_check_report.validation = (
             second_frame - first_frame
         ) == int(frame_parameter.json_fps * takeoff_parameter.takeoff_duration_second)

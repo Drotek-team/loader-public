@@ -48,5 +48,5 @@ class PositionEvents(Events):
     def get_frame_by_event_index(self, event_index: int) -> int:
         return self.events[event_index].frame
 
-    def get_xyz_by_event_index(self, event_index: int) -> Tuple:
+    def get_xyz_by_event_index(self, event_index: int) -> Tuple[int, int, int]:
         return self.events[event_index].xyz

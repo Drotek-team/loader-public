@@ -29,6 +29,3 @@ class Events(ABC):
 
     def get_frame_by_event_index(self, event_index: int) -> int:
         pass
-
-    def get_values_by_event_index(self, event_index: int) -> Tuple:
-        pass
