@@ -56,20 +56,18 @@ def drone_px4_to_drone_user_procedure(
     )
 
 
-def DU_to_DP_procedure(
+def DP_to_DU_procedure(
     drones_px4: DronesPx4,
 ) -> List[DroneUser]:
     xyz_convertion_standard = XyzConvertionStandard()
     rgbw_convertion_standard = RgbwConvertionStandard()
     fire_duration_convertion_standard = FireDurationConvertionStandard()
-    return DronesPx4(
-        [
-            drone_px4_to_drone_user_procedure(
-                drone_px4,
-                xyz_convertion_standard,
-                rgbw_convertion_standard,
-                fire_duration_convertion_standard,
-            )
-            for drone_px4 in drones_px4
-        ]
-    )
+    return [
+        drone_px4_to_drone_user_procedure(
+            drone_px4,
+            xyz_convertion_standard,
+            rgbw_convertion_standard,
+            fire_duration_convertion_standard,
+        )
+        for drone_px4 in drones_px4.drones
+    ]
