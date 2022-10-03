@@ -1,15 +1,16 @@
+from dataclasses import dataclass
 from typing import Tuple, List
 
 from .events import Event, Events
 import struct
 
 
+@dataclass(frozen=True)
 class PositionEvent(Event):
-    def __init__(self, frame: int, x: int, y: int, z: int):
-        self.frame = frame
-        self.x = x
-        self.y = y
-        self.z = z
+    frame: int
+    x: int
+    y: int
+    z: int
 
     @property
     def xyz(self) -> Tuple[int, int, int]:

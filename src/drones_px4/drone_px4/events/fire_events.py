@@ -1,15 +1,17 @@
+from dataclasses import dataclass
 from typing import Tuple
 
 from .events import Event, Events
 from typing import List
 import struct
+from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
 class FireEvent(Event):
-    def __init__(self, frame: int, chanel: int, duration: int):
-        self.frame = frame
-        self.chanel = chanel
-        self.duration = duration
+    frame: int
+    chanel: int
+    duration: int
 
     @property
     def chanel_duration(self) -> Tuple[int, int]:

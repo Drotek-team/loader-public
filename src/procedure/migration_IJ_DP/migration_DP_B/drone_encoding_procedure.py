@@ -5,7 +5,7 @@ from .events_convertion import encode_events
 from ....binary_px4.binary import Header, SectionHeader
 import copy
 from ....drones_px4.drone_px4.events.events import Events
-from ....parameter.parameter import JsonBinaryParameter, IostarParameter
+from ....parameter.parameter import JsonBinaryParameter
 from ....drones_px4.drone_px4.drone_px4 import DronePx4
 
 # TO DO: A cumsum will prevent the loop but it is kind of convulated for not very much
@@ -63,8 +63,8 @@ def encode_drone(
     drone_user: DronePx4,
     json_binary_parameter: JsonBinaryParameter,
 ) -> List[int]:
-    ### No user report needed as this part is interne to the program
-    ### ValueError and test is needed in this case
+    ### No user report needed as this part is interne to the code
+    ### Exception and test are needed in this case
     drone_user_copy = copy.deepcopy(drone_user)
     non_empty_events_list = drone_user_copy.non_empty_events_list
     encoded_events_list = [

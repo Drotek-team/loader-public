@@ -3,15 +3,16 @@ from typing import Tuple
 from .events import Event, Events
 from typing import List
 import struct
+from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
 class ColorEvent(Event):
-    def __init__(self, frame: int, r: int, g: int, b: int, w: int):
-        self.frame = frame
-        self.r = r
-        self.g = g
-        self.b = b
-        self.w = w
+    frame: int
+    r: int
+    g: int
+    b: int
+    w: int
 
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:

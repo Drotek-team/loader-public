@@ -53,24 +53,26 @@ def update_show_slices_from_drone_simulation_simulation(
         show_slice.in_dance_flags[drone_simulation.drone_index] = drone_in_dance
 
 
-MINIMAL_ACCELERATION_ESTIMATION_INDEX = 2
+VELOCITY_ESTIMATION_INDEX = 1
+ACCELERATION_ESTIMATION_INDEX = 2
 
 
 def update_slices_implicit_values(
     show_slices: List[ShowSimulationSlice],
     frame_parameter: FrameParameter,
 ) -> None:
-    for slice_index in range(MINIMAL_ACCELERATION_ESTIMATION_INDEX, len(show_slices)):
+    for slice_index in range(ACCELERATION_ESTIMATION_INDEX, len(show_slices)):
         show_slices[slice_index].velocities = frame_parameter.position_fps * (
-            show_slices[slice_index].positions - show_slices[slice_index - 1].positions
+            show_slices[slice_index].positions
+            - show_slices[slice_index - VELOCITY_ESTIMATION_INDEX].positions
         )
         show_slices[slice_index].accelerations = (
             frame_parameter.position_fps
             * frame_parameter.position_fps
             * (
                 show_slices[slice_index].positions
-                - 2 * show_slices[slice_index - 1].positions
-                + show_slices[slice_index - 2].positions
+                - 2 * show_slices[slice_index - VELOCITY_ESTIMATION_INDEX].positions
+                + show_slices[slice_index - ACCELERATION_ESTIMATION_INDEX].positions
             )
         )
 

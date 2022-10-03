@@ -32,7 +32,6 @@ def apply_import_procedure(
         parameter.json_binary_parameter,
         import_report.json_extraction_report,
     )
-
     family_user = IJ_to_FU_procedure(iostar_json)
     import_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
     apply_show_check_procedure(
