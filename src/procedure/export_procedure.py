@@ -28,7 +28,6 @@ def apply_export_procedure(
     DP_to_IJ_procedure(
         drones_px4,
         family_user,
-        parameter.iostar_parameter,
         parameter.json_binary_parameter,
     )
     export_report.update()

@@ -1,3 +1,6 @@
+from src.procedure.migration_IJ_DP.migration_DP_B.drone_encoding_report import (
+    DroneEncodingReport,
+)
 from ...parameter.parameter import JsonBinaryParameter, IostarParameter
 from ...iostar_json.iostar_json import IostarJson
 from ...show_user.show_user import FamilyUser
@@ -8,10 +11,15 @@ from .migration_DP_B.drone_encoding_procedure import encode_drone
 
 def get_family_dict_from_drones_px4(
     drones_px4_family: List[DronePx4],
+    json_binary_parameter: JsonBinaryParameter,
 ) -> Dict:
     return {
         "drones": [
-            encode_drone(drone_px4_family) for drone_px4_family in drones_px4_family
+            encode_drone(
+                drone_px4_family,
+                json_binary_parameter,
+            )
+            for drone_px4_family in drones_px4_family
         ],
         "x": drones_px4_family[0].first_xyz[0],
         "y": drones_px4_family[0].first_xyz[1],
@@ -22,7 +30,6 @@ def get_family_dict_from_drones_px4(
 def DP_to_IJ_procedure(
     drones_px4: DronesPx4,
     family_user: FamilyUser,
-    iostar_parameter: IostarParameter,
     json_binary_parameter: JsonBinaryParameter,
 ) -> None:
     show = IostarJson(
@@ -34,7 +41,8 @@ def DP_to_IJ_procedure(
                         * family_index : family_user.nb_drone_per_family
                         * family_index
                         + family_user.nb_drone_per_family
-                    ]
+                    ],
+                    json_binary_parameter,
                 )
                 for family_index in range(family_user.nb_x * family_user.nb_y)
             ],

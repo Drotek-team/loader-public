@@ -17,7 +17,6 @@ def apply_dance_size_check_procedure(
             encode_drone(
                 drone,
                 json_binary_parameter,
-                dance_size_check_report.drone_encoding_report,
             )
         )
         < iostar_parameter.dance_size_max

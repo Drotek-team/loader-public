@@ -1,7 +1,6 @@
 import struct
 from typing import List
 
-from .drone_encoding_report import DroneEncodingReport
 from .events_convertion import encode_events
 from ....binary_px4.binary import Header, SectionHeader
 import copy
@@ -63,8 +62,9 @@ def assemble_dance(
 def encode_drone(
     drone_user: DronePx4,
     json_binary_parameter: JsonBinaryParameter,
-    drone_encoding_report: DroneEncodingReport,
 ) -> List[int]:
+    ### No user report needed as this part is interne to the program
+    ### ValueError and test is needed in this case
     drone_user_copy = copy.deepcopy(drone_user)
     non_empty_events_list = drone_user_copy.non_empty_events_list
     encoded_events_list = [
@@ -79,5 +79,4 @@ def encode_drone(
         dance_size(section_headers, encoded_events_list, json_binary_parameter),
         len(non_empty_events_list),
     )
-    drone_encoding_report.validation = True
     return assemble_dance(header, section_headers, encoded_events_list)
