@@ -47,5 +47,6 @@ def test_takeoff_simulation():
             )
         ]
     )
-    assert all(dance_sequence.drone_in_air) == True
+    assert dance_sequence.drone_in_air[0] == False
+    assert all(dance_sequence.drone_in_air[1:]) == True
     assert all(dance_sequence.drone_in_dance) == False

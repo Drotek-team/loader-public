@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import os
 
 import pytest
@@ -82,7 +83,7 @@ def get_show_simulation(
 
 
 @pytest.fixture
-def valid_collision_show():
+def valid_collision_show_in_air():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
@@ -98,23 +99,59 @@ def valid_collision_show():
     return get_show_simulation([drone_1, drone_2])
 
 
-def test_valid_simulation(valid_collision_show: ShowSimulation):
+def test_valid_simulation_in_air(valid_collision_show_in_air: ShowSimulation):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.collision_check_report = CollisionCheckReport(
-        valid_collision_show.frames
+        valid_collision_show_in_air.frames
     )
     apply_collision_check_procedure(
-        valid_collision_show,
+        valid_collision_show_in_air,
         simulation_check_report.collision_check_report,
         parameter.iostar_parameter,
     )
-    assert simulation_check_report.collision_check_report.validation
+    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+        41
+    ].validation
 
 
 @pytest.fixture
-def invalid_collision_show():
+def valid_collision_show_on_ground():
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+
+    drone_1 = DroneSimulation(6, [PositionEventSimulation(6, (0, 0, 0))])
+    drone_2 = DroneSimulation(
+        6,
+        [
+            PositionEventSimulation(
+                6, (parameter.iostar_parameter.security_distance_on_ground, 0, 0)
+            )
+        ],
+    )
+    return get_show_simulation([drone_1, drone_2])
+
+
+def test_valid_simulation_on_ground(valid_collision_show_on_ground: ShowSimulation):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.collision_check_report = CollisionCheckReport(
+        valid_collision_show_on_ground.frames
+    )
+    apply_collision_check_procedure(
+        valid_collision_show_on_ground,
+        simulation_check_report.collision_check_report,
+        parameter.iostar_parameter,
+    )
+    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+        0
+    ].validation
+
+
+@pytest.fixture
+def invalid_collision_show_in_air():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
@@ -135,16 +172,56 @@ def invalid_collision_show():
     return get_show_simulation([drone_1, drone_2])
 
 
-def test_invalid_simulation(invalid_collision_show: ShowSimulation):
+def test_invalid_simulation(invalid_collision_show_in_air: ShowSimulation):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.collision_check_report = CollisionCheckReport(
-        invalid_collision_show.frames
+        invalid_collision_show_in_air.frames
     )
     apply_collision_check_procedure(
-        invalid_collision_show,
+        invalid_collision_show_in_air,
         simulation_check_report.collision_check_report,
         parameter.iostar_parameter,
     )
     assert not (simulation_check_report.collision_check_report.validation)
+
+
+@pytest.fixture
+def invalid_collision_show_on_ground():
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+
+    drone_1 = DroneSimulation(6, [PositionEventSimulation(6, (0, 0, 0))])
+    drone_2 = DroneSimulation(
+        6,
+        [
+            PositionEventSimulation(
+                6,
+                (
+                    parameter.iostar_parameter.security_distance_on_ground
+                    - EPSILON_DELTA,
+                    0,
+                    0,
+                ),
+            )
+        ],
+    )
+    return get_show_simulation([drone_1, drone_2])
+
+
+def test_invalid_simulation_on_ground(invalid_collision_show_on_ground: ShowSimulation):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    simulation_check_report = SimulationCheckReport()
+    simulation_check_report.collision_check_report = CollisionCheckReport(
+        invalid_collision_show_on_ground.frames
+    )
+    apply_collision_check_procedure(
+        invalid_collision_show_on_ground,
+        simulation_check_report.collision_check_report,
+        parameter.iostar_parameter,
+    )
+    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+        0
+    ].validation

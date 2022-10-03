@@ -65,6 +65,6 @@ def takeoff_simulation(
     )
     return TrajectorySimulation(
         takeoff_positions,
-        [True for _ in range(len(takeoff_positions))],
+        [False] + [True for _ in range(len(takeoff_positions) - 1)],
         [False for _ in range(len(takeoff_positions))],
     )

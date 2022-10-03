@@ -64,6 +64,7 @@ def test_valid_show_flags():
     valid_show_simulation = get_show_simulation(
         [position_event_1, position_event_2, position_event_3]
     )
+    slice_takeoff_begin_index = 0
     slice_takeoff_end_index = int(
         parameter.takeoff_parameter.takeoff_duration_second
         * parameter.frame_parameter.position_fps
@@ -78,9 +79,12 @@ def test_valid_show_flags():
         )
     )
     assert len(valid_show_simulation.show_slices) == slice_land_end_index + 1
+    assert not (valid_show_simulation.show_slices[0].in_air_flags[0])
     assert all(
         show_slice.in_air_flags[0]
-        for show_slice in valid_show_simulation.show_slices[:slice_takeoff_end_index]
+        for show_slice in valid_show_simulation.show_slices[
+            slice_takeoff_begin_index + 1 : slice_takeoff_end_index
+        ]
     )
     assert all(
         not (show_slice.in_dance_flags[0])
