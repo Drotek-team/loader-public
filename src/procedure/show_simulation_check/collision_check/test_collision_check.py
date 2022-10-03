@@ -82,6 +82,9 @@ def get_show_simulation(
     return show_simulation
 
 
+ROUNDING_ERROR = 0.04
+
+
 @pytest.fixture
 def valid_collision_show_in_air():
     parameter = Parameter()
@@ -92,7 +95,13 @@ def valid_collision_show_in_air():
         6,
         [
             PositionEventSimulation(
-                6, (parameter.iostar_parameter.security_distance_in_air, 0, 0)
+                6,
+                (
+                    parameter.iostar_parameter.security_distance_in_air
+                    + ROUNDING_ERROR,
+                    0,
+                    0,
+                ),
             )
         ],
     )
@@ -126,7 +135,13 @@ def valid_collision_show_on_ground():
         6,
         [
             PositionEventSimulation(
-                6, (parameter.iostar_parameter.security_distance_on_ground, 0, 0)
+                6,
+                (
+                    parameter.iostar_parameter.security_distance_on_ground
+                    + ROUNDING_ERROR,
+                    0,
+                    0,
+                ),
             )
         ],
     )
@@ -222,6 +237,8 @@ def test_invalid_simulation_on_ground(invalid_collision_show_on_ground: ShowSimu
         simulation_check_report.collision_check_report,
         parameter.iostar_parameter,
     )
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
-        0
-    ].validation
+    assert not (
+        simulation_check_report.collision_check_report.collision_slices_check_report[
+            0
+        ].validation
+    )

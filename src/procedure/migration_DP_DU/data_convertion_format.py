@@ -6,8 +6,8 @@ from typing import Tuple
 class XyzConvertionStandard:
     CENTIMETER_TO_METER_FACTOR: float = 1e-2
     METER_TO_CENTIMETER_FACTOR: float = 1e2
-    NORMAL_TO_COMPRESSED_FACTOR: float = 4
-    COMPRESSED_TO_NORMAL_FACTOR: float = 0.25
+    NORMAL_TO_COMPRESSED_FACTOR: float = 0.25
+    COMPRESSED_TO_NORMAL_FACTOR: float = 4
 
     def from_px4_xyz_to_user_xyz(
         self, px4_xyz: Tuple[int, int, int]

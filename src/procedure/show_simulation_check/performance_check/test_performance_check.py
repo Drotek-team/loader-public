@@ -82,6 +82,9 @@ def test_valid_simulation():
     assert performance_check_report.validation
 
 
+ROUNDING_ERROR = 0.04
+
+
 def test_invalid_horizontal_velocity_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
@@ -89,7 +92,7 @@ def test_invalid_horizontal_velocity_simulation():
         parameter.iostar_parameter.horizontal_velocity_max
         * parameter.frame_parameter.position_rate_second
     )
-    position_event_1 = PositionEvent(6, distance_max, 0, 0)
+    position_event_1 = PositionEvent(6, distance_max + ROUNDING_ERROR, 0, 0)
     valid_show_simulation = get_show_simulation([position_event_1])
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.performance_check_report = PerformanceCheckReport(
@@ -141,7 +144,7 @@ def test_invalid_horizontal_acceleration_simulation():
         * parameter.frame_parameter.position_rate_second
         * parameter.frame_parameter.position_rate_second
     )
-    position_event_1 = PositionEvent(6, distance_max, 0, 0)
+    position_event_1 = PositionEvent(6, distance_max + ROUNDING_ERROR, 0, 0)
     valid_show_simulation = get_show_simulation([position_event_1])
     simulation_check_report = SimulationCheckReport()
     simulation_check_report.performance_check_report = PerformanceCheckReport(
