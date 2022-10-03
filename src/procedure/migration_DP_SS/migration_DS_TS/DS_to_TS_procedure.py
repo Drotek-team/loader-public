@@ -52,16 +52,14 @@ def DS_to_TS_procedure(
             frame_parameter,
         )
     )
-    ### TO DO: As the first position of the land is not a part of the dance, there is a corner case where you can teleport yourself at the last position of your dance
-    ### Not critical because this teleportation last only 0.25 seconds so the drone can not do much during this period
+    last_position = drone_simulation.get_position_by_index(-1)
     trajectory_simulation.concatenate_trajectory(
         land_simulation(
-            drone_simulation.get_position_by_index(-1),
+            last_position,
             frame_parameter,
             land_parameter,
         )
     )
-    last_position = drone_simulation.get_position_by_index(-1)
     trajectory_simulation.concatenate_trajectory(
         stand_by_simulation(
             frame_begin=int(

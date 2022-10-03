@@ -39,10 +39,14 @@ def generate_takeoff_second_part(
         takeoff_start_position[1],
         takeoff_start_position[2] + takeoff_parameter.takeoff_altitude_meter,
     )
-    return int(
-        takeoff_parameter.takeoff_stabilisation_duration_second
-        * frame_parameter.position_fps
-    ) * [np.array(takeoff_end_position)]
+    return linear_interpolation(
+        takeoff_end_position,
+        takeoff_end_position,
+        int(
+            takeoff_parameter.takeoff_stabilisation_duration_second
+            * frame_parameter.position_fps
+        ),
+    )
 
 
 def takeoff_simulation(
@@ -61,6 +65,6 @@ def takeoff_simulation(
     )
     return TrajectorySimulation(
         takeoff_positions,
-        len(takeoff_positions) * [True],
-        len(takeoff_positions) * [False],
+        [True for _ in range(len(takeoff_positions))],
+        [False for _ in range(len(takeoff_positions))],
     )

@@ -7,21 +7,22 @@ from ..flight_simulation import linear_interpolation
 from ..stand_by_simulation import stand_by_simulation
 from .....show_simulation.drone_simulation import PositionEventSimulation
 
+FRAME_START = 0
+FRAME_END = 20
+POSITION = (0.0, 0.0, 10.0)
+
 
 def test_stand_by_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    frame_start = 0
-    frame_end = 20
-    position = (0.0, 0.0, 10.0)
     dance_sequence = stand_by_simulation(
-        frame_start,
-        frame_end,
-        position,
+        FRAME_START,
+        FRAME_END,
+        POSITION,
         parameter.frame_parameter,
     )
-    FIRST_THEORICAL_POSITION_EVENT = PositionEventSimulation(frame_start, position)
-    SECOND_THEORICAL_POSITION_EVENT = PositionEventSimulation(frame_end, position)
+    FIRST_THEORICAL_POSITION_EVENT = PositionEventSimulation(FRAME_START, POSITION)
+    SECOND_THEORICAL_POSITION_EVENT = PositionEventSimulation(FRAME_END, POSITION)
     theorical_curve = linear_interpolation(
         FIRST_THEORICAL_POSITION_EVENT.xyz,
         SECOND_THEORICAL_POSITION_EVENT.xyz,

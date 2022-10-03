@@ -32,5 +32,7 @@ def flight_simulation(
             ),
         )
     return TrajectorySimulation(
-        flight_positions, len(flight_positions) * [True], len(flight_positions) * [True]
+        flight_positions,
+        [True for _ in range(len(flight_positions))],
+        [True for _ in range(len(flight_positions))],
     )

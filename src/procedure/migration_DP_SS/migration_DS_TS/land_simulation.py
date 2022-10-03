@@ -70,5 +70,7 @@ def land_simulation(
         land_parameter,
     )
     return TrajectorySimulation(
-        land_positions, len(land_positions) * [True], len(land_positions) * [False]
+        land_positions,
+        [True for _ in range(len(land_positions))],
+        [False for _ in range(len(land_positions))],
     )
