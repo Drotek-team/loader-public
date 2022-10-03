@@ -6,9 +6,9 @@ import numpy as np
 class TrajectorySimulation:
     def __init__(
         self,
-        drone_positions: List[np.ndarray] = [],
-        drone_in_air: List[bool] = [],
-        drone_in_dance: List[bool] = [],
+        drone_positions: List[np.ndarray],
+        drone_in_air: List[bool],
+        drone_in_dance: List[bool],
     ):
         self.drone_positions = drone_positions
         self.drone_in_air = drone_in_air

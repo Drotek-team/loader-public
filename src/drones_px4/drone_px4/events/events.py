@@ -10,7 +10,7 @@ class Event(ABC):
 class Events(ABC):
     format: str
     id: int
-    events: List[Event]
+    events: List
 
     def add_data(self, data: Tuple) -> None:
         pass

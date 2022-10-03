@@ -11,8 +11,13 @@ class PositionEventSimulation:
 
 @dataclass
 class DroneSimulation:
-    drone_index: int
-    position_events_simulation: List[PositionEventSimulation]
+    def __init__(
+        self,
+        drone_index: int,
+        position_events_simulation: List[PositionEventSimulation],
+    ):
+        self.drone_index = drone_index
+        self.position_events_simulation = position_events_simulation
 
     @property
     def flight_positions(self) -> List[PositionEventSimulation]:
@@ -45,6 +50,7 @@ def get_last_frame(
                 frame_parameter.json_fps
                 * land_parameter.get_land_second_delta(drone_simulation.last_height)
             )
+            + 1
             for drone_simulation in drones_simulation
         ]
     )

@@ -21,7 +21,7 @@ def DS_to_TS_procedure(
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> TrajectorySimulation:
-    trajectory_simulation = TrajectorySimulation()
+    trajectory_simulation = TrajectorySimulation([], [], [])
     if len(drone_simulation.position_events_simulation) == 1:
         trajectory_simulation.concatenate_trajectory(
             stand_by_simulation(
@@ -47,13 +47,6 @@ def DS_to_TS_procedure(
             takeoff_parameter,
         )
     )
-    # raise ValueError(
-    #     drone_simulation.flight_positions,
-    #     flight_simulation(
-    #         drone_simulation.flight_positions,
-    #         frame_parameter,
-    #     ).drone_positions,
-    # )
     trajectory_simulation.concatenate_trajectory(
         flight_simulation(
             drone_simulation.flight_positions,
