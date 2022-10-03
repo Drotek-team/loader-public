@@ -5,7 +5,7 @@ from typing import Tuple
 
 @dataclass(frozen=True)
 class JsonBinaryParameter:
-    magic_number: str
+    magic_number: int
     fmt_header: str
     fmt_section_header: str
 
