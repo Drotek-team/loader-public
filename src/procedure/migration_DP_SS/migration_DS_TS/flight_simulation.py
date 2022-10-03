@@ -31,6 +31,7 @@ def flight_simulation(
                 // frame_parameter.position_rate_frame
             ),
         )
+    flight_positions.append(np.array(position_events_simulation[-1].xyz))
     return TrajectorySimulation(
         flight_positions,
         [True for _ in range(len(flight_positions))],

@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from ....parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .flight_simulation import (
     flight_simulation,
@@ -46,6 +47,13 @@ def DS_to_TS_procedure(
             takeoff_parameter,
         )
     )
+    # raise ValueError(
+    #     drone_simulation.flight_positions,
+    #     flight_simulation(
+    #         drone_simulation.flight_positions,
+    #         frame_parameter,
+    #     ).drone_positions,
+    # )
     trajectory_simulation.concatenate_trajectory(
         flight_simulation(
             drone_simulation.flight_positions,

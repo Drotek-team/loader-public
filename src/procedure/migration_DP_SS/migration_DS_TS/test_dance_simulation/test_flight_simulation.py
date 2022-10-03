@@ -37,7 +37,7 @@ def test_flight_simulation():
             (THIRD_POSITION_EVENT.frame - SECOND_POSITION_EVENT.frame)
             // parameter.frame_parameter.position_rate_frame
         ),
-    )
+    ) + [np.array(THIRD_POSITION_EVENT.xyz)]
     theorical_curve = first_theorical_curve + second_theorical_curve
     assert len(dance_sequence.drone_positions) == len(theorical_curve)
     assert all(

@@ -9,14 +9,10 @@ class PositionEventSimulation:
     xyz: Tuple[float, float, float]  # NED/ meter
 
 
+@dataclass
 class DroneSimulation:
-    def __init__(
-        self,
-        drone_index: int,
-        position_events_simulation: List[PositionEventSimulation],
-    ):
-        self.drone_index = drone_index
-        self.position_events_simulation = position_events_simulation
+    drone_index: int
+    position_events_simulation: List[PositionEventSimulation]
 
     @property
     def flight_positions(self) -> List[PositionEventSimulation]:

@@ -3,15 +3,16 @@ from typing import List, Tuple
 import numpy as np
 
 
-### TO DO: add an exception if nb_points < 0, generally due to negative height
 def linear_interpolation(
     position_begin: Tuple[float, float, float],
     position_end: Tuple[float, float, float],
     nb_points: int,
+    end_point: bool = False,
 ) -> List[np.ndarray]:
+    if nb_points < 0:
+        raise ValueError
     if nb_points == 0:
         return []
-
     return [
         np.round(
             np.array(position_begin) * (1 - percentile)
@@ -22,6 +23,6 @@ def linear_interpolation(
             0,
             1,
             nb_points,
-            endpoint=False,
+            endpoint=end_point,
         )
     ]

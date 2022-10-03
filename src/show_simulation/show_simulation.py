@@ -10,8 +10,8 @@ class ShowSimulationSlice:
         self.positions = np.zeros((nb_drones, 3))
         self.velocities = np.zeros((nb_drones, 3))
         self.accelerations = np.zeros((nb_drones, 3))
-        self.in_air_flags = np.array(nb_drones * [False])
-        self.in_dance_flags = np.array(nb_drones * [False])
+        self.in_air_flags = np.array([False for _ in range(nb_drones)])
+        self.in_dance_flags = np.array([False for _ in range(nb_drones)])
 
     @property
     def in_air_drone_indices(self) -> List[int]:

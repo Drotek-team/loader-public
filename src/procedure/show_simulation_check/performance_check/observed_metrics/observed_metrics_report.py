@@ -23,7 +23,7 @@ class PerformanceCheckReport(Contenor):
             PerformanceInfraction(drone_index, round(performance_value, 2))
         )
 
-    def update(self) -> str:
+    def update(self) -> None:
         self.validation = len(self.performance_infractions) == 0
 
 

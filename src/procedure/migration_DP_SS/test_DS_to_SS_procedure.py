@@ -1,12 +1,12 @@
 import os
 from typing import List
 
-from .....drones_px4.drone_px4.events.position_events import PositionEvent
-from .....drones_px4.drones_px4 import DronePx4, DronesPx4
-from .....parameter.parameter import Parameter
-from .....show_simulation.show_simulation import ShowSimulation
-from ...DP_to_SS_procedure import DP_to_SS_procedure
-from ....migration_DP_DU.data_convertion_format import XyzConvertionStandard
+from ...drones_px4.drone_px4.events.position_events import PositionEvent
+from ...drones_px4.drones_px4 import DronePx4, DronesPx4
+from ...parameter.parameter import Parameter
+from ...show_simulation.show_simulation import ShowSimulation
+from .DP_to_SS_procedure import DP_to_SS_procedure
+from ..migration_DP_DU.data_convertion_format import XyzConvertionStandard
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
@@ -68,7 +68,7 @@ def test_valid_show_flags():
         parameter.takeoff_parameter.takeoff_duration_second
         * parameter.frame_parameter.position_fps
     )
-    slice_land_begin_index = slice_takeoff_end_index + 3
+    slice_land_begin_index = slice_takeoff_end_index + 4
     slice_land_end_index = slice_land_begin_index + int(
         (
             parameter.land_parameter.get_land_second_delta(
