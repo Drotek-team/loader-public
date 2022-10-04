@@ -1,6 +1,5 @@
 from typing import Dict
 
-from src.drones_px4.drones_px4 import DronesPx4
 
 from .show_check_report import ShowCheckReport
 from ..show_user.show_user import ShowUser
