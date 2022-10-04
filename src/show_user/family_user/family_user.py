@@ -8,7 +8,7 @@ class FamilyUser(BaseModel):
     nb_x: int
     nb_y: int
     nb_drone_per_family: int
-    step_takeoff: int
+    step_takeoff: float
     angle_takeoff: int
 
     @property
