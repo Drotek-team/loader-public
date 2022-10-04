@@ -1,10 +1,11 @@
-from multiprocessing.sharedctypes import Value
 from typing import List, Tuple
 
 import numpy as np
 
 
 def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
+    if np.array_equal(origin, coordinate):
+        raise ValueError("get_relative_angle(): origin is equel to coordinate")
     vector = coordinate - origin
     u_vector = vector / np.linalg.norm(vector)
     return u_vector[0]
@@ -51,7 +52,7 @@ def calculate_convex_hull(
     positions_array = [
         position_array
         for position_array in positions_array
-        if not (np.array_equal(positions_array, pivot))
+        if not (np.array_equal(position_array, pivot))
     ]
     convex_hull = [pivot]
     sorted_array_positions = sorted_by_pivot(np.array(positions_array), np.array(pivot))
