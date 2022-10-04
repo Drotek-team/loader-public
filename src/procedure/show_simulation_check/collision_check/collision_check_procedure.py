@@ -9,6 +9,9 @@ from .collision_check_report import CollisionCheckReport, CollisionInfraction
 
 def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
+    config_matrix + np.linalg.norm(
+        positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
+    )
     return config_matrix + np.linalg.norm(
         positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
     )
@@ -21,13 +24,7 @@ def get_collision_infractions(
     endangered_distance: float,
 ) -> List[CollisionInfraction]:
     nb_drones_local = len(local_drone_indices)
-    couples_distance_matrix_indices = np.array(
-        [
-            column_index * nb_drones_local + row_index
-            for column_index in range(nb_drones_local)
-            for row_index in range(nb_drones_local)
-        ]
-    )
+    couples_distance_matrix_indices = np.arange(nb_drones_local * nb_drones_local)
     couple_distance_matrix = get_couple_distance_matrix(local_drone_positions).reshape(
         nb_drones_local * nb_drones_local,
     )
@@ -75,6 +72,7 @@ def apply_collision_check_procedure(
             True,
             iostar_parameter.security_distance_in_air,
         )
+
         collision_slice_check_report.collision_infractions += (
             on_ground_collision_infractions + in_air_collision_infractions
         )
