@@ -23,16 +23,16 @@ class DronePx4:
     def add_fire(self, frame: int, chanel: int, duration_frame: int) -> None:
         self.fire_events.add_frame_chanel_duration(frame, chanel, duration_frame)
 
+    ### TO DO: not very clean but doing an enum class of the events just for this is kind of overkill
     def get_events_by_index(self, event_index: int) -> Events:
-        if event_index < 0 or event_index > 2:
-            raise ValueError
-        ### TO DO: that is very ugly
-        event_dict = {
-            0: self.position_events,
-            1: self.color_events,
-            2: self.fire_events,
+        events_enum = {
+            self.position_events.id: self.position_events,
+            self.color_events.id: self.color_events,
+            self.fire_events.id: self.fire_events,
         }
-        return event_dict[event_index]
+        if not (event_index in events_enum.keys()):
+            raise ValueError(event_index)
+        return events_enum[event_index]
 
     @property
     def last_position_event(self) -> PositionEvent:

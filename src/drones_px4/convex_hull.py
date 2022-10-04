@@ -29,7 +29,7 @@ def two_dimensionnal_cross_product(
     ) * (position_2[0] - position_0[0])
 
 
-### TO DO: Clean this typing thing
+### TO DO: Clean this algorithm, barely readable
 def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
     pivot = evaluate_pivot(positions)

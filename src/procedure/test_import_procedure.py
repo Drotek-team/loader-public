@@ -5,7 +5,6 @@
 # from .import_report import ImportReport
 # from .migration_IJ_DP.dance_test_json import JSON_EXAMPLE
 
-### TO DO: old json invalid takeoff separation, change JSON EXAMPLE with corrected version
 # def test_apply_import_procedure():
 #     import_report = ImportReport()
 #     parameter = Parameter()

@@ -59,7 +59,6 @@ class Contenor:
                     )
         return children_report
 
-    ### TO DO: Indentation problem, check this
     def get_contenor_report(self, indentation_level: int, indentation_type: str) -> str:
         return self.contenor_formater(
             self.name,

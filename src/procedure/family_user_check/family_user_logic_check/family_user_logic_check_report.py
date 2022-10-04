@@ -3,7 +3,6 @@ from typing import Tuple
 
 
 class NbDroneLogicCheckReport(Displayer):
-    ### TO DO: Redefine init so the miss "update_report" can be handle
     def get_report(self) -> str:
         return f"The number of drones: {self.nb_drone_drones_px4} does not match the expectation of the families: {self.nb_drone_family_user}"
 

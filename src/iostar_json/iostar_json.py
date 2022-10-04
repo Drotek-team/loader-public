@@ -3,12 +3,10 @@ from typing import List, Tuple
 from pydantic import BaseModel
 
 
-### TO DO: comment each attribute
 class Dance(BaseModel):
     dance: List[int]
 
 
-### TO DO: comment each attribute
 class Family(BaseModel):
     drones: List[Dance]
     x: int
@@ -16,7 +14,6 @@ class Family(BaseModel):
     z: int
 
 
-### TO DO: comment each attribute
 class Show(BaseModel):
     families: List[Family]
     nb_x: int
