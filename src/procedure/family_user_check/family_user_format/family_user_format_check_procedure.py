@@ -14,7 +14,7 @@ def apply_family_user_format_check(
         family_user.nb_y, int
     )
     family_user_format_check_report.step_format_check_report.validation = isinstance(
-        family_user.step_takeoff, int
+        family_user.step_takeoff, float
     )
     family_user_format_check_report.takeoff_angle_format_check_report.validation = (
         isinstance(family_user.angle_takeoff, int)

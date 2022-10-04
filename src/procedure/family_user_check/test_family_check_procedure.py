@@ -74,7 +74,7 @@ def test_valid_drone_manager_family():
             "nb_x": 2,
             "nb_y": 2,
             "nb_drone_per_family": 1,
-            "step_takeoff": 200,
+            "step_takeoff": 2.0,
             "angle_takeoff": 0,
         }
     )
@@ -82,8 +82,12 @@ def test_valid_drone_manager_family():
         valid_drones_px4,
         valid_family_user,
         parameter.frame_parameter,
-        parameter.family_parameter,
+        parameter.family_user_parameter,
         family_user_check_report,
+    )
+    raise ValueError(
+        family_user_check_report.family_user_logic_check_report.altitude_range_logic_check_report.validation,
+        family_user_check_report.family_user_logic_check_report.first_position_logic_check_report.validation,
     )
     assert family_user_check_report.validation
 
@@ -109,7 +113,7 @@ def test_valid_drones_px4_family_angle():
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
-        step_takeoff=200,
+        step_takeoff=2.0,
         angle_takeoff=angle_radian,
         show_duration_second=valid_drones_px4_angle.duration
         * parameter.frame_parameter.json_fps,
@@ -120,7 +124,7 @@ def test_valid_drones_px4_family_angle():
         valid_drones_px4_angle,
         valid_family_user_angle,
         parameter.frame_parameter,
-        parameter.family_parameter,
+        parameter.family_user_parameter,
         family_user_check_report,
     )
     assert family_user_check_report.validation
@@ -146,7 +150,7 @@ def test_invalid_drone_manager_first_positions():
         nb_x=2,
         nb_y=2,
         nb_drone_per_family=1,
-        step_takeoff=200,
+        step_takeoff=2.0,
         angle_takeoff=0,
         show_duration_second=invalid_first_position_drones_px4.duration
         * parameter.frame_parameter.json_fps,
@@ -157,7 +161,7 @@ def test_invalid_drone_manager_first_positions():
         invalid_first_position_drones_px4,
         valid_family_user,
         parameter.frame_parameter,
-        parameter.family_parameter,
+        parameter.family_user_parameter,
         family_user_check_report,
     )
     assert not (family_user_check_report.family_user_logic_check_report.validation)

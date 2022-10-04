@@ -10,7 +10,7 @@ NB_Y = 20
 NB_DRONE_PER_FAMILY = 1
 STEP_TAKEOFF = 1.0
 ANGLE_TAKEOFF = 0
-SHOW_DURATION_FRAME = 1  # frame
+SHOW_DURATION_FRAME = 29_000  # frame
 
 
 def main() -> None:

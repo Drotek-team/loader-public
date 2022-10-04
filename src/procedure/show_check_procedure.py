@@ -26,7 +26,7 @@ def apply_show_check_procedure(
         drones_px4,
         family_user,
         parameter.frame_parameter,
-        parameter.family_parameter,
+        parameter.family_user_parameter,
         show_check_report.family_check_report,
     )
     show_simulation = DP_to_SS_procedure(

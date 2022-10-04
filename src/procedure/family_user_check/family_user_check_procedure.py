@@ -1,7 +1,7 @@
 from ...drones_px4.drones_px4 import DronesPx4
 from ...show_user.show_user import FamilyUser
 from ...parameter.parameter import (
-    FamilyParameter,
+    FamilyUserParameter,
     FrameParameter,
 )
 from .family_user_check_report import (
@@ -22,7 +22,7 @@ def apply_family_check_procedure(
     drones_px4: DronesPx4,
     family_user: FamilyUser,
     frame_parameter: FrameParameter,
-    family_parameter: FamilyParameter,
+    family_user_parameter: FamilyUserParameter,
     family_user_check_report: FamilyUserCheckReport,
 ) -> None:
     apply_family_user_format_check(
@@ -30,7 +30,7 @@ def apply_family_check_procedure(
     )
     apply_family_user_value_check(
         family_user,
-        family_parameter,
+        family_user_parameter,
         family_user_check_report.family_user_value_check_report,
     )
     apply_family_user_logic_check_procedure(

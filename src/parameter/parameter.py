@@ -103,15 +103,15 @@ class FrameParameter:
 
 
 @dataclass(frozen=True)
-class FamilyParameter:
+class FamilyUserParameter:
     nb_x_value_min: int
     nb_x_value_max: int
     nb_y_value_min: int
     nb_y_value_max: int
     nb_drone_per_family_min: int
     nb_drone_per_family_max: int
-    step_takeoff_value_min: int
-    step_takeoff_value_max: int
+    step_takeoff_value_min: float
+    step_takeoff_value_max: float
     angle_takeoff_value_min: int
     angle_takeoff_value_max: int
 
@@ -211,10 +211,10 @@ class Parameter:
             position_reformat_factor=1 / data["POSITION_REFORMAT_FACTOR"],
         )
 
-    def load_family_parameter(self, local_path: str) -> None:
+    def load_family_user_parameter(self, local_path: str) -> None:
         f = open(f"{local_path}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
-        self.family_parameter = FamilyParameter(
+        self.family_user_parameter = FamilyUserParameter(
             nb_x_value_min=data["NB_X_VALUE_MIN"],
             nb_x_value_max=data["NB_X_VALUE_MAX"],
             nb_y_value_min=data["NB_Y_VALUE_MIN"],
@@ -228,7 +228,7 @@ class Parameter:
         )
 
     def load_parameter(self, local_path: str) -> None:
-        self.load_family_parameter(local_path)
+        self.load_family_user_parameter(local_path)
         self.load_iostar_parameter(local_path)
         self.load_frame_parameter(local_path)
         self.load_json_binary_parameter(local_path)
