@@ -10,11 +10,11 @@ def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
     return u_vector[0]
 
 
-def sorted_by_pivot(positions: np.ndarray, pivot: np.ndarray) -> np.ndarray:
+def sorted_by_pivot(positions: np.ndarray, pivot: np.ndarray) -> List[np.ndarray]:
     argsort = np.argsort(
         [get_relative_angle(pivot, position) for position in positions]
     )
-    return positions[argsort]
+    return list(positions[argsort])
 
 
 def evaluate_pivot(positions: List[Tuple[int, int]]) -> Tuple[int, int]:
@@ -35,6 +35,7 @@ def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, i
     pivot = evaluate_pivot(positions)
     positions.remove(pivot)
     convex_hull = [np.array(pivot)]
+    convex_hull_tuple = [pivot]
     sorted_array_positions = sorted_by_pivot(np.array(positions), np.array(pivot))
     for sorted_array_position in sorted_array_positions:
         while (
@@ -45,6 +46,9 @@ def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, i
             >= 0
         ):
             convex_hull.pop()
+            convex_hull_tuple.pop()
         convex_hull.append(sorted_array_position)
-    convex_hull = [tuple(point) for point in convex_hull]
-    return convex_hull
+        convex_hull_tuple.append(
+            (int(sorted_array_position[0]), int(sorted_array_position[1]))
+        )
+    return convex_hull_tuple
