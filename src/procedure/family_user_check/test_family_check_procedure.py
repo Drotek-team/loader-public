@@ -85,10 +85,6 @@ def test_valid_drone_manager_family():
         parameter.family_user_parameter,
         family_user_check_report,
     )
-    raise ValueError(
-        family_user_check_report.family_user_logic_check_report.altitude_range_logic_check_report.validation,
-        family_user_check_report.family_user_logic_check_report.first_position_logic_check_report.validation,
-    )
     assert family_user_check_report.validation
 
 

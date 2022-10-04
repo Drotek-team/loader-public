@@ -64,7 +64,7 @@ def encode_drone(
     json_binary_parameter: JsonBinaryParameter,
 ) -> List[int]:
     ### No user report needed as this part is interne to the code
-    ### Exception and test are needed in this case
+    ### TO DO: Exception and test are needed in this case
     drone_user_copy = copy.deepcopy(drone_user)
     non_empty_events_list = drone_user_copy.non_empty_events_list
     encoded_events_list = [
