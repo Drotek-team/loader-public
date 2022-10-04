@@ -10,7 +10,7 @@ from .drone_decoding_report import (
     SectionHeaderFormatReport,
 )
 from .events_convertion import decode_events
-from ....binary_px4.binary import Header, SectionHeader
+from ....drones_px4.drone_px4.binary_px4.binary import Header, SectionHeader
 
 
 def get_header_section_header(

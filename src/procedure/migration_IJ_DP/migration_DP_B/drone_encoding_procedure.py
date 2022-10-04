@@ -2,11 +2,11 @@ import struct
 from typing import List
 
 from .events_convertion import encode_events
-from ....binary_px4.binary import Header, SectionHeader
 import copy
 from ....drones_px4.drone_px4.events.events import Events
 from ....parameter.parameter import JsonBinaryParameter
 from ....drones_px4.drone_px4.drone_px4 import DronePx4
+from ....drones_px4.drone_px4.binary_px4.binary import SectionHeader, Header
 
 # TO DO: A cumsum will prevent the loop but it is kind of convulated for not very much
 def get_section_headers(
