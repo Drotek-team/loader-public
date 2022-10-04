@@ -39,7 +39,6 @@ def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[int, in
     ]
 
 
-### TO DO: Clean this algorithm, barely readable
 def calculate_convex_hull(
     positions_tuple: List[Tuple[int, int]]
 ) -> List[Tuple[int, int]]:
