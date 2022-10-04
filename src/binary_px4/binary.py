@@ -16,10 +16,10 @@ class BytesManager:
 class Header(BytesManager):
     def __init__(
         self,
-        fmt_header: str,
-        magic_number: int,
-        dance_size: int,
-        number_non_empty_events: int,
+        fmt_header: str,  # binary format of the header
+        magic_number: int,  # Magic number with no purpose for the moment
+        dance_size: int,  # Dance size in bytes
+        number_non_empty_events: int,  # number of the events which contain at least one drone
     ):
         BytesManager.__init__(self, fmt_header)
         self.magic_number = magic_number
@@ -30,10 +30,10 @@ class Header(BytesManager):
 class SectionHeader(BytesManager):
     def __init__(
         self,
-        fmt_section_header: str,
-        event_id: int,
-        byte_array_start_index: int,
-        byte_array_end_index: int,
+        fmt_section_header: str,  # binary format of the section header
+        event_id: int,  # index associate to the type of events
+        byte_array_start_index: int,  # index which indicates the start of the section in the binary
+        byte_array_end_index: int,  # index which indicates the end of the section in the binary
     ):
         BytesManager.__init__(self, fmt_section_header)
         self.event_id = event_id

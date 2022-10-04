@@ -7,10 +7,10 @@ import struct
 
 @dataclass(frozen=True)
 class PositionEvent(Event):
-    frame: int
-    x: int
-    y: int
-    z: int
+    frame: int  # time frame associate to the "fps_px4" parameter
+    x: int  # x relative coordinate in centimeter between 0 and 32561
+    y: int  # y relative coordinate in centimeter between 0 and 32561
+    z: int  # z relative coordinate in centimeter between 0 and 32561
 
     @property
     def xyz(self) -> Tuple[int, int, int]:

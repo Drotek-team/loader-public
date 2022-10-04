@@ -8,11 +8,11 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class ColorEvent(Event):
-    frame: int
-    r: int
-    g: int
-    b: int
-    w: int
+    frame: int  # time frame associate to the "fps_px4" parameter
+    r: int  # red color between 0 and 255
+    g: int  # green color between 0 and 255
+    b: int  # blue color between 0 and 255
+    w: int  # white color between 0 and 255
 
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:
