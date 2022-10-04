@@ -98,7 +98,6 @@ def from_tuple_list_to_point_list(
     return [from_tuple_to_point(tuple_input) for tuple_input in tuple_list_input]
 
 
-### TO DO: add hypothesis/strategies to these tests
 def test_valid_convex_hull(valid_drones_px4_list: List[DronesPx4]):
     assert all(
         is_point_inside_convex_polygon(

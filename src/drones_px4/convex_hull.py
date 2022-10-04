@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from typing import List, Tuple
 
 import numpy as np
@@ -9,14 +10,14 @@ def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
     return u_vector[0]
 
 
-def sorted_by_pivot(positions: List[np.ndarray], pivot: np.ndarray) -> np.ndarray:
+def sorted_by_pivot(positions: np.ndarray, pivot: np.ndarray) -> np.ndarray:
     argsort = np.argsort(
         [get_relative_angle(pivot, position) for position in positions]
     )
     return positions[argsort]
 
 
-def evaluate_pivot(positions: List[np.ndarray]) -> np.ndarray:
+def evaluate_pivot(positions: List[Tuple[int, int]]) -> Tuple[int, int]:
     return max(positions, key=lambda u: u[1])
 
 
@@ -33,9 +34,8 @@ def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, i
     """Graham scan implementation"""
     pivot = evaluate_pivot(positions)
     positions.remove(pivot)
-    convex_hull = [pivot]
-    positions_array = np.array(positions)
-    sorted_array_positions = sorted_by_pivot(positions_array, pivot)
+    convex_hull = [np.array(pivot)]
+    sorted_array_positions = sorted_by_pivot(np.array(positions), np.array(pivot))
     for sorted_array_position in sorted_array_positions:
         while (
             len(convex_hull) > 1
