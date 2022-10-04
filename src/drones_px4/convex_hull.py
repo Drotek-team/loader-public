@@ -17,7 +17,7 @@ def sorted_by_pivot(positions: np.ndarray, pivot: np.ndarray) -> List[np.ndarray
     return list(positions[argsort])
 
 
-def evaluate_pivot(positions: List[Tuple[int, int]]) -> Tuple[int, int]:
+def evaluate_pivot(positions: List[np.ndarray]) -> np.ndarray:
     return max(positions, key=lambda u: u[1])
 
 
@@ -29,14 +29,33 @@ def two_dimensionnal_cross_product(
     ) * (position_2[0] - position_0[0])
 
 
+def tuple_list_to_array_list(tuple_list: List[Tuple[int, int]]) -> List[np.ndarray]:
+    return [np.array(tuple_element) for tuple_element in tuple_list]
+
+
+def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[int, int]]:
+    return [
+        (int(array_element[0]), int(array_element[1])) for array_element in array_list
+    ]
+
+
 ### TO DO: Clean this algorithm, barely readable
-def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
+def calculate_convex_hull(
+    positions_tuple: List[Tuple[int, int]]
+) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
-    pivot = evaluate_pivot(positions)
-    positions.remove(pivot)
-    convex_hull = [np.array(pivot)]
-    convex_hull_tuple = [pivot]
-    sorted_array_positions = sorted_by_pivot(np.array(positions), np.array(pivot))
+    positions_array = tuple_list_to_array_list(positions_tuple)
+
+    ### Begin Algorithm ###
+    pivot = evaluate_pivot(positions_array)
+    # remove() does not work with list of array
+    positions_array = [
+        position_array
+        for position_array in positions_array
+        if not (np.array_equal(positions_array, pivot))
+    ]
+    convex_hull = [pivot]
+    sorted_array_positions = sorted_by_pivot(np.array(positions_array), np.array(pivot))
     for sorted_array_position in sorted_array_positions:
         while (
             len(convex_hull) > 1
@@ -46,9 +65,7 @@ def calculate_convex_hull(positions: List[Tuple[int, int]]) -> List[Tuple[int, i
             >= 0
         ):
             convex_hull.pop()
-            convex_hull_tuple.pop()
         convex_hull.append(sorted_array_position)
-        convex_hull_tuple.append(
-            (int(sorted_array_position[0]), int(sorted_array_position[1]))
-        )
-    return convex_hull_tuple
+    ### End algorithm ##
+
+    return array_list_to_tuple_list(convex_hull)
