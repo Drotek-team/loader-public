@@ -53,7 +53,6 @@ def test_valid_position_events_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert position_events_check_report.validation
@@ -73,7 +72,6 @@ def test_invalid_position_events_frame_format_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert not (
@@ -95,7 +93,6 @@ def test_invalid_position_events_frame_rate_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert not (
@@ -117,7 +114,6 @@ def test_invalid_position_events_frame_increasing_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert not (
@@ -138,7 +134,6 @@ def test_invalid_position_events_frame_first_frame_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert not (
@@ -160,7 +155,6 @@ def test_invalid_position_events_xyz_format_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert not (
@@ -182,7 +176,6 @@ def test_invalid_position_events_xyz_value_check(
         valid_position_events,
         parameter.frame_parameter,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         position_events_check_report,
     )
     assert not (
@@ -190,25 +183,24 @@ def test_invalid_position_events_xyz_value_check(
     )
 
 
-def test_invalid_position_events_takeoff_duration_check(
-    valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
-):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    valid_position_events.events.insert(
-        1, PositionEvent(parameter.frame_parameter.show_duration_min_frame + 1, 0, 0, 0)
-    )
-    position_events_check(
-        valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
-        parameter.takeoff_parameter,
-        position_events_check_report,
-    )
-    assert not (
-        position_events_check_report.takeoff_check_report.takeoff_duration_check_report.validation
-    )
+# def test_invalid_position_events_takeoff_duration_check(
+#     valid_position_events: PositionEvents,
+#     position_events_check_report: PositionEventsCheckReport,
+# ):
+#     parameter = Parameter()
+#     parameter.load_parameter(os.getcwd())
+#     valid_position_events.events.insert(
+#         1, PositionEvent(parameter.frame_parameter.show_duration_min_frame + 1, 0, 0, 0)
+#     )
+#     position_events_check(
+#         valid_position_events,
+#         parameter.frame_parameter,
+#         parameter.iostar_parameter,
+#         position_events_check_report,
+#     )
+#     assert not (
+#         position_events_check_report.takeoff_check_report.takeoff_duration_check_report.validation
+#     )
 
 
 # def test_invalid_position_events_takeoff_position_check(
@@ -224,7 +216,7 @@ def test_invalid_position_events_takeoff_duration_check(
 #         valid_position_events,
 #         parameter.frame_parameter,
 #         parameter.iostar_parameter,
-#         parameter.takeoff_parameter,
+#
 #         position_events_check_report,
 #     )
 #     assert not (

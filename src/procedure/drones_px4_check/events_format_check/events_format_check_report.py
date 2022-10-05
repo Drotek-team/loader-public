@@ -61,27 +61,27 @@ class XyzCheckReport(Contenor):
         )
 
 
-class TakeoffDurationCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Takeoff Duration Check Report"
+# class TakeoffDurationCheckReport(Displayer):
+#     def get_report(self) -> str:
+#         return "Takeoff Duration Check Report"
 
 
-class TakeoffPositionCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Takeoff Position Check Report"
+# class TakeoffPositionCheckReport(Displayer):
+#     def get_report(self) -> str:
+#         return "Takeoff Position Check Report"
 
 
-class TakeoffCheckReport(Contenor):
-    def __init__(self):
-        self.name = "Takeoff Check Report"
-        self.takeoff_duration_check_report = TakeoffDurationCheckReport()
-        self.takeoff_position_check_report = TakeoffPositionCheckReport()
+# class TakeoffCheckReport(Contenor):
+#     def __init__(self):
+#         self.name = "Takeoff Check Report"
+#         self.takeoff_duration_check_report = TakeoffDurationCheckReport()
+#         self.takeoff_position_check_report = TakeoffPositionCheckReport()
 
-    def update(self):
-        self.validation = (
-            self.takeoff_duration_check_report.validation
-            and self.takeoff_position_check_report.validation
-        )
+#     def update(self):
+#         self.validation = (
+#             self.takeoff_duration_check_report.validation
+#             and self.takeoff_position_check_report.validation
+#         )
 
 
 class PositionEventsCheckReport(Contenor):
@@ -89,13 +89,13 @@ class PositionEventsCheckReport(Contenor):
         self.name = "Position Events Check Report"
         self.frame_check_report = TimecodeCheckReport()
         self.xyz_check_report = XyzCheckReport()
-        self.takeoff_check_report = TakeoffCheckReport()
+        # self.takeoff_check_report = TakeoffCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.frame_check_report.validation
             and self.xyz_check_report.validation
-            and self.takeoff_check_report.validation
+            # and self.takeoff_check_report.validation
         )
 
 

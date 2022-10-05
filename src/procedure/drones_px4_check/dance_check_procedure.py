@@ -15,7 +15,6 @@ def apply_dance_check_procedure(
     apply_events_format_check_procedure(
         drone,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
         parameter.frame_parameter,
         dance_check_report.events_format_check_report,
     )

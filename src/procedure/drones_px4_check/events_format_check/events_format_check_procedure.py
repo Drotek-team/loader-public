@@ -20,7 +20,6 @@ from .events_format_check_tools import (
     fire_frame_check,
     position_frame_check,
     rgbw_check,
-    takeoff_check,
     xyz_check,
 )
 
@@ -29,7 +28,6 @@ def position_events_check(
     position_events: PositionEvents,
     frame_parameter: FrameParameter,
     iostar_parameter: IostarParameter,
-    takeoff_parameter: TakeoffParameter,
     position_events_check_report: PositionEventsCheckReport,
 ) -> None:
     position_frame_check(
@@ -42,13 +40,6 @@ def position_events_check(
         position_events_check_report.xyz_check_report,
         iostar_parameter,
     )
-    # takeoff_check(
-    #     position_events,
-    #     takeoff_parameter,
-    #     frame_parameter,
-    #     position_events_check_report.takeoff_check_report,
-    # )
-    position_events_check_report.takeoff_check_report.validation = True
     position_events_check_report.update()
 
 
@@ -94,7 +85,6 @@ def fire_events_check(
 def apply_events_format_check_procedure(
     drone: DronePx4,
     iostar_parameter: IostarParameter,
-    takeoff_parameter: TakeoffParameter,
     frame_parameter: FrameParameter,
     events_format_check_report: EventsFormatCheckReport,
 ):
@@ -102,7 +92,6 @@ def apply_events_format_check_procedure(
         drone.position_events,
         frame_parameter,
         iostar_parameter,
-        takeoff_parameter,
         events_format_check_report.position_events_check,
     )
     color_events_check(
