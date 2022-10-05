@@ -44,7 +44,7 @@ def check_drone_simulation_position_by_index(
     drone_simulation: DroneSimulation, index: int, px4_position: Tuple[int, int, int]
 ) -> bool:
 
-    return drone_simulation.get_position_by_index(
+    return drone_simulation.get_xyz_simulation_by_index(
         index
     ) == XYZ_CONVERTION_STANDARD.from_px4_xyz_to_user_xyz(px4_position)
 

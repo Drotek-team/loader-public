@@ -27,7 +27,7 @@ def DS_to_TS_procedure(
             stand_by_simulation(
                 frame_parameter.show_duration_min_frame,
                 frame_parameter.show_duration_max_frame,
-                drone_simulation.get_position_by_index(0),
+                drone_simulation.get_xyz_simulation_by_index(0),
                 frame_parameter,
             )
         )
@@ -36,13 +36,13 @@ def DS_to_TS_procedure(
         stand_by_simulation(
             frame_parameter.show_duration_min_frame,
             drone_simulation.get_frame_by_index(0),
-            drone_simulation.get_position_by_index(0),
+            drone_simulation.get_xyz_simulation_by_index(0),
             frame_parameter,
         )
     )
     trajectory_simulation.concatenate_trajectory(
         takeoff_simulation(
-            drone_simulation.get_position_by_index(0),
+            drone_simulation.get_xyz_simulation_by_index(0),
             frame_parameter,
             takeoff_parameter,
         )
@@ -53,7 +53,7 @@ def DS_to_TS_procedure(
             frame_parameter,
         )
     )
-    last_position = drone_simulation.get_position_by_index(-1)
+    last_position = drone_simulation.get_xyz_simulation_by_index(-1)
     trajectory_simulation.concatenate_trajectory(
         land_simulation(
             last_position,

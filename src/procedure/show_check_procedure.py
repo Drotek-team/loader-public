@@ -10,6 +10,10 @@ from .family_user_check.family_user_check_procedure import (
 )
 from .show_check_report import ShowCheckReport
 from .migration_DP_SS.DP_to_SS_procedure import DP_to_SS_procedure
+from .migration_DP_SS.DP_to_DS_procedure import DP_to_DS_procedure
+from .drones_simulation_check.drone_simulation_check_procedure import (
+    apply_drone_simulation_check_procedure,
+)
 
 
 def apply_show_check_procedure(
@@ -29,6 +33,19 @@ def apply_show_check_procedure(
         parameter.family_user_parameter,
         show_check_report.family_check_report,
     )
+
+    drones_simulation = DP_to_DS_procedure(drones_px4)
+
+    for drone_simulation, drone_simulation_check_report in zip(
+        drones_simulation, show_check_report.drones_simulation_check_report
+    ):
+        apply_drone_simulation_check_procedure(
+            drone_simulation,
+            drone_simulation_check_report,
+            parameter.takeoff_parameter,
+            parameter.frame_parameter,
+        )
+
     show_simulation = DP_to_SS_procedure(
         drones_px4,
         parameter.frame_parameter,

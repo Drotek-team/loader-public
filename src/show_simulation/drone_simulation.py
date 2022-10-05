@@ -20,6 +20,10 @@ class DroneSimulation:
         self.position_events_simulation = position_events_simulation
 
     @property
+    def nb_position_events_simulation(self) -> int:
+        return len(self.position_events_simulation)
+
+    @property
     def flight_positions(self) -> List[PositionEventSimulation]:
         return self.position_events_simulation[1:]
 
@@ -34,7 +38,7 @@ class DroneSimulation:
     def get_frame_by_index(self, index: int) -> int:
         return self.position_events_simulation[index].frame
 
-    def get_position_by_index(self, index: int) -> Tuple[float, float, float]:
+    def get_xyz_simulation_by_index(self, index: int) -> Tuple[float, float, float]:
         return self.position_events_simulation[index].xyz
 
 

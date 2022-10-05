@@ -3,6 +3,9 @@ from .family_user_check.family_user_check_report import FamilyUserCheckReport
 from .drones_px4_check.dance_check_report import DanceSizeCheckReport
 from .show_simulation_check.simulation_check_procedure import SimulationCheckReport
 from .drones_px4_check.dance_check_report import DanceCheckReport
+from .drones_simulation_check.drone_simulation_check_report import (
+    DroneSimulationCheckReport,
+)
 
 
 class ShowCheckReport(Contenor):
@@ -12,6 +15,9 @@ class ShowCheckReport(Contenor):
         self.family_check_report = FamilyUserCheckReport()
         self.drones_check_report = [
             DanceCheckReport(drone_index) for drone_index in range(nb_drones)
+        ]
+        self.drones_simulation_check_report = [
+            DroneSimulationCheckReport(drone_index) for drone_index in range(nb_drones)
         ]
 
     def update(self) -> None:

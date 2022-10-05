@@ -142,46 +142,6 @@ def rgbw_check(
     rgbw_check_report.update()
 
 
-# def takeoff_check(
-#     position_events: PositionEvents,
-#     takeoff_parameter: TakeoffParameter,
-#     frame_parameter: FrameParameter,
-#     takeoff_check_report: TakeoffCheckReport,
-# ) -> None:
-#     if position_events.nb_events == 0:
-#         takeoff_check_report.takeoff_duration_check_report.validation = False
-#         takeoff_check_report.takeoff_position_check_report.validation = False
-#     if position_events.nb_events == 1:
-#         first_frame = position_events.get_frame_by_event_index(0)
-#         first_position = position_events.get_xyz_by_event_index(0)
-#         takeoff_check_report.takeoff_duration_check_report.validation = (
-#             takeoff_check_report.takeoff_position_check_report.validation
-#         ) = (first_frame == 0)
-#         takeoff_check_report.takeoff_position_check_report.validation = (
-#             first_position[2] == 0
-#         )
-#     if position_events.nb_events > 1:
-#         first_frame = position_events.get_frame_by_event_index(0)
-#         second_frame = position_events.get_frame_by_event_index(1)
-#         first_position = position_events.get_xyz_by_event_index(0)
-#         second_position = position_events.get_xyz_by_event_index(1)
-#         takeoff_check_report.takeoff_duration_check_report.validation = (
-#             second_frame - first_frame
-#         ) == int(frame_parameter.json_fps * takeoff_parameter.takeoff_duration_second)
-#         takeoff_check_report.takeoff_position_check_report.validation = True
-#         # takeoff_check_report.takeoff_position_check_report.validation = (
-#         #     first_position[0] == second_position[0]
-#         #     and first_position[1] == second_position[1]
-#         #     and -int(
-#         #         json_convertion_constant.METER_TO_CENTIMETER_RATIO
-#         #         * takeoff_parameter.takeoff_altitude_meter
-#         #     )
-#         #     + first_position[2]
-#         #     == second_position[2]
-#         # )
-#     takeoff_check_report.update()
-
-
 def fire_frame_check(
     fire_events: FireEvents,
     fire_events_frame_check_report: FireTimecodeCheckReport,
