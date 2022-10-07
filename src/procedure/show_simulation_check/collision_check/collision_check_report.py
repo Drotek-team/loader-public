@@ -7,13 +7,13 @@ from ...report import Contenor, Displayer
 @dataclass(frozen=True)
 class CollisionInfraction(Displayer):
     first_drone_index: int
-    frame_drone_index: int
+    second_drone_index: int
     in_air: bool
     collision_distance: float
 
     def get_report(self) -> str:
         status = "in air" if self.in_air else "on ground"
-        return f"The drone {self.first_drone_index} and {self.frame_drone_index} which are {status} are at a distance of {self.collision_distance}"
+        return f"The drone {self.first_drone_index} and {self.second_drone_index} which are {status} are at a distance of {self.collision_distance}"
 
 
 class CollisionSliceCheckReport(Contenor):
