@@ -9,9 +9,6 @@ from .collision_check_report import CollisionCheckReport, CollisionInfraction
 
 def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
-    config_matrix + np.linalg.norm(
-        positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
-    )
     return config_matrix + np.linalg.norm(
         positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
     )
