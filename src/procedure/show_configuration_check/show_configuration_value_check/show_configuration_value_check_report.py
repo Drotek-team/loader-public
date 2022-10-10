@@ -25,7 +25,7 @@ class TakeoffAngleValueCheckReport(Displayer):
         return f"The takeoff angle does not have the right value"
 
 
-class IostarJsonParameterValueCheckReport(Contenor):
+class ShowConfigurationValueCheckReport(Contenor):
     def __init__(self):
         self.name = "Family Manager Value Check Report"
         self.nb_x_value_check_report = NbxValueCheckReport()

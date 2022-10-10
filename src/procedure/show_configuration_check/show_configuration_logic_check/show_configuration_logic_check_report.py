@@ -45,7 +45,7 @@ class AltitudeRangeLogicCheckReport(Displayer):
         self.drones_px4_altitude_range = drones_px4_altitude_range
 
 
-class IostarJsonParameterLogicCheckReport(Contenor):
+class ShowConfigurationLogicCheckReport(Contenor):
     def __init__(self):
         self.name = " logic check report"
         self.nb_drone_logic_check_report = NbDroneLogicCheckReport()

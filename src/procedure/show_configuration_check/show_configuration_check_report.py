@@ -1,21 +1,17 @@
 from ..report import Contenor
 from .show_configuration_value_check.show_configuration_value_check_report import (
-    IostarJsonParameterValueCheckReport,
+    ShowConfigurationValueCheckReport,
 )
 from .show_configuration_logic_check.show_configuration_logic_check_report import (
-    IostarJsonParameterLogicCheckReport,
+    ShowConfigurationLogicCheckReport,
 )
 
 
-class IostarJsonParameterCheckReport(Contenor):
+class ShowConfigurationCheckReport(Contenor):
     def __init__(self):
         self.name = "Family Manager Check Report"
-        self.show_configuration_value_check_report = (
-            IostarJsonParameterValueCheckReport()
-        )
-        self.show_configuration_logic_check_report = (
-            IostarJsonParameterLogicCheckReport()
-        )
+        self.show_configuration_value_check_report = ShowConfigurationValueCheckReport()
+        self.show_configuration_logic_check_report = ShowConfigurationLogicCheckReport()
 
     def update(self) -> None:
         self.validation = (

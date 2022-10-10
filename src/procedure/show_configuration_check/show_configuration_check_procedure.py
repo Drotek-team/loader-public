@@ -5,7 +5,7 @@ from ...parameter.parameter import (
 )
 from ...iostar_json.show_configuration import ShowConfiguration
 from .show_configuration_check_report import (
-    IostarJsonParameterCheckReport,
+    ShowConfigurationCheckReport,
 )
 from .show_configuration_value_check.show_configuration_value_check_procedure import (
     apply_show_configuration_value_check,
@@ -20,7 +20,7 @@ def apply_show_configuration_check_procedure(
     show_configuration: ShowConfiguration,
     frame_parameter: FrameParameter,
     iostar_json_configuration_parameter: IostarJsonConfigurationParameter,
-    show_configuration_check_report: IostarJsonParameterCheckReport,
+    show_configuration_check_report: ShowConfigurationCheckReport,
 ) -> None:
     apply_show_configuration_value_check(
         show_configuration,

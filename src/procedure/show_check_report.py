@@ -1,6 +1,6 @@
 from .report import Contenor
 from .show_configuration_check.show_configuration_check_report import (
-    IostarJsonParameterCheckReport,
+    ShowConfigurationCheckReport,
 )
 from .show_simulation_check.simulation_check_procedure import SimulationCheckReport
 from .drones_px4_check.dance_check_report import DanceCheckReport
@@ -13,7 +13,7 @@ class ShowCheckReport(Contenor):
     def __init__(self, nb_drones: int = 1):
         self.name = "Show Check Report"
         self.simulation_check_report = SimulationCheckReport()
-        self.family_check_report = IostarJsonParameterCheckReport()
+        self.show_configuration_check_report = ShowConfigurationCheckReport()
         self.drones_check_report = [
             DanceCheckReport(drone_index) for drone_index in range(nb_drones)
         ]
@@ -24,7 +24,7 @@ class ShowCheckReport(Contenor):
     def update(self) -> None:
         self.validation = (
             self.simulation_check_report.validation
-            and self.family_check_report.validation
+            and self.show_configuration_check_report.validation
             and all(
                 dance_check_report.validation
                 for dance_check_report in self.drones_check_report

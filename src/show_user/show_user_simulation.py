@@ -1,6 +1,6 @@
 from .show_user import ShowUser
 from .drone_user.drone_user import DroneUser, PositionEventUser
-from .show_configuration.show_configuration import IostarJsonParameter
+from .show_configuration.show_configuration import ShowConfiguration
 import json
 from typing import Dict
 
@@ -34,7 +34,7 @@ def get_valid_show_user(
         for index_y in range(nb_y)
         for _ in range(nb_drone_per_family)
     ]
-    valid_show_configuration = IostarJsonParameter(
+    valid_show_configuration = ShowConfiguration(
         nb_x=nb_x,
         nb_y=nb_y,
         nb_drone_per_family=nb_drone_per_family,
