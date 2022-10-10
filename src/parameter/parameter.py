@@ -103,7 +103,7 @@ class FrameParameter:
 
 
 @dataclass(frozen=True)
-class IostarJsonParameterParameter:
+class IostarJsonConfigurationParameter:
     nb_x_value_min: int
     nb_x_value_max: int
     nb_y_value_min: int
@@ -211,10 +211,10 @@ class Parameter:
             position_reformat_factor=1 / data["POSITION_REFORMAT_FACTOR"],
         )
 
-    def load_iostar_json_parameter_parameter(self, local_path: str) -> None:
+    def load_iostar_json_configuration_parameter(self, local_path: str) -> None:
         f = open(f"{local_path}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
         data = json.load(f)
-        self.iostar_json_parameter_parameter = IostarJsonParameterParameter(
+        self.iostar_json_configuration_parameter = IostarJsonConfigurationParameter(
             nb_x_value_min=data["NB_X_VALUE_MIN"],
             nb_x_value_max=data["NB_X_VALUE_MAX"],
             nb_y_value_min=data["NB_Y_VALUE_MIN"],
@@ -228,7 +228,7 @@ class Parameter:
         )
 
     def load_parameter(self, local_path: str) -> None:
-        self.load_iostar_json_parameter_parameter(local_path)
+        self.load_iostar_json_configuration_parameter(local_path)
         self.load_iostar_parameter(local_path)
         self.load_frame_parameter(local_path)
         self.load_json_binary_parameter(local_path)

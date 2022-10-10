@@ -1,6 +1,5 @@
 from .report import Contenor
 from .IJ_param_check.IJ_param_check_report import IostarJsonParameterCheckReport
-from .drones_px4_check.dance_check_report import DanceSizeCheckReport
 from .show_simulation_check.simulation_check_procedure import SimulationCheckReport
 from .drones_px4_check.dance_check_report import DanceCheckReport
 from .drones_simulation_check.drone_simulation_check_report import (

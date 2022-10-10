@@ -1,6 +1,6 @@
 from ....drones_px4.drone_px4.drone_px4 import DronePx4
 from ....parameter.parameter import IostarParameter, JsonBinaryParameter
-from ...migration_IJ_DP.migration_DP_B.drone_encoding_procedure import (
+from ...migration_IJ_DP.migration_DP_binary.drone_encoding_procedure import (
     encode_drone,
 )
 from .dances_size_check_report import DanceSizeCheckReport

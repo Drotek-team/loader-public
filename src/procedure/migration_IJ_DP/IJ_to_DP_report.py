@@ -1,5 +1,5 @@
 from ..report import Contenor
-from .migration_DP_B.drone_decoding_report import DroneDecodingReport
+from .migration_DP_binary.drone_decoding_report import DroneDecodingReport
 
 
 class IJ_to_DP_report(Contenor):

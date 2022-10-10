@@ -82,7 +82,7 @@
 #         valid_drones_px4,
 #         valid_iostar_json_parameter,
 #         parameter.frame_parameter,
-#         parameter.iostar_json_parameter_parameter,
+#         parameter.iostar_json_configuration_parameter,
 #         iostar_json_parameter_check_report,
 #     )
 #     assert iostar_json_parameter_check_report.validation
@@ -120,7 +120,7 @@
 #         valid_drones_px4_angle,
 #         valid_iostar_json_parameter_angle,
 #         parameter.frame_parameter,
-#         parameter.iostar_json_parameter_parameter,
+#         parameter.iostar_json_configuration_parameter,
 #         iostar_json_parameter_check_report,
 #     )
 #     assert iostar_json_parameter_check_report.validation
@@ -157,7 +157,7 @@
 #         invalid_first_position_drones_px4,
 #         valid_iostar_json_parameter,
 #         parameter.frame_parameter,
-#         parameter.iostar_json_parameter_parameter,
+#         parameter.iostar_json_configuration_parameter,
 #         iostar_json_parameter_check_report,
 #     )
 #     assert not (

@@ -1,7 +1,7 @@
 from ...parameter.parameter import JsonBinaryParameter, IostarParameter
 from .IJ_to_DP_report import IJ_to_DP_report
 from ...drones_px4.drones_px4 import DronesPx4
-from .migration_DP_B.drone_decoding_procedure import decode_drone
+from .migration_DP_binary.drone_decoding_procedure import decode_drone
 from ...iostar_json.iostar_json import IostarJson, Show
 
 
