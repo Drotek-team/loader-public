@@ -5,7 +5,7 @@ from .show_simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
 )
 from .drones_px4_check.dance_check_procedure import apply_dance_check_procedure
-from .family_user_check.family_user_check_procedure import (
+from .iostar_json_parameter_check.family_user_check_procedure import (
     apply_family_check_procedure,
 )
 from .show_check_report import ShowCheckReport
