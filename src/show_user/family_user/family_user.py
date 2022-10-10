@@ -4,7 +4,7 @@ import numpy as np
 from pydantic import BaseModel
 
 
-class FamilyUser(BaseModel):
+class IostarJsonParameter(BaseModel):
     nb_x: int
     nb_y: int
     nb_drone_per_family: int

@@ -1,27 +1,35 @@
-from ....show_user.show_user import FamilyUser
-from .IJ_param_value_check_report import FamilyUserValueCheckReport
-from ....parameter.parameter import FamilyUserParameter
+from .IJ_param_value_check_report import IostarJsonParameterValueCheckReport
+from ....parameter.parameter import IostarJsonParameterParameter
+from ....iostar_json.iostar_json import IostarJson
 
 
-def apply_family_user_value_check(
-    family_user: FamilyUser,
-    family_user_parameter: FamilyUserParameter,
-    family_user_value_check_report: FamilyUserValueCheckReport,
+def apply_iostar_json_parameter_value_check(
+    iostar_json_parameter: IostarJson,
+    iostar_json_parameter_parameter: IostarJsonParameterParameter,
+    iostar_json_parameter_value_check_report: IostarJsonParameterValueCheckReport,
 ) -> None:
-    family_user_value_check_report.nb_x_value_check_report.validation = (
-        family_user_parameter.nb_x_value_min <= family_user.nb_x
-        and family_user.nb_x <= family_user_parameter.nb_x_value_max
+    iostar_json_parameter_value_check_report.nb_x_value_check_report.validation = (
+        iostar_json_parameter_parameter.nb_x_value_min
+        <= iostar_json_parameter.show.nb_x
+        and iostar_json_parameter.show.nb_x
+        <= iostar_json_parameter_parameter.nb_x_value_max
     )
-    family_user_value_check_report.nb_y_value_check_report.validation = (
-        family_user_parameter.nb_y_value_min <= family_user.nb_y
-        and family_user.nb_y <= family_user_parameter.nb_y_value_max
+    iostar_json_parameter_value_check_report.nb_y_value_check_report.validation = (
+        iostar_json_parameter_parameter.nb_y_value_min
+        <= iostar_json_parameter.show.nb_y
+        and iostar_json_parameter.show.nb_y
+        <= iostar_json_parameter_parameter.nb_y_value_max
     )
-    family_user_value_check_report.step_value_check_report.validation = (
-        family_user_parameter.step_takeoff_value_min <= family_user.step_takeoff
-        and family_user.step_takeoff <= family_user_parameter.step_takeoff_value_max
+    iostar_json_parameter_value_check_report.step_value_check_report.validation = (
+        iostar_json_parameter_parameter.step_takeoff_value_min
+        <= iostar_json_parameter.show.step
+        and iostar_json_parameter.show.step
+        <= iostar_json_parameter_parameter.step_takeoff_value_max
     )
-    family_user_value_check_report.takeoff_angle_value_check_report.validation = (
-        family_user_parameter.angle_takeoff_value_min <= family_user.angle_takeoff
-        and family_user.angle_takeoff <= family_user_parameter.angle_takeoff_value_max
+    iostar_json_parameter_value_check_report.takeoff_angle_value_check_report.validation = (
+        iostar_json_parameter_parameter.angle_takeoff_value_min
+        <= iostar_json_parameter.show.angle_takeoff
+        and iostar_json_parameter.show.angle_takeoff
+        <= iostar_json_parameter_parameter.angle_takeoff_value_max
     )
-    family_user_value_check_report.update()
+    iostar_json_parameter_value_check_report.update()

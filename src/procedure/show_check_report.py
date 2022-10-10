@@ -1,5 +1,5 @@
 from .report import Contenor
-from .IJ_param_check.IJ_param_check_report import FamilyUserCheckReport
+from .IJ_param_check.IJ_param_check_report import IostarJsonParameterCheckReport
 from .drones_px4_check.dance_check_report import DanceSizeCheckReport
 from .show_simulation_check.simulation_check_procedure import SimulationCheckReport
 from .drones_px4_check.dance_check_report import DanceCheckReport
@@ -12,7 +12,7 @@ class ShowCheckReport(Contenor):
     def __init__(self, nb_drones: int = 1):
         self.name = "Show Check Report"
         self.simulation_check_report = SimulationCheckReport()
-        self.family_check_report = FamilyUserCheckReport()
+        self.family_check_report = IostarJsonParameterCheckReport()
         self.drones_check_report = [
             DanceCheckReport(drone_index) for drone_index in range(nb_drones)
         ]

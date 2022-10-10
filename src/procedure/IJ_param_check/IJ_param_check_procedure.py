@@ -1,36 +1,36 @@
 from ...drones_px4.drones_px4 import DronesPx4
-from ...show_user.show_user import FamilyUser
 from ...parameter.parameter import (
-    FamilyUserParameter,
+    IostarJsonParameterParameter,
     FrameParameter,
 )
+from ...iostar_json.iostar_json import IostarJson
 from .IJ_param_check_report import (
-    FamilyUserCheckReport,
+    IostarJsonParameterCheckReport,
 )
 from .IJ_param_value_check.IJ_param_value_check_procedure import (
-    apply_family_user_value_check,
+    apply_iostar_json_parameter_value_check,
 )
 from .IJ_param_logic_check.IJ_param_logic_check_procedure import (
-    apply_family_user_logic_check_procedure,
+    apply_iostar_json_parameter_logic_check_procedure,
 )
 
 
-def apply_family_check_procedure(
+def apply_iostar_json_parameter_check_procedure(
     drones_px4: DronesPx4,
-    family_user: FamilyUser,
+    iostar_json_parameter: IostarJson,
     frame_parameter: FrameParameter,
-    family_user_parameter: FamilyUserParameter,
-    family_user_check_report: FamilyUserCheckReport,
+    iostar_json_parameter_parameter: IostarJsonParameterParameter,
+    iostar_json_parameter_check_report: IostarJsonParameterCheckReport,
 ) -> None:
-    apply_family_user_value_check(
-        family_user,
-        family_user_parameter,
-        family_user_check_report.family_user_value_check_report,
+    apply_iostar_json_parameter_value_check(
+        iostar_json_parameter,
+        iostar_json_parameter_parameter,
+        iostar_json_parameter_check_report.iostar_json_parameter_value_check_report,
     )
-    apply_family_user_logic_check_procedure(
+    apply_iostar_json_parameter_logic_check_procedure(
         drones_px4,
-        family_user,
+        iostar_json_parameter,
         frame_parameter,
-        family_user_check_report.family_user_logic_check_report,
+        iostar_json_parameter_check_report.iostar_json_parameter_logic_check_report,
     )
-    family_user_check_report.update()
+    iostar_json_parameter_check_report.update()

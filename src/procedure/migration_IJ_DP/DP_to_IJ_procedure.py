@@ -1,6 +1,5 @@
 from ...parameter.parameter import JsonBinaryParameter
 from ...iostar_json.iostar_json import IostarJson
-from ...show_user.show_user import FamilyUser
 from ...drones_px4.drones_px4 import DronesPx4, DronePx4
 from typing import List, Dict
 from .migration_DP_B.drone_encoding_procedure import encode_drone
@@ -28,34 +27,36 @@ def get_family_dict_from_drones_px4(
 
 def DP_to_IJ_procedure(
     drones_px4: DronesPx4,
-    family_user: FamilyUser,
     json_binary_parameter: JsonBinaryParameter,
 ) -> None:
-    show = IostarJson(
-        **{
-            "show": {
-                "families": [
-                    get_family_dict_from_drones_px4(
-                        drones_px4.drones[
-                            family_user.nb_drone_per_family
-                            * family_index : family_user.nb_drone_per_family
-                            * family_index
-                            + family_user.nb_drone_per_family
-                        ],
-                        json_binary_parameter,
-                    )
-                    for family_index in range(family_user.nb_x * family_user.nb_y)
-                ],
-                "nb_x": family_user.nb_x,
-                "nb_y": family_user.nb_y,
-                "step": family_user.step_takeoff,
-                "angle_takeoff": family_user.angle_takeoff,
-                "duration": drones_px4.duration,
-                "hull": drones_px4.convex_hull,
-                "altitude_range": drones_px4.altitude_range,
-            }
-        }
-    )
+    pass
+    # show = IostarJson(
+    #     **{
+    #         "show": {
+    #             "families": [
+    #                 get_family_dict_from_drones_px4(
+    #                     drones_px4.drones[
+    #                         iostar_json.show.nb_drone_per_family
+    #                         * family_index : iostar_json_parameter.nb_drone_per_family
+    #                         * family_index
+    #                         + iostar_json_parameter.nb_drone_per_family
+    #                     ],
+    #                     json_binary_parameter,
+    #                 )
+    #                 for family_index in range(
+    #                     iostar_json_parameter.nb_x * iostar_json_parameter.nb_y
+    #                 )
+    #             ],
+    #             "nb_x": iostar_json_parameter.nb_x,
+    #             "nb_y": iostar_json_parameter.nb_y,
+    #             "step": iostar_json_parameter.step_takeoff,
+    #             "angle_takeoff": iostar_json_parameter.angle_takeoff,
+    #             "duration": drones_px4.duration,
+    #             "hull": drones_px4.convex_hull,
+    #             "altitude_range": drones_px4.altitude_range,
+    #         }
+    #     }
+    # )
 
     # json = show.get_json()
     # filename = "popo.json"

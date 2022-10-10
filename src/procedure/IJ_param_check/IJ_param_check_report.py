@@ -1,20 +1,24 @@
 from ..report import Contenor
 from .IJ_param_value_check.IJ_param_value_check_report import (
-    FamilyUserValueCheckReport,
+    IostarJsonParameterValueCheckReport,
 )
 from .IJ_param_logic_check.IJ_param_logic_check_report import (
-    FamilyUserLogicCheckReport,
+    IostarJsonParameterLogicCheckReport,
 )
 
 
-class FamilyUserCheckReport(Contenor):
+class IostarJsonParameterCheckReport(Contenor):
     def __init__(self):
         self.name = "Family Manager Check Report"
-        self.family_user_value_check_report = FamilyUserValueCheckReport()
-        self.family_user_logic_check_report = FamilyUserLogicCheckReport()
+        self.iostar_json_parameter_value_check_report = (
+            IostarJsonParameterValueCheckReport()
+        )
+        self.iostar_json_parameter_logic_check_report = (
+            IostarJsonParameterLogicCheckReport()
+        )
 
     def update(self) -> None:
         self.validation = (
-            self.family_user_value_check_report.validation
-            and self.family_user_logic_check_report.validation
+            self.iostar_json_parameter_value_check_report.validation
+            and self.iostar_json_parameter_logic_check_report.validation
         )

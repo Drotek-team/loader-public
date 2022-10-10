@@ -4,12 +4,12 @@ from typing import Tuple
 
 class NbDroneLogicCheckReport(Displayer):
     def get_report(self) -> str:
-        return f"The number of drones: {self.nb_drone_drones_px4} does not match the expectation of the families: {self.nb_drone_family_user}"
+        return f"The number of drones: {self.nb_drone_drones_px4} does not match the expectation of the families: {self.nb_drone_iostar_json_parameter}"
 
     def update_report(
-        self, nb_drone_family_user: int, nb_drone_drones_px4: int
+        self, nb_drone_iostar_json_parameter: int, nb_drone_drones_px4: int
     ) -> None:
-        self.nb_drone_family_user = nb_drone_family_user
+        self.nb_drone_iostar_json_parameter = nb_drone_iostar_json_parameter
         self.nb_drone_drones_px4 = nb_drone_drones_px4
 
 
@@ -23,29 +23,29 @@ class FirstPositionLogicCheckReport(Displayer):
 
 class ShowDurationLogicCheckReport(Displayer):
     def get_report(self) -> str:
-        return f"The family manager show duration is {self.family_user_show_duration} and the drones manager show duration is {self.drones_px4_show_duration}"
+        return f"The family manager show duration is {self.iostar_json_parameter_show_duration} and the drones manager show duration is {self.drones_px4_show_duration}"
 
     def update_report(
-        self, family_user_show_duration: int, drones_px4_show_duration: int
+        self, iostar_json_parameter_show_duration: int, drones_px4_show_duration: int
     ) -> None:
-        self.family_user_show_duration = family_user_show_duration
+        self.iostar_json_parameter_show_duration = iostar_json_parameter_show_duration
         self.drones_px4_show_duration = drones_px4_show_duration
 
 
 class AltitudeRangeLogicCheckReport(Displayer):
     def get_report(self) -> str:
-        return f"The family manager altitude range is {self.family_user_altitude_range} and the drones manager altitude range is {self.drones_px4_altitude_range}"
+        return f"The family manager altitude range is {self.iostar_json_parameter_altitude_range} and the drones manager altitude range is {self.drones_px4_altitude_range}"
 
     def update_report(
         self,
-        family_user_altitude_range: Tuple[int, int],
+        iostar_json_parameter_altitude_range: Tuple[int, int],
         drones_px4_altitude_range: Tuple[int, int],
     ) -> None:
-        self.family_user_altitude_range = family_user_altitude_range
+        self.iostar_json_parameter_altitude_range = iostar_json_parameter_altitude_range
         self.drones_px4_altitude_range = drones_px4_altitude_range
 
 
-class FamilyUserLogicCheckReport(Contenor):
+class IostarJsonParameterLogicCheckReport(Contenor):
     def __init__(self):
         self.name = " logic check report"
         self.nb_drone_logic_check_report = NbDroneLogicCheckReport()

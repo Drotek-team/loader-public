@@ -1,5 +1,3 @@
-from ...show_user.show_user import FamilyUser
-
 from ...parameter.parameter import JsonBinaryParameter, IostarParameter
 from .IJ_to_DP_report import IJ_to_DP_report
 from ...drones_px4.drones_px4 import DronesPx4
@@ -32,14 +30,3 @@ def IJ_to_DP_procedure(
         ]
     )
     return drones_px4
-
-
-def IJ_to_FU_procedure(iostar_json: IostarJson) -> FamilyUser:
-    family_user = FamilyUser(
-        nb_x=iostar_json.show.nb_x,
-        nb_y=iostar_json.show.nb_y,
-        nb_drone_per_family=get_nb_drone_per_family(iostar_json.show),
-        step_takeoff=iostar_json.show.step,
-        angle_takeoff=iostar_json.show.angle_takeoff,
-    )
-    return family_user

@@ -19,13 +19,11 @@ def apply_export_procedure(
     export_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
     apply_show_check_procedure(
         drones_px4,
-        show_user.family_user,
         export_report.show_check_report,
         parameter,
     )
     DP_to_IJ_procedure(
         drones_px4,
-        show_user.family_user,
         parameter.json_binary_parameter,
     )
     export_report.update()
