@@ -6,10 +6,10 @@ from ...drones_px4.drone_px4.drone_px4 import DronePx4
 from ...drones_px4.drones_px4 import DronesPx4
 from ...parameter.parameter import Parameter
 from ...show_user.show_user import FamilyUser
-from .family_user_check_procedure import (
+from .IJ_param_check_procedure import (
     apply_family_check_procedure,
 )
-from .family_user_check_report import (
+from .IJ_param_check_report import (
     FamilyUserCheckReport,
 )
 import numpy as np

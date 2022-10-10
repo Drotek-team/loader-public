@@ -1,7 +1,7 @@
 from ....show_user.show_user import FamilyUser
 from typing import List, Tuple
 import numpy as np
-from .family_user_logic_check_report import (
+from .IJ_param_logic_check_report import (
     NbDroneLogicCheckReport,
     FirstPositionLogicCheckReport,
     AltitudeRangeLogicCheckReport,

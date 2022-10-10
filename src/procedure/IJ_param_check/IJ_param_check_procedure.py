@@ -4,16 +4,13 @@ from ...parameter.parameter import (
     FamilyUserParameter,
     FrameParameter,
 )
-from .family_user_check_report import (
+from .IJ_param_check_report import (
     FamilyUserCheckReport,
 )
-from .family_user_format.family_user_format_check_procedure import (
-    apply_family_user_format_check,
-)
-from .family_user_value_check.family_user_value_check_procedure import (
+from .IJ_param_value_check.IJ_param_value_check_procedure import (
     apply_family_user_value_check,
 )
-from .family_user_logic_check.family_user_logic_check_procedure import (
+from .IJ_param_logic_check.IJ_param_logic_check_procedure import (
     apply_family_user_logic_check_procedure,
 )
 
@@ -25,9 +22,6 @@ def apply_family_check_procedure(
     family_user_parameter: FamilyUserParameter,
     family_user_check_report: FamilyUserCheckReport,
 ) -> None:
-    apply_family_user_format_check(
-        family_user, family_user_check_report.family_user_format_check_report
-    )
     apply_family_user_value_check(
         family_user,
         family_user_parameter,
