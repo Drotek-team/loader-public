@@ -1,4 +1,4 @@
-from .drones_px4 import DronePx4, DronesPx4
+from ..drones_px4.drones_px4 import DronePx4, DronesPx4
 from ..parameter.parameter import Parameter
 import os
 

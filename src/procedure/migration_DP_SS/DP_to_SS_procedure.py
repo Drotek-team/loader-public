@@ -8,7 +8,7 @@ from ...show_simulation.show_simulation import ShowSimulationSlice
 from typing import List
 from ...show_simulation.show_simulation import ShowSimulation
 from .DP_to_DS_procedure import DP_to_DS_procedure
-from ...show_simulation.drone_simulation import get_last_frame, DroneSimulation
+from ...show_simulation.drone_simulation import DroneSimulation
 from .migration_DS_TS.DS_to_TS_procedure import DS_to_TS_procedure
 
 
@@ -85,11 +85,11 @@ def DP_to_SS_procedure(
 ) -> ShowSimulation:
     drones_simulation = DP_to_DS_procedure(drones_px4)
     show_slices = get_empty_show_slices(
-        last_frame=get_last_frame(drones_simulation, land_parameter, frame_parameter),
-        nb_drones=len(drones_simulation),
+        last_frame=drones_simulation.get_last_frame(land_parameter, frame_parameter),
+        nb_drones=len(drones_simulation.drones_simulation),
         frame_parameter=frame_parameter,
     )
-    for drone_simulation in drones_simulation:
+    for drone_simulation in drones_simulation.drones_simulation:
         update_show_slices_from_drone_simulation_simulation(
             show_slices=show_slices,
             drone_simulation=drone_simulation,

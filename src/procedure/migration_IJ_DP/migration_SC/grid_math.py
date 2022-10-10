@@ -3,15 +3,19 @@ from typing import Tuple, List
 import numpy as np
 
 
-@dataclass(frozen=True)
+@dataclass
 class HorizontalPosition:
     drone_index: int
-    x: float
-    y: float
+    x: float  # NED in meter
+    y: float  # NED in meter
 
     @property
     def xy_array(self) -> np.ndarray:
         return np.array((self.x, self.y))
+
+    def rotated_positions(self, rotation_matrix: np.ndarray) -> None:
+        xy_array_rotated = rotation_matrix @ self.xy_array
+        self.x, self.y = xy_array_rotated[0], xy_array_rotated[1]
 
 
 def get_nb_drone_per_family_from_drones_px4(
@@ -78,17 +82,19 @@ def get_step_from_drones_px4(
     return 0.0
 
 
+### TO DO: A bit long for not clear reason
 def get_popo(
     first_horizontal_positions: List[HorizontalPosition],
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray,]:
+) -> Tuple[HorizontalPosition, HorizontalPosition]:
     sorted(
         first_horizontal_positions,
         key=lambda first_horizontal_position: tuple(first_horizontal_position.xy_array),
     )
-    first_horizontal_position_x, last_horizontal_position_x = (
+    extreme_horizontal_positions: List[HorizontalPosition]
+    extreme_horizontal_positions += [
         first_horizontal_positions[0],
         first_horizontal_positions[-1],
-    )
+    ]
 
     sorted(
         first_horizontal_positions,
@@ -96,16 +102,15 @@ def get_popo(
             reversed(first_horizontal_position.xy_array)
         ),
     )
-    first_horizontal_position_y, last_horizontal_position_y = (
+    extreme_horizontal_positions += [
         first_horizontal_positions[0],
         first_horizontal_positions[-1],
+    ]
+    sorted(
+        extreme_horizontal_positions,
+        key=lambda extreme_horizontal_position: extreme_horizontal_position.drone_index,
     )
-    return (
-        np.array(first_horizontal_position_x),
-        np.array(last_horizontal_position_x),
-        np.array(first_horizontal_position_y),
-        np.array(last_horizontal_position_y),
-    )
+    return extreme_horizontal_positions[0], extreme_horizontal_positions[1]
 
 
 def get_angle_from_vector(u_x: np.ndarray) -> float:
@@ -113,14 +118,12 @@ def get_angle_from_vector(u_x: np.ndarray) -> float:
     return np.cos(u_x_unit[0])
 
 
-def get_rotated_horizontal_positions(
+def rotated_horizontal_positions(
     horizontal_positions: List[HorizontalPosition], angle_rotation: float
-) -> List[HorizontalPosition]:
+) -> None:
     rotation_matrix = get_rotation_matrix(angle_rotation)
-    return [
-        rotation_matrix @ first_horizontal_position
-        for first_horizontal_position in horizontal_positions
-    ]
+    for horizontal_position in horizontal_positions:
+        horizontal_position.rotated_positions(rotation_matrix)
 
 
 def get_angle_takeoff_from_drones_px4(
@@ -129,11 +132,9 @@ def get_angle_takeoff_from_drones_px4(
     (
         first_horizontal_position_x,
         last_horizontal_position_x,
-        first_horizontal_position_y,
-        last_horizontal_position_y,
     ) = get_popo(first_horizontal_positions)
     return get_angle_from_vector(
-        last_horizontal_position_x - first_horizontal_position_x
+        last_horizontal_position_x.xy_array - first_horizontal_position_x.xy_array
     )
 
 
