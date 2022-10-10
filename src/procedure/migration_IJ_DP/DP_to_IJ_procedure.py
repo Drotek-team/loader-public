@@ -3,7 +3,7 @@ from ...iostar_json.iostar_json import IostarJson
 from ...drones_px4.drones_px4 import DronesPx4, DronePx4
 from typing import List, Dict
 from .migration_DP_binary.drone_encoding_procedure import encode_drone
-from .migration_DP_to_IJP_procedure import DP_to_IJP_procedure
+from .migration_SC.DP_to_SC_procedure import DP_to_SC_procedure
 
 
 def get_family_dict_from_drones_px4(
@@ -29,7 +29,7 @@ def get_family_dict_from_drones_px4(
 def DP_to_IJ_procedure(
     drones_px4: DronesPx4, json_binary_parameter: JsonBinaryParameter
 ) -> None:
-    show_configuration = DP_to_IJP_procedure(drones_px4)
+    show_configuration = DP_to_SC_procedure(drones_px4)
     show = IostarJson(
         **{
             "show": {
