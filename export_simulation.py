@@ -5,8 +5,8 @@ from src.procedure.export_procedure import apply_export_procedure
 from src.procedure.export_report import ExportReport
 import time
 
-NB_X = 20
-NB_Y = 20
+NB_X = 5
+NB_Y = 5
 NB_DRONE_PER_FAMILY = 1
 STEP_TAKEOFF = 1.0
 ANGLE_TAKEOFF = 0

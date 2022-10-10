@@ -5,6 +5,7 @@ from .show_configuration_logic_check_report import (
     FirstPositionLogicCheckReport,
     AltitudeRangeLogicCheckReport,
     ShowDurationLogicCheckReport,
+    ShowConfigurationLogicCheckReport,
 )
 from ....drones_px4.drones_px4 import DronesPx4
 from ....parameter.parameter import FrameParameter
@@ -83,7 +84,7 @@ def apply_show_configuration_logic_check_procedure(
     drones_px4: DronesPx4,
     show_configuration: ShowConfiguration,
     frame_parameter: FrameParameter,
-    show_configuration_logic_check_report: ShowConfigurationParameterLogicCheckReport,
+    show_configuration_logic_check_report: ShowConfigurationLogicCheckReport,
 ) -> None:
     apply_nb_drone_logic_check_report(
         show_configuration,
@@ -100,7 +101,7 @@ def apply_show_configuration_logic_check_procedure(
             drones_px4,
             show_configuration,
             frame_parameter,
-            show_configuration_logic_check_report_duration_logic_check_report,
+            show_configuration_logic_check_report.show_duration_logic_check_report,
         )
         apply_altitude_range_logic_check_report(
             drones_px4,
