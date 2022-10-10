@@ -31,13 +31,13 @@ def apply_import_procedure(
         parameter.json_binary_parameter,
         import_report.json_extraction_report,
     )
-    iostar_json_parameter = IJ_to_FU_procedure(iostar_json)
+    show_configuration = IJ_to_FU_procedure(iostar_json)
     import_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
     apply_show_check_procedure(
         drones_px4,
-        iostar_json_parameter,
+        show_configuration,
         import_report.show_check_report,
         parameter,
     )
     import_report.update()
-    return drones_px4, iostar_json_parameter
+    return drones_px4, show_configuration
