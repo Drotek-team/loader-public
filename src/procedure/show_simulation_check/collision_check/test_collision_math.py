@@ -2,8 +2,10 @@ from .collision_math import (
     get_principal_axis,
     get_border_indices,
     get_optimized_collision_infractions,
+    get_unique_list_from_list,
 )
 import numpy as np
+from .collision_check_report import CollisionInfraction
 
 
 def get_grid(nb_x: int, nb_y: int) -> np.ndarray:
@@ -37,13 +39,50 @@ def test_get_border_indices():
     )
 
 
+def test_get_unique_list_from_list_unique():
+    collision_infraction_1 = CollisionInfraction(0, 1, True, 1.0)
+    collision_infraction_2 = CollisionInfraction(0, 2, True, 1.0)
+    # raise ValueError()
+    assert get_unique_list_from_list(
+        [collision_infraction_1, collision_infraction_2]
+    ) == [collision_infraction_1, collision_infraction_2]
+
+
+def test_get_unique_list_from_list_non_unique():
+    collision_infraction_1 = CollisionInfraction(0, 1, True, 1.0)
+    collision_infraction_2 = CollisionInfraction(0, 1, True, 1.0)
+    # raise ValueError()
+    assert get_unique_list_from_list(
+        [collision_infraction_1, collision_infraction_2]
+    ) == [collision_infraction_1]
+
+
 ### TO DO: finished the test and apply an unique to the collision_infractions, there are diplucate because of the middle border
 def test_get_optimized_collision_infractions():
-    NB_X = 10
-    NB_Y = 10
+    NB_X = 2
+    NB_Y = 2
     local_indices = np.arange(0, NB_X * NB_Y)
-    raise ValueError(
+    # raise ValueError(
+    #     get_optimized_collision_infractions(
+    #         local_indices, get_grid(NB_X, NB_Y), True, endangered_distance=1.2
+    #     )
+    # )
+    nb_drones_total = NB_X * NB_Y
+    assert len(
         get_optimized_collision_infractions(
             local_indices, get_grid(NB_X, NB_Y), True, endangered_distance=1.2
         )
-    )
+    ) == (NB_X - 1) * NB_Y + NB_X * (NB_Y - 1)
+
+
+### TO DO: finished the test and apply an unique to the collision_infractions, there are diplucate because of the middle border
+def test_get_optimized_collision_infractions_big_number():
+    NB_X = 25
+    NB_Y = 20
+
+    local_indices = np.arange(0, NB_X * NB_Y)
+    assert len(
+        get_optimized_collision_infractions(
+            local_indices, get_grid(NB_X, NB_Y), True, endangered_distance=1.2
+        )
+    ) == (NB_X - 1) * NB_Y + NB_X * (NB_Y - 1)

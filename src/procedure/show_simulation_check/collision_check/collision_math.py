@@ -67,7 +67,11 @@ def get_border_indices(
     )
 
 
-ARBITRARY_DICHOTOMY_THRESHOLD = 100
+def get_unique_list_from_list(non_unique_list: List) -> List:
+    return list(set(non_unique_list))
+
+
+ARBITRARY_DICHOTOMY_THRESHOLD = 400
 
 ### TO DO: not very clean to have two different object for indices and position, better group them in a single class
 def get_optimized_collision_infractions(
@@ -87,7 +91,8 @@ def get_optimized_collision_infractions(
     border_indices = get_border_indices(
         local_positions_numpy @ principal_axis, endangered_distance
     )
-    return (
+
+    return get_unique_list_from_list(
         get_optimized_collision_infractions(
             local_indices[argsort_by_axis_positions_numpy[:half_nb_drones_local]],
             local_positions_numpy[
