@@ -51,7 +51,7 @@ def check_drone_simulation_position_by_index(
 
 def test_DP_to_DS_procedure_standard(valid_drones_px4: DronesPx4):
     drones_simulation = DP_to_DS_procedure(valid_drones_px4)
-    drone_simulation = drones_simulation.drones_simulation[0]
+    drone_simulation = drones_simulation[0]
 
     assert check_drone_simulation(drone_simulation, ARBITRARY_INDEX)
     assert check_drone_simulation_frame_by_index(

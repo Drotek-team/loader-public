@@ -16,6 +16,7 @@ from .migration_IJ_DP.migration_SC.IJ_to_SC_procedure import IJ_to_SC_procedure
 from .show_configuration_check.show_configuration_check_procedure import (
     apply_show_configuration_check_procedure,
 )
+from .migration_DP_SS.DP_to_DS_procedure import DP_to_DS_procedure
 
 
 def apply_import_procedure(
@@ -38,7 +39,7 @@ def apply_import_procedure(
     import_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
 
     apply_show_configuration_check_procedure(
-        drones_px4,
+        DP_to_DS_procedure(drones_px4),
         show_configuration,
         parameter.frame_parameter,
         parameter.iostar_json_configuration_parameter,

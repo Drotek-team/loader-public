@@ -1,4 +1,4 @@
-from ...drones_px4.drones_px4 import DronesPx4
+from src.show_simulation.drone_simulation import DronesSimulation
 from ...parameter.parameter import (
     IostarJsonConfigurationParameter,
     FrameParameter,
@@ -16,7 +16,7 @@ from .show_configuration_logic_check.show_configuration_logic_check_procedure im
 
 
 def apply_show_configuration_check_procedure(
-    drones_px4: DronesPx4,
+    drones_simulation: DronesSimulation,
     show_configuration: ShowConfiguration,
     frame_parameter: FrameParameter,
     iostar_json_configuration_parameter: IostarJsonConfigurationParameter,
@@ -28,7 +28,7 @@ def apply_show_configuration_check_procedure(
         show_configuration_check_report.show_configuration_value_check_report,
     )
     apply_show_configuration_logic_check_procedure(
-        drones_px4,
+        drones_simulation,
         show_configuration,
         frame_parameter,
         show_configuration_check_report.show_configuration_logic_check_report,

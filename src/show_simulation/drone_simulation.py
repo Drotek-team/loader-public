@@ -46,6 +46,16 @@ class DronesSimulation:
     def __init__(self, drones_simulation: List[DroneSimulation]):
         self.drones_simulation = drones_simulation
 
+    def __iter__(self):
+        for drone_simulation in self.drones_simulation:
+            yield drone_simulation
+
+    def __getitem__(self, drone_simualtion_index: int):
+        return self.drones_simulation[drone_simualtion_index]
+
+    def __len__(self):
+        return len(self.drones_simulation)
+
     @property
     def duration(self) -> int:
         return max(drone.last_frame for drone in self.drones_simulation)

@@ -86,10 +86,10 @@ def DP_to_SS_procedure(
     drones_simulation = DP_to_DS_procedure(drones_px4)
     show_slices = get_empty_show_slices(
         last_frame=drones_simulation.get_last_frame(land_parameter, frame_parameter),
-        nb_drones=len(drones_simulation.drones_simulation),
+        nb_drones=len(drones_simulation),
         frame_parameter=frame_parameter,
     )
-    for drone_simulation in drones_simulation.drones_simulation:
+    for drone_simulation in drones_simulation:
         update_show_slices_from_drone_simulation_simulation(
             show_slices=show_slices,
             drone_simulation=drone_simulation,

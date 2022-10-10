@@ -38,8 +38,8 @@ class AltitudeRangeLogicCheckReport(Displayer):
 
     def update_report(
         self,
-        show_configuration_altitude_range: Tuple[int, int],
-        drones_px4_altitude_range: Tuple[int, int],
+        show_configuration_altitude_range: Tuple[float, float],
+        drones_px4_altitude_range: Tuple[float, float],
     ) -> None:
         self.show_configuration_altitude_range = show_configuration_altitude_range
         self.drones_px4_altitude_range = drones_px4_altitude_range
