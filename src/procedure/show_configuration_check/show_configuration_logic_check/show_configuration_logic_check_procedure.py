@@ -27,7 +27,7 @@ def apply_nb_drone_logic_check_report(
 
 def apply_position_logic_check_report(
     show_configuration: ShowConfiguration,
-    first_positions: List[Tuple[int, int]],
+    first_positions: List[Tuple[float, float]],
     position_logic_check_report: FirstPositionLogicCheckReport,
 ) -> None:
     ROW_ALIGNED_CENTIMETER_TOLERANCE = 1
