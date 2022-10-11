@@ -7,7 +7,7 @@ from .convex_hull import calculate_convex_hull
 @dataclass(frozen=True)
 class PositionEventSimulation:
     frame: int  # 24 frame per second
-    xyz: Tuple[float, float, float]  # NED/ meter
+    xyz: Tuple[float, float, float]  # ENU and meter
 
 
 class DroneSimulation:

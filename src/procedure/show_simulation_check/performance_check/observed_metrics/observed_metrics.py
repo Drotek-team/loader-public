@@ -80,6 +80,7 @@ class ObservedMetricsSlice:
         performance_slice_check_report: PerformanceSliceCheckReport,
         iostar_parameter: IostarParameter,
     ) -> None:
+        ### TO DO: god damit just use a dict for this
         for drone_index in drone_indices:
             if not (
                 self.vertical_positions[drone_index].validation(

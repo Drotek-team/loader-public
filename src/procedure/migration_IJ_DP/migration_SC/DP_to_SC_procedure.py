@@ -16,12 +16,12 @@ def DP_to_SC_procedure(drones_simulation: DronesSimulation) -> ShowConfiguration
     step = get_step_from_grid(grid)
     nb_x, nb_y = get_nb_x_nb_y_from_grid(grid)
     return ShowConfiguration(
-        nb_x,
-        nb_y,
-        nb_drone_per_family,
-        step,
-        angle_takeoff,
-        drones_simulation.duration,
-        drones_simulation.convex_hull,
-        drones_simulation.altitude_range,
+        nb_x=nb_x,
+        nb_y=nb_y,
+        nb_drone_per_family=nb_drone_per_family,
+        step=step,
+        angle_takeoff=angle_takeoff,
+        duration=drones_simulation.duration,
+        convex_hull=drones_simulation.convex_hull,
+        altitude_range=drones_simulation.altitude_range,
     )
