@@ -13,6 +13,7 @@ class BytesManager:
         return struct.pack(self.fmt, *data_list)
 
 
+### TO DO: BaseModel would be quit appropriate here
 class Header(BytesManager):
     def __init__(
         self,
@@ -27,6 +28,7 @@ class Header(BytesManager):
         self.number_non_empty_events = number_non_empty_events
 
 
+### TO DO: BaseModel would be quit appropriate here
 class SectionHeader(BytesManager):
     def __init__(
         self,

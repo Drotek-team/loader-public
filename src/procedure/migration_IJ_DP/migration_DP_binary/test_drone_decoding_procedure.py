@@ -15,6 +15,7 @@ from .dance_example import (
 )
 
 
+### TO DO: this phase is extremely critical: test it properly
 def test_valid_dance_decoding():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
