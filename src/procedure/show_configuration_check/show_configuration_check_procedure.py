@@ -1,4 +1,4 @@
-from src.show_simulation.drone_simulation import DronesSimulation
+from src.show_simulation.drone_simulation.drone_simulation import DronesSimulation
 from ...parameter.parameter import (
     IostarJsonConfigurationParameter,
     FrameParameter,

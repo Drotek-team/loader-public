@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 import os
 
 import pytest
@@ -21,7 +20,7 @@ from ...migration_DP_SS.DP_to_SS_procedure import DP_to_SS_procedure
 from typing import List
 from ....drones_px4.drone_px4.events.position_events import PositionEvent
 from ...migration_DP_DU.data_convertion_format import XyzConvertionStandard
-from ....show_simulation.drone_simulation import (
+from ....show_simulation.drone_simulation.drone_simulation import (
     DroneSimulation,
     PositionEventSimulation,
 )

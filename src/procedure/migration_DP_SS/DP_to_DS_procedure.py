@@ -1,9 +1,12 @@
 from typing import List
 from ...drones_px4.drones_px4 import DronesPx4
-from ...show_simulation.drone_simulation import DroneSimulation, PositionEventSimulation
+from ...show_simulation.drone_simulation.drone_simulation import (
+    DroneSimulation,
+    PositionEventSimulation,
+)
 from ...drones_px4.drone_px4.events.position_events import PositionEvent
 from ..migration_DP_DU.data_convertion_format import XyzConvertionStandard
-from ...show_simulation.drone_simulation import DronesSimulation
+from ...show_simulation.drone_simulation.drone_simulation import DronesSimulation
 
 
 def get_drone_simulation(

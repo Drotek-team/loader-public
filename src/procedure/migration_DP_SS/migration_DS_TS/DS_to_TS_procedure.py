@@ -10,7 +10,7 @@ from .stand_by_simulation import (
 from ....procedure.migration_DP_SS.migration_DS_TS.takeoff_simulation import (
     takeoff_simulation,
 )
-from ....show_simulation.drone_simulation import DroneSimulation
+from ....show_simulation.drone_simulation.drone_simulation import DroneSimulation
 from ....show_simulation.trajectory_simulation import TrajectorySimulation
 
 

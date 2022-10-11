@@ -1,4 +1,4 @@
-from ....show_simulation.drone_simulation import DronesSimulation
+from ....show_simulation.drone_simulation.drone_simulation import DronesSimulation
 from ....iostar_json.show_configuration import ShowConfiguration
 from .grid_math.grid import Grid
 from .grid_math.grid_angle_estimation import get_angle_takeoff_from_grid

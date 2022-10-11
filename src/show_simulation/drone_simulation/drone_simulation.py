@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple, List
-from ..parameter.parameter import LandParameter, FrameParameter
-from .convex_hull import calculate_convex_hull
+from ...parameter.parameter import LandParameter, FrameParameter
+from ..convex_hull import calculate_convex_hull
 
 
 @dataclass(frozen=True)

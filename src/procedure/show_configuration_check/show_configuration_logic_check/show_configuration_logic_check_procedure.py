@@ -9,7 +9,7 @@ from .show_configuration_logic_check_report import (
 )
 from ....parameter.parameter import FrameParameter
 from ....iostar_json.show_configuration import ShowConfiguration
-from ....show_simulation.drone_simulation import DronesSimulation
+from ....show_simulation.drone_simulation.drone_simulation import DronesSimulation
 
 
 def apply_nb_drone_logic_check_report(
