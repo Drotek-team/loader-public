@@ -50,8 +50,8 @@ class DronesSimulation:
         for drone_simulation in self.drones_simulation:
             yield drone_simulation
 
-    def __getitem__(self, drone_simualtion_index: int):
-        return self.drones_simulation[drone_simualtion_index]
+    def __getitem__(self, drone_simulation_index: int):
+        return self.drones_simulation[drone_simulation_index]
 
     def __len__(self):
         return len(self.drones_simulation)
