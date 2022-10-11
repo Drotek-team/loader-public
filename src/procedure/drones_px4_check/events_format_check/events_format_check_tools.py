@@ -16,11 +16,12 @@ from .events_format_check_report import (
     XyzCheckReport,
 )
 
-
+### TO DO: not exactly its place, it is more an encoding check than anything so place it in the encoding procedure
 def check_is_instance_int_list(elements: List) -> bool:
     return all(isinstance(element, int) for element in elements)
 
 
+### TO DO: not exactly its place, it is more an encoding check than anything so place it in the encoding procedure
 def check_is_instance_int_list_tuple(elements: List[Tuple]) -> bool:
     return all(
         isinstance(element, int)
@@ -29,10 +30,12 @@ def check_is_instance_int_list_tuple(elements: List[Tuple]) -> bool:
     )
 
 
+### TO DO: not exactly its place, it is more an encoding check than anything so place it in the encoding procedure
 def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
     return all(size_min <= element and element <= size_max for element in elements)
 
 
+### TO DO: not exactly its place, it is more an encoding check than anything so place it in the encoding procedure
 def check_int_size_list_tuple(
     elements: List[Tuple], size_min: int, size_max: int
 ) -> bool:
