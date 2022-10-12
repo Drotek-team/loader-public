@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Tuple, List
-from ...parameter.parameter import LandParameter, FrameParameter
+from ..parameter.parameter import LandParameter, FrameParameter
 
 
 @dataclass(frozen=True)
@@ -41,7 +41,7 @@ class DroneSimulation:
         return self.position_events_simulation[index].xyz
 
 
-class DronesSimulation:
+class ShowDev:
     def __init__(self, drones_simulation: List[DroneSimulation]):
         self.drones_simulation = drones_simulation
 

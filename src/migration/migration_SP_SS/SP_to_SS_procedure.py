@@ -8,8 +8,8 @@ from ...show_simulation.show_simulation import ShowSimulationSlice
 from typing import List
 from ...show_simulation.show_simulation import ShowSimulation
 from .SP_to_DS_procedure import DP_to_DS_procedure
-from ...show_simulation.drone_simulation.drone_simulation import DroneSimulation
 from .migration_DS_TS.DS_to_TS_procedure import DS_to_TS_procedure
+from ...show_dev.show_dev import DroneSimulation
 
 
 def get_empty_show_slices(

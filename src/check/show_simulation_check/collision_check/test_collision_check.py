@@ -18,12 +18,9 @@ from ....show_simulation.show_simulation import ShowSimulation
 from ....migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 
 from typing import List
-from ....show_px4.drone_px4.events.position_events import PositionEvent
 from ....migration.migration_SP_SU.data_convertion_format import XyzConvertionStandard
-from ....show_simulation.drone_simulation.drone_simulation import (
-    DroneSimulation,
-    PositionEventSimulation,
-)
+from ....show_dev.show_dev import DroneSimulation, PositionEventSimulation
+
 
 EPSILON_DELTA = 1e-3
 

@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from ....parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .flight_simulation import (
     flight_simulation,
@@ -10,8 +9,8 @@ from .stand_by_simulation import (
 from ...migration_SP_SS.migration_DS_TS.takeoff_simulation import (
     takeoff_simulation,
 )
-from ....show_simulation.drone_simulation.drone_simulation import DroneSimulation
 from ....show_simulation.trajectory_simulation import TrajectorySimulation
+from ....show_dev.show_dev import DroneSimulation
 
 
 def DS_to_TS_procedure(
