@@ -1,7 +1,7 @@
 from .show_check_report import ShowCheckReport
 from ..parameter.parameter import Parameter
 from .export_report import ExportReport
-from ..migration.migration_IJ_DP.DP_to_IJ_procedure import DP_to_IJ_procedure
+from ..migration.migration_IJ_DP.SP_to_IJ_procedure import SP_to_IJ_procedure
 from .show_check_procedure import apply_show_check_procedure
 from typing import Dict
 from ..show_user.show_user import ShowUser
@@ -21,7 +21,7 @@ def apply_export_procedure(
         export_report.show_check_report,
         parameter,
     )
-    DP_to_IJ_procedure(
+    SP_to_IJ_procedure(
         show_px4,
         parameter.json_binary_parameter,
     )

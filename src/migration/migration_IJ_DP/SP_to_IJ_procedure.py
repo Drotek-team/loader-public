@@ -5,7 +5,7 @@ from typing import List, Dict
 from .migration_DP_binary.drone_encoding_procedure import encode_drone
 
 
-def DP_to_IJ_procedure(
+def SP_to_IJ_procedure(
     show_px4: ShowPx4, json_binary_parameter: JsonBinaryParameter
 ) -> None:
     show = IostarJson(
