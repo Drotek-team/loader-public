@@ -30,14 +30,13 @@ def two_dimensionnal_cross_product(
     ) * (position_2[0] - position_0[0])
 
 
-def tuple_list_to_array_list(tuple_list: List[Tuple[float, float]]) -> List[np.ndarray]:
+def tuple_list_to_array_list(tuple_list: List[Tuple[int, int]]) -> List[np.ndarray]:
     return [np.array(tuple_element) for tuple_element in tuple_list]
 
 
-def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[float, float]]:
+def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[int, int]]:
     return [
-        (float(array_element[0]), float(array_element[1]))
-        for array_element in array_list
+        (int(array_element[0]), int(array_element[1])) for array_element in array_list
     ]
 
 
