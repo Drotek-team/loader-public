@@ -4,6 +4,7 @@ from ...show_user.drone_user.drone_user import (
     ColorEventUser,
     FireEventUser,
 )
+from ...show_user.show_user import ShowUser
 from typing import List
 from ...show_px4.show_px4 import ShowPx4, DronePx4
 from .data_convertion_format import (
@@ -81,8 +82,8 @@ def drone_user_to_drone_px4_procedure(
     return drone_px4
 
 
-def DU_to_DP_procedure(
-    drones_user: List[DroneUser],
+def SU_to_SP_procedure(
+    show_user: ShowUser,
 ) -> ShowPx4:
     xyz_convertion_standard = XyzConvertionStandard()
     rgbw_convertion_standard = RgbwConvertionStandard()
@@ -96,6 +97,6 @@ def DU_to_DP_procedure(
                 rgbw_convertion_standard,
                 fire_duration_convertion_standard,
             )
-            for drone_index, drone_user in enumerate(drones_user)
+            for drone_index, drone_user in enumerate(show_user.drones_user)
         ]
     )
