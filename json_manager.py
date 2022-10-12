@@ -1,6 +1,6 @@
 from dance_test_json import JSON_EXAMPLE
-from src.procedure.import_procedure import apply_import_procedure
-from src.procedure.import_report import ImportReport
+from src.check.import_procedure import apply_import_procedure
+from src.check.import_report import ImportReport
 from src.parameter.parameter import Parameter
 import os
 
