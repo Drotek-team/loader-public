@@ -1,12 +1,12 @@
 from typing import Tuple
-from ...drones_px4.drones_px4 import DronesPx4
-from ...drones_px4.drone_px4.drone_px4 import DronePx4
+from ...show_px4.show_px4 import ShowPx4
+from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_simulation.drone_simulation.drone_simulation import (
     DroneSimulation,
     PositionEventSimulation,
 )
-from ...drones_px4.drone_px4.events.position_events import PositionEvent
-from ..migration_DP_DU.data_convertion_format import XyzConvertionStandard
+from ...show_px4.drone_px4.events.position_events import PositionEvent
+from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 import pytest
 from .DP_to_DS_procedure import DP_to_DS_procedure
 
@@ -25,12 +25,12 @@ XYZ_CONVERTION_STANDARD = XyzConvertionStandard()
 
 
 @pytest.fixture
-def valid_drones_px4():
+def valid_show_px4():
     drone = DronePx4(ARBITRARY_INDEX)
     drone.add_position(FIRST_ARBITRARY_FRAME, FIRST_ARBITRARY_XYZ)
     drone.add_position(SECOND_ARBITRARY_FRAME, SECOND_ARBITRARY_XYZ)
     drone.add_position(THIRD_ARBITRARY_FRAME, THIRD_ARBITRARY_XYZ)
-    return DronesPx4([drone])
+    return ShowPx4([drone])
 
 
 def check_drone_simulation(drone_simulation: DroneSimulation, index: int) -> bool:
@@ -52,8 +52,8 @@ def check_drone_simulation_position_by_index(
     ) == XYZ_CONVERTION_STANDARD.from_px4_xyz_to_user_xyz(px4_position)
 
 
-def test_DP_to_DS_procedure_standard(valid_drones_px4: DronesPx4):
-    drones_simulation = DP_to_DS_procedure(valid_drones_px4)
+def test_DP_to_DS_procedure_standard(valid_show_px4: ShowPx4):
+    drones_simulation = DP_to_DS_procedure(valid_show_px4)
     drone_simulation = drones_simulation[0]
 
     assert check_drone_simulation(drone_simulation, ARBITRARY_INDEX)

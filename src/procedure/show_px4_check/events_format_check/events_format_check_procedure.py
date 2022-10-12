@@ -1,7 +1,7 @@
-from ....drones_px4.drone_px4.drone_px4 import DronePx4
-from ....drones_px4.drone_px4.events.color_events import ColorEvents
-from ....drones_px4.drone_px4.events.fire_events import FireEvents
-from ....drones_px4.drone_px4.events.position_events import PositionEvents
+from ....show_px4.drone_px4.drone_px4 import DronePx4
+from ....show_px4.drone_px4.events.color_events import ColorEvents
+from ....show_px4.drone_px4.events.fire_events import FireEvents
+from ....show_px4.drone_px4.events.position_events import PositionEvents
 from ....parameter.parameter import (
     IostarParameter,
     TakeoffParameter,

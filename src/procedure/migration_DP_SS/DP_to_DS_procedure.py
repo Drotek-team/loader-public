@@ -1,11 +1,11 @@
 from typing import List
-from ...drones_px4.drones_px4 import DronesPx4
+from ...show_px4.show_px4 import ShowPx4
 from ...show_simulation.drone_simulation.drone_simulation import (
     DroneSimulation,
     PositionEventSimulation,
 )
-from ...drones_px4.drone_px4.events.position_events import PositionEvent
-from ..migration_DP_DU.data_convertion_format import XyzConvertionStandard
+from ...show_px4.drone_px4.events.position_events import PositionEvent
+from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 from ...show_simulation.drone_simulation.drone_simulation import DronesSimulation
 
 
@@ -26,7 +26,7 @@ def get_drone_simulation(
     )
 
 
-def DP_to_DS_procedure(drones_px4: DronesPx4) -> DronesSimulation:
+def DP_to_DS_procedure(show_px4: ShowPx4) -> DronesSimulation:
     xyz_convertion_standard = XyzConvertionStandard()
     return DronesSimulation(
         [
@@ -35,6 +35,6 @@ def DP_to_DS_procedure(drones_px4: DronesPx4) -> DronesSimulation:
                 drone_px4.position_events.events,
                 xyz_convertion_standard,
             )
-            for drone_px4 in drones_px4
+            for drone_px4 in show_px4
         ]
     )

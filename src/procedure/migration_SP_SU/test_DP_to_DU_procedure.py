@@ -1,6 +1,6 @@
 import pytest
-from ...drones_px4.drone_px4.drone_px4 import DronePx4
-from ...drones_px4.drones_px4 import DronesPx4
+from ...show_px4.drone_px4.drone_px4 import DronePx4
+from ...show_px4.show_px4 import ShowPx4
 from .DP_to_DU_procedure import DP_to_DU_procedure
 from .data_convertion_format import (
     XyzConvertionStandard,
@@ -33,7 +33,7 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 
 @pytest.fixture
-def valid_drones_px4() -> DronesPx4:
+def valid_show_px4() -> ShowPx4:
     drone_px4 = DronePx4(0)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
@@ -61,13 +61,13 @@ def valid_drones_px4() -> DronesPx4:
         ARBITRARY_FIRE_EVENT_CHANEL_BIS,
         ARBITRARY_FIRE_EVENT_DURATION_BIS,
     )
-    return DronesPx4([drone_px4, drone_px4_bis])
+    return ShowPx4([drone_px4, drone_px4_bis])
 
 
-def test_drone_px4_to_drone_user_procedure_position_events(valid_drones_px4: DronesPx4):
+def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowPx4):
     xyz_convertion_standard = XyzConvertionStandard()
     drone_users = DP_to_DU_procedure(
-        valid_drones_px4,
+        valid_show_px4,
     )
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
@@ -86,10 +86,10 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_drones_px4: Dro
     )
 
 
-def test_drone_px4_to_drone_user_procedure_color_events(valid_drones_px4: DronesPx4):
+def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
     rgbw_convertion_standard = RgbwConvertionStandard()
     drone_users = DP_to_DU_procedure(
-        valid_drones_px4,
+        valid_show_px4,
     )
 
     assert len(drone_users[0].color_events) == 1
@@ -109,10 +109,10 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_drones_px4: Drones
     )
 
 
-def test_drone_px4_to_drone_user_procedure_fire_events(valid_drones_px4: DronesPx4):
+def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     fire_duration_convertion_standard = FireDurationConvertionStandard()
     drone_users = DP_to_DU_procedure(
-        valid_drones_px4,
+        valid_show_px4,
     )
 
     assert len(drone_users[0].fire_events) == 1

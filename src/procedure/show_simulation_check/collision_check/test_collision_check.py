@@ -6,7 +6,7 @@ from .collision_check_report import (
     CollisionCheckReport,
 )
 
-from ....drones_px4.drones_px4 import DronePx4, DronesPx4
+from ....show_px4.show_px4 import DronePx4, ShowPx4
 from ....parameter.parameter import Parameter
 from .collision_check_procedure import (
     apply_collision_check_procedure,
@@ -18,8 +18,8 @@ from ....show_simulation.show_simulation import ShowSimulation
 from ...migration_DP_SS.DP_to_SS_procedure import DP_to_SS_procedure
 
 from typing import List
-from ....drones_px4.drone_px4.events.position_events import PositionEvent
-from ...migration_DP_DU.data_convertion_format import XyzConvertionStandard
+from ....show_px4.drone_px4.events.position_events import PositionEvent
+from ...migration_SP_SU.data_convertion_format import XyzConvertionStandard
 from ....show_simulation.drone_simulation.drone_simulation import (
     DroneSimulation,
     PositionEventSimulation,
@@ -34,7 +34,7 @@ def get_show_simulation(
     parameter = Parameter()
     xyz_convertion_standard = XyzConvertionStandard()
     parameter.load_parameter(os.getcwd())
-    drones_px4 = []
+    show_px4 = []
     for drone_index, drone_simulation in enumerate(drones_simulation):
         drone_px4 = DronePx4(drone_index)
         first_position_event = xyz_convertion_standard.from_user_xyz_to_px4_xyz(
@@ -71,9 +71,9 @@ def get_show_simulation(
                     )
                 ),
             )
-        drones_px4.append(drone_px4)
+        show_px4.append(drone_px4)
     show_simulation = DP_to_SS_procedure(
-        DronesPx4(drones_px4),
+        ShowPx4(show_px4),
         parameter.frame_parameter,
         parameter.takeoff_parameter,
         parameter.land_parameter,

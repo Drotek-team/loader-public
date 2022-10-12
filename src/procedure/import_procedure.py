@@ -23,17 +23,17 @@ def apply_import_procedure(
     import_report.json_extraction_report = IJ_to_DP_report(
         len(iostar_json.show.binary_dances)
     )
-    drones_px4 = IJ_to_DP_procedure(
+    show_px4 = IJ_to_DP_procedure(
         iostar_json,
         parameter.iostar_parameter,
         parameter.json_binary_parameter,
         import_report.json_extraction_report,
     )
-    import_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
+    import_report.show_check_report = ShowCheckReport(len(show_px4.drones))
     apply_show_check_procedure(
-        drones_px4,
+        show_px4,
         import_report.show_check_report,
         parameter,
     )
     import_report.update()
-    # return ShowUser(**drones_px4)
+    # return ShowUser(**show_px4)

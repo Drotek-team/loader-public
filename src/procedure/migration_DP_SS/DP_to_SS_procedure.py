@@ -1,4 +1,4 @@
-from ...drones_px4.drones_px4 import DronesPx4
+from ...show_px4.show_px4 import ShowPx4
 from ...parameter.parameter import (
     FrameParameter,
     TakeoffParameter,
@@ -78,12 +78,12 @@ def update_slices_implicit_values(
 
 
 def DP_to_SS_procedure(
-    drones_px4: DronesPx4,
+    show_px4: ShowPx4,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> ShowSimulation:
-    drones_simulation = DP_to_DS_procedure(drones_px4)
+    drones_simulation = DP_to_DS_procedure(show_px4)
     show_slices = get_empty_show_slices(
         last_frame=drones_simulation.get_last_frame(land_parameter, frame_parameter),
         nb_drones=len(drones_simulation),

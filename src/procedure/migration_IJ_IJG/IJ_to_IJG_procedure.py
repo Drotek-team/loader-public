@@ -4,14 +4,14 @@ from .migration_SC.DP_to_SC_procedure import DP_to_SC_procedure
 from ..migration_IJ_DP.IJ_to_DP_procedure import IJ_to_DP_procedure
 from ...parameter.parameter import Parameter
 from typing import List, Dict
-from ...drones_px4.drone_px4.drone_px4 import DronePx4
+from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...parameter.parameter import JsonBinaryParameter
 from ..migration_IJ_DP.migration_DP_binary.drone_encoding_procedure import encode_drone
 from ..migration_IJ_DP.IJ_to_DP_report import IJ_to_DP_report
 
 
-def get_family_dict_from_drones_px4(
-    drones_px4_family: List[DronePx4],
+def get_family_dict_from_show_px4(
+    show_px4_family: List[DronePx4],
     json_binary_parameter: JsonBinaryParameter,
 ) -> Dict:
     return {
@@ -22,26 +22,26 @@ def get_family_dict_from_drones_px4(
                     json_binary_parameter,
                 )
             }
-            for drone_px4_family in drones_px4_family
+            for drone_px4_family in show_px4_family
         ],
     }
 
 
 ### TO DO: test this thing REALLY well
 def IJ_to_IJG_procedure(iostar_json: IostarJson, parameter: Parameter) -> IostarJsonGCS:
-    drones_px4 = IJ_to_DP_procedure(
+    show_px4 = IJ_to_DP_procedure(
         iostar_json,
         parameter.iostar_parameter,
         parameter.json_binary_parameter,
         IJ_to_DP_report(),
     )
-    show_configuration = DP_to_SC_procedure(drones_px4)
+    show_configuration = DP_to_SC_procedure(show_px4)
     return IostarJsonGCS(
         **{
             "show": {
                 "families": [
-                    get_family_dict_from_drones_px4(
-                        drones_px4.drones[
+                    get_family_dict_from_show_px4(
+                        show_px4.drones[
                             show_configuration.nb_drone_per_family
                             * family_index : show_configuration.nb_drone_per_family
                             * family_index

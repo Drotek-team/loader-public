@@ -1,12 +1,12 @@
 from ...parameter.parameter import JsonBinaryParameter
 from ...iostar_json.iostar_json import IostarJson
-from ...drones_px4.drones_px4 import DronesPx4, DronePx4
+from ...show_px4.show_px4 import ShowPx4, DronePx4
 from typing import List, Dict
 from .migration_DP_binary.drone_encoding_procedure import encode_drone
 
 
 def DP_to_IJ_procedure(
-    drones_px4: DronesPx4, json_binary_parameter: JsonBinaryParameter
+    show_px4: ShowPx4, json_binary_parameter: JsonBinaryParameter
 ) -> None:
     show = IostarJson(
         **{
@@ -16,7 +16,7 @@ def DP_to_IJ_procedure(
                         drone_px4,
                         json_binary_parameter,
                     )
-                    for drone_px4 in drones_px4
+                    for drone_px4 in show_px4
                 ],
             }
         }

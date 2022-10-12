@@ -4,12 +4,12 @@ from typing import List, Tuple
 import numpy as np
 import pytest
 
-from .drones_px4 import DronePx4, DronesPx4
+from .show_px4 import DronePx4, ShowPx4
 
 
-def generate_drones_px4_from_first_position(
+def generate_show_px4_from_first_position(
     first_positions: List[Tuple[int, int, int]]
-) -> DronesPx4:
+) -> ShowPx4:
     drones = [DronePx4(drone_index) for drone_index in range(len(first_positions))]
     for first_position, drone in zip(first_positions, drones):
         drone.add_position(0, first_position)
@@ -18,23 +18,23 @@ def generate_drones_px4_from_first_position(
     drone_center.add_position(0, (0, 0, 0))
     drones += [drone_center]
 
-    return DronesPx4(drones)
+    return ShowPx4(drones)
 
 
 @pytest.fixture
-def valid_drones_px4_list() -> List[DronesPx4]:
+def valid_show_px4_list() -> List[ShowPx4]:
     NB_DRONES_MANAGER = 10
-    nb_drones_per_drones_px4 = 100
+    nb_drones_per_show_px4 = 100
     np.random.seed(42)
     return [
-        generate_drones_px4_from_first_position(
+        generate_show_px4_from_first_position(
             [
                 (
                     int(np.random.normal(scale=10)),
                     int(np.random.normal(scale=10)),
                     int(np.random.normal(scale=10)),
                 )
-                for _ in range(nb_drones_per_drones_px4)
+                for _ in range(nb_drones_per_show_px4)
             ]
         )
         for _ in range(NB_DRONES_MANAGER)
@@ -98,12 +98,12 @@ def from_tuple_list_to_point_list(
     return [from_tuple_to_point(tuple_input) for tuple_input in tuple_list_input]
 
 
-def test_valid_convex_hull(valid_drones_px4_list: List[DronesPx4]):
+def test_valid_convex_hull(valid_show_px4_list: List[ShowPx4]):
     assert all(
         is_point_inside_convex_polygon(
             from_tuple_to_point(horizontal_position),
-            from_tuple_list_to_point_list(valid_drones_px4.convex_hull),
+            from_tuple_list_to_point_list(valid_show_px4.convex_hull),
         )
-        for valid_drones_px4 in valid_drones_px4_list
-        for horizontal_position in valid_drones_px4.first_horizontal_positions
+        for valid_show_px4 in valid_show_px4_list
+        for horizontal_position in valid_show_px4.first_horizontal_positions
     )

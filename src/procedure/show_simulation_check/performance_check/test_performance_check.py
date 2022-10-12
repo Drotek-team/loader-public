@@ -2,8 +2,8 @@ from multiprocessing.sharedctypes import Value
 import os
 from typing import List
 import numpy as np
-from ....drones_px4.drone_px4.events.position_events import PositionEvent
-from ....drones_px4.drones_px4 import DronePx4, DronesPx4
+from ....show_px4.drone_px4.events.position_events import PositionEvent
+from ....show_px4.show_px4 import DronePx4, ShowPx4
 from ....parameter.parameter import Parameter
 from .performance_check_procedure import (
     apply_performance_check_procedure,
@@ -16,7 +16,7 @@ from ..simulation_check_report import (
     SimulationCheckReport,
 )
 from ...migration_DP_SS.DP_to_SS_procedure import DP_to_SS_procedure
-from ...migration_DP_DU.data_convertion_format import XyzConvertionStandard
+from ...migration_SP_SU.data_convertion_format import XyzConvertionStandard
 
 EPSILON_DELTA = 1e-3
 
@@ -53,9 +53,9 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
             ),
         )
 
-    drones_px4 = DronesPx4([drone])
+    show_px4 = ShowPx4([drone])
     show_simulation = DP_to_SS_procedure(
-        drones_px4,
+        show_px4,
         parameter.frame_parameter,
         parameter.takeoff_parameter,
         parameter.land_parameter,
