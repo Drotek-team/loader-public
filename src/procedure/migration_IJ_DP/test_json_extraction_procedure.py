@@ -3,7 +3,6 @@ import os
 from ...parameter.parameter import Parameter
 from .IJ_to_DP_procedure import (
     IJ_to_DP_procedure,
-    get_nb_drone_per_family,
 )
 from .IJ_to_DP_report import IJ_to_DP_report
 from .dance_test_json import JSON_EXAMPLE
