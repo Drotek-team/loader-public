@@ -1,6 +1,6 @@
 from typing import List
 
-from ...report import Contenor
+from ....report import Contenor
 from .observed_metrics.observed_metrics_report import PerformanceSliceCheckReport
 
 

@@ -1,4 +1,4 @@
-from .report import Contenor
+from ..report import Contenor
 from .show_check_report import ShowCheckReport
 
 

@@ -1,4 +1,4 @@
-from ..report import Contenor
+from ...report import Contenor
 from .dance_size_check.dances_size_check_report import DanceSizeCheckReport
 from .events_format_check.events_format_check_report import EventsFormatCheckReport
 

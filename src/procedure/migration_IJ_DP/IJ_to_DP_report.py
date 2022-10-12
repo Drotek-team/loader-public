@@ -1,4 +1,4 @@
-from ..report import Contenor
+from ...report import Contenor
 from .migration_DP_binary.drone_decoding_report import DroneDecodingReport
 
 

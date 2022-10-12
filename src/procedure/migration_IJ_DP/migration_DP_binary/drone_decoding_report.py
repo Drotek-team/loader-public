@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List
-from ....procedure.report import Displayer, Contenor
+from ....report import Displayer, Contenor
 
 
 class HeaderSufficientSpaceReport(Displayer):

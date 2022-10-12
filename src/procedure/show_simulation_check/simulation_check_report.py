@@ -1,4 +1,4 @@
-from ..report import Contenor
+from ...report import Contenor
 from .collision_check.collision_check_report import CollisionCheckReport
 from .performance_check.performance_check_report import PerformanceCheckReport
 

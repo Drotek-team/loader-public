@@ -1,4 +1,4 @@
-from ...report import Contenor
+from ....report import Contenor
 
 
 class DanceSizeCheckReport(Contenor):

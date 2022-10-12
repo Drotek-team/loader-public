@@ -1,5 +1,5 @@
 from .migration_IJ_DP.IJ_to_DP_report import IJ_to_DP_report
-from .report import Contenor
+from ..report import Contenor
 from .show_check_report import ShowCheckReport
 
 
