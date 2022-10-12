@@ -4,7 +4,7 @@ from typing import List, Tuple
 import numpy as np
 import pytest
 
-from ..drones_px4.drones_px4 import DronePx4, DronesPx4
+from .drones_px4 import DronePx4, DronesPx4
 
 
 def generate_drones_px4_from_first_position(

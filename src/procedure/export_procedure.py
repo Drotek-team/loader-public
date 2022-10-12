@@ -15,7 +15,7 @@ def apply_export_procedure(
 ) -> None:
     show_user = ShowUser(**show_user_json)
     drones_px4 = DU_to_DP_procedure(show_user.drones_user)
-    export_report.show_check_report = ShowCheckReport(len(drones_px4.drones))
+    export_report.show_check_report = ShowCheckReport(len(drones_px4))
     apply_show_check_procedure(
         drones_px4,
         export_report.show_check_report,

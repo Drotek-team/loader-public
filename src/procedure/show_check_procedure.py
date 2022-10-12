@@ -18,7 +18,7 @@ def apply_show_check_procedure(
     parameter: Parameter,
 ) -> None:
     for drone, dance_check_report in zip(
-        drones_px4.drones, show_check_report.drones_check_report
+        drones_px4, show_check_report.drones_check_report
     ):
         apply_dance_check_procedure(drone, dance_check_report, parameter)
 

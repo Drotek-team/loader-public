@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Tuple, List
 from ...parameter.parameter import LandParameter, FrameParameter
-from ..convex_hull import calculate_convex_hull
 
 
 @dataclass(frozen=True)
@@ -55,33 +54,6 @@ class DronesSimulation:
 
     def __len__(self):
         return len(self.drones_simulation)
-
-    @property
-    def duration(self) -> int:
-        return max(drone.last_frame for drone in self.drones_simulation)
-
-    @property
-    def first_horizontal_positions(self) -> List[Tuple[float, float]]:
-        return [
-            (
-                drone.get_xyz_simulation_by_index(0)[0],
-                drone.get_xyz_simulation_by_index(0)[1],
-            )
-            for drone in self.drones_simulation
-        ]
-
-    @property
-    def convex_hull(self) -> List[Tuple[float, float]]:
-        return calculate_convex_hull(self.first_horizontal_positions)
-
-    @property
-    def altitude_range(self) -> Tuple[float, float]:
-        z_positions = [
-            position_event.xyz[2]
-            for drone in self.drones_simulation
-            for position_event in drone.position_events_simulation
-        ]
-        return (min(z_positions), max(z_positions))
 
     def get_last_frame(
         self,

@@ -1,4 +1,4 @@
-from ..drones_px4.drones_px4 import DronePx4, DronesPx4
+from .drones_px4 import DronePx4, DronesPx4
 
 
 def valid_drones_px4(altitude_max: int) -> DronesPx4:

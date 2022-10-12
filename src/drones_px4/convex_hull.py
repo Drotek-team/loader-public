@@ -42,8 +42,8 @@ def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[float, 
 
 
 def calculate_convex_hull(
-    positions_tuple: List[Tuple[float, float]]
-) -> List[Tuple[float, float]]:
+    positions_tuple: List[Tuple[int, int]]
+) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
     positions_array = tuple_list_to_array_list(positions_tuple)
 

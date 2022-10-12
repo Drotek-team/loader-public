@@ -35,6 +35,6 @@ def DP_to_DS_procedure(drones_px4: DronesPx4) -> DronesSimulation:
                 drone_px4.position_events.events,
                 xyz_convertion_standard,
             )
-            for drone_px4 in drones_px4.drones
+            for drone_px4 in drones_px4
         ]
     )

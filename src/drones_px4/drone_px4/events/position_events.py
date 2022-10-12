@@ -8,9 +8,9 @@ import struct
 @dataclass(frozen=True)
 class PositionEvent(Event):
     frame: int  # time frame associate to the "fps_px4" parameter
-    x: int  # x relative coordinate in centimeter between 0 and 32561
-    y: int  # y relative coordinate in centimeter between 0 and 32561
-    z: int  # z relative coordinate in centimeter between 0 and 32561
+    x: int  # x relative coordinate in NED and centimeter between 0 and 32561
+    y: int  # y relative coordinate in NED and centimeter between 0 and 32561
+    z: int  # z relative coordinate in NED and centimeter between 0 and 32561
 
     @property
     def xyz(self) -> Tuple[int, int, int]:
@@ -20,6 +20,7 @@ class PositionEvent(Event):
         return (self.frame, self.x, self.y, self.z)
 
 
+### TO DO: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
 class PositionEvents(Events):
     events: List[PositionEvent]
     format = ">Hhhh"

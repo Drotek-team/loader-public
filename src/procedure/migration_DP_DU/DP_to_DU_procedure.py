@@ -69,5 +69,5 @@ def DP_to_DU_procedure(
             rgbw_convertion_standard,
             fire_duration_convertion_standard,
         )
-        for drone_px4 in drones_px4.drones
+        for drone_px4 in drones_px4
     ]
