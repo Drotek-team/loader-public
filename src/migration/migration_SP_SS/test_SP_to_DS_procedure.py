@@ -3,9 +3,7 @@ from ...show_px4.show_px4 import ShowPx4
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_simulation.drone_simulation.drone_simulation import (
     DroneSimulation,
-    PositionEventSimulation,
 )
-from ...show_px4.drone_px4.events.position_events import PositionEvent
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 import pytest
 from .SP_to_DS_procedure import DP_to_DS_procedure
