@@ -1,3 +1,4 @@
+from re import L
 from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .flight_simulation import (
     flight_simulation,
@@ -7,8 +8,8 @@ from .stand_by_simulation import (
     stand_by_simulation,
 )
 
-from ...show_trajectory.show_trajectory import DroneTrajectory
-from ...show_dev.show_dev import DroneDev
+from ...show_trajectory.show_trajectory import DroneTrajectory, ShowTrajectory
+from ...show_dev.show_dev import DroneDev, ShowDev
 from .takeoff_simulation import takeoff_simulation
 
 
@@ -72,3 +73,23 @@ def DD_to_DT_procedure(
         )
     )
     return drone_trajectory
+
+
+def SD_to_ST_procedure(
+    show_dev: ShowDev,
+    frame_parameter: FrameParameter,
+    takeoff_parameter: TakeoffParameter,
+    land_parameter: LandParameter,
+) -> ShowTrajectory:
+    return ShowTrajectory(
+        [
+            DD_to_DT_procedure(
+                drone_dev,
+                show_dev.get_last_frame(land_parameter, frame_parameter),
+                frame_parameter,
+                takeoff_parameter,
+                land_parameter,
+            )
+            for drone_dev in show_dev.drones_dev
+        ]
+    )

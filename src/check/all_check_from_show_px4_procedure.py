@@ -10,6 +10,7 @@ from ..migration.migration_SP_SS.SP_to_DS_procedure import SP_to_SD_procedure
 from .show_dev_check.show_dev_check_procedure import (
     apply_show_dev_procedure,
 )
+from ..migration.migration_SD_ST.SD_to_ST_procedure import SD_to_ST_procedure
 
 
 def apply_all_check_from_show_px4_procedure(
@@ -26,6 +27,13 @@ def apply_all_check_from_show_px4_procedure(
         show_check_report.show_dev_check_report,
         parameter.takeoff_parameter,
         parameter.frame_parameter,
+    )
+
+    show_trajectory = SD_to_ST_procedure(
+        show_dev,
+        parameter.frame_parameter,
+        parameter.takeoff_parameter,
+        parameter.land_parameter,
     )
 
     show_simulation = DP_to_SS_procedure(

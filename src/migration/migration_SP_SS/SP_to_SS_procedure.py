@@ -8,7 +8,6 @@ from ...show_simulation.show_simulation import ShowSimulationSlice
 from typing import List
 from ...show_simulation.show_simulation import ShowSimulation
 from .SP_to_DS_procedure import SP_to_SD_procedure
-from ..migration_DD_DT.DD_to_DT_procedure import DD_to_DT_procedure
 from ...show_dev.show_dev import DroneDev
 
 
