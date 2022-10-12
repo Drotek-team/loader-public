@@ -1,6 +1,6 @@
 from src.parameter.parameter import Parameter
 import os
-from src.show_user.show_user_simulation import get_valid_show_user
+from src.show_user.show_user_generator import get_valid_show_user
 from src.procedure.export_procedure import apply_export_procedure
 from src.procedure.export_report import ExportReport
 import time
