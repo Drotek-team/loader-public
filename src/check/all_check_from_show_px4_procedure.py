@@ -12,18 +12,15 @@ from .show_dev_check.show_dev_check_procedure import (
 )
 
 
-def apply_show_check_procedure(
+def apply_all_check_from_show_px4_procedure(
     show_px4: ShowPx4,
     show_check_report: ShowCheckReport,
     parameter: Parameter,
 ) -> None:
-
     apply_show_px4_check_procedure(
         show_px4, show_check_report.show_px4_check_report, parameter
     )
-
     show_dev = SP_to_SD_procedure(show_px4)
-
     apply_show_dev_procedure(
         show_dev,
         show_check_report.show_dev_check_report,

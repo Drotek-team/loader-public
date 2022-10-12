@@ -8,7 +8,7 @@ from .import_report import ImportReport
 from ..migration.migration_IJ_SP.IJ_to_SP_procedure import (
     IJ_to_SP_procedure,
 )
-from .show_check_procedure import apply_show_check_procedure
+from .all_check_from_show_px4_procedure import apply_all_check_from_show_px4_procedure
 from ..migration.migration_IJ_SP.IJ_to_SP_report import IJ_to_SP_report
 from ..iostar_json.iostar_json import IostarJson
 
@@ -30,7 +30,7 @@ def apply_import_procedure(
         import_report.json_extraction_report,
     )
     import_report.show_check_report = ShowCheckReport(len(show_px4.drones))
-    apply_show_check_procedure(
+    apply_all_check_from_show_px4_procedure(
         show_px4,
         import_report.show_check_report,
         parameter,
