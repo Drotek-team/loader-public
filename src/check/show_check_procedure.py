@@ -5,8 +5,8 @@ from .show_simulation_check.simulation_check_procedure import (
 )
 from .show_px4_check.dance_check_procedure import apply_dance_check_procedure
 from .show_check_report import ShowCheckReport
-from ..migration.migration_DP_SS.SP_to_SS_procedure import DP_to_SS_procedure
-from ..migration.migration_DP_SS.SP_to_DS_procedure import DP_to_DS_procedure
+from ..migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
+from ..migration.migration_SP_SS.SP_to_DS_procedure import DP_to_DS_procedure
 from .drones_simulation_check.drone_simulation_check_procedure import (
     apply_drone_simulation_check_procedure,
 )
