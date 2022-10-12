@@ -1,7 +1,7 @@
 from typing import Tuple
 
-from ....parameter.parameter import FrameParameter
-from ....show_trajectory.show_trajectory import (
+from ...parameter.parameter import FrameParameter
+from ...show_trajectory.show_trajectory import (
     DroneTrajectory,
 )
 import numpy as np

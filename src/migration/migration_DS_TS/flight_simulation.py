@@ -3,17 +3,17 @@ from typing import List
 import numpy as np
 
 
-from ....parameter.parameter import FrameParameter
-from ....show_trajectory.show_trajectory import (
+from ...parameter.parameter import FrameParameter
+from ...show_trajectory.show_trajectory import (
     DroneTrajectory,
 )
 from .position_simulation import linear_interpolation
 
 
-from ....parameter.parameter import (
+from ...parameter.parameter import (
     FrameParameter,
 )
-from ....show_dev.show_dev import PositionEventDev
+from ...show_dev.show_dev import PositionEventDev
 
 
 def flight_simulation(

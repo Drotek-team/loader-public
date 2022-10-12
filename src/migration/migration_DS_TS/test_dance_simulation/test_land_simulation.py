@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from .....parameter.parameter import Parameter
+from ....parameter.parameter import Parameter
 from ..flight_simulation import linear_interpolation
 from ..land_simulation import land_simulation
 

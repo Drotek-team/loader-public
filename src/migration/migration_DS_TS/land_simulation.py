@@ -2,8 +2,8 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ....parameter.parameter import LandParameter, FrameParameter
-from ....show_trajectory.show_trajectory import (
+from ...parameter.parameter import LandParameter, FrameParameter
+from ...show_trajectory.show_trajectory import (
     DroneTrajectory,
 )
 from .position_simulation import linear_interpolation

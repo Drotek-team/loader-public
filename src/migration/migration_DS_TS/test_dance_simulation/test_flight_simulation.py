@@ -2,9 +2,9 @@ import os
 
 import numpy as np
 
-from .....parameter.parameter import Parameter
+from ....parameter.parameter import Parameter
 from ..flight_simulation import linear_interpolation, flight_simulation
-from .....show_dev.show_dev import PositionEventDev
+from ....show_dev.show_dev import PositionEventDev
 
 
 def test_flight_simulation():

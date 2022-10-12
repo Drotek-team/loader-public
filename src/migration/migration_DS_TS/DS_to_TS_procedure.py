@@ -1,4 +1,4 @@
-from ....parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
+from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .flight_simulation import (
     flight_simulation,
 )
@@ -6,11 +6,10 @@ from .land_simulation import land_simulation
 from .stand_by_simulation import (
     stand_by_simulation,
 )
-from ...migration_SP_SS.migration_DS_TS.takeoff_simulation import (
-    takeoff_simulation,
-)
-from ....show_trajectory.show_trajectory import DroneTrajectory
-from ....show_dev.show_dev import DroneDev
+
+from ...show_trajectory.show_trajectory import DroneTrajectory
+from ...show_dev.show_dev import DroneDev
+from .takeoff_simulation import takeoff_simulation
 
 
 def DS_to_TS_procedure(
