@@ -3,7 +3,7 @@ from ..parameter.parameter import Parameter
 from .show_simulation_check.simulation_check_procedure import (
     apply_simulation_check_procedure,
 )
-from .show_px4_check.dance_check_procedure import apply_dance_check_procedure
+from .show_px4_check.show_px4_chek_procedure import apply_show_px4_check_procedure
 from .show_check_report import ShowCheckReport
 from ..migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 from ..migration.migration_SP_SS.SP_to_DS_procedure import SP_to_SD_procedure
@@ -17,16 +17,16 @@ def apply_show_check_procedure(
     show_check_report: ShowCheckReport,
     parameter: Parameter,
 ) -> None:
-    for drone, dance_check_report in zip(
-        show_px4, show_check_report.drones_check_report
-    ):
-        apply_dance_check_procedure(drone, dance_check_report, parameter)
+
+    apply_show_px4_check_procedure(
+        show_px4, show_check_report.show_px4_check_report, parameter
+    )
 
     show_dev = SP_to_SD_procedure(show_px4)
 
     apply_show_dev_procedure(
         show_dev,
-        show_check_report.drones_dev_check_report,
+        show_check_report.show_dev_check_report,
         parameter.takeoff_parameter,
         parameter.frame_parameter,
     )
