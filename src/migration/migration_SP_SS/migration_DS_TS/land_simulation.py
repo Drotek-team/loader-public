@@ -3,8 +3,8 @@ from typing import List, Tuple
 import numpy as np
 
 from ....parameter.parameter import LandParameter, FrameParameter
-from ....show_simulation.trajectory_simulation import (
-    TrajectorySimulation,
+from ....show_trajectory.show_trajectory import (
+    DroneTrajectory,
 )
 from .position_simulation import linear_interpolation
 
@@ -59,7 +59,7 @@ def land_simulation(
     land_start_position: Tuple[float, float, float],
     frame_parameter: FrameParameter,
     land_parameter: LandParameter,
-) -> TrajectorySimulation:
+) -> DroneTrajectory:
     land_positions = generate_land_first_part(
         land_start_position,
         frame_parameter,
@@ -69,7 +69,7 @@ def land_simulation(
         frame_parameter,
         land_parameter,
     )
-    return TrajectorySimulation(
+    return DroneTrajectory(
         land_positions,
         [True for _ in range(len(land_positions))],
         [False for _ in range(len(land_positions))],

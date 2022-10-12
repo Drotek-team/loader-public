@@ -9,7 +9,7 @@ from .stand_by_simulation import (
 from ...migration_SP_SS.migration_DS_TS.takeoff_simulation import (
     takeoff_simulation,
 )
-from ....show_simulation.trajectory_simulation import TrajectorySimulation
+from ....show_trajectory.show_trajectory import DroneTrajectory
 from ....show_dev.show_dev import DroneDev
 
 
@@ -19,8 +19,8 @@ def DS_to_TS_procedure(
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
-) -> TrajectorySimulation:
-    trajectory_simulation = TrajectorySimulation([], [], [])
+) -> DroneTrajectory:
+    trajectory_simulation = DroneTrajectory([], [], [])
     if len(drone_dev.position_events_dev) == 1:
         trajectory_simulation.concatenate_trajectory(
             stand_by_simulation(
