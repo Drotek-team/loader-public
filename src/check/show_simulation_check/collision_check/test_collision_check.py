@@ -15,7 +15,7 @@
 #     SimulationCheckReport,
 # )
 # from ....show_simulation.show_simulation import ShowSimulation
-# from ....migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
+# from ....migration.migration_SP_SS.SP_to_SS_procedure import ST_to_SS_procedure
 
 # from typing import List
 # from ....migration.migration_SP_SU.data_convertion_format import XyzConvertionStandard
@@ -69,7 +69,7 @@
 #                 ),
 #             )
 #         show_px4.append(drone_px4)
-#     show_simulation = DP_to_SS_procedure(
+#     show_simulation = ST_to_SS_procedure(
 #         ShowPx4(show_px4),
 #         parameter.frame_parameter,
 #         parameter.takeoff_parameter,

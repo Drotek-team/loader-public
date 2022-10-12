@@ -1,4 +1,3 @@
-from re import L
 from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
 from .flight_simulation import (
     flight_simulation,

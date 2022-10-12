@@ -5,7 +5,7 @@ from ...show_dev.show_dev import DroneDev
 
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 import pytest
-from .SP_to_DS_procedure import SP_to_SD_procedure
+from .SP_to_SD_procedure import SP_to_SD_procedure
 
 ARBITRARY_INDEX = 0
 

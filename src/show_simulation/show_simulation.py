@@ -23,10 +23,12 @@ class ShowSimulationSlice:
 
 
 class ShowSimulation:
-    def __init__(self, show_slices: List[ShowSimulationSlice]):
-        self.nb_drones = len(show_slices[0].drone_indices)
-        self.show_slices = show_slices
+    def __init__(self, frames: List[int], nb_drones: int):
+        self.nb_drones: int = nb_drones
+        self.show_slices: List[ShowSimulationSlice] = [
+            ShowSimulationSlice(frame, nb_drones) for frame in frames
+        ]
 
     @property
-    def frames(self) -> List[float]:
+    def frames(self) -> List[int]:
         return [show_slice.frame for show_slice in self.show_slices]

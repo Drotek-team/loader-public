@@ -5,8 +5,8 @@ from .show_simulation_check.simulation_check_procedure import (
 )
 from .show_px4_check.show_px4_chek_procedure import apply_show_px4_check_procedure
 from .show_check_report import ShowCheckReport
-from ..migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
-from ..migration.migration_SP_SS.SP_to_DS_procedure import SP_to_SD_procedure
+from ..migration.migration_ST_SS.ST_to_SS_procedure import ST_to_SS_procedure
+from ..migration.migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
 from .show_dev_check.show_dev_check_procedure import (
     apply_show_dev_procedure,
 )
@@ -36,11 +36,8 @@ def apply_all_check_from_show_px4_procedure(
         parameter.land_parameter,
     )
 
-    show_simulation = DP_to_SS_procedure(
-        show_px4,
-        parameter.frame_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
+    show_simulation = ST_to_SS_procedure(
+        show_trajectory,
     )
 
     apply_simulation_check_procedure(
