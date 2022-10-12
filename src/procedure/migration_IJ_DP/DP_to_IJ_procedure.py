@@ -5,23 +5,6 @@ from typing import List, Dict
 from .migration_DP_binary.drone_encoding_procedure import encode_drone
 
 
-def get_family_dict_from_drones_px4(
-    drones_px4_family: List[DronePx4],
-    json_binary_parameter: JsonBinaryParameter,
-) -> Dict:
-    return {
-        "dances": [
-            {
-                "dance": encode_drone(
-                    drone_px4_family,
-                    json_binary_parameter,
-                )
-            }
-            for drone_px4_family in drones_px4_family
-        ],
-    }
-
-
 def DP_to_IJ_procedure(
     drones_px4: DronesPx4, json_binary_parameter: JsonBinaryParameter
 ) -> None:
