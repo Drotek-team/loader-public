@@ -9,7 +9,6 @@ class BytesManager(ABC):
         pass
 
 
-### TO DO: BaseModel would be quit appropriate here
 class Header(BaseModel, BytesManager):
     fmt_header: str  # binary format of the header
     magic_number: int  # Magic number with no purpose for the moment
@@ -24,7 +23,6 @@ class Header(BaseModel, BytesManager):
         )
 
 
-### TO DO: BaseModel would be quit appropriate here
 class SectionHeader(BaseModel, BytesManager):
     fmt_section_header: str  # binary format of the section header
     event_id: int  # index associate to the type of events
