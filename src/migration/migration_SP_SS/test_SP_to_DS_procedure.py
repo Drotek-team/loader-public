@@ -5,7 +5,7 @@ from ...show_dev.show_dev import DroneDev
 
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 import pytest
-from .SP_to_DS_procedure import DP_to_DS_procedure
+from .SP_to_DS_procedure import SP_to_SD_procedure
 
 ARBITRARY_INDEX = 0
 
@@ -47,8 +47,8 @@ def check_drone_dev_position_by_index(
     ) == XYZ_CONVERTION_STANDARD.from_px4_xyz_to_user_xyz(px4_position)
 
 
-def test_DP_to_DS_procedure_standard(valid_show_px4: ShowPx4):
-    drones_dev = DP_to_DS_procedure(valid_show_px4)
+def test_SP_to_SD_procedure_standard(valid_show_px4: ShowPx4):
+    drones_dev = SP_to_SD_procedure(valid_show_px4)
     drone_dev = drones_dev[0]
 
     assert check_drone_dev(drone_dev, ARBITRARY_INDEX)

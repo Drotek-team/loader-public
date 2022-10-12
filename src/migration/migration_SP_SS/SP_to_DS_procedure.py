@@ -26,7 +26,7 @@ def get_drone_dev(
     )
 
 
-def DP_to_DS_procedure(show_px4: ShowPx4) -> ShowDev:
+def SP_to_SD_procedure(show_px4: ShowPx4) -> ShowDev:
     xyz_convertion_standard = XyzConvertionStandard()
     return ShowDev(
         [

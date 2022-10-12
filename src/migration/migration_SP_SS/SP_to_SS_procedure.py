@@ -7,7 +7,7 @@ from ...parameter.parameter import (
 from ...show_simulation.show_simulation import ShowSimulationSlice
 from typing import List
 from ...show_simulation.show_simulation import ShowSimulation
-from .SP_to_DS_procedure import DP_to_DS_procedure
+from .SP_to_DS_procedure import SP_to_SD_procedure
 from ..migration_DS_TS.DD_to_DT_procedure import DD_to_DT_procedure
 from ...show_dev.show_dev import DroneDev
 
@@ -83,7 +83,7 @@ def DP_to_SS_procedure(
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> ShowSimulation:
-    drones_dev = DP_to_DS_procedure(show_px4)
+    drones_dev = SP_to_SD_procedure(show_px4)
     show_slices = get_empty_show_slices(
         last_frame=drones_dev.get_last_frame(land_parameter, frame_parameter),
         nb_drones=len(drones_dev),
