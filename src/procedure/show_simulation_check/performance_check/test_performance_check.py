@@ -15,7 +15,7 @@ from ....show_simulation.show_simulation import ShowSimulation
 from ..simulation_check_report import (
     SimulationCheckReport,
 )
-from ...migration_DP_SS.DP_to_SS_procedure import DP_to_SS_procedure
+from ...migration_DP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 from ...migration_SP_SU.data_convertion_format import XyzConvertionStandard
 
 EPSILON_DELTA = 1e-3

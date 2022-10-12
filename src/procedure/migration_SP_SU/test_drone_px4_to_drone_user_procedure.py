@@ -1,6 +1,6 @@
 import pytest
 from ...show_px4.drone_px4.drone_px4 import DronePx4
-from .DP_to_DU_procedure import drone_px4_to_drone_user_procedure
+from .SP_to_SU_procedure import drone_px4_to_drone_user_procedure
 from .data_convertion_format import (
     XyzConvertionStandard,
     RgbwConvertionStandard,

@@ -1,7 +1,8 @@
+from matplotlib.pyplot import show
 import pytest
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
-from .DP_to_DU_procedure import DP_to_DU_procedure
+from .SP_to_SU_procedure import SP_to_SU_procedure
 from .data_convertion_format import (
     XyzConvertionStandard,
     RgbwConvertionStandard,
@@ -66,9 +67,10 @@ def valid_show_px4() -> ShowPx4:
 
 def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowPx4):
     xyz_convertion_standard = XyzConvertionStandard()
-    drone_users = DP_to_DU_procedure(
+    show_user = SP_to_SU_procedure(
         valid_show_px4,
     )
+    drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
     assert drone_users[0].position_events[
@@ -88,9 +90,10 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
 
 def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
     rgbw_convertion_standard = RgbwConvertionStandard()
-    drone_users = DP_to_DU_procedure(
+    show_user = SP_to_SU_procedure(
         valid_show_px4,
     )
+    drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
     assert drone_users[0].color_events[0].frame == ARBITRARY_COLOR_EVENT_FRAME
@@ -111,9 +114,10 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
 
 def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     fire_duration_convertion_standard = FireDurationConvertionStandard()
-    drone_users = DP_to_DU_procedure(
+    show_user = SP_to_SU_procedure(
         valid_show_px4,
     )
+    drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1
     assert drone_users[0].fire_events[0].frame == ARBITRARY_FIRE_EVENT_FRAME

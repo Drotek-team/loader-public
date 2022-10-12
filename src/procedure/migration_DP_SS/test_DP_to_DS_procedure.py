@@ -8,7 +8,7 @@ from ...show_simulation.drone_simulation.drone_simulation import (
 from ...show_px4.drone_px4.events.position_events import PositionEvent
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 import pytest
-from .DP_to_DS_procedure import DP_to_DS_procedure
+from .SP_to_DS_procedure import DP_to_DS_procedure
 
 ARBITRARY_INDEX = 0
 
