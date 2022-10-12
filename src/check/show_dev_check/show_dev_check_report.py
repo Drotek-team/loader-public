@@ -32,3 +32,17 @@ class DroneDevCheckReport(Contenor):
 
     def update(self) -> None:
         self.validation = self.takeoff_check_report.validation
+
+
+class ShowDevCheckReport(Contenor):
+    def __init__(self, nb_drones: int):
+        self.name = "Show dev Check Report"
+        self.drones_dev_check_report = [
+            DroneDevCheckReport(drone_index) for drone_index in range(nb_drones)
+        ]
+
+    def update(self) -> None:
+        self.validation = all(
+            drone_dev_check_report.validation
+            for drone_dev_check_report in self.drones_dev_check_report
+        )

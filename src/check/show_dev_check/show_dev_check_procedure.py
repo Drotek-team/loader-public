@@ -1,8 +1,6 @@
-from ...show_dev.show_dev import DroneDev
-from .show_dev_check_report import (
-    DroneDevCheckReport,
-    TakeoffCheckReport,
-)
+from ...show_dev.show_dev import DroneDev, ShowDev
+from .show_dev_check_report import ShowDevCheckReport, TakeoffCheckReport
+
 from ...parameter.parameter import TakeoffParameter, FrameParameter
 
 
@@ -45,16 +43,18 @@ def takeoff_check(
     takeoff_check_report.update()
 
 
-def apply_drone_dev_check_procedure(
-    drone_dev: DroneDev,
-    drone_dev_check_report: DroneDevCheckReport,
+def apply_show_dev_procedure(
+    show_dev: ShowDev,
+    show_dev_check_report: ShowDevCheckReport,
     takeoff_parameter: TakeoffParameter,
     frame_parameter: FrameParameter,
 ) -> None:
-
-    takeoff_check(
-        drone_dev,
-        drone_dev_check_report.takeoff_check_report,
-        takeoff_parameter,
-        frame_parameter,
-    )
+    for drone_dev, drone_dev_check_report in zip(
+        show_dev.drones_dev, show_dev_check_report.drones_dev_check_report
+    ):
+        takeoff_check(
+            drone_dev,
+            drone_dev_check_report.takeoff_check_report,
+            takeoff_parameter,
+            frame_parameter,
+        )

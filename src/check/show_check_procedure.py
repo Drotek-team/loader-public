@@ -8,7 +8,7 @@ from .show_check_report import ShowCheckReport
 from ..migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 from ..migration.migration_SP_SS.SP_to_DS_procedure import SP_to_SD_procedure
 from .show_dev_check.show_dev_check_procedure import (
-    apply_drone_dev_check_procedure,
+    apply_show_dev_procedure,
 )
 
 
@@ -24,15 +24,12 @@ def apply_show_check_procedure(
 
     show_dev = SP_to_SD_procedure(show_px4)
 
-    for drone_dev, drone_dev_check_report in zip(
-        show_dev.drones_dev, show_check_report.drones_dev_check_report
-    ):
-        apply_drone_dev_check_procedure(
-            drone_dev,
-            drone_dev_check_report,
-            parameter.takeoff_parameter,
-            parameter.frame_parameter,
-        )
+    apply_show_dev_procedure(
+        show_dev,
+        show_check_report.drones_dev_check_report,
+        parameter.takeoff_parameter,
+        parameter.frame_parameter,
+    )
 
     show_simulation = DP_to_SS_procedure(
         show_px4,
