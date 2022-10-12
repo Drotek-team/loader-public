@@ -6,7 +6,6 @@ from ...parameter.parameter import Parameter
 
 
 def IJ_to_IJG_procedure(iostar_json: IostarJson, parameter: Parameter) -> IostarJsonGCS:
-
     drones_px4 = IJ_to_DP_procedure(
         iostar_json,
         parameter.iostar_parameter,
@@ -17,9 +16,19 @@ def IJ_to_IJG_procedure(iostar_json: IostarJson, parameter: Parameter) -> Iostar
         **{
             "show": {
                 "families": [
-                    {"drones": {"dance": 0}, "x": 0, "y": 0, "z": 0}
-                    for drones_family in range()
-                ]
+                    get_family_dict_from_drones_px4(
+                        drones_px4.drones[
+                            show_configuration.nb_drone_per_family
+                            * family_index : show_configuration.nb_drone_per_family
+                            * family_index
+                            + show_configuration.nb_drone_per_family
+                        ],
+                        json_binary_parameter,
+                    )
+                    for family_index in range(
+                        show_configuration.nb_x * show_configuration.nb_y
+                    )
+                ],
             },
             "duration": show_configuration.duration,
             "hull": show_configuration.hull,
