@@ -1,12 +1,12 @@
 from ...show_dev.show_dev import PositionEventDev, DroneDev
 
-from .drone_dev_check_report import (
+from .show_dev_check_report import (
     DroneDevCheckReport,
 )
 from ...parameter.parameter import Parameter
 import os
 import pytest
-from .drone_dev_check_procedure import apply_drone_dev_check_procedure
+from .show_dev_check_procedure import apply_drone_dev_check_procedure
 
 
 @pytest.fixture

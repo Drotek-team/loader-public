@@ -7,7 +7,7 @@ from .show_px4_check.dance_check_procedure import apply_dance_check_procedure
 from .show_check_report import ShowCheckReport
 from ..migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 from ..migration.migration_SP_SS.SP_to_DS_procedure import SP_to_SD_procedure
-from .drones_dev_check.drone_dev_check_procedure import (
+from .show_dev_check.show_dev_check_procedure import (
     apply_drone_dev_check_procedure,
 )
 
@@ -22,10 +22,10 @@ def apply_show_check_procedure(
     ):
         apply_dance_check_procedure(drone, dance_check_report, parameter)
 
-    drones_dev = SP_to_SD_procedure(show_px4)
+    show_dev = SP_to_SD_procedure(show_px4)
 
     for drone_dev, drone_dev_check_report in zip(
-        drones_dev, show_check_report.drones_dev_check_report
+        show_dev.drones_dev, show_check_report.drones_dev_check_report
     ):
         apply_drone_dev_check_procedure(
             drone_dev,

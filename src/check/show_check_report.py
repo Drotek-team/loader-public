@@ -1,7 +1,7 @@
 from ..report import Contenor
 from .show_simulation_check.simulation_check_procedure import SimulationCheckReport
 from .show_px4_check.dance_check_report import DanceCheckReport
-from .drones_dev_check.drone_dev_check_report import (
+from .show_dev_check.show_dev_check_report import (
     DroneDevCheckReport,
 )
 
