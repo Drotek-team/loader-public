@@ -1,13 +1,13 @@
 from ...iostar_json.iostar_json import IostarJson
 from ...iostar_json_gcs.iostar_json_gcs import IostarJsonGCS
 from .migration_SC.DP_to_SC_procedure import DP_to_SC_procedure
-from ..migration_IJ_DP.IJ_to_DP_procedure import IJ_to_DP_procedure
+from ..migration_IJ_SP.IJ_to_SP_procedure import IJ_to_SP_procedure
 from ...parameter.parameter import Parameter
 from typing import List, Dict
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...parameter.parameter import JsonBinaryParameter
-from ..migration_IJ_DP.migration_DP_binary.drone_encoding_procedure import encode_drone
-from ..migration_IJ_DP.IJ_to_DP_report import IJ_to_DP_report
+from ..migration_IJ_SP.migration_DP_binary.drone_encoding_procedure import encode_drone
+from ..migration_IJ_SP.IJ_to_SP_report import IJ_to_SP_report
 
 
 def get_family_dict_from_show_px4(
@@ -29,11 +29,11 @@ def get_family_dict_from_show_px4(
 
 ### TO DO: test this thing REALLY well
 def IJ_to_IJG_procedure(iostar_json: IostarJson, parameter: Parameter) -> IostarJsonGCS:
-    show_px4 = IJ_to_DP_procedure(
+    show_px4 = IJ_to_SP_procedure(
         iostar_json,
         parameter.iostar_parameter,
         parameter.json_binary_parameter,
-        IJ_to_DP_report(),
+        IJ_to_SP_report(),
     )
     show_configuration = DP_to_SC_procedure(show_px4)
     return IostarJsonGCS(
