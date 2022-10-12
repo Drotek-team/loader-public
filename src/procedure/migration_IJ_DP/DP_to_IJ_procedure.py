@@ -28,13 +28,11 @@ def DP_to_IJ_procedure(
     show = IostarJson(
         **{
             "show": {
-                "dances": [
-                    {
-                        "dance": encode_drone(
-                            drone_px4,
-                            json_binary_parameter,
-                        )
-                    }
+                "binary_dances": [
+                    encode_drone(
+                        drone_px4,
+                        json_binary_parameter,
+                    )
                     for drone_px4 in drones_px4
                 ],
             }
