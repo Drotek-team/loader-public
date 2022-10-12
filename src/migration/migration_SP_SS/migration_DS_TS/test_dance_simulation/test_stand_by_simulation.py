@@ -5,7 +5,7 @@ import numpy as np
 from .....parameter.parameter import Parameter
 from ..flight_simulation import linear_interpolation
 from ..stand_by_simulation import stand_by_simulation
-from .....show_dev.show_dev import PositionEventSimulation
+from .....show_dev.show_dev import PositionEventDev
 
 
 FRAME_START = 0
@@ -22,8 +22,8 @@ def test_stand_by_simulation():
         POSITION,
         parameter.frame_parameter,
     )
-    FIRST_THEORICAL_POSITION_EVENT = PositionEventSimulation(FRAME_START, POSITION)
-    SECOND_THEORICAL_POSITION_EVENT = PositionEventSimulation(FRAME_END, POSITION)
+    FIRST_THEORICAL_POSITION_EVENT = PositionEventDev(FRAME_START, POSITION)
+    SECOND_THEORICAL_POSITION_EVENT = PositionEventDev(FRAME_END, POSITION)
     theorical_curve = linear_interpolation(
         FIRST_THEORICAL_POSITION_EVENT.xyz,
         SECOND_THEORICAL_POSITION_EVENT.xyz,

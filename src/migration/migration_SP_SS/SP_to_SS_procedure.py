@@ -9,7 +9,7 @@ from typing import List
 from ...show_simulation.show_simulation import ShowSimulation
 from .SP_to_DS_procedure import DP_to_DS_procedure
 from .migration_DS_TS.DS_to_TS_procedure import DS_to_TS_procedure
-from ...show_dev.show_dev import DroneSimulation
+from ...show_dev.show_dev import DroneDev
 
 
 def get_empty_show_slices(
@@ -28,15 +28,15 @@ def get_empty_show_slices(
     ]
 
 
-def update_show_slices_from_drone_simulation_simulation(
+def update_show_slices_from_drone_dev_simulation(
     show_slices: List[ShowSimulationSlice],
-    drone_simulation: DroneSimulation,
+    drone_dev: DroneDev,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> None:
     trajectory_simulation = DS_to_TS_procedure(
-        drone_simulation,
+        drone_dev,
         show_slices[-1].frame,
         frame_parameter,
         takeoff_parameter,
@@ -48,9 +48,9 @@ def update_show_slices_from_drone_simulation_simulation(
         trajectory_simulation.drone_in_air,
         trajectory_simulation.drone_in_dance,
     ):
-        show_slice.positions[drone_simulation.drone_index] = drone_position
-        show_slice.in_air_flags[drone_simulation.drone_index] = drone_in_air
-        show_slice.in_dance_flags[drone_simulation.drone_index] = drone_in_dance
+        show_slice.positions[drone_dev.drone_index] = drone_position
+        show_slice.in_air_flags[drone_dev.drone_index] = drone_in_air
+        show_slice.in_dance_flags[drone_dev.drone_index] = drone_in_dance
 
 
 VELOCITY_ESTIMATION_INDEX = 1
@@ -83,16 +83,16 @@ def DP_to_SS_procedure(
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> ShowSimulation:
-    drones_simulation = DP_to_DS_procedure(show_px4)
+    drones_dev = DP_to_DS_procedure(show_px4)
     show_slices = get_empty_show_slices(
-        last_frame=drones_simulation.get_last_frame(land_parameter, frame_parameter),
-        nb_drones=len(drones_simulation),
+        last_frame=drones_dev.get_last_frame(land_parameter, frame_parameter),
+        nb_drones=len(drones_dev),
         frame_parameter=frame_parameter,
     )
-    for drone_simulation in drones_simulation:
-        update_show_slices_from_drone_simulation_simulation(
+    for drone_dev in drones_dev:
+        update_show_slices_from_drone_dev_simulation(
             show_slices=show_slices,
-            drone_simulation=drone_simulation,
+            drone_dev=drone_dev,
             frame_parameter=frame_parameter,
             takeoff_parameter=takeoff_parameter,
             land_parameter=land_parameter,

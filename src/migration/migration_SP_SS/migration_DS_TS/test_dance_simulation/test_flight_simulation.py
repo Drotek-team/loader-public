@@ -4,15 +4,15 @@ import numpy as np
 
 from .....parameter.parameter import Parameter
 from ..flight_simulation import linear_interpolation, flight_simulation
-from .....show_dev.show_dev import PositionEventSimulation
+from .....show_dev.show_dev import PositionEventDev
 
 
 def test_flight_simulation():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    FIRST_POSITION_EVENT = PositionEventSimulation(0, (0, 0, 0))
-    SECOND_POSITION_EVENT = PositionEventSimulation(6, (0, 0, 100))
-    THIRD_POSITION_EVENT = PositionEventSimulation(24, (0, 0, 200))
+    FIRST_POSITION_EVENT = PositionEventDev(0, (0, 0, 0))
+    SECOND_POSITION_EVENT = PositionEventDev(6, (0, 0, 100))
+    THIRD_POSITION_EVENT = PositionEventDev(24, (0, 0, 200))
     position_events = [
         FIRST_POSITION_EVENT,
         SECOND_POSITION_EVENT,

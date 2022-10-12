@@ -10,23 +10,23 @@ from ...migration_SP_SS.migration_DS_TS.takeoff_simulation import (
     takeoff_simulation,
 )
 from ....show_simulation.trajectory_simulation import TrajectorySimulation
-from ....show_dev.show_dev import DroneSimulation
+from ....show_dev.show_dev import DroneDev
 
 
 def DS_to_TS_procedure(
-    drone_simulation: DroneSimulation,
+    drone_dev: DroneDev,
     last_frame: int,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> TrajectorySimulation:
     trajectory_simulation = TrajectorySimulation([], [], [])
-    if len(drone_simulation.position_events_simulation) == 1:
+    if len(drone_dev.position_events_dev) == 1:
         trajectory_simulation.concatenate_trajectory(
             stand_by_simulation(
                 frame_parameter.show_duration_min_frame,
                 frame_parameter.show_duration_max_frame,
-                drone_simulation.get_xyz_simulation_by_index(0),
+                drone_dev.get_xyz_simulation_by_index(0),
                 frame_parameter,
             )
         )
@@ -34,25 +34,25 @@ def DS_to_TS_procedure(
     trajectory_simulation.concatenate_trajectory(
         stand_by_simulation(
             frame_parameter.show_duration_min_frame,
-            drone_simulation.get_frame_by_index(0),
-            drone_simulation.get_xyz_simulation_by_index(0),
+            drone_dev.get_frame_by_index(0),
+            drone_dev.get_xyz_simulation_by_index(0),
             frame_parameter,
         )
     )
     trajectory_simulation.concatenate_trajectory(
         takeoff_simulation(
-            drone_simulation.get_xyz_simulation_by_index(0),
+            drone_dev.get_xyz_simulation_by_index(0),
             frame_parameter,
             takeoff_parameter,
         )
     )
     trajectory_simulation.concatenate_trajectory(
         flight_simulation(
-            drone_simulation.flight_positions,
+            drone_dev.flight_positions,
             frame_parameter,
         )
     )
-    last_position = drone_simulation.get_xyz_simulation_by_index(-1)
+    last_position = drone_dev.get_xyz_simulation_by_index(-1)
     trajectory_simulation.concatenate_trajectory(
         land_simulation(
             last_position,
@@ -63,7 +63,7 @@ def DS_to_TS_procedure(
     trajectory_simulation.concatenate_trajectory(
         stand_by_simulation(
             frame_begin=int(
-                drone_simulation.get_frame_by_index(-1)
+                drone_dev.get_frame_by_index(-1)
                 + frame_parameter.json_fps
                 * land_parameter.get_land_second_delta(last_position[2])
             ),

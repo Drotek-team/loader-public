@@ -7,8 +7,8 @@ from .show_px4_check.dance_check_procedure import apply_dance_check_procedure
 from .show_check_report import ShowCheckReport
 from ..migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 from ..migration.migration_SP_SS.SP_to_DS_procedure import DP_to_DS_procedure
-from .drones_simulation_check.drone_simulation_check_procedure import (
-    apply_drone_simulation_check_procedure,
+from .drones_dev_check.drone_dev_check_procedure import (
+    apply_drone_dev_check_procedure,
 )
 
 
@@ -22,14 +22,14 @@ def apply_show_check_procedure(
     ):
         apply_dance_check_procedure(drone, dance_check_report, parameter)
 
-    drones_simulation = DP_to_DS_procedure(show_px4)
+    drones_dev = DP_to_DS_procedure(show_px4)
 
-    for drone_simulation, drone_simulation_check_report in zip(
-        drones_simulation, show_check_report.drones_simulation_check_report
+    for drone_dev, drone_dev_check_report in zip(
+        drones_dev, show_check_report.drones_dev_check_report
     ):
-        apply_drone_simulation_check_procedure(
-            drone_simulation,
-            drone_simulation_check_report,
+        apply_drone_dev_check_procedure(
+            drone_dev,
+            drone_dev_check_report,
             parameter.takeoff_parameter,
             parameter.frame_parameter,
         )

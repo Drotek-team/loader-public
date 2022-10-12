@@ -1,23 +1,23 @@
-from ...show_dev.show_dev import DroneSimulation
-from .drone_simulation_check_report import (
-    DroneSimulationCheckReport,
+from ...show_dev.show_dev import DroneDev
+from .drone_dev_check_report import (
+    DroneDevCheckReport,
     TakeoffCheckReport,
 )
 from ...parameter.parameter import TakeoffParameter, FrameParameter
 
 
 def takeoff_check(
-    drone_simulation: DroneSimulation,
+    drone_dev: DroneDev,
     takeoff_check_report: TakeoffCheckReport,
     takeoff_parameter: TakeoffParameter,
     frame_parameter: FrameParameter,
 ) -> None:
-    if drone_simulation.nb_position_events_simulation == 0:
+    if drone_dev.nb_position_events_dev == 0:
         takeoff_check_report.takeoff_duration_check_report.validation = False
         takeoff_check_report.takeoff_xyz_check_report.validation = False
-    if drone_simulation.nb_position_events_simulation == 1:
-        first_frame = drone_simulation.get_frame_by_index(0)
-        first_position = drone_simulation.get_xyz_simulation_by_index(0)
+    if drone_dev.nb_position_events_dev == 1:
+        first_frame = drone_dev.get_frame_by_index(0)
+        first_position = drone_dev.get_xyz_simulation_by_index(0)
 
         takeoff_check_report.takeoff_duration_check_report.validation = (
             takeoff_check_report.takeoff_xyz_check_report.validation
@@ -25,11 +25,11 @@ def takeoff_check(
         takeoff_check_report.takeoff_xyz_check_report.validation = (
             first_position[2] == 0
         )
-    if drone_simulation.nb_position_events_simulation > 1:
-        first_frame = drone_simulation.get_frame_by_index(0)
-        second_frame = drone_simulation.get_frame_by_index(1)
-        first_position = drone_simulation.get_xyz_simulation_by_index(0)
-        second_position = drone_simulation.get_xyz_simulation_by_index(1)
+    if drone_dev.nb_position_events_dev > 1:
+        first_frame = drone_dev.get_frame_by_index(0)
+        second_frame = drone_dev.get_frame_by_index(1)
+        first_position = drone_dev.get_xyz_simulation_by_index(0)
+        second_position = drone_dev.get_xyz_simulation_by_index(1)
 
         takeoff_check_report.takeoff_duration_check_report.validation = (
             second_frame - first_frame
@@ -45,16 +45,16 @@ def takeoff_check(
     takeoff_check_report.update()
 
 
-def apply_drone_simulation_check_procedure(
-    drone_simulation: DroneSimulation,
-    drone_simulation_check_report: DroneSimulationCheckReport,
+def apply_drone_dev_check_procedure(
+    drone_dev: DroneDev,
+    drone_dev_check_report: DroneDevCheckReport,
     takeoff_parameter: TakeoffParameter,
     frame_parameter: FrameParameter,
 ) -> None:
 
     takeoff_check(
-        drone_simulation,
-        drone_simulation_check_report.takeoff_check_report,
+        drone_dev,
+        drone_dev_check_report.takeoff_check_report,
         takeoff_parameter,
         frame_parameter,
     )

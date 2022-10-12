@@ -24,7 +24,7 @@ class TakeoffCheckReport(Contenor):
         )
 
 
-class DroneSimulationCheckReport(Contenor):
+class DroneDevCheckReport(Contenor):
     def __init__(self, index: int):
         self.name = "Drone Simulation Check Report"
         self.index = index

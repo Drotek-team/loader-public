@@ -19,23 +19,23 @@ from ....migration.migration_SP_SS.SP_to_SS_procedure import DP_to_SS_procedure
 
 from typing import List
 from ....migration.migration_SP_SU.data_convertion_format import XyzConvertionStandard
-from ....show_dev.show_dev import DroneSimulation, PositionEventSimulation
+from ....show_dev.show_dev import DroneDev, PositionEventDev
 
 
 EPSILON_DELTA = 1e-3
 
 
 def get_show_simulation(
-    drones_simulation: List[DroneSimulation],
+    drones_dev: List[DroneDev],
 ) -> ShowSimulation:
     parameter = Parameter()
     xyz_convertion_standard = XyzConvertionStandard()
     parameter.load_parameter(os.getcwd())
     show_px4 = []
-    for drone_index, drone_simulation in enumerate(drones_simulation):
+    for drone_index, drone_dev in enumerate(drones_dev):
         drone_px4 = DronePx4(drone_index)
         first_position_event = xyz_convertion_standard.from_user_xyz_to_px4_xyz(
-            drone_simulation.position_events_simulation[0].xyz
+            drone_dev.position_events_dev[0].xyz
         )
         drone_px4.add_position(0, (first_position_event[0], first_position_event[1], 0))
         drone_px4.add_position(
@@ -45,13 +45,13 @@ def get_show_simulation(
             ),
             xyz_convertion_standard.from_user_xyz_to_px4_xyz(
                 (
-                    drone_simulation.position_events_simulation[0].xyz[0],
-                    drone_simulation.position_events_simulation[0].xyz[1],
+                    drone_dev.position_events_dev[0].xyz[0],
+                    drone_dev.position_events_dev[0].xyz[1],
                     parameter.takeoff_parameter.takeoff_altitude_meter,
                 )
             ),
         )
-        for position_event_simulation in drone_simulation.position_events_simulation:
+        for position_event_simulation in drone_dev.position_events_dev:
             position_simulation = position_event_simulation.xyz
             drone_px4.add_position(
                 int(
@@ -86,11 +86,11 @@ def valid_collision_show_in_air():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
-    drone_1 = DroneSimulation(6, [PositionEventSimulation(6, (0, 0, 0))])
-    drone_2 = DroneSimulation(
+    drone_1 = DroneDev(6, [PositionEventDev(6, (0, 0, 0))])
+    drone_2 = DroneDev(
         6,
         [
-            PositionEventSimulation(
+            PositionEventDev(
                 6,
                 (
                     parameter.iostar_parameter.security_distance_in_air
@@ -126,11 +126,11 @@ def valid_collision_show_on_ground():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
-    drone_1 = DroneSimulation(6, [PositionEventSimulation(6, (0, 0, 0))])
-    drone_2 = DroneSimulation(
+    drone_1 = DroneDev(6, [PositionEventDev(6, (0, 0, 0))])
+    drone_2 = DroneDev(
         6,
         [
-            PositionEventSimulation(
+            PositionEventDev(
                 6,
                 (
                     parameter.iostar_parameter.security_distance_on_ground
@@ -166,11 +166,11 @@ def invalid_collision_show_in_air():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
-    drone_1 = DroneSimulation(6, [PositionEventSimulation(6, (0, 0, 0))])
-    drone_2 = DroneSimulation(
+    drone_1 = DroneDev(6, [PositionEventDev(6, (0, 0, 0))])
+    drone_2 = DroneDev(
         6,
         [
-            PositionEventSimulation(
+            PositionEventDev(
                 6,
                 (
                     parameter.iostar_parameter.security_distance_in_air - EPSILON_DELTA,
@@ -203,11 +203,11 @@ def invalid_collision_show_on_ground():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
 
-    drone_1 = DroneSimulation(6, [PositionEventSimulation(6, (0, 0, 0))])
-    drone_2 = DroneSimulation(
+    drone_1 = DroneDev(6, [PositionEventDev(6, (0, 0, 0))])
+    drone_2 = DroneDev(
         6,
         [
-            PositionEventSimulation(
+            PositionEventDev(
                 6,
                 (
                     parameter.iostar_parameter.security_distance_on_ground
