@@ -7,6 +7,8 @@ from ...parameter.parameter import Parameter
 from ...show_simulation.show_simulation import ShowSimulation
 from .ST_to_SS_procedure import ST_to_SS_procedure
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
+from ..migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
+from ..migration_SD_ST.SD_to_ST_procedure import SD_to_ST_procedure
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
@@ -46,11 +48,15 @@ def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
         )
 
     show_px4 = ShowPx4([drone])
-    show_simulation = ST_to_SS_procedure(
-        show_px4,
+    show_dev = SP_to_SD_procedure(show_px4)
+    show_trajectory = SD_to_ST_procedure(
+        show_dev,
         parameter.frame_parameter,
         parameter.takeoff_parameter,
         parameter.land_parameter,
+    )
+    show_simulation = ST_to_SS_procedure(
+        show_trajectory,
     )
     return show_simulation
 

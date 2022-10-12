@@ -5,6 +5,7 @@ import numpy as np
 from ...parameter.parameter import TakeoffParameter, FrameParameter
 from ...show_trajectory.show_trajectory import (
     DroneTrajectory,
+    TrajectoryInfo,
 )
 from .position_simulation import linear_interpolation
 
@@ -53,7 +54,7 @@ def takeoff_simulation(
     takeoff_start_position: Tuple[float, float, float],
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
-) -> DroneTrajectory:
+) -> List[TrajectoryInfo]:
     takeoff_positions = generate_takeoff_first_part(
         takeoff_start_position,
         frame_parameter,
@@ -63,8 +64,7 @@ def takeoff_simulation(
         frame_parameter,
         takeoff_parameter,
     )
-    return DroneTrajectory(
-        takeoff_positions,
-        [False] + [True for _ in range(len(takeoff_positions) - 1)],
-        [False for _ in range(len(takeoff_positions))],
-    )
+    return [
+        TrajectoryInfo(takeoff_position, True, False)
+        for takeoff_position in takeoff_positions
+    ]
