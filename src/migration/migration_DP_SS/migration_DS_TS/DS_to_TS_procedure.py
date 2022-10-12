@@ -7,7 +7,7 @@ from .land_simulation import land_simulation
 from .stand_by_simulation import (
     stand_by_simulation,
 )
-from ....procedure.migration_DP_SS.migration_DS_TS.takeoff_simulation import (
+from ...migration_DP_SS.migration_DS_TS.takeoff_simulation import (
     takeoff_simulation,
 )
 from ....show_simulation.drone_simulation.drone_simulation import DroneSimulation

@@ -5,11 +5,11 @@ from .show_check_report import ShowCheckReport
 from ..show_user.show_user import ShowUser
 from ..parameter.parameter import Parameter
 from .import_report import ImportReport
-from .migration_IJ_DP.IJ_to_DP_procedure import (
+from ..migration.migration_IJ_DP.IJ_to_DP_procedure import (
     IJ_to_DP_procedure,
 )
 from .show_check_procedure import apply_show_check_procedure
-from .migration_IJ_DP.IJ_to_DP_report import IJ_to_DP_report
+from ..migration.migration_IJ_DP.IJ_to_DP_report import IJ_to_DP_report
 from ..iostar_json.iostar_json import IostarJson
 
 
