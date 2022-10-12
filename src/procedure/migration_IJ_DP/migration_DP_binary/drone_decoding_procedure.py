@@ -25,10 +25,10 @@ def get_header_section_header(
         byte_array[: struct.calcsize(json_binary_parameter.fmt_header)],
     )
     header = Header(
-        json_binary_parameter.fmt_header,
-        header_data[0],
-        header_data[1],
-        header_data[2],
+        fmt_header=json_binary_parameter.fmt_header,
+        magic_number=header_data[0],
+        dance_size=header_data[1],
+        number_non_empty_events=header_data[2],
     )
 
     section_headers = []
@@ -45,10 +45,10 @@ def get_header_section_header(
         )
         section_headers.append(
             SectionHeader(
-                json_binary_parameter.fmt_section_header,
-                section_header_data[0],
-                section_header_data[1],
-                section_header_data[2],
+                fmt_section_header=json_binary_parameter.fmt_section_header,
+                event_id=section_header_data[0],
+                byte_array_start_index=section_header_data[1],
+                byte_array_end_index=section_header_data[2],
             )
         )
     return header, section_headers

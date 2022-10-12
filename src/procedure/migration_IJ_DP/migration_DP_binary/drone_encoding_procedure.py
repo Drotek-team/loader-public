@@ -22,10 +22,10 @@ def get_section_headers(
         non_empty_events_list, encoded_events_list
     ):
         section_header = SectionHeader(
-            json_binary_parameter.fmt_section_header,
-            non_empty_events.id,
-            byte_array_start_index,
-            byte_array_start_index + len(encoded_events),
+            fmt_section_header=json_binary_parameter.fmt_section_header,
+            event_id=non_empty_events.id,
+            byte_array_start_index=byte_array_start_index,
+            byte_array_end_index=byte_array_start_index + len(encoded_events),
         )
         byte_array_start_index += len(encoded_events)
         section_headers.append(section_header)
@@ -74,9 +74,11 @@ def encode_drone(
         encoded_events_list, non_empty_events_list, json_binary_parameter
     )
     header = Header(
-        json_binary_parameter.fmt_header,
-        json_binary_parameter.magic_number,
-        dance_size(section_headers, encoded_events_list, json_binary_parameter),
-        len(non_empty_events_list),
+        fmt_header=json_binary_parameter.fmt_header,
+        magic_number=json_binary_parameter.magic_number,
+        dance_size=dance_size(
+            section_headers, encoded_events_list, json_binary_parameter
+        ),
+        number_non_empty_events=len(non_empty_events_list),
     )
     return assemble_dance(header, section_headers, encoded_events_list)
