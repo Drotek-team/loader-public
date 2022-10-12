@@ -8,7 +8,7 @@ from ...show_simulation.show_simulation import ShowSimulationSlice
 from typing import List
 from ...show_simulation.show_simulation import ShowSimulation
 from .SP_to_DS_procedure import DP_to_DS_procedure
-from ..migration_DS_TS.DS_to_TS_procedure import DS_to_TS_procedure
+from ..migration_DS_TS.DD_to_DT_procedure import DD_to_DT_procedure
 from ...show_dev.show_dev import DroneDev
 
 
@@ -35,7 +35,7 @@ def update_show_slices_from_drone_dev_simulation(
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> None:
-    trajectory_simulation = DS_to_TS_procedure(
+    drone_trajectory = DD_to_DT_procedure(
         drone_dev,
         show_slices[-1].frame,
         frame_parameter,
@@ -44,9 +44,9 @@ def update_show_slices_from_drone_dev_simulation(
     )
     for show_slice, drone_position, drone_in_air, drone_in_dance in zip(
         show_slices,
-        trajectory_simulation.drone_positions,
-        trajectory_simulation.drone_in_air,
-        trajectory_simulation.drone_in_dance,
+        drone_trajectory.drone_positions,
+        drone_trajectory.drone_in_air,
+        drone_trajectory.drone_in_dance,
     ):
         show_slice.positions[drone_dev.drone_index] = drone_position
         show_slice.in_air_flags[drone_dev.drone_index] = drone_in_air

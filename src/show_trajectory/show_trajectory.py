@@ -13,10 +13,10 @@ class DroneTrajectory:
         self.drone_in_air = drone_in_air
         self.drone_in_dance = drone_in_dance
 
-    def concatenate_trajectory(self, trajectory_simulation: "DroneTrajectory") -> None:
-        self.drone_positions += trajectory_simulation.drone_positions
-        self.drone_in_air += trajectory_simulation.drone_in_air
-        self.drone_in_dance += trajectory_simulation.drone_in_dance
+    def concatenate_trajectory(self, drone_trajectory: "DroneTrajectory") -> None:
+        self.drone_positions += drone_trajectory.drone_positions
+        self.drone_in_air += drone_trajectory.drone_in_air
+        self.drone_in_dance += drone_trajectory.drone_in_dance
 
 
 class ShowTrajectory:
