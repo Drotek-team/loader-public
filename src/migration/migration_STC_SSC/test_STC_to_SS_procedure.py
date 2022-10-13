@@ -73,7 +73,7 @@ def test_valid_show_flags(valid_show_trajectory_collision: ShowTrajectoryCollisi
     parameter.load_parameter(os.getcwd())
     show_simulation = STC_to_SS_procedure(valid_show_trajectory_collision)
 
-    assert len(show_simulation.show_slices) == 52
+    assert len(show_simulation.show_slices) == 53
     assert np.array_equal(
         show_simulation.show_slices[0].positions[0], np.array([0.0, 0.0, 0.0])
     )
@@ -86,6 +86,6 @@ def test_valid_show_flags(valid_show_trajectory_collision: ShowTrajectoryCollisi
         np.array([0.0, 0.0, parameter.takeoff_parameter.takeoff_altitude_meter]),
     )
     assert np.array_equal(
-        show_simulation.show_slices[51].positions[0],
+        show_simulation.show_slices[52].positions[0],
         np.array([0.0, 0.0, 0.0]),
     )

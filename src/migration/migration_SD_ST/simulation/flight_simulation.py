@@ -28,12 +28,12 @@ def flight_simulation(
         return simulation_infos
     simulation_infos += stand_by_simulation(
         frame_parameter.show_duration_min_frame,
-        drone_dev.get_frame_by_index(0),
+        drone_dev.get_frame_by_index(0) + 1,
         drone_dev.get_xyz_simulation_by_index(0),
     )
     simulation_infos += takeoff_simulation(
         drone_dev.get_xyz_simulation_by_index(0),
-        drone_dev.get_frame_by_index(0),
+        simulation_infos[-1].frame,
         frame_parameter,
         takeoff_parameter,
     )
