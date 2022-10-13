@@ -1,4 +1,4 @@
-from ...show_user.drone_user.drone_user import (
+from ...show_user.show_user import (
     DroneUser,
     PositionEventUser,
     ColorEventUser,
@@ -21,7 +21,7 @@ def drone_px4_to_drone_user_procedure(
 ) -> DroneUser:
     position_events_user = [
         PositionEventUser(
-            frame=position_event_px4.frame,
+            position_frame=position_event_px4.frame,
             xyz=xyz_convertion_standard.from_px4_xyz_to_user_xyz(
                 position_event_px4.xyz
             ),

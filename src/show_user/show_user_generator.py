@@ -1,5 +1,5 @@
 from .show_user import ShowUser
-from .drone_user.drone_user import DroneUser, PositionEventUser
+from .show_user import DroneUser, PositionEventUser
 import json
 from typing import Dict
 
