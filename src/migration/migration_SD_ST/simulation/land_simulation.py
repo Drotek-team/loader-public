@@ -1,10 +1,7 @@
 from typing import List, Tuple
 import numpy as np
-from ...parameter.parameter import LandParameter, FrameParameter
-from ...show_trajectory.show_trajectory import (
-    TrajectoryInfo,
-)
-from .position_simulation import linear_interpolation
+from ....parameter.parameter import LandParameter, FrameParameter
+from .position_simulation import linear_interpolation, SimulationInfo
 
 
 def generate_land_first_part(
@@ -57,7 +54,7 @@ def land_simulation(
     land_start_position: Tuple[float, float, float],
     frame_parameter: FrameParameter,
     land_parameter: LandParameter,
-) -> List[TrajectoryInfo]:
+) -> List[SimulationInfo]:
     land_positions = generate_land_first_part(
         land_start_position,
         frame_parameter,
@@ -68,5 +65,5 @@ def land_simulation(
         land_parameter,
     )
     return [
-        TrajectoryInfo(land_position, True, False) for land_position in land_positions
+        SimulationInfo(land_position, True, False) for land_position in land_positions
     ]

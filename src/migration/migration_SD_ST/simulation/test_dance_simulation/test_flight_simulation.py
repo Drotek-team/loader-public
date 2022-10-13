@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 from ....parameter.parameter import Parameter
-from ..flight_simulation import linear_interpolation, flight_simulation
+from ..in_air_flight_simulation import linear_interpolation, flight_simulation
 from ....show_dev.show_dev import PositionEventDev
 
 

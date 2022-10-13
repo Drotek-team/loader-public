@@ -1,5 +1,14 @@
+from dataclasses import dataclass
 from typing import List, Tuple
 import numpy as np
+
+
+@dataclass(frozen=True)
+class SimulationInfo:
+    position: np.ndarray
+    in_air: bool
+    in_dance: bool
+
 
 ### TO DO: adapt that to new format
 def linear_interpolation(
@@ -25,20 +34,3 @@ def linear_interpolation(
             endpoint=end_point,
         )
     ]
-
-
-VELOCITY_ESTIMATION_INDEX = 1
-ACCELERATION_ESTIMATION_INDEX = 2
-
-
-def get_velocity_acceleration_from_positions(
-    positions: List[np.ndarray], position_fps: int
-) -> Tuple[List[np.ndarray], List[np.ndarray]]:
-    positions_array = np.array(positions)
-    velocities_array = np.concatenate(
-        (np.array([0]), position_fps * (positions_array[1:] - positions_array[:-1]))
-    )
-    accelerations_array = np.concatenate(
-        (np.array([0]), position_fps * (velocities_array[1:] - velocities_array[:-1]))
-    )
-    return list(velocities_array), list(accelerations_array)

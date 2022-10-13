@@ -3,8 +3,8 @@ import os
 import numpy as np
 
 from ....parameter.parameter import Parameter
-from ..flight_simulation import linear_interpolation
-from ..land_simulation import land_simulation
+from ..in_air_flight_simulation import linear_interpolation
+from ...simulation.land_simulation import land_simulation
 
 
 def test_land_simulation_first_case():

@@ -2,14 +2,11 @@ from typing import List
 import numpy as np
 from dataclasses import dataclass
 
-VELOCITY_ESTIMATION_INDEX = 1
-ACCELERATION_ESTIMATION_INDEX = 2
-
 
 @dataclass(frozen=True)
 class TrajectoryCollisionInfo:
     position: np.ndarray
-    in_air: bool = False
+    in_air: bool
 
 
 class DroneTrajectoryCollision:

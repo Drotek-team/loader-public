@@ -1,30 +1,21 @@
+from ....show_dev.show_dev import DroneDev
+from ....parameter.parameter import FrameParameter, TakeoffParameter, LandParameter
+from .position_simulation import SimulationInfo
 from typing import List
-from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
-from .flight_simulation import (
-    flight_simulation,
-)
-from .land_simulation import land_simulation
-from .stand_by_simulation import (
-    stand_by_simulation,
-)
-
-from ...show_trajectory.show_trajectory import (
-    ShowTrajectory,
-    TrajectoryInfo,
-    DroneTrajectory,
-)
-from ...show_dev.show_dev import DroneDev, ShowDev
+from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
+from .in_air_flight_simulation import in_air_flight_simulation
+from .land_simulation import land_simulation
 
 
-def DD_to_DT_procedure(
+def flight_simulation(
     drone_dev: DroneDev,
     last_frame: int,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
-) -> DroneTrajectory:
-    trajectory: List[TrajectoryInfo] = []
+) -> List[SimulationInfo]:
+    trajectory: List[SimulationInfo] = []
     if len(drone_dev.position_events_dev) == 1:
         trajectory += stand_by_simulation(
             frame_parameter.show_duration_min_frame,
@@ -44,7 +35,7 @@ def DD_to_DT_procedure(
         frame_parameter,
         takeoff_parameter,
     )
-    trajectory += flight_simulation(
+    trajectory += in_air_flight_simulation(
         drone_dev.flight_positions,
         frame_parameter,
     )
@@ -64,24 +55,4 @@ def DD_to_DT_procedure(
         stand_by_position=(last_position[0], last_position[1], 0),
         frame_parameter=frame_parameter,
     )
-    return DroneTrajectory(drone_dev.drone_index, trajectory)
-
-
-def SD_to_ST_procedure(
-    show_dev: ShowDev,
-    frame_parameter: FrameParameter,
-    takeoff_parameter: TakeoffParameter,
-    land_parameter: LandParameter,
-) -> ShowTrajectory:
-    return ShowTrajectory(
-        [
-            DD_to_DT_procedure(
-                drone_dev,
-                show_dev.get_last_frame(land_parameter, frame_parameter),
-                frame_parameter,
-                takeoff_parameter,
-                land_parameter,
-            )
-            for drone_dev in show_dev.drones_dev
-        ]
-    )
+    return trajectory

@@ -10,7 +10,7 @@ from ..migration.migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
 from .show_dev_check.show_dev_check_procedure import (
     apply_show_dev_procedure,
 )
-from ..migration.migration_SD_ST.SD_to_ST_procedure import SD_to_ST_procedure
+from ..migration.migration_SD_STC.SD_to_STC_procedure import SD_to_ST_procedure
 
 
 def apply_all_check_from_show_px4_procedure(

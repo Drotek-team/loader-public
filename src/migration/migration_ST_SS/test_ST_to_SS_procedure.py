@@ -8,7 +8,7 @@ from ...show_simulation.show_simulation import ShowSimulation
 from .ST_to_SS_procedure import ST_to_SS_procedure
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 from ..migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
-from ..migration_SD_ST.SD_to_ST_procedure import SD_to_ST_procedure
+from ..migration_SD_STC.SD_to_STC_procedure import SD_to_ST_procedure
 
 
 def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
