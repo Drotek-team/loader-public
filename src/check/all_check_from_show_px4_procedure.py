@@ -5,7 +5,7 @@ from .show_simulation_check.simulation_check_procedure import (
 )
 from .show_px4_check.show_px4_chek_procedure import apply_show_px4_check_procedure
 from .show_check_report import ShowCheckReport
-from ..migration.migration_ST_SS.ST_to_SS_procedure import ST_to_SS_procedure
+from ..migration.migration_STC_SSC.STC_to_SSC_procedure import ST_to_SS_procedure
 from ..migration.migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
 from .show_dev_check.show_dev_check_procedure import (
     apply_show_dev_procedure,

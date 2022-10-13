@@ -45,9 +45,11 @@ def get_trajectory_performance_info_from_simulation_infos(
     ]
 
     return [
-        TrajectoryPerformanceInfo(position, velocity, acceleration)
-        for position, velocity, acceleration in zip(
-            positions, velocities, accelerations
+        TrajectoryPerformanceInfo(
+            simulation_info.frame, simulation_info.position, velocity, acceleration
+        )
+        for simulation_info, velocity, acceleration in zip(
+            simulation_infos, velocities, accelerations
         )
     ]
 

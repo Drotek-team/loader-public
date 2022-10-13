@@ -13,6 +13,8 @@ def stand_by_simulation(
 ) -> List[SimulationInfo]:
     nb_element = int((frame_end - frame_begin) // frame_parameter.position_rate_frame)
     return [
-        SimulationInfo(np.array(stand_by_position), False, False)
-        for _ in range(nb_element)
+        SimulationInfo(
+            frame_begin + frame_index, np.array(stand_by_position), False, False
+        )
+        for frame_index in range(nb_element)
     ]

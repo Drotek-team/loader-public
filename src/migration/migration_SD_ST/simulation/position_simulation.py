@@ -5,6 +5,7 @@ import numpy as np
 
 @dataclass(frozen=True)
 class SimulationInfo:
+    frame: int
     position: np.ndarray
     in_air: bool
     in_dance: bool

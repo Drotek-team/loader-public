@@ -7,6 +7,7 @@ from ....show_dev.show_dev import PositionEventDev
 
 def in_air_flight_simulation(
     position_events_dev: List[PositionEventDev],
+    frame_begin: int,
     frame_parameter: FrameParameter,
 ) -> List[SimulationInfo]:
     flight_positions: List[np.ndarray] = []
@@ -24,6 +25,6 @@ def in_air_flight_simulation(
         )
     flight_positions.append(np.array(position_events_dev[-1].xyz))
     return [
-        SimulationInfo(flight_position, True, True)
-        for flight_position in zip(flight_positions)
+        SimulationInfo(frame_begin + frame_index, flight_position, True, True)
+        for frame_index, flight_position in enumerate(flight_positions)
     ]

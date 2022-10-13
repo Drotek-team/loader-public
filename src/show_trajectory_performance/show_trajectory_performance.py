@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class TrajectoryPerformanceInfo:
+    frame: int
     position: np.ndarray
     velocity: np.ndarray
     acceleration: np.ndarray

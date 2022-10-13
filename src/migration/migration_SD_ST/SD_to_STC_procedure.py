@@ -14,7 +14,9 @@ def get_trajectory_collision_info_from_simulation_infos(
     simulation_infos: List[SimulationInfo],
 ) -> List[TrajectoryCollisionInfo]:
     return [
-        TrajectoryCollisionInfo(simulation_info.position, simulation_info.in_air)
+        TrajectoryCollisionInfo(
+            simulation_info.frame, simulation_info.position, simulation_info.in_air
+        )
         for simulation_info in simulation_infos
     ]
 

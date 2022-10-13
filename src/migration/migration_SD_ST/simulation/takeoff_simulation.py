@@ -49,6 +49,7 @@ def generate_takeoff_second_part(
 
 
 def takeoff_simulation(
+    frame_begin: int,
     takeoff_start_position: Tuple[float, float, float],
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
@@ -63,6 +64,6 @@ def takeoff_simulation(
         takeoff_parameter,
     )
     return [
-        SimulationInfo(takeoff_position, True, False)
-        for takeoff_position in takeoff_positions
+        SimulationInfo(frame_begin + frame_index, takeoff_position, True, False)
+        for frame_index, takeoff_position in enumerate(takeoff_positions)
     ]

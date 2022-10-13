@@ -52,6 +52,7 @@ def generate_land_second_part(
 
 def land_simulation(
     land_start_position: Tuple[float, float, float],
+    frame_begin: int,
     frame_parameter: FrameParameter,
     land_parameter: LandParameter,
 ) -> List[SimulationInfo]:
@@ -65,5 +66,6 @@ def land_simulation(
         land_parameter,
     )
     return [
-        SimulationInfo(land_position, True, False) for land_position in land_positions
+        SimulationInfo(frame_begin + frame_index, land_position, True, False)
+        for frame_index, land_position in enumerate(land_positions)
     ]

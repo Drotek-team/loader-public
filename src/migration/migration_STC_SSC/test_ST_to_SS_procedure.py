@@ -5,7 +5,7 @@ from ...show_px4.drone_px4.events.position_events import PositionEvent
 from ...show_px4.show_px4 import DronePx4, ShowPx4
 from ...parameter.parameter import Parameter
 from ...show_simulation.show_simulation import ShowSimulation
-from .ST_to_SS_procedure import ST_to_SS_procedure
+from .STC_to_SSC_procedure import ST_to_SS_procedure
 from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 from ..migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
 from ..migration_SD_STC.SD_to_STC_procedure import SD_to_ST_procedure
