@@ -14,14 +14,13 @@ def generate_land_first_part(
         land_start_position[1],
         land_parameter.get_second_land_altitude_start(land_start_position[2]),
     )
-    nb_iteration = int(
-        land_parameter.get_first_land_second_delta(land_start_position[2])
-        * frame_parameter.position_fps
-    )
     return linear_interpolation(
         land_start_position,
         land_middle_position,
-        nb_iteration,
+        int(
+            land_parameter.get_first_land_second_delta(land_start_position[2])
+            * frame_parameter.position_fps
+        ),
     )
 
 

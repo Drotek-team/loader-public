@@ -2,51 +2,81 @@ import os
 
 import numpy as np
 
+from src.migration.migration_SD_ST.simulation.position_simulation import SimulationInfo
+
 from .....parameter.parameter import Parameter
 from ..in_air_flight_simulation import linear_interpolation
 from ...simulation.takeoff_simulation import takeoff_simulation
+import pytest
+from typing import Tuple
+from .....show_dev.show_dev import PositionEventDev
 
 
-def test_takeoff_simulation():
+@pytest.fixture
+def valid_position_events_dev() -> Tuple[PositionEventDev, PositionEventDev]:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    first_position = (2.35, 5.36, 0.0)
-    dance_sequence = takeoff_simulation(
-        first_position,
+    FRAME_START = 0
+    POSITION = (0.0, 0.0, 0.0)
+    return PositionEventDev(FRAME_START, POSITION), PositionEventDev(
+        FRAME_START
+        + int(
+            parameter.frame_parameter.json_fps
+            * parameter.takeoff_parameter.takeoff_duration_second
+        ),
+        (
+            POSITION[0],
+            POSITION[1],
+            POSITION[2] + parameter.takeoff_parameter.takeoff_altitude_meter,
+        ),
+    )
+
+
+def test_takeoff_simulation(
+    valid_position_events_dev: Tuple[PositionEventDev, PositionEventDev]
+):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+
+    first_position_event, second_position_event = (
+        valid_position_events_dev[0],
+        valid_position_events_dev[1],
+    )
+    real_takeoff_simulation_infos = takeoff_simulation(
+        first_position_event.xyz,
+        first_position_event.frame,
         parameter.frame_parameter,
         parameter.takeoff_parameter,
     )
-    LAST_THEORICAL_POSITION = (
-        first_position[0],
-        first_position[1],
-        parameter.takeoff_parameter.takeoff_altitude_meter,
-    )
-    first_theorical_curve = linear_interpolation(
-        first_position,
-        LAST_THEORICAL_POSITION,
+    first_theorical_positions = linear_interpolation(
+        first_position_event.xyz,
+        second_position_event.xyz,
         int(
             parameter.takeoff_parameter.takeoff_elevation_duration_second
             * parameter.frame_parameter.position_fps
         ),
     )
-    second_theorical_curve = linear_interpolation(
-        LAST_THEORICAL_POSITION,
-        LAST_THEORICAL_POSITION,
+    second_theorical_positions = linear_interpolation(
+        second_position_event.xyz,
+        second_position_event.xyz,
         int(
             parameter.takeoff_parameter.takeoff_stabilisation_duration_second
             * parameter.frame_parameter.position_fps
         ),
     )
-    theorical_curve = first_theorical_curve + second_theorical_curve
-    assert len(dance_sequence.drone_positions) == len(theorical_curve)
+    theorical_positions = first_theorical_positions + second_theorical_positions
+    theorical_takeoff_simulation_infos = [
+        SimulationInfo(
+            first_position_event.frame + frame_index, theorical_position, True, False
+        )
+        for frame_index, theorical_position in enumerate(theorical_positions)
+    ]
+    assert len(real_takeoff_simulation_infos) == len(theorical_takeoff_simulation_infos)
     assert all(
         [
-            np.array_equal(drone_position, theorical_position)
-            for drone_position, theorical_position in zip(
-                dance_sequence.drone_positions, theorical_curve
+            real_takeoff_simulation_info == theorical_takeoff_simulation_info
+            for real_takeoff_simulation_info, theorical_takeoff_simulation_info in zip(
+                real_takeoff_simulation_infos, theorical_takeoff_simulation_infos
             )
         ]
     )
-    assert dance_sequence.drone_in_air[0] == False
-    assert all(dance_sequence.drone_in_air[1:]) == True
-    assert all(dance_sequence.drone_in_dance) == False

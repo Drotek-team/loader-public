@@ -6,7 +6,7 @@ from typing import Any
 
 @dataclass(frozen=True)
 class SimulationInfo:
-    frame: int
+    frame: int  # position frame so 4 fps
     position: np.ndarray
     in_air: bool
     in_dance: bool
