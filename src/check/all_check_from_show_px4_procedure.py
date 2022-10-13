@@ -10,6 +10,8 @@ from ..migration.migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
 from .show_dev_check.show_dev_check_procedure import (
     apply_show_dev_procedure,
 )
+from ..migration.migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
+from ..migration.migration_SD_ST.SD_to_STP_procedure import SD_to_STP_procedure
 
 
 def apply_all_check_from_show_px4_procedure(
@@ -28,7 +30,14 @@ def apply_all_check_from_show_px4_procedure(
         parameter.frame_parameter,
     )
 
-    show_trajectory = SD_to_ST_procedure(
+    show_trajectory_performance = SD_to_STP_procedure(
+        show_dev,
+        parameter.frame_parameter,
+        parameter.takeoff_parameter,
+        parameter.land_parameter,
+    )
+
+    show_trajectory_collision = SD_to_STC_procedure(
         show_dev,
         parameter.frame_parameter,
         parameter.takeoff_parameter,
@@ -36,13 +45,11 @@ def apply_all_check_from_show_px4_procedure(
     )
 
     show_simulation = STC_to_SS_procedure(
-        show_trajectory,
+        show_trajectory_collision,
     )
-
     apply_simulation_check_procedure(
         show_simulation,
         show_check_report.simulation_check_report,
         parameter.iostar_parameter,
-        parameter.takeoff_parameter,
     )
     show_check_report.update()

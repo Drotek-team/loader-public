@@ -54,7 +54,7 @@ def get_trajectory_performance_info_from_simulation_infos(
     ]
 
 
-def SD_to_ST_procedure(
+def SD_to_STP_procedure(
     show_dev: ShowDev,
     frame_parameter: FrameParameter,
     takeoff_parameter: TakeoffParameter,
