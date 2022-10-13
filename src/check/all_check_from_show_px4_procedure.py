@@ -32,9 +32,6 @@ def apply_all_check_from_show_px4_procedure(
 
     show_trajectory_performance = SD_to_STP_procedure(
         show_dev,
-        parameter.frame_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
     )
 
     show_trajectory_collision = SD_to_STC_procedure(
