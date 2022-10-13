@@ -17,22 +17,37 @@ ACCELERATION_ESTIMATION_INDEX = 2
 
 
 def get_trajectory_performance_info_from_simulation_infos(
-    simulation_infos: List[SimulationInfo], position_fps: int
+    simulation_infos: List[SimulationInfo], frame_parameter: FrameParameter
 ) -> List[TrajectoryPerformanceInfo]:
-    positions_array = np.array(
-        [simulation_info.position for simulation_info in simulation_infos]
-    )
+    positions = [simulation_info.position for simulation_info in simulation_infos]
+    velocities = [np.array((0.0, 0.0, 0.0)),] + [
+        frame_parameter.position_fps
+        * (
+            positions[simulation_index]
+            - positions[simulation_index - VELOCITY_ESTIMATION_INDEX]
+        )
+        for simulation_index in range(VELOCITY_ESTIMATION_INDEX, len(simulation_infos))
+    ]
+    accelerations: List[np.ndarray] = [
+        np.array((0.0, 0.0, 0.0)),
+        np.array((0.0, 0.0, 0.0)),
+    ] + [
+        frame_parameter.position_fps
+        * frame_parameter.position_fps
+        * (
+            positions[simulation_index]
+            - 2 * positions[simulation_index - VELOCITY_ESTIMATION_INDEX]
+            + positions[simulation_index - ACCELERATION_ESTIMATION_INDEX]
+        )
+        for simulation_index in range(
+            ACCELERATION_ESTIMATION_INDEX, len(simulation_infos)
+        )
+    ]
 
-    velocities_array = np.concatenate(
-        (np.array([0]), position_fps * (positions_array[1:] - positions_array[:-1]))
-    )
-    accelerations_array = np.concatenate(
-        (np.array([0]), position_fps * (velocities_array[1:] - velocities_array[:-1]))
-    )
     return [
         TrajectoryPerformanceInfo(position, velocity, acceleration)
         for position, velocity, acceleration in zip(
-            positions_array, velocities_array, accelerations_array
+            positions, velocities, accelerations
         )
     ]
 
