@@ -1,4 +1,3 @@
-from matplotlib.pyplot import show
 import pytest
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
@@ -8,7 +7,8 @@ from .data_convertion_format import (
     RgbwConvertionStandard,
     FireDurationConvertionStandard,
 )
-
+import os
+from ...parameter.parameter import Parameter
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)
@@ -66,13 +66,16 @@ def valid_show_px4() -> ShowPx4:
 
 
 def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowPx4):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    show_user = SP_to_SU_procedure(valid_show_px4, parameter.frame_parameter)
     xyz_convertion_standard = XyzConvertionStandard()
-    show_user = SP_to_SU_procedure(
-        valid_show_px4,
-    )
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
-    assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
+    assert (
+        drone_users[0].position_events[0].position_frame
+        == ARBITRARY_POSITION_EVENT_FRAME
+    )
     assert drone_users[0].position_events[
         0
     ].xyz == xyz_convertion_standard.from_px4_xyz_to_user_xyz(
@@ -80,7 +83,10 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
     )
 
     assert len(drone_users[1].position_events) == 1
-    assert drone_users[1].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME_BIS
+    assert (
+        drone_users[1].position_events[0].position_frame
+        == ARBITRARY_POSITION_EVENT_FRAME_BIS
+    )
     assert drone_users[1].position_events[
         0
     ].xyz == xyz_convertion_standard.from_px4_xyz_to_user_xyz(
@@ -89,14 +95,14 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
 
 
 def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    show_user = SP_to_SU_procedure(valid_show_px4, parameter.frame_parameter)
     rgbw_convertion_standard = RgbwConvertionStandard()
-    show_user = SP_to_SU_procedure(
-        valid_show_px4,
-    )
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
-    assert drone_users[0].color_events[0].frame == ARBITRARY_COLOR_EVENT_FRAME
+    assert drone_users[0].color_events[0].color_frame == ARBITRARY_COLOR_EVENT_FRAME
     assert drone_users[0].color_events[
         0
     ].rgbw == rgbw_convertion_standard.from_px4_rgbw_to_user_rgbw(
@@ -104,7 +110,7 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
     )
 
     assert len(drone_users[1].color_events) == 1
-    assert drone_users[1].color_events[0].frame == ARBITRARY_COLOR_EVENT_FRAME_BIS
+    assert drone_users[1].color_events[0].color_frame == ARBITRARY_COLOR_EVENT_FRAME_BIS
     assert drone_users[1].color_events[
         0
     ].rgbw == rgbw_convertion_standard.from_px4_rgbw_to_user_rgbw(
@@ -113,14 +119,14 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
 
 
 def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    show_user = SP_to_SU_procedure(valid_show_px4, parameter.frame_parameter)
     fire_duration_convertion_standard = FireDurationConvertionStandard()
-    show_user = SP_to_SU_procedure(
-        valid_show_px4,
-    )
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1
-    assert drone_users[0].fire_events[0].frame == ARBITRARY_FIRE_EVENT_FRAME
+    assert drone_users[0].fire_events[0].fire_frame == ARBITRARY_FIRE_EVENT_FRAME
     assert drone_users[0].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL
     assert drone_users[0].fire_events[
         0
@@ -129,7 +135,7 @@ def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     )
 
     assert len(drone_users[1].fire_events) == 1
-    assert drone_users[1].fire_events[0].frame == ARBITRARY_FIRE_EVENT_FRAME_BIS
+    assert drone_users[1].fire_events[0].fire_frame == ARBITRARY_FIRE_EVENT_FRAME_BIS
     assert drone_users[1].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL_BIS
     assert drone_users[1].fire_events[
         0
