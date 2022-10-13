@@ -21,14 +21,12 @@ def flight_simulation(
             frame_parameter.show_duration_min_frame,
             frame_parameter.show_duration_max_frame,
             drone_dev.get_xyz_simulation_by_index(0),
-            frame_parameter,
         )
         return trajectory
     trajectory += stand_by_simulation(
         frame_parameter.show_duration_min_frame,
         drone_dev.get_frame_by_index(0),
         drone_dev.get_xyz_simulation_by_index(0),
-        frame_parameter,
     )
     trajectory += takeoff_simulation(
         drone_dev.get_xyz_simulation_by_index(0),
@@ -52,6 +50,5 @@ def flight_simulation(
         frame_begin=trajectory[-1].frame,
         frame_end=last_frame + frame_parameter.position_rate_frame,
         stand_by_position=(last_position[0], last_position[1], 0),
-        frame_parameter=frame_parameter,
     )
     return trajectory

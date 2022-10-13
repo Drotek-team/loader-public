@@ -3,47 +3,58 @@ import os
 import numpy as np
 
 from .....parameter.parameter import Parameter
-from ..in_air_flight_simulation import linear_interpolation
 from ...simulation.stand_by_simulation import stand_by_simulation
 from .....show_dev.show_dev import PositionEventDev
+import pytest
+from typing import Tuple
+from ..position_simulation import SimulationInfo
 
-FRAME_START = 0
-FRAME_END = 20
-POSITION = (0.0, 0.0, 10.0)
+
+@pytest.fixture
+def valid_position_events_dev() -> Tuple[PositionEventDev, PositionEventDev]:
+    FRAME_START = 0
+    FRAME_END = 20
+    POSITION = (0.0, 0.0, 10.0)
+    return PositionEventDev(FRAME_START, POSITION), PositionEventDev(
+        FRAME_END, POSITION
+    )
 
 
-def test_stand_by_simulation():
+def test_stand_by_simulation(
+    valid_position_events_dev: Tuple[PositionEventDev, PositionEventDev]
+):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    dance_sequence = stand_by_simulation(
-        FRAME_START,
-        FRAME_END,
-        POSITION,
-        parameter.frame_parameter,
+
+    first_position_event, second_position_event = (
+        valid_position_events_dev[0],
+        valid_position_events_dev[1],
     )
-    FIRST_THEORICAL_POSITION_EVENT = PositionEventDev(FRAME_START, POSITION)
-    SECOND_THEORICAL_POSITION_EVENT = PositionEventDev(FRAME_END, POSITION)
-    theorical_curve = linear_interpolation(
-        FIRST_THEORICAL_POSITION_EVENT.xyz,
-        SECOND_THEORICAL_POSITION_EVENT.xyz,
-        (
-            int(
-                (
-                    SECOND_THEORICAL_POSITION_EVENT.frame
-                    - FIRST_THEORICAL_POSITION_EVENT.frame
-                )
-                // parameter.frame_parameter.position_rate_frame
-            )
-        ),
+    real_stand_by_simulation_infos = stand_by_simulation(
+        first_position_event.frame,
+        second_position_event.frame,
+        first_position_event.xyz,
     )
-    assert len(dance_sequence.drone_positions) == len(theorical_curve)
+
+    theorical_stand_by_simulation_infos = [
+        SimulationInfo(
+            first_position_event.frame + frame_index,
+            np.array(first_position_event.xyz),
+            False,
+            False,
+        )
+        for frame_index in range(
+            second_position_event.frame - first_position_event.frame
+        )
+    ]
+    assert len(real_stand_by_simulation_infos) == len(
+        theorical_stand_by_simulation_infos
+    )
     assert all(
         [
-            np.array_equal(drone_position, theorical_position)
-            for drone_position, theorical_position in zip(
-                dance_sequence.drone_positions, theorical_curve
+            real_stand_by_simulation_info == theorical_stand_by_simulation_info
+            for real_stand_by_simulation_info, theorical_stand_by_simulation_info in zip(
+                real_stand_by_simulation_infos, theorical_stand_by_simulation_infos
             )
         ]
     )
-    assert all(dance_sequence.drone_in_air) == False
-    assert all(dance_sequence.drone_in_dance) == False

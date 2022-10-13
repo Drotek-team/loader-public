@@ -9,12 +9,10 @@ def stand_by_simulation(
     frame_begin: int,
     frame_end: int,
     stand_by_position: Tuple[float, float, float],
-    frame_parameter: FrameParameter,
 ) -> List[SimulationInfo]:
-    nb_element = int((frame_end - frame_begin) // frame_parameter.position_rate_frame)
     return [
         SimulationInfo(
             frame_begin + frame_index, np.array(stand_by_position), False, False
         )
-        for frame_index in range(nb_element)
+        for frame_index in range(frame_end - frame_begin)
     ]

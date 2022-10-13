@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Tuple
 import numpy as np
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -10,8 +11,15 @@ class SimulationInfo:
     in_air: bool
     in_dance: bool
 
+    def __eq__(self, other_simulation_info: Any):
+        return (
+            self.frame == other_simulation_info.frame
+            and np.array_equal(self.position, other_simulation_info.position)
+            and self.in_air == other_simulation_info.in_air
+            and self.in_dance == other_simulation_info.in_dance
+        )
 
-### TO DO: adapt that to new format
+
 def linear_interpolation(
     position_begin: Tuple[float, float, float],
     position_end: Tuple[float, float, float],
