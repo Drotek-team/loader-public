@@ -15,7 +15,7 @@
 # from ..simulation_check_report import (
 #     SimulationCheckReport,
 # )
-# from ....migration.migration_SP_SS.SP_to_SS_procedure import ST_to_SS_procedure
+# from ....migration.migration_SP_SS.SP_to_SS_procedure import STC_to_SS_procedure
 # from ....migration.migration_SP_SU.data_convertion_format import XyzConvertionStandard
 
 # EPSILON_DELTA = 1e-3
@@ -54,7 +54,7 @@
 #         )
 
 #     show_px4 = ShowPx4([drone])
-#     show_simulation = ST_to_SS_procedure(
+#     show_simulation = STC_to_SS_procedure(
 #         show_px4,
 #         parameter.frame_parameter,
 #         parameter.takeoff_parameter,

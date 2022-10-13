@@ -5,7 +5,7 @@ from .observed_metrics.observed_metrics_report import PerformanceSliceCheckRepor
 
 
 class PerformanceCheckReport(Contenor):
-    def __init__(self, frames: List[float] = [0]):
+    def __init__(self, frames: List[int]):
         self.name = "Performance check report"
         self.performance_slices_check_report = [
             PerformanceSliceCheckReport(frame) for frame in frames

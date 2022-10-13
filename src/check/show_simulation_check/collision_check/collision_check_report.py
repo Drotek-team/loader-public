@@ -17,7 +17,7 @@ class CollisionInfraction(Displayer):
 
 
 class CollisionSliceCheckReport(Contenor):
-    def __init__(self, frame: float):
+    def __init__(self, frame: int):
         self.name = f"Collision Slice {frame} check report"
         self.frame = frame
         self.collision_infractions: List[CollisionInfraction] = []
@@ -27,7 +27,7 @@ class CollisionSliceCheckReport(Contenor):
 
 
 class CollisionCheckReport(Contenor):
-    def __init__(self, frames: List[float] = [0]):
+    def __init__(self, frames: List[int]):
         self.name = "Collision check report"
         self.collision_slices_check_report = [
             CollisionSliceCheckReport(frame) for frame in frames

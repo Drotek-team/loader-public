@@ -7,6 +7,9 @@ from .takeoff_simulation import takeoff_simulation
 from .in_air_flight_simulation import in_air_flight_simulation
 from .land_simulation import land_simulation
 
+### TO DO: Hard to step unitarly, best way might be an input/ouput approch
+### Do it, This border effect must be conventionnized
+
 
 def flight_simulation(
     drone_dev: DroneDev,
@@ -15,40 +18,38 @@ def flight_simulation(
     takeoff_parameter: TakeoffParameter,
     land_parameter: LandParameter,
 ) -> List[SimulationInfo]:
-    trajectory: List[SimulationInfo] = []
+    simulation_infos: List[SimulationInfo] = []
     if len(drone_dev.position_events_dev) == 1:
-        trajectory += stand_by_simulation(
+        simulation_infos += stand_by_simulation(
             frame_parameter.show_duration_min_frame,
-            frame_parameter.show_duration_max_frame,
+            last_frame,
             drone_dev.get_xyz_simulation_by_index(0),
         )
-        return trajectory
-    trajectory += stand_by_simulation(
+        return simulation_infos
+    simulation_infos += stand_by_simulation(
         frame_parameter.show_duration_min_frame,
         drone_dev.get_frame_by_index(0),
         drone_dev.get_xyz_simulation_by_index(0),
     )
-    trajectory += takeoff_simulation(
+    simulation_infos += takeoff_simulation(
         drone_dev.get_xyz_simulation_by_index(0),
-        trajectory[-1].frame,
+        drone_dev.get_frame_by_index(0),
         frame_parameter,
         takeoff_parameter,
     )
-    trajectory += in_air_flight_simulation(
+    simulation_infos += in_air_flight_simulation(
         drone_dev.flight_positions,
-        trajectory[-1].frame,
-        frame_parameter,
     )
     last_position = drone_dev.get_xyz_simulation_by_index(-1)
-    trajectory += land_simulation(
+    simulation_infos += land_simulation(
         last_position,
-        trajectory[-1].frame,
+        simulation_infos[-1].frame,
         frame_parameter,
         land_parameter,
     )
-    trajectory += stand_by_simulation(
-        frame_begin=trajectory[-1].frame,
-        frame_end=last_frame + frame_parameter.position_rate_frame,
+    simulation_infos += stand_by_simulation(
+        frame_begin=simulation_infos[-1].frame,
+        frame_end=last_frame,
         stand_by_position=(last_position[0], last_position[1], 0),
     )
-    return trajectory
+    return simulation_infos

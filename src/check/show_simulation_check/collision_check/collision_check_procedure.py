@@ -4,7 +4,6 @@ from ....parameter.parameter import IostarParameter
 from ....show_simulation.show_simulation import ShowSimulation
 from .collision_check_report import CollisionCheckReport
 from .collision_math import (
-    get_collision_infractions,
     get_optimized_collision_infractions,
 )
 

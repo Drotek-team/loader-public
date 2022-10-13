@@ -64,10 +64,9 @@ class ShowDev:
             [
                 drone_dev.last_frame
                 + int(
-                    frame_parameter.json_fps
+                    frame_parameter.position_fps
                     * land_parameter.get_land_second_delta(drone_dev.last_height)
                 )
-                + 1
                 for drone_dev in self.drones_dev
             ]
         )

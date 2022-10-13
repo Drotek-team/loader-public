@@ -9,6 +9,7 @@ def update_show_simulation_from_drone_trajectory(
     show_simulation: ShowSimulation,
     drone_trajectory_collision: DroneTrajectoryCollision,
 ) -> None:
+    # raise ValueError(show_simulation.show_slices, drone_trajectory_collision.trajectory)
     for show_slice, trajectory_collision in zip(
         show_simulation.show_slices, drone_trajectory_collision.trajectory
     ):
@@ -20,7 +21,7 @@ def update_show_simulation_from_drone_trajectory(
         ] = trajectory_collision.in_air
 
 
-def ST_to_SS_procedure(
+def STC_to_SS_procedure(
     show_trajectory_collision: ShowTrajectoryCollision,
 ) -> ShowSimulation:
     show_simulation = ShowSimulation(
