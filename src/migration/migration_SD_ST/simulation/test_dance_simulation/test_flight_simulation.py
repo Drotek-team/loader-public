@@ -2,9 +2,10 @@ import os
 
 import numpy as np
 
-from ....parameter.parameter import Parameter
-from ..in_air_flight_simulation import linear_interpolation, flight_simulation
-from ....show_dev.show_dev import PositionEventDev
+from .....parameter.parameter import Parameter
+from ..in_air_flight_simulation import linear_interpolation
+from .....show_dev.show_dev import PositionEventDev
+from ..in_air_flight_simulation import in_air_flight_simulation
 
 
 def test_flight_simulation():
@@ -18,7 +19,7 @@ def test_flight_simulation():
         SECOND_POSITION_EVENT,
         THIRD_POSITION_EVENT,
     ]
-    dance_sequence = flight_simulation(
+    dance_sequence = in_air_flight_simulation(
         position_events,
         parameter.frame_parameter,
     )

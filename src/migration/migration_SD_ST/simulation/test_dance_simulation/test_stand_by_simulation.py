@@ -2,10 +2,10 @@ import os
 
 import numpy as np
 
-from ....parameter.parameter import Parameter
+from .....parameter.parameter import Parameter
 from ..in_air_flight_simulation import linear_interpolation
 from ...simulation.stand_by_simulation import stand_by_simulation
-from ....show_dev.show_dev import PositionEventDev
+from .....show_dev.show_dev import PositionEventDev
 
 FRAME_START = 0
 FRAME_END = 20
