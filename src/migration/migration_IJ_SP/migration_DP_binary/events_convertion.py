@@ -2,7 +2,7 @@ import struct
 
 from ....show_px4.drone_px4.events.events import Events
 
-### TO DO: get_data unrecognized, it is not very pretty but only here and the cause of a "good" architecture choice, see if it can be help easily or just leave it
+
 def encode_events(events: Events) -> bytearray:
     event_size = events.event_size
     binary = bytearray(event_size * len(events.events))

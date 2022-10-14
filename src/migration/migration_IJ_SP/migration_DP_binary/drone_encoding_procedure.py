@@ -8,7 +8,7 @@ from ....parameter.parameter import JsonBinaryParameter
 from ....show_px4.drone_px4.drone_px4 import DronePx4
 from ....show_px4.drone_px4.binary_px4.binary import SectionHeader, Header
 
-# TO DO: A cumsum will prevent the loop but it is kind of convulated for not very much
+
 def get_section_headers(
     encoded_events_list: List[bytearray],
     non_empty_events_list: List[Events],
@@ -63,7 +63,7 @@ def encode_drone(
     drone_user: DronePx4,
     json_binary_parameter: JsonBinaryParameter,
 ) -> List[int]:
-    ### No user report needed as this part is interne to the code
+    ### TO DO: No user report needed as this part is interne to the code
     ### TO DO: user report is needed because we want to check to format here, the constraint is linked to this part
     drone_user_copy = copy.deepcopy(drone_user)
     non_empty_events_list = drone_user_copy.non_empty_events_list

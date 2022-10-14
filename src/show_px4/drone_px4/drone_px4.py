@@ -23,7 +23,6 @@ class DronePx4:
     def add_fire(self, frame: int, chanel: int, duration_frame: int) -> None:
         self.fire_events.add_frame_chanel_duration(frame, chanel, duration_frame)
 
-    ### TO DO: not very clean but doing an enum class of the events just for this is kind of overkill
     def get_events_by_index(self, event_index: int) -> Events:
         events_enum = {
             self.position_events.id: self.position_events,

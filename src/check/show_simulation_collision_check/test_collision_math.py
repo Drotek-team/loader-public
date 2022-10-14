@@ -62,12 +62,6 @@ def test_get_optimized_collision_infractions():
     NB_X = 2
     NB_Y = 2
     local_indices = np.arange(0, NB_X * NB_Y)
-    # raise ValueError(
-    #     get_optimized_collision_infractions(
-    #         local_indices, get_grid(NB_X, NB_Y), True, endangered_distance=1.2
-    #     )
-    # )
-    nb_drones_total = NB_X * NB_Y
     assert len(
         get_optimized_collision_infractions(
             local_indices, get_grid(NB_X, NB_Y), True, endangered_distance=1.2

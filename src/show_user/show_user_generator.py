@@ -12,7 +12,7 @@ def get_valid_show_user(
     angle_takeoff: int,
     show_duration_frame: int,
 ) -> Dict:
-    ### TO DO: a lot of arbitrary values here, take the value from "parameter.py"
+    ### TO DO: a lot of arbitrary values here, just take the value from "parameter.py"
     valid_drones_user = [
         DroneUser(
             position_events=[
