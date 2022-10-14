@@ -1,15 +1,17 @@
 from typing import Dict, Tuple
 
 
-from .show_check_report import ShowCheckReport
 from ..show_user.show_user import ShowUser
 from ..parameter.parameter import Parameter
 from ..migration.migration_IJ_SP.IJ_to_SP_procedure import (
     IJ_to_SP_procedure,
 )
-from .all_check_from_show_px4_procedure import apply_all_check_from_show_px4_procedure
 from ..migration.migration_IJ_SP.IJ_to_SP_report import IJ_to_SP_report
 from ..iostar_json.iostar_json import IostarJson
+from ..check.show_check_report import ShowCheckReport
+from ..check.all_check_from_show_px4_procedure import (
+    apply_all_check_from_show_px4_procedure,
+)
 
 
 def apply_import_procedure(
