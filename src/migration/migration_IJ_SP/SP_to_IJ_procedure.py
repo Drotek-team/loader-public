@@ -7,8 +7,8 @@ from .migration_DP_binary.drone_encoding_procedure import encode_drone
 
 def SP_to_IJ_procedure(
     show_px4: ShowPx4, json_binary_parameter: JsonBinaryParameter
-) -> None:
-    show = IostarJson(
+) -> IostarJson:
+    return IostarJson(
         **{
             "show": {
                 "binary_dances": [

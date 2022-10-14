@@ -16,7 +16,7 @@ def main() -> None:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
     time_begin = time.time()
-    export_report = apply_export_procedure(
+    export_report, show_check_report = apply_export_procedure(
         get_valid_show_user(
             NB_X,
             NB_Y,
@@ -28,7 +28,7 @@ def main() -> None:
         parameter,
     )
     print(time.time() - time_begin)
-    print(export_report.get_contenor_report(0, "   "))
+    print(show_check_report.get_contenor_report(0, "   "))
 
 
 if __name__ == "__main__":
