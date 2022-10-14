@@ -40,6 +40,7 @@ def valid_show_dev() -> ShowDev:
     return ShowDev([drone_dev])
 
 
+### TO DO: Quite a few more test is needed, for instance check the velocity/acceleration at the beggining are calculated according to the convention
 def test_SD_to_STP_procedure(valid_show_dev: ShowDev):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())

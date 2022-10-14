@@ -20,37 +20,37 @@ ACCELERATION_ESTIMATION_INDEX = 2
 def get_trajectory_performance_info_from_simulation_infos(
     simulation_infos: List[SimulationInfo], frame_parameter: FrameParameter
 ) -> List[TrajectoryPerformanceInfo]:
-    positions = [simulation_info.position for simulation_info in simulation_infos]
-    velocities = [np.array((0.0, 0.0, 0.0)),] + [
+    positions = [simulation_infos[0].position, simulation_infos[0].position] + [
+        simulation_info.position for simulation_info in simulation_infos
+    ]
+    velocities = [
         frame_parameter.position_fps
         * (
-            positions[simulation_index]
-            - positions[simulation_index - VELOCITY_ESTIMATION_INDEX]
+            positions[position_index]
+            - positions[position_index - VELOCITY_ESTIMATION_INDEX]
         )
-        for simulation_index in range(VELOCITY_ESTIMATION_INDEX, len(simulation_infos))
+        for position_index in range(len(positions))
     ]
     accelerations: List[np.ndarray] = [
-        np.array((0.0, 0.0, 0.0)),
-        np.array((0.0, 0.0, 0.0)),
-    ] + [
         frame_parameter.position_fps
         * frame_parameter.position_fps
         * (
-            positions[simulation_index]
-            - 2 * positions[simulation_index - VELOCITY_ESTIMATION_INDEX]
-            + positions[simulation_index - ACCELERATION_ESTIMATION_INDEX]
+            positions[position_index]
+            - 2 * positions[position_index - VELOCITY_ESTIMATION_INDEX]
+            + positions[position_index - ACCELERATION_ESTIMATION_INDEX]
         )
-        for simulation_index in range(
-            ACCELERATION_ESTIMATION_INDEX, len(simulation_infos)
-        )
+        for position_index in range(len(positions))
     ]
 
     return [
         TrajectoryPerformanceInfo(
-            simulation_info.frame, simulation_info.position, velocity, acceleration
+            simulation_info.frame, position, velocity, acceleration
         )
-        for simulation_info, velocity, acceleration in zip(
-            simulation_infos, velocities, accelerations
+        for simulation_info, position, velocity, acceleration in zip(
+            simulation_infos,
+            positions[ACCELERATION_ESTIMATION_INDEX:],
+            velocities[ACCELERATION_ESTIMATION_INDEX:],
+            accelerations[ACCELERATION_ESTIMATION_INDEX:],
         )
     ]
 
