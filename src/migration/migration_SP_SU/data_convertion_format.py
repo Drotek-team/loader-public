@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-
+### TO DO: this is 100% a parameter type, has nothing to do here
 @dataclass(frozen=True)
 class XyzConvertionStandard:
     CENTIMETER_TO_METER_FACTOR: float = 1e-2

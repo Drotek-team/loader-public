@@ -7,9 +7,9 @@ from .show_dev_check.show_dev_check_report import (
 
 
 class ShowCheckReport(Contenor):
-    def __init__(self, nb_drones: int = 1):
+    def __init__(self, nb_drones):
         self.name = "Show Check Report"
-        self.simulation_check_report = SimulationCheckReport()
+        self.simulation_check_report = SimulationCheckReport(nb_drones)
         self.show_px4_check_report = ShowPx4CheckReport(nb_drones)
         self.show_dev_check_report = ShowDevCheckReport(nb_drones)
 
