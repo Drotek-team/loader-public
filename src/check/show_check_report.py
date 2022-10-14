@@ -1,5 +1,5 @@
 from ..report import Contenor
-from .show_simulation_check.show_simulation_collision_check_procedure import (
+from .show_simulation_collision_check.show_simulation_collision_check_procedure import (
     ShowSimulationCollisionCheckReport,
 )
 from .show_px4_check.show_px4_check_report import ShowPx4CheckReport
