@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from typing import Callable
 import os
 import numpy as np
@@ -92,10 +93,10 @@ METRICS_RANGE: dict[Metric, MetricRange] = {
         0, parameter.iostar_parameter.horizontal_acceleration_max
     ),
     Metric.UP_VELOCITY: MetricRange(
-        parameter.iostar_parameter.horizontal_velocity_max, 0
+        0, parameter.iostar_parameter.horizontal_velocity_max
     ),
     Metric.DOWN_VELOCITY: MetricRange(
-        0, parameter.iostar_parameter.horizontal_velocity_max
+        parameter.iostar_parameter.horizontal_velocity_max, 0, False
     ),
 }
 
@@ -114,7 +115,7 @@ def performance_evaluation(
         ):
             drone_trajectory_performance_check_report.performance_infractions.append(
                 PerformanceInfraction(
-                    metric.name,
+                    metric.value,
                     METRICS_EVALUATION[metric](position, velocity, acceleration),
                 )
             )

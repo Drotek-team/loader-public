@@ -51,6 +51,7 @@ def test_SD_to_STP_procedure(valid_show_dev: ShowDev):
     drone_trajectory_performance = (
         show_trajectory_performance.drones_trajectory_performance[0]
     )
+    assert len(drone_trajectory_performance.trajectory_performance_infos) == 2
     first_trajectory_performance, second_trajectory_performance = (
         drone_trajectory_performance.trajectory_performance_infos[0],
         drone_trajectory_performance.trajectory_performance_infos[1],
