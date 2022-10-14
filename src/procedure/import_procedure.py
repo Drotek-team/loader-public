@@ -12,6 +12,7 @@ from ..check.show_check_report import ShowCheckReport
 from ..check.all_check_from_show_px4_procedure import (
     apply_all_check_from_show_px4_procedure,
 )
+from ..migration.migration_SP_SU.SP_to_SU_procedure import SP_to_SU_procedure
 
 
 def apply_import_procedure(
@@ -30,4 +31,4 @@ def apply_import_procedure(
         show_px4,
         parameter,
     )
-    return ShowUser(**show_px4), show_check_report
+    return SP_to_SU_procedure(show_px4, parameter.frame_parameter), show_check_report
