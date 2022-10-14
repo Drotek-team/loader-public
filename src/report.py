@@ -25,7 +25,6 @@ class Contenor:
     ) -> str:
         return f"{indentation_level * indentation_type} [Contenor] {report}  \n"
 
-    ### TO DO: decompose the 3 parts of this function
     def get_children_report(self, indentation_level: int, indentation_type: str) -> str:
         children_report = ""
         for attribute in self.__dict__.values():
