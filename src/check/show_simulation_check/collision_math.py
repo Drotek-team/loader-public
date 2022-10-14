@@ -1,6 +1,6 @@
-from .collision_check_report import CollisionInfraction
 import numpy as np
 from typing import List
+from .show_simulation_collision_check_report import CollisionInfraction
 
 
 def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:

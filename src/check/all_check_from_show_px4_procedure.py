@@ -1,7 +1,7 @@
 from ..show_px4.show_px4 import ShowPx4
 from ..parameter.parameter import Parameter
-from .show_simulation_check.simulation_check_procedure import (
-    apply_simulation_check_procedure,
+from .show_simulation_check.show_simulation_collision_check_procedure import (
+    apply_show_simulation_collision_check_procedure,
 )
 from .show_px4_check.show_px4_chek_procedure import apply_show_px4_check_procedure
 from .show_check_report import ShowCheckReport
@@ -44,7 +44,7 @@ def apply_all_check_from_show_px4_procedure(
     show_simulation = STC_to_SS_procedure(
         show_trajectory_collision,
     )
-    apply_simulation_check_procedure(
+    apply_show_simulation_collision_check_procedure(
         show_simulation,
         show_check_report.simulation_check_report,
         parameter.iostar_parameter,

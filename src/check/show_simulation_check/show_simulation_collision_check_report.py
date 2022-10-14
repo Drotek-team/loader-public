@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from ....report import Contenor, Displayer
+from ...report import Contenor, Displayer
 
 
 @dataclass(frozen=True)
@@ -26,7 +26,7 @@ class CollisionSliceCheckReport(Contenor):
         self.validation = len(self.collision_infractions) == 0
 
 
-class CollisionCheckReport(Contenor):
+class ShowSimulationCollisionCheckReport(Contenor):
     def __init__(self, frames: List[int]):
         self.name = "Collision check report"
         self.collision_slices_check_report = [

@@ -5,7 +5,7 @@ from .collision_math import (
     get_unique_list_from_list,
 )
 import numpy as np
-from .collision_check_report import CollisionInfraction
+from .show_simulation_collision_check_report import CollisionInfraction
 
 
 def get_grid(nb_x: int, nb_y: int) -> np.ndarray:

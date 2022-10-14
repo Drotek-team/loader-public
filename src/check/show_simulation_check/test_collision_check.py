@@ -1,22 +1,15 @@
 import os
-from re import S
 
 import pytest
-from .collision_check_report import (
-    CollisionCheckReport,
+from ...parameter.parameter import Parameter
+from ...show_simulation.show_simulation import ShowSimulation
+from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
+from ...migration.migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
+from ...migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
+from .show_simulation_collision_check_report import ShowSimulationCollisionCheckReport
+from .show_simulation_collision_check_procedure import (
+    apply_show_simulation_collision_check_procedure,
 )
-from ....parameter.parameter import Parameter
-from .collision_check_procedure import (
-    apply_collision_check_procedure,
-)
-from ..simulation_check_report import (
-    SimulationCheckReport,
-)
-from ....show_simulation.show_simulation import ShowSimulation
-from typing import List
-from ....show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
-from ....migration.migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
-from ....migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
 
 EPSILON_DELTA = 1e-2
 ROUNDING_ERROR = 0.04
@@ -72,31 +65,28 @@ def valid_show_simulation_on_ground() -> ShowSimulation:
 def test_valid_simulation_on_ground(valid_show_simulation_on_ground: ShowSimulation):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    simulation_check_report = SimulationCheckReport(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         valid_show_simulation_on_ground.frames
     )
-    simulation_check_report.collision_check_report = CollisionCheckReport(
-        valid_show_simulation_on_ground.frames
-    )
-    apply_collision_check_procedure(
+    apply_show_simulation_collision_check_procedure(
         valid_show_simulation_on_ground,
-        simulation_check_report.collision_check_report,
+        show_simulation_collision_check_report,
         parameter.iostar_parameter,
     )
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+    assert show_simulation_collision_check_report.collision_slices_check_report[
         0
     ].validation
     assert not (
-        simulation_check_report.collision_check_report.collision_slices_check_report[
+        show_simulation_collision_check_report.collision_slices_check_report[
             1
         ].validation
     )
     assert not (
-        simulation_check_report.collision_check_report.collision_slices_check_report[
+        show_simulation_collision_check_report.collision_slices_check_report[
             51
         ].validation
     )
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+    assert show_simulation_collision_check_report.collision_slices_check_report[
         52
     ].validation
 
@@ -160,24 +150,24 @@ def test_invalid_simulation_on_ground(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    simulation_check_report = SimulationCheckReport(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         invalid_show_simulation_on_ground.frames
     )
-    simulation_check_report.collision_check_report = CollisionCheckReport(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         invalid_show_simulation_on_ground.frames
     )
-    apply_collision_check_procedure(
+    apply_show_simulation_collision_check_procedure(
         invalid_show_simulation_on_ground,
-        simulation_check_report.collision_check_report,
+        show_simulation_collision_check_report,
         parameter.iostar_parameter,
     )
     assert not (
-        simulation_check_report.collision_check_report.collision_slices_check_report[
+        show_simulation_collision_check_report.collision_slices_check_report[
             0
         ].validation
     )
     assert not (
-        simulation_check_report.collision_check_report.collision_slices_check_report[
+        show_simulation_collision_check_report.collision_slices_check_report[
             52
         ].validation
     )
@@ -238,19 +228,21 @@ def valid_show_simulation_in_air() -> ShowSimulation:
 def test_valid_simulation_in_air(valid_show_simulation_in_air: ShowSimulation):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    simulation_check_report = SimulationCheckReport(valid_show_simulation_in_air.frames)
-    simulation_check_report.collision_check_report = CollisionCheckReport(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         valid_show_simulation_in_air.frames
     )
-    apply_collision_check_procedure(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
+        valid_show_simulation_in_air.frames
+    )
+    apply_show_simulation_collision_check_procedure(
         valid_show_simulation_in_air,
-        simulation_check_report.collision_check_report,
+        show_simulation_collision_check_report,
         parameter.iostar_parameter,
     )
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+    assert show_simulation_collision_check_report.collision_slices_check_report[
         1
     ].validation
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+    assert show_simulation_collision_check_report.collision_slices_check_report[
         51
     ].validation
 
@@ -312,30 +304,30 @@ def test_invalid_simulation_in_air(
 ):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    simulation_check_report = SimulationCheckReport(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         invalid_show_simulation_in_air.frames
     )
-    simulation_check_report.collision_check_report = CollisionCheckReport(
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         invalid_show_simulation_in_air.frames
     )
-    apply_collision_check_procedure(
+    apply_show_simulation_collision_check_procedure(
         invalid_show_simulation_in_air,
-        simulation_check_report.collision_check_report,
+        show_simulation_collision_check_report,
         parameter.iostar_parameter,
     )
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+    assert show_simulation_collision_check_report.collision_slices_check_report[
         0
     ].validation
     assert not (
-        simulation_check_report.collision_check_report.collision_slices_check_report[
+        show_simulation_collision_check_report.collision_slices_check_report[
             1
         ].validation
     )
     assert not (
-        simulation_check_report.collision_check_report.collision_slices_check_report[
+        show_simulation_collision_check_report.collision_slices_check_report[
             51
         ].validation
     )
-    assert simulation_check_report.collision_check_report.collision_slices_check_report[
+    assert show_simulation_collision_check_report.collision_slices_check_report[
         52
     ].validation

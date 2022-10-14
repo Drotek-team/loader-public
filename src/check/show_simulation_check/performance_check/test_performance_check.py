@@ -13,7 +13,7 @@
 # )
 # from ....show_simulation.show_simulation import ShowSimulation
 # from ..simulation_check_report import (
-#     SimulationCheckReport,
+#     ShowSimulationCollisionCheckReport,
 # )
 # from ....migration.migration_SP_SS.SP_to_SS_procedure import STC_to_SS_procedure
 # from ....migration.migration_SP_SU.data_convertion_format import XyzConvertionStandard
@@ -94,7 +94,7 @@
 #     )
 #     position_event_1 = PositionEvent(6, distance_max + ROUNDING_ERROR, 0, 0)
 #     valid_show_simulation = get_show_simulation([position_event_1])
-#     simulation_check_report = SimulationCheckReport()
+#     simulation_check_report = ShowSimulationCollisionCheckReport()
 #     simulation_check_report.performance_check_report = PerformanceCheckReport(
 #         valid_show_simulation.frames
 #     )
@@ -121,7 +121,7 @@
 #     position_event_1 = PositionEvent(6, distance_max - EPSILON_DELTA, 0, 0)
 
 #     valid_show_simulation = get_show_simulation([position_event_1])
-#     simulation_check_report = SimulationCheckReport()
+#     simulation_check_report = ShowSimulationCollisionCheckReport()
 #     simulation_check_report.performance_check_report = PerformanceCheckReport(
 #         valid_show_simulation.frames
 #     )
@@ -146,7 +146,7 @@
 #     )
 #     position_event_1 = PositionEvent(6, distance_max + ROUNDING_ERROR, 0, 0)
 #     valid_show_simulation = get_show_simulation([position_event_1])
-#     simulation_check_report = SimulationCheckReport()
+#     simulation_check_report = ShowSimulationCollisionCheckReport()
 #     simulation_check_report.performance_check_report = PerformanceCheckReport(
 #         valid_show_simulation.frames
 #     )
@@ -173,7 +173,7 @@
 #     )
 #     position_event_1 = PositionEvent(6, distance_max - EPSILON_DELTA, 0, 0)
 #     valid_show_simulation = get_show_simulation([position_event_1])
-#     simulation_check_report = SimulationCheckReport()
+#     simulation_check_report = ShowSimulationCollisionCheckReport()
 #     simulation_check_report.performance_check_report = PerformanceCheckReport(
 #         valid_show_simulation.frames
 #     )
@@ -220,7 +220,7 @@
 #             position_event_3,
 #         ]
 #     )
-#     simulation_check_report = SimulationCheckReport()
+#     simulation_check_report = ShowSimulationCollisionCheckReport()
 #     simulation_check_report.performance_check_report = PerformanceCheckReport(
 #         valid_show_simulation.frames
 #     )

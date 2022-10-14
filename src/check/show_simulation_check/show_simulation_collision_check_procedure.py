@@ -1,16 +1,16 @@
 import numpy as np
 
-from ....parameter.parameter import IostarParameter
-from ....show_simulation.show_simulation import ShowSimulation
-from .collision_check_report import CollisionCheckReport
+from ...parameter.parameter import IostarParameter
+from ...show_simulation.show_simulation import ShowSimulation
+from .show_simulation_collision_check_report import ShowSimulationCollisionCheckReport
 from .collision_math import (
     get_optimized_collision_infractions,
 )
 
 
-def apply_collision_check_procedure(
+def apply_show_simulation_collision_check_procedure(
     show_simulation: ShowSimulation,
-    collision_check_report: CollisionCheckReport,
+    collision_check_report: ShowSimulationCollisionCheckReport,
     iostar_parameter: IostarParameter,
 ) -> None:
     drone_indices = np.array(range(show_simulation.nb_drones))
