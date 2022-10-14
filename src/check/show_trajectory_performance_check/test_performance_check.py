@@ -50,6 +50,7 @@ def valid_show_trajectory_performance() -> ShowTrajectoryPerformance:
     )
     return SD_to_STP_procedure(
         ShowDev([drone_dev]),
+        parameter.frame_parameter,
     )
 
 

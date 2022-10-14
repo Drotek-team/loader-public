@@ -1,5 +1,5 @@
 from typing import List
-from ...parameter.parameter import LandParameter, TakeoffParameter, FrameParameter
+from ...parameter.parameter import FrameParameter
 
 from ...show_trajectory_performance.show_trajectory_performance import (
     ShowTrajectoryPerformance,
@@ -9,6 +9,7 @@ from .simulation.in_air_flight_simulation import in_air_flight_simulation
 from .simulation.position_simulation import SimulationInfo
 from ...show_trajectory_performance.show_trajectory_performance import (
     TrajectoryPerformanceInfo,
+    DroneTrajectoryPerformance,
 )
 import numpy as np
 
@@ -56,11 +57,18 @@ def get_trajectory_performance_info_from_simulation_infos(
 
 def SD_to_STP_procedure(
     show_dev: ShowDev,
+    frame_parameter: FrameParameter,
 ) -> ShowTrajectoryPerformance:
     return ShowTrajectoryPerformance(
         [
-            in_air_flight_simulation(
-                drone_dev,
+            DroneTrajectoryPerformance(
+                drone_dev.drone_index,
+                get_trajectory_performance_info_from_simulation_infos(
+                    in_air_flight_simulation(
+                        drone_dev.position_events_dev[1:],
+                    ),
+                    frame_parameter,
+                ),
             )
             for drone_dev in show_dev.drones_dev
         ]
