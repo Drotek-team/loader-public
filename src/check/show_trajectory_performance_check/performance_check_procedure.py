@@ -1,5 +1,5 @@
-from ....parameter.parameter import IostarParameter, TakeoffParameter
-from ....show_simulation.show_simulation import ShowSimulation
+from ...parameter.parameter import IostarParameter, TakeoffParameter
+from ...show_simulation.show_simulation import ShowSimulation
 from .observed_metrics.observed_metrics import ObservedMetricsSlice
 from .performance_check_report import PerformanceCheckReport
 
