@@ -1,85 +1,69 @@
-# from multiprocessing.sharedctypes import Value
-# import os
-# from typing import List
-# import numpy as np
-# from ....show_px4.drone_px4.events.position_events import PositionEvent
-# from ....show_px4.show_px4 import DronePx4, ShowPx4
-# from ....parameter.parameter import Parameter
-# from .performance_check_procedure import (
-#     apply_performance_check_procedure,
-# )
-# from .performance_check_report import (
-#     PerformanceCheckReport,
-# )
-# from ....show_simulation.show_simulation import ShowSimulation
-# from ..simulation_check_report import (
-#     ShowSimulationCollisionCheckReport,
-# )
-# from ....migration.migration_SP_SS.SP_to_SS_procedure import STC_to_SS_procedure
-# from ....migration.migration_SP_SU.data_convertion_format import XyzConvertionStandard
+import os
+import numpy as np
+from ...parameter.parameter import Parameter
 
-# EPSILON_DELTA = 1e-3
+import pytest
+from ...show_trajectory_performance.show_trajectory_performance import (
+    ShowTrajectoryPerformance,
+)
+from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
+from ...migration.migration_SD_ST.SD_to_STP_procedure import SD_to_STP_procedure
+from .show_trajectory_performance_check_report import (
+    ShowTrajectoryPerformanceCheckReport,
+)
+from .show_trajectory_performance_check_procedure import (
+    apply_show_trajectory_performance_check_procedure,
+)
+
+EPSILON_DELTA = 1e-3
 
 
-# def get_show_simulation(position_events: List[PositionEvent]) -> ShowSimulation:
-#     parameter = Parameter()
-#     xyz_convertion_standard = XyzConvertionStandard()
-#     parameter.load_parameter(os.getcwd())
-#     drone = DronePx4(0)
-#     drone.add_position(0, (0, 0, 0))
-#     drone.add_position(
-#         int(
-#             parameter.frame_parameter.json_fps
-#             * parameter.takeoff_parameter.takeoff_duration_second
-#         ),
-#         xyz_convertion_standard.from_user_xyz_to_px4_xyz(
-#             (0, 0, parameter.takeoff_parameter.takeoff_altitude_meter)
-#         ),
-#     )
-#     for position_event in position_events:
-#         position = position_event.xyz
-#         drone.add_position(
-#             int(
-#                 parameter.frame_parameter.json_fps
-#                 * parameter.takeoff_parameter.takeoff_duration_second
-#             )
-#             + position_event.frame,
-#             xyz_convertion_standard.from_user_xyz_to_px4_xyz(
-#                 (
-#                     position[0],
-#                     position[1],
-#                     parameter.takeoff_parameter.takeoff_altitude_meter + position[2],
-#                 )
-#             ),
-#         )
+@pytest.fixture
+def valid_show_trajectory_performance() -> ShowTrajectoryPerformance:
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
 
-#     show_px4 = ShowPx4([drone])
-#     show_simulation = STC_to_SS_procedure(
-#         show_px4,
-#         parameter.frame_parameter,
-#         parameter.takeoff_parameter,
-#         parameter.land_parameter,
-#     )
-#     return show_simulation
+    drone_dev = DroneDev(
+        0,
+        [
+            PositionEventDev(0, (0.0, 0.0, 0.0)),
+            PositionEventDev(
+                parameter.takeoff_parameter.takeoff_duration_second
+                * parameter.frame_parameter.position_fps,
+                (
+                    0.0,
+                    0.0,
+                    parameter.takeoff_parameter.takeoff_altitude_meter,
+                ),
+            ),
+            PositionEventDev(
+                parameter.takeoff_parameter.takeoff_duration_second
+                * parameter.frame_parameter.position_fps
+                + 1,
+                (
+                    0.0,
+                    0.0,
+                    parameter.takeoff_parameter.takeoff_altitude_meter,
+                ),
+            ),
+        ],
+    )
+    return SD_to_STP_procedure(
+        ShowDev([drone_dev]),
+    )
 
 
-# def test_valid_simulation():
-#     position_event_1 = PositionEvent(1, 0, 0, 0)
-#     position_event_2 = PositionEvent(2, 0, 0, 0)
-#     position_event_3 = PositionEvent(3, 0, 0, 0)
-#     valid_show_simulation = get_show_simulation(
-#         [position_event_1, position_event_2, position_event_3]
-#     )
-#     performance_check_report = PerformanceCheckReport()
-#     parameter = Parameter()
-#     parameter.load_parameter(os.getcwd())
-#     apply_performance_check_procedure(
-#         valid_show_simulation,
-#         performance_check_report,
-#         parameter.iostar_parameter,
-#         parameter.takeoff_parameter,
-#     )
-#     assert performance_check_report.validation
+def test_valid_simulation(valid_show_trajectory_performance: ShowTrajectoryPerformance):
+    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
+        valid_show_trajectory_performance.nb_drones
+    )
+    parameter = Parameter()
+    parameter.load_parameter(os.getcwd())
+    apply_show_trajectory_performance_check_procedure(
+        valid_show_trajectory_performance,
+        show_trajectory_performance_check_report,
+    )
+    assert show_trajectory_performance_check_report.validation
 
 
 # ROUNDING_ERROR = 0.04
