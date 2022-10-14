@@ -58,3 +58,5 @@ def apply_show_dev_procedure(
             takeoff_parameter,
             frame_parameter,
         )
+        drone_dev_check_report.update()
+    show_dev_check_report.update()

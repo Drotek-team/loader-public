@@ -12,18 +12,36 @@ def get_valid_show_user(
     angle_takeoff: int,
     show_duration_frame: int,
 ) -> Dict:
+    ### TO DO: a lot of arbitrary values here, take the value from "parameter.py"
     valid_drones_user = [
         DroneUser(
             position_events=[
                 PositionEventUser(
-                    frame=0, xyz=[index_x - nb_x + 1, index_y - nb_y + 1, 0]
+                    position_frame=0,
+                    absolute_frame=0,
+                    xyz=[
+                        step_takeoff * (index_x - nb_x + 1),
+                        step_takeoff * (index_y - nb_y + 1),
+                        0,
+                    ],
                 ),
                 PositionEventUser(
-                    frame=240, xyz=[index_x - nb_x + 1, index_y - nb_y + 1, 1]
+                    position_frame=40,
+                    absolute_frame=240,
+                    xyz=[
+                        step_takeoff * (index_x - nb_x + 1),
+                        step_takeoff * (index_y - nb_y + 1),
+                        1.0,
+                    ],
                 ),
                 PositionEventUser(
-                    frame=240 + show_duration_frame,
-                    xyz=[index_x - nb_x + 1, index_y - nb_y + 1, 1],
+                    position_frame=40 + show_duration_frame,
+                    absolute_frame=240 + 4 * show_duration_frame,
+                    xyz=[
+                        step_takeoff * (index_x - nb_x + 1),
+                        step_takeoff * (index_y - nb_y + 1),
+                        1.0,
+                    ],
                 ),
             ],
             color_events=[],

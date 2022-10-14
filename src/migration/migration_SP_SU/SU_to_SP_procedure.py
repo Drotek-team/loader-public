@@ -21,8 +21,9 @@ def add_position_events_user(
     xyz_convertion_standard: XyzConvertionStandard,
 ) -> None:
     for position_event_user in position_events_user:
+        ### URGENT: do something for that
         drone_px4.add_position(
-            position_event_user.position_frame,
+            6 * position_event_user.position_frame,
             xyz_convertion_standard.from_user_xyz_to_px4_xyz(
                 position_event_user.xyz,
             ),

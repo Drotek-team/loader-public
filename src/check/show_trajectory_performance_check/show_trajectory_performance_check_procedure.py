@@ -18,6 +18,7 @@ def apply_drone_trajectory_performance_check_procedure(
         trajectory_performance_info
     ) in drone_trajectory_performance.trajectory_performance_infos:
         performance_evaluation(
+            trajectory_performance_info.frame,
             trajectory_performance_info.position,
             trajectory_performance_info.velocity,
             trajectory_performance_info.acceleration,

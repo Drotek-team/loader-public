@@ -4,12 +4,12 @@ from src.show_user.show_user_generator import get_valid_show_user
 from src.check.export_procedure import apply_export_procedure
 import time
 
-NB_X = 5
-NB_Y = 5
+NB_X = 1
+NB_Y = 1
 NB_DRONE_PER_FAMILY = 1
-STEP_TAKEOFF = 1.0
+STEP_TAKEOFF = 1.5
 ANGLE_TAKEOFF = 0
-SHOW_DURATION_FRAME = 4000
+SHOW_DURATION_FRAME = 1
 
 
 def main() -> None:

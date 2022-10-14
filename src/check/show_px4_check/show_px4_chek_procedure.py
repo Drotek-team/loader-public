@@ -29,3 +29,4 @@ def apply_show_px4_check_procedure(
             drone_px4_check_report.dance_size_check_report,
         )
         drone_px4_check_report.update()
+    show_px4_check_report.update()
