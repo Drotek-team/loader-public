@@ -3,7 +3,6 @@ from ..show_user.show_user import ShowUser
 from .export_procedure import apply_export_procedure
 from ..parameter.parameter import Parameter
 import os
-from .export_report import ExportReport
 
 NB_X = 20
 NB_Y = 20

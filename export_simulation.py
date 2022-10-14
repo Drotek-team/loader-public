@@ -2,7 +2,6 @@ from src.parameter.parameter import Parameter
 import os
 from src.show_user.show_user_generator import get_valid_show_user
 from src.check.export_procedure import apply_export_procedure
-from src.check.export_report import ExportReport
 import time
 
 NB_X = 5
@@ -16,9 +15,8 @@ SHOW_DURATION_FRAME = 4000
 def main() -> None:
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())
-    export_report = ExportReport()
     time_begin = time.time()
-    apply_export_procedure(
+    export_report = apply_export_procedure(
         get_valid_show_user(
             NB_X,
             NB_Y,
@@ -27,11 +25,10 @@ def main() -> None:
             ANGLE_TAKEOFF,
             SHOW_DURATION_FRAME,
         )["show"],
-        export_report,
         parameter,
     )
     print(time.time() - time_begin)
-    # print(export_report.get_contenor_report(0, "   "))
+    print(export_report.get_contenor_report(0, "   "))
 
 
 if __name__ == "__main__":

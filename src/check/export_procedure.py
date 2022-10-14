@@ -1,6 +1,5 @@
 from .show_check_report import ShowCheckReport
 from ..parameter.parameter import Parameter
-from .export_report import ExportReport
 from ..migration.migration_IJ_SP.SP_to_IJ_procedure import SP_to_IJ_procedure
 from .all_check_from_show_px4_procedure import apply_all_check_from_show_px4_procedure
 from typing import Dict
@@ -10,19 +9,16 @@ from ..migration.migration_SP_SU.SU_to_SP_procedure import SU_to_SP_procedure
 
 def apply_export_procedure(
     show_user_json: Dict,
-    export_report: ExportReport,
     parameter: Parameter,
-) -> None:
+) -> ShowCheckReport:
     show_user = ShowUser(**show_user_json)
     show_px4 = SU_to_SP_procedure(show_user)
-    export_report.show_check_report = ShowCheckReport(len(show_px4))
-    apply_all_check_from_show_px4_procedure(
+    show_check_report = apply_all_check_from_show_px4_procedure(
         show_px4,
-        export_report.show_check_report,
         parameter,
     )
     SP_to_IJ_procedure(
         show_px4,
         parameter.json_binary_parameter,
     )
-    export_report.update()
+    return show_check_report

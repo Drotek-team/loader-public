@@ -55,6 +55,10 @@ class ShowDev:
     def __len__(self):
         return len(self.drones_dev)
 
+    @property
+    def nb_drones(self) -> int:
+        return len(self.drones_dev)
+
     def get_last_frame(
         self,
         land_parameter: LandParameter,
