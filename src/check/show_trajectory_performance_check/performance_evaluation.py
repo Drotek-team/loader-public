@@ -1,5 +1,4 @@
-from multiprocessing.sharedctypes import Value
-from typing import Callable
+from typing import Callable, Dict
 import os
 import numpy as np
 
@@ -67,7 +66,7 @@ class Metric(Enum):
     DOWN_VELOCITY = "donw velocity"
 
 
-METRICS_EVALUATION: dict[
+METRICS_EVALUATION: Dict[
     Metric, Callable[[np.ndarray, np.ndarray, np.ndarray], float]
 ] = {
     Metric.VERTICAL_POSITION: vertical_position_evaluation,
@@ -82,7 +81,7 @@ parameter = Parameter()
 parameter.load_parameter(os.getcwd())
 
 
-METRICS_RANGE: dict[Metric, MetricRange] = {
+METRICS_RANGE: Dict[Metric, MetricRange] = {
     Metric.VERTICAL_POSITION: MetricRange(
         0, parameter.takeoff_parameter.takeoff_altitude_meter, False
     ),
