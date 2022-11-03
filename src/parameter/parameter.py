@@ -76,29 +76,17 @@ class FrameParameter:
     def show_duration_max_frame(self) -> int:
         return int(self.show_duration_max_second * self.json_fps)
 
-    @property
-    def position_rate_frame(self) -> int:
-        return int(self.json_fps / self.position_fps)
+    def from_position_frame_to_json_frame(self, position_frame: int) -> int:
+        return position_frame * int(self.json_fps / self.position_fps)
 
-    @property
-    def position_rate_second(self) -> float:
-        return self.position_rate_frame / self.json_fps
+    def from_color_frame_to_json_frame(self, color_frame: int) -> int:
+        return color_frame * int(self.json_fps / self.color_fps)
 
-    @property
-    def color_rate_frame(self) -> int:
-        return int(self.json_fps / self.color_fps)
+    def from_fire_frame_to_json_frame(self, fire_frame: int) -> int:
+        return fire_frame * int(self.json_fps / self.fire_fps)
 
-    @property
-    def color_rate_second(self) -> float:
-        return self.color_rate_frame / self.json_fps
-
-    @property
-    def fire_rate_frame(self) -> int:
-        return int(self.json_fps / self.fire_fps)
-
-    @property
-    def fire_rate_second(self) -> float:
-        return self.fire_rate_frame / self.json_fps
+    def from_second_to_position_frame(self, second: float) -> int:
+        return int(int(self.json_fps / self.position_fps) * self.json_fps * second)
 
 
 @dataclass(frozen=True)
