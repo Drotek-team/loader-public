@@ -1,14 +1,15 @@
-from ....show_dev.show_dev import DroneDev
-from ....parameter.parameter import FrameParameter, TakeoffParameter, LandParameter
-from .position_simulation import SimulationInfo
 from typing import List
-from .stand_by_simulation import stand_by_simulation
-from .takeoff_simulation import takeoff_simulation
+
+from ....parameter.parameter import FrameParameter, LandParameter, TakeoffParameter
+from ....show_dev.show_dev import DroneDev
 from .in_air_flight_simulation import in_air_flight_simulation
 from .land_simulation import land_simulation
+from .position_simulation import SimulationInfo
+from .stand_by_simulation import stand_by_simulation
+from .takeoff_simulation import takeoff_simulation
 
-### TO DO: Hard to step unitarly, best way might be an input/ouput approch
-### Do it, This border effect must be conventionnized
+# TO DO: Hard to step unitarly, best way might be an input/ouput approch
+# Do it, This border effect must be conventionnized
 
 
 def flight_simulation(

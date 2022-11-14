@@ -1,6 +1,6 @@
 import pytest
+
 from ..grid import Grid
-import numpy as np
 from ..grid_nb_per_family_estimation import get_nb_drone_per_family_from_grid
 
 

@@ -2,14 +2,10 @@ import os
 
 import pytest
 
-from ....show_px4.drone_px4.events.fire_events import FireEvent, FireEvents
 from ....parameter.parameter import Parameter
-from .events_format_check_procedure import (
-    fire_events_check,
-)
-from .events_format_check_report import (
-    FireEventsCheckReport,
-)
+from ....show_px4.drone_px4.events.fire_events import FireEvent, FireEvents
+from .events_format_check_procedure import fire_events_check
+from .events_format_check_report import FireEventsCheckReport
 
 
 @pytest.fixture

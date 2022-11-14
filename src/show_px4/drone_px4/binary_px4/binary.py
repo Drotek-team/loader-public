@@ -1,6 +1,7 @@
 import struct
-from pydantic import BaseModel
 from abc import ABC
+
+from pydantic import BaseModel
 
 
 class BytesManager(ABC):
@@ -19,7 +20,7 @@ class Header(BaseModel, BytesManager):
     def bytes_data(self) -> bytes:
         return struct.pack(
             self.fmt_header,
-            *[self.magic_number, self.dance_size, self.number_non_empty_events]
+            *[self.magic_number, self.dance_size, self.number_non_empty_events],
         )
 
 
@@ -33,5 +34,5 @@ class SectionHeader(BaseModel, BytesManager):
     def bytes_data(self) -> bytes:
         return struct.pack(
             self.fmt_section_header,
-            *[self.event_id, self.byte_array_start_index, self.byte_array_end_index]
+            *[self.event_id, self.byte_array_start_index, self.byte_array_end_index],
         )

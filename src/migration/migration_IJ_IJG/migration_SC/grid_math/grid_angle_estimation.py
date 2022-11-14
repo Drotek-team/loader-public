@@ -1,7 +1,9 @@
-from typing import Tuple
-from .grid import Grid, HorizontalPosition
-import numpy as np
 import math
+from typing import Tuple
+
+import numpy as np
+
+from .grid import Grid, HorizontalPosition
 
 
 def get_first_row_extremes(

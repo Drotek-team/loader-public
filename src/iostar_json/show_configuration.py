@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from typing import List, Tuple
 from math import radians
+from typing import List, Tuple
+
 import numpy as np
 
 

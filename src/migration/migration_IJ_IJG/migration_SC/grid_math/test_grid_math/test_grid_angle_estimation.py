@@ -1,11 +1,12 @@
+import numpy as np
+import pytest
+
+from ..grid import Grid
 from ..grid_angle_estimation import (
     get_angle_degree_from_vector,
-    get_first_row_extremes,
     get_angle_takeoff_from_grid,
+    get_first_row_extremes,
 )
-import pytest
-from ..grid import Grid
-import numpy as np
 
 
 @pytest.fixture

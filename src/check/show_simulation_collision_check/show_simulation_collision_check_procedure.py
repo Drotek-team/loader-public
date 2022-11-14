@@ -2,10 +2,8 @@ import numpy as np
 
 from ...parameter.parameter import IostarParameter
 from ...show_simulation.show_simulation import ShowSimulation
+from .collision_math import get_optimized_collision_infractions
 from .show_simulation_collision_check_report import ShowSimulationCollisionCheckReport
-from .collision_math import (
-    get_optimized_collision_infractions,
-)
 
 
 def apply_show_simulation_collision_check_procedure(

@@ -1,7 +1,7 @@
-from typing import Tuple
-from ....parameter.parameter import FrameParameter
+from typing import List, Tuple
+
 import numpy as np
-from typing import List
+
 from .position_simulation import SimulationInfo
 
 

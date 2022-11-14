@@ -1,9 +1,8 @@
 from typing import List, Tuple
 
-
+from .convex_hull import calculate_convex_hull
 from .drone_px4.drone_px4 import DronePx4
 from .drone_px4.events_size_easing import EventsSizeEasing, apply_dance_size_relief
-from .convex_hull import calculate_convex_hull
 
 
 class ShowPx4:
@@ -11,8 +10,7 @@ class ShowPx4:
         self.drones = drones
 
     def __iter__(self):
-        for drone in self.drones:
-            yield drone
+        yield from self.drones
 
     def __getitem__(self, drone_index: int):
         return self.drones[drone_index]

@@ -1,5 +1,6 @@
-from .grid import Grid
 import numpy as np
+
+from .grid import Grid
 
 
 def get_step_from_grid(
@@ -17,7 +18,7 @@ def get_step_from_grid(
     for first_horizontal_position, second_horizontal_position in zip(
         grid.horizontal_positions[:-1], grid.horizontal_positions[1:]
     ):
-        if (first_horizontal_position.xy_tuple != second_horizontal_position.xy_tuple,):
+        if first_horizontal_position.xy_tuple != second_horizontal_position.xy_tuple:
             return np.linalg.norm(
                 first_horizontal_position.xy_array
                 - second_horizontal_position.xy_array,

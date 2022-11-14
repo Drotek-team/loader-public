@@ -1,10 +1,11 @@
-import numpy as np
-from ..position_simulation import SimulationInfo
-from ..in_air_flight_simulation import linear_interpolation
-from .....show_dev.show_dev import PositionEventDev
-from ..in_air_flight_simulation import in_air_flight_simulation
 from typing import List
+
+import numpy as np
 import pytest
+
+from .....show_dev.show_dev import PositionEventDev
+from ..in_air_flight_simulation import in_air_flight_simulation, linear_interpolation
+from ..position_simulation import SimulationInfo
 
 
 @pytest.fixture

@@ -1,6 +1,8 @@
 from typing import Tuple
-from .grid import Grid
+
 import numpy as np
+
+from .grid import Grid
 
 
 def get_nb_x_nb_y_from_grid(grid: Grid, grid_angle: float) -> Tuple[int, int]:

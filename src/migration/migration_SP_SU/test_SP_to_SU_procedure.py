@@ -1,14 +1,16 @@
+import os
+
 import pytest
+
+from ...parameter.parameter import Parameter
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
-from .SP_to_SU_procedure import SP_to_SU_procedure
 from .data_convertion_format import (
-    XyzConvertionStandard,
-    RgbwConvertionStandard,
     FireDurationConvertionStandard,
+    RgbwConvertionStandard,
+    XyzConvertionStandard,
 )
-import os
-from ...parameter.parameter import Parameter
+from .SP_to_SU_procedure import SP_to_SU_procedure
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)

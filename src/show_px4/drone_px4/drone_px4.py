@@ -1,4 +1,3 @@
-from enum import Enum
 from typing import List, Tuple
 
 from .events.color_events import ColorEvents

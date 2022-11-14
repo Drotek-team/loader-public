@@ -1,18 +1,18 @@
+from typing import List
+
+from ...show_px4.show_px4 import DronePx4, ShowPx4
 from ...show_user.show_user import (
-    DroneUser,
-    PositionEventUser,
     ColorEventUser,
+    DroneUser,
     FireEventUser,
+    PositionEventUser,
+    ShowUser,
 )
-from ...show_user.show_user import ShowUser
-from typing import List
-from ...show_px4.show_px4 import ShowPx4, DronePx4
 from .data_convertion_format import (
-    XyzConvertionStandard,
-    RgbwConvertionStandard,
     FireDurationConvertionStandard,
+    RgbwConvertionStandard,
+    XyzConvertionStandard,
 )
-from typing import List
 
 
 def add_position_events_user(
@@ -21,7 +21,7 @@ def add_position_events_user(
     xyz_convertion_standard: XyzConvertionStandard,
 ) -> None:
     for position_event_user in position_events_user:
-        ### URGENT: do something for that
+        # URGENT: do something for that
         drone_px4.add_position(
             6 * position_event_user.position_frame,
             xyz_convertion_standard.from_user_xyz_to_px4_xyz(

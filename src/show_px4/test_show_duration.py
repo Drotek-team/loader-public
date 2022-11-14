@@ -1,6 +1,7 @@
-from .show_px4 import DronePx4, ShowPx4
-from ..parameter.parameter import Parameter
 import os
+
+from ..parameter.parameter import Parameter
+from .show_px4 import DronePx4, ShowPx4
 
 
 def valid_show_px4(show_duration: int) -> ShowPx4:

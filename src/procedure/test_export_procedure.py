@@ -1,8 +1,8 @@
-import pytest
-from .export_procedure import apply_export_procedure
-from ..parameter.parameter import Parameter
 import os
+
+from ..parameter.parameter import Parameter
 from ..show_user.show_user_generator import get_valid_show_user
+from .export_procedure import apply_export_procedure
 
 NB_X = 1
 NB_Y = 1

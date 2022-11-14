@@ -1,15 +1,16 @@
 import os
 
 import pytest
-from ...parameter.parameter import Parameter
-from ...show_simulation.show_simulation import ShowSimulation
-from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
+
 from ...migration.migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
 from ...migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
-from .show_simulation_collision_check_report import ShowSimulationCollisionCheckReport
+from ...parameter.parameter import Parameter
+from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
+from ...show_simulation.show_simulation import ShowSimulation
 from .show_simulation_collision_check_procedure import (
     apply_show_simulation_collision_check_procedure,
 )
+from .show_simulation_collision_check_report import ShowSimulationCollisionCheckReport
 
 EPSILON_DELTA = 1e-2
 ROUNDING_ERROR = 0.04
@@ -171,11 +172,6 @@ def test_invalid_simulation_on_ground(
             52
         ].validation
     )
-
-
-#####################
-###### IN AIR #######
-#####################
 
 
 @pytest.fixture

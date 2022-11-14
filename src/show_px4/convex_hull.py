@@ -44,10 +44,10 @@ def calculate_convex_hull(
     positions_tuple: List[Tuple[int, int]]
 ) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
-    ### TO DO: Just make an object with (index,tuple,array) you dummy
+    # TO DO: Just make an object with (index,tuple,array) you dummy
     positions_array = tuple_list_to_array_list(positions_tuple)
 
-    ### Begin Algorithm ###
+    # Begin Algorithm #
     pivot = evaluate_pivot(positions_array)
     # remove() does not work with list of array
     positions_array = [
@@ -67,6 +67,6 @@ def calculate_convex_hull(
         ):
             convex_hull.pop()
         convex_hull.append(sorted_array_position)
-    ### End algorithm ##
+    # End algorithm ##
 
     return array_list_to_tuple_list(convex_hull)

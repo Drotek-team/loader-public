@@ -1,6 +1,7 @@
 from ....report import Contenor, Displayer
 
-### TO DO: clean this typing thing
+
+# TO DO: clean this typing thing
 class TimecodeFormatCheckReport(Displayer):
     def get_report(self) -> str:
         return "Timecode Format Check Report"

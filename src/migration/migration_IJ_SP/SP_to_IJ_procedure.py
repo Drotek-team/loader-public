@@ -1,5 +1,5 @@
-from ...parameter.parameter import JsonBinaryParameter
 from ...iostar_json.iostar_json import IostarJson
+from ...parameter.parameter import JsonBinaryParameter
 from ...show_px4.show_px4 import ShowPx4
 from .migration_DP_binary.drone_encoding_procedure import encode_drone
 

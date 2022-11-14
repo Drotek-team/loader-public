@@ -2,10 +2,8 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ....parameter.parameter import TakeoffParameter, FrameParameter
-from .position_simulation import SimulationInfo
-
-from .position_simulation import linear_interpolation
+from ....parameter.parameter import FrameParameter, TakeoffParameter
+from .position_simulation import SimulationInfo, linear_interpolation
 
 
 def generate_takeoff_first_part(

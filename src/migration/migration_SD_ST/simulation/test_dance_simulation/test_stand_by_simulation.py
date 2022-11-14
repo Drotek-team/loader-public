@@ -1,12 +1,12 @@
 import os
+from typing import Tuple
 
 import numpy as np
+import pytest
 
 from .....parameter.parameter import Parameter
-from ...simulation.stand_by_simulation import stand_by_simulation
 from .....show_dev.show_dev import PositionEventDev
-import pytest
-from typing import Tuple
+from ...simulation.stand_by_simulation import stand_by_simulation
 from ..position_simulation import SimulationInfo
 
 

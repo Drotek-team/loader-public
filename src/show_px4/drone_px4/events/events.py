@@ -1,8 +1,9 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import List, Tuple
 
 
 class Event(ABC):
+    @abstractmethod
     def get_data(self) -> Tuple:
         pass
 
@@ -12,6 +13,7 @@ class Events(ABC):
     id: int
     events: List[Event]
 
+    @abstractmethod
     def add_data(self, data: Tuple) -> None:
         pass
 
@@ -27,5 +29,6 @@ class Events(ABC):
     def nb_events(self) -> int:
         pass
 
+    @abstractmethod
     def get_frame_by_event_index(self, event_index: int) -> int:
         pass

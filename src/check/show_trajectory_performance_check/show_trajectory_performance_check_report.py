@@ -1,6 +1,7 @@
-from ...report import Contenor, Displayer
 from dataclasses import dataclass
 from typing import List
+
+from ...report import Contenor, Displayer
 
 
 @dataclass(frozen=True)

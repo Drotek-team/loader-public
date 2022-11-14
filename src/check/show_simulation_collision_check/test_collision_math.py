@@ -1,10 +1,11 @@
+import numpy as np
+
 from .collision_math import (
-    get_principal_axis,
     get_border_indices,
     get_optimized_collision_infractions,
+    get_principal_axis,
     get_unique_list_from_list,
 )
-import numpy as np
 from .show_simulation_collision_check_report import CollisionInfraction
 
 
@@ -57,7 +58,7 @@ def test_get_unique_list_from_list_non_unique():
     ) == [collision_infraction_1]
 
 
-### TO DO: finished the test
+# TO DO: finished the test
 def test_get_optimized_collision_infractions():
     NB_X = 2
     NB_Y = 2
@@ -69,7 +70,7 @@ def test_get_optimized_collision_infractions():
     ) == (NB_X - 1) * NB_Y + NB_X * (NB_Y - 1)
 
 
-### TO DO: finished the test
+# TO DO: finished the test
 def test_get_optimized_collision_infractions_big_number():
     NB_X = 25
     NB_Y = 20

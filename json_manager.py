@@ -1,6 +1,7 @@
+import os
+
 from dance_test_json import JSON_EXAMPLE
 from src.parameter.parameter import Parameter
-import os
 from src.procedure.import_procedure import apply_import_procedure
 
 

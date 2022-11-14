@@ -2,14 +2,10 @@ import os
 
 import pytest
 
-from ....show_px4.drone_px4.drone_px4 import DronePx4
 from ....parameter.parameter import Parameter
-from .dances_size_check_procedure import (
-    apply_dance_size_check_procedure,
-)
-from .dances_size_check_report import (
-    DanceSizeCheckReport,
-)
+from ....show_px4.drone_px4.drone_px4 import DronePx4
+from .dances_size_check_procedure import apply_dance_size_check_procedure
+from .dances_size_check_report import DanceSizeCheckReport
 
 MAGIC_BREAKER_NUMBER = 16660
 

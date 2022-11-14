@@ -135,7 +135,7 @@ class Parameter:
     FAMILY_SETUP_LOCAL_PATH = "/src/parameter/family_setup.json"
 
     def load_json_binary_parameter(self, local_path: str) -> None:
-        f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
+        f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}")
         data = json.load(f)
         self.json_binary_parameter = JsonBinaryParameter(
             magic_number=data["MAGIC_NUMBER_INTEGER"],
@@ -144,7 +144,7 @@ class Parameter:
         )
 
     def load_frame_parameter(self, local_path: str) -> None:
-        f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}", "r")
+        f = open(f"{local_path}/{self.EXPORT_SETUP_LOCAL_PATH}")
         data = json.load(f)
         self.frame_parameter = FrameParameter(
             show_duration_min_second=data["SHOW_DURATION_MIN_SECOND"],
@@ -156,7 +156,7 @@ class Parameter:
         )
 
     def load_iostar_parameter(self, local_path: str) -> None:
-        f = open(f"{local_path}/{self.IOSTAR_SETUP_LOCAL_PATH}", "r")
+        f = open(f"{local_path}/{self.IOSTAR_SETUP_LOCAL_PATH}")
         data = json.load(f)
         self.takeoff_parameter = TakeoffParameter(
             takeoff_altitude_meter=data["TAKEOFF_ALTITUDE_METER"],
@@ -199,7 +199,7 @@ class Parameter:
         )
 
     def load_iostar_json_configuration_parameter(self, local_path: str) -> None:
-        f = open(f"{local_path}/{self.FAMILY_SETUP_LOCAL_PATH}", "r")
+        f = open(f"{local_path}/{self.FAMILY_SETUP_LOCAL_PATH}")
         data = json.load(f)
         self.iostar_json_configuration_parameter = IostarJsonConfigurationParameter(
             nb_x_value_min=data["NB_X_VALUE_MIN"],

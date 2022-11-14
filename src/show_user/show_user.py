@@ -1,6 +1,7 @@
-from pydantic import BaseModel
-from typing import List, Tuple
 import json
+from typing import List, Tuple
+
+from pydantic import BaseModel
 
 
 class PositionEventUser(BaseModel):

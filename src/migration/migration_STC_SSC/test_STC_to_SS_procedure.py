@@ -1,17 +1,15 @@
-from ...show_trajectory_collision.show_trajectory_collision import (
-    DroneTrajectoryCollision,
-    ShowTrajectoryCollision,
-    TrajectoryCollisionInfo,
-)
-import numpy as np
-from .STC_to_SSC_procedure import STC_to_SS_procedure
-import pytest
-from ...parameter.parameter import Parameter
-from ...show_simulation.show_simulation import ShowSimulation
 import os
-from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
-from ..migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
 
+import numpy as np
+import pytest
+
+from ...parameter.parameter import Parameter
+from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
+from ...show_trajectory_collision.show_trajectory_collision import (
+    ShowTrajectoryCollision,
+)
+from ..migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
+from .STC_to_SSC_procedure import STC_to_SS_procedure
 
 # @pytest.fixture
 # def valid_show_trajectory_collision() -> ShowTrajectoryCollision:

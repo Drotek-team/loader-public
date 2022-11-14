@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from typing import Tuple, List
-from ..parameter.parameter import LandParameter, FrameParameter
+from typing import List, Tuple
+
+from ..parameter.parameter import FrameParameter, LandParameter
 
 
 @dataclass(frozen=True)
@@ -46,8 +47,7 @@ class ShowDev:
         self.drones_dev = drones_dev
 
     def __iter__(self):
-        for drone_dev in self.drones_dev:
-            yield drone_dev
+        yield from self.drones_dev
 
     def __getitem__(self, drone_dev_index: int):
         return self.drones_dev[drone_dev_index]

@@ -1,8 +1,9 @@
 import os
-import numpy as np
-from ...parameter.parameter import Parameter
 
+import numpy as np
 import pytest
+
+from ...parameter.parameter import Parameter
 from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
 from .SD_to_STP_procedure import SD_to_STP_procedure
 
@@ -40,7 +41,7 @@ def valid_show_dev() -> ShowDev:
     return ShowDev([drone_dev])
 
 
-### TO DO: Quite a few more test is needed, for instance check the velocity/acceleration at the beggining are calculated according to the convention
+# TO DO: Quite a few more test is needed, for instance check the velocity/acceleration at the beggining are calculated according to the convention
 def test_SD_to_STP_procedure(valid_show_dev: ShowDev):
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())

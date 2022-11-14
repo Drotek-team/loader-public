@@ -1,7 +1,9 @@
 from typing import List
+
 import numpy as np
-from .position_simulation import linear_interpolation, SimulationInfo
+
 from ....show_dev.show_dev import PositionEventDev
+from .position_simulation import SimulationInfo, linear_interpolation
 
 
 def in_air_flight_simulation(

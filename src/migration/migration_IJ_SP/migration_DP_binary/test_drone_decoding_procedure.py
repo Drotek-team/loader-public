@@ -1,21 +1,17 @@
 import os
 
 from ....parameter.parameter import Parameter
-from .drone_decoding_procedure import (
-    decode_drone,
-)
-from .drone_decoding_report import (
-    DroneDecodingReport,
-)
 from .dance_example import (
     COLORS_RAW_DATA,
     DANCE_EXAMPLE,
     FIRES_RAW_DATA,
     POSITIONS_RAW_DATA,
 )
+from .drone_decoding_procedure import decode_drone
+from .drone_decoding_report import DroneDecodingReport
 
 
-### TO DO: this phase is extremely critical: test it properly
+# TO DO: this phase is extremely critical: test it properly
 def test_valid_dance_decoding():
     parameter = Parameter()
     parameter.load_parameter(os.getcwd())

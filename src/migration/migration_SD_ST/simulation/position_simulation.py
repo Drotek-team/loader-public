@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, List, Tuple
+
 import numpy as np
-from typing import Any
 
 
 @dataclass(frozen=True)

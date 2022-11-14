@@ -1,6 +1,10 @@
-import numpy as np
 from typing import List
+
+import numpy as np
+
 from .show_simulation_collision_check_report import CollisionInfraction
+
+ARBITRARY_DICHOTOMY_THRESHOLD = 400
 
 
 def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
@@ -10,7 +14,7 @@ def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
     )
 
 
-### TO DO: not very clean to have two different object for indices and position, better group them in a single class
+# TO DO: not very clean to have two different object for indices and position, better group them in a single class
 def get_collision_infractions(
     local_drone_indices: np.ndarray,
     local_drone_positions: np.ndarray,
@@ -71,9 +75,7 @@ def get_unique_list_from_list(non_unique_list: List) -> List:
     return list(set(non_unique_list))
 
 
-ARBITRARY_DICHOTOMY_THRESHOLD = 400
-
-### TO DO: not very clean to have two different object for indices and position, better group them in a single class
+# TO DO: not very clean to have two different object for indices and position, better group them in a single class
 def get_optimized_collision_infractions(
     local_indices: np.ndarray,
     local_positions_numpy: np.ndarray,

@@ -1,9 +1,8 @@
-from typing import Tuple
-
-from .events import Event, Events
-from typing import List
 import struct
 from dataclasses import dataclass
+from typing import List, Tuple
+
+from .events import Event, Events
 
 
 @dataclass(frozen=True)

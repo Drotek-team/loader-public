@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from email import iterators
+from typing import List, Tuple
+
 import numpy as np
-from typing import Tuple, List, Union, Iterable
 
 
 @dataclass
@@ -39,8 +39,7 @@ class Grid:
         ]
 
     def __iter__(self):
-        for horizontal_position in self.horizontal_positions:
-            yield horizontal_position
+        yield from self.horizontal_positions
 
     def __getitem__(self, horizontal_position_index: int) -> HorizontalPosition:
         if not (isinstance(horizontal_position_index, int)):

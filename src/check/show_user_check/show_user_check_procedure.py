@@ -1,10 +1,10 @@
-from ...show_user.show_user import ShowUser, DroneUser
+from ...parameter.parameter import FrameParameter
+from ...show_user.show_user import DroneUser, ShowUser
 from .show_user_check_report import (
-    ShowUserCheckReport,
     DroneUserCheckReport,
     IncoherenceRelativeAbsoluteFrame,
+    ShowUserCheckReport,
 )
-from ...parameter.parameter import FrameParameter
 
 
 def apply_drone_user_check_procedure(
@@ -12,8 +12,8 @@ def apply_drone_user_check_procedure(
     drone_user_check_report: DroneUserCheckReport,
     frame_parameter: FrameParameter,
 ) -> None:
-    ### TO DO: An enum would be nice but it is kind of painfull because nothing here is make to make an enum
-    ### Fuck it just separate the three in the architecture, really not worth it
+    # TO DO: An enum would be nice but it is kind of painfull because nothing here is make to make an enum
+    # Fuck it just separate the three in the architecture, really not worth it
     for position_event in drone_user.position_events:
         if (
             position_event.absolute_frame

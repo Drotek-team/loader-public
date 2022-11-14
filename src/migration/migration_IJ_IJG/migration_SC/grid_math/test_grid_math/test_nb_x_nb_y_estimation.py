@@ -1,4 +1,5 @@
 import pytest
+
 from ..grid import Grid
 from ..grid_nb_x_nb_y_estimation import get_nb_x_nb_y_from_grid
 

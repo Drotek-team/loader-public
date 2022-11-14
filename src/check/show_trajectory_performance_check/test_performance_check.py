@@ -1,18 +1,18 @@
 import os
-import numpy as np
-from ...parameter.parameter import Parameter
 
 import pytest
+
+from ...migration.migration_SD_ST.SD_to_STP_procedure import SD_to_STP_procedure
+from ...parameter.parameter import Parameter
+from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
 from ...show_trajectory_performance.show_trajectory_performance import (
     ShowTrajectoryPerformance,
 )
-from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
-from ...migration.migration_SD_ST.SD_to_STP_procedure import SD_to_STP_procedure
-from .show_trajectory_performance_check_report import (
-    ShowTrajectoryPerformanceCheckReport,
-)
 from .show_trajectory_performance_check_procedure import (
     apply_show_trajectory_performance_check_procedure,
+)
+from .show_trajectory_performance_check_report import (
+    ShowTrajectoryPerformanceCheckReport,
 )
 
 EPSILON_DELTA = 1e-2
@@ -108,7 +108,7 @@ def invalid_show_trajectory_performance_horizontal_velocity() -> ShowTrajectoryP
     )
 
 
-### TO DO: validate the model with Raphael
+# TO DO: validate the model with Raphael
 def test_invalid_show_trajectory_performance_horizontal_velocity(
     invalid_show_trajectory_performance_horizontal_velocity: ShowTrajectoryPerformance,
 ):

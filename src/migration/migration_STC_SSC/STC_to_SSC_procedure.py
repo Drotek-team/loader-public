@@ -1,7 +1,7 @@
 from ...show_simulation.show_simulation import ShowSimulation
 from ...show_trajectory_collision.show_trajectory_collision import (
-    ShowTrajectoryCollision,
     DroneTrajectoryCollision,
+    ShowTrajectoryCollision,
 )
 
 

@@ -2,17 +2,10 @@ import os
 
 import pytest
 
-from ....show_px4.drone_px4.events.position_events import (
-    PositionEvent,
-    PositionEvents,
-)
 from ....parameter.parameter import Parameter
-from .events_format_check_procedure import (
-    position_events_check,
-)
-from .events_format_check_report import (
-    PositionEventsCheckReport,
-)
+from ....show_px4.drone_px4.events.position_events import PositionEvent, PositionEvents
+from .events_format_check_procedure import position_events_check
+from .events_format_check_report import PositionEventsCheckReport
 
 
 @pytest.fixture

@@ -1,0 +1,97 @@
+repos:
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.2.1
+    hooks:
+      # Check poetry configuration
+      - id: poetry-check
+
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.1.1
+    hooks:
+      # Remove unused python imports
+      - id: pycln
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.0.0
+    hooks:
+      # Upgrade python synthax to python 3.8
+      - id: pyupgrade
+        args: ["--py38-plus"]
+        exclude: ^mqtt_mock/(messages/(topics|mqtt)|mavlink)
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      # Sort imports from python files
+      - id: isort
+        name: isort (python)
+      - id: isort
+        name: isort (cython)
+        types: [cython]
+      - id: isort
+        name: isort (pyi)
+        types: [pyi]
+
+  - repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+      # Format python files
+      - id: black
+        exclude: ^mqtt_mock/(messages/(topics|mqtt)|mavlink)
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+      # Lint python files
+      - id: flake8
+        additional_dependencies:
+          - flake8-bugbear == 22.9.23
+          - flake8-noqa == 1.2.9
+          - flake8-pyi == 22.8.2
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0-alpha.0
+    hooks:
+      # Format javascript, json, yaml, ...
+      - id: prettier
+
+  - repo: https://github.com/markdownlint/markdownlint
+    rev: v0.11.0
+    hooks:
+      # Lint markdown
+      - id: markdownlint
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      # Avoid committing large files
+      - id: check-added-large-files
+      # Check yaml
+      - id: check-yaml
+      # Check remaining debug statements
+      - id: debug-statements
+      # Add newline to end of file if missing
+      - id: end-of-file-fixer
+      # Change Windows end of line by linux end of line
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      # Remove trailing whitespace
+      - id: trailing-whitespace
+        exclude: ^mqtt_mock/(messages/(topics|mqtt)|mavlink)
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      # Check "# type: ignore" without specified error codes
+      - id: python-check-blanket-type-ignore
+      # Check no eval used
+      - id: python-no-eval
+
+  - repo: local
+    hooks:
+      - id: pytest-check
+        name: pytest-check
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
