@@ -1,4 +1,3 @@
-from ...parameter.parameter import Parameter
 from ...show_px4.show_px4 import ShowPx4
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -10,7 +9,7 @@ from .show_px4_check_report import ShowPx4CheckReport
 
 
 def apply_show_px4_check_procedure(
-    show_px4: ShowPx4, show_px4_check_report: ShowPx4CheckReport, parameter: Parameter
+    show_px4: ShowPx4, show_px4_check_report: ShowPx4CheckReport
 ) -> None:
 
     for drone, drone_px4_check_report in zip(
@@ -18,14 +17,10 @@ def apply_show_px4_check_procedure(
     ):
         apply_events_format_check_procedure(
             drone,
-            parameter.iostar_parameter,
-            parameter.frame_parameter,
             drone_px4_check_report.events_format_check_report,
         )
         apply_dance_size_check_procedure(
             drone,
-            parameter.iostar_parameter,
-            parameter.json_binary_parameter,
             drone_px4_check_report.dance_size_check_report,
         )
         drone_px4_check_report.update()

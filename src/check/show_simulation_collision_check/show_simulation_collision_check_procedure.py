@@ -1,6 +1,6 @@
 import numpy as np
 
-from ...parameter.parameter import IostarParameter
+from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...show_simulation.show_simulation import ShowSimulation
 from .collision_math import get_optimized_collision_infractions
 from .show_simulation_collision_check_report import ShowSimulationCollisionCheckReport
@@ -9,7 +9,6 @@ from .show_simulation_collision_check_report import ShowSimulationCollisionCheck
 def apply_show_simulation_collision_check_procedure(
     show_simulation: ShowSimulation,
     collision_check_report: ShowSimulationCollisionCheckReport,
-    iostar_parameter: IostarParameter,
 ) -> None:
     drone_indices = np.array(range(show_simulation.nb_drones))
     for show_simulation_slice, collision_slice_check_report in zip(
@@ -22,13 +21,13 @@ def apply_show_simulation_collision_check_procedure(
                 np.invert(show_simulation_slice.in_air_flags)
             ],
             False,
-            iostar_parameter.security_distance_on_ground,
+            IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
         )
         in_air_collision_infractions = get_optimized_collision_infractions(
             drone_indices[show_simulation_slice.in_air_flags],
             show_simulation_slice.positions[show_simulation_slice.in_air_flags],
             True,
-            iostar_parameter.security_distance_in_air,
+            IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
         )
 
         collision_slice_check_report.collision_infractions += (

@@ -2,39 +2,36 @@ from typing import List, Tuple
 
 import numpy as np
 
-from ....parameter.parameter import FrameParameter, LandParameter
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 from .position_simulation import SimulationInfo, linear_interpolation
 
 
 def generate_land_first_part(
     land_start_position: Tuple[float, float, float],
-    frame_parameter: FrameParameter,
-    land_parameter: LandParameter,
 ) -> List[np.ndarray]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
-        land_parameter.get_second_land_altitude_start(land_start_position[2]),
+        LAND_PARAMETER.get_second_land_altitude_start(land_start_position[2]),
     )
     return linear_interpolation(
         land_start_position,
         land_middle_position,
         int(
-            land_parameter.get_first_land_second_delta(land_start_position[2])
-            * frame_parameter.position_fps
+            LAND_PARAMETER.get_first_land_second_delta(land_start_position[2])
+            * FRAME_PARAMETER.position_fps
         ),
     )
 
 
 def generate_land_second_part(
     land_start_position: Tuple[float, float, float],
-    frame_parameter: FrameParameter,
-    land_parameter: LandParameter,
 ) -> List[np.ndarray]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
-        land_parameter.get_second_land_altitude_start(land_start_position[2]),
+        LAND_PARAMETER.get_second_land_altitude_start(land_start_position[2]),
     )
     land_end_position = (
         land_start_position[0],
@@ -45,8 +42,8 @@ def generate_land_second_part(
         land_middle_position,
         land_end_position,
         int(
-            land_parameter.get_second_land_second_delta(land_start_position[2])
-            * frame_parameter.position_fps
+            LAND_PARAMETER.get_second_land_second_delta(land_start_position[2])
+            * FRAME_PARAMETER.position_fps
         ),
     )
 
@@ -54,17 +51,11 @@ def generate_land_second_part(
 def land_simulation(
     land_start_position: Tuple[float, float, float],
     frame_begin: int,
-    frame_parameter: FrameParameter,
-    land_parameter: LandParameter,
 ) -> List[SimulationInfo]:
     land_positions = generate_land_first_part(
         land_start_position,
-        frame_parameter,
-        land_parameter,
     ) + generate_land_second_part(
         land_start_position,
-        frame_parameter,
-        land_parameter,
     )
     return [
         SimulationInfo(frame_begin + frame_index, land_position, True, False)

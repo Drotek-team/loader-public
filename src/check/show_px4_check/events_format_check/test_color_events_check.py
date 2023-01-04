@@ -1,8 +1,9 @@
-import os
-
 import pytest
 
-from ....parameter.parameter import Parameter
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
 from ....show_px4.drone_px4.events.color_events import ColorEvent, ColorEvents
 from .events_format_check_procedure import color_events_check
 from .events_format_check_report import ColorEventsCheckReport
@@ -10,13 +11,18 @@ from .events_format_check_report import ColorEventsCheckReport
 
 @pytest.fixture
 def valid_color_events():
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    frame_parameter = parameter.frame_parameter
     color_events = ColorEvents()
-    color_events.add_frame_rgbw(frame_parameter.show_duration_min_frame, (0, 0, 0, 0))
     color_events.add_frame_rgbw(
-        frame_parameter.show_duration_min_frame + 1,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        (0, 0, 0, 0),
+    )
+    color_events.add_frame_rgbw(
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        )
+        + 1,
         (255, 255, 255, 255),
     )
     return color_events
@@ -31,12 +37,8 @@ def test_valid_color_events_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     color_events_check(
         valid_color_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         color_events_check_report,
     )
     assert (
@@ -48,16 +50,12 @@ def test_invalid_color_events_frame_format_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_color_events.add_frame_rgbw(
         1.23,
         (0, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
@@ -65,41 +63,18 @@ def test_invalid_color_events_frame_format_check(
     )
 
 
-# def test_invalid_color_events_frame_rate_check(
-#     valid_color_events: ColorEvents,
-#     color_events_check_report: ColorEventsCheckReport,
-# ):
-#     parameter = Parameter()
-#     parameter.load_parameter(os.getcwd())
-#     valid_color_events.add_frame_rgbw(
-#         valid_color_events.events[-1].frame + 1,
-#         (0, 0, 0, 0),
-#     )
-#     color_events_check(
-#         valid_color_events,
-#         parameter.frame_parameter,
-#         parameter.iostar_parameter,
-#         color_events_check_report,
-#     )
-#     assert not (
-#         color_events_check_report.frame_check_report.frame_rate_check_report.validation
-#     )
-
-
 def test_invalid_color_events_frame_increasing_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_color_events.add_frame_rgbw(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
         (0, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
@@ -111,15 +86,21 @@ def test_invalid_color_events_frame_first_frame_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_color_events.events.insert(
-        0, ColorEvent(parameter.frame_parameter.show_duration_min_frame - 1, 0, 0, 0, 0)
+        0,
+        ColorEvent(
+            FRAME_PARAMETER.from_second_to_position_frame(
+                JSON_BINARY_PARAMETER.show_duration_min_second
+            )
+            - 1,
+            0,
+            0,
+            0,
+            0,
+        ),
     )
     color_events_check(
         valid_color_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
@@ -131,16 +112,14 @@ def test_invalid_color_events_rgbw_format_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_color_events.add_frame_rgbw(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
         (1.23, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (
@@ -152,16 +131,14 @@ def test_invalid_color_events_rgbw_value_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_color_events.add_frame_rgbw(
-        parameter.frame_parameter.show_duration_min_frame,
-        (parameter.iostar_parameter.color_value_max + 1, 0, 0, 0),
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        (JSON_BINARY_PARAMETER.color_value_max + 1, 0, 0, 0),
     )
     color_events_check(
         valid_color_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         color_events_check_report,
     )
     assert not (

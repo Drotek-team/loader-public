@@ -1,6 +1,3 @@
-import os
-
-from ..parameter.parameter import Parameter
 from ..show_user.show_user_generator import get_valid_show_user
 from .export_procedure import apply_export_procedure
 
@@ -13,8 +10,7 @@ SHOW_DURATION_FRAME = 1
 
 
 def test_export_procedure():
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     iostar_json, show_check_report = apply_export_procedure(
         get_valid_show_user(
             NB_X,
@@ -24,6 +20,5 @@ def test_export_procedure():
             ANGLE_TAKEOFF,
             SHOW_DURATION_FRAME,
         )["show"],
-        parameter,
     )
     assert show_check_report.validation

@@ -1,8 +1,6 @@
-import os
-
 import pytest
 
-from ...parameter.parameter import Parameter
+from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
 from .data_convertion_format import (
@@ -68,9 +66,8 @@ def valid_show_px4() -> ShowPx4:
 
 
 def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowPx4):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    show_user = SP_to_SU_procedure(valid_show_px4, parameter.frame_parameter)
+
+    show_user = SP_to_SU_procedure(valid_show_px4)
     xyz_convertion_standard = XyzConvertionStandard()
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
@@ -97,9 +94,8 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
 
 
 def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    show_user = SP_to_SU_procedure(valid_show_px4, parameter.frame_parameter)
+
+    show_user = SP_to_SU_procedure(valid_show_px4)
     rgbw_convertion_standard = RgbwConvertionStandard()
     drone_users = show_user.drones_user
 
@@ -121,9 +117,8 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
 
 
 def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    show_user = SP_to_SU_procedure(valid_show_px4, parameter.frame_parameter)
+
+    show_user = SP_to_SU_procedure(valid_show_px4)
     fire_duration_convertion_standard = FireDurationConvertionStandard()
     drone_users = show_user.drones_user
 

@@ -1,10 +1,8 @@
-import os
 from typing import Tuple
 
 import numpy as np
 import pytest
 
-from .....parameter.parameter import Parameter
 from .....show_dev.show_dev import PositionEventDev
 from ...simulation.stand_by_simulation import stand_by_simulation
 from ..position_simulation import SimulationInfo
@@ -23,8 +21,6 @@ def valid_position_events_dev() -> Tuple[PositionEventDev, PositionEventDev]:
 def test_stand_by_simulation(
     valid_position_events_dev: Tuple[PositionEventDev, PositionEventDev]
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
 
     first_position_event, second_position_event = (
         valid_position_events_dev[0],

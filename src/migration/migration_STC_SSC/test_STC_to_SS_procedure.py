@@ -1,9 +1,10 @@
-import os
-
 import numpy as np
 import pytest
 
-from ...parameter.parameter import Parameter
+from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+    TAKEOFF_PARAMETER,
+)
 from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
 from ...show_trajectory_collision.show_trajectory_collision import (
     ShowTrajectoryCollision,
@@ -39,20 +40,20 @@ from .STC_to_SSC_procedure import STC_to_SS_procedure
 
 @pytest.fixture
 def valid_show_trajectory_collision() -> ShowTrajectoryCollision:
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
 
     drone_dev = DroneDev(
         0,
         [
             PositionEventDev(0, (0, 0, 0)),
             PositionEventDev(
-                parameter.takeoff_parameter.takeoff_duration_second
-                * parameter.frame_parameter.position_fps,
+                int(
+                    TAKEOFF_PARAMETER.takeoff_duration_second
+                    * FRAME_PARAMETER.position_fps
+                ),
                 (
                     0,
                     0,
-                    parameter.takeoff_parameter.takeoff_altitude_meter,
+                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
                 ),
             ),
         ],
@@ -60,15 +61,11 @@ def valid_show_trajectory_collision() -> ShowTrajectoryCollision:
     show_dev = ShowDev([drone_dev])
     return SD_to_STC_procedure(
         show_dev,
-        parameter.frame_parameter,
-        parameter.takeoff_parameter,
-        parameter.land_parameter,
     )
 
 
 def test_valid_show_flags(valid_show_trajectory_collision: ShowTrajectoryCollision):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     show_simulation = STC_to_SS_procedure(valid_show_trajectory_collision)
 
     assert len(show_simulation.show_slices) == 53
@@ -77,11 +74,11 @@ def test_valid_show_flags(valid_show_trajectory_collision: ShowTrajectoryCollisi
     )
     assert np.array_equal(
         show_simulation.show_slices[40].positions[0],
-        np.array([0.0, 0.0, parameter.takeoff_parameter.takeoff_altitude_meter]),
+        np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter]),
     )
     assert np.array_equal(
         show_simulation.show_slices[41].positions[0],
-        np.array([0.0, 0.0, parameter.takeoff_parameter.takeoff_altitude_meter]),
+        np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter]),
     )
     assert np.array_equal(
         show_simulation.show_slices[52].positions[0],

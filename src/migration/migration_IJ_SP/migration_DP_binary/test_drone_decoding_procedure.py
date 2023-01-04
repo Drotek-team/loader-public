@@ -1,6 +1,3 @@
-import os
-
-from ....parameter.parameter import Parameter
 from .dance_example import (
     COLORS_RAW_DATA,
     DANCE_EXAMPLE,
@@ -13,14 +10,11 @@ from .drone_decoding_report import DroneDecodingReport
 
 # TO DO: this phase is extremely critical: test it properly
 def test_valid_dance_decoding():
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     drone_decoding_report = DroneDecodingReport(0)
     drone = decode_drone(
         DANCE_EXAMPLE,
         0,
-        parameter.iostar_parameter,
-        parameter.json_binary_parameter,
         drone_decoding_report,
     )
     assert drone_decoding_report.validation

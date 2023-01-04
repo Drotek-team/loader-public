@@ -7,25 +7,21 @@ from ..check.show_check_report import ShowCheckReport
 from ..iostar_json.iostar_json import IostarJson
 from ..migration.migration_IJ_SP.SP_to_IJ_procedure import SP_to_IJ_procedure
 from ..migration.migration_SP_SU.SU_to_SP_procedure import SU_to_SP_procedure
-from ..parameter.parameter import Parameter
 from ..show_user.show_user import ShowUser
 
 
 def apply_export_procedure(
     show_user_json: Dict,
-    parameter: Parameter,
 ) -> Tuple[IostarJson, ShowCheckReport]:
     show_user = ShowUser(**show_user_json)
     show_px4 = SU_to_SP_procedure(show_user)
     show_check_report = apply_all_check_from_show_px4_procedure(
         show_px4,
-        parameter,
     )
     SP_to_IJ_procedure(
         show_px4,
-        parameter.json_binary_parameter,
     )
     return (
-        SP_to_IJ_procedure(show_px4, parameter.json_binary_parameter),
+        SP_to_IJ_procedure(show_px4),
         show_check_report,
     )

@@ -1,7 +1,5 @@
-import os
 import time
 
-from src.parameter.parameter import Parameter
 from src.procedure.export_procedure import apply_export_procedure
 from src.show_user.show_user_generator import get_valid_show_user
 
@@ -14,8 +12,6 @@ SHOW_DURATION_FRAME = 1
 
 
 def main() -> None:
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     time_begin = time.time()
     export_report, show_check_report = apply_export_procedure(
         get_valid_show_user(
@@ -26,7 +22,6 @@ def main() -> None:
             ANGLE_TAKEOFF,
             SHOW_DURATION_FRAME,
         )["show"],
-        parameter,
     )
     print(time.time() - time_begin)
     print(show_check_report.get_contenor_report(0, "   "))

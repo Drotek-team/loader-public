@@ -1,4 +1,4 @@
-from ...parameter.parameter import FrameParameter
+from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...show_px4.show_px4 import DronePx4, ShowPx4
 from ...show_user.show_user import (
     ColorEventUser,
@@ -19,12 +19,11 @@ def drone_px4_to_drone_user_procedure(
     xyz_convertion_standard: XyzConvertionStandard,
     rgbw_convertion_standard: RgbwConvertionStandard,
     fire_duration_convertion_standard: FireDurationConvertionStandard,
-    frame_parameter: FrameParameter,
 ) -> DroneUser:
     position_events_user = [
         PositionEventUser(
             position_frame=position_event_px4.frame,
-            absolute_frame=frame_parameter.from_position_frame_to_json_frame(
+            absolute_frame=FRAME_PARAMETER.from_position_frame_to_json_frame(
                 position_event_px4.frame
             ),
             xyz=xyz_convertion_standard.from_px4_xyz_to_user_xyz(
@@ -36,7 +35,7 @@ def drone_px4_to_drone_user_procedure(
     color_events_user = [
         ColorEventUser(
             color_frame=color_event_px4.frame,
-            absolute_frame=frame_parameter.from_color_frame_to_json_frame(
+            absolute_frame=FRAME_PARAMETER.from_color_frame_to_json_frame(
                 color_event_px4.frame
             ),
             rgbw=rgbw_convertion_standard.from_px4_rgbw_to_user_rgbw(
@@ -49,7 +48,7 @@ def drone_px4_to_drone_user_procedure(
     fire_events_user = [
         FireEventUser(
             fire_frame=fire_event_px4.frame,
-            absolute_frame=frame_parameter.from_fire_frame_to_json_frame(
+            absolute_frame=FRAME_PARAMETER.from_fire_frame_to_json_frame(
                 fire_event_px4.frame
             ),
             chanel=fire_event_px4.chanel,
@@ -69,7 +68,6 @@ def drone_px4_to_drone_user_procedure(
 
 def SP_to_SU_procedure(
     show_px4: ShowPx4,
-    frame_parameter: FrameParameter,
 ) -> ShowUser:
     xyz_convertion_standard = XyzConvertionStandard()
     rgbw_convertion_standard = RgbwConvertionStandard()
@@ -81,7 +79,6 @@ def SP_to_SU_procedure(
                 xyz_convertion_standard,
                 rgbw_convertion_standard,
                 fire_duration_convertion_standard,
-                frame_parameter,
             )
             for drone_px4 in show_px4
         ]

@@ -1,4 +1,3 @@
-from ....parameter.parameter import FrameParameter, IostarParameter
 from ....show_px4.drone_px4.drone_px4 import DronePx4
 from ....show_px4.drone_px4.events.color_events import ColorEvents
 from ....show_px4.drone_px4.events.fire_events import FireEvents
@@ -22,84 +21,61 @@ from .events_format_check_tools import (
 
 def position_events_check(
     position_events: PositionEvents,
-    frame_parameter: FrameParameter,
-    iostar_parameter: IostarParameter,
     position_events_check_report: PositionEventsCheckReport,
 ) -> None:
     position_frame_check(
         position_events,
         position_events_check_report.frame_check_report,
-        frame_parameter,
     )
     xyz_check(
         position_events,
         position_events_check_report.xyz_check_report,
-        iostar_parameter,
     )
     position_events_check_report.update()
 
 
 def color_events_check(
     color_events: ColorEvents,
-    frame_parameter: FrameParameter,
-    iostar_parameter: IostarParameter,
     color_events_check_report: ColorEventsCheckReport,
 ):
     color_frame_check(
         color_events,
         color_events_check_report.frame_check_report,
-        frame_parameter,
     )
-    rgbw_check(
-        color_events, color_events_check_report.rgbw_check_report, iostar_parameter
-    )
+    rgbw_check(color_events, color_events_check_report.rgbw_check_report)
     color_events_check_report.update()
 
 
 def fire_events_check(
     fire_events: FireEvents,
-    frame_parameter: FrameParameter,
-    iostar_parameter: IostarParameter,
     fire_events_check_report: FireEventsCheckReport,
 ) -> None:
     fire_frame_check(
         fire_events,
         fire_events_check_report.fire_frame_check_report,
-        frame_parameter,
     )
-    fire_chanel_check(
-        fire_events, fire_events_check_report.fire_chanel_check_report, iostar_parameter
-    )
+    fire_chanel_check(fire_events, fire_events_check_report.fire_chanel_check_report)
     fire_duration_frame_check(
         fire_events,
         fire_events_check_report.fire_duration_check_report,
-        iostar_parameter,
     )
     fire_events_check_report.update()
 
 
 def apply_events_format_check_procedure(
     drone: DronePx4,
-    iostar_parameter: IostarParameter,
-    frame_parameter: FrameParameter,
     events_format_check_report: EventsFormatCheckReport,
 ):
     position_events_check(
         drone.position_events,
-        frame_parameter,
-        iostar_parameter,
         events_format_check_report.position_events_check,
     )
     color_events_check(
         drone.color_events,
-        frame_parameter,
-        iostar_parameter,
         events_format_check_report.color_events_check,
     )
     fire_events_check(
         drone.fire_events,
-        frame_parameter,
-        iostar_parameter,
         events_format_check_report.fire_events_check,
     )
 

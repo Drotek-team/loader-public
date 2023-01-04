@@ -1,8 +1,12 @@
-import os
-
 import pytest
 
-from ....parameter.parameter import Parameter
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
+from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+    TAKEOFF_PARAMETER,
+)
 from ....show_px4.drone_px4.events.position_events import PositionEvent, PositionEvents
 from .events_format_check_procedure import position_events_check
 from .events_format_check_report import PositionEventsCheckReport
@@ -10,22 +14,22 @@ from .events_format_check_report import PositionEventsCheckReport
 
 @pytest.fixture
 def valid_position_events():
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    takeoff_parameter = parameter.takeoff_parameter
-    frame_parameter = parameter.frame_parameter
     position_events = PositionEvents()
-    position_events.add_frame_xyz(frame_parameter.show_duration_min_frame, (0, 0, 0))
     position_events.add_frame_xyz(
-        frame_parameter.show_duration_min_frame
-        + int(
-            parameter.takeoff_parameter.takeoff_duration_second
-            * parameter.frame_parameter.json_fps
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
         ),
+        (0, 0, 0),
+    )
+    position_events.add_frame_xyz(
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        )
+        + int(TAKEOFF_PARAMETER.takeoff_duration_second * FRAME_PARAMETER.absolute_fps),
         (
             0,
             0,
-            -int(takeoff_parameter.takeoff_altitude_meter),
+            -int(TAKEOFF_PARAMETER.takeoff_altitude_meter),
         ),
     )
     return position_events
@@ -40,12 +44,9 @@ def test_valid_position_events_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert position_events_check_report.validation
@@ -55,16 +56,13 @@ def test_invalid_position_events_frame_format_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     valid_position_events.add_frame_xyz(
         1.23,
         (0, 0, 0),
     )
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert not (
@@ -76,16 +74,16 @@ def test_invalid_position_events_frame_rate_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     valid_position_events.add_frame_xyz(
-        parameter.frame_parameter.show_duration_min_frame + 1,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        )
+        + 1,
         (0, 0, 0),
     )
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert not (
@@ -97,16 +95,15 @@ def test_invalid_position_events_frame_increasing_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     valid_position_events.add_frame_xyz(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
         (0, 0, 0),
     )
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert not (
@@ -118,15 +115,21 @@ def test_invalid_position_events_frame_first_frame_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     valid_position_events.events.insert(
-        0, PositionEvent(parameter.frame_parameter.show_duration_min_frame - 1, 0, 0, 0)
+        0,
+        PositionEvent(
+            FRAME_PARAMETER.from_second_to_position_frame(
+                JSON_BINARY_PARAMETER.show_duration_min_second
+            )
+            - 1,
+            0,
+            0,
+            0,
+        ),
     )
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert not (
@@ -138,16 +141,15 @@ def test_invalid_position_events_xyz_format_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     valid_position_events.add_frame_xyz(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
         (1.23, 0, 0),
     )
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert not (
@@ -159,16 +161,14 @@ def test_invalid_position_events_xyz_value_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_position_events.add_frame_xyz(
-        parameter.frame_parameter.show_duration_min_frame,
-        (parameter.iostar_parameter.position_value_max + 1, 0, 0),
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
+        (JSON_BINARY_PARAMETER.position_value_max + 1, 0, 0),
     )
     position_events_check(
         valid_position_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         position_events_check_report,
     )
     assert not (

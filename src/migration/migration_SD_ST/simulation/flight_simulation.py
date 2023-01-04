@@ -1,6 +1,9 @@
 from typing import List
 
-from ....parameter.parameter import FrameParameter, LandParameter, TakeoffParameter
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
 from ....show_dev.show_dev import DroneDev
 from .in_air_flight_simulation import in_air_flight_simulation
 from .land_simulation import land_simulation
@@ -15,28 +18,27 @@ from .takeoff_simulation import takeoff_simulation
 def flight_simulation(
     drone_dev: DroneDev,
     last_frame: int,
-    frame_parameter: FrameParameter,
-    takeoff_parameter: TakeoffParameter,
-    land_parameter: LandParameter,
 ) -> List[SimulationInfo]:
     simulation_infos: List[SimulationInfo] = []
     if len(drone_dev.position_events_dev) == 1:
         simulation_infos += stand_by_simulation(
-            frame_parameter.show_duration_min_frame,
+            FRAME_PARAMETER.from_second_to_position_frame(
+                JSON_BINARY_PARAMETER.show_duration_min_second
+            ),
             last_frame,
             drone_dev.get_xyz_simulation_by_index(0),
         )
         return simulation_infos
     simulation_infos += stand_by_simulation(
-        frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
         drone_dev.get_frame_by_index(0) + 1,
         drone_dev.get_xyz_simulation_by_index(0),
     )
     simulation_infos += takeoff_simulation(
         drone_dev.get_xyz_simulation_by_index(0),
         simulation_infos[-1].frame,
-        frame_parameter,
-        takeoff_parameter,
     )
     simulation_infos += in_air_flight_simulation(
         drone_dev.flight_positions,
@@ -45,8 +47,6 @@ def flight_simulation(
     simulation_infos += land_simulation(
         last_position,
         simulation_infos[-1].frame,
-        frame_parameter,
-        land_parameter,
     )
     simulation_infos += stand_by_simulation(
         frame_begin=simulation_infos[-1].frame,

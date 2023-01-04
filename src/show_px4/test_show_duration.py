@@ -1,12 +1,8 @@
-import os
-
-from ..parameter.parameter import Parameter
 from .show_px4 import DronePx4, ShowPx4
 
 
 def valid_show_px4(show_duration: int) -> ShowPx4:
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     drone_0 = DronePx4(0)
     drone_0.add_position(show_duration, (0, 0, 0))
     drone_1 = DronePx4(1)

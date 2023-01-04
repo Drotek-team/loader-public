@@ -1,6 +1,5 @@
 from typing import List
 
-from ...parameter.parameter import FrameParameter, LandParameter, TakeoffParameter
 from ...show_dev.show_dev import ShowDev
 from ...show_trajectory_collision.show_trajectory_collision import (
     DroneTrajectoryCollision,
@@ -24,9 +23,6 @@ def get_trajectory_collision_info_from_simulation_infos(
 
 def SD_to_STC_procedure(
     show_dev: ShowDev,
-    frame_parameter: FrameParameter,
-    takeoff_parameter: TakeoffParameter,
-    land_parameter: LandParameter,
 ) -> ShowTrajectoryCollision:
     return ShowTrajectoryCollision(
         [
@@ -35,11 +31,8 @@ def SD_to_STC_procedure(
                 get_trajectory_collision_info_from_simulation_infos(
                     flight_simulation(
                         drone_dev,
-                        show_dev.get_last_frame(land_parameter, frame_parameter),
-                        frame_parameter,
-                        takeoff_parameter,
-                        land_parameter,
-                    ),
+                        show_dev.get_last_frame,
+                    )
                 ),
             )
             for drone_dev in show_dev.drones_dev

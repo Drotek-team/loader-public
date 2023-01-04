@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from ..parameter.parameter import FrameParameter, LandParameter
+from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 
 
 @dataclass(frozen=True)
@@ -59,17 +60,16 @@ class ShowDev:
     def nb_drones(self) -> int:
         return len(self.drones_dev)
 
+    @property
     def get_last_frame(
         self,
-        land_parameter: LandParameter,
-        frame_parameter: FrameParameter,
     ) -> int:
         return max(
             [
                 drone_dev.last_frame
                 + int(
-                    frame_parameter.position_fps
-                    * land_parameter.get_land_second_delta(drone_dev.last_height)
+                    FRAME_PARAMETER.position_fps
+                    * LAND_PARAMETER.get_land_second_delta(drone_dev.last_height)
                 )
                 for drone_dev in self.drones_dev
             ]

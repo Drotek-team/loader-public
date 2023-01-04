@@ -1,8 +1,9 @@
-import os
-
 import pytest
 
-from ....parameter.parameter import Parameter
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
 from ....show_px4.drone_px4.events.fire_events import FireEvent, FireEvents
 from .events_format_check_procedure import fire_events_check
 from .events_format_check_report import FireEventsCheckReport
@@ -10,18 +11,27 @@ from .events_format_check_report import FireEventsCheckReport
 
 @pytest.fixture
 def valid_fire_events():
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
-    frame_parameter = parameter.frame_parameter
     fire_events = FireEvents()
     fire_events.add_frame_chanel_duration(
-        frame_parameter.show_duration_min_frame, 0, 1000
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        0,
+        1000,
     )
     fire_events.add_frame_chanel_duration(
-        frame_parameter.show_duration_min_frame, 1, 1000
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        1,
+        1000,
     )
     fire_events.add_frame_chanel_duration(
-        frame_parameter.show_duration_min_frame, 2, 1000
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        2,
+        1000,
     )
     return fire_events
 
@@ -35,12 +45,8 @@ def test_valid_fire_events_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
 
@@ -51,8 +57,6 @@ def test_invalid_fire_events_frame_format_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.add_frame_chanel_duration(
         1.23,
         0,
@@ -60,8 +64,6 @@ def test_invalid_fire_events_frame_format_check(
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -73,15 +75,19 @@ def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.events.insert(
-        0, FireEvent(parameter.frame_parameter.show_duration_min_frame - 1, 0, 0)
+        0,
+        FireEvent(
+            FRAME_PARAMETER.from_second_to_position_frame(
+                JSON_BINARY_PARAMETER.show_duration_min_second
+            )
+            - 1,
+            0,
+            0,
+        ),
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -93,15 +99,15 @@ def test_invalid_fire_events_chanel_format_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame, 1.23, 0
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
+        1.23,
+        0,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -113,17 +119,15 @@ def test_invalid_fire_events_chanel_value_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame,
-        parameter.iostar_parameter.fire_chanel_value_max + 1,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
+        JSON_BINARY_PARAMETER.fire_chanel_value_max + 1,
         0,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -135,22 +139,23 @@ def test_invalid_fire_events_chanel_unicity_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame,
-        parameter.iostar_parameter.fire_chanel_value_max,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        JSON_BINARY_PARAMETER.fire_chanel_value_max,
         0,
     )
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame + 1,
-        parameter.iostar_parameter.fire_chanel_value_max,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        )
+        + 1,
+        JSON_BINARY_PARAMETER.fire_chanel_value_max,
         0,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -162,15 +167,15 @@ def test_invalid_fire_events_duration_format_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame, 0, 1.23
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        ),
+        0,
+        1.23,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -182,17 +187,15 @@ def test_invalid_fire_events_duration_value_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
         0,
-        parameter.iostar_parameter.fire_duration_value_frame_max + 1,
+        JSON_BINARY_PARAMETER.fire_duration_value_frame_max + 1,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (
@@ -204,22 +207,23 @@ def test_invalid_fire_events_simulteanous_value_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
         0,
-        parameter.iostar_parameter.fire_duration_value_frame_max,
+        JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
     )
     valid_fire_events.add_frame_chanel_duration(
-        parameter.frame_parameter.show_duration_min_frame,
+        FRAME_PARAMETER.from_second_to_position_frame(
+            JSON_BINARY_PARAMETER.show_duration_max_second
+        ),
         0,
-        parameter.iostar_parameter.fire_duration_value_frame_max,
+        JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
     )
     fire_events_check(
         valid_fire_events,
-        parameter.frame_parameter,
-        parameter.iostar_parameter,
         fire_events_check_report,
     )
     assert not (

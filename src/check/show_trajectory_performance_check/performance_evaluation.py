@@ -1,11 +1,13 @@
-import os
 from dataclasses import dataclass
 from enum import Enum
 from typing import Callable, Dict
 
 import numpy as np
 
-from ...parameter.parameter import Parameter
+from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+    TAKEOFF_PARAMETER,
+)
+from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from .show_trajectory_performance_check_report import (
     DroneTrajectoryPerformanceCheckReport,
     PerformanceInfraction,
@@ -76,25 +78,19 @@ METRICS_EVALUATION: Dict[
 }
 
 
-parameter = Parameter()
-parameter.load_parameter(os.getcwd())
-
-
 METRICS_RANGE: Dict[Metric, MetricRange] = {
     Metric.VERTICAL_POSITION: MetricRange(
-        0, parameter.takeoff_parameter.takeoff_altitude_meter, False
+        0, TAKEOFF_PARAMETER.takeoff_altitude_meter, False
     ),
     Metric.HORIZONTAL_VELOCITY: MetricRange(
-        0, parameter.iostar_parameter.horizontal_velocity_max
+        0, IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
     ),
     Metric.HORIZONTAL_ACCELERATION: MetricRange(
-        0, parameter.iostar_parameter.horizontal_acceleration_max
+        0, IOSTAR_PHYSIC_PARAMETER.horizontal_acceleration_max
     ),
-    Metric.UP_VELOCITY: MetricRange(
-        0, parameter.iostar_parameter.horizontal_velocity_max
-    ),
+    Metric.UP_VELOCITY: MetricRange(0, IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max),
     Metric.DOWN_VELOCITY: MetricRange(
-        parameter.iostar_parameter.horizontal_velocity_max, 0, False
+        IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max, 0, False
     ),
 }
 

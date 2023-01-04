@@ -1,8 +1,7 @@
-import os
-
 import pytest
 
-from .....parameter.parameter import Parameter
+from .....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from .....parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 from .....show_dev.show_dev import PositionEventDev
 from ...simulation.land_simulation import land_simulation
 from ..in_air_flight_simulation import linear_interpolation
@@ -13,8 +12,7 @@ NUMERICAL_TOLERANCE = 1e-3
 
 @pytest.fixture
 def valid_position_event_dev_first_case() -> PositionEventDev:
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     FRAME_START = 0
     POSITION_X = 2.36
     POSITION_Y = 5.69
@@ -23,15 +21,14 @@ def valid_position_event_dev_first_case() -> PositionEventDev:
         (
             POSITION_X,
             POSITION_Y,
-            parameter.land_parameter.land_safe_hgt + NUMERICAL_TOLERANCE,
+            LAND_PARAMETER.land_safe_hgt + NUMERICAL_TOLERANCE,
         ),
     )
 
 
 @pytest.fixture
 def valid_position_event_dev_second_case() -> PositionEventDev:
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
+
     FRAME_START = 0
     POSITION_X = 2.36
     POSITION_Y = 5.69
@@ -40,7 +37,7 @@ def valid_position_event_dev_second_case() -> PositionEventDev:
         (
             POSITION_X,
             POSITION_Y,
-            parameter.land_parameter.land_safe_hgt - NUMERICAL_TOLERANCE,
+            LAND_PARAMETER.land_safe_hgt - NUMERICAL_TOLERANCE,
         ),
     )
 
@@ -48,19 +45,15 @@ def valid_position_event_dev_second_case() -> PositionEventDev:
 def test_land_simulation_first_case(
     valid_position_event_dev_first_case: PositionEventDev,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
 
     real_land_simulation_infos = land_simulation(
         valid_position_event_dev_first_case.xyz,
         valid_position_event_dev_first_case.frame,
-        parameter.frame_parameter,
-        parameter.land_parameter,
     )
     land_middle_position = (
         valid_position_event_dev_first_case.xyz[0],
         valid_position_event_dev_first_case.xyz[1],
-        parameter.land_parameter.get_second_land_altitude_start(
+        LAND_PARAMETER.get_second_land_altitude_start(
             valid_position_event_dev_first_case.xyz[2]
         ),
     )
@@ -73,10 +66,10 @@ def test_land_simulation_first_case(
         land_middle_position,
         land_end_position,
         int(
-            parameter.land_parameter.get_second_land_second_delta(
+            LAND_PARAMETER.get_second_land_second_delta(
                 valid_position_event_dev_first_case.xyz[2]
             )
-            * parameter.frame_parameter.position_fps
+            * FRAME_PARAMETER.position_fps
         ),
     )
     theorical_land_simulation_infos = [
@@ -102,20 +95,16 @@ def test_land_simulation_first_case(
 def test_land_simulation_second_case(
     valid_position_event_dev_second_case: PositionEventDev,
 ):
-    parameter = Parameter()
-    parameter.load_parameter(os.getcwd())
 
     real_land_simulation_infos = land_simulation(
         valid_position_event_dev_second_case.xyz,
         valid_position_event_dev_second_case.frame,
-        parameter.frame_parameter,
-        parameter.land_parameter,
     )
     land_first_position = valid_position_event_dev_second_case.xyz
     land_middle_position = (
         valid_position_event_dev_second_case.xyz[0],
         valid_position_event_dev_second_case.xyz[1],
-        parameter.land_parameter.get_second_land_altitude_start(
+        LAND_PARAMETER.get_second_land_altitude_start(
             valid_position_event_dev_second_case.xyz[2]
         ),
     )
@@ -129,18 +118,16 @@ def test_land_simulation_second_case(
         land_first_position,
         land_middle_position,
         int(
-            parameter.land_parameter.get_first_land_second_delta(land_first_position[2])
-            * parameter.frame_parameter.position_fps
+            LAND_PARAMETER.get_first_land_second_delta(land_first_position[2])
+            * FRAME_PARAMETER.position_fps
         ),
     )
     second_theorical_position = linear_interpolation(
         land_middle_position,
         land_end_position,
         int(
-            parameter.land_parameter.get_second_land_second_delta(
-                land_middle_position[2]
-            )
-            * parameter.frame_parameter.position_fps
+            LAND_PARAMETER.get_second_land_second_delta(land_middle_position[2])
+            * FRAME_PARAMETER.position_fps
         ),
     )
     theorical_position = first_theorical_position + second_theorical_position
