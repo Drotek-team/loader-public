@@ -17,9 +17,8 @@ def valid_show_dev() -> ShowDev:
         [
             PositionEventDev(0, (0.0, 0.0, 0.0)),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     0.0,
@@ -28,9 +27,8 @@ def valid_show_dev() -> ShowDev:
                 ),
             ),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 )
                 + 1,
                 (
@@ -58,7 +56,9 @@ def test_SD_to_STP_procedure(valid_show_dev: ShowDev):
     )
     assert (
         first_trajectory_performance.frame
-        == TAKEOFF_PARAMETER.takeoff_duration_second * FRAME_PARAMETER.position_fps
+        == FRAME_PARAMETER.from_second_to_position_frame(
+            TAKEOFF_PARAMETER.takeoff_duration_second
+        )
     )
     assert np.array_equal(
         first_trajectory_performance.position,
@@ -73,7 +73,10 @@ def test_SD_to_STP_procedure(valid_show_dev: ShowDev):
 
     assert (
         second_trajectory_performance.frame
-        == TAKEOFF_PARAMETER.takeoff_duration_second * FRAME_PARAMETER.position_fps + 1
+        == FRAME_PARAMETER.from_second_to_position_frame(
+            TAKEOFF_PARAMETER.takeoff_duration_second
+        )
+        + 1
     )
     assert np.array_equal(
         second_trajectory_performance.position,

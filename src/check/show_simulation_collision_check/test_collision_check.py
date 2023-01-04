@@ -26,9 +26,8 @@ def valid_show_simulation_on_ground() -> ShowSimulation:
         [
             PositionEventDev(0, (0, 0, 0)),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     0,
@@ -45,9 +44,8 @@ def valid_show_simulation_on_ground() -> ShowSimulation:
                 0, (IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground, 0, 0)
             ),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
@@ -99,9 +97,8 @@ def invalid_show_simulation_on_ground() -> ShowSimulation:
         [
             PositionEventDev(0, (0, 0, 0)),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     0,
@@ -123,9 +120,8 @@ def invalid_show_simulation_on_ground() -> ShowSimulation:
                 ),
             ),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA,
@@ -176,9 +172,8 @@ def valid_show_simulation_in_air() -> ShowSimulation:
         [
             PositionEventDev(0, (0, 0, 0)),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     0,
@@ -195,9 +190,8 @@ def valid_show_simulation_in_air() -> ShowSimulation:
                 0, (IOSTAR_PHYSIC_PARAMETER.security_distance_in_air, 0, 0)
             ),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
@@ -242,9 +236,8 @@ def invalid_show_simulation_in_air() -> ShowSimulation:
         [
             PositionEventDev(0, (0, 0, 0)),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     0,
@@ -266,9 +259,8 @@ def invalid_show_simulation_in_air() -> ShowSimulation:
                 ),
             ),
             PositionEventDev(
-                int(
+                FRAME_PARAMETER.from_second_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
-                    * FRAME_PARAMETER.position_fps
                 ),
                 (
                     IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
