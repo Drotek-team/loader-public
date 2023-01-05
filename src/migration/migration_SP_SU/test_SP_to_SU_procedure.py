@@ -1,13 +1,11 @@
 import pytest
 
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
-from .data_convertion_format import (
-    FireDurationConvertionStandard,
-    RgbwConvertionStandard,
-    XyzConvertionStandard,
-)
 from .SP_to_SU_procedure import SP_to_SU_procedure
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
@@ -66,9 +64,7 @@ def valid_show_px4() -> ShowPx4:
 
 
 def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowPx4):
-
     show_user = SP_to_SU_procedure(valid_show_px4)
-    xyz_convertion_standard = XyzConvertionStandard()
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert (
@@ -77,7 +73,7 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
     )
     assert drone_users[0].position_events[
         0
-    ].xyz == xyz_convertion_standard.from_px4_xyz_to_user_xyz(
+    ].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
         ARBITRARY_POSITION_EVENT_XYZ
     )
 
@@ -88,7 +84,7 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
     )
     assert drone_users[1].position_events[
         0
-    ].xyz == xyz_convertion_standard.from_px4_xyz_to_user_xyz(
+    ].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
         ARBITRARY_POSITION_EVENT_XYZ_BIS
     )
 
@@ -96,14 +92,13 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
 def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
 
     show_user = SP_to_SU_procedure(valid_show_px4)
-    rgbw_convertion_standard = RgbwConvertionStandard()
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
     assert drone_users[0].color_events[0].color_frame == ARBITRARY_COLOR_EVENT_FRAME
     assert drone_users[0].color_events[
         0
-    ].rgbw == rgbw_convertion_standard.from_px4_rgbw_to_user_rgbw(
+    ].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW
     )
 
@@ -111,7 +106,7 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
     assert drone_users[1].color_events[0].color_frame == ARBITRARY_COLOR_EVENT_FRAME_BIS
     assert drone_users[1].color_events[
         0
-    ].rgbw == rgbw_convertion_standard.from_px4_rgbw_to_user_rgbw(
+    ].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW_BIS
     )
 
@@ -119,7 +114,6 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
 def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
 
     show_user = SP_to_SU_procedure(valid_show_px4)
-    fire_duration_convertion_standard = FireDurationConvertionStandard()
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1
@@ -127,7 +121,7 @@ def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     assert drone_users[0].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL
     assert drone_users[0].fire_events[
         0
-    ].duration == fire_duration_convertion_standard.from_px4_fire_duration_to_user_fire_duration(
+    ].duration == JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(
         ARBITRARY_FIRE_EVENT_DURATION
     )
 
@@ -136,6 +130,6 @@ def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     assert drone_users[1].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL_BIS
     assert drone_users[1].fire_events[
         0
-    ].duration == fire_duration_convertion_standard.from_px4_fire_duration_to_user_fire_duration(
+    ].duration == JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(
         ARBITRARY_FIRE_EVENT_DURATION_BIS
     )

@@ -10,7 +10,6 @@ SHOW_DURATION_FRAME = 1
 
 
 def test_export_procedure():
-
     iostar_json, show_check_report = apply_export_procedure(
         get_valid_show_user(
             NB_X,

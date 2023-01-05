@@ -2,10 +2,12 @@ from typing import Tuple
 
 import pytest
 
+from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
 from ...show_dev.show_dev import DroneDev
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
-from ..migration_SP_SU.data_convertion_format import XyzConvertionStandard
 from .SP_to_SD_procedure import SP_to_SD_procedure
 
 ARBITRARY_INDEX = 0
@@ -18,8 +20,6 @@ SECOND_ARBITRARY_XYZ = (10, 20, 30)
 
 THIRD_ARBITRARY_FRAME = 360
 THIRD_ARBITRARY_XYZ = (100, 200, 300)
-
-XYZ_CONVERTION_STANDARD = XyzConvertionStandard()
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ def check_drone_dev_position_by_index(
 
     return drone_dev.get_xyz_simulation_by_index(
         index
-    ) == XYZ_CONVERTION_STANDARD.from_px4_xyz_to_user_xyz(px4_position)
+    ) == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(px4_position)
 
 
 def test_SP_to_SD_procedure_standard(valid_show_px4: ShowPx4):

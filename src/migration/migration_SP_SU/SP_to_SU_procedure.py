@@ -1,24 +1,13 @@
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
+    JSON_BINARY_PARAMETER,
+)
 from ...show_px4.show_px4 import DronePx4, ShowPx4
-from ...show_user.show_user import (
-    ColorEventUser,
-    DroneUser,
-    FireEventUser,
-    PositionEventUser,
-    ShowUser,
-)
-from .data_convertion_format import (
-    FireDurationConvertionStandard,
-    RgbwConvertionStandard,
-    XyzConvertionStandard,
-)
+from ...show_user.show_user import *
 
 
 def drone_px4_to_drone_user_procedure(
     drone_px4: DronePx4,
-    xyz_convertion_standard: XyzConvertionStandard,
-    rgbw_convertion_standard: RgbwConvertionStandard,
-    fire_duration_convertion_standard: FireDurationConvertionStandard,
 ) -> DroneUser:
     position_events_user = [
         PositionEventUser(
@@ -26,9 +15,7 @@ def drone_px4_to_drone_user_procedure(
             absolute_frame=FRAME_PARAMETER.from_position_frame_to_json_frame(
                 position_event_px4.frame
             ),
-            xyz=xyz_convertion_standard.from_px4_xyz_to_user_xyz(
-                position_event_px4.xyz
-            ),
+            xyz=JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(position_event_px4.xyz),
         )
         for position_event_px4 in drone_px4.position_events.events
     ]
@@ -38,9 +25,7 @@ def drone_px4_to_drone_user_procedure(
             absolute_frame=FRAME_PARAMETER.from_color_frame_to_json_frame(
                 color_event_px4.frame
             ),
-            rgbw=rgbw_convertion_standard.from_px4_rgbw_to_user_rgbw(
-                color_event_px4.rgbw
-            ),
+            rgbw=JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
         )
         for color_event_px4 in drone_px4.color_events.events
     ]
@@ -52,7 +37,7 @@ def drone_px4_to_drone_user_procedure(
                 fire_event_px4.frame
             ),
             chanel=fire_event_px4.chanel,
-            duration=fire_duration_convertion_standard.from_px4_fire_duration_to_user_fire_duration(
+            duration=JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(
                 fire_event_px4.duration
             ),
         )
@@ -69,16 +54,10 @@ def drone_px4_to_drone_user_procedure(
 def SP_to_SU_procedure(
     show_px4: ShowPx4,
 ) -> ShowUser:
-    xyz_convertion_standard = XyzConvertionStandard()
-    rgbw_convertion_standard = RgbwConvertionStandard()
-    fire_duration_convertion_standard = FireDurationConvertionStandard()
     return ShowUser(
         drones_user=[
             drone_px4_to_drone_user_procedure(
                 drone_px4,
-                xyz_convertion_standard,
-                rgbw_convertion_standard,
-                fire_duration_convertion_standard,
             )
             for drone_px4 in show_px4
         ]
