@@ -32,7 +32,7 @@ def SP_to_IJ_procedure(show_px4: ShowPx4) -> IostarJson:
             "show": {
                 "families": [
                     get_family_dict_from_show_px4(
-                        show_px4.drones[
+                        show_px4[
                             show_configuration.nb_drone_per_family
                             * family_index : show_configuration.nb_drone_per_family
                             * family_index

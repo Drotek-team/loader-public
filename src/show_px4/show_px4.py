@@ -5,31 +5,18 @@ from .drone_px4.drone_px4 import DronePx4
 from .drone_px4.events_size_easing import EventsSizeEasing, apply_dance_size_relief
 
 
-# TO DO make this a list of drones type
-class ShowPx4:
-    def __init__(self, drones: List[DronePx4]):
-        self.drones = drones
-
-    def __iter__(self):
-        yield from self.drones
-
-    def __getitem__(self, drone_index: int):
-        return self.drones[drone_index]
-
-    def __len__(self):
-        return len(self.drones)
-
+class ShowPx4(List[DronePx4]):
     @property
     def nb_drone(self) -> int:
-        return len(self.drones)
+        return len(self)
 
     @property
     def duration(self) -> int:
-        return max(drone.last_position_event.frame for drone in self.drones)
+        return max(drone.last_position_event.frame for drone in self)
 
     @property
     def first_horizontal_positions(self) -> List[Tuple[int, int]]:
-        return [(drone.first_xyz[0], drone.first_xyz[1]) for drone in self.drones]
+        return [(drone.first_xyz[0], drone.first_xyz[1]) for drone in self]
 
     @property
     def convex_hull(self) -> List[Tuple[int, int]]:
@@ -39,12 +26,12 @@ class ShowPx4:
     def altitude_range(self) -> Tuple[float, float]:
         z_positions = [
             position_event.xyz[2]
-            for drone in self.drones
+            for drone in self
             for position_event in drone.position_events.events
         ]
         return (min(z_positions), max(z_positions))
 
     def apply_dances_size_relief(self) -> None:
         events_size_easing = EventsSizeEasing()
-        for drone in self.drones:
+        for drone in self:
             apply_dance_size_relief(drone, events_size_easing)
