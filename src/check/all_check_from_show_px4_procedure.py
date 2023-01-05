@@ -1,8 +1,8 @@
-from ..migration.migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
-from ..migration.migration_SD_ST.SD_to_STP_procedure import SD_to_STP_procedure
-from ..migration.migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
+from ..migration.migration_SP_SU.SU_to_SP_procedure import SU_to_SP_procedure
 from ..migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
-from ..show_px4.show_px4 import ShowPx4
+from ..migration.migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
+from ..migration.migration_SU_ST.SU_to_STP_procedure import SU_to_STP_procedure
+from ..show_user.show_user import ShowUser
 from .show_check_report import *
 from .show_px4_check.show_px4_chek_procedure import apply_show_px4_check_procedure
 from .show_simulation_collision_check.show_simulation_collision_check_procedure import (
@@ -13,18 +13,18 @@ from .show_trajectory_performance_check.show_trajectory_performance_check_proced
 )
 
 
-def apply_all_check_from_show_px4_procedure(
-    show_px4: ShowPx4,
+def apply_all_check_from_show_user_procedure(
+    show_user: ShowUser,
 ) -> ShowCheckReport:
+    show_px4 = SU_to_SP_procedure(
+        show_user,
+    )
     # PX4 part
     show_px4_check_report = ShowPx4CheckReport(show_px4.nb_drone)
     apply_show_px4_check_procedure(show_px4, show_px4_check_report)
 
-    # Dev Part
-    show_dev = SP_to_SD_procedure(show_px4)
-
     # Performance part
-    show_trajectory_performance = SD_to_STP_procedure(show_dev)
+    show_trajectory_performance = SU_to_STP_procedure(show_user)
     show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
         show_trajectory_performance.nb_drones
     )
@@ -34,8 +34,8 @@ def apply_all_check_from_show_px4_procedure(
     )
 
     # Collision part
-    show_trajectory_collision = SD_to_STC_procedure(
-        show_dev,
+    show_trajectory_collision = SU_to_STC_procedure(
+        show_user,
     )
     show_simulation = STC_to_SS_procedure(
         show_trajectory_collision,

@@ -1,14 +1,14 @@
 import pytest
 
-from ...migration.migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
 from ...migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
+from ...migration.migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
 from ...show_simulation.show_simulation import ShowSimulation
+from ...show_user.show_user import *
 from .show_simulation_collision_check_procedure import (
     apply_show_simulation_collision_check_procedure,
 )
@@ -18,52 +18,62 @@ EPSILON_DELTA = 1e-2
 ROUNDING_ERROR = 0.04
 
 
-@pytest.fixture
-def valid_show_simulation_on_ground() -> ShowSimulation:
-
-    first_drone_dev = DroneDev(
-        0,
-        [
-            PositionEventDev(0, (0, 0, 0)),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
+def get_show_simulation(distance_between_drones: float) -> ShowSimulation:
+    first_drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(position_frame=0, absolute_frame=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(
+                position_frame=int(
+                    FRAME_PARAMETER.position_fps
+                    * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                (
-                    0,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                absolute_frame=int(
+                    FRAME_PARAMETER.absolute_fps
+                    * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
             ),
         ],
+        color_events=[],
+        fire_events=[],
     )
-    second_drone_dev = DroneDev(
-        1,
-        [
-            PositionEventDev(
-                0, (IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground, 0, 0)
+    second_drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(
+                position_frame=0,
+                absolute_frame=0,
+                xyz=(distance_between_drones, 0.0, 0.0),
             ),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
+            PositionEventUser(
+                position_frame=int(
+                    FRAME_PARAMETER.position_fps
+                    * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                (
-                    IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
-                    0,
+                absolute_frame=int(
+                    FRAME_PARAMETER.absolute_fps
+                    * TAKEOFF_PARAMETER.takeoff_duration_second
+                ),
+                xyz=(
+                    distance_between_drones,
+                    0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter,
                 ),
             ),
         ],
+        color_events=[],
+        fire_events=[],
     )
     return STC_to_SS_procedure(
-        SD_to_STC_procedure(
-            ShowDev([first_drone_dev, second_drone_dev]),
+        SU_to_STC_procedure(
+            ShowUser(drones_user=[first_drone_user, second_drone_user]),
         )
     )
 
 
-def test_valid_simulation_on_ground(valid_show_simulation_on_ground: ShowSimulation):
-
+def test_valid_simulation_on_ground():
+    valid_show_simulation_on_ground = get_show_simulation(
+        IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground
+    )
     show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         valid_show_simulation_on_ground.frames
     )
@@ -89,59 +99,10 @@ def test_valid_simulation_on_ground(valid_show_simulation_on_ground: ShowSimulat
     ].validation
 
 
-@pytest.fixture
-def invalid_show_simulation_on_ground() -> ShowSimulation:
-
-    first_drone_dev = DroneDev(
-        0,
-        [
-            PositionEventDev(0, (0, 0, 0)),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                (
-                    0,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
-                ),
-            ),
-        ],
+def test_invalid_simulation_on_ground():
+    invalid_show_simulation_on_ground = get_show_simulation(
+        IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA
     )
-    second_drone_dev = DroneDev(
-        1,
-        [
-            PositionEventDev(
-                0,
-                (
-                    IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA,
-                    0,
-                    0,
-                ),
-            ),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                (
-                    IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
-                ),
-            ),
-        ],
-    )
-    return STC_to_SS_procedure(
-        SD_to_STC_procedure(
-            ShowDev([first_drone_dev, second_drone_dev]),
-        )
-    )
-
-
-def test_invalid_simulation_on_ground(
-    invalid_show_simulation_on_ground: ShowSimulation,
-):
-
     show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         invalid_show_simulation_on_ground.frames
     )
@@ -164,52 +125,10 @@ def test_invalid_simulation_on_ground(
     )
 
 
-@pytest.fixture
-def valid_show_simulation_in_air() -> ShowSimulation:
-
-    first_drone_dev = DroneDev(
-        0,
-        [
-            PositionEventDev(0, (0, 0, 0)),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                (
-                    0,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
-                ),
-            ),
-        ],
+def test_valid_simulation_in_air():
+    valid_show_simulation_in_air = get_show_simulation(
+        IOSTAR_PHYSIC_PARAMETER.security_distance_in_air
     )
-    second_drone_dev = DroneDev(
-        1,
-        [
-            PositionEventDev(
-                0, (IOSTAR_PHYSIC_PARAMETER.security_distance_in_air, 0, 0)
-            ),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                (
-                    IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
-                ),
-            ),
-        ],
-    )
-    return STC_to_SS_procedure(
-        SD_to_STC_procedure(
-            ShowDev([first_drone_dev, second_drone_dev]),
-        )
-    )
-
-
-def test_valid_simulation_in_air(valid_show_simulation_in_air: ShowSimulation):
-
     show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         valid_show_simulation_in_air.frames
     )
@@ -228,59 +147,10 @@ def test_valid_simulation_in_air(valid_show_simulation_in_air: ShowSimulation):
     ].validation
 
 
-@pytest.fixture
-def invalid_show_simulation_in_air() -> ShowSimulation:
-
-    first_drone_dev = DroneDev(
-        0,
-        [
-            PositionEventDev(0, (0, 0, 0)),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                (
-                    0,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
-                ),
-            ),
-        ],
+def test_invalid_simulation_in_air():
+    invalid_show_simulation_in_air = get_show_simulation(
+        IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA
     )
-    second_drone_dev = DroneDev(
-        1,
-        [
-            PositionEventDev(
-                0,
-                (
-                    IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
-                    0,
-                    0,
-                ),
-            ),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                (
-                    IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
-                ),
-            ),
-        ],
-    )
-    return STC_to_SS_procedure(
-        SD_to_STC_procedure(
-            ShowDev([first_drone_dev, second_drone_dev]),
-        )
-    )
-
-
-def test_invalid_simulation_in_air(
-    invalid_show_simulation_in_air: ShowSimulation,
-):
-
     show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
         invalid_show_simulation_in_air.frames
     )

@@ -3,47 +3,49 @@ from typing import List
 import numpy as np
 import pytest
 
-from .....show_dev.show_dev import PositionEventDev
+from .....show_user.show_user import PositionEventUser
 from ..in_air_flight_simulation import in_air_flight_simulation, linear_interpolation
 from ..position_simulation import SimulationInfo
 
 
 @pytest.fixture
-def valid_position_events_dev() -> List[PositionEventDev]:
+def valid_position_events_user() -> List[PositionEventUser]:
     return [
-        PositionEventDev(0, (0, 0, 0)),
-        PositionEventDev(6, (0, 0, 1)),
-        PositionEventDev(24, (0, 0, 2)),
+        PositionEventUser(position_frame=0, absolute_frame=0, xyz=(0, 0, 0)),
+        PositionEventUser(position_frame=1, absolute_frame=6, xyz=(0, 0, 1)),
+        PositionEventUser(position_frame=4, absolute_frame=24, xyz=(0, 0, 2)),
     ]
 
 
-def test_flight_simulation(valid_position_events_dev: List[PositionEventDev]):
-    first_position_event_dev, second_position_event_dev, third_position_event_dev = (
-        valid_position_events_dev[0],
-        valid_position_events_dev[1],
-        valid_position_events_dev[2],
+def test_flight_simulation(valid_position_events_user: List[PositionEventUser]):
+    first_position_event_user, second_position_event_user, third_position_event_user = (
+        valid_position_events_user[0],
+        valid_position_events_user[1],
+        valid_position_events_user[2],
     )
     real_in_air_flight_simulation_infos = in_air_flight_simulation(
-        valid_position_events_dev,
+        valid_position_events_user,
     )
     first_theorical_positions = linear_interpolation(
-        first_position_event_dev.xyz,
-        second_position_event_dev.xyz,
-        second_position_event_dev.frame - first_position_event_dev.frame,
+        first_position_event_user.xyz,
+        second_position_event_user.xyz,
+        second_position_event_user.position_frame
+        - first_position_event_user.position_frame,
     )
     second_theorical_positions = linear_interpolation(
-        second_position_event_dev.xyz,
-        third_position_event_dev.xyz,
-        third_position_event_dev.frame - second_position_event_dev.frame,
+        second_position_event_user.xyz,
+        third_position_event_user.xyz,
+        third_position_event_user.position_frame
+        - second_position_event_user.position_frame,
     )
     theorical_positions = (
         first_theorical_positions
         + second_theorical_positions
-        + [np.array(third_position_event_dev.xyz)]
+        + [np.array(third_position_event_user.xyz)]
     )
     theorical_in_air_flight_simulation_infos = [
         SimulationInfo(
-            first_position_event_dev.frame + frame_index,
+            first_position_event_user.position_frame + frame_index,
             theorical_position,
             True,
             True,

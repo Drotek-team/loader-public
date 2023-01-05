@@ -6,59 +6,59 @@ from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAM
 
 
 @dataclass(frozen=True)
-class PositionEventDev:
+class PositionEventUser:
     frame: int  # 24 frame per second
     xyz: Tuple[float, float, float]  # ENU and meter
 
 
-class DroneDev:
+class DroneUser:
     def __init__(
         self,
         drone_index: int,
-        position_events_dev: List[PositionEventDev],
+        position_events_user: List[PositionEventUser],
     ):
         self.drone_index = drone_index
-        self.position_events_dev = position_events_dev
+        self.position_events_user = position_events_user
 
     @property
-    def nb_position_events_dev(self) -> int:
-        return len(self.position_events_dev)
+    def nb_position_events_user(self) -> int:
+        return len(self.position_events_user)
 
     @property
-    def flight_positions(self) -> List[PositionEventDev]:
-        return self.position_events_dev[1:]
+    def flight_positions(self) -> List[PositionEventUser]:
+        return self.position_events_user[1:]
 
     @property
     def last_frame(self) -> int:
-        return self.position_events_dev[-1].frame
+        return self.position_events_user[-1].frame
 
     @property
     def last_height(self) -> float:
-        return self.position_events_dev[-1].xyz[2]
+        return self.position_events_user[-1].xyz[2]
 
     def get_frame_by_index(self, index: int) -> int:
-        return self.position_events_dev[index].frame
+        return self.position_events_user[index].frame
 
     def get_xyz_simulation_by_index(self, index: int) -> Tuple[float, float, float]:
-        return self.position_events_dev[index].xyz
+        return self.position_events_user[index].xyz
 
 
-class ShowDev:
-    def __init__(self, drones_dev: List[DroneDev]):
-        self.drones_dev = drones_dev
+class ShowUser:
+    def __init__(self, drones_user: List[DroneUser]):
+        self.drones_user = drones_user
 
     def __iter__(self):
-        yield from self.drones_dev
+        yield from self.drones_user
 
-    def __getitem__(self, drone_dev_index: int):
-        return self.drones_dev[drone_dev_index]
+    def __getitem__(self, drone_user_index: int):
+        return self.drones_user[drone_user_index]
 
     def __len__(self):
-        return len(self.drones_dev)
+        return len(self.drones_user)
 
     @property
     def nb_drones(self) -> int:
-        return len(self.drones_dev)
+        return len(self.drones_user)
 
     @property
     def get_last_frame(
@@ -66,11 +66,11 @@ class ShowDev:
     ) -> int:
         return max(
             [
-                drone_dev.last_frame
+                drone_user.last_frame
                 + int(
                     FRAME_PARAMETER.position_fps
-                    * LAND_PARAMETER.get_land_second_delta(drone_dev.last_height)
+                    * LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
                 )
-                for drone_dev in self.drones_dev
+                for drone_user in self.drones_user
             ]
         )

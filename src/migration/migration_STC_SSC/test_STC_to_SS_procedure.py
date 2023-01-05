@@ -5,11 +5,11 @@ from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PAR
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_dev.show_dev import DroneDev, PositionEventDev, ShowDev
 from ...show_trajectory_collision.show_trajectory_collision import (
     ShowTrajectoryCollision,
 )
-from ..migration_SD_ST.SD_to_STC_procedure import SD_to_STC_procedure
+from ...show_user.show_user import DroneUser, PositionEventUser, ShowUser
+from ..migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
 from .STC_to_SSC_procedure import STC_to_SS_procedure
 
 # @pytest.fixture
@@ -41,30 +41,31 @@ from .STC_to_SSC_procedure import STC_to_SS_procedure
 @pytest.fixture
 def valid_show_trajectory_collision() -> ShowTrajectoryCollision:
 
-    drone_dev = DroneDev(
-        0,
-        [
-            PositionEventDev(0, (0, 0, 0)),
-            PositionEventDev(
-                FRAME_PARAMETER.from_second_to_position_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
+    drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(position_frame=0, absolute_frame=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(
+                position_frame=int(
+                    FRAME_PARAMETER.position_fps
+                    * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                (
-                    0,
-                    0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                absolute_frame=int(
+                    FRAME_PARAMETER.absolute_fps
+                    * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
             ),
         ],
+        color_events=[],
+        fire_events=[],
     )
-    show_dev = ShowDev([drone_dev])
-    return SD_to_STC_procedure(
-        show_dev,
+    show_user = ShowUser(drones_user=[drone_user])
+    return SU_to_STC_procedure(
+        show_user,
     )
 
 
 def test_valid_show_flags(valid_show_trajectory_collision: ShowTrajectoryCollision):
-
     show_simulation = STC_to_SS_procedure(valid_show_trajectory_collision)
 
     assert len(show_simulation.show_slices) == 53

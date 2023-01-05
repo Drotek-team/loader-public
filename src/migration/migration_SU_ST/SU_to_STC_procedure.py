@@ -1,11 +1,11 @@
 from typing import List
 
-from ...show_dev.show_dev import ShowDev
 from ...show_trajectory_collision.show_trajectory_collision import (
     DroneTrajectoryCollision,
     ShowTrajectoryCollision,
     TrajectoryCollisionInfo,
 )
+from ...show_user.show_user import ShowUser
 from .simulation.flight_simulation import flight_simulation
 from .simulation.position_simulation import SimulationInfo
 
@@ -21,20 +21,20 @@ def get_trajectory_collision_info_from_simulation_infos(
     ]
 
 
-def SD_to_STC_procedure(
-    show_dev: ShowDev,
+def SU_to_STC_procedure(
+    show_user: ShowUser,
 ) -> ShowTrajectoryCollision:
     return ShowTrajectoryCollision(
         [
             DroneTrajectoryCollision(
-                drone_dev.drone_index,
+                drone_index,
                 get_trajectory_collision_info_from_simulation_infos(
                     flight_simulation(
-                        drone_dev,
-                        show_dev.get_last_frame,
+                        drone_user,
+                        show_user.get_last_frame,
                     )
                 ),
             )
-            for drone_dev in show_dev.drones_dev
+            for drone_index, drone_user in enumerate(show_user.drones_user)
         ]
     )

@@ -10,7 +10,7 @@ from .show_user_check_report import *
 
 
 @pytest.fixture
-def valid_drone_dev() -> DroneUser:
+def valid_drone_user() -> DroneUser:
     return DroneUser(
         position_events=[
             PositionEventUser(position_frame=0, absolute_frame=0, xyz=(0.0, 0.0, 0.0)),
@@ -32,18 +32,18 @@ def valid_drone_dev() -> DroneUser:
 
 
 def test_valid_position_events_takeoff_duration_xyz_check(
-    valid_drone_dev: DroneUser,
+    valid_drone_user: DroneUser,
 ):
     takeoff_check_report = TakeoffCheckReport()
     apply_takeoff_check(
-        valid_drone_dev,
+        valid_drone_user,
         takeoff_check_report,
     )
     assert takeoff_check_report.validation
 
 
 @pytest.fixture
-def invalid_drone_dev_takeoff_duration() -> DroneUser:
+def invalid_drone_user_takeoff_duration() -> DroneUser:
     FRAME_BIAS = 1
     return DroneUser(
         position_events=[
@@ -68,11 +68,11 @@ def invalid_drone_dev_takeoff_duration() -> DroneUser:
 
 
 def test_invalid_position_events_takeoff_duration_check(
-    invalid_drone_dev_takeoff_duration: DroneUser,
+    invalid_drone_user_takeoff_duration: DroneUser,
 ):
     takeoff_check_report = TakeoffCheckReport()
     apply_takeoff_check(
-        invalid_drone_dev_takeoff_duration,
+        invalid_drone_user_takeoff_duration,
         takeoff_check_report,
     )
     assert not (takeoff_check_report.takeoff_duration_check_report.validation)
@@ -80,7 +80,7 @@ def test_invalid_position_events_takeoff_duration_check(
 
 
 @pytest.fixture
-def invalid_drone_dev_takeoff_xyz() -> DroneUser:
+def invalid_drone_user_takeoff_xyz() -> DroneUser:
     Z_BIAS = 1e-2
     return DroneUser(
         position_events=[
@@ -103,11 +103,11 @@ def invalid_drone_dev_takeoff_xyz() -> DroneUser:
 
 
 def test_invalid_position_events_takeoff_xyz_check(
-    invalid_drone_dev_takeoff_xyz: DroneUser,
+    invalid_drone_user_takeoff_xyz: DroneUser,
 ):
     takeoff_check_report = TakeoffCheckReport()
     apply_takeoff_check(
-        invalid_drone_dev_takeoff_xyz,
+        invalid_drone_user_takeoff_xyz,
         takeoff_check_report,
     )
     assert takeoff_check_report.takeoff_duration_check_report.validation

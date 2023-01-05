@@ -3,12 +3,12 @@ from typing import List
 import numpy as np
 
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ...show_dev.show_dev import ShowDev
 from ...show_trajectory_performance.show_trajectory_performance import (
     DroneTrajectoryPerformance,
     ShowTrajectoryPerformance,
     TrajectoryPerformanceInfo,
 )
+from ...show_user.show_user import ShowUser
 from .simulation.in_air_flight_simulation import in_air_flight_simulation
 from .simulation.position_simulation import SimulationInfo
 
@@ -54,19 +54,19 @@ def get_trajectory_performance_info_from_simulation_infos(
     ]
 
 
-def SD_to_STP_procedure(
-    show_dev: ShowDev,
+def SU_to_STP_procedure(
+    show_user: ShowUser,
 ) -> ShowTrajectoryPerformance:
     return ShowTrajectoryPerformance(
         [
             DroneTrajectoryPerformance(
-                drone_dev.drone_index,
+                drone_index,
                 get_trajectory_performance_info_from_simulation_infos(
                     in_air_flight_simulation(
-                        drone_dev.position_events_dev[1:],
+                        drone_user.position_events[1:],
                     ),
                 ),
             )
-            for drone_dev in show_dev.drones_dev
+            for drone_index, drone_user in enumerate(show_user.drones_user)
         ]
     )
