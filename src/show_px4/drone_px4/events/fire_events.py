@@ -11,6 +11,14 @@ class FireEvent(Event):
     chanel: int  # chanel of the fire event
     duration: int  # duration of the fire event in timecode
 
+    def __post_init__(self):
+        if not (isinstance(self.frame, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.chanel, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.duration, int)):
+            raise ValueError("This value should be an integer")
+
     @property
     def chanel_duration(self) -> Tuple[int, int]:
         return (self.chanel, self.duration)

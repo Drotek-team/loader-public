@@ -13,6 +13,18 @@ class ColorEvent(Event):
     b: int  # blue color between 0 and 255
     w: int  # white color between 0 and 255
 
+    def __post_init__(self):
+        if not (isinstance(self.frame, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.r, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.g, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.b, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.w, int)):
+            raise ValueError("This value should be an integer")
+
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:
         return (self.r, self.g, self.b, self.w)

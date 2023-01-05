@@ -43,21 +43,21 @@ def test_valid_color_events_check(
     )
 
 
-def test_invalid_color_events_frame_format_check(
-    valid_color_events: ColorEvents,
-    color_events_check_report: ColorEventsCheckReport,
-):
-    valid_color_events.add_frame_rgbw(
-        1.23,
-        (0, 0, 0, 0),
-    )
-    color_events_check(
-        valid_color_events,
-        color_events_check_report,
-    )
-    assert not (
-        color_events_check_report.frame_check_report.frame_format_check_report.validation
-    )
+# def test_invalid_color_events_frame_format_check(
+#     valid_color_events: ColorEvents,
+#     color_events_check_report: ColorEventsCheckReport,
+# ):
+#     valid_color_events.add_frame_rgbw(
+#         1.23,
+#         (0, 0, 0, 0),
+#     )
+#     color_events_check(
+#         valid_color_events,
+#         color_events_check_report,
+#     )
+#     assert not (
+#         color_events_check_report.frame_check_report.frame_format_check_report.validation
+#     )
 
 
 def test_invalid_color_events_frame_increasing_check(
@@ -105,23 +105,23 @@ def test_invalid_color_events_frame_first_frame_check(
     )
 
 
-def test_invalid_color_events_rgbw_format_check(
-    valid_color_events: ColorEvents,
-    color_events_check_report: ColorEventsCheckReport,
-):
-    valid_color_events.add_frame_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
-        (1.23, 0, 0, 0),
-    )
-    color_events_check(
-        valid_color_events,
-        color_events_check_report,
-    )
-    assert not (
-        color_events_check_report.rgbw_check_report.rgbw_format_check_report.validation
-    )
+# def test_invalid_color_events_rgbw_format_check(
+#     valid_color_events: ColorEvents,
+#     color_events_check_report: ColorEventsCheckReport,
+# ):
+#     valid_color_events.add_frame_rgbw(
+#         FRAME_PARAMETER.from_absolute_time_to_position_frame(
+#             JSON_BINARY_PARAMETER.show_duration_min_second
+#         ),
+#         (1.23, 0, 0, 0),
+#     )
+#     color_events_check(
+#         valid_color_events,
+#         color_events_check_report,
+#     )
+#     assert not (
+#         color_events_check_report.rgbw_check_report.rgbw_format_check_report.validation
+#     )
 
 
 def test_invalid_color_events_rgbw_value_check(

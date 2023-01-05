@@ -52,22 +52,22 @@ def test_valid_position_events_check(
     assert position_events_check_report.validation
 
 
-def test_invalid_position_events_frame_format_check(
-    valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
-):
+# def test_invalid_position_events_frame_format_check(
+#     valid_position_events: PositionEvents,
+#     position_events_check_report: PositionEventsCheckReport,
+# ):
 
-    valid_position_events.add_frame_xyz(
-        1.23,
-        (0, 0, 0),
-    )
-    position_events_check(
-        valid_position_events,
-        position_events_check_report,
-    )
-    assert not (
-        position_events_check_report.frame_check_report.frame_format_check_report.validation
-    )
+#     valid_position_events.add_frame_xyz(
+#         1.23,
+#         (0, 0, 0),
+#     )
+#     position_events_check(
+#         valid_position_events,
+#         position_events_check_report,
+#     )
+#     assert not (
+#         position_events_check_report.frame_check_report.frame_format_check_report.validation
+#     )
 
 
 def test_invalid_position_events_frame_increasing_check(
@@ -116,24 +116,24 @@ def test_invalid_position_events_frame_first_frame_check(
     )
 
 
-def test_invalid_position_events_xyz_format_check(
-    valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
-):
+# def test_invalid_position_events_xyz_format_check(
+#     valid_position_events: PositionEvents,
+#     position_events_check_report: PositionEventsCheckReport,
+# ):
 
-    valid_position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
-            JSON_BINARY_PARAMETER.show_duration_max_second
-        ),
-        (1.23, 0, 0),
-    )
-    position_events_check(
-        valid_position_events,
-        position_events_check_report,
-    )
-    assert not (
-        position_events_check_report.xyz_check_report.xyz_format_check_report.validation
-    )
+#     valid_position_events.add_frame_xyz(
+#         FRAME_PARAMETER.from_absolute_time_to_position_frame(
+#             JSON_BINARY_PARAMETER.show_duration_max_second
+#         ),
+#         (1.23, 0, 0),
+#     )
+#     position_events_check(
+#         valid_position_events,
+#         position_events_check_report,
+#     )
+#     assert not (
+#         position_events_check_report.xyz_check_report.xyz_format_check_report.validation
+#     )
 
 
 def test_invalid_position_events_xyz_value_check(

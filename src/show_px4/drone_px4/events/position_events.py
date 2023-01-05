@@ -12,6 +12,16 @@ class PositionEvent(Event):
     y: int  # y relative coordinate in NED and centimeter between 0 and 32561
     z: int  # z relative coordinate in NED and centimeter between 0 and 32561
 
+    def __post_init__(self):
+        if not (isinstance(self.frame, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.x, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.y, int)):
+            raise ValueError("This value should be an integer")
+        if not (isinstance(self.z, int)):
+            raise ValueError("This value should be an integer")
+
     @property
     def xyz(self) -> Tuple[int, int, int]:
         return (self.x, self.y, self.z)
