@@ -25,7 +25,6 @@ def get_family_dict_from_show_px4(
     }
 
 
-# TO DO: test this thing REALLY well
 def SP_to_IJ_procedure(show_px4: ShowPx4) -> IostarJson:
     show_configuration = DP_to_SC_procedure(show_px4)
     return IostarJson(

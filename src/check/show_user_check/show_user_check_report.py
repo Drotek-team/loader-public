@@ -4,7 +4,6 @@ from typing import List
 from ...report import Contenor, Displayer
 
 
-# TO DO: maybe specify a little more the class, it could be useful in the future
 @dataclass(frozen=True)
 class IncoherenceRelativeAbsoluteFrame(Displayer):
     relative_frame: int

@@ -9,7 +9,7 @@ from .show_user_check_report import *
 def apply_drone_user_frame_coherence_check(
     drone_user: DroneUser, frame_coherence_check_report: FrameCoherenceCheckReport
 ) -> None:
-    # TO DO: An enum would be nice but it is kind of painfull because nothing here is make to make an enum
+    # IMPROVE: An enum would be nice but it is kind of painfull because nothing here is make to make an enum
     # Fuck it just separate the three in the architecture, really not worth it
     for position_event in drone_user.position_events:
         if (
@@ -61,11 +61,9 @@ def apply_takeoff_check(
     drone_user: DroneUser,
     takeoff_check_report: TakeoffCheckReport,
 ) -> None:
-    # TO DO: test this case
     if drone_user.nb_position_events == 0:
         takeoff_check_report.takeoff_duration_check_report.validation = False
         takeoff_check_report.takeoff_xyz_check_report.validation = False
-    # TO DO: test this case
     if drone_user.nb_position_events == 1:
         first_frame = drone_user.get_position_frame_by_index(0)
         first_position = drone_user.get_xyz_simulation_by_index(0)

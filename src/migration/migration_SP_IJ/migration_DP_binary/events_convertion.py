@@ -8,7 +8,7 @@ def encode_events(events: Events) -> bytearray:
     binary = bytearray(event_size * len(events.events))
     for cpt_event, event_data in enumerate(events.events):
         try:
-            # TO DO: An append() would be more elegant here
+            # IMPROVE: An append() would be more elegant here
             binary[cpt_event * event_size : (cpt_event + 1) * event_size] = struct.pack(
                 events.format, *event_data.get_data()
             )

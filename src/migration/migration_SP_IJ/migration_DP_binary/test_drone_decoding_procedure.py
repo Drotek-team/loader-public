@@ -10,7 +10,6 @@ from .drone_decoding_report import DroneDecodingReport
 
 # TO DO: this phase is extremely critical: test it properly
 def test_valid_dance_decoding():
-
     drone_decoding_report = DroneDecodingReport(0)
     drone = decode_drone(
         DANCE_EXAMPLE,

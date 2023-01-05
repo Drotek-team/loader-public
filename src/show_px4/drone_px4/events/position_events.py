@@ -30,7 +30,7 @@ class PositionEvent(Event):
         return (self.frame, self.x, self.y, self.z)
 
 
-# TO DO: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
+# IMPROVE: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
 class PositionEvents(Events):
     events: List[PositionEvent]
     format = ">Hhhh"

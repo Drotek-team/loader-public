@@ -108,3 +108,66 @@ def test_invalid_position_events_takeoff_xyz_check(
     )
     assert takeoff_check_report.takeoff_duration_check_report.validation
     assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
+
+
+def test_empty_position_events():
+    empty_position_events_drone_user = DroneUser(
+        position_events=[], color_events=[], fire_events=[]
+    )
+    takeoff_check_report = TakeoffCheckReport()
+    apply_takeoff_check(
+        empty_position_events_drone_user,
+        takeoff_check_report,
+    )
+    assert not (takeoff_check_report.takeoff_duration_check_report.validation)
+    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
+
+
+def test_valid_one_position_events():
+    one_position_events_drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(position_frame=0, absolute_time=0, xyz=[2.0, 2.0, 0.0])
+        ],
+        color_events=[],
+        fire_events=[],
+    )
+    takeoff_check_report = TakeoffCheckReport()
+    apply_takeoff_check(
+        one_position_events_drone_user,
+        takeoff_check_report,
+    )
+    assert takeoff_check_report.validation
+
+
+def test_invalid_by_time_one_position_events():
+    one_position_events_drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(position_frame=1, absolute_time=0, xyz=[2.0, 2.0, 0.0])
+        ],
+        color_events=[],
+        fire_events=[],
+    )
+    takeoff_check_report = TakeoffCheckReport()
+    apply_takeoff_check(
+        one_position_events_drone_user,
+        takeoff_check_report,
+    )
+    assert not (takeoff_check_report.takeoff_duration_check_report.validation)
+    assert takeoff_check_report.takeoff_xyz_check_report.validation
+
+
+def test_invalid_by_position_one_position_events():
+    one_position_events_drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(position_frame=0, absolute_time=0, xyz=[2.0, 2.0, 0.1])
+        ],
+        color_events=[],
+        fire_events=[],
+    )
+    takeoff_check_report = TakeoffCheckReport()
+    apply_takeoff_check(
+        one_position_events_drone_user,
+        takeoff_check_report,
+    )
+    assert takeoff_check_report.takeoff_duration_check_report.validation
+    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
