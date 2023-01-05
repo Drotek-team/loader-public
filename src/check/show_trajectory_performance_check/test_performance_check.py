@@ -10,12 +10,6 @@ from ...show_trajectory_performance.show_trajectory_performance import (
     ShowTrajectoryPerformance,
 )
 from ...show_user.show_user import *
-from .show_trajectory_performance_check_procedure import (
-    apply_show_trajectory_performance_check_procedure,
-)
-from .show_trajectory_performance_check_report import (
-    ShowTrajectoryPerformanceCheckReport,
-)
 
 EPSILON_DELTA = 1e-2
 ROUNDING_ERROR = 0.04

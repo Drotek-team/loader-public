@@ -1,5 +1,3 @@
-import pytest
-
 from ...migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
 from ...migration.migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
