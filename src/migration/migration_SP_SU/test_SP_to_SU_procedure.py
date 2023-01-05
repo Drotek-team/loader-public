@@ -89,7 +89,6 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
 
 
 def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
-
     show_user = SP_to_SU_procedure(valid_show_px4)
     drone_users = show_user.drones_user
 

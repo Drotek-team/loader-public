@@ -37,17 +37,17 @@ class DronePx4:
         return self.position_events.events[-1]
 
     @property
-    def first_xyz(self) -> Tuple:
+    def first_xyz(self) -> Tuple[int, int, int]:
         return self.position_events.get_xyz_by_event_index(0)
 
     @property
-    def last_xyz(self) -> Tuple:
+    def last_xyz(self) -> Tuple[int, int, int]:
         if self.position_events.events == []:
             return (0, 0, 0)
         return self.position_events.get_xyz_by_event_index(-1)
 
     @property
-    def last_rgbw(self) -> Tuple:
+    def last_rgbw(self) -> Tuple[int, int, int, int]:
         if self.color_events.events == []:
             return (0, 0, 0, 0)
         return self.color_events.get_rgbw_by_event_index(-1)

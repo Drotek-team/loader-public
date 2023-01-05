@@ -32,6 +32,8 @@ def get_angle_degree_from_vector(u_x: np.ndarray) -> int:
 def get_angle_takeoff_from_grid(
     grid: Grid,
 ) -> float:
+    if len(grid) == 1:
+        return 0.0
     (
         first_row_first_horizonal_position,
         first_row_last_horizonal_position,

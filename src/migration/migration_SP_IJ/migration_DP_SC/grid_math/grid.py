@@ -29,6 +29,7 @@ def get_rotation_matrix(angle: float) -> np.ndarray:
     return np.array(((c, -s), (s, c)))
 
 
+# TO DO: make a list type for this one
 class Grid:
     def __init__(self, horizontal_positions: List[Tuple[float, float]]):
         self.horizontal_positions = [

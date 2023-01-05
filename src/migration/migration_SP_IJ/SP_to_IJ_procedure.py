@@ -11,7 +11,7 @@ def get_family_dict_from_show_px4(
     show_px4_family: List[DronePx4],
 ) -> Dict:
     return {
-        "dances": [
+        "drones": [
             {
                 "dance": encode_drone(
                     drone_px4_family,
@@ -19,6 +19,9 @@ def get_family_dict_from_show_px4(
             }
             for drone_px4_family in show_px4_family
         ],
+        "x": show_px4_family[0].first_xyz[0],
+        "y": show_px4_family[0].first_xyz[1],
+        "z": show_px4_family[0].first_xyz[2],
     }
 
 
@@ -41,13 +44,13 @@ def SP_to_IJ_procedure(show_px4: ShowPx4) -> IostarJson:
                         show_configuration.nb_x * show_configuration.nb_y
                     )
                 ],
-            },
-            "duration": show_configuration.duration,
-            "hull": show_configuration.hull,
-            "altitude_range": show_configuration.altitude_range,
-            "step": show_configuration.step,
-            "nb_x": show_configuration.nb_x,
-            "nb_y": show_configuration.nb_y,
-            "angle_takeoff": show_configuration.angle_takeoff,
+                "duration": show_configuration.duration,
+                "hull": show_configuration.hull,
+                "altitude_range": show_configuration.altitude_range,
+                "step": show_configuration.step,
+                "nb_x": show_configuration.nb_x,
+                "nb_y": show_configuration.nb_y,
+                "angle_takeoff": show_configuration.angle_takeoff,
+            }
         }
     )

@@ -24,6 +24,11 @@ def valid_grid_90_degree():
     return Grid([(1.0, -1.0), (1.0, 1.0), (-1.0, 1.0), (-1.0, -1.0)])
 
 
+@pytest.fixture
+def one_point_grid():
+    return Grid([(0.0, 0.0)])
+
+
 def test_get_angle_from_vector():
     assert get_angle_degree_from_vector(np.array([1.0, 0])) == 0
     assert get_angle_degree_from_vector(np.array([-1.0, 0])) == 180
@@ -53,3 +58,7 @@ def test_get_angle_takeoff_from_grid_valid_grid_45_degree(valid_grid_45_degree: 
 
 def test_get_angle_takeoff_from_grid_valid_grid_90_degree(valid_grid_90_degree: Grid):
     assert get_angle_takeoff_from_grid(valid_grid_90_degree) == 90
+
+
+def test_get_angle_takeoff_from_grid_one_point_grid(one_point_grid: Grid):
+    assert get_angle_takeoff_from_grid(one_point_grid) == 0.0
