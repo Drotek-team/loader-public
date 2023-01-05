@@ -6,7 +6,6 @@ from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
 )
 from ...show_px4.show_px4 import *
 from ...show_user.show_user import *
-from .data_convertion_format import *
 
 
 def add_position_events_user(
