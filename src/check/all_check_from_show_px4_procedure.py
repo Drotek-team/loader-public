@@ -3,14 +3,7 @@ from ..migration.migration_SD_ST.SD_to_STP_procedure import SD_to_STP_procedure
 from ..migration.migration_SP_SD.SP_to_SD_procedure import SP_to_SD_procedure
 from ..migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
 from ..show_px4.show_px4 import ShowPx4
-from .show_check_report import (
-    ShowCheckReport,
-    ShowDevCheckReport,
-    ShowPx4CheckReport,
-    ShowSimulationCollisionCheckReport,
-    ShowTrajectoryPerformanceCheckReport,
-)
-from .show_dev_check.show_dev_check_procedure import apply_show_dev_procedure
+from .show_check_report import *
 from .show_px4_check.show_px4_chek_procedure import apply_show_px4_check_procedure
 from .show_simulation_collision_check.show_simulation_collision_check_procedure import (
     apply_show_simulation_collision_check_procedure,
@@ -29,11 +22,6 @@ def apply_all_check_from_show_px4_procedure(
 
     # Dev Part
     show_dev = SP_to_SD_procedure(show_px4)
-    show_dev_check_report = ShowDevCheckReport(show_dev.nb_drones)
-    apply_show_dev_procedure(
-        show_dev,
-        show_dev_check_report,
-    )
 
     # Performance part
     show_trajectory_performance = SD_to_STP_procedure(show_dev)
@@ -61,7 +49,6 @@ def apply_all_check_from_show_px4_procedure(
     )
     show_check_report = ShowCheckReport(
         show_px4_check_report,
-        show_dev_check_report,
         show_trajectory_performance_check_report,
         show_simulation_collision_check_report,
     )

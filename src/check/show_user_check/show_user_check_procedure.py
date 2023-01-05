@@ -1,15 +1,13 @@
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ...show_user.show_user import DroneUser, ShowUser
-from .show_user_check_report import (
-    DroneUserCheckReport,
-    IncoherenceRelativeAbsoluteFrame,
-    ShowUserCheckReport,
+from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+    TAKEOFF_PARAMETER,
 )
+from ...show_user.show_user import *
+from .show_user_check_report import *
 
 
-def apply_drone_user_check_procedure(
-    drone_user: DroneUser,
-    drone_user_check_report: DroneUserCheckReport,
+def apply_drone_user_frame_coherence_check(
+    drone_user: DroneUser, frame_coherence_check_report: FrameCoherenceCheckReport
 ) -> None:
     # TO DO: An enum would be nice but it is kind of painfull because nothing here is make to make an enum
     # Fuck it just separate the three in the architecture, really not worth it
@@ -18,7 +16,7 @@ def apply_drone_user_check_procedure(
             position_event.absolute_frame
             != position_event.position_frame * FRAME_PARAMETER.position_fps
         ):
-            drone_user_check_report.incoherence_relative_absolute_frame.append(
+            frame_coherence_check_report.incoherence_relative_absolute_frame.append(
                 IncoherenceRelativeAbsoluteFrame(
                     position_event.position_frame,
                     position_event.absolute_frame,
@@ -31,7 +29,7 @@ def apply_drone_user_check_procedure(
             color_event.absolute_frame
             != color_event.color_frame * FRAME_PARAMETER.color_fps
         ):
-            drone_user_check_report.incoherence_relative_absolute_frame.append(
+            frame_coherence_check_report.incoherence_relative_absolute_frame.append(
                 IncoherenceRelativeAbsoluteFrame(
                     color_event.color_frame,
                     color_event.absolute_frame,
@@ -45,7 +43,7 @@ def apply_drone_user_check_procedure(
             fire_event.absolute_frame
             != fire_event.fire_frame * FRAME_PARAMETER.fire_fps
         ):
-            drone_user_check_report.incoherence_relative_absolute_frame.append(
+            frame_coherence_check_report.incoherence_relative_absolute_frame.append(
                 IncoherenceRelativeAbsoluteFrame(
                     fire_event.fire_frame,
                     fire_event.absolute_frame,
@@ -53,6 +51,53 @@ def apply_drone_user_check_procedure(
                     FRAME_PARAMETER.fire_fps,
                 )
             )
+
+
+def apply_takeoff_check(
+    drone_user: DroneUser,
+    takeoff_check_report: TakeoffCheckReport,
+) -> None:
+    if drone_user.nb_position_events == 0:
+        takeoff_check_report.takeoff_duration_check_report.validation = False
+        takeoff_check_report.takeoff_xyz_check_report.validation = False
+    if drone_user.nb_position_events == 1:
+        first_frame = drone_user.get_frame_by_index(0)
+        first_position = drone_user.get_xyz_simulation_by_index(0)
+
+        takeoff_check_report.takeoff_duration_check_report.validation = (
+            takeoff_check_report.takeoff_xyz_check_report.validation
+        ) = (first_frame == 0)
+        takeoff_check_report.takeoff_xyz_check_report.validation = (
+            first_position[2] == 0
+        )
+    if drone_user.nb_position_events > 1:
+        first_frame = drone_user.get_absolute_frame_by_index(0)
+        second_frame = drone_user.get_absolute_frame_by_index(1)
+        first_position = drone_user.get_xyz_simulation_by_index(0)
+        second_position = drone_user.get_xyz_simulation_by_index(1)
+        takeoff_check_report.takeoff_duration_check_report.validation = (
+            second_frame - first_frame
+        ) == int(
+            FRAME_PARAMETER.absolute_fps * TAKEOFF_PARAMETER.takeoff_duration_second
+        )
+        takeoff_check_report.takeoff_xyz_check_report.validation = (
+            first_position[0] == second_position[0]
+            and first_position[1] == second_position[1]
+            and TAKEOFF_PARAMETER.takeoff_altitude_meter + first_position[2]
+            == second_position[2]
+        )
+
+    takeoff_check_report.update()
+
+
+def apply_drone_user_check_procedure(
+    drone_user: DroneUser,
+    drone_user_check_report: DroneUserCheckReport,
+) -> None:
+    apply_drone_user_frame_coherence_check(
+        drone_user, drone_user_check_report.frame_coherence_check_report
+    )
+    apply_takeoff_check(drone_user, drone_user_check_report.takeoff_check_report)
 
 
 def apply_show_user_check_procedure(
