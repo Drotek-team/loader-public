@@ -83,7 +83,7 @@ def decode_drone(
     drone_index: int,
     drone_decoding_report: DroneDecodingReport,
 ) -> DronePx4:
-    drone = DronePx4(drone_index)
+    drone_px4 = DronePx4(drone_index)
     byte_array = bytearray(binary)
     header, section_headers = get_header_section_header(
         byte_array, drone_decoding_report.header_format_report
@@ -102,9 +102,9 @@ def decode_drone(
     drone_decoding_report.update()
     for section_header in section_headers:
         decode_events(
-            drone.get_events_by_index(section_header.event_id),
+            drone_px4.get_events_by_index(section_header.event_id),
             byte_array[
                 section_header.byte_array_start_index : section_header.byte_array_end_index
             ],
         )
-    return drone
+    return drone_px4

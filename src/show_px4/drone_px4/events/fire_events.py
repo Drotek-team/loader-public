@@ -9,7 +9,7 @@ from .events import Event, Events
 class FireEvent(Event):
     frame: int  # time frame associate to the "fps_px4" parameter
     chanel: int  # chanel of the fire event
-    duration: int  # duration of the fire event
+    duration: int  # duration of the fire event in timecode
 
     @property
     def chanel_duration(self) -> Tuple[int, int]:
