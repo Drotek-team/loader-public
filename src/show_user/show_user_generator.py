@@ -1,6 +1,7 @@
 import json
 from typing import Dict
 
+from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from .show_user import DroneUser, PositionEventUser, ShowUser
 
 
@@ -18,7 +19,7 @@ def get_valid_show_user(
             position_events=[
                 PositionEventUser(
                     position_frame=0,
-                    absolute_frame=0,
+                    absolute_time=0,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
@@ -27,7 +28,9 @@ def get_valid_show_user(
                 ),
                 PositionEventUser(
                     position_frame=40,
-                    absolute_frame=240,
+                    absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
+                        40
+                    ),
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
@@ -36,7 +39,9 @@ def get_valid_show_user(
                 ),
                 PositionEventUser(
                     position_frame=40 + show_duration_frame,
-                    absolute_frame=240 + 4 * show_duration_frame,
+                    absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
+                        40 + show_duration_frame
+                    ),
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),

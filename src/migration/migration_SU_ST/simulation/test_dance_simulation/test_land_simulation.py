@@ -18,7 +18,7 @@ def valid_position_event_user_first_case() -> PositionEventUser:
     POSITION_Y = 5.69
     return PositionEventUser(
         position_frame=FRAME_START,
-        absolute_frame=FRAME_PARAMETER.from_position_frame_to_json_frame(FRAME_START),
+        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
         xyz=(
             POSITION_X,
             POSITION_Y,
@@ -35,7 +35,7 @@ def valid_position_event_user_second_case() -> PositionEventUser:
     POSITION_Y = 5.69
     return PositionEventUser(
         position_frame=FRAME_START,
-        absolute_frame=FRAME_PARAMETER.from_position_frame_to_json_frame(FRAME_START),
+        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
         xyz=(
             POSITION_X,
             POSITION_Y,

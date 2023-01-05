@@ -10,9 +10,9 @@ from ....show_px4.drone_px4.events.position_events import PositionEvents
 from .events_format_check_report import (
     FireChanelCheckReport,
     FireDurationCheckReport,
-    FireTimecodeCheckReport,
+    FireFrameCheckReport,
+    FrameCheckReport,
     RgbwCheckReport,
-    TimecodeCheckReport,
     XyzCheckReport,
 )
 
@@ -65,7 +65,7 @@ def check_increasing_frame(frames: List[int]) -> bool:
 
 def position_frame_check(
     position_events: PositionEvents,
-    frame_check_report: TimecodeCheckReport,
+    frame_check_report: FrameCheckReport,
 ) -> None:
     frames = [event.frame for event in position_events.events]
     frame_check_report.frame_format_check_report.validation = (
@@ -73,15 +73,12 @@ def position_frame_check(
     )
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
-    )
-    frame_check_report.frame_rate_check_report.validation = check_frame_rate(
-        frames, FRAME_PARAMETER.position_fps, FRAME_PARAMETER.absolute_fps
     )
     frame_check_report.increasing_frame_check_report.validation = (
         check_increasing_frame(frames)
@@ -91,7 +88,7 @@ def position_frame_check(
 
 def color_frame_check(
     color_events: ColorEvents,
-    frame_check_report: TimecodeCheckReport,
+    frame_check_report: FrameCheckReport,
 ) -> None:
     frames = [event.frame for event in color_events.events]
     frame_check_report.frame_format_check_report.validation = (
@@ -99,17 +96,12 @@ def color_frame_check(
     )
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
-    )
-    frame_check_report.frame_rate_check_report.validation = check_frame_rate(
-        frames,
-        FRAME_PARAMETER.color_fps,
-        FRAME_PARAMETER.absolute_fps,
     )
     frame_check_report.increasing_frame_check_report.validation = (
         check_increasing_frame(frames)
@@ -152,7 +144,7 @@ def rgbw_check(
 
 def fire_frame_check(
     fire_events: FireEvents,
-    fire_events_frame_check_report: FireTimecodeCheckReport,
+    fire_events_frame_check_report: FireFrameCheckReport,
 ) -> None:
     frames = [event.frame for event in fire_events.events]
     fire_events_frame_check_report.frame_format_check_report.validation = (
@@ -161,10 +153,10 @@ def fire_frame_check(
     fire_events_frame_check_report.frame_value_check_report.validation = (
         check_int_size_list(
             frames,
-            FRAME_PARAMETER.from_second_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_position_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             ),
-            FRAME_PARAMETER.from_second_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_position_frame(
                 JSON_BINARY_PARAMETER.show_duration_max_second
             ),
         )

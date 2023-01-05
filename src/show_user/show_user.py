@@ -9,19 +9,19 @@ from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAM
 
 class PositionEventUser(BaseModel):
     position_frame: int  # 4 frame per second
-    absolute_frame: int  # 24 frame per second
+    absolute_time: float  # second
     xyz: Tuple[float, float, float]  # ENU and meter
 
 
 class ColorEventUser(BaseModel):
     color_frame: int  # 24 frame per second
-    absolute_frame: int  # 24 frame per second
+    absolute_time: float  # second
     rgbw: Tuple[float, float, float, float]  # between 0 and 1
 
 
 class FireEventUser(BaseModel):
     fire_frame: int  # 24 frame per second
-    absolute_frame: int  # 24 frame per second
+    absolute_time: float  # second
     chanel: float  # Chanel of the drone
     duration: float  # Duration of the event
 
@@ -50,8 +50,8 @@ class DroneUser(BaseModel):
     def get_position_frame_by_index(self, index: int) -> int:
         return self.position_events[index].position_frame
 
-    def get_absolute_frame_by_index(self, index: int) -> int:
-        return self.position_events[index].absolute_frame
+    def get_absolute_time_by_index(self, index: int) -> float:
+        return self.position_events[index].absolute_time
 
     def get_xyz_simulation_by_index(self, index: int) -> Tuple[float, float, float]:
         return self.position_events[index].xyz

@@ -8,18 +8,18 @@ from ...report import Contenor, Displayer
 @dataclass(frozen=True)
 class IncoherenceRelativeAbsoluteFrame(Displayer):
     relative_frame: int
-    absolute_frame: int
+    absolute_time: float
     event_name: int
     event_ratio: int
 
     def get_report(self) -> str:
-        return f"The relative frame {self.relative_frame} and the absolute frame {self.absolute_frame} do not respect the ratio {self.event_ratio} of the event {self.event_name}"
+        return f"The relative frame {self.relative_frame} and the absolute frame {self.absolute_time} do not respect the ratio {self.event_ratio} of the event {self.event_name}"
 
 
 class FrameCoherenceCheckReport(Contenor):
     def __init__(self):
         self.name = "Frame Coherence Check Report"
-        self.incoherence_relative_absolute_frame: List[IncoherenceRelativeAbsoluteFrame]
+        self.incoherence_relative_absolute_time: List[IncoherenceRelativeAbsoluteFrame]
 
 
 class TakeoffDurationCheckReport(Displayer):

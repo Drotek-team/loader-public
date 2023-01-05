@@ -2,40 +2,38 @@ from ....report import Contenor, Displayer
 
 
 # TO DO: clean this typing thing
-class TimecodeFormatCheckReport(Displayer):
+class FrameFormatCheckReport(Displayer):
     def get_report(self) -> str:
-        return "Timecode Format Check Report"
+        return "Frame Format Check Report"
 
 
-class TimecodeValueCheckReport(Displayer):
+class FrameValueCheckReport(Displayer):
     def get_report(self) -> str:
-        return "Timecode Vakue Check Report"
+        return "Frame Vakue Check Report"
 
 
-class IncreasingTimecodeCheckReport(Displayer):
+class IncreasingFrameCheckReport(Displayer):
     def get_report(self) -> str:
-        return "Increasing Timecode Check Report"
+        return "Increasing Frame Check Report"
 
 
-class TimecodeRateCheckReport(Displayer):
+class FrameRateCheckReport(Displayer):
     def get_report(self) -> str:
-        return "Timecode Rate Check Report"
+        return "Frame Rate Check Report"
 
 
-class TimecodeCheckReport(Contenor):
+class FrameCheckReport(Contenor):
     def __init__(self):
-        self.name = "Timecode Check Report"
-        self.frame_format_check_report = TimecodeFormatCheckReport()
-        self.frame_value_check_report = TimecodeValueCheckReport()
-        self.increasing_frame_check_report = IncreasingTimecodeCheckReport()
-        self.frame_rate_check_report = TimecodeRateCheckReport()
+        self.name = "Frame Check Report"
+        self.frame_format_check_report = FrameFormatCheckReport()
+        self.frame_value_check_report = FrameValueCheckReport()
+        self.increasing_frame_check_report = IncreasingFrameCheckReport()
 
     def update(self) -> None:
         self.validation = (
             self.frame_format_check_report.validation
             and self.frame_value_check_report.validation
             and self.increasing_frame_check_report.validation
-            and self.frame_rate_check_report.validation
         )
 
 
@@ -65,7 +63,7 @@ class XyzCheckReport(Contenor):
 class PositionEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Position Events Check Report"
-        self.frame_check_report = TimecodeCheckReport()
+        self.frame_check_report = FrameCheckReport()
         self.xyz_check_report = XyzCheckReport()
 
     def update(self) -> None:
@@ -100,19 +98,19 @@ class RgbwCheckReport(Contenor):
 class ColorEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Color Events Check Report"
-        self.frame_check_report = TimecodeCheckReport()
+        self.frame_check_report = FrameCheckReport()
         self.rgbw_check_report = RgbwCheckReport()
 
     def update(self) -> None:
         self.validation = self.frame_check_report.validation and self.rgbw_check_report
 
 
-class FireTimecodeCheckReport(Contenor):
+class FireFrameCheckReport(Contenor):
     def __init__(self):
-        self.name = "Fire Timecode Check Report"
-        self.frame_format_check_report = TimecodeFormatCheckReport()
-        self.frame_value_check_report = TimecodeValueCheckReport()
-        self.increasing_frame_check_report = IncreasingTimecodeCheckReport()
+        self.name = "Fire Frame Check Report"
+        self.frame_format_check_report = FrameFormatCheckReport()
+        self.frame_value_check_report = FrameValueCheckReport()
+        self.increasing_frame_check_report = IncreasingFrameCheckReport()
 
     def update(self) -> None:
         self.validation = (
@@ -176,7 +174,7 @@ class FireDurationCheckReport(Contenor):
 class FireEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Events Check Report"
-        self.fire_frame_check_report = FireTimecodeCheckReport()
+        self.fire_frame_check_report = FireFrameCheckReport()
         self.fire_chanel_check_report = FireChanelCheckReport()
         self.fire_duration_check_report = FireDurationCheckReport()
 

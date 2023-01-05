@@ -96,7 +96,7 @@ METRICS_RANGE: Dict[Metric, MetricRange] = {
 
 
 def performance_evaluation(
-    absolute_frame: int,
+    absolute_time: float,
     position: np.ndarray,
     velocity: np.ndarray,
     acceleration: np.ndarray,
@@ -110,7 +110,7 @@ def performance_evaluation(
         ):
             drone_trajectory_performance_check_report.performance_infractions.append(
                 PerformanceInfraction(
-                    absolute_frame,
+                    absolute_time,
                     metric.value,
                     METRICS_EVALUATION[metric](position, velocity, acceleration),
                     METRICS_RANGE[metric].min_value,

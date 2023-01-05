@@ -29,7 +29,7 @@ def valid_show_trajectory_performance() -> ShowTrajectoryPerformance:
         [
             PositionEventUser(0, (0.0, 0.0, 0.0)),
             PositionEventUser(
-                FRAME_PARAMETER.from_second_to_position_frame(
+                FRAME_PARAMETER.from_absolute_time_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 (
@@ -39,7 +39,7 @@ def valid_show_trajectory_performance() -> ShowTrajectoryPerformance:
                 ),
             ),
             PositionEventUser(
-                FRAME_PARAMETER.from_second_to_position_frame(
+                FRAME_PARAMETER.from_absolute_time_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -78,7 +78,7 @@ def invalid_show_trajectory_performance_horizontal_velocity() -> ShowTrajectoryP
         [
             PositionEventUser(0, (0.0, 0.0, 0.0)),
             PositionEventUser(
-                FRAME_PARAMETER.from_second_to_position_frame(
+                FRAME_PARAMETER.from_absolute_time_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 (
@@ -88,7 +88,7 @@ def invalid_show_trajectory_performance_horizontal_velocity() -> ShowTrajectoryP
                 ),
             ),
             PositionEventUser(
-                FRAME_PARAMETER.from_second_to_position_frame(
+                FRAME_PARAMETER.from_absolute_time_to_position_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,

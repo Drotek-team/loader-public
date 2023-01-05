@@ -13,26 +13,30 @@ def apply_drone_user_frame_coherence_check(
     # Fuck it just separate the three in the architecture, really not worth it
     for position_event in drone_user.position_events:
         if (
-            position_event.absolute_frame
-            != position_event.position_frame * FRAME_PARAMETER.position_fps
+            position_event.absolute_time
+            != FRAME_PARAMETER.from_position_frame_to_absolute_time(
+                position_event.position_frame
+            )
         ):
-            frame_coherence_check_report.incoherence_relative_absolute_frame.append(
+            frame_coherence_check_report.incoherence_relative_absolute_time.append(
                 IncoherenceRelativeAbsoluteFrame(
                     position_event.position_frame,
-                    position_event.absolute_frame,
+                    position_event.absolute_time,
                     "position_event",
                     FRAME_PARAMETER.position_fps,
                 )
             )
     for color_event in drone_user.color_events:
         if (
-            color_event.absolute_frame
-            != color_event.color_frame * FRAME_PARAMETER.color_fps
+            color_event.absolute_time
+            != FRAME_PARAMETER.from_color_frame_to_absolute_time(
+                color_event.color_frame
+            )
         ):
-            frame_coherence_check_report.incoherence_relative_absolute_frame.append(
+            frame_coherence_check_report.incoherence_relative_absolute_time.append(
                 IncoherenceRelativeAbsoluteFrame(
                     color_event.color_frame,
-                    color_event.absolute_frame,
+                    color_event.absolute_time,
                     "color_event",
                     FRAME_PARAMETER.color_fps,
                 )
@@ -40,13 +44,13 @@ def apply_drone_user_frame_coherence_check(
 
     for fire_event in drone_user.fire_events:
         if (
-            fire_event.absolute_frame
-            != fire_event.fire_frame * FRAME_PARAMETER.fire_fps
+            fire_event.absolute_time
+            != FRAME_PARAMETER.from_fire_frame_to_absolute_time(fire_event.fire_frame)
         ):
-            frame_coherence_check_report.incoherence_relative_absolute_frame.append(
+            frame_coherence_check_report.incoherence_relative_absolute_time.append(
                 IncoherenceRelativeAbsoluteFrame(
                     fire_event.fire_frame,
-                    fire_event.absolute_frame,
+                    fire_event.absolute_time,
                     "fire_event",
                     FRAME_PARAMETER.fire_fps,
                 )
@@ -57,11 +61,13 @@ def apply_takeoff_check(
     drone_user: DroneUser,
     takeoff_check_report: TakeoffCheckReport,
 ) -> None:
+    # TO DO: test this case
     if drone_user.nb_position_events == 0:
         takeoff_check_report.takeoff_duration_check_report.validation = False
         takeoff_check_report.takeoff_xyz_check_report.validation = False
+    # TO DO: test this case
     if drone_user.nb_position_events == 1:
-        first_frame = drone_user.get_frame_by_index(0)
+        first_frame = drone_user.get_position_frame_by_index(0)
         first_position = drone_user.get_xyz_simulation_by_index(0)
 
         takeoff_check_report.takeoff_duration_check_report.validation = (
@@ -71,15 +77,13 @@ def apply_takeoff_check(
             first_position[2] == 0
         )
     if drone_user.nb_position_events > 1:
-        first_frame = drone_user.get_absolute_frame_by_index(0)
-        second_frame = drone_user.get_absolute_frame_by_index(1)
+        first_time = drone_user.get_absolute_time_by_index(0)
+        second_time = drone_user.get_absolute_time_by_index(1)
         first_position = drone_user.get_xyz_simulation_by_index(0)
         second_position = drone_user.get_xyz_simulation_by_index(1)
         takeoff_check_report.takeoff_duration_check_report.validation = (
-            second_frame - first_frame
-        ) == int(
-            FRAME_PARAMETER.absolute_fps * TAKEOFF_PARAMETER.takeoff_duration_second
-        )
+            second_time - first_time
+        ) == TAKEOFF_PARAMETER.takeoff_duration_second
         takeoff_check_report.takeoff_xyz_check_report.validation = (
             first_position[0] == second_position[0]
             and first_position[1] == second_position[1]

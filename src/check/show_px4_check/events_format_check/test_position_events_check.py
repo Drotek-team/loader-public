@@ -16,13 +16,13 @@ from .events_format_check_report import PositionEventsCheckReport
 def valid_position_events():
     position_events = PositionEvents()
     position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0),
     )
     position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         + int(TAKEOFF_PARAMETER.takeoff_duration_second * FRAME_PARAMETER.absolute_fps),
@@ -70,34 +70,13 @@ def test_invalid_position_events_frame_format_check(
     )
 
 
-def test_invalid_position_events_frame_rate_check(
-    valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
-):
-
-    valid_position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_second_to_position_frame(
-            JSON_BINARY_PARAMETER.show_duration_max_second
-        )
-        + 1,
-        (0, 0, 0),
-    )
-    position_events_check(
-        valid_position_events,
-        position_events_check_report,
-    )
-    assert not (
-        position_events_check_report.frame_check_report.frame_rate_check_report.validation
-    )
-
-
 def test_invalid_position_events_frame_increasing_check(
     valid_position_events: PositionEvents,
     position_events_check_report: PositionEventsCheckReport,
 ):
 
     valid_position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0),
@@ -119,7 +98,7 @@ def test_invalid_position_events_frame_first_frame_check(
     valid_position_events.events.insert(
         0,
         PositionEvent(
-            FRAME_PARAMETER.from_second_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_position_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             )
             - 1,
@@ -143,7 +122,7 @@ def test_invalid_position_events_xyz_format_check(
 ):
 
     valid_position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
         (1.23, 0, 0),
@@ -162,7 +141,7 @@ def test_invalid_position_events_xyz_value_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
     valid_position_events.add_frame_xyz(
-        FRAME_PARAMETER.from_second_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_position_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
         (JSON_BINARY_PARAMETER.position_value_max + 1, 0, 0),

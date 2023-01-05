@@ -13,16 +13,13 @@ from .SU_to_STP_procedure import SU_to_STP_procedure
 def valid_show_user() -> ShowUser:
     drone_user = DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_frame=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
                 position_frame=int(
                     FRAME_PARAMETER.position_fps
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_frame=int(
-                    FRAME_PARAMETER.absolute_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
+                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
             ),
             PositionEventUser(
@@ -31,11 +28,7 @@ def valid_show_user() -> ShowUser:
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
-                absolute_frame=int(
-                    FRAME_PARAMETER.absolute_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 4,
+                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second + 4,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
             ),
         ],
@@ -58,7 +51,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
     )
     assert (
         first_trajectory_performance.frame
-        == FRAME_PARAMETER.from_second_to_position_frame(
+        == FRAME_PARAMETER.from_absolute_time_to_position_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
     )
@@ -75,7 +68,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
 
     assert (
         second_trajectory_performance.frame
-        == FRAME_PARAMETER.from_second_to_position_frame(
+        == FRAME_PARAMETER.from_absolute_time_to_position_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
         + 1

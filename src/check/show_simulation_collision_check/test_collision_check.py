@@ -21,16 +21,13 @@ ROUNDING_ERROR = 0.04
 def get_show_simulation(distance_between_drones: float) -> ShowSimulation:
     first_drone_user = DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_frame=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
                 position_frame=int(
                     FRAME_PARAMETER.position_fps
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_frame=int(
-                    FRAME_PARAMETER.absolute_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
+                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
             ),
         ],
@@ -41,7 +38,7 @@ def get_show_simulation(distance_between_drones: float) -> ShowSimulation:
         position_events=[
             PositionEventUser(
                 position_frame=0,
-                absolute_frame=0,
+                absolute_time=0,
                 xyz=(distance_between_drones, 0.0, 0.0),
             ),
             PositionEventUser(
@@ -49,10 +46,7 @@ def get_show_simulation(distance_between_drones: float) -> ShowSimulation:
                     FRAME_PARAMETER.position_fps
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_frame=int(
-                    FRAME_PARAMETER.absolute_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
+                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(
                     distance_between_drones,
                     0.0,

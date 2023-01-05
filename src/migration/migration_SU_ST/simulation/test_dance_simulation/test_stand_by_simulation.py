@@ -16,11 +16,11 @@ def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
     POSITION = (0.0, 0.0, 10.0)
     return PositionEventUser(
         position_frame=FRAME_START,
-        absolute_frame=FRAME_PARAMETER.from_position_frame_to_json_frame(FRAME_START),
+        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
         xyz=POSITION,
     ), PositionEventUser(
         position_frame=FRAME_END,
-        absolute_frame=FRAME_PARAMETER.from_position_frame_to_json_frame(FRAME_END),
+        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_END),
         xyz=POSITION,
     )
 
