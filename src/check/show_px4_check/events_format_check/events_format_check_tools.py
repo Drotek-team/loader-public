@@ -105,7 +105,6 @@ def color_frame_check(
     frame_check_report.update()
 
 
-# TO DO: clean this typing thing
 def xyz_check(
     position_events: PositionEvents,
     xyz_check_report: XyzCheckReport,

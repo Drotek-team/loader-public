@@ -11,10 +11,9 @@ from .position_simulation import SimulationInfo
 from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
 
+
 # TO DO: Hard to step unitarly, best way might be an input/ouput approch
 # Do it, This border effect must be conventionnized
-
-
 def flight_simulation(
     drone_user: DroneUser,
     last_frame: int,
