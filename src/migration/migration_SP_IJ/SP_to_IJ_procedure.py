@@ -1,12 +1,10 @@
 from typing import Dict, List
 
-from ...iostar_json.iostar_json import IostarJson
-from ...iostar_json_gcs.iostar_json_gcs import IostarJsonGCS
+from ...iostar_json.iostar_json_gcs import IostarJson
 from ...show_px4.drone_px4.drone_px4 import DronePx4
-from ..migration_IJ_SP.IJ_to_SP_procedure import IJ_to_SP_procedure
-from ..migration_IJ_SP.IJ_to_SP_report import IJ_to_SP_report
-from ..migration_IJ_SP.migration_DP_binary.drone_encoding_procedure import encode_drone
-from .migration_SC.DP_to_SC_procedure import DP_to_SC_procedure
+from ...show_px4.show_px4 import ShowPx4
+from .migration_DP_binary.drone_encoding_procedure import encode_drone
+from .migration_DP_SC.DP_to_SC_procedure import DP_to_SC_procedure
 
 
 def get_family_dict_from_show_px4(
@@ -25,13 +23,9 @@ def get_family_dict_from_show_px4(
 
 
 # TO DO: test this thing REALLY well
-def IJ_to_IJG_procedure(iostar_json: IostarJson) -> IostarJsonGCS:
-    show_px4 = IJ_to_SP_procedure(
-        iostar_json,
-        IJ_to_SP_report(),
-    )
+def SP_to_IJ_procedure(show_px4: ShowPx4) -> IostarJson:
     show_configuration = DP_to_SC_procedure(show_px4)
-    return IostarJsonGCS(
+    return IostarJson(
         **{
             "show": {
                 "families": [

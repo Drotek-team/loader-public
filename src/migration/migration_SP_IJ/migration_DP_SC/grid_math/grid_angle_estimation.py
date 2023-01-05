@@ -13,11 +13,14 @@ def get_first_row_extremes(
     extreme_horizontal_positions = list(grid.horizontal_x_extremes) + list(
         grid.horizontal_y_extremes
     )
-    sored_extreme_horizontal_positions = sorted(
+    sorted_extreme_horizontal_positions = sorted(
         extreme_horizontal_positions,
         key=lambda extreme_horizontal_position: extreme_horizontal_position.drone_index,
     )
-    return sored_extreme_horizontal_positions[0], sored_extreme_horizontal_positions[1]
+    return (
+        sorted_extreme_horizontal_positions[0],
+        sorted_extreme_horizontal_positions[1],
+    )
 
 
 def get_angle_degree_from_vector(u_x: np.ndarray) -> int:

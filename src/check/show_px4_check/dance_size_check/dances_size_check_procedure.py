@@ -1,4 +1,4 @@
-from ....migration.migration_IJ_SP.migration_DP_binary.drone_encoding_procedure import (
+from ....migration.migration_SP_IJ.migration_DP_binary.drone_encoding_procedure import (
     encode_drone,
 )
 from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
