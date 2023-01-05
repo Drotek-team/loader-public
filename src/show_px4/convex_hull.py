@@ -44,7 +44,7 @@ def calculate_convex_hull(
     positions_tuple: List[Tuple[int, int]]
 ) -> List[Tuple[int, int]]:
     """Graham scan implementation"""
-    # TO DO: Just make an object with (index,tuple,array) you dummy
+    # IMPROVE: make an object with (index,tuple,array)
     positions_array = tuple_list_to_array_list(positions_tuple)
 
     # Begin Algorithm #
