@@ -1,7 +1,6 @@
 from ....report import Contenor, Displayer
 
 
-# TO DO: clean this typing thing
 class FrameFormatCheckReport(Displayer):
     def get_report(self) -> str:
         return "Frame Format Check Report"

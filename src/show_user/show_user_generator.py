@@ -2,6 +2,9 @@ import json
 from typing import Dict
 
 from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ..parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+    TAKEOFF_PARAMETER,
+)
 from .show_user import DroneUser, PositionEventUser, ShowUser
 
 
@@ -11,9 +14,8 @@ def get_valid_show_user(
     nb_drone_per_family: int,
     step_takeoff: float,
     angle_takeoff: int,
-    show_duration_frame: int,
+    show_duration_absolute_time: float,
 ) -> Dict:
-    # TO DO: a lot of arbitrary values here, just take the value from "parameter.py"
     valid_drones_user = [
         DroneUser(
             position_events=[
@@ -27,10 +29,10 @@ def get_valid_show_user(
                     ],
                 ),
                 PositionEventUser(
-                    position_frame=40,
-                    absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
-                        40
+                    position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                        TAKEOFF_PARAMETER.takeoff_duration_second
                     ),
+                    absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
@@ -38,10 +40,16 @@ def get_valid_show_user(
                     ],
                 ),
                 PositionEventUser(
-                    position_frame=40 + show_duration_frame,
-                    absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
-                        40 + show_duration_frame
+                    position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                        TAKEOFF_PARAMETER.takeoff_duration_second
+                    )
+                    + FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                        show_duration_absolute_time
                     ),
+                    absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
+                        40
+                    )
+                    + show_duration_absolute_time,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
@@ -57,5 +65,4 @@ def get_valid_show_user(
         for _ in range(nb_drone_per_family)
     ]
     valid_show_user = ShowUser(drones_user=valid_drones_user)
-
     return dict(json.loads(valid_show_user.get_json()))

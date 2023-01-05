@@ -5,6 +5,7 @@ from .drone_px4.drone_px4 import DronePx4
 from .drone_px4.events_size_easing import EventsSizeEasing, apply_dance_size_relief
 
 
+# TO DO make this a list of drones type
 class ShowPx4:
     def __init__(self, drones: List[DronePx4]):
         self.drones = drones

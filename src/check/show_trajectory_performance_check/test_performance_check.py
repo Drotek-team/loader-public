@@ -107,7 +107,6 @@ def invalid_show_trajectory_performance_horizontal_velocity() -> ShowTrajectoryP
     )
 
 
-# TO DO: validate the model with Raphael
 # def test_invalid_show_trajectory_performance_horizontal_velocity(
 #     invalid_show_trajectory_performance_horizontal_velocity: ShowTrajectoryPerformance,
 # ):
