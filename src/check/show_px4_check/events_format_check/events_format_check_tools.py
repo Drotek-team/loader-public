@@ -57,7 +57,7 @@ def position_frame_check(
     frame_check_report.increasing_frame_check_report.validation = (
         check_increasing_frame(frames)
     )
-    frame_check_report.update()
+    frame_check_report.update_contenor_validation
 
 
 def color_frame_check(
@@ -77,7 +77,7 @@ def color_frame_check(
     frame_check_report.increasing_frame_check_report.validation = (
         check_increasing_frame(frames)
     )
-    frame_check_report.update()
+    frame_check_report.update_contenor_validation
 
 
 def xyz_check(
@@ -90,7 +90,7 @@ def xyz_check(
         JSON_BINARY_PARAMETER.position_value_min,
         JSON_BINARY_PARAMETER.position_value_max,
     )
-    xyz_check_report.update()
+    xyz_check_report.update_contenor_validation
 
 
 def rgbw_check(
@@ -103,7 +103,7 @@ def rgbw_check(
         JSON_BINARY_PARAMETER.color_value_min,
         JSON_BINARY_PARAMETER.color_value_max,
     )
-    rgbw_check_report.update()
+    rgbw_check_report.update_contenor_validation
 
 
 def fire_frame_check(
@@ -122,7 +122,7 @@ def fire_frame_check(
             ),
         )
     )
-    fire_events_frame_check_report.update()
+    fire_events_frame_check_report.update_contenor_validation
 
 
 def check_chanel_unicity(chanels: List[int]) -> bool:
@@ -144,7 +144,7 @@ def fire_chanel_check(
     fire_events_chanel_check_report.fire_chanel_unicty_check_report.validation = (
         check_chanel_unicity(chanels)
     )
-    fire_events_chanel_check_report.update()
+    fire_events_chanel_check_report.update_contenor_validation
 
 
 def fire_duration_frame_check(
@@ -159,4 +159,4 @@ def fire_duration_frame_check(
             JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
         )
     )
-    fire_events_chanel_check_report.update()
+    fire_events_chanel_check_report.update_contenor_validation

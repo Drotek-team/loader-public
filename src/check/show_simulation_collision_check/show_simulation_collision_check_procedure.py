@@ -29,9 +29,8 @@ def apply_show_simulation_collision_check_procedure(
             True,
             IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
         )
-
         collision_slice_check_report.collision_infractions += (
             on_ground_collision_infractions + in_air_collision_infractions
         )
-        collision_slice_check_report.update()
-    collision_check_report.update()
+        collision_slice_check_report.update_contenor_validation
+    collision_check_report.update_contenor_validation

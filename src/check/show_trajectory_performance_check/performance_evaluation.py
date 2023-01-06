@@ -8,10 +8,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from .show_trajectory_performance_check_report import (
-    DroneTrajectoryPerformanceCheckReport,
-    PerformanceInfraction,
-)
+from .show_trajectory_performance_check_report import *
 
 
 @dataclass(frozen=True)
@@ -100,7 +97,7 @@ def performance_evaluation(
     position: np.ndarray,
     velocity: np.ndarray,
     acceleration: np.ndarray,
-    drone_trajectory_performance_check_report: DroneTrajectoryPerformanceCheckReport,
+    drone_trajectory_performance_check: Displayer,
 ) -> None:
     for metric in Metric:
         if not (
@@ -108,12 +105,10 @@ def performance_evaluation(
                 METRICS_EVALUATION[metric](position, velocity, acceleration)
             )
         ):
-            drone_trajectory_performance_check_report.performance_infractions.append(
-                PerformanceInfraction(
-                    absolute_time,
-                    metric.value,
-                    METRICS_EVALUATION[metric](position, velocity, acceleration),
-                    METRICS_RANGE[metric].min_value,
-                    METRICS_RANGE[metric].max_value,
-                )
+            drone_trajectory_performance_check.update_displayer(
+                absolute_time,
+                metric.value,
+                METRICS_EVALUATION[metric](position, velocity, acceleration),
+                METRICS_RANGE[metric].min_value,
+                METRICS_RANGE[metric].max_value,
             )

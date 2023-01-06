@@ -1,21 +1,10 @@
 from ....report import Contenor, Displayer
 
 
-class FrameValueCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Frame Value Check Report"
-
-
-class IncreasingFrameCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Increasing Frame Check Report"
-
-
 class FrameCheckReport(Contenor):
-    def __init__(self):
-        self.name = "Frame Check Report"
-        self.frame_value_check_report = FrameValueCheckReport()
-        self.increasing_frame_check_report = IncreasingFrameCheckReport()
+    name = "Frame Check Report"
+    frame_value_check_report = Displayer("Frame Value Check Report")
+    increasing_frame_check_report = Displayer("Increasing Frame Check Report")
 
     def update(self) -> None:
         self.validation = (
@@ -24,20 +13,10 @@ class FrameCheckReport(Contenor):
         )
 
 
-class XyzFormatCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Xyz Format Check Report"
-
-
-class XyzValueCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Xyz Value Check Report"
-
-
 class XyzCheckReport(Contenor):
     def __init__(self):
         self.name = "Xyz Check Report"
-        self.xyz_value_check_report = XyzValueCheckReport()
+        self.xyz_value_check_report = Displayer("Xyz Value Check Report")
 
     def update(self):
         self.validation = self.xyz_value_check_report.validation
@@ -55,20 +34,10 @@ class PositionEventsCheckReport(Contenor):
         )
 
 
-class RgbwFormatCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Rgbw Format Check Report"
-
-
-class RgbwValueCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Rgbw Value Check Report"
-
-
 class RgbwCheckReport(Contenor):
     def __init__(self):
         self.name = "Rgbw Check Report"
-        self.rgbw_value_check_report = RgbwValueCheckReport()
+        self.rgbw_value_check_report = Displayer("Rgbw Value Check Report")
 
     def update(self):
         self.validation = self.rgbw_value_check_report.validation
@@ -87,32 +56,21 @@ class ColorEventsCheckReport(Contenor):
 class FireFrameCheckReport(Contenor):
     def __init__(self):
         self.name = "Frame Check Report"
-        self.frame_value_check_report = FrameValueCheckReport()
+        self.frame_value_check_report = Displayer("Frame Value Check Report")
 
     def update(self) -> None:
         self.validation = self.frame_value_check_report.validation
 
 
-class FireChanelFormatCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Fire Chanel Format Check Report"
-
-
-class FireChanelValueCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Fire Chanel Value Check Report"
-
-
-class FireChanelUncityCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Fire Chanel Unicity Check Report"
-
-
 class FireChanelCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Chanel Check Report"
-        self.fire_chanel_value_check_report = FireChanelValueCheckReport()
-        self.fire_chanel_unicty_check_report = FireChanelUncityCheckReport()
+        self.fire_chanel_value_check_report = Displayer(
+            "Fire Chanel Value Check Report"
+        )
+        self.fire_chanel_unicty_check_report = Displayer(
+            "Fire Chanel Unicty Check Report"
+        )
 
     def update(self) -> None:
         self.validation = (
@@ -120,20 +78,12 @@ class FireChanelCheckReport(Contenor):
         )
 
 
-class FireDurationFormatCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Fire Duration Format Check Report"
-
-
-class FireDurationValueCheckReport(Displayer):
-    def get_report(self) -> str:
-        return "Fire Duration Value Check Report"
-
-
 class FireDurationCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Duration Check Report"
-        self.fire_duration_value_check_report = FireDurationValueCheckReport()
+        self.fire_duration_value_check_report = Displayer(
+            "Fire Duration Value Check Report"
+        )
 
     def update(self) -> None:
         self.validation = self.fire_duration_value_check_report.validation

@@ -53,5 +53,5 @@ def apply_all_check_from_show_user_procedure(
         show_simulation_collision_check_report,
     )
 
-    show_check_report.update()
+    show_check_report.update_contenor_validation
     return show_check_report

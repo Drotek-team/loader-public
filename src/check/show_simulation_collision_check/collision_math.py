@@ -2,7 +2,7 @@ from typing import List
 
 import numpy as np
 
-from .show_simulation_collision_check_report import CollisionInfraction
+from ...report import Displayer
 
 ARBITRARY_DICHOTOMY_THRESHOLD = 400
 
@@ -14,13 +14,22 @@ def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
     )
 
 
+def collision_infraction_message(
+    drone_index_1: int, drone_index_2: int, in_air: bool, distance: float
+) -> str:
+    return (
+        f"Collision between drone {drone_index_1} and drone {drone_index_2} "
+        + f"{'in air' if in_air else 'on ground'} with a distance of {distance}"
+    )
+
+
 # TO DO: not very clean to have two different object for indices and position, better group them in a single class
 def get_collision_infractions(
     local_drone_indices: np.ndarray,
     local_drone_positions: np.ndarray,
     in_air: bool,
     endangered_distance: float,
-) -> List[CollisionInfraction]:
+) -> List[Displayer]:
     nb_drones_local = len(local_drone_indices)
     couples_distance_matrix_indices = np.arange(nb_drones_local * nb_drones_local)
     couple_distance_matrix = get_couple_distance_matrix(local_drone_positions).reshape(
@@ -30,15 +39,19 @@ def get_collision_infractions(
         (couple_distance_matrix < endangered_distance)
     ]
     return [
-        CollisionInfraction(
-            local_drone_indices[
-                endangered_couples_distance_matrix_index // nb_drones_local
-            ],
-            local_drone_indices[
-                endangered_couples_distance_matrix_index % nb_drones_local
-            ],
-            in_air,
-            couple_distance_matrix[endangered_couples_distance_matrix_index],
+        Displayer(
+            "Collision Infraction",
+            False,
+            collision_infraction_message(
+                local_drone_indices[
+                    endangered_couples_distance_matrix_index // nb_drones_local
+                ],
+                local_drone_indices[
+                    endangered_couples_distance_matrix_index % nb_drones_local
+                ],
+                in_air,
+                couple_distance_matrix[endangered_couples_distance_matrix_index],
+            ),
         )
         for (
             endangered_couples_distance_matrix_index
@@ -81,7 +94,7 @@ def get_optimized_collision_infractions(
     local_positions_numpy: np.ndarray,
     in_air: bool,
     endangered_distance: float,
-) -> List[CollisionInfraction]:
+) -> List[Displayer]:
     nb_drones_local = len(local_indices)
     half_nb_drones_local = len(local_indices) // 2
     if nb_drones_local < ARBITRARY_DICHOTOMY_THRESHOLD:

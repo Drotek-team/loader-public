@@ -1,12 +1,6 @@
 import numpy as np
 
-from .collision_math import (
-    get_border_indices,
-    get_optimized_collision_infractions,
-    get_principal_axis,
-    get_unique_list_from_list,
-)
-from .show_simulation_collision_check_report import CollisionInfraction
+from .collision_math import *
 
 
 def get_grid(nb_x: int, nb_y: int) -> np.ndarray:
@@ -41,21 +35,22 @@ def test_get_border_indices():
 
 
 def test_get_unique_list_from_list_unique():
-    collision_infraction_1 = CollisionInfraction(0, 1, True, 1.0)
-    collision_infraction_2 = CollisionInfraction(0, 2, True, 1.0)
-    # raise ValueError()
-    assert get_unique_list_from_list(
-        [collision_infraction_1, collision_infraction_2]
-    ) == [collision_infraction_1, collision_infraction_2]
+    collision_infraction_1 = Displayer("collision_infraction_1", False, "message_1")
+    collision_infraction_2 = Displayer("collision_infraction_2", False, "message_2")
+    assert (
+        len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2]))
+        == 2
+    )
 
 
 def test_get_unique_list_from_list_non_unique():
-    collision_infraction_1 = CollisionInfraction(0, 1, True, 1.0)
-    collision_infraction_2 = CollisionInfraction(0, 1, True, 1.0)
+    collision_infraction_1 = Displayer("collision_infraction_1", False, "message_1")
+    collision_infraction_2 = Displayer("collision_infraction_1", False, "message_1")
     # raise ValueError()
-    assert get_unique_list_from_list(
-        [collision_infraction_1, collision_infraction_2]
-    ) == [collision_infraction_1]
+    assert (
+        len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2]))
+        == 1
+    )
 
 
 # TO DO: finished the test

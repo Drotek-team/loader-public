@@ -89,7 +89,7 @@ def apply_takeoff_check(
             == second_position[2]
         )
 
-    takeoff_check_report.update()
+    takeoff_check_report.update_contenor_validation
 
 
 def apply_drone_user_check_procedure(

@@ -1,17 +1,17 @@
+from ...report import Displayer
 from ...show_trajectory_performance.show_trajectory_performance import (
     DroneTrajectoryPerformance,
     ShowTrajectoryPerformance,
 )
 from .performance_evaluation import performance_evaluation
 from .show_trajectory_performance_check_report import (
-    DroneTrajectoryPerformanceCheckReport,
     ShowTrajectoryPerformanceCheckReport,
 )
 
 
 def apply_drone_trajectory_performance_check_procedure(
     drone_trajectory_performance: DroneTrajectoryPerformance,
-    drone_trajectory_performance_check_report: DroneTrajectoryPerformanceCheckReport,
+    drone_trajectory_performance_check_report: Displayer,
 ) -> None:
     for (
         trajectory_performance_info
@@ -36,5 +36,5 @@ def apply_show_trajectory_performance_check_procedure(
         apply_drone_trajectory_performance_check_procedure(
             drone_trajectory_performance, drone_trajectory_performance_check_report
         )
-        drone_trajectory_performance_check_report.update()
-    show_trajectory_performance_check_report.update()
+        drone_trajectory_performance_check_report.update_contenor_validation
+    show_trajectory_performance_check_report.update_contenor_validation

@@ -1,17 +1,54 @@
-from abc import abstractclassmethod
+from dataclasses import dataclass
+from typing import List
 
 
+@dataclass
 class Displayer:
+    name: str
     validation: bool = False
+    annexe_message: str = ""
 
-    @abstractclassmethod
+    def __hash__(self) -> int:
+        return hash((self.name, self.annexe_message))
+
+    def __eq__(self, __o: "Displayer") -> bool:
+        return self.name == __o.name and self.annexe_message == __o.annexe_message
+
+    def update_displayer(self, validation: bool, annexe_message: str) -> None:
+        self.validation = validation
+        self.annexe_message = annexe_message
+
+    @property
     def get_report(self) -> str:
-        pass
+        return self.name
 
 
 class Contenor:
     validation: bool = False
     name: str
+
+    @property
+    def update_contenor_validation(self) -> None:
+        displayer_validation = all(
+            displayer.validation
+            for displayer in self.__dict__.values()
+            if isinstance(displayer, Displayer)
+        )
+        contenor__validation = all(
+            contenor.validation
+            for contenor in self.__dict__.values()
+            if isinstance(contenor, Contenor)
+        )
+        displayer_list_validation = all(
+            displayer.validation
+            for displayer_list in self.__dict__.values()
+            if isinstance(displayer_list, List)
+            for displayer in displayer_list
+            if isinstance(displayer, Displayer)
+        )
+        self.validation = (
+            displayer_validation and contenor__validation and displayer_list_validation
+        )
 
     @staticmethod
     def displayer_formater(
