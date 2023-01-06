@@ -7,26 +7,7 @@ from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
 from ....show_px4.drone_px4.events.color_events import ColorEvents
 from ....show_px4.drone_px4.events.fire_events import FireEvents
 from ....show_px4.drone_px4.events.position_events import PositionEvents
-from .events_format_check_report import (
-    FireChanelCheckReport,
-    FireDurationCheckReport,
-    FireFrameCheckReport,
-    FrameCheckReport,
-    RgbwCheckReport,
-    XyzCheckReport,
-)
-
-
-def check_is_instance_int_list(elements: List) -> bool:
-    return all(isinstance(element, int) for element in elements)
-
-
-def check_is_instance_int_list_tuple(elements: List[Tuple]) -> bool:
-    return all(
-        isinstance(element, int)
-        for element_tuple in elements
-        for element in element_tuple
-    )
+from .events_format_check_report import *
 
 
 def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
@@ -64,9 +45,6 @@ def position_frame_check(
     frame_check_report: FrameCheckReport,
 ) -> None:
     frames = [event.frame for event in position_events.events]
-    frame_check_report.frame_format_check_report.validation = (
-        check_is_instance_int_list(frames)
-    )
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
         FRAME_PARAMETER.from_absolute_time_to_position_frame(
@@ -87,9 +65,6 @@ def color_frame_check(
     frame_check_report: FrameCheckReport,
 ) -> None:
     frames = [event.frame for event in color_events.events]
-    frame_check_report.frame_format_check_report.validation = (
-        check_is_instance_int_list(frames)
-    )
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
         FRAME_PARAMETER.from_absolute_time_to_position_frame(
@@ -110,9 +85,6 @@ def xyz_check(
     xyz_check_report: XyzCheckReport,
 ) -> None:
     positions = [event.xyz for event in position_events.events]
-    xyz_check_report.xyz_format_check_report.validation = (
-        check_is_instance_int_list_tuple(positions)
-    )
     xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
         positions,
         JSON_BINARY_PARAMETER.position_value_min,
@@ -126,9 +98,6 @@ def rgbw_check(
     rgbw_check_report: RgbwCheckReport,
 ) -> None:
     colors = [event.rgbw for event in color_events.events]
-    rgbw_check_report.rgbw_format_check_report.validation = (
-        check_is_instance_int_list_tuple(colors)
-    )
     rgbw_check_report.rgbw_value_check_report.validation = check_int_size_list_tuple(
         colors,
         JSON_BINARY_PARAMETER.color_value_min,
@@ -139,12 +108,9 @@ def rgbw_check(
 
 def fire_frame_check(
     fire_events: FireEvents,
-    fire_events_frame_check_report: FireFrameCheckReport,
+    fire_events_frame_check_report: FrameCheckReport,
 ) -> None:
     frames = [event.frame for event in fire_events.events]
-    fire_events_frame_check_report.frame_format_check_report.validation = (
-        check_is_instance_int_list(frames)
-    )
     fire_events_frame_check_report.frame_value_check_report.validation = (
         check_int_size_list(
             frames,
@@ -155,9 +121,6 @@ def fire_frame_check(
                 JSON_BINARY_PARAMETER.show_duration_max_second
             ),
         )
-    )
-    fire_events_frame_check_report.increasing_frame_check_report.validation = (
-        check_increasing_frame(frames)
     )
     fire_events_frame_check_report.update()
 
@@ -171,9 +134,6 @@ def fire_chanel_check(
     fire_events_chanel_check_report: FireChanelCheckReport,
 ) -> None:
     chanels = [event.chanel for event in fire_events.events]
-    fire_events_chanel_check_report.fire_chanel_format_check_report.validation = (
-        check_is_instance_int_list(chanels)
-    )
     fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
         check_int_size_list(
             chanels,
@@ -192,9 +152,6 @@ def fire_duration_frame_check(
     fire_events_chanel_check_report: FireDurationCheckReport,
 ) -> None:
     durations = [event.duration for event in fire_events.events]
-    fire_events_chanel_check_report.fire_duration_format_check_report.validation = (
-        check_is_instance_int_list(durations)
-    )
     fire_events_chanel_check_report.fire_duration_value_check_report.validation = (
         check_int_size_list(
             durations,

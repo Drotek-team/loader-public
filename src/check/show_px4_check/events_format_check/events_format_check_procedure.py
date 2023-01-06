@@ -2,21 +2,8 @@ from ....show_px4.drone_px4.drone_px4 import DronePx4
 from ....show_px4.drone_px4.events.color_events import ColorEvents
 from ....show_px4.drone_px4.events.fire_events import FireEvents
 from ....show_px4.drone_px4.events.position_events import PositionEvents
-from .events_format_check_report import (
-    ColorEventsCheckReport,
-    EventsFormatCheckReport,
-    FireEventsCheckReport,
-    PositionEventsCheckReport,
-)
-from .events_format_check_tools import (
-    color_frame_check,
-    fire_chanel_check,
-    fire_duration_frame_check,
-    fire_frame_check,
-    position_frame_check,
-    rgbw_check,
-    xyz_check,
-)
+from .events_format_check_report import *
+from .events_format_check_tools import *
 
 
 def position_events_check(
