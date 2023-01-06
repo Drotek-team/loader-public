@@ -23,7 +23,7 @@ def collision_infraction_message(
     )
 
 
-# TO DO: not very clean to have two different object for indices and position, better group them in a single class
+# IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_collision_infractions(
     local_drone_indices: np.ndarray,
     local_drone_positions: np.ndarray,
@@ -88,7 +88,7 @@ def get_unique_list_from_list(non_unique_list: List) -> List:
     return list(set(non_unique_list))
 
 
-# TO DO: not very clean to have two different object for indices and position, better group them in a single class
+# IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_optimized_collision_infractions(
     local_indices: np.ndarray,
     local_positions_numpy: np.ndarray,
