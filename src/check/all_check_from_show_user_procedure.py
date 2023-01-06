@@ -1,7 +1,7 @@
-from ..migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
-from ..migration.migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
 from ..migration.migration_SU_ST.SU_to_STP_procedure import SU_to_STP_procedure
 from ..show_user.show_user import ShowUser
+from .collision_check.migration.STC_to_SSC_procedure import STC_to_SS_procedure
+from .collision_check.migration.SU_to_STC_procedure import SU_to_STC_procedure
 from .collision_check.show_simulation_collision_check_procedure import (
     apply_show_simulation_collision_check_procedure,
 )

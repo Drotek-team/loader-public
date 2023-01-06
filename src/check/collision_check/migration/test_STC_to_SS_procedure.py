@@ -1,14 +1,14 @@
 import numpy as np
 import pytest
 
-from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_trajectory_collision.show_trajectory_collision import *
-from ...show_user.show_user import DroneUser, PositionEventUser, ShowUser
-from ..migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
+from ....show_trajectory_collision.show_trajectory_collision import *
+from ....show_user.show_user import DroneUser, PositionEventUser, ShowUser
 from .STC_to_SSC_procedure import STC_to_SS_procedure
+from .SU_to_STC_procedure import SU_to_STC_procedure
 
 
 @pytest.fixture

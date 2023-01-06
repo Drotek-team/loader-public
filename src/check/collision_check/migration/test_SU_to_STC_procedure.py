@@ -1,9 +1,9 @@
 import pytest
 
-from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_user.show_user import *
+from ....show_user.show_user import *
 from .SU_to_STC_procedure import *
 
 

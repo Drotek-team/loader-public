@@ -1,10 +1,10 @@
 import numpy as np
 
-from ...migration.migration_STC_SSC.STC_to_SSC_procedure import STC_to_SS_procedure
-from ...migration.migration_SU_ST.test_SU_to_STC_procedure import SU_to_STC_procedure
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...show_user.show_user import ShowUser
 from .collision_math import get_optimized_collision_infractions
+from .migration.STC_to_SSC_procedure import STC_to_SS_procedure
+from .migration.test_SU_to_STC_procedure import SU_to_STC_procedure
 from .show_simulation_collision_check_report import *
 
 

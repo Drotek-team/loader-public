@@ -1,9 +1,9 @@
 from typing import List
 
-from ...show_trajectory_collision.show_trajectory_collision import *
-from ...show_user.show_user import ShowUser
-from .simulation.flight_simulation import flight_simulation
-from .simulation.position_simulation import SimulationInfo
+from ....migration.migration_SU_ST.simulation.flight_simulation import flight_simulation
+from ....migration.migration_SU_ST.simulation.position_simulation import SimulationInfo
+from ....show_trajectory_collision.show_trajectory_collision import *
+from ....show_user.show_user import ShowUser
 
 
 def get_position_info_from_simulation_infos(
