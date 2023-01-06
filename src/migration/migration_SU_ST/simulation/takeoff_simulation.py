@@ -41,7 +41,8 @@ def generate_takeoff_second_part(
         int(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
             * FRAME_PARAMETER.position_fps
-        ),
+        )
+        - 1,
     )
 
 
@@ -54,7 +55,8 @@ def takeoff_simulation(
     ) + generate_takeoff_second_part(
         takeoff_start_position,
     )
-    return [
+    takeoff_simulation = [
         SimulationInfo(frame_begin + frame_index, takeoff_position, True, False)
         for frame_index, takeoff_position in enumerate(takeoff_positions)
     ]
+    return takeoff_simulation

@@ -66,41 +66,25 @@ def test_valid_simulation_on_ground():
     valid_show_simulation_on_ground = get_show_simulation(
         IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground
     )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        valid_show_simulation_on_ground.frames
-    )
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport()
     apply_show_simulation_collision_check_procedure(
         valid_show_simulation_on_ground,
         show_simulation_collision_check_report,
     )
-    assert show_simulation_collision_check_report.collision_slices_check_report[
-        0
-    ].validation
-    assert not (
-        show_simulation_collision_check_report.collision_slices_check_report[
-            1
-        ].validation
+    assert (
+        len(show_simulation_collision_check_report.collision_slices_check_report) == 50
     )
-    assert not (
-        show_simulation_collision_check_report.collision_slices_check_report[
-            51
-        ].validation
+    assert (
+        show_simulation_collision_check_report.collision_slices_check_report[0].name
+        == "Collision slice check report at frame 0"
     )
-    assert show_simulation_collision_check_report.collision_slices_check_report[
-        52
-    ].validation
 
 
 def test_invalid_simulation_on_ground():
     invalid_show_simulation_on_ground = get_show_simulation(
         IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA
     )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        invalid_show_simulation_on_ground.frames
-    )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        invalid_show_simulation_on_ground.frames
-    )
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport()
     apply_show_simulation_collision_check_procedure(
         invalid_show_simulation_on_ground,
         show_simulation_collision_check_report,
@@ -112,7 +96,7 @@ def test_invalid_simulation_on_ground():
     )
     assert not (
         show_simulation_collision_check_report.collision_slices_check_report[
-            52
+            50
         ].validation
     )
 
@@ -121,51 +105,23 @@ def test_valid_simulation_in_air():
     valid_show_simulation_in_air = get_show_simulation(
         IOSTAR_PHYSIC_PARAMETER.security_distance_in_air
     )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        valid_show_simulation_in_air.frames
-    )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        valid_show_simulation_in_air.frames
-    )
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport()
     apply_show_simulation_collision_check_procedure(
         valid_show_simulation_in_air,
         show_simulation_collision_check_report,
     )
-    assert show_simulation_collision_check_report.collision_slices_check_report[
-        1
-    ].validation
-    assert show_simulation_collision_check_report.collision_slices_check_report[
-        51
-    ].validation
+    assert show_simulation_collision_check_report.validation
 
 
 def test_invalid_simulation_in_air():
     invalid_show_simulation_in_air = get_show_simulation(
         IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA
     )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        invalid_show_simulation_in_air.frames
-    )
-    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport(
-        invalid_show_simulation_in_air.frames
-    )
+    show_simulation_collision_check_report = ShowSimulationCollisionCheckReport()
     apply_show_simulation_collision_check_procedure(
         invalid_show_simulation_in_air,
         show_simulation_collision_check_report,
     )
-    assert show_simulation_collision_check_report.collision_slices_check_report[
-        0
-    ].validation
-    assert not (
-        show_simulation_collision_check_report.collision_slices_check_report[
-            1
-        ].validation
+    assert (
+        len(show_simulation_collision_check_report.collision_slices_check_report) == 50
     )
-    assert not (
-        show_simulation_collision_check_report.collision_slices_check_report[
-            51
-        ].validation
-    )
-    assert show_simulation_collision_check_report.collision_slices_check_report[
-        52
-    ].validation

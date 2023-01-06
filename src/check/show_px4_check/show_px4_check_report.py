@@ -9,12 +9,6 @@ class DronePx4CheckReport(Contenor):
         self.events_format_check_report = EventsFormatCheckReport()
         self.dance_size_check_report = DanceSizeCheckReport()
 
-    def update(self) -> None:
-        self.validation = (
-            self.events_format_check_report.validation
-            and self.dance_size_check_report.validation
-        )
-
 
 class ShowPx4CheckReport(Contenor):
     def __init__(self, nb_drones: int):
@@ -22,9 +16,3 @@ class ShowPx4CheckReport(Contenor):
         self.drones_px4_check_report = [
             DronePx4CheckReport(drone_index) for drone_index in range(nb_drones)
         ]
-
-    def update(self) -> None:
-        self.validation = all(
-            drone_px4_check_report.validation
-            for drone_px4_check_report in self.drones_px4_check_report
-        )

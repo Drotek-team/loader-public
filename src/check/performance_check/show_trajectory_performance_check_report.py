@@ -28,9 +28,3 @@ class ShowTrajectoryPerformanceCheckReport(Contenor):
             )
             for drone_index in range(nb_drone)
         ]
-
-    def update(self) -> None:
-        self.validation = all(
-            drone_trajectory_performance_check_report.validation
-            for drone_trajectory_performance_check_report in self.drones_trajectory_performance_check_report
-        )

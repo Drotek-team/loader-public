@@ -5,42 +5,14 @@ from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PAR
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_trajectory_collision.show_trajectory_collision import (
-    ShowTrajectoryCollision,
-)
+from ...show_trajectory_collision.show_trajectory_collision import *
 from ...show_user.show_user import DroneUser, PositionEventUser, ShowUser
 from ..migration_SU_ST.SU_to_STC_procedure import SU_to_STC_procedure
 from .STC_to_SSC_procedure import STC_to_SS_procedure
 
-# @pytest.fixture
-# def valid_show_trajectory_collision() -> ShowTrajectoryCollision:
-#     FIRST_FRAME = 0
-#     FIRST_POSITION = (5.36, 23.3, 24.1)
-
-#     SECOND_FRAME = 1
-#     SECOND_POSITION = (56, 98.54, 0.1854)
-#     first_drone_trajectory_collision = DroneTrajectoryCollision(
-#         0,
-#         [
-#             TrajectoryCollisionInfo(FIRST_FRAME, np.array(FIRST_POSITION), True),
-#             TrajectoryCollisionInfo(SECOND_FRAME, np.array(SECOND_POSITION), True),
-#         ],
-#     )
-#     second_drone_trajectory_collision = DroneTrajectoryCollision(
-#         0,
-#         [
-#             TrajectoryCollisionInfo(FIRST_FRAME, np.array(FIRST_POSITION), True),
-#             TrajectoryCollisionInfo(SECOND_FRAME, np.array(SECOND_POSITION), True),
-#         ],
-#     )
-#     return ShowTrajectoryCollision(
-#         [first_drone_trajectory_collision, second_drone_trajectory_collision]
-#     )
-
 
 @pytest.fixture
-def valid_show_trajectory_collision() -> ShowTrajectoryCollision:
-
+def valid_show_trajectory() -> CollisionShowTrajectory:
     drone_user = DroneUser(
         position_events=[
             PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
@@ -62,22 +34,18 @@ def valid_show_trajectory_collision() -> ShowTrajectoryCollision:
     )
 
 
-def test_valid_show_flags(valid_show_trajectory_collision: ShowTrajectoryCollision):
-    show_simulation = STC_to_SS_procedure(valid_show_trajectory_collision)
-
-    assert len(show_simulation.show_slices) == 53
+def test_valid_show_flags(valid_show_trajectory: CollisionShowTrajectory):
+    show_simulation = STC_to_SS_procedure(valid_show_trajectory)
+    assert len(show_simulation.show_slices) == 51
     assert np.array_equal(
         show_simulation.show_slices[0].positions[0], np.array([0.0, 0.0, 0.0])
     )
+    assert np.array_equal(show_simulation.show_slices[0].in_air_flags, np.array([True]))
     assert np.array_equal(
         show_simulation.show_slices[40].positions[0],
         np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter]),
     )
     assert np.array_equal(
-        show_simulation.show_slices[41].positions[0],
-        np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter]),
-    )
-    assert np.array_equal(
-        show_simulation.show_slices[52].positions[0],
+        show_simulation.show_slices[50].positions[0],
         np.array([0.0, 0.0, 0.0]),
     )

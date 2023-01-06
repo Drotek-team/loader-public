@@ -50,7 +50,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
         drone_trajectory_performance.trajectory_performance_infos[1],
     )
     assert (
-        first_trajectory_performance.frame
+        first_trajectory_performance.frame + 1
         == FRAME_PARAMETER.from_absolute_time_to_position_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
@@ -65,13 +65,11 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
             )
         ),
     )
-
     assert (
         second_trajectory_performance.frame
         == FRAME_PARAMETER.from_absolute_time_to_position_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
-        + 1
     )
     assert np.array_equal(
         second_trajectory_performance.position,

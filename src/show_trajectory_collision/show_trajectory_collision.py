@@ -5,23 +5,37 @@ import numpy as np
 
 
 @dataclass(frozen=True)
-class TrajectoryCollisionInfo:
+class CollisionPositionInfo:
     frame: int
     position: np.ndarray
     in_air: bool
 
+    def __eq__(self, other: "CollisionPositionInfo"):
+        return (
+            self.frame == other.frame
+            and np.array_equal(self.position, other.position)
+            and self.in_air == other.in_air
+        )
 
-class DroneTrajectoryCollision:
-    def __init__(self, drone_index: int, trajectory: List[TrajectoryCollisionInfo]):
+
+class CollisionTrajectory:
+    def __init__(self, drone_index: int, trajectory: List[CollisionPositionInfo]):
         self.drone_index = drone_index
-        self.trajectory = trajectory
-
-
-class ShowTrajectoryCollision:
-    def __init__(self, drones_trajectory_collision: List[DroneTrajectoryCollision]):
-        self.nb_drones = len(drones_trajectory_collision)
-        self.drones_trajectory_collision = drones_trajectory_collision
+        self._trajectory = trajectory
 
     @property
+    def collision_position_infos(self) -> List[CollisionPositionInfo]:
+        return self._trajectory
+
+
+class CollisionShowTrajectory(List[CollisionTrajectory]):
+    @property
     def frames(self) -> List[int]:
-        return [popo.frame for popo in self.drones_trajectory_collision[0].trajectory]
+        return [
+            collision_position_info.frame
+            for collision_position_info in self[0].collision_position_infos
+        ]
+
+    @property
+    def drone_number(self) -> int:
+        return len(self)

@@ -24,7 +24,7 @@ def in_air_flight_simulation(
     flight_positions.append(np.array(position_events_user[-1].xyz))
     return [
         SimulationInfo(
-            position_events_user[0].position_frame + frame_index,
+            position_events_user[0].position_frame - 1 + frame_index,
             flight_position,
             True,
             True,

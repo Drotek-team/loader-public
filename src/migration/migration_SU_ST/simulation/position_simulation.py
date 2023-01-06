@@ -11,7 +11,7 @@ class SimulationInfo:
     in_air: bool
     in_dance: bool
 
-    def __eq__(self, other_simulation_info: Any):
+    def __eq__(self, other_simulation_info: "SimulationInfo"):
         return (
             self.frame == other_simulation_info.frame
             and np.array_equal(self.position, other_simulation_info.position)

@@ -39,7 +39,6 @@ def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
 def test_takeoff_simulation(
     valid_position_events_user: Tuple[PositionEventUser, PositionEventUser]
 ):
-
     first_position_event, second_position_event = (
         valid_position_events_user[0],
         valid_position_events_user[1],
@@ -62,7 +61,8 @@ def test_takeoff_simulation(
         int(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
             * FRAME_PARAMETER.position_fps
-        ),
+        )
+        - 1,
     )
     theorical_positions = first_theorical_positions + second_theorical_positions
     theorical_takeoff_simulation_infos = [
