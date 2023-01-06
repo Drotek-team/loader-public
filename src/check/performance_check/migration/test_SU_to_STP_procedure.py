@@ -1,11 +1,11 @@
 import numpy as np
 import pytest
 
-from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_user.show_user import *
+from ....show_user.show_user import *
 from .SU_to_STP_procedure import SU_to_STP_procedure
 
 

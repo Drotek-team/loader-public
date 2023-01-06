@@ -1,6 +1,5 @@
 import pytest
 
-from ...migration.migration_SU_ST.SU_to_STP_procedure import SU_to_STP_procedure
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
@@ -10,6 +9,7 @@ from ...show_trajectory_performance.show_trajectory_performance import (
     ShowTrajectoryPerformance,
 )
 from ...show_user.show_user import *
+from .migration.SU_to_STP_procedure import SU_to_STP_procedure
 
 EPSILON_DELTA = 1e-2
 ROUNDING_ERROR = 0.04
