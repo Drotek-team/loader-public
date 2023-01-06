@@ -6,11 +6,16 @@ from ...show_user.show_user import *
 from .show_user_check_report import *
 
 
+def get_incoherence_frame_absolute_time_name(
+    frame: int, absolute_time: float, event_type: str, event_fps: int
+) -> str:
+    return f"Frame {frame} at {absolute_time} is not coherent with {event_type} at {event_fps} fps"
+
+
 def apply_drone_user_frame_coherence_check(
     drone_user: DroneUser, frame_coherence_check_report: FrameCoherenceCheckReport
 ) -> None:
     # IMPROVE: An enum would be nice but it is kind of painfull because nothing here is make to make an enum
-    # Fuck it just separate the three in the architecture, really not worth it
     for position_event in drone_user.position_events:
         if (
             position_event.absolute_time
@@ -19,11 +24,13 @@ def apply_drone_user_frame_coherence_check(
             )
         ):
             frame_coherence_check_report.incoherence_relative_absolute_time.append(
-                IncoherenceRelativeAbsoluteFrame(
-                    position_event.position_frame,
-                    position_event.absolute_time,
-                    "position_event",
-                    FRAME_PARAMETER.position_fps,
+                Displayer(
+                    get_incoherence_frame_absolute_time_name(
+                        position_event.position_frame,
+                        position_event.absolute_time,
+                        "position event",
+                        FRAME_PARAMETER.position_fps,
+                    )
                 )
             )
     for color_event in drone_user.color_events:
@@ -34,11 +41,13 @@ def apply_drone_user_frame_coherence_check(
             )
         ):
             frame_coherence_check_report.incoherence_relative_absolute_time.append(
-                IncoherenceRelativeAbsoluteFrame(
-                    color_event.color_frame,
-                    color_event.absolute_time,
-                    "color_event",
-                    FRAME_PARAMETER.color_fps,
+                Displayer(
+                    get_incoherence_frame_absolute_time_name(
+                        color_event.color_frame,
+                        color_event.absolute_time,
+                        "color event",
+                        FRAME_PARAMETER.color_fps,
+                    )
                 )
             )
 
@@ -48,13 +57,16 @@ def apply_drone_user_frame_coherence_check(
             != FRAME_PARAMETER.from_fire_frame_to_absolute_time(fire_event.fire_frame)
         ):
             frame_coherence_check_report.incoherence_relative_absolute_time.append(
-                IncoherenceRelativeAbsoluteFrame(
-                    fire_event.fire_frame,
-                    fire_event.absolute_time,
-                    "fire_event",
-                    FRAME_PARAMETER.fire_fps,
+                Displayer(
+                    get_incoherence_frame_absolute_time_name(
+                        fire_event.fire_frame,
+                        fire_event.absolute_time,
+                        "fire event",
+                        FRAME_PARAMETER.fire_fps,
+                    )
                 )
             )
+    frame_coherence_check_report.update_contenor_validation
 
 
 def apply_takeoff_check(
@@ -88,7 +100,6 @@ def apply_takeoff_check(
             and TAKEOFF_PARAMETER.takeoff_altitude_meter + first_position[2]
             == second_position[2]
         )
-
     takeoff_check_report.update_contenor_validation
 
 
@@ -100,6 +111,7 @@ def apply_drone_user_check_procedure(
         drone_user, drone_user_check_report.frame_coherence_check_report
     )
     apply_takeoff_check(drone_user, drone_user_check_report.takeoff_check_report)
+    drone_user_check_report.update_contenor_validation
 
 
 def apply_show_user_check_procedure(
@@ -110,3 +122,4 @@ def apply_show_user_check_procedure(
         show_user.drones_user, show_user_check_report.drones_user_check_report
     ):
         apply_drone_user_check_procedure(drone_user, drone_user_check_report)
+    show_user_check_report.update_contenor_validation

@@ -46,9 +46,7 @@ def get_valid_show_user(
                     + FRAME_PARAMETER.from_absolute_time_to_position_frame(
                         show_duration_absolute_time
                     ),
-                    absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
-                        40
-                    )
+                    absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second
                     + show_duration_absolute_time,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
