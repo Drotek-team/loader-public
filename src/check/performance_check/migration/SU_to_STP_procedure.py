@@ -2,10 +2,10 @@ from typing import List
 
 import numpy as np
 
-from ....migration.migration_SU_ST.simulation.in_air_flight_simulation import (
+from ....migration.simulation.in_air_flight_simulation import (
     in_air_flight_simulation,
 )
-from ....migration.migration_SU_ST.simulation.position_simulation import SimulationInfo
+from ....migration.simulation.position_simulation import SimulationInfo
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ....show_trajectory_performance.show_trajectory_performance import (
     DroneTrajectoryPerformance,

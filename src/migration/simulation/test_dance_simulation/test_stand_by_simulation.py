@@ -3,8 +3,8 @@ from typing import Tuple
 import numpy as np
 import pytest
 
-from .....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from .....show_user.show_user import PositionEventUser
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....show_user.show_user import PositionEventUser
 from ...simulation.stand_by_simulation import stand_by_simulation
 from ..position_simulation import SimulationInfo
 

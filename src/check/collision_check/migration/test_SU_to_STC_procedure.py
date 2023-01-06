@@ -1,5 +1,6 @@
 import pytest
 
+from ....migration.simulation.position_simulation import SimulationInfo
 from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )

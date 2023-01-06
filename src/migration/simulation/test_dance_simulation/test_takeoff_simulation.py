@@ -2,15 +2,14 @@ from typing import Tuple
 
 import pytest
 
-from src.migration.migration_SU_ST.simulation.position_simulation import SimulationInfo
-
-from .....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from .....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from .....show_user.show_user import PositionEventUser
+from ....show_user.show_user import PositionEventUser
 from ...simulation.takeoff_simulation import takeoff_simulation
 from ..in_air_flight_simulation import linear_interpolation
+from ..position_simulation import SimulationInfo
 
 
 @pytest.fixture
