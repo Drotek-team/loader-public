@@ -2,12 +2,12 @@ import copy
 import struct
 from typing import List
 
-from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
+from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from ....show_px4.drone_px4.binary_px4.binary import Header, SectionHeader
-from ....show_px4.drone_px4.drone_px4 import DronePx4
-from ....show_px4.drone_px4.events.events import Events
+from ...show_px4.drone_px4.binary_px4.binary import Header, SectionHeader
+from ...show_px4.drone_px4.drone_px4 import DronePx4
+from ...show_px4.drone_px4.events.events import Events
 from .events_convertion import encode_events
 
 

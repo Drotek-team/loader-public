@@ -55,7 +55,6 @@ def test_valid_show_trajectory_performance(
     show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
         valid_show_user.nb_drones
     )
-
     apply_show_trajectory_performance_check_procedure(
         valid_show_user,
         show_trajectory_performance_check_report,

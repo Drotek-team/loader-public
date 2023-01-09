@@ -3,7 +3,7 @@ from typing import Dict, List
 from ...iostar_json.iostar_json_gcs import IostarJson
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
-from .migration_DP_binary.drone_encoding_procedure import encode_drone
+from ..migration_DP_binary.drone_encoding_procedure import encode_drone
 from .migration_SP_SC.SP_to_SC_procedure import SP_to_SC_procedure
 
 
