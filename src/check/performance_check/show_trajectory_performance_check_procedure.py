@@ -39,5 +39,5 @@ def apply_show_trajectory_performance_check_procedure(
         apply_drone_trajectory_performance_check_procedure(
             drone_trajectory_performance, drone_trajectory_performance_check_report
         )
-        drone_trajectory_performance_check_report.update_contenor_validation
-    show_trajectory_performance_check_report.update_contenor_validation
+        drone_trajectory_performance_check_report.update_contenor_validation()
+    show_trajectory_performance_check_report.update_contenor_validation()

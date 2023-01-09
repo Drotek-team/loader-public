@@ -18,7 +18,7 @@ def position_events_check(
         position_events,
         position_events_check_report.xyz_check_report,
     )
-    position_events_check_report.update_contenor_validation
+    position_events_check_report.update_contenor_validation()
 
 
 def color_events_check(
@@ -30,7 +30,7 @@ def color_events_check(
         color_events_check_report.frame_check_report,
     )
     rgbw_check(color_events, color_events_check_report.rgbw_check_report)
-    color_events_check_report.update_contenor_validation
+    color_events_check_report.update_contenor_validation()
 
 
 def fire_events_check(
@@ -46,7 +46,7 @@ def fire_events_check(
         fire_events,
         fire_events_check_report.fire_duration_check_report,
     )
-    fire_events_check_report.update_contenor_validation
+    fire_events_check_report.update_contenor_validation()
 
 
 def apply_events_format_check_procedure(
@@ -66,4 +66,4 @@ def apply_events_format_check_procedure(
         events_format_check_report.fire_events_check,
     )
 
-    events_format_check_report.update_contenor_validation
+    events_format_check_report.update_contenor_validation()

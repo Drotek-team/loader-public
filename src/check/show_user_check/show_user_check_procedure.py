@@ -66,7 +66,7 @@ def apply_drone_user_frame_coherence_check(
                     )
                 )
             )
-    frame_coherence_check_report.update_contenor_validation
+    frame_coherence_check_report.update_contenor_validation()
 
 
 def apply_takeoff_check(
@@ -102,7 +102,7 @@ def apply_takeoff_check(
             and second_position[2]
             <= first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
         )
-    takeoff_check_report.update_contenor_validation
+    takeoff_check_report.update_contenor_validation()
 
 
 def apply_drone_user_check_procedure(
@@ -113,7 +113,7 @@ def apply_drone_user_check_procedure(
         drone_user, drone_user_check_report.frame_coherence_check_report
     )
     apply_takeoff_check(drone_user, drone_user_check_report.takeoff_check_report)
-    drone_user_check_report.update_contenor_validation
+    drone_user_check_report.update_contenor_validation()
 
 
 def apply_show_user_check_procedure(
@@ -124,4 +124,4 @@ def apply_show_user_check_procedure(
         show_user.drones_user, show_user_check_report.drones_user_check_report
     ):
         apply_drone_user_check_procedure(drone_user, drone_user_check_report)
-    show_user_check_report.update_contenor_validation
+    show_user_check_report.update_contenor_validation()

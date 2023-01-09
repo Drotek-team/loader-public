@@ -27,5 +27,5 @@ def apply_show_px4_check_procedure(
             drone,
             drone_px4_check_report.dance_size_check_report,
         )
-        drone_px4_check_report.update_contenor_validation
-    show_px4_check_report.update_contenor_validation
+        drone_px4_check_report.update_contenor_validation()
+    show_px4_check_report.update_contenor_validation()

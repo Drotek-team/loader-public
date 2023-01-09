@@ -24,4 +24,4 @@ def apply_all_check_from_show_user_procedure(
         show_user,
         show_check_report.show_simulation_collision_check_report,
     )
-    show_check_report.update_contenor_validation
+    show_check_report.update_contenor_validation()

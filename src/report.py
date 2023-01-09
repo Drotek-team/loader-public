@@ -28,8 +28,6 @@ class Contenor:
     validation: bool = False
     name: str
 
-    # TODO: remove the property
-    @property
     def update_contenor_validation(self) -> None:
         displayer_validation = all(
             displayer.validation

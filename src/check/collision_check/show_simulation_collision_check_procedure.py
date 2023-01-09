@@ -39,4 +39,4 @@ def apply_show_simulation_collision_check_procedure(
                     show_simulation_slice.frame, collision_infractions
                 )
             )
-    collision_check_report.update_contenor_validation
+    collision_check_report.update_contenor_validation()
