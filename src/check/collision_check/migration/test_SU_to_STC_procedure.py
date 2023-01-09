@@ -33,7 +33,7 @@ def valid_show_user():
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
         color_events=[],

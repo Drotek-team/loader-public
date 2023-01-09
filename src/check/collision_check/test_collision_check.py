@@ -26,7 +26,7 @@ def get_show_user(distance_between_drones: float) -> ShowUser:
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
         color_events=[],
@@ -48,7 +48,7 @@ def get_show_user(distance_between_drones: float) -> ShowUser:
                 xyz=(
                     distance_between_drones,
                     0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
                 ),
             ),
         ],

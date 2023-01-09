@@ -20,7 +20,7 @@ def valid_drone_user() -> DroneUser:
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
         color_events=[],
@@ -58,7 +58,7 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
                     )
                     + FRAME_BIAS
                 ),
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
         color_events=[],
@@ -90,7 +90,7 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter + Z_BIAS),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_max + Z_BIAS),
             ),
         ],
         color_events=[],

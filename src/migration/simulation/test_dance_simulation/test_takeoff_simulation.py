@@ -30,7 +30,7 @@ def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
         xyz=(
             POSITION[0],
             POSITION[1],
-            POSITION[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter,
+            POSITION[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
         ),
     )
 

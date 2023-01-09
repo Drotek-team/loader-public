@@ -20,7 +20,7 @@ def valid_show_user() -> ShowUser:
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
             PositionEventUser(
                 position_frame=int(
@@ -29,7 +29,7 @@ def valid_show_user() -> ShowUser:
                 )
                 + 1,
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second + 4,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
         color_events=[],
@@ -61,7 +61,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
             (
                 0.0,
                 0.0,
-                TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
             )
         ),
     )
@@ -77,7 +77,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
             (
                 0.0,
                 0.0,
-                TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
             )
         ),
     )

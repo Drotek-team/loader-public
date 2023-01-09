@@ -77,7 +77,7 @@ METRICS_EVALUATION: Dict[
 
 METRICS_RANGE: Dict[Metric, MetricRange] = {
     Metric.VERTICAL_POSITION: MetricRange(
-        0, TAKEOFF_PARAMETER.takeoff_altitude_meter, False
+        0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min, False
     ),
     Metric.HORIZONTAL_VELOCITY: MetricRange(
         0, IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max

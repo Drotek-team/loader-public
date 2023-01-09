@@ -97,8 +97,10 @@ def apply_takeoff_check(
         takeoff_check_report.takeoff_xyz_check_report.validation = (
             first_position[0] == second_position[0]
             and first_position[1] == second_position[1]
-            and TAKEOFF_PARAMETER.takeoff_altitude_meter + first_position[2]
-            == second_position[2]
+            and first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min
+            <= second_position[2]
+            and second_position[2]
+            <= first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
         )
     takeoff_check_report.update_contenor_validation
 

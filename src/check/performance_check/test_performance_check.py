@@ -29,7 +29,7 @@ def valid_show_trajectory_performance() -> ShowTrajectoryPerformance:
                 (
                     0.0,
                     0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
                 ),
             ),
             PositionEventUser(
@@ -40,7 +40,7 @@ def valid_show_trajectory_performance() -> ShowTrajectoryPerformance:
                 (
                     0.0,
                     0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
                 ),
             ),
         ],
@@ -80,7 +80,7 @@ def invalid_show_trajectory_performance_horizontal_velocity() -> ShowTrajectoryP
                 (
                     0.0,
                     0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
                 ),
             ),
             PositionEventUser(
@@ -93,7 +93,7 @@ def invalid_show_trajectory_performance_horizontal_velocity() -> ShowTrajectoryP
                     / FRAME_PARAMETER.position_fps
                     + EPSILON_DELTA,
                     0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter,
+                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
                 ),
             ),
         ],

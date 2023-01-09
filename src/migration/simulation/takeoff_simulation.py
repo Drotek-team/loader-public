@@ -15,7 +15,7 @@ def generate_takeoff_first_part(
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter,
+        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
     )
     return linear_interpolation(
         takeoff_start_position,
@@ -33,7 +33,7 @@ def generate_takeoff_second_part(
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter,
+        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
     )
     return linear_interpolation(
         takeoff_end_position,

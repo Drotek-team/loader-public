@@ -3,7 +3,8 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class TakeoffParameter:
-    takeoff_altitude_meter = 1.0
+    takeoff_altitude_meter_min = 1.0
+    takeoff_altitude_meter_max = 8.0
     takeoff_elevation_duration_second = 3.0
     takeoff_stabilisation_duration_second = 7.0
 

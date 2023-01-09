@@ -22,7 +22,7 @@ def valid_show_trajectory() -> CollisionShowTrajectory:
                     * TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
         color_events=[],
@@ -43,7 +43,7 @@ def test_valid_show_flags(valid_show_trajectory: CollisionShowTrajectory):
     assert np.array_equal(show_simulation.show_slices[0].in_air_flags, np.array([True]))
     assert np.array_equal(
         show_simulation.show_slices[40].positions[0],
-        np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter]),
+        np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min]),
     )
     assert np.array_equal(
         show_simulation.show_slices[50].positions[0],

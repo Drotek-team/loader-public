@@ -29,7 +29,7 @@ def valid_position_events():
         (
             0,
             0,
-            -int(TAKEOFF_PARAMETER.takeoff_altitude_meter),
+            -int(TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
         ),
     )
     return position_events
