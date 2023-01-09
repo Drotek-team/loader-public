@@ -30,12 +30,12 @@ class Show(BaseModel):
     ]  # Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis
 
 
-class IostarJson(BaseModel):
+class IostarJsonGCS(BaseModel):
     show: Show
 
     def get_json(self) -> str:
         class DummyClass:
-            def __init__(self, show: IostarJson):
+            def __init__(self, show: IostarJsonGCS):
                 self.show = show
 
         return json.dumps(
