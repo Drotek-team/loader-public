@@ -7,7 +7,7 @@ from .grid_math.grid_nb_x_nb_y_estimation import get_nb_x_nb_y_from_grid
 from .grid_math.grid_step_estimation import get_step_from_grid
 
 
-# # TO DO: deal with the nb_drone = 0, nb_drone = 1 later and test this I mean wtf ?
+# # TODO: deal with the nb_drone = 0, nb_drone = 1 later and test this I mean wtf ?
 def SP_to_SC_procedure(show_px4: ShowPx4) -> ShowConfiguration:
     grid = Grid(show_px4.first_horizontal_positions)
     angle_takeoff = get_angle_takeoff_from_grid(grid)

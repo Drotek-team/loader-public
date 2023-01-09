@@ -2,7 +2,7 @@ from .dance_example import *
 from .drone_decoding_procedure import decode_drone
 
 
-# TO DO: this phase is extremely critical: test it properly
+# TODO: this phase is extremely critical: test it properly
 def test_valid_dance_decoding():
     drone = decode_drone(
         DANCE_EXAMPLE,

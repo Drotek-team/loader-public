@@ -12,7 +12,7 @@ from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
 
 
-# TO DO: this is the one that must be test like hell
+# TODO: this is the one that must be test like hell
 def flight_simulation(
     drone_user: DroneUser,
     last_frame: int,

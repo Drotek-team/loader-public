@@ -7,18 +7,21 @@ from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARA
 from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 
 
+# TODO: add the fps coherence at the begining of the add_event() and calculate position frame
 class PositionEventUser(BaseModel):
     position_frame: int  # 4 frame per second
     absolute_time: float  # second
     xyz: Tuple[float, float, float]  # ENU and meter
 
 
+# TODO: add the fps coherence at the begining of the add_event() and calculate position frame
 class ColorEventUser(BaseModel):
     color_frame: int  # 24 frame per second
     absolute_time: float  # second
     rgbw: Tuple[float, float, float, float]  # between 0 and 1
 
 
+# TODO: add the fps coherence at the begining of the add_event() and calculate position frame
 class FireEventUser(BaseModel):
     fire_frame: int  # 24 frame per second
     absolute_time: float  # second

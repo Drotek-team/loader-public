@@ -85,6 +85,7 @@ def xyz_check(
     xyz_check_report: XyzCheckReport,
 ) -> None:
     positions = [event.xyz for event in position_events.events]
+    # TODO: adapt to the user format
     xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
         positions,
         JSON_BINARY_PARAMETER.position_value_min,

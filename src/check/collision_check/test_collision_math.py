@@ -53,7 +53,7 @@ def test_get_unique_list_from_list_non_unique():
     )
 
 
-# TO DO: finished the test
+# TODO: finished the test
 def test_get_optimized_collision_infractions():
     NB_X = 2
     NB_Y = 2
@@ -65,7 +65,7 @@ def test_get_optimized_collision_infractions():
     ) == (NB_X - 1) * NB_Y + NB_X * (NB_Y - 1)
 
 
-# TO DO: finished the test
+# TODO: finished the test
 def test_get_optimized_collision_infractions_big_number():
     NB_X = 25
     NB_Y = 20

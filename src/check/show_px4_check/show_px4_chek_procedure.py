@@ -9,7 +9,7 @@ from .events_format_check.events_format_check_procedure import (
 from .show_px4_check_report import ShowPx4CheckReport
 
 
-# TO DO: I mean wtf there is not test for this ???
+# TODO: I mean wtf there is not test for this ???
 def apply_show_px4_check_procedure(
     show_user: ShowUser, show_px4_check_report: ShowPx4CheckReport
 ) -> None:

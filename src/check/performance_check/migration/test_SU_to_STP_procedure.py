@@ -38,7 +38,7 @@ def valid_show_user() -> ShowUser:
     return ShowUser(drones_user=[drone_user])
 
 
-# TO DO: Quite a few more test is needed, for instance check the velocity/acceleration at the beggining are calculated according to the convention
+# TODO: Quite a few more test is needed, for instance check the velocity/acceleration at the beggining are calculated according to the convention
 def test_SU_to_STP_procedure(valid_show_user: ShowUser):
     show_trajectory_performance = SU_to_STP_procedure(valid_show_user)
     drone_trajectory_performance = (

@@ -37,6 +37,7 @@ class FireFrameCheckReport(Contenor):
     def __init__(self):
         self.name = "Frame Check Report"
         self.frame_value_check_report = Displayer("Frame Value Check Report")
+        # TODO: add increasing frame
 
 
 class FireChanelCheckReport(Contenor):
@@ -45,6 +46,7 @@ class FireChanelCheckReport(Contenor):
         self.fire_chanel_value_check_report = Displayer(
             "Fire Chanel Value Check Report"
         )
+        # TODO: supprimer unicity pour le moment
         self.fire_chanel_unicty_check_report = Displayer(
             "Fire Chanel Unicty Check Report"
         )

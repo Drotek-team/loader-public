@@ -12,6 +12,7 @@ def apply_dance_size_check_procedure(
     drone: DronePx4,
     dance_size_check_report: DanceSizeCheckReport,
 ) -> None:
+    # TODO: faire proprement avec "anticipation"
     dance_size_check_report.validation = (
         len(
             encode_drone(

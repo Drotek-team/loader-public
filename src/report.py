@@ -8,6 +8,7 @@ class Displayer:
     validation: bool = False
     annexe_message: str = ""
 
+    # TODO: "dataclass __hash__"
     def __hash__(self) -> int:
         return hash((self.name, self.annexe_message))
 
@@ -27,6 +28,7 @@ class Contenor:
     validation: bool = False
     name: str
 
+    # TODO: remove the property
     @property
     def update_contenor_validation(self) -> None:
         displayer_validation = all(
