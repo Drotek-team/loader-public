@@ -33,18 +33,15 @@ class JsonBinaryParameter:
     ) -> Tuple[int, int, int]:
         return (
             int(
-                METER_TO_CENTIMETER_FACTOR
-                * simulation_xyz[1]
+                (METER_TO_CENTIMETER_FACTOR * simulation_xyz[1])
                 / self.position_reformat_factor
             ),
             int(
-                METER_TO_CENTIMETER_FACTOR
-                * simulation_xyz[0]
+                (METER_TO_CENTIMETER_FACTOR * simulation_xyz[0])
                 / self.position_reformat_factor
             ),
             int(
-                -METER_TO_CENTIMETER_FACTOR
-                * simulation_xyz[2]
+                -(METER_TO_CENTIMETER_FACTOR * simulation_xyz[2])
                 / self.position_reformat_factor
             ),
         )

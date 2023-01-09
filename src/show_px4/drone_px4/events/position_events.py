@@ -8,19 +8,19 @@ from .events import Event, Events
 @dataclass(frozen=True)
 class PositionEvent(Event):
     frame: int  # time frame associate to the "fps_px4" parameter
-    x: int  # x relative coordinate in NED and centimeter between 0 and 32561
-    y: int  # y relative coordinate in NED and centimeter between 0 and 32561
-    z: int  # z relative coordinate in NED and centimeter between 0 and 32561
+    x: int  # x relative coordinate in NED and centimeter between -32 561 and 32 561
+    y: int  # y relative coordinate in NED and centimeter between -32 561 and 32 561
+    z: int  # z relative coordinate in NED and centimeter between -32 561 and 32 561
 
     def __post_init__(self):
         if not (isinstance(self.frame, int)):
-            raise ValueError("This value should be an integer")
+            raise ValueError(f"This value {self.frame} should be an integer")
         if not (isinstance(self.x, int)):
-            raise ValueError("This value should be an integer")
+            raise ValueError(f"This value {self.x} should be an integer")
         if not (isinstance(self.y, int)):
-            raise ValueError("This value should be an integer")
+            raise ValueError(f"This value {self.y} should be an integer")
         if not (isinstance(self.z, int)):
-            raise ValueError("This value should be an integer")
+            raise ValueError(f"This value {self.z} should be an integer")
 
     @property
     def xyz(self) -> Tuple[int, int, int]:
