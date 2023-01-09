@@ -22,12 +22,11 @@ ROUNDING_ERROR = 0.04
 def valid_show_user() -> ShowUser:
     drone_user = DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(
                     0.0,
                     0.0,
@@ -35,12 +34,10 @@ def valid_show_user() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second
-                + 1 / FRAME_PARAMETER.position_fps,
                 xyz=(
                     0.0,
                     0.0,
@@ -54,30 +51,29 @@ def valid_show_user() -> ShowUser:
     return ShowUser(drones_user=[drone_user])
 
 
-# def test_valid_show_trajectory_performance(
-#     valid_show_user: ShowUser,
-# ):
-#     show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-#         valid_show_user.nb_drones
-#     )
+def test_valid_show_trajectory_performance(
+    valid_show_user: ShowUser,
+):
+    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
+        valid_show_user.nb_drones
+    )
 
-#     apply_show_trajectory_performance_check_procedure(
-#         valid_show_user,
-#         show_trajectory_performance_check_report,
-#     )
-#     assert show_trajectory_performance_check_report.validation
+    apply_show_trajectory_performance_check_procedure(
+        valid_show_user,
+        show_trajectory_performance_check_report,
+    )
+    assert show_trajectory_performance_check_report.validation
 
 
 @pytest.fixture
-def valid_show_user() -> ShowUser:
+def invalid_show_user_horizontal_velocity() -> ShowUser:
     drone_user = DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(
                     0.0,
                     0.0,
@@ -85,12 +81,10 @@ def valid_show_user() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second
-                + 1 / FRAME_PARAMETER.position_fps,
                 xyz=(
                     IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max + EPSILON_DELTA,
                     0.0,
@@ -104,24 +98,22 @@ def valid_show_user() -> ShowUser:
     return ShowUser(drones_user=[drone_user])
 
 
-# def test_invalid_show_user_horizontal_velocity(
-#     invalid_show_user_horizontal_velocity: ShowUser,
-# ):
-#     show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-#         invalid_show_user_horizontal_velocity.nb_drones
-#     )
+def test_invalid_show_user_horizontal_velocity(
+    invalid_show_user_horizontal_velocity: ShowUser,
+):
+    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
+        invalid_show_user_horizontal_velocity.nb_drones
+    )
 
-#     apply_show_trajectory_performance_check_procedure(
-#         invalid_show_user_horizontal_velocity,
-#         show_trajectory_performance_check_report,
-#     )
-#     performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
-#         0
-#     ].performance_infractions
-#     assert len(performance_infractions) == 2
-#     assert performance_infractions[0].performance_name == "horizontal velocity"
-#     assert (
-#         performance_infractions[0].performance_value
-#         == IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
-#         + EPSILON_DELTA * FRAME_PARAMETER.position_fps
-#     )
+    apply_show_trajectory_performance_check_procedure(
+        invalid_show_user_horizontal_velocity,
+        show_trajectory_performance_check_report,
+    )
+    performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
+        0
+    ].performance_infractions
+    assert len(performance_infractions) == 2
+    assert (
+        performance_infractions[0].name
+        == "The performance horizontal velocity has the value: 144.24 (min/max:0/6.0) at the time 240"
+    )

@@ -92,12 +92,25 @@ METRICS_RANGE: Dict[Metric, MetricRange] = {
 }
 
 
+def get_performance_infraction(
+    performance_name: str,
+    performance_value: float,
+    performance_value_min: float,
+    performance_value_max: float,
+    absolute_time: float,
+) -> Displayer:
+    return Displayer(
+        name=f"The performance {performance_name} has the value: {performance_value} (min/max:{performance_value_min}/{performance_value_max}) at the time {absolute_time}",
+        validation=False,
+    )
+
+
 def performance_evaluation(
     absolute_time: float,
     position: np.ndarray,
     velocity: np.ndarray,
     acceleration: np.ndarray,
-    drone_trajectory_performance_check: Displayer,
+    drone_trajectory_performance_check: DronePerformanceCheckReport,
 ) -> None:
     for metric in Metric:
         if not (
@@ -105,10 +118,12 @@ def performance_evaluation(
                 METRICS_EVALUATION[metric](position, velocity, acceleration)
             )
         ):
-            drone_trajectory_performance_check.update_displayer(
-                absolute_time,
-                metric.value,
-                METRICS_EVALUATION[metric](position, velocity, acceleration),
-                METRICS_RANGE[metric].min_value,
-                METRICS_RANGE[metric].max_value,
+            drone_trajectory_performance_check.performance_infractions.append(
+                get_performance_infraction(
+                    metric.value,
+                    METRICS_EVALUATION[metric](position, velocity, acceleration),
+                    METRICS_RANGE[metric].min_value,
+                    METRICS_RANGE[metric].max_value,
+                    absolute_time,
+                )
             )

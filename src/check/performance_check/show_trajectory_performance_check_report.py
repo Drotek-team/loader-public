@@ -2,20 +2,10 @@ from typing import List
 
 from ...report import *
 
-# class PerformanceInfraction(Displayer):
-#     absolute_time: float
-#     performance_name: str
-#     performance_value: float
-#     performance_value_min: float
-#     performance_value_max: float
-
-#     def get_report(self) -> str:
-#         return f"The performance {self.performance_name} has the value: {self.performance_value} (min/max:{self.performance_value_min}/{self.performance_value_max}) at the time {self.absolute_time}"
-
 
 class DronePerformanceCheckReport(Contenor):
-    def __init__(self, name: str):
-        self.name = name
+    def __init__(self, drone_index: int):
+        self.name = f"Performance drone {drone_index} check report"
         self.performance_infractions: List[Displayer] = []
 
 
