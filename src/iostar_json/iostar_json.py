@@ -4,14 +4,8 @@ from typing import List
 from pydantic import BaseModel
 
 
-class Show(BaseModel):
-    binary_dances: List[
-        List[int]
-    ]  # List of the dance composing the show with  List of integer symbolising the list of octect
-
-
 class IostarJson(BaseModel):
-    show: Show
+    binary_dances: List[List[int]]  # List of the dance in binary composing the show
 
     def get_json(self) -> str:
         class DummyClass:
