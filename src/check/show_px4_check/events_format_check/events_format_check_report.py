@@ -33,22 +33,11 @@ class ColorEventsCheckReport(Contenor):
         self.rgbw_check_report = RgbwCheckReport()
 
 
-class FireFrameCheckReport(Contenor):
-    def __init__(self):
-        self.name = "Frame Check Report"
-        self.frame_value_check_report = Displayer("Frame Value Check Report")
-        # TODO: add increasing frame
-
-
 class FireChanelCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Chanel Check Report"
         self.fire_chanel_value_check_report = Displayer(
             "Fire Chanel Value Check Report"
-        )
-        # TODO: supprimer unicity pour le moment
-        self.fire_chanel_unicty_check_report = Displayer(
-            "Fire Chanel Unicty Check Report"
         )
 
 
@@ -63,7 +52,7 @@ class FireDurationCheckReport(Contenor):
 class FireEventsCheckReport(Contenor):
     def __init__(self):
         self.name = "Fire Events Check Report"
-        self.fire_frame_check_report = FireFrameCheckReport()
+        self.fire_frame_check_report = FrameCheckReport()
         self.fire_chanel_check_report = FireChanelCheckReport()
         self.fire_duration_check_report = FireDurationCheckReport()
 

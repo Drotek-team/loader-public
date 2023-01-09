@@ -3,6 +3,8 @@ from typing import List, Tuple
 
 
 class Event(ABC):
+    frame: int
+
     @abstractmethod
     def get_data(self) -> Tuple:
         pass

@@ -5,6 +5,7 @@ from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
 from ....show_px4.drone_px4.events.color_events import ColorEvents
+from ....show_px4.drone_px4.events.events import Events
 from ....show_px4.drone_px4.events.fire_events import FireEvents
 from ....show_px4.drone_px4.events.position_events import PositionEvents
 from .events_format_check_report import *
@@ -24,15 +25,6 @@ def check_int_size_list_tuple(
     )
 
 
-def check_frame_rate(
-    frames: List[int],
-    frame_per_second: int,
-    absolute_fps: int,
-) -> bool:
-    frame_rate = int(absolute_fps // frame_per_second)
-    return all(not (frame % frame_rate) for frame in frames)
-
-
 def check_increasing_frame(frames: List[int]) -> bool:
     return all(
         frames[frame_index] < frames[frame_index + 1]
@@ -40,31 +32,11 @@ def check_increasing_frame(frames: List[int]) -> bool:
     )
 
 
-def position_frame_check(
-    position_events: PositionEvents,
+def frame_check(
+    events: Events,
     frame_check_report: FrameCheckReport,
 ) -> None:
-    frames = [event.frame for event in position_events.events]
-    frame_check_report.frame_value_check_report.validation = check_int_size_list(
-        frames,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-            JSON_BINARY_PARAMETER.show_duration_max_second
-        ),
-    )
-    frame_check_report.increasing_frame_check_report.validation = (
-        check_increasing_frame(frames)
-    )
-    frame_check_report.update_contenor_validation()
-
-
-def color_frame_check(
-    color_events: ColorEvents,
-    frame_check_report: FrameCheckReport,
-) -> None:
-    frames = [event.frame for event in color_events.events]
+    frames = [event.frame for event in events.events]
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
@@ -107,25 +79,6 @@ def rgbw_check(
     rgbw_check_report.update_contenor_validation()
 
 
-def fire_frame_check(
-    fire_events: FireEvents,
-    fire_events_frame_check_report: FrameCheckReport,
-) -> None:
-    frames = [event.frame for event in fire_events.events]
-    fire_events_frame_check_report.frame_value_check_report.validation = (
-        check_int_size_list(
-            frames,
-            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-                JSON_BINARY_PARAMETER.show_duration_min_second
-            ),
-            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-                JSON_BINARY_PARAMETER.show_duration_max_second
-            ),
-        )
-    )
-    fire_events_frame_check_report.update_contenor_validation()
-
-
 def check_chanel_unicity(chanels: List[int]) -> bool:
     return len(set(chanels)) == len(chanels)
 
@@ -141,9 +94,6 @@ def fire_chanel_check(
             JSON_BINARY_PARAMETER.fire_chanel_value_min,
             JSON_BINARY_PARAMETER.fire_chanel_value_max,
         )
-    )
-    fire_events_chanel_check_report.fire_chanel_unicty_check_report.validation = (
-        check_chanel_unicity(chanels)
     )
     fire_events_chanel_check_report.update_contenor_validation()
 
