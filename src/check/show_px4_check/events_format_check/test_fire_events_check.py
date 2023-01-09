@@ -13,21 +13,21 @@ from .events_format_check_report import FireEventsCheckReport
 def valid_fire_events():
     fire_events = FireEvents()
     fire_events.add_frame_chanel_duration(
-        frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=0,
         duration=1000,
     )
     fire_events.add_frame_chanel_duration(
-        frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=1,
         duration=1000,
     )
     fire_events.add_frame_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=2,
@@ -77,7 +77,7 @@ def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events.events.insert(
         0,
         FireEvent(
-            FRAME_PARAMETER.from_absolute_time_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             )
             - 1,
@@ -99,7 +99,7 @@ def test_invalid_fire_events_frame_first_frame_check(
 #     fire_events_check_report: FireEventsCheckReport,
 # ):
 #     valid_fire_events.add_frame_chanel_duration(
-#         FRAME_PARAMETER.from_absolute_time_to_position_frame(
+#         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
 #             JSON_BINARY_PARAMETER.show_duration_max_second
 #         ),
 #         1.23,
@@ -119,7 +119,7 @@ def test_invalid_fire_events_chanel_value_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     valid_fire_events.add_frame_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
         JSON_BINARY_PARAMETER.fire_chanel_value_max + 1,
@@ -139,14 +139,14 @@ def test_invalid_fire_events_chanel_unicity_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     valid_fire_events.add_frame_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         JSON_BINARY_PARAMETER.fire_chanel_value_max,
         0,
     )
     valid_fire_events.add_frame_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         + 1,
@@ -167,7 +167,7 @@ def test_invalid_fire_events_chanel_unicity_check(
 #     fire_events_check_report: FireEventsCheckReport,
 # ):
 #     valid_fire_events.add_frame_chanel_duration(
-#         FRAME_PARAMETER.from_absolute_time_to_position_frame(
+#         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
 #             JSON_BINARY_PARAMETER.show_duration_min_second
 #         ),
 #         0,
@@ -187,7 +187,7 @@ def test_invalid_fire_events_duration_value_check(
     fire_events_check_report: FireEventsCheckReport,
 ):
     valid_fire_events.add_frame_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
         0,

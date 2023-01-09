@@ -24,7 +24,7 @@ def valid_show_user() -> ShowUser:
         position_events=[
             PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
@@ -35,7 +35,7 @@ def valid_show_user() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -74,7 +74,7 @@ def valid_show_user() -> ShowUser:
         position_events=[
             PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
@@ -85,7 +85,7 @@ def valid_show_user() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                position_frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,

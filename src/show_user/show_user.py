@@ -8,13 +8,8 @@ from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAM
 
 
 class PositionEventUser(BaseModel):
-    frame: float  # 24 fps
+    frame: int  # 24 fps
     xyz: Tuple[float, float, float]  # ENU and meter
-
-    # TODO: à terme virer le position frame
-    @property
-    def position_frame(self) -> int:
-        return FRAME_PARAMETER.from_absolute_frame_to_position_frame(self.frame)
 
     @property
     def absolute_time(self) -> float:
@@ -22,13 +17,8 @@ class PositionEventUser(BaseModel):
 
 
 class ColorEventUser(BaseModel):
-    frame: float  # second
+    frame: int  # 24 fps
     rgbw: Tuple[float, float, float, float]  # between 0 and 1
-
-    # TODO: à terme virer le color frame
-    @property
-    def color_frame(self) -> int:
-        return FRAME_PARAMETER.from_absolute_frame_to_color_frame(self.frame)
 
     @property
     def absolute_time(self) -> float:
@@ -36,14 +26,9 @@ class ColorEventUser(BaseModel):
 
 
 class FireEventUser(BaseModel):
-    frame: float  # second
+    frame: int  # 24 fps
     chanel: float  # Chanel of the drone
     duration: float  # Duration of the event
-
-    # TODO: à terme virer le pyro frame
-    @property
-    def fire_frame(self) -> int:
-        return FRAME_PARAMETER.from_absolute_frame_to_fire_frame(self.frame)
 
     @property
     def absolute_time(self) -> float:
@@ -65,14 +50,14 @@ class DroneUser(BaseModel):
 
     @property
     def last_frame(self) -> int:
-        return self.position_events[-1].position_frame
+        return self.position_events[-1].frame
 
     @property
     def last_height(self) -> float:
         return self.position_events[-1].xyz[2]
 
     def get_position_frame_by_index(self, index: int) -> int:
-        return self.position_events[index].position_frame
+        return self.position_events[index].frame
 
     def get_absolute_time_by_index(self, index: int) -> float:
         return self.position_events[index].absolute_time
@@ -113,9 +98,8 @@ class ShowUser(BaseModel):
         return max(
             [
                 drone_user.last_frame
-                + int(
-                    FRAME_PARAMETER.position_fps
-                    * LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
+                + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                    LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
                 )
                 for drone_user in self.drones_user
             ]

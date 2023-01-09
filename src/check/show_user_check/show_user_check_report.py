@@ -3,12 +3,6 @@ from typing import List
 from ...report import Contenor, Displayer
 
 
-class FrameCoherenceCheckReport(Contenor):
-    def __init__(self):
-        self.name = "Frame Coherence Check Report"
-        self.incoherence_relative_absolute_time: List[Displayer]
-
-
 class TakeoffCheckReport(Contenor):
     def __init__(self):
         self.name = "Takeoff Check Report"
@@ -19,7 +13,6 @@ class TakeoffCheckReport(Contenor):
 class DroneUserCheckReport(Contenor):
     def __init__(self, drone_index: int):
         self.name = f"Drone {drone_index} user check report"
-        self.frame_coherence_check_report = FrameCoherenceCheckReport()
         self.takeoff_check_report = TakeoffCheckReport()
 
 

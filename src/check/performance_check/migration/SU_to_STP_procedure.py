@@ -2,9 +2,7 @@ from typing import List
 
 import numpy as np
 
-from ....migration.simulation.in_air_flight_simulation import (
-    in_air_flight_simulation,
-)
+from ....migration.simulation.in_air_flight_simulation import in_air_flight_simulation
 from ....migration.simulation.position_simulation import SimulationInfo
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ....show_trajectory_performance.show_trajectory_performance import (
@@ -25,7 +23,7 @@ def get_trajectory_performance_info_from_simulation_infos(
         simulation_info.position for simulation_info in simulation_infos
     ]
     velocities = [
-        FRAME_PARAMETER.position_fps
+        FRAME_PARAMETER.absolute_fps
         * (
             positions[position_index]
             - positions[position_index - VELOCITY_ESTIMATION_INDEX]
@@ -33,8 +31,8 @@ def get_trajectory_performance_info_from_simulation_infos(
         for position_index in range(len(positions))
     ]
     accelerations: List[np.ndarray] = [
-        FRAME_PARAMETER.position_fps
-        * FRAME_PARAMETER.position_fps
+        FRAME_PARAMETER.absolute_fps
+        * FRAME_PARAMETER.absolute_fps
         * (
             positions[position_index]
             - 2 * positions[position_index - VELOCITY_ESTIMATION_INDEX]

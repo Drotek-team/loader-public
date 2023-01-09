@@ -43,4 +43,5 @@ def valid_show_user():
 def test_SU_to_STC_procedure(valid_show_user: ShowUser):
     show_trajectory = SU_to_STC_procedure(valid_show_user)
     assert show_trajectory.drone_number == 1
-    assert show_trajectory.frames == [frame for frame in range(51)]
+    assert len(show_trajectory.frames) == 301
+    assert show_trajectory.frames == [frame for frame in range(301)]

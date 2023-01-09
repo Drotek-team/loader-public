@@ -18,9 +18,8 @@ def generate_land_first_part(
     return linear_interpolation(
         land_start_position,
         land_middle_position,
-        int(
-            LAND_PARAMETER.get_first_land_second_delta(land_start_position[2])
-            * FRAME_PARAMETER.position_fps
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            LAND_PARAMETER.get_first_land_second_delta(land_start_position[2]),
         ),
     )
 
@@ -41,9 +40,8 @@ def generate_land_second_part(
     return linear_interpolation(
         land_middle_position,
         land_end_position,
-        int(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             LAND_PARAMETER.get_second_land_second_delta(land_start_position[2])
-            * FRAME_PARAMETER.position_fps
         ),
     )
 

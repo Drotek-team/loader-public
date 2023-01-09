@@ -20,7 +20,7 @@ def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
         TAKEOFF_PARAMETER.takeoff_duration_second
     )
     POSITION = (0.0, 0.0, 0.0)
-    return PositionEventUser(frame=FRAME_START, xyz=POSITION,), PositionEventUser(
+    return PositionEventUser(frame=FRAME_START, xyz=POSITION), PositionEventUser(
         frame=FRAME_END,
         xyz=(
             POSITION[0],
@@ -39,29 +39,27 @@ def test_takeoff_simulation(
     )
     real_takeoff_simulation_infos = takeoff_simulation(
         first_position_event.xyz,
-        first_position_event.position_frame,
+        first_position_event.frame,
     )
     first_theorical_positions = linear_interpolation(
         first_position_event.xyz,
         second_position_event.xyz,
-        int(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             TAKEOFF_PARAMETER.takeoff_elevation_duration_second
-            * FRAME_PARAMETER.position_fps
         ),
     )
     second_theorical_positions = linear_interpolation(
         second_position_event.xyz,
         second_position_event.xyz,
-        int(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
-            * FRAME_PARAMETER.position_fps
         )
         - 1,
     )
     theorical_positions = first_theorical_positions + second_theorical_positions
     theorical_takeoff_simulation_infos = [
         SimulationInfo(
-            first_position_event.position_frame + frame_index,
+            first_position_event.frame + frame_index,
             theorical_position,
             True,
             False,

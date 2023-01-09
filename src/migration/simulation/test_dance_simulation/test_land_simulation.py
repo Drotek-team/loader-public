@@ -47,7 +47,7 @@ def test_land_simulation_first_case(
 
     real_land_simulation_infos = land_simulation(
         valid_position_event_user_first_case.xyz,
-        valid_position_event_user_first_case.position_frame,
+        valid_position_event_user_first_case.frame,
     )
     land_middle_position = (
         valid_position_event_user_first_case.xyz[0],
@@ -64,16 +64,15 @@ def test_land_simulation_first_case(
     theorical_position = linear_interpolation(
         land_middle_position,
         land_end_position,
-        int(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             LAND_PARAMETER.get_second_land_second_delta(
                 valid_position_event_user_first_case.xyz[2]
             )
-            * FRAME_PARAMETER.position_fps
         ),
     )
     theorical_land_simulation_infos = [
         SimulationInfo(
-            valid_position_event_user_first_case.position_frame + frame_index,
+            valid_position_event_user_first_case.frame + frame_index,
             theorical_position,
             True,
             False,
@@ -97,7 +96,7 @@ def test_land_simulation_second_case(
 
     real_land_simulation_infos = land_simulation(
         valid_position_event_user_second_case.xyz,
-        valid_position_event_user_second_case.position_frame,
+        valid_position_event_user_second_case.frame,
     )
     land_first_position = valid_position_event_user_second_case.xyz
     land_middle_position = (
@@ -116,23 +115,21 @@ def test_land_simulation_second_case(
     first_theorical_position = linear_interpolation(
         land_first_position,
         land_middle_position,
-        int(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             LAND_PARAMETER.get_first_land_second_delta(land_first_position[2])
-            * FRAME_PARAMETER.position_fps
         ),
     )
     second_theorical_position = linear_interpolation(
         land_middle_position,
         land_end_position,
-        int(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             LAND_PARAMETER.get_second_land_second_delta(land_middle_position[2])
-            * FRAME_PARAMETER.position_fps
         ),
     )
     theorical_position = first_theorical_position + second_theorical_position
     theorical_land_simulation_infos = [
         SimulationInfo(
-            valid_position_event_user_second_case.position_frame + frame_index,
+            valid_position_event_user_second_case.frame + frame_index,
             theorical_position,
             True,
             False,

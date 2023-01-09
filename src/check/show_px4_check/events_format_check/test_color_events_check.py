@@ -13,13 +13,13 @@ from .events_format_check_report import ColorEventsCheckReport
 def valid_color_events():
     color_events = ColorEvents()
     color_events.add_frame_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0, 0),
     )
     color_events.add_frame_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         + 1,
@@ -65,7 +65,7 @@ def test_invalid_color_events_frame_increasing_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     valid_color_events.add_frame_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0, 0),
@@ -86,7 +86,7 @@ def test_invalid_color_events_frame_first_frame_check(
     valid_color_events.events.insert(
         0,
         ColorEvent(
-            FRAME_PARAMETER.from_absolute_time_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             )
             - 1,
@@ -110,7 +110,7 @@ def test_invalid_color_events_frame_first_frame_check(
 #     color_events_check_report: ColorEventsCheckReport,
 # ):
 #     valid_color_events.add_frame_rgbw(
-#         FRAME_PARAMETER.from_absolute_time_to_position_frame(
+#         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
 #             JSON_BINARY_PARAMETER.show_duration_min_second
 #         ),
 #         (1.23, 0, 0, 0),
@@ -129,7 +129,7 @@ def test_invalid_color_events_rgbw_value_check(
     color_events_check_report: ColorEventsCheckReport,
 ):
     valid_color_events.add_frame_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (JSON_BINARY_PARAMETER.color_value_max + 1, 0, 0, 0),

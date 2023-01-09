@@ -47,10 +47,10 @@ def position_frame_check(
     frames = [event.frame for event in position_events.events]
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
     )
@@ -67,10 +67,10 @@ def color_frame_check(
     frames = [event.frame for event in color_events.events]
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
-        FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
     )
@@ -115,10 +115,10 @@ def fire_frame_check(
     fire_events_frame_check_report.frame_value_check_report.validation = (
         check_int_size_list(
             frames,
-            FRAME_PARAMETER.from_absolute_time_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             ),
-            FRAME_PARAMETER.from_absolute_time_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_max_second
             ),
         )

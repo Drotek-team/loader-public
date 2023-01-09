@@ -11,18 +11,14 @@ def drone_px4_to_drone_user_procedure(
 ) -> DroneUser:
     position_events_user = [
         PositionEventUser(
-            frame=FRAME_PARAMETER.from_position_frame_to_absolute_frame(
-                position_event_px4.frame
-            ),
+            frame=position_event_px4.frame,
             xyz=JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(position_event_px4.xyz),
         )
         for position_event_px4 in drone_px4.position_events.events
     ]
     color_events_user = [
         ColorEventUser(
-            frame=FRAME_PARAMETER.from_color_frame_to_absolute_frame(
-                color_event_px4.frame
-            ),
+            frame=color_event_px4.frame,
             rgbw=JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
         )
         for color_event_px4 in drone_px4.color_events.events
@@ -30,9 +26,7 @@ def drone_px4_to_drone_user_procedure(
 
     fire_events_user = [
         FireEventUser(
-            frame=FRAME_PARAMETER.from_fire_frame_to_absolute_frame(
-                fire_event_px4.frame
-            ),
+            frame=fire_event_px4.frame,
             chanel=fire_event_px4.chanel,
             duration=JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(
                 fire_event_px4.duration

@@ -12,7 +12,7 @@ from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
 
 
-# TODO: this is the one that must be test like hell
+# TO DO: this is the one that must be test like hell
 def flight_simulation(
     drone_user: DroneUser,
     last_frame: int,
@@ -20,7 +20,7 @@ def flight_simulation(
     simulation_infos: List[SimulationInfo] = []
     if len(drone_user.position_events) == 1:
         simulation_infos += stand_by_simulation(
-            FRAME_PARAMETER.from_absolute_time_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             ),
             last_frame,
@@ -30,7 +30,7 @@ def flight_simulation(
     last_frame_stand_by = 0
     if drone_user.get_position_frame_by_index(0) != 0:
         simulation_infos += stand_by_simulation(
-            FRAME_PARAMETER.from_absolute_time_to_position_frame(
+            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             ),
             drone_user.get_position_frame_by_index(0) - 1,

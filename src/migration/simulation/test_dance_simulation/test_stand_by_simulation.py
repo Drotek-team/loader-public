@@ -29,20 +29,20 @@ def test_stand_by_simulation(
         valid_position_events_user[1],
     )
     real_stand_by_simulation_infos = stand_by_simulation(
-        first_position_event.position_frame,
-        second_position_event.position_frame,
+        first_position_event.frame,
+        second_position_event.frame,
         first_position_event.xyz,
     )
 
     theorical_stand_by_simulation_infos = [
         SimulationInfo(
-            first_position_event.position_frame + frame_index,
+            first_position_event.frame + frame_index,
             np.array(first_position_event.xyz),
             False,
             False,
         )
         for frame_index in range(
-            second_position_event.position_frame - first_position_event.position_frame
+            second_position_event.frame - first_position_event.frame
         )
     ]
     assert len(real_stand_by_simulation_infos) == len(

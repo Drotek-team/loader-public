@@ -63,7 +63,7 @@ def test_valid_simulation_on_ground():
         show_simulation_collision_check_report,
     )
     assert (
-        len(show_simulation_collision_check_report.collision_slices_check_report) == 50
+        len(show_simulation_collision_check_report.collision_slices_check_report) == 300
     )
     assert (
         show_simulation_collision_check_report.collision_slices_check_report[0].name
@@ -114,5 +114,5 @@ def test_invalid_simulation_in_air():
         show_simulation_collision_check_report,
     )
     assert (
-        len(show_simulation_collision_check_report.collision_slices_check_report) == 50
+        len(show_simulation_collision_check_report.collision_slices_check_report) == 300
     )

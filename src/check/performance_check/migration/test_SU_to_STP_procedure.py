@@ -24,7 +24,7 @@ def valid_show_user() -> ShowUser:
                 frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
-                + FRAME_PARAMETER.position_frame,
+                + 1,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
@@ -47,7 +47,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
     )
     assert (
         first_trajectory_performance.frame + 1
-        == FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        == FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
     )
@@ -63,7 +63,7 @@ def test_SU_to_STP_procedure(valid_show_user: ShowUser):
     )
     assert (
         second_trajectory_performance.frame
-        == FRAME_PARAMETER.from_absolute_time_to_position_frame(
+        == FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
     )

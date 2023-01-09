@@ -29,14 +29,12 @@ def test_flight_simulation(valid_position_events_user: List[PositionEventUser]):
     first_theorical_positions = linear_interpolation(
         first_position_event_user.xyz,
         second_position_event_user.xyz,
-        second_position_event_user.position_frame
-        - first_position_event_user.position_frame,
+        second_position_event_user.frame - first_position_event_user.frame,
     )
     second_theorical_positions = linear_interpolation(
         second_position_event_user.xyz,
         third_position_event_user.xyz,
-        third_position_event_user.position_frame
-        - second_position_event_user.position_frame,
+        third_position_event_user.frame - second_position_event_user.frame,
     )
     theorical_positions = (
         first_theorical_positions
@@ -45,7 +43,7 @@ def test_flight_simulation(valid_position_events_user: List[PositionEventUser]):
     )
     theorical_in_air_flight_simulation_infos = [
         SimulationInfo(
-            first_position_event_user.position_frame - 1 + frame_index,
+            first_position_event_user.frame - 1 + frame_index,
             theorical_position,
             True,
             True,
