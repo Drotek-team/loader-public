@@ -11,19 +11,25 @@ from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from .show_trajectory_performance_check_report import *
 
 
-@dataclass(frozen=True)
-class MetricRange:
-    min_value: float
-    max_value: float
-    standard_convention: bool = True
+class Metric(Enum):
+    VERTICAL_POSITION = "vertical position"
+    HORIZONTAL_VELOCITY = "horizontal velocity"
+    UP_VELOCITY = "up velocity"
+    DOWN_VELOCITY = "down velocity"
+    ACCELERATION = "acceleration"
 
-    def interpolation(self, value: float) -> float:
-        ratio = (value - self.min_value) / (self.max_value - self.min_value)
-        return min(1, max(ratio, 0))
+    @property
+    def evaluation(self):
+        return METRICS_EVALUATION[self]
 
-    def validation(self, value: float) -> bool:
-        ratio = self.interpolation(value)
-        return ratio != int(self.standard_convention)
+    @property
+    def range(self):
+        return METRICS_RANGE[self]
+
+    def validation(
+        self, position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+    ) -> bool:
+        return self.range.validation(self.evaluation(position, velocity, acceleration))
 
 
 def vertical_position_evaluation(
@@ -38,12 +44,6 @@ def horizontal_velocity_evaluation(
     return float(np.linalg.norm(velocity[0:2]))
 
 
-def horizontal_acceleration_evaluation(
-    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
-) -> float:
-    return float(np.linalg.norm(acceleration[0:2]))
-
-
 def up_velocity_evaluation(
     position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
 ) -> float:
@@ -56,12 +56,10 @@ def down_velocity_evaluation(
     return float(-velocity[2])
 
 
-class Metric(Enum):
-    VERTICAL_POSITION = "Vertical position"
-    HORIZONTAL_VELOCITY = "horizontal velocity"
-    HORIZONTAL_ACCELERATION = "horizontal acceleration"
-    UP_VELOCITY = "up velocity"
-    DOWN_VELOCITY = "donw velocity"
+def acceleration_evaluation(
+    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+) -> float:
+    return float(np.linalg.norm(acceleration))
 
 
 METRICS_EVALUATION: Dict[
@@ -69,61 +67,63 @@ METRICS_EVALUATION: Dict[
 ] = {
     Metric.VERTICAL_POSITION: vertical_position_evaluation,
     Metric.HORIZONTAL_VELOCITY: horizontal_velocity_evaluation,
-    Metric.HORIZONTAL_ACCELERATION: horizontal_acceleration_evaluation,
     Metric.UP_VELOCITY: up_velocity_evaluation,
     Metric.DOWN_VELOCITY: down_velocity_evaluation,
+    Metric.ACCELERATION: acceleration_evaluation,
 }
+
+
+@dataclass(frozen=True)
+class MetricRange:
+    threshold: float
+    standard_convention: bool = True
+
+    def validation(self, value: float) -> bool:
+        if self.standard_convention:
+            return value <= self.threshold
+        return value >= self.threshold
 
 
 METRICS_RANGE: Dict[Metric, MetricRange] = {
     Metric.VERTICAL_POSITION: MetricRange(
-        0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min, False
+        TAKEOFF_PARAMETER.takeoff_altitude_meter_min, False
     ),
     Metric.HORIZONTAL_VELOCITY: MetricRange(
-        0, IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
+        IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
     ),
-    Metric.HORIZONTAL_ACCELERATION: MetricRange(
-        0, IOSTAR_PHYSIC_PARAMETER.horizontal_acceleration_max
-    ),
-    Metric.UP_VELOCITY: MetricRange(0, IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max),
-    Metric.DOWN_VELOCITY: MetricRange(
-        IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max, 0, False
-    ),
+    Metric.UP_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_up_max),
+    Metric.DOWN_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_down_max),
+    Metric.ACCELERATION: MetricRange(IOSTAR_PHYSIC_PARAMETER.acceleration_max),
 }
 
 
 def get_performance_infraction(
     performance_name: str,
     performance_value: float,
-    performance_value_min: float,
-    performance_value_max: float,
-    absolute_time: float,
+    metric_range: MetricRange,
+    absolute_frame: int,
 ) -> Displayer:
+    metric_convention_name = "max" if metric_range.standard_convention else "min"
     return Displayer(
-        name=f"The performance {performance_name} has the value: {performance_value} (min/max:{performance_value_min}/{performance_value_max}) at the time {absolute_time}",
+        name=f"The performance {performance_name} has the value: {performance_value:.2f} ({metric_convention_name}: {metric_range.threshold}) at the frame {absolute_frame}",
         validation=False,
     )
 
 
 def performance_evaluation(
-    absolute_time: float,
+    absolute_frame: int,
     position: np.ndarray,
     velocity: np.ndarray,
     acceleration: np.ndarray,
     drone_trajectory_performance_check: DronePerformanceCheckReport,
 ) -> None:
     for metric in Metric:
-        if not (
-            METRICS_RANGE[metric].validation(
-                METRICS_EVALUATION[metric](position, velocity, acceleration)
-            )
-        ):
+        if not (metric.validation(position, velocity, acceleration)):
             drone_trajectory_performance_check.performance_infractions.append(
                 get_performance_infraction(
                     metric.value,
-                    METRICS_EVALUATION[metric](position, velocity, acceleration),
-                    METRICS_RANGE[metric].min_value,
-                    METRICS_RANGE[metric].max_value,
-                    absolute_time,
+                    metric.evaluation(position, velocity, acceleration),
+                    metric.range,
+                    absolute_frame,
                 )
             )
