@@ -15,13 +15,11 @@ from .SU_to_STC_procedure import SU_to_STC_procedure
 def valid_show_trajectory() -> CollisionShowTrajectory:
     drone_user = DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=int(
-                    FRAME_PARAMETER.position_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                    TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],

@@ -12,13 +12,11 @@ NUMERICAL_TOLERANCE = 1e-3
 
 @pytest.fixture
 def valid_position_event_user_first_case() -> PositionEventUser:
-
     FRAME_START = 0
     POSITION_X = 2.36
     POSITION_Y = 5.69
     return PositionEventUser(
-        position_frame=FRAME_START,
-        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
+        frame=FRAME_START,
         xyz=(
             POSITION_X,
             POSITION_Y,
@@ -34,8 +32,7 @@ def valid_position_event_user_second_case() -> PositionEventUser:
     POSITION_X = 2.36
     POSITION_Y = 5.69
     return PositionEventUser(
-        position_frame=FRAME_START,
-        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
+        frame=FRAME_START,
         xyz=(
             POSITION_X,
             POSITION_Y,

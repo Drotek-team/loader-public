@@ -11,9 +11,9 @@ from ..position_simulation import SimulationInfo
 @pytest.fixture
 def valid_position_events_user() -> List[PositionEventUser]:
     return [
-        PositionEventUser(position_frame=0, absolute_time=0, xyz=(0, 0, 0)),
-        PositionEventUser(position_frame=1, absolute_time=6, xyz=(0, 0, 1)),
-        PositionEventUser(position_frame=4, absolute_time=24, xyz=(0, 0, 2)),
+        PositionEventUser(frame=0, xyz=(0, 0, 0)),
+        PositionEventUser(frame=5, xyz=(0, 0, 1)),
+        PositionEventUser(frame=23, xyz=(0, 0, 2)),
     ]
 
 

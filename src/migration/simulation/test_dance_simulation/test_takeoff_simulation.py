@@ -16,17 +16,12 @@ from ..position_simulation import SimulationInfo
 def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
 
     FRAME_START = 0
-    FRAME_END = FRAME_START + int(
-        FRAME_PARAMETER.absolute_fps * TAKEOFF_PARAMETER.takeoff_duration_second
+    FRAME_END = FRAME_START + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        TAKEOFF_PARAMETER.takeoff_duration_second
     )
     POSITION = (0.0, 0.0, 0.0)
-    return PositionEventUser(
-        position_frame=FRAME_START,
-        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
-        xyz=POSITION,
-    ), PositionEventUser(
-        position_frame=FRAME_END,
-        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_END),
+    return PositionEventUser(frame=FRAME_START, xyz=POSITION,), PositionEventUser(
+        frame=FRAME_END,
         xyz=(
             POSITION[0],
             POSITION[1],

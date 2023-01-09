@@ -12,15 +12,10 @@ from ..position_simulation import SimulationInfo
 @pytest.fixture
 def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
     FRAME_START = 0
-    FRAME_END = 20
+    FRAME_END = 80
     POSITION = (0.0, 0.0, 10.0)
-    return PositionEventUser(
-        position_frame=FRAME_START,
-        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_START),
-        xyz=POSITION,
-    ), PositionEventUser(
-        position_frame=FRAME_END,
-        absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(FRAME_END),
+    return PositionEventUser(frame=FRAME_START, xyz=POSITION,), PositionEventUser(
+        frame=FRAME_END,
         xyz=POSITION,
     )
 

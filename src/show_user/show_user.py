@@ -7,26 +7,47 @@ from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARA
 from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 
 
-# TODO: add the fps coherence at the begining of the add_event() and calculate position frame
 class PositionEventUser(BaseModel):
-    position_frame: int  # 4 frame per second
-    absolute_time: float  # second
+    frame: float  # 24 fps
     xyz: Tuple[float, float, float]  # ENU and meter
 
+    # TODO: à terme virer le position frame
+    @property
+    def position_frame(self) -> int:
+        return FRAME_PARAMETER.from_absolute_frame_to_position_frame(self.frame)
 
-# TODO: add the fps coherence at the begining of the add_event() and calculate position frame
+    @property
+    def absolute_time(self) -> float:
+        return FRAME_PARAMETER.from_absolute_frame_to_absolute_time(self.frame)
+
+
 class ColorEventUser(BaseModel):
-    color_frame: int  # 24 frame per second
-    absolute_time: float  # second
+    frame: float  # second
     rgbw: Tuple[float, float, float, float]  # between 0 and 1
 
+    # TODO: à terme virer le color frame
+    @property
+    def color_frame(self) -> int:
+        return FRAME_PARAMETER.from_absolute_frame_to_color_frame(self.frame)
 
-# TODO: add the fps coherence at the begining of the add_event() and calculate position frame
+    @property
+    def absolute_time(self) -> float:
+        return FRAME_PARAMETER.from_absolute_frame_to_absolute_time(self.frame)
+
+
 class FireEventUser(BaseModel):
-    fire_frame: int  # 24 frame per second
-    absolute_time: float  # second
+    frame: float  # second
     chanel: float  # Chanel of the drone
     duration: float  # Duration of the event
+
+    # TODO: à terme virer le pyro frame
+    @property
+    def fire_frame(self) -> int:
+        return FRAME_PARAMETER.from_absolute_frame_to_fire_frame(self.frame)
+
+    @property
+    def absolute_time(self) -> float:
+        return FRAME_PARAMETER.from_absolute_frame_to_absolute_time(self.frame)
 
 
 class DroneUser(BaseModel):

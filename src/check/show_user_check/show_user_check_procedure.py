@@ -79,7 +79,6 @@ def apply_takeoff_check(
     if drone_user.nb_position_events == 1:
         first_frame = drone_user.get_position_frame_by_index(0)
         first_position = drone_user.get_xyz_simulation_by_index(0)
-
         takeoff_check_report.takeoff_duration_check_report.validation = (
             takeoff_check_report.takeoff_xyz_check_report.validation
         ) = (first_frame == 0)

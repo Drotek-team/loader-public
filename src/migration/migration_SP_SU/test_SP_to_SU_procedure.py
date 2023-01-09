@@ -99,7 +99,6 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
     ].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW
     )
-
     assert len(drone_users[1].color_events) == 1
     assert drone_users[1].color_events[0].color_frame == ARBITRARY_COLOR_EVENT_FRAME_BIS
     assert drone_users[1].color_events[

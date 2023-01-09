@@ -8,7 +8,6 @@ class Displayer:
     validation: bool = False
     annexe_message: str = ""
 
-    # TODO: "dataclass __hash__"
     def __hash__(self) -> int:
         return hash((self.name, self.annexe_message))
 

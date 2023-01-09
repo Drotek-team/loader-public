@@ -13,13 +13,11 @@ from .show_user_check_report import *
 def valid_drone_user() -> DroneUser:
     return DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=int(
-                    FRAME_PARAMETER.position_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                    TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
@@ -44,20 +42,12 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
     FRAME_BIAS = 1
     return DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=int(
-                    FRAME_PARAMETER.position_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                    TAKEOFF_PARAMETER.takeoff_duration_second
                 )
-                + FRAME_BIAS,
-                absolute_time=FRAME_PARAMETER.from_position_frame_to_absolute_time(
-                    int(
-                        FRAME_PARAMETER.position_fps
-                        * TAKEOFF_PARAMETER.takeoff_duration_second
-                    )
-                    + FRAME_BIAS
-                ),
+                + FRAME_PARAMETER.from_position_frame_to_absolute_frame(FRAME_BIAS),
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
@@ -83,13 +73,11 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
     Z_BIAS = 1e-2
     return DroneUser(
         position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=(0.0, 0.0, 0.0)),
+            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                position_frame=int(
-                    FRAME_PARAMETER.position_fps
-                    * TAKEOFF_PARAMETER.takeoff_duration_second
+                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                    TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_max + Z_BIAS),
             ),
         ],
@@ -125,9 +113,7 @@ def test_empty_position_events():
 
 def test_valid_one_position_events():
     one_position_events_drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=[2.0, 2.0, 0.0])
-        ],
+        position_events=[PositionEventUser(frame=0, xyz=[2.0, 2.0, 0.0])],
         color_events=[],
         fire_events=[],
     )
@@ -142,7 +128,7 @@ def test_valid_one_position_events():
 def test_invalid_by_time_one_position_events():
     one_position_events_drone_user = DroneUser(
         position_events=[
-            PositionEventUser(position_frame=1, absolute_time=0, xyz=[2.0, 2.0, 0.0])
+            PositionEventUser(frame=FRAME_PARAMETER.position_frame, xyz=[2.0, 2.0, 0.0])
         ],
         color_events=[],
         fire_events=[],
@@ -158,9 +144,7 @@ def test_invalid_by_time_one_position_events():
 
 def test_invalid_by_position_one_position_events():
     one_position_events_drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(position_frame=0, absolute_time=0, xyz=[2.0, 2.0, 0.1])
-        ],
+        position_events=[PositionEventUser(frame=0, xyz=[2.0, 2.0, 0.1])],
         color_events=[],
         fire_events=[],
     )

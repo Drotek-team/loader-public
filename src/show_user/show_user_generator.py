@@ -20,8 +20,7 @@ def get_valid_show_user(
         DroneUser(
             position_events=[
                 PositionEventUser(
-                    position_frame=0,
-                    absolute_time=0,
+                    frame=0,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
@@ -29,10 +28,9 @@ def get_valid_show_user(
                     ],
                 ),
                 PositionEventUser(
-                    position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                    frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     ),
-                    absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
@@ -40,14 +38,12 @@ def get_valid_show_user(
                     ],
                 ),
                 PositionEventUser(
-                    position_frame=FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                    frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     )
-                    + FRAME_PARAMETER.from_absolute_time_to_position_frame(
+                    + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         show_duration_absolute_time
                     ),
-                    absolute_time=TAKEOFF_PARAMETER.takeoff_duration_second
-                    + show_duration_absolute_time,
                     xyz=[
                         step_takeoff * (index_x - nb_x + 1),
                         step_takeoff * (index_y - nb_y + 1),
