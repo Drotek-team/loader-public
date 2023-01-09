@@ -2,7 +2,6 @@ from typing import List
 
 import numpy as np
 
-from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...show_user.show_user import PositionEventUser
 from .position_simulation import SimulationInfo, linear_interpolation
 

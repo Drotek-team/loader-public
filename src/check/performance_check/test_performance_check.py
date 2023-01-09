@@ -6,7 +6,6 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...show_user.show_user import *
-from .migration.SU_to_STP_procedure import SU_to_STP_procedure
 from .show_trajectory_performance_check_procedure import (
     apply_show_trajectory_performance_check_procedure,
 )

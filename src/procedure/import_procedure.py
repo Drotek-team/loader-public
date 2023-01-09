@@ -1,19 +1,14 @@
 from typing import Dict, Tuple
 
-from ..check.all_check_from_show_user_procedure import (
-    apply_all_check_from_show_user_procedure,
-)
 from ..check.show_check_report import ShowCheckReport
-from ..iostar_json.iostar_json import IostarJson
-from ..migration.migration_SP_IJ.SP_to_IJ_procedure import SP_to_IJ_procedure
-from ..migration.migration_SP_SU.SP_to_SU_procedure import SP_to_SU_procedure
 from ..show_user.show_user import ShowUser
 
 
 def apply_import_procedure(
     iostar_json_dict: Dict,
 ) -> Tuple[ShowUser, ShowCheckReport]:
-    iostar_json = IostarJson(**iostar_json_dict)
+    pass
+    # iostar_json = IostarJson(**iostar_json_dict)
     # json_extraction_report = IJ_to_SP_report()
     # show_px4 = IJ_to_SP_procedure(
     #     iostar_json,

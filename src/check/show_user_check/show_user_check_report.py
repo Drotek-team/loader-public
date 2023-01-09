@@ -1,5 +1,3 @@
-from typing import List
-
 from ...report import Contenor, Displayer
 
 

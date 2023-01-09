@@ -3,10 +3,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...show_simulation.show_simulation import ShowSimulation
 from ...show_user.show_user import *
-from .migration.STC_to_SSC_procedure import STC_to_SS_procedure
-from .migration.SU_to_STC_procedure import SU_to_STC_procedure
 from .show_simulation_collision_check_procedure import (
     apply_show_simulation_collision_check_procedure,
 )
