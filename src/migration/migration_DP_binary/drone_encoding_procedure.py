@@ -75,3 +75,18 @@ def encode_drone(
         number_non_empty_events=len(non_empty_events_list),
     )
     return assemble_dance(header, section_headers, encoded_events_list)
+
+
+def get_dance_size(drone_px4: DronePx4) -> int:
+    header_size = struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
+    header_section_size = 3 * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
+    position_size = len(drone_px4.position_events.events) * struct.calcsize(
+        drone_px4.position_events.format
+    )
+    color_size = len(drone_px4.color_events.events) * struct.calcsize(
+        drone_px4.color_events.format
+    )
+    fire_size = len(drone_px4.fire_events.events) * struct.calcsize(
+        drone_px4.fire_events.format
+    )
+    return header_size + header_section_size + position_size + color_size + fire_size
