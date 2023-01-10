@@ -18,6 +18,6 @@ def test_export_procedure():
             STEP_TAKEOFF,
             ANGLE_TAKEOFF,
             SHOW_DURATION_FRAME,
-        )["show"],
+        )
     )
     assert show_check_report.validation

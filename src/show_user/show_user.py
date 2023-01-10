@@ -87,6 +87,49 @@ class ShowUser(BaseModel):
     def __len__(self):
         return len(self.drones_user)
 
+    def add_position_event(
+        self, drone_index: int, frame: int, xyz: Tuple[float, float, float]
+    ) -> None:
+        if drone_index >= len(self.drones_user):
+            msg = f"{drone_index} is bigger or equal than the size of the show {len(self.drones_user)}"
+            raise ValueError(msg)
+        if drone_index < 0:
+            msg = f"{drone_index} is smaller than 0"
+            raise ValueError(msg)
+        self.drones_user[drone_index].position_events.append(
+            PositionEventUser(frame=frame, xyz=xyz)
+        )
+
+    def add_color_event(
+        self, drone_index: int, frame: int, rgbw: Tuple[float, float, float, float]
+    ) -> None:
+        if drone_index >= len(self.drones_user):
+            msg = f"{drone_index} is bigger or equal than the size of the show {len(self.drones_user)}"
+            raise ValueError(msg)
+        if drone_index < 0:
+            msg = f"{drone_index} is smaller than 0"
+            raise ValueError(msg)
+        self.drones_user[drone_index].color_events.append(
+            ColorEventUser(frame=frame, rgbw=rgbw)
+        )
+
+    def add_fire_event(
+        self,
+        drone_index: int,
+        frame: int,
+        chanel: int,
+        duration: int,
+    ) -> None:
+        if drone_index >= len(self.drones_user):
+            msg = f"{drone_index} is bigger or equal than the size of the show {len(self.drones_user)}"
+            raise ValueError(msg)
+        if drone_index < 0:
+            msg = f"{drone_index} is smaller than 0"
+            raise ValueError(msg)
+        self.drones_user[drone_index].fire_events.append(
+            FireEventUser(frame=frame, chanel=chanel, duration=duration)
+        )
+
     @property
     def nb_drones(self) -> int:
         return len(self.drones_user)

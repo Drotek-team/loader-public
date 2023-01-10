@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import Tuple
 
 from ..check.all_check_from_show_user_procedure import (
     apply_all_check_from_show_user_procedure,
@@ -11,9 +11,8 @@ from ..show_user.show_user import ShowUser
 
 
 def apply_export_procedure(
-    show_user_json: Dict,
+    show_user: ShowUser,
 ) -> Tuple[IostarJson, ShowCheckReport]:
-    show_user = ShowUser(**show_user_json)
     show_check_report = ShowCheckReport(len(show_user.drones_user))
     apply_all_check_from_show_user_procedure(show_user, show_check_report)
     return (

@@ -1,6 +1,3 @@
-import json
-from typing import Dict
-
 from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ..parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
@@ -15,7 +12,7 @@ def get_valid_show_user(
     step_takeoff: float,
     angle_takeoff: int,
     show_duration_absolute_time: float,
-) -> Dict:
+) -> ShowUser:
     valid_drones_user = [
         DroneUser(
             position_events=[
@@ -58,5 +55,4 @@ def get_valid_show_user(
         for index_y in range(nb_y)
         for _ in range(nb_drone_per_family)
     ]
-    valid_show_user = ShowUser(drones_user=valid_drones_user)
-    return dict(json.loads(valid_show_user.get_json()))
+    return ShowUser(drones_user=valid_drones_user)
