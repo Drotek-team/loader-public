@@ -1,8 +1,8 @@
 import pytest
 
+from ....report import Displayer
 from ....show_px4.drone_px4.drone_px4 import DronePx4
 from .dances_size_check_procedure import apply_dance_size_check_procedure
-from .dances_size_check_report import DanceSizeCheckReport
 
 MAGIC_BREAKER_NUMBER = 16660
 
@@ -24,7 +24,7 @@ def invalid_drone_dance_size():
 
 
 def test_valid_drone_dance_size_check(valid_drone_dance_size: DronePx4):
-    dance_size_check_report = DanceSizeCheckReport()
+    dance_size_check_report = Displayer("Dance size check report")
     apply_dance_size_check_procedure(
         valid_drone_dance_size,
         dance_size_check_report,
@@ -33,7 +33,7 @@ def test_valid_drone_dance_size_check(valid_drone_dance_size: DronePx4):
 
 
 def test_invalid_drone_dance_size_check(invalid_drone_dance_size: DronePx4):
-    dance_size_check_report = DanceSizeCheckReport()
+    dance_size_check_report = Displayer("Dance size check report")
     apply_dance_size_check_procedure(
         invalid_drone_dance_size,
         dance_size_check_report,

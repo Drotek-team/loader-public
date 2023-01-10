@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 
-# TODO: make the missing test
 @dataclass(frozen=True)
 class FrameParameter:
     absolute_fps = 24
