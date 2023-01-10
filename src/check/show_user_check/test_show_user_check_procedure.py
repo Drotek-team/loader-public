@@ -37,9 +37,11 @@ def test_valid_position_events_takeoff_duration_xyz_check(
     assert takeoff_check_report.validation
 
 
+FRAME_BIAS = 1
+
+
 @pytest.fixture
 def invalid_drone_user_takeoff_duration() -> DroneUser:
-    FRAME_BIAS = 1
     return DroneUser(
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
@@ -68,9 +70,11 @@ def test_invalid_position_events_takeoff_duration_check(
     assert takeoff_check_report.takeoff_xyz_check_report.validation
 
 
+Z_BIAS = 1e-2
+
+
 @pytest.fixture
 def invalid_drone_user_takeoff_xyz() -> DroneUser:
-    Z_BIAS = 1e-2
     return DroneUser(
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),

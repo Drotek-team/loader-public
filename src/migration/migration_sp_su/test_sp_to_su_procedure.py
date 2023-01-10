@@ -5,7 +5,7 @@ from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
 )
 from ...show_px4.drone_px4.drone_px4 import DronePx4
 from ...show_px4.show_px4 import ShowPx4
-from .SP_to_SU_procedure import SP_to_SU_procedure
+from .sp_to_su_procedure import sp_to_su_procedure
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)
@@ -63,7 +63,7 @@ def valid_show_px4() -> ShowPx4:
 
 
 def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowPx4):
-    show_user = SP_to_SU_procedure(valid_show_px4)
+    show_user = sp_to_su_procedure(valid_show_px4)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
@@ -83,7 +83,7 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
 
 
 def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4):
-    show_user = SP_to_SU_procedure(valid_show_px4)
+    show_user = sp_to_su_procedure(valid_show_px4)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
@@ -102,7 +102,7 @@ def test_drone_px4_to_drone_user_procedure_color_events(valid_show_px4: ShowPx4)
 
 def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
 
-    show_user = SP_to_SU_procedure(valid_show_px4)
+    show_user = sp_to_su_procedure(valid_show_px4)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1

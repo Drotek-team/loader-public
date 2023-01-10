@@ -12,11 +12,12 @@ pydantic = "^1.10.2"
 
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^2.20.0"
-black = {version = "^22.10.0", allow-prereleases = true}
+black = { version = "^22.10.0", allow-prereleases = true }
 flake8 = "^5.0.4"
-pytest = "^7.2.0"
 mypy = "^0.990"
+pre-commit = "^2.20.0"
+pytest = "^7.2.0"
+ruff = "0.0.217"
 
 [build-system]
 requires = ["poetry-core"]
@@ -27,3 +28,63 @@ target-version = ['py38']
 
 [tool.isort]
 profile = "black"
+
+[tool.ruff] # https://github.com/charliermarsh/ruff#reference
+required-version = "0.0.217"
+target-version = "py38"
+update-check = false
+src = ["src"]
+select = [
+    "A",   # builtins
+    "B",   # bugbear
+    "BLE", # blind except
+    "C",   # comprehension and mccabe
+    "D",   # docstring
+    "DTZ", # datetimez
+    "E",   # style errors
+    "EM",  # error messages
+    "ERA", # eradicate
+    "F",   # flakes
+    "I",   # import
+    "ISC", # implicit str concat
+    "ICN", # import conventions
+    "FBT", # boolean trap
+    "N",   # naming
+    "PT",  # pytest style
+    "PD",  # pandas-vet
+    "PGH", # pygrep-hooks
+    "PIE", # pie
+    "PLC", # pylint convention
+    "PLE", # pylint error
+    "PLR", # pylint refactor
+    "PLW", # pylint warning
+    "Q",   # quotes
+    "RET", # return
+    "RUF", # ruff
+    "S",   # bandit
+    "SIM", # simplify
+    # "T20",   # print # TODO: use logging instead of print
+    "T10", # debugger
+    # "TID", # tidy-imports
+    # "UP",   # pyupgrade # TODO: enable when ruff reach feature parity
+    "W",   # style warnings
+    "YTT", # sys.version
+]
+ignore = [
+    "D10",  # Missing docstring
+    "E501", # Line too long
+    "F403", # Star import used
+    "F405", # Module may be undefined
+    "S101", # Use of `assert` detected
+]
+unfixable = [
+    "ERA001", # Found commented-out code
+]
+
+[tool.ruff.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+parametrize-names-type = "csv"

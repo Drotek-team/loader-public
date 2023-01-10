@@ -15,11 +15,11 @@ def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
 
 
 def collision_infraction_message(
-    drone_index_1: int, drone_index_2: int, in_air: bool, distance: float
+    drone_index_1: int, drone_index_2: int, distance: float, *, in_air: bool
 ) -> str:
     return (
         f"Collision between drone {drone_index_1} and drone {drone_index_2} "
-        + f"{'in air' if in_air else 'on ground'} with a distance of {distance}"
+        f"{'in air' if in_air else 'on ground'} with a distance of {distance}"
     )
 
 
@@ -27,8 +27,9 @@ def collision_infraction_message(
 def get_collision_infractions(
     local_drone_indices: np.ndarray,
     local_drone_positions: np.ndarray,
-    in_air: bool,
     endangered_distance: float,
+    *,
+    in_air: bool,
 ) -> List[Displayer]:
     nb_drones_local = len(local_drone_indices)
     couples_distance_matrix_indices = np.arange(nb_drones_local * nb_drones_local)
@@ -41,7 +42,6 @@ def get_collision_infractions(
     return [
         Displayer(
             "Collision Infraction",
-            False,
             collision_infraction_message(
                 local_drone_indices[
                     endangered_couples_distance_matrix_index // nb_drones_local
@@ -49,8 +49,8 @@ def get_collision_infractions(
                 local_drone_indices[
                     endangered_couples_distance_matrix_index % nb_drones_local
                 ],
-                in_air,
                 couple_distance_matrix[endangered_couples_distance_matrix_index],
+                in_air=in_air,
             ),
         )
         for (
@@ -60,8 +60,8 @@ def get_collision_infractions(
 
 
 def get_principal_axis(positions_numpy: np.ndarray) -> np.ndarray:
-    X_meaned = positions_numpy - np.mean(positions_numpy, axis=0)
-    cov_mat = np.cov(X_meaned, rowvar=False)
+    x_meaned = positions_numpy - np.mean(positions_numpy, axis=0)
+    cov_mat = np.cov(x_meaned, rowvar=False)
     eigen_values, eigen_vectors = np.linalg.eigh(cov_mat)
     return eigen_vectors[:, np.argsort(eigen_values)[-1]]
 
@@ -92,14 +92,18 @@ def get_unique_list_from_list(non_unique_list: List) -> List:
 def get_optimized_collision_infractions(
     local_indices: np.ndarray,
     local_positions_numpy: np.ndarray,
-    in_air: bool,
     endangered_distance: float,
+    *,
+    in_air: bool,
 ) -> List[Displayer]:
     nb_drones_local = len(local_indices)
     half_nb_drones_local = len(local_indices) // 2
     if nb_drones_local < ARBITRARY_DICHOTOMY_THRESHOLD:
         return get_collision_infractions(
-            local_indices, local_positions_numpy, in_air, endangered_distance
+            local_indices,
+            local_positions_numpy,
+            endangered_distance,
+            in_air=in_air,
         )
     principal_axis = get_principal_axis(local_positions_numpy)
     argsort_by_axis_positions_numpy = np.argsort(local_positions_numpy @ principal_axis)
@@ -113,21 +117,21 @@ def get_optimized_collision_infractions(
             local_positions_numpy[
                 argsort_by_axis_positions_numpy[:half_nb_drones_local]
             ],
-            in_air,
             endangered_distance,
+            in_air=in_air,
         )
         + get_optimized_collision_infractions(
             local_indices[argsort_by_axis_positions_numpy[half_nb_drones_local:]],
             local_positions_numpy[
                 argsort_by_axis_positions_numpy[half_nb_drones_local:]
             ],
-            in_air,
             endangered_distance,
+            in_air=in_air,
         )
         + get_optimized_collision_infractions(
             local_indices[argsort_by_axis_positions_numpy[border_indices]],
             local_positions_numpy[argsort_by_axis_positions_numpy[border_indices]],
-            in_air,
             endangered_distance,
+            in_air=in_air,
         )
     )

@@ -54,7 +54,7 @@ def get_trajectory_performance_info_from_simulation_infos(
     ]
 
 
-def SU_to_STP_procedure(
+def su_to_stp_procedure(
     show_user: ShowUser,
 ) -> ShowTrajectoryPerformance:
     return ShowTrajectoryPerformance(

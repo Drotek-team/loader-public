@@ -7,8 +7,8 @@ from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
 )
 from ....show_trajectory_collision.show_trajectory_collision import *
 from ....show_user.show_user import DroneUser, PositionEventUser, ShowUser
-from .STC_to_SSC_procedure import STC_to_SS_procedure
-from .SU_to_STC_procedure import SU_to_STC_procedure
+from .stc_to_ssc_procedure import stc_to_ss_procedure
+from .su_to_stc_procedure import su_to_stc_procedure
 
 
 @pytest.fixture
@@ -27,13 +27,13 @@ def valid_show_trajectory() -> CollisionShowTrajectory:
         fire_events=[],
     )
     show_user = ShowUser(drones_user=[drone_user])
-    return SU_to_STC_procedure(
+    return su_to_stc_procedure(
         show_user,
     )
 
 
 def test_valid_show_flags(valid_show_trajectory: CollisionShowTrajectory):
-    show_simulation = STC_to_SS_procedure(valid_show_trajectory)
+    show_simulation = stc_to_ss_procedure(valid_show_trajectory)
     assert len(show_simulation.show_slices) == 301
     assert np.array_equal(
         show_simulation.show_slices[0].positions[0], np.array([0.0, 0.0, 0.0])

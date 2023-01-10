@@ -17,7 +17,7 @@ def update_show_simulation_from_drone_trajectory(
         ] = collision_position_infos.in_air
 
 
-def STC_to_SS_procedure(
+def stc_to_ss_procedure(
     collision_show_trajectory: CollisionShowTrajectory,
 ) -> ShowSimulation:
     show_simulation = ShowSimulation(

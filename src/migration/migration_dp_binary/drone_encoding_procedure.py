@@ -24,7 +24,7 @@ def get_section_headers(
     ):
         section_header = SectionHeader(
             fmt_section_header=JSON_BINARY_PARAMETER.fmt_section_header,
-            event_id=non_empty_events.id,
+            event_id=non_empty_events.id_,
             byte_array_start_index=byte_array_start_index,
             byte_array_end_index=byte_array_start_index + len(encoded_events),
         )
@@ -81,12 +81,12 @@ def get_dance_size(drone_px4: DronePx4) -> int:
     header_size = struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
     header_section_size = 3 * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
     position_size = len(drone_px4.position_events.events) * struct.calcsize(
-        drone_px4.position_events.format
+        drone_px4.position_events.format_
     )
     color_size = len(drone_px4.color_events.events) * struct.calcsize(
-        drone_px4.color_events.format
+        drone_px4.color_events.format_
     )
     fire_size = len(drone_px4.fire_events.events) * struct.calcsize(
-        drone_px4.fire_events.format
+        drone_px4.fire_events.format_
     )
     return header_size + header_section_size + position_size + color_size + fire_size

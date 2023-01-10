@@ -11,6 +11,6 @@ def valid_show_px4(show_duration: int) -> ShowPx4:
 
 
 def test_show_dutation():
-    SHOW_DURATION = 225_368
-    show_px4 = valid_show_px4(SHOW_DURATION)
-    assert show_px4.duration == SHOW_DURATION
+    show_duration = 225_368
+    show_px4 = valid_show_px4(show_duration)
+    assert show_px4.duration == show_duration

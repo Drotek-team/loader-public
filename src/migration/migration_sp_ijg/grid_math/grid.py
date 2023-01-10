@@ -44,7 +44,8 @@ class Grid:
 
     def __getitem__(self, horizontal_position_index: int) -> HorizontalPosition:
         if not (isinstance(horizontal_position_index, int)):
-            raise ValueError("Only integer index are dealing by this function")
+            msg = "Only integer index are dealing by this function"
+            raise ValueError(msg)
         return self.horizontal_positions[horizontal_position_index]
 
     def __len__(self):

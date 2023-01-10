@@ -24,6 +24,7 @@ def linear_interpolation(
     position_begin: Tuple[float, float, float],
     position_end: Tuple[float, float, float],
     nb_points: int,
+    *,
     end_point: bool = False,
 ) -> List[np.ndarray]:
     if nb_points < 0:

@@ -6,7 +6,7 @@ from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ....show_user.show_user import *
-from .SU_to_STP_procedure import SU_to_STP_procedure
+from .su_to_stp_procedure import su_to_stp_procedure
 
 
 @pytest.fixture
@@ -35,8 +35,8 @@ def valid_show_user() -> ShowUser:
 
 
 # TODO: Quite a few more test is needed, for instance check the velocity/acceleration at the beggining are calculated according to the convention
-def test_SU_to_STP_procedure(valid_show_user: ShowUser):
-    show_trajectory_performance = SU_to_STP_procedure(valid_show_user)
+def test_su_to_stp_procedure(valid_show_user: ShowUser):
+    show_trajectory_performance = su_to_stp_procedure(valid_show_user)
     drone_trajectory_performance = (
         show_trajectory_performance.drones_trajectory_performance[0]
     )

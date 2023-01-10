@@ -23,13 +23,13 @@ class Metric(Enum):
         return METRICS_EVALUATION[self]
 
     @property
-    def range(self):
+    def range_(self):
         return METRICS_RANGE[self]
 
     def validation(
         self, position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
     ) -> bool:
-        return self.range.validation(self.evaluation(position, velocity, acceleration))
+        return self.range_.validation(self.evaluation(position, velocity, acceleration))
 
 
 def vertical_position_evaluation(
@@ -86,7 +86,8 @@ class MetricRange:
 
 METRICS_RANGE: Dict[Metric, MetricRange] = {
     Metric.VERTICAL_POSITION: MetricRange(
-        TAKEOFF_PARAMETER.takeoff_altitude_meter_min, False
+        threshold=TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
+        standard_convention=False,
     ),
     Metric.HORIZONTAL_VELOCITY: MetricRange(
         IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
@@ -106,7 +107,6 @@ def get_performance_infraction(
     metric_convention_name = "max" if metric_range.standard_convention else "min"
     return Displayer(
         name=f"The performance {performance_name} has the value: {performance_value:.2f} ({metric_convention_name}: {metric_range.threshold}) at the frame {absolute_frame}",
-        validation=False,
     )
 
 
@@ -123,7 +123,7 @@ def performance_evaluation(
                 get_performance_infraction(
                     metric.value,
                     metric.evaluation(position, velocity, acceleration),
-                    metric.range,
+                    metric.range_,
                     absolute_frame,
                 )
             )

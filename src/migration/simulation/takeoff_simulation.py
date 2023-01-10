@@ -54,6 +54,11 @@ def takeoff_simulation(
         takeoff_start_position,
     )
     return [
-        SimulationInfo(frame_begin + frame_index, takeoff_position, True, False)
+        SimulationInfo(
+            frame=frame_begin + frame_index,
+            position=takeoff_position,
+            in_air=True,
+            in_dance=False,
+        )
         for frame_index, takeoff_position in enumerate(takeoff_positions)
     ]

@@ -1,11 +1,12 @@
 import struct
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from pydantic import BaseModel
 
 
 class BytesManager(ABC):
     @property
+    @abstractmethod
     def bytes_data(self) -> bytes:
         pass
 

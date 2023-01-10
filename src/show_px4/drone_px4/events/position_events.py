@@ -14,13 +14,17 @@ class PositionEvent(Event):
 
     def __post_init__(self):
         if not (isinstance(self.frame, int)):
-            raise ValueError(f"This value {self.frame} should be an integer")
+            msg = f"This value {self.frame} should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.x, int)):
-            raise ValueError(f"This value {self.x} should be an integer")
+            msg = f"This value {self.x} should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.y, int)):
-            raise ValueError(f"This value {self.y} should be an integer")
+            msg = f"This value {self.y} should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.z, int)):
-            raise ValueError(f"This value {self.z} should be an integer")
+            msg = f"This value {self.z} should be an integer"
+            raise ValueError(msg)
 
     @property
     def xyz(self) -> Tuple[int, int, int]:
@@ -33,8 +37,8 @@ class PositionEvent(Event):
 # IMPROVE: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
 class PositionEvents(Events):
     events: List[PositionEvent]
-    format = ">Hhhh"
-    id = 0
+    format_ = ">Hhhh"
+    id_ = 0
 
     def __init__(self):
         self.events = []
@@ -47,11 +51,11 @@ class PositionEvents(Events):
 
     @property
     def event_size(self):
-        return struct.calcsize(self.format)
+        return struct.calcsize(self.format_)
 
     @property
     def events_size(self):
-        return len(self.events) * struct.calcsize(self.format)
+        return len(self.events) * struct.calcsize(self.format_)
 
     @property
     def nb_events(self) -> int:

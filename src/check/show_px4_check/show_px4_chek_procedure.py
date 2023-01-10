@@ -1,4 +1,4 @@
-from ...migration.migration_SP_SU.SU_to_SP_procedure import SU_to_SP_procedure
+from ...migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
 from ...show_user.show_user import ShowUser
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
@@ -13,7 +13,7 @@ from .show_px4_check_report import ShowPx4CheckReport
 def apply_show_px4_check_procedure(
     show_user: ShowUser, show_px4_check_report: ShowPx4CheckReport
 ) -> None:
-    show_px4 = SU_to_SP_procedure(
+    show_px4 = su_to_sp_procedure(
         show_user,
     )
     for drone, drone_px4_check_report in zip(

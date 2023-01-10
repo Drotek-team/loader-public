@@ -24,11 +24,11 @@ class DronePx4:
 
     def get_events_by_index(self, event_index: int) -> Events:
         events_enum = {
-            self.position_events.id: self.position_events,
-            self.color_events.id: self.color_events,
-            self.fire_events.id: self.fire_events,
+            self.position_events.id_: self.position_events,
+            self.color_events.id_: self.color_events,
+            self.fire_events.id_: self.fire_events,
         }
-        if not (event_index in events_enum.keys()):
+        if event_index not in events_enum.keys():
             raise ValueError(event_index)
         return events_enum[event_index]
 

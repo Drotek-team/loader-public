@@ -15,15 +15,20 @@ class ColorEvent(Event):
 
     def __post_init__(self):
         if not (isinstance(self.frame, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.r, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.g, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.b, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.w, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
 
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:
@@ -35,8 +40,8 @@ class ColorEvent(Event):
 
 class ColorEvents(Events):
     events: List[ColorEvent]
-    format = ">HBBBB"
-    id: int = 1
+    format_ = ">HBBBB"
+    id_: int = 1
 
     def __init__(self):
         self.events = []
@@ -49,11 +54,11 @@ class ColorEvents(Events):
 
     @property
     def event_size(self):
-        return struct.calcsize(self.format)
+        return struct.calcsize(self.format_)
 
     @property
     def events_size(self):
-        return len(self.events) * struct.calcsize(self.format)
+        return len(self.events) * struct.calcsize(self.format_)
 
     @property
     def nb_events(self) -> int:

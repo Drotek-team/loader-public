@@ -10,11 +10,13 @@ from ..position_simulation import SimulationInfo
 NUMERICAL_TOLERANCE = 1e-3
 
 
+FRAME_START = 0
+POSITION_X = 2.36
+POSITION_Y = 5.69
+
+
 @pytest.fixture
 def valid_position_event_user_first_case() -> PositionEventUser:
-    FRAME_START = 0
-    POSITION_X = 2.36
-    POSITION_Y = 5.69
     return PositionEventUser(
         frame=FRAME_START,
         xyz=(
@@ -25,12 +27,14 @@ def valid_position_event_user_first_case() -> PositionEventUser:
     )
 
 
+FRAME_START = 0
+POSITION_X = 2.36
+POSITION_Y = 5.69
+
+
 @pytest.fixture
 def valid_position_event_user_second_case() -> PositionEventUser:
 
-    FRAME_START = 0
-    POSITION_X = 2.36
-    POSITION_Y = 5.69
     return PositionEventUser(
         frame=FRAME_START,
         xyz=(
@@ -72,10 +76,10 @@ def test_land_simulation_first_case(
     )
     theorical_land_simulation_infos = [
         SimulationInfo(
-            valid_position_event_user_first_case.frame + frame_index,
-            theorical_position,
-            True,
-            False,
+            frame=valid_position_event_user_first_case.frame + frame_index,
+            position=theorical_position,
+            in_air=True,
+            in_dance=False,
         )
         for frame_index, theorical_position in enumerate(theorical_position)
     ]
@@ -129,10 +133,10 @@ def test_land_simulation_second_case(
     theorical_position = first_theorical_position + second_theorical_position
     theorical_land_simulation_infos = [
         SimulationInfo(
-            valid_position_event_user_second_case.frame + frame_index,
-            theorical_position,
-            True,
-            False,
+            frame=valid_position_event_user_second_case.frame + frame_index,
+            position=theorical_position,
+            in_air=True,
+            in_dance=False,
         )
         for frame_index, theorical_position in enumerate(theorical_position)
     ]

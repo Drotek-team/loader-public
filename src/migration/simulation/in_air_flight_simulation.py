@@ -21,10 +21,10 @@ def in_air_flight_simulation(
     flight_positions.append(np.array(position_events_user[-1].xyz))
     return [
         SimulationInfo(
-            position_events_user[0].frame - 1 + frame_index,
-            flight_position,
-            True,
-            True,
+            frame=position_events_user[0].frame - 1 + frame_index,
+            position=flight_position,
+            in_air=True,
+            in_dance=True,
         )
         for frame_index, flight_position in enumerate(flight_positions)
     ]

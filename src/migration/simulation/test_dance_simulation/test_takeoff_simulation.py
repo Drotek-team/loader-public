@@ -11,15 +11,16 @@ from ...simulation.takeoff_simulation import takeoff_simulation
 from ..in_air_flight_simulation import linear_interpolation
 from ..position_simulation import SimulationInfo
 
+FRAME_START = 0
+FRAME_END = FRAME_START + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+    TAKEOFF_PARAMETER.takeoff_duration_second
+)
+POSITION = (0.0, 0.0, 0.0)
+
 
 @pytest.fixture
 def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
 
-    FRAME_START = 0
-    FRAME_END = FRAME_START + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-        TAKEOFF_PARAMETER.takeoff_duration_second
-    )
-    POSITION = (0.0, 0.0, 0.0)
     return PositionEventUser(frame=FRAME_START, xyz=POSITION), PositionEventUser(
         frame=FRAME_END,
         xyz=(
@@ -59,10 +60,10 @@ def test_takeoff_simulation(
     theorical_positions = first_theorical_positions + second_theorical_positions
     theorical_takeoff_simulation_infos = [
         SimulationInfo(
-            first_position_event.frame + frame_index,
-            theorical_position,
-            True,
-            False,
+            frame=first_position_event.frame + frame_index,
+            position=theorical_position,
+            in_air=True,
+            in_dance=False,
         )
         for frame_index, theorical_position in enumerate(theorical_positions)
     ]

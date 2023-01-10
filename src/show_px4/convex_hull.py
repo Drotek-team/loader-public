@@ -5,7 +5,8 @@ import numpy as np
 
 def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
     if np.array_equal(origin, coordinate):
-        raise ValueError("get_relative_angle(): origin is equel to coordinate")
+        msg = "get_relative_angle(): origin is equal to coordinate"
+        raise ValueError(msg)
     vector = coordinate - origin
     u_vector = vector / np.linalg.norm(vector)
     return u_vector[0]
@@ -43,7 +44,7 @@ def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[int, in
 def calculate_convex_hull(
     positions_tuple: List[Tuple[int, int]]
 ) -> List[Tuple[int, int]]:
-    """Graham scan implementation"""
+    """Graham scan implementation."""
     # IMPROVE: make an object with (index,tuple,array)
     positions_array = tuple_list_to_array_list(positions_tuple)
 

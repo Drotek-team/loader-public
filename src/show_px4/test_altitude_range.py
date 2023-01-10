@@ -12,6 +12,6 @@ def valid_show_px4(altitude_max: int) -> ShowPx4:
 
 
 def test_show_dutation():
-    ALTITUDE_MAX = 1_532
-    show_px4 = valid_show_px4(ALTITUDE_MAX)
-    assert show_px4.altitude_range == (-ALTITUDE_MAX, 0)
+    altitude_max = 1_532
+    show_px4 = valid_show_px4(altitude_max)
+    assert show_px4.altitude_range == (-altitude_max, 0)

@@ -326,7 +326,7 @@ def invalid_show_user_acceleration() -> ShowUser:
     return ShowUser(drones_user=[drone_user])
 
 
-def test_invalid_show_user_velocity_down(
+def test_invalid_show_user_acceleration(
     invalid_show_user_velocity_down: ShowUser,
 ):
     show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(

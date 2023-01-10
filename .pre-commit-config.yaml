@@ -89,6 +89,15 @@ repos:
 
   - repo: local
     hooks:
+      - id: ruff
+        name: ruff
+        description: Lint, sort imports and improve Python synthax
+        entry: ruff
+        args: [--fix]
+        language: system
+        require_serial: true
+        types: [file]
+        types_or: [python, pyi]
       - id: pytest-check
         name: pytest-check
         entry: pytest

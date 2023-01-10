@@ -14,7 +14,10 @@ def stand_by_simulation(
         raise ValueError(frame_begin, frame_end)
     return [
         SimulationInfo(
-            frame_begin + frame_index, np.array(stand_by_position), False, False
+            frame=frame_begin + frame_index,
+            position=np.array(stand_by_position),
+            in_air=False,
+            in_dance=False,
         )
         for frame_index in range(frame_end - frame_begin)
     ]

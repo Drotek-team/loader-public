@@ -41,7 +41,7 @@ def drone_px4_to_drone_user_procedure(
     )
 
 
-def SP_to_SU_procedure(
+def sp_to_su_procedure(
     show_px4: ShowPx4,
 ) -> ShowUser:
     return ShowUser(

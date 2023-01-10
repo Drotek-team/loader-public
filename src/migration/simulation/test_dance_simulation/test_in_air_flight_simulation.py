@@ -43,10 +43,10 @@ def test_flight_simulation(valid_position_events_user: List[PositionEventUser]):
     )
     theorical_in_air_flight_simulation_infos = [
         SimulationInfo(
-            first_position_event_user.frame - 1 + frame_index,
-            theorical_position,
-            True,
-            True,
+            frame=first_position_event_user.frame - 1 + frame_index,
+            position=theorical_position,
+            in_air=True,
+            in_dance=True,
         )
         for frame_index, theorical_position in enumerate(theorical_positions)
     ]

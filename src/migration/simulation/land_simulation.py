@@ -56,6 +56,11 @@ def land_simulation(
         land_start_position,
     )
     return [
-        SimulationInfo(frame_begin + frame_index, land_position, True, False)
+        SimulationInfo(
+            frame=frame_begin + frame_index,
+            position=land_position,
+            in_air=True,
+            in_dance=False,
+        )
         for frame_index, land_position in enumerate(land_positions)
     ]

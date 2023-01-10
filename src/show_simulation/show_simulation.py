@@ -6,7 +6,7 @@ import numpy as np
 class ShowSimulationSlice:
     def __init__(self, frame: int, nb_drones: int):
         self.frame = frame
-        self.drone_indices = np.array([drone_index for drone_index in range(nb_drones)])
+        self.drone_indices = np.array(range(nb_drones))
         self.positions = np.zeros((nb_drones, 3))
         self.in_air_flags = np.array([False for _ in range(nb_drones)])
 

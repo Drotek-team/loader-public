@@ -23,7 +23,7 @@ def generate_show_px4_from_first_position(
 
 @pytest.fixture
 def valid_show_px4_list() -> List[ShowPx4]:
-    NB_DRONES_MANAGER = 10
+    nb_drones_manager = 10
     nb_drones_per_show_px4 = 100
     np.random.seed(42)
     return [
@@ -37,7 +37,7 @@ def valid_show_px4_list() -> List[ShowPx4]:
                 for _ in range(nb_drones_per_show_px4)
             ]
         )
-        for _ in range(NB_DRONES_MANAGER)
+        for _ in range(nb_drones_manager)
     ]
 
 
@@ -53,13 +53,13 @@ class Segment:
     second_point: Point
 
 
-def ccw(A: Point, B: Point, C: Point) -> bool:
-    return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x)
+def ccw(a: Point, b: Point, c: Point) -> bool:
+    return (c.y - a.y) * (b.x - a.x) > (b.y - a.y) * (c.x - a.x)
 
 
 # Return true if line segments AB and CD intersect
-def points_intersect(A: Point, B: Point, C: Point, D: Point) -> bool:
-    return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
+def points_intersect(a: Point, b: Point, c: Point, d: Point) -> bool:
+    return ccw(a, c, d) != ccw(b, c, d) and ccw(a, b, c) != ccw(a, b, d)
 
 
 def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:

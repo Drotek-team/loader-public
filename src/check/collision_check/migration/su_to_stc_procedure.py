@@ -17,7 +17,7 @@ def get_position_info_from_simulation_infos(
     ]
 
 
-def SU_to_STC_procedure(
+def su_to_stc_procedure(
     show_user: ShowUser,
 ) -> CollisionShowTrajectory:
     return CollisionShowTrajectory(

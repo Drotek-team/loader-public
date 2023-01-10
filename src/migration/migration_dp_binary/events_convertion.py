@@ -10,12 +10,11 @@ def encode_events(events: Events) -> bytearray:
         try:
             # IMPROVE: An append() would be more elegant here
             binary[cpt_event * event_size : (cpt_event + 1) * event_size] = struct.pack(
-                events.format, *event_data.get_data()
+                events.format_, *event_data.get_data()
             )
         except struct.error:
-            raise ValueError(
-                cpt_event, event_size, events.format, *event_data.get_data()
-            )
+            msg = f"{cpt_event} {event_size}  {events.format_}"
+            raise ValueError(msg) from None
     return binary
 
 
@@ -23,6 +22,7 @@ def decode_events(events: Events, byte_array: bytearray) -> None:
     for event_index in range(0, len(byte_array), events.event_size):
         events.add_data(
             struct.unpack(
-                events.format, byte_array[event_index : event_index + events.event_size]
+                events.format_,
+                byte_array[event_index : event_index + events.event_size],
             )
         )

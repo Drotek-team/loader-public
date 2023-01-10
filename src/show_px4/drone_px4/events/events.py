@@ -11,8 +11,8 @@ class Event(ABC):
 
 
 class Events(ABC):
-    format: str
-    id: int
+    format_: str
+    id_: int
     events: List[Event]
 
     @abstractmethod
@@ -20,14 +20,17 @@ class Events(ABC):
         pass
 
     @property
+    @abstractmethod
     def event_size(self) -> int:
         pass
 
     @property
+    @abstractmethod
     def events_size(self) -> int:
         pass
 
     @property
+    @abstractmethod
     def nb_events(self) -> int:
         pass
 

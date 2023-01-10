@@ -13,11 +13,14 @@ class FireEvent(Event):
 
     def __post_init__(self):
         if not (isinstance(self.frame, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.chanel, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
         if not (isinstance(self.duration, int)):
-            raise ValueError("This value should be an integer")
+            msg = "This value should be an integer"
+            raise ValueError(msg)
 
     @property
     def chanel_duration(self) -> Tuple[int, int]:
@@ -29,8 +32,8 @@ class FireEvent(Event):
 
 class FireEvents(Events):
     events: List[FireEvent]
-    format = ">HBB"
-    id = 2
+    format_ = ">HBB"
+    id_ = 2
 
     def __init__(self):
         self.events = []
@@ -43,11 +46,11 @@ class FireEvents(Events):
 
     @property
     def event_size(self):
-        return struct.calcsize(self.format)
+        return struct.calcsize(self.format_)
 
     @property
     def events_size(self):
-        return len(self.events) * struct.calcsize(self.format)
+        return len(self.events) * struct.calcsize(self.format_)
 
     @property
     def nb_events(self) -> int:

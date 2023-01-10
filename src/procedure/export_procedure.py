@@ -5,8 +5,8 @@ from ..check.all_check_from_show_user_procedure import (
 )
 from ..check.show_check_report import ShowCheckReport
 from ..iostar_json.iostar_json import IostarJson
-from ..migration.migration_SP_IJ.SP_to_IJ_procedure import SP_to_IJ_procedure
-from ..migration.migration_SP_SU.SU_to_SP_procedure import SU_to_SP_procedure
+from ..migration.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
+from ..migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
 from ..show_user.show_user import ShowUser
 
 
@@ -17,6 +17,6 @@ def apply_export_procedure(
     show_check_report = ShowCheckReport(len(show_user.drones_user))
     apply_all_check_from_show_user_procedure(show_user, show_check_report)
     return (
-        SP_to_IJ_procedure(SU_to_SP_procedure(show_user)),
+        sp_to_ij_procedure(su_to_sp_procedure(show_user)),
         show_check_report,
     )

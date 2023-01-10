@@ -5,18 +5,14 @@ from typing import List
 @dataclass
 class Displayer:
     name: str
-    validation: bool = False
     annexe_message: str = ""
+    validation: bool = False
 
     def __hash__(self) -> int:
         return hash((self.name, self.annexe_message))
 
     def __eq__(self, __o: "Displayer") -> bool:
         return self.name == __o.name and self.annexe_message == __o.annexe_message
-
-    def update_displayer(self, validation: bool, annexe_message: str) -> None:
-        self.validation = validation
-        self.annexe_message = annexe_message
 
     @property
     def get_report(self) -> str:
@@ -80,18 +76,16 @@ class Contenor:
                             indentation_level + 1,
                             indentation_type,
                         )
-            if isinstance(attribute, Contenor):
-                if not (attribute.validation):
-                    children_report += attribute.get_contenor_report(
-                        indentation_level + 1, indentation_type
-                    )
-            if isinstance(attribute, Displayer):
-                if not (attribute.validation):
-                    children_report += self.displayer_formater(
-                        attribute.get_report(),
-                        indentation_level + 1,
-                        indentation_type,
-                    )
+            if isinstance(attribute, Contenor) and not (attribute.validation):
+                children_report += attribute.get_contenor_report(
+                    indentation_level + 1, indentation_type
+                )
+            if isinstance(attribute, Displayer) and not (attribute.validation):
+                children_report += self.displayer_formater(
+                    attribute.get_report(),
+                    indentation_level + 1,
+                    indentation_type,
+                )
         return children_report
 
     def get_contenor_report(self, indentation_level: int, indentation_type: str) -> str:
