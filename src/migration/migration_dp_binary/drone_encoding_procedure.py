@@ -2,12 +2,13 @@ import copy
 import struct
 from typing import List
 
-from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
+from parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from ...show_px4.drone_px4.binary_px4.binary import Header, SectionHeader
-from ...show_px4.drone_px4.drone_px4 import DronePx4
-from ...show_px4.drone_px4.events.events import Events
+from show_px4.drone_px4.binary_px4.binary import Header, SectionHeader
+from show_px4.drone_px4.drone_px4 import DronePx4
+from show_px4.drone_px4.events.events import Events
+
 from .events_convertion import encode_events
 
 
@@ -89,4 +90,5 @@ def get_dance_size(drone_px4: DronePx4) -> int:
     fire_size = len(drone_px4.fire_events.events) * struct.calcsize(
         drone_px4.fire_events.format_
     )
+    return header_size + header_section_size + position_size + color_size + fire_size
     return header_size + header_section_size + position_size + color_size + fire_size

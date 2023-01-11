@@ -1,11 +1,12 @@
 import struct
 from typing import List, Tuple
 
-from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
+from parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from ...show_px4.drone_px4.binary_px4.binary import Header, SectionHeader
-from ...show_px4.drone_px4.drone_px4 import DronePx4
+from show_px4.drone_px4.binary_px4.binary import Header, SectionHeader
+from show_px4.drone_px4.drone_px4 import DronePx4
+
 from .events_convertion import decode_events
 
 
@@ -60,4 +61,5 @@ def decode_drone(
                 section_header.byte_array_start_index : section_header.byte_array_end_index
             ],
         )
+    return drone_px4
     return drone_px4

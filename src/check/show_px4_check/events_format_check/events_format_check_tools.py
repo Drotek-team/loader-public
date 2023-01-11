@@ -1,13 +1,14 @@
 from typing import List, Tuple
 
-from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
+from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from ....show_px4.drone_px4.events.color_events import ColorEvents
-from ....show_px4.drone_px4.events.events import Events
-from ....show_px4.drone_px4.events.fire_events import FireEvents
-from ....show_px4.drone_px4.events.position_events import PositionEvents
+from show_px4.drone_px4.events.color_events import ColorEvents
+from show_px4.drone_px4.events.events import Events
+from show_px4.drone_px4.events.fire_events import FireEvents
+from show_px4.drone_px4.events.position_events import PositionEvents
+
 from .events_format_check_report import *
 
 
@@ -109,4 +110,5 @@ def fire_duration_frame_check(
             JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
         )
     )
+    fire_events_chanel_check_report.update_contenor_validation()
     fire_events_chanel_check_report.update_contenor_validation()

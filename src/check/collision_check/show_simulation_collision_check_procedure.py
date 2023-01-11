@@ -1,7 +1,8 @@
 import numpy as np
 
-from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...show_user.show_user import ShowUser
+from parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+from show_user.show_user import ShowUser
+
 from .collision_math import get_optimized_collision_infractions
 from .migration.stc_to_ssc_procedure import stc_to_ss_procedure
 from .migration.test_su_to_stc_procedure import su_to_stc_procedure
@@ -39,4 +40,5 @@ def apply_show_simulation_collision_check_procedure(
                     show_simulation_slice.frame, collision_infractions
                 )
             )
+    collision_check_report.update_contenor_validation()
     collision_check_report.update_contenor_validation()

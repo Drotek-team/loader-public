@@ -1,7 +1,8 @@
-from ....show_px4.drone_px4.drone_px4 import DronePx4
-from ....show_px4.drone_px4.events.color_events import ColorEvents
-from ....show_px4.drone_px4.events.fire_events import FireEvents
-from ....show_px4.drone_px4.events.position_events import PositionEvents
+from show_px4.drone_px4.drone_px4 import DronePx4
+from show_px4.drone_px4.events.color_events import ColorEvents
+from show_px4.drone_px4.events.fire_events import FireEvents
+from show_px4.drone_px4.events.position_events import PositionEvents
+
 from .events_format_check_report import *
 from .events_format_check_tools import *
 
@@ -66,4 +67,5 @@ def apply_events_format_check_procedure(
         events_format_check_report.fire_events_check,
     )
 
+    events_format_check_report.update_contenor_validation()
     events_format_check_report.update_contenor_validation()

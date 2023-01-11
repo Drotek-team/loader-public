@@ -5,12 +5,6 @@ repos:
       # Check poetry configuration
       - id: poetry-check
 
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v2.1.1
-    hooks:
-      # Remove unused python imports
-      - id: pycln
-
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.0.0
     hooks:

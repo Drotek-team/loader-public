@@ -1,8 +1,9 @@
-from ...report import Displayer
-from ...show_trajectory_performance.show_trajectory_performance import (
+from report import Displayer
+from show_trajectory_performance.show_trajectory_performance import (
     DroneTrajectoryPerformance,
 )
-from ...show_user.show_user import ShowUser
+from show_user.show_user import ShowUser
+
 from .migration.su_to_stp_procedure import su_to_stp_procedure
 from .performance_evaluation import performance_evaluation
 from .show_trajectory_performance_check_report import (
@@ -40,4 +41,5 @@ def apply_show_trajectory_performance_check_procedure(
             drone_trajectory_performance, drone_trajectory_performance_check_report
         )
         drone_trajectory_performance_check_report.update_contenor_validation()
+    show_trajectory_performance_check_report.update_contenor_validation()
     show_trajectory_performance_check_report.update_contenor_validation()

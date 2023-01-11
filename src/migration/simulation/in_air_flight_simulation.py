@@ -2,7 +2,8 @@ from typing import List
 
 import numpy as np
 
-from ...show_user.show_user import PositionEventUser
+from show_user.show_user import PositionEventUser
+
 from .position_simulation import SimulationInfo, linear_interpolation
 
 

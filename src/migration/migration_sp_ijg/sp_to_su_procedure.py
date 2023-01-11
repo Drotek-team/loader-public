@@ -1,5 +1,6 @@
-from ...iostar_json.show_configuration import ShowConfiguration
-from ...show_px4.show_px4 import ShowPx4
+from iostar_json.show_configuration import ShowConfiguration
+from show_px4.show_px4 import ShowPx4
+
 from .grid_math.grid import Grid
 from .grid_math.grid_angle_estimation import get_ned_angle_takeoff_from_grid
 from .grid_math.grid_nb_per_family_estimation import get_nb_drone_per_family_from_grid

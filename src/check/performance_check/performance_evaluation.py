@@ -4,10 +4,9 @@ from typing import Callable, Dict
 
 import numpy as np
 
-from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
-from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+from parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
+from parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+
 from .show_trajectory_performance_check_report import *
 
 

@@ -1,11 +1,11 @@
 import pytest
 
-from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ....parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
-from ....show_user.show_user import PositionEventUser
-from ...simulation.land_simulation import land_simulation
-from ..in_air_flight_simulation import linear_interpolation
-from ..position_simulation import SimulationInfo
+from migration.simulation.in_air_flight_simulation import linear_interpolation
+from migration.simulation.land_simulation import land_simulation
+from migration.simulation.position_simulation import SimulationInfo
+from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
+from show_user.show_user import PositionEventUser
 
 NUMERICAL_TOLERANCE = 1e-3
 

@@ -66,7 +66,7 @@ select = [
     "SIM", # simplify
     # "T20",   # print # TODO: use logging instead of print
     "T10", # debugger
-    # "TID", # tidy-imports
+    "TID", # tidy-imports
     # "UP",   # pyupgrade # TODO: enable when ruff reach feature parity
     "W",   # style warnings
     "YTT", # sys.version
@@ -89,3 +89,6 @@ convention = "pep257"
 fixture-parentheses = false
 mark-parentheses = false
 parametrize-names-type = "csv"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

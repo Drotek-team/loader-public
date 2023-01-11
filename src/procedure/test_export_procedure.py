@@ -1,4 +1,5 @@
-from ..show_user.show_user_generator import get_valid_show_user
+from show_user.show_user_generator import get_valid_show_user
+
 from .export_procedure import apply_export_procedure
 
 NB_X = 1
@@ -20,4 +21,5 @@ def test_export_procedure():
             SHOW_DURATION_FRAME,
         )
     )
+    assert show_check_report.validation
     assert show_check_report.validation

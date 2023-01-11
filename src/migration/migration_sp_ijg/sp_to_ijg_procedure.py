@@ -1,9 +1,11 @@
 from typing import Dict, List
 
-from ...iostar_json.iostar_json_gcs import IostarJsonGCS
-from ...show_px4.drone_px4.drone_px4 import DronePx4
-from ...show_px4.show_px4 import ShowPx4
-from ..migration_dp_binary.drone_encoding_procedure import encode_drone
+from migration_dp_binary.drone_encoding_procedure import encode_drone
+
+from iostar_json.iostar_json_gcs import IostarJsonGCS
+from show_px4.drone_px4.drone_px4 import DronePx4
+from show_px4.show_px4 import ShowPx4
+
 from .sp_to_su_procedure import sp_to_sc_procedure
 
 

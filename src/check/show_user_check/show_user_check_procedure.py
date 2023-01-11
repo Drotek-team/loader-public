@@ -1,7 +1,6 @@
-from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
-from ...show_user.show_user import *
+from parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
+from show_user.show_user import *
+
 from .show_user_check_report import *
 
 
@@ -56,4 +55,5 @@ def apply_show_user_check_procedure(
         show_user.drones_user, show_user_check_report.drones_user_check_report
     ):
         apply_drone_user_check_procedure(drone_user, drone_user_check_report)
+    show_user_check_report.update_contenor_validation()
     show_user_check_report.update_contenor_validation()

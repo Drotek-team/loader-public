@@ -1,5 +1,6 @@
-from ...migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
-from ...show_user.show_user import ShowUser
+from migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from show_user.show_user import ShowUser
+
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
 )
@@ -28,4 +29,5 @@ def apply_show_px4_check_procedure(
             drone_px4_check_report.dance_size_check_report,
         )
         drone_px4_check_report.update_contenor_validation()
+    show_px4_check_report.update_contenor_validation()
     show_px4_check_report.update_contenor_validation()

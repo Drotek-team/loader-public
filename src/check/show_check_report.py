@@ -1,4 +1,5 @@
-from ..report import Contenor
+from report import Contenor
+
 from .collision_check.show_simulation_collision_check_procedure import (
     ShowSimulationCollisionCheckReport,
 )

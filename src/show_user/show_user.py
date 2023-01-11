@@ -3,8 +3,8 @@ from typing import List, Tuple
 
 from pydantic import BaseModel
 
-from ..parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ..parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
+from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 
 
 class PositionEventUser(BaseModel):

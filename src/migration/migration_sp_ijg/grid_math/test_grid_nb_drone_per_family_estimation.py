@@ -1,7 +1,7 @@
 import pytest
 
-from ..grid import Grid
-from ..grid_nb_per_family_estimation import get_nb_drone_per_family_from_grid
+from .grid import Grid
+from .grid_nb_per_family_estimation import get_nb_drone_per_family_from_grid
 
 
 @pytest.fixture
@@ -32,4 +32,5 @@ def test_get_nb_drone_per_family_from_grid_valid_grid(valid_grid: Grid):
 def test_get_nb_drone_per_family_from_grid_valid_grid_two_drone_per_family(
     valid_grid_two_drone_per_family: Grid,
 ):
+    assert get_nb_drone_per_family_from_grid(valid_grid_two_drone_per_family) == 2
     assert get_nb_drone_per_family_from_grid(valid_grid_two_drone_per_family) == 2

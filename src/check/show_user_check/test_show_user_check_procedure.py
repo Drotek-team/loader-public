@@ -1,10 +1,9 @@
 import pytest
 
-from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
-from ...show_user.show_user import *
+from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
+from show_user.show_user import *
+
 from .show_user_check_procedure import *
 from .show_user_check_report import *
 
@@ -156,4 +155,5 @@ def test_invalid_by_position_one_position_events():
         takeoff_check_report,
     )
     assert takeoff_check_report.takeoff_duration_check_report.validation
+    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
     assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
