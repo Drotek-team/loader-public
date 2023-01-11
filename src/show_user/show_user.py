@@ -46,7 +46,7 @@ class DroneUser(BaseModel):
     def add_color_event(
         self, frame: int, rgbw: Tuple[float, float, float, float]
     ) -> None:
-        self.position_events.append(PositionEventUser(frame=frame, rgbw=rgbw))
+        self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw))
 
     def add_fire_event(
         self,
