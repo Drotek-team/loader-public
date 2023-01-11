@@ -1,5 +1,5 @@
-from src.procedure.export_procedure import apply_export_procedure
-from src.show_user.show_user import DroneUser, ShowUser
+from .procedure.export_procedure import apply_export_procedure
+from .show_user.show_user import DroneUser, ShowUser
 
 
 def create_show_user(drone_number: int) -> ShowUser:
