@@ -28,6 +28,9 @@ def main() -> None:
     print(show_check_report.get_contenor_report(0, "   "))
     print(show_user)
     print(iostar_json_gcs)
+    iostar_json_gcs.get_json()
+    json_file = open("export_show_user_simulation.json", "w")
+    json_file.write(iostar_json_gcs.get_json())
 
 
 if __name__ == "__main__":

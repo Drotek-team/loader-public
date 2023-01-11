@@ -1,7 +1,7 @@
 from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
 
-from .show_user import DroneUser, PositionEventUser, ShowUser
+from .show_user import ColorEventUser, DroneUser, PositionEventUser, ShowUser
 
 
 def get_valid_show_user(
@@ -48,12 +48,32 @@ def get_valid_show_user(
                     ],
                 ),
             ],
-            color_events=[],
+            color_events=[
+                ColorEventUser(
+                    frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                        TAKEOFF_PARAMETER.takeoff_duration_second
+                    ),
+                    rgbw=(1, 0, 0, 0),
+                ),
+                ColorEventUser(
+                    frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                        TAKEOFF_PARAMETER.takeoff_duration_second
+                    )
+                    + 24,
+                    rgbw=(0, 1, 0, 0),
+                ),
+                ColorEventUser(
+                    frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                        TAKEOFF_PARAMETER.takeoff_duration_second
+                    )
+                    + 48,
+                    rgbw=(0, 0, 1, 0),
+                ),
+            ],
             fire_events=[],
         )
         for index_x in range(nb_x)
         for index_y in range(nb_y)
         for _ in range(nb_drone_per_family)
     ]
-    return ShowUser(drones_user=valid_drones_user)
     return ShowUser(drones_user=valid_drones_user)

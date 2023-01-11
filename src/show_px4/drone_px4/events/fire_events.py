@@ -39,9 +39,9 @@ class FireEvents(Events):
         self.events = []
 
     def add_timecode_chanel_duration(
-        self, frame: int, chanel: int, duration: int
+        self, timecode: int, chanel: int, duration: int
     ) -> None:
-        self.events.append(FireEvent(frame, chanel, duration))
+        self.events.append(FireEvent(timecode, chanel, duration))
 
     def add_data(self, data: Tuple) -> None:
         self.events.append(FireEvent(data[0], data[1], data[2]))

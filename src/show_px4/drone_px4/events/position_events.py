@@ -43,8 +43,8 @@ class PositionEvents(Events):
     def __init__(self):
         self.events = []
 
-    def add_timecode_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
-        self.events.append(PositionEvent(frame, xyz[0], xyz[1], xyz[2]))
+    def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
+        self.events.append(PositionEvent(timecode, xyz[0], xyz[1], xyz[2]))
 
     def add_data(self, data: Tuple) -> None:
         self.events.append(PositionEvent(data[0], data[1], data[2], data[3]))

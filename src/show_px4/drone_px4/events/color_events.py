@@ -46,8 +46,8 @@ class ColorEvents(Events):
     def __init__(self):
         self.events = []
 
-    def add_timecode_rgbw(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self.events.append(ColorEvent(frame, rgbw[0], rgbw[1], rgbw[2], rgbw[3]))
+    def add_timecode_rgbw(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
+        self.events.append(ColorEvent(timecode, rgbw[0], rgbw[1], rgbw[2], rgbw[3]))
 
     def add_data(self, data: Tuple) -> None:
         self.events.append(ColorEvent(data[0], data[1], data[2], data[3], data[4]))
