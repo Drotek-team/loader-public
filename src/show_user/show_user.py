@@ -2,14 +2,15 @@ import json
 from typing import List, Tuple
 
 from pydantic import BaseModel
+from pydantic.types import StrictFloat, StrictInt
 
 from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
 
 
 class PositionEventUser(BaseModel):
-    frame: int  # 24 fps
-    xyz: Tuple[float, float, float]  # ENU and meter
+    frame: StrictInt  # 24 fps
+    xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]  # ENU and meter
 
     @property
     def absolute_time(self) -> float:
@@ -17,8 +18,8 @@ class PositionEventUser(BaseModel):
 
 
 class ColorEventUser(BaseModel):
-    frame: int  # 24 fps
-    rgbw: Tuple[float, float, float, float]  # between 0 and 1
+    frame: StrictInt  # 24 fps
+    rgbw: Tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]  # between 0 and 1
 
     @property
     def absolute_time(self) -> float:
@@ -26,9 +27,9 @@ class ColorEventUser(BaseModel):
 
 
 class FireEventUser(BaseModel):
-    frame: int  # 24 fps
-    chanel: float  # Chanel of the drone
-    duration_frame: int  # Duration of the event if int
+    frame: StrictInt  # 24 fps
+    chanel: StrictInt  # Chanel of the drone
+    duration_frame: StrictInt  # Duration of the event if int
 
     @property
     def absolute_time(self) -> float:

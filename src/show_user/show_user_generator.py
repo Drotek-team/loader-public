@@ -18,21 +18,21 @@ def get_valid_show_user(
             position_events=[
                 PositionEventUser(
                     frame=0,
-                    xyz=[
+                    xyz=(
                         step_takeoff * (index_y - nb_y + index_bias),
                         step_takeoff * (index_x - nb_x + index_bias),
-                        0,
-                    ],
+                        0.0,
+                    ),
                 ),
                 PositionEventUser(
                     frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     ),
-                    xyz=[
+                    xyz=(
                         step_takeoff * (index_y - nb_y + index_bias),
                         step_takeoff * (index_x - nb_x + index_bias),
                         1.0,
-                    ],
+                    ),
                 ),
                 PositionEventUser(
                     frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
@@ -41,11 +41,11 @@ def get_valid_show_user(
                     + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         show_duration_absolute_time
                     ),
-                    xyz=[
+                    xyz=(
                         step_takeoff * (index_y - nb_y + index_bias),
                         step_takeoff * (index_x - nb_x + index_bias),
                         1.0,
-                    ],
+                    ),
                 ),
             ],
             color_events=[
@@ -53,21 +53,21 @@ def get_valid_show_user(
                     frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     ),
-                    rgbw=(1, 0, 0, 0),
+                    rgbw=(1.0, 0.0, 0.0, 0.0),
                 ),
                 ColorEventUser(
                     frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     )
                     + 24,
-                    rgbw=(0, 1, 0, 0),
+                    rgbw=(0.0, 1.0, 0.0, 0.0),
                 ),
                 ColorEventUser(
                     frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     )
                     + 48,
-                    rgbw=(0, 0, 1, 0),
+                    rgbw=(0.0, 0.0, 1.0, 0.0),
                 ),
             ],
             fire_events=[],

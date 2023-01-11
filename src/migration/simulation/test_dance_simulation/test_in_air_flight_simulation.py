@@ -14,9 +14,9 @@ from show_user.show_user import PositionEventUser
 @pytest.fixture
 def valid_position_events_user() -> List[PositionEventUser]:
     return [
-        PositionEventUser(frame=0, xyz=(0, 0, 0)),
-        PositionEventUser(frame=5, xyz=(0, 0, 1)),
-        PositionEventUser(frame=23, xyz=(0, 0, 2)),
+        PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
+        PositionEventUser(frame=5, xyz=(0.0, 0.0, 1.0)),
+        PositionEventUser(frame=23, xyz=(0.0, 0.0, 2.0)),
     ]
 
 
