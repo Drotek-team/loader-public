@@ -14,13 +14,13 @@ class DronePx4:
         self.fire_events = FireEvents()
 
     def add_position(self, frame: int, xyz: Tuple[int, int, int]) -> None:
-        self.position_events.add_frame_xyz(frame, xyz)
+        self.position_events.add_timecode_xyz(frame, xyz)
 
     def add_color(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self.color_events.add_frame_rgbw(frame, rgbw)
+        self.color_events.add_timecode_rgbw(frame, rgbw)
 
     def add_fire(self, frame: int, chanel: int, duration_frame: int) -> None:
-        self.fire_events.add_frame_chanel_duration(frame, chanel, duration_frame)
+        self.fire_events.add_timecode_chanel_duration(frame, chanel, duration_frame)
 
     def get_events_by_index(self, event_index: int) -> Events:
         events_enum = {

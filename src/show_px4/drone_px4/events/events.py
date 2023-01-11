@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 
 class Event(ABC):
-    frame: int
+    timecode: int
 
     @abstractmethod
     def get_data(self) -> Tuple:

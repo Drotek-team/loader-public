@@ -13,14 +13,15 @@ def get_valid_show_user(
     angle_takeoff: int,
     show_duration_absolute_time: float,
 ) -> ShowUser:
+    index_bias = 1.5
     valid_drones_user = [
         DroneUser(
             position_events=[
                 PositionEventUser(
                     frame=0,
                     xyz=[
-                        step_takeoff * (index_x - nb_x + 1),
-                        step_takeoff * (index_y - nb_y + 1),
+                        step_takeoff * (index_y - nb_y + index_bias),
+                        step_takeoff * (index_x - nb_x + index_bias),
                         0,
                     ],
                 ),
@@ -29,8 +30,8 @@ def get_valid_show_user(
                         TAKEOFF_PARAMETER.takeoff_duration_second
                     ),
                     xyz=[
-                        step_takeoff * (index_x - nb_x + 1),
-                        step_takeoff * (index_y - nb_y + 1),
+                        step_takeoff * (index_y - nb_y + index_bias),
+                        step_takeoff * (index_x - nb_x + index_bias),
                         1.0,
                     ],
                 ),
@@ -42,8 +43,8 @@ def get_valid_show_user(
                         show_duration_absolute_time
                     ),
                     xyz=[
-                        step_takeoff * (index_x - nb_x + 1),
-                        step_takeoff * (index_y - nb_y + 1),
+                        step_takeoff * (index_y - nb_y + index_bias),
+                        step_takeoff * (index_x - nb_x + index_bias),
                         1.0,
                     ],
                 ),

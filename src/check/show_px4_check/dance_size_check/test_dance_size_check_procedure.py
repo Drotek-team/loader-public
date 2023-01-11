@@ -11,7 +11,7 @@ MAGIC_BREAKER_NUMBER = 16660
 def valid_drone_dance_size():
     drone = DronePx4(0)
     for _ in range(MAGIC_BREAKER_NUMBER):
-        drone.color_events.add_frame_rgbw(0, (0, 0, 0, 0))
+        drone.color_events.add_timecode_rgbw(0, (0, 0, 0, 0))
     return drone
 
 
@@ -19,7 +19,7 @@ def valid_drone_dance_size():
 def invalid_drone_dance_size():
     drone = DronePx4(0)
     for _ in range(MAGIC_BREAKER_NUMBER + 1):
-        drone.color_events.add_frame_rgbw(0, (0, 0, 0, 0))
+        drone.color_events.add_timecode_rgbw(0, (0, 0, 0, 0))
     return drone
 
 

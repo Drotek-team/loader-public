@@ -2,15 +2,17 @@ from .json_binary_parameter import JSON_BINARY_PARAMETER
 
 
 def test_json_binary_parameter_standard_case():
+    assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
+    assert JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(24) == 1_000
     assert JSON_BINARY_PARAMETER.from_user_xyz_to_px4_xyz((1.0, 2.0, 3.0)) == (
-        50,
-        25,
-        -75,
+        200,
+        100,
+        -300,
     )
-    assert JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz((50, 25, -75,)) == (
-        1.0,
-        2.0,
-        3.0,
+    assert JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz((50, 25, -75)) == (
+        0.25,
+        0.5,
+        0.75,
     )
     assert JSON_BINARY_PARAMETER.from_user_rgbw_to_px4_rgbw(
         (
@@ -26,9 +28,5 @@ def test_json_binary_parameter_standard_case():
         1 / 15,
         1 / 17,
     )
-    assert (
-        JSON_BINARY_PARAMETER.from_user_fire_duration_to_px4_fire_duration(1.0) == 1_000
-    )
-    assert (
-        JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(1_000) == 1.0
-    )
+    assert JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(24) == 1_000
+    assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24

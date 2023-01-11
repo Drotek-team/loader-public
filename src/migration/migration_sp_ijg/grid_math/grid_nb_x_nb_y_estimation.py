@@ -14,7 +14,7 @@ def get_nb_x_nb_y_from_grid(grid: Grid, grid_angle: float) -> Tuple[int, int]:
         grid.horizontal_positions[1:],
     ):
         if (
-            np.abs(first_horizontal_position.y - second_horizontal_position.y)
+            np.abs(first_horizontal_position.x - second_horizontal_position.x)
             > ARBITRARY_ROUNDING_TOLERANCE
         ):
             return (

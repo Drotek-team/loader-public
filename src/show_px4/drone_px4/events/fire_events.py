@@ -7,12 +7,12 @@ from .events import Event, Events
 
 @dataclass(frozen=True)
 class FireEvent(Event):
-    frame: int  # time frame associate to the "fps_px4" parameter
+    timecode: int  # time frame associate to the "fps_px4" parameter
     chanel: int  # chanel of the fire event
     duration: int  # duration of the fire event in timecode
 
     def __post_init__(self):
-        if not (isinstance(self.frame, int)):
+        if not (isinstance(self.timecode, int)):
             msg = "This value should be an integer"
             raise ValueError(msg)
         if not (isinstance(self.chanel, int)):
@@ -27,7 +27,7 @@ class FireEvent(Event):
         return (self.chanel, self.duration)
 
     def get_data(self) -> Tuple[int, int, int]:
-        return (self.frame, self.chanel, self.duration)
+        return (self.timecode, self.chanel, self.duration)
 
 
 class FireEvents(Events):
@@ -38,7 +38,9 @@ class FireEvents(Events):
     def __init__(self):
         self.events = []
 
-    def add_frame_chanel_duration(self, frame: int, chanel: int, duration: int) -> None:
+    def add_timecode_chanel_duration(
+        self, frame: int, chanel: int, duration: int
+    ) -> None:
         self.events.append(FireEvent(frame, chanel, duration))
 
     def add_data(self, data: Tuple) -> None:
@@ -57,4 +59,4 @@ class FireEvents(Events):
         return len(self.events)
 
     def get_frame_by_event_index(self, event_index: int) -> int:
-        return self.events[event_index].frame
+        return self.events[event_index].timecode

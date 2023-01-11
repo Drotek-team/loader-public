@@ -7,14 +7,14 @@ from .events import Event, Events
 
 @dataclass(frozen=True)
 class PositionEvent(Event):
-    frame: int  # time frame associate to the "fps_px4" parameter
+    timecode: int  # time frame associate to the "fps_px4" parameter
     x: int  # x relative coordinate in NED and centimeter between -32 561 and 32 561
     y: int  # y relative coordinate in NED and centimeter between -32 561 and 32 561
     z: int  # z relative coordinate in NED and centimeter between -32 561 and 32 561
 
     def __post_init__(self):
-        if not (isinstance(self.frame, int)):
-            msg = f"This value {self.frame} should be an integer"
+        if not (isinstance(self.timecode, int)):
+            msg = f"This value {self.timecode} should be an integer"
             raise ValueError(msg)
         if not (isinstance(self.x, int)):
             msg = f"This value {self.x} should be an integer"
@@ -31,7 +31,7 @@ class PositionEvent(Event):
         return (self.x, self.y, self.z)
 
     def get_data(self) -> Tuple[int, int, int, int]:
-        return (self.frame, self.x, self.y, self.z)
+        return (self.timecode, self.x, self.y, self.z)
 
 
 # IMPROVE: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
@@ -43,7 +43,7 @@ class PositionEvents(Events):
     def __init__(self):
         self.events = []
 
-    def add_frame_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
+    def add_timecode_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
         self.events.append(PositionEvent(frame, xyz[0], xyz[1], xyz[2]))
 
     def add_data(self, data: Tuple) -> None:
@@ -62,7 +62,7 @@ class PositionEvents(Events):
         return len(self.events)
 
     def get_frame_by_event_index(self, event_index: int) -> int:
-        return self.events[event_index].frame
+        return self.events[event_index].timecode
 
     def get_xyz_by_event_index(self, event_index: int) -> Tuple[int, int, int]:
         return self.events[event_index].xyz

@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Tuple
 
+from .frame_parameter import FRAME_PARAMETER
+
 CENTIMETER_TO_METER_FACTOR = 1e-2
 METER_TO_CENTIMETER_FACTOR = 1e2
 UNIT_TO_OCTECT_FACTOR = 255.0
@@ -15,8 +17,8 @@ class JsonBinaryParameter:
     fmt_header = ">HIB"
     fmt_section_header = ">BII"
     dance_size_max = 100_000
-    frame_reformat_factor = 40
-    position_reformat_factor = 4
+    frame_reformat_factor = 1
+    position_reformat_factor = 1
     fire_chanel_value_min = 0
     fire_chanel_value_max = 2
     fire_duration_value_frame_min = 0
@@ -27,6 +29,17 @@ class JsonBinaryParameter:
     color_value_max = 255
     show_duration_min_second = 0.0
     show_duration_max_second = 1800.0
+
+    def from_user_frame_to_px4_timecode(self, user_frame: int) -> int:
+        return int(
+            SECOND_TO_TIMECODE_FACTOR
+            * FRAME_PARAMETER.from_absolute_frame_to_absolute_time(user_frame)
+        )
+
+    def from_px4_timecode_to_user_frame(self, px4_timecode: int) -> int:
+        return FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            TIMECODE_TO_SECOND_FACTOR * px4_timecode
+        )
 
     def from_user_xyz_to_px4_xyz(
         self, simulation_xyz: Tuple[float, float, float]
@@ -74,16 +87,6 @@ class JsonBinaryParameter:
             OCTECT_TO_UNIT_FACTOR * px4_rgbw[2],
             OCTECT_TO_UNIT_FACTOR * px4_rgbw[3],
         )
-
-    def from_user_fire_duration_to_px4_fire_duration(
-        self, user_fire_duration: float
-    ) -> int:
-        return int(SECOND_TO_TIMECODE_FACTOR * user_fire_duration)
-
-    def from_px4_fire_duration_to_user_fire_duration(
-        self, px4_fire_duration: int
-    ) -> float:
-        return TIMECODE_TO_SECOND_FACTOR * px4_fire_duration
 
 
 JSON_BINARY_PARAMETER = JsonBinaryParameter()

@@ -28,7 +28,7 @@ class ColorEventUser(BaseModel):
 class FireEventUser(BaseModel):
     frame: int  # 24 fps
     chanel: float  # Chanel of the drone
-    duration: float  # Duration of the event
+    duration_frame: int  # Duration of the event if int
 
     @property
     def absolute_time(self) -> float:

@@ -5,8 +5,8 @@ from .drone_decoding_procedure import decode_drone
 # TODO: this phase is extremely critical: test it properly
 def test_valid_dance_decoding():
     drone = decode_drone(
-        DANCE_EXAMPLE,
         0,
+        DANCE_EXAMPLE,
     )
     for decoded_position_event, theorical_position_raw_data in zip(
         drone.position_events.events, POSITIONS_RAW_DATA

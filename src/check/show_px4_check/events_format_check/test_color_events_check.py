@@ -12,13 +12,13 @@ from .events_format_check_report import ColorEventsCheckReport
 @pytest.fixture
 def valid_color_events():
     color_events = ColorEvents()
-    color_events.add_frame_rgbw(
+    color_events.add_timecode_rgbw(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0, 0),
     )
-    color_events.add_frame_rgbw(
+    color_events.add_timecode_rgbw(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
@@ -47,7 +47,7 @@ def test_invalid_color_events_frame_increasing_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    valid_color_events.add_frame_rgbw(
+    valid_color_events.add_timecode_rgbw(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
@@ -92,7 +92,7 @@ def test_invalid_color_events_rgbw_value_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    valid_color_events.add_frame_rgbw(
+    valid_color_events.add_timecode_rgbw(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),

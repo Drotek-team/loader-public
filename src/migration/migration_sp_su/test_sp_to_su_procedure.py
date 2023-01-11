@@ -66,7 +66,11 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
     show_user = sp_to_su_procedure(valid_show_px4)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
-    assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
+    assert drone_users[0].position_events[
+        0
+    ].frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
+        ARBITRARY_POSITION_EVENT_FRAME
+    )
     assert drone_users[0].position_events[
         0
     ].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
@@ -74,7 +78,11 @@ def test_drone_px4_to_drone_user_procedure_position_events(valid_show_px4: ShowP
     )
 
     assert len(drone_users[1].position_events) == 1
-    assert drone_users[1].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME_BIS
+    assert drone_users[1].position_events[
+        0
+    ].frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
+        ARBITRARY_POSITION_EVENT_FRAME_BIS
+    )
     assert drone_users[1].position_events[
         0
     ].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
@@ -109,7 +117,7 @@ def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     assert drone_users[0].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL
     assert drone_users[0].fire_events[
         0
-    ].duration == JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(
+    ].duration_frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
         ARBITRARY_FIRE_EVENT_DURATION
     )
 
@@ -117,6 +125,6 @@ def test_drone_px4_to_drone_user_procedure_fire_events(valid_show_px4: ShowPx4):
     assert drone_users[1].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL_BIS
     assert drone_users[1].fire_events[
         0
-    ].duration == JSON_BINARY_PARAMETER.from_px4_fire_duration_to_user_fire_duration(
+    ].duration_frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
         ARBITRARY_FIRE_EVENT_DURATION_BIS
     )

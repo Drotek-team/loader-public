@@ -12,21 +12,21 @@ from .events_format_check_report import FireEventsCheckReport
 @pytest.fixture
 def valid_fire_events():
     fire_events = FireEvents()
-    fire_events.add_frame_chanel_duration(
+    fire_events.add_timecode_chanel_duration(
         frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=0,
         duration=1000,
     )
-    fire_events.add_frame_chanel_duration(
+    fire_events.add_timecode_chanel_duration(
         frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=1,
         duration=1000,
     )
-    fire_events.add_frame_chanel_duration(
+    fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
@@ -80,7 +80,7 @@ def test_invalid_fire_events_chanel_value_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    valid_fire_events.add_frame_chanel_duration(
+    valid_fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
@@ -100,7 +100,7 @@ def test_invalid_fire_events_duration_value_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    valid_fire_events.add_frame_chanel_duration(
+    valid_fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),

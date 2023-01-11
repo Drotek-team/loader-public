@@ -47,8 +47,8 @@ def get_header_section_header(
 
 
 def decode_drone(
-    binary: List[int],
     drone_index: int,
+    binary: List[int],
 ) -> DronePx4:
     drone_px4 = DronePx4(drone_index)
     byte_array = bytearray(binary)

@@ -9,7 +9,6 @@ from .grid import Grid, HorizontalPosition
 def get_first_row_extremes(
     grid: Grid,
 ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-
     extreme_horizontal_positions = list(grid.horizontal_x_extremes) + list(
         grid.horizontal_y_extremes
     )
@@ -42,3 +41,7 @@ def get_angle_takeoff_from_grid(
         first_row_last_horizonal_position.xy_array
         - first_row_first_horizonal_position.xy_array
     )
+
+
+def get_ned_angle_takeoff_from_grid(grid: Grid) -> float:
+    return get_angle_takeoff_from_grid(grid) - 90
