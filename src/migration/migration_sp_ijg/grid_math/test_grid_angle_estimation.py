@@ -6,6 +6,7 @@ from .grid_angle_estimation import (
     get_angle_degree_from_vector,
     get_angle_takeoff_from_grid,
     get_first_row_extremes,
+    is_grid_a_row,
 )
 
 
@@ -29,6 +30,21 @@ def one_point_grid():
     return Grid([(0.0, 0.0)])
 
 
+@pytest.fixture
+def horizontal_row_grid():
+    return Grid([(0.0, 0.0), (1.0, 0.0)])
+
+
+@pytest.fixture
+def diagonal_row_grid():
+    return Grid([(0.0, 0.0), (1.0, 1.0)])
+
+
+@pytest.fixture
+def vertical_row_grid():
+    return Grid([(0.0, 0.0), (0.0, 1.0)])
+
+
 def test_get_angle_from_vector():
     assert get_angle_degree_from_vector(np.array([1.0, 0])) == 0
     assert get_angle_degree_from_vector(np.array([-1.0, 0])) == 180
@@ -38,6 +54,18 @@ def test_get_angle_from_vector():
     assert get_angle_degree_from_vector(np.array([-1.0, -1.0])) == -135
     assert get_angle_degree_from_vector(np.array([-1.0, 1.0])) == 135
     assert get_angle_degree_from_vector(np.array([1.0, -1.0])) == -45
+
+
+def test_is_grid_a_row_horizontal_row_grid(horizontal_row_grid: Grid):
+    assert is_grid_a_row(horizontal_row_grid) is True
+
+
+def test_is_grid_a_row_diagonal_row_grid(diagonal_row_grid: Grid):
+    assert is_grid_a_row(diagonal_row_grid) is True
+
+
+def test_is_grid_a_row_vertical_row_grid(vertical_row_grid: Grid):
+    assert is_grid_a_row(vertical_row_grid) is True
 
 
 def test_get_first_row_extremes(valid_grid: Grid):

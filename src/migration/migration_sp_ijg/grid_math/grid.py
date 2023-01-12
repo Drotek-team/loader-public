@@ -10,6 +10,9 @@ class HorizontalPosition:
     x: float  # NED in meter
     y: float  # NED in meter
 
+    def __hash__(self) -> int:
+        return self.drone_index
+
     @property
     def xy_array(self) -> np.ndarray:
         return np.array((self.x, self.y))
