@@ -6,7 +6,7 @@ NB_Y = 1
 NB_DRONE_PER_FAMILY = 1
 STEP_TAKEOFF = 1.5
 ANGLE_TAKEOFF = 0
-SHOW_DURATION_FRAME = 1
+SHOW_DURATION_SECOND = 30.0
 
 
 def test_export_procedure():
@@ -17,7 +17,7 @@ def test_export_procedure():
             NB_DRONE_PER_FAMILY,
             STEP_TAKEOFF,
             ANGLE_TAKEOFF,
-            SHOW_DURATION_FRAME,
+            SHOW_DURATION_SECOND,
         )
     )
     assert show_check_report.validation

@@ -40,7 +40,7 @@ class ColorEvent(Event):
 
 class ColorEvents(Events):
     events: List[ColorEvent]
-    format_ = ">HBBBB"
+    format_ = ">IBBBB"
     id_: int = 1
 
     def __init__(self):

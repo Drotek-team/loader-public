@@ -37,11 +37,14 @@ class PositionEvent(Event):
 # IMPROVE: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
 class PositionEvents(Events):
     events: List[PositionEvent]
-    format_ = ">Hhhh"
+    format_ = ">Ihhh"
     id_ = 0
 
     def __init__(self):
         self.events = []
+
+    def __iter__(self):
+        yield from self.events
 
     def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.events.append(PositionEvent(timecode, xyz[0], xyz[1], xyz[2]))

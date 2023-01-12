@@ -8,7 +8,7 @@ NB_Y = 2
 NB_DRONE_PER_FAMILY = 1
 STEP_TAKEOFF = 1.5
 ANGLE_TAKEOFF = 0
-SHOW_DURATION_FRAME = 1
+SHOW_DURATION_SECOND = 30.0
 
 
 def main() -> None:
@@ -18,7 +18,7 @@ def main() -> None:
         NB_DRONE_PER_FAMILY,
         STEP_TAKEOFF,
         ANGLE_TAKEOFF,
-        SHOW_DURATION_FRAME,
+        SHOW_DURATION_SECOND,
     )
     iostar_json, show_check_report = apply_export_procedure(
         show_user,
@@ -27,6 +27,7 @@ def main() -> None:
     iostar_json_gcs = sp_to_ijg_procedure(show_px4)
     print(show_check_report.get_contenor_report(0, "   "))
     print(show_user)
+    print(iostar_json)
     print(iostar_json_gcs)
     iostar_json_gcs.get_json()
     json_file = open("export_show_user_simulation.json", "w")

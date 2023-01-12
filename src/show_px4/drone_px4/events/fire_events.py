@@ -32,7 +32,7 @@ class FireEvent(Event):
 
 class FireEvents(Events):
     events: List[FireEvent]
-    format_ = ">HBB"
+    format_ = ">IBB"
     id_ = 2
 
     def __init__(self):
