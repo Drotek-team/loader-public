@@ -52,10 +52,12 @@ class DronePx4:
             return (0, 0, 0, 0)
         return self.color_events.get_rgbw_by_event_index(-1)
 
+    # TODO place a test on that
     @property
     def events_list(self) -> List[Events]:
         return [self.position_events, self.color_events, self.fire_events]
 
+    # TODO place a test on that
     @property
     def non_empty_events_list(self) -> List[Events]:
-        return [event for event in self.events_list if event.event_size]
+        return [events for events in self.events_list if events.events]

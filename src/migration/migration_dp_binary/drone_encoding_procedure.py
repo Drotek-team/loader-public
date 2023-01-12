@@ -26,7 +26,7 @@ def get_section_headers(
             fmt_section_header=JSON_BINARY_PARAMETER.fmt_section_header,
             event_id=non_empty_events.id_,
             byte_array_start_index=byte_array_start_index,
-            byte_array_end_index=byte_array_start_index + len(encoded_events),
+            byte_array_end_index=byte_array_start_index + len(encoded_events) - 1,
         )
         byte_array_start_index += len(encoded_events)
         section_headers.append(section_header)
@@ -74,6 +74,7 @@ def encode_drone(
         dance_size=dance_size(section_headers, encoded_events_list),
         number_non_empty_events=len(non_empty_events_list),
     )
+    print(header)
     return assemble_dance(header, section_headers, encoded_events_list)
 
 
