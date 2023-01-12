@@ -1,9 +1,9 @@
-from migration.migration_dp_binary.drone_encoding_procedure import get_dance_size
-from parameter.iostar_dance_import_parameter.json_binary_parameter import (
+from ....migration.migration_dp_binary.drone_encoding_procedure import get_dance_size
+from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from report import Displayer
-from show_px4.drone_px4.drone_px4 import DronePx4
+from ....report import Displayer
+from ....show_px4.drone_px4.drone_px4 import DronePx4
 
 
 def apply_dance_size_check_procedure(

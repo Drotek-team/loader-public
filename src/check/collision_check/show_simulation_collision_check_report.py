@@ -1,6 +1,6 @@
 from typing import List
 
-from report import *
+from ...report import *
 
 
 class CollisionSliceCheckReport(Contenor):

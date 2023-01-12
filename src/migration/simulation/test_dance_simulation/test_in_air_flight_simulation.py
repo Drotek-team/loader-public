@@ -3,12 +3,12 @@ from typing import List
 import numpy as np
 import pytest
 
-from migration.simulation.in_air_flight_simulation import (
+from ....migration.simulation.in_air_flight_simulation import (
     in_air_flight_simulation,
     linear_interpolation,
 )
-from migration.simulation.position_simulation import SimulationInfo
-from show_user.show_user import PositionEventUser
+from ....migration.simulation.position_simulation import SimulationInfo
+from ....show_user.show_user import PositionEventUser
 
 
 @pytest.fixture

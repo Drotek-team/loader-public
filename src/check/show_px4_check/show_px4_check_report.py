@@ -1,5 +1,4 @@
-from report import *
-
+from ...report import *
 from .events_format_check.events_format_check_report import EventsFormatCheckReport
 
 

@@ -64,8 +64,6 @@ def valid_north_south_lign_drone_show_px4():
     second_drone_px4.add_position(1000, (0, 1, -10))
     return ShowPx4([first_drone_px4, second_drone_px4])
 
-    # TODO: de manière générale le grid_angle_estimation est pas très lisible donc autant le refaire bien (virer le 90...)
-
 
 def test_sp_to_sc_procedure_north_south_lign_drone_show_px4(
     valid_north_south_lign_drone_show_px4: ShowPx4,

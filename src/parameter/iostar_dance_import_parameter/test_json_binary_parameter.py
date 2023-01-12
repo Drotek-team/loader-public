@@ -22,6 +22,7 @@ def test_json_binary_parameter_standard_case():
             1 / 17,
         )
     ) == (85, 51, 17, 15)
+
     assert JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw((85, 51, 17, 15)) == (
         1 / 3,
         1 / 5,

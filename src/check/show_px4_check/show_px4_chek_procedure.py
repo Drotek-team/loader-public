@@ -1,6 +1,5 @@
-from migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
-from show_user.show_user import ShowUser
-
+from ...migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from ...show_user.show_user import ShowUser
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,
 )

@@ -1,11 +1,10 @@
 import pytest
 
-from parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from parameter.iostar_dance_import_parameter.json_binary_parameter import (
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from show_px4.drone_px4.events.color_events import ColorEvent, ColorEvents
-
+from ....show_px4.drone_px4.events.color_events import ColorEvent, ColorEvents
 from .events_format_check_procedure import color_events_check
 from .events_format_check_report import ColorEventsCheckReport
 

@@ -1,4 +1,4 @@
-from report import Contenor, Displayer
+from ...report import Contenor, Displayer
 
 
 class TakeoffCheckReport(Contenor):

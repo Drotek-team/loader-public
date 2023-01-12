@@ -2,7 +2,7 @@ from typing import List
 
 import numpy as np
 
-from report import Displayer
+from ...report import Displayer
 
 ARBITRARY_DICHOTOMY_THRESHOLD = 400
 

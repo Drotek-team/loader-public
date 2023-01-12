@@ -1,9 +1,10 @@
 import pytest
 
-from migration.simulation.position_simulation import SimulationInfo
-from parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
-from show_user.show_user import *
-
+from ....migration.simulation.position_simulation import SimulationInfo
+from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+    TAKEOFF_PARAMETER,
+)
+from ....show_user.show_user import *
 from .su_to_stc_procedure import *
 
 
@@ -43,5 +44,6 @@ def test_su_to_stc_procedure(valid_show_user: ShowUser):
     show_trajectory = su_to_stc_procedure(valid_show_user)
     assert show_trajectory.drone_number == 1
     assert len(show_trajectory.frames) == 301
+    assert show_trajectory.frames == list(range(301))
     assert show_trajectory.frames == list(range(301))
     assert show_trajectory.frames == list(range(301))
