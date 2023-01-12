@@ -33,5 +33,10 @@ class Show(BaseModel):
 class IostarJsonGCS(BaseModel):
     show: Show
 
+    # TODO: put a test of this
+    @property
+    def nb_drones_per_family(self) -> int:
+        return len(self.show.families[0].drones)
+
     def get_json(self) -> str:
         return json.dumps(self, default=lambda o: o.__dict__, indent=4)
