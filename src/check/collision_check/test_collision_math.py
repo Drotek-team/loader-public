@@ -43,7 +43,6 @@ def test_get_unique_list_from_list_non_unique():
     )
 
 
-# TODO: finished the test
 def test_get_optimized_collision_infractions():
     nb_x, nb_y = 2, 2
     local_indices = np.arange(0, nb_x * nb_y)
@@ -54,7 +53,6 @@ def test_get_optimized_collision_infractions():
     ) == (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
 
 
-# TODO: finished the test
 def test_get_optimized_collision_infractions_big_number():
     nb_x, nb_y = 25, 20
     local_indices = np.arange(0, nb_x * nb_y)

@@ -14,7 +14,7 @@ def get_step_from_grid(
         )
         for first_horizontal_position in grid
     ):
-        return 0
+        return 0.0
     for first_horizontal_position, second_horizontal_position in zip(
         grid.horizontal_positions[:-1], grid.horizontal_positions[1:]
     ):

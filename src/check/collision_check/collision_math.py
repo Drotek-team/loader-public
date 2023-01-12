@@ -110,7 +110,6 @@ def get_optimized_collision_infractions(
     border_indices = get_border_indices(
         local_positions_numpy @ principal_axis, endangered_distance
     )
-
     return get_unique_list_from_list(
         get_optimized_collision_infractions(
             local_indices[argsort_by_axis_positions_numpy[:half_nb_drones_local]],
