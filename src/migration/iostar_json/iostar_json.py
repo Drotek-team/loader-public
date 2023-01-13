@@ -12,6 +12,4 @@ class IostarJson(BaseModel):
             def __init__(self, show: IostarJson):
                 self.show = show
 
-        return json.dumps(
-            DummyClass(self), default=lambda o: o.__dict__, sort_keys=True, indent=4
-        )
+        return json.dumps(DummyClass(self), default=lambda o: o.__dict__, indent=4)
