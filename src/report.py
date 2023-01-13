@@ -13,7 +13,7 @@ class ErrorMessage:
 class Displayer(ErrorMessage):
     annexe_message: str = ""
 
-    def __hash__(self) -> int:
+    def __hash__(self) -> int:  # pyright: ignore
         return hash((self.name, self.annexe_message))
 
     def __eq__(self, __o: "Displayer") -> bool:
@@ -63,6 +63,7 @@ class Contenor(ErrorMessage):
         return f"{indentation_level * indentation_type} [Contenor] {report}  \n"
 
     # TODO: place a test on that
+    # TODO: faire une classe abstraite englobant tout les types de report pour pouvoir virer les isinstance ou alors faire un dictionnaire: au choix !
     def get_children_report(self, indentation_level: int, indentation_type: str) -> str:
         children_report = ""
         for attribute in self.__dict__.values():

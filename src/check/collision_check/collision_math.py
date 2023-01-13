@@ -97,7 +97,7 @@ def get_unique_list_from_list(non_unique_list: List[Any]) -> List[Any]:
 
 # IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_optimized_collision_infractions(
-    local_indices: npt.NDArray[np.float64],
+    local_indices: npt.NDArray[np.int32],
     local_positions_numpy: npt.NDArray[np.float64],
     endangered_distance: float,
     *,

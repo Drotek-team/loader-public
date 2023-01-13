@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple
+from typing import Any, List
 
 from ....migration.show_px4.drone_px4.events.color_events import ColorEvents
 from ....migration.show_px4.drone_px4.events.events import Events
@@ -16,7 +16,7 @@ def check_int_size_list(elements: List[Any], size_min: int, size_max: int) -> bo
 
 
 def check_int_size_list_tuple(
-    elements: List[Tuple[Any]], size_min: int, size_max: int
+    elements: List[List[Any]], size_min: int, size_max: int
 ) -> bool:
     return all(
         size_min <= element and element <= size_max
@@ -56,9 +56,8 @@ def xyz_check(
     position_events: PositionEvents,
     xyz_check_report: XyzCheckReport,
 ) -> None:
-    positions = [event.xyz for event in position_events.events]
     xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
-        positions,
+        [list(event.xyz) for event in position_events.events],
         JSON_BINARY_PARAMETER.position_value_min,
         JSON_BINARY_PARAMETER.position_value_max,
     )
@@ -69,9 +68,8 @@ def rgbw_check(
     color_events: ColorEvents,
     rgbw_check_report: RgbwCheckReport,
 ) -> None:
-    colors = [event.rgbw for event in color_events.events]
     rgbw_check_report.rgbw_value_check_report.validation = check_int_size_list_tuple(
-        colors,
+        [list(event.rgbw) for event in color_events.events],
         JSON_BINARY_PARAMETER.color_value_min,
         JSON_BINARY_PARAMETER.color_value_max,
     )
@@ -86,10 +84,9 @@ def fire_chanel_check(
     fire_events: FireEvents,
     fire_events_chanel_check_report: FireChanelCheckReport,
 ) -> None:
-    chanels = [event.chanel for event in fire_events.events]
     fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
         check_int_size_list(
-            chanels,
+            [event.chanel for event in fire_events.events],
             JSON_BINARY_PARAMETER.fire_chanel_value_min,
             JSON_BINARY_PARAMETER.fire_chanel_value_max,
         )
@@ -109,5 +106,6 @@ def fire_duration_frame_check(
             JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
         )
     )
+    fire_events_chanel_check_report.update_contenor_validation()
     fire_events_chanel_check_report.update_contenor_validation()
     fire_events_chanel_check_report.update_contenor_validation()
