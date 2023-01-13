@@ -2,8 +2,8 @@ from typing import List
 
 from ....migration.simulation.flight_simulation import flight_simulation
 from ....migration.simulation.position_simulation import SimulationInfo
-from ....show_trajectory_collision.show_trajectory_collision import *
 from ....show_user.show_user import ShowUser
+from .show_trajectory_collision import *
 
 
 def get_position_info_from_simulation_infos(

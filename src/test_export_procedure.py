@@ -1,5 +1,5 @@
-from ..show_user.show_user_generator import get_valid_show_user
 from .export_procedure import apply_export_procedure
+from .show_user.show_user_generator import get_valid_show_user
 
 NB_X = 1
 NB_Y = 1

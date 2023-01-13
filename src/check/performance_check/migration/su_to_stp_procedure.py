@@ -5,12 +5,12 @@ import numpy as np
 from ....migration.simulation.in_air_flight_simulation import in_air_flight_simulation
 from ....migration.simulation.position_simulation import SimulationInfo
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ....show_trajectory_performance.show_trajectory_performance import (
+from ....show_user.show_user import ShowUser
+from .show_trajectory_performance import (
     DroneTrajectoryPerformance,
     ShowTrajectoryPerformance,
     TrajectoryPerformanceInfo,
 )
-from ....show_user.show_user import ShowUser
 
 VELOCITY_ESTIMATION_INDEX = 1
 ACCELERATION_ESTIMATION_INDEX = 2

@@ -86,7 +86,7 @@ repos:
       - id: ruff
         name: ruff
         description: Lint, sort imports and improve Python synthax
-        entry: ruff
+        entry: poetry run ruff
         args: [--fix]
         language: system
         require_serial: true
@@ -94,7 +94,7 @@ repos:
         types_or: [python, pyi]
       - id: pytest-check
         name: pytest-check
-        entry: pytest
+        entry: poetry run pytest
         language: system
         pass_filenames: false
         always_run: true
