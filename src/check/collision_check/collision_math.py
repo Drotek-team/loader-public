@@ -7,6 +7,7 @@ from ...report import Displayer
 ARBITRARY_DICHOTOMY_THRESHOLD = 400
 
 
+# TODO: se renseigner sur le typing de numpy pour les array
 def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
     return config_matrix + np.linalg.norm(

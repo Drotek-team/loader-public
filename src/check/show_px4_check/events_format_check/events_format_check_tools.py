@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 from ....migration.show_px4.drone_px4.events.color_events import ColorEvents
 from ....migration.show_px4.drone_px4.events.events import Events
@@ -11,12 +11,12 @@ from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
 from .events_format_check_report import *
 
 
-def check_int_size_list(elements: List, size_min: int, size_max: int) -> bool:
+def check_int_size_list(elements: List[Any], size_min: int, size_max: int) -> bool:
     return all(size_min <= element and element <= size_max for element in elements)
 
 
 def check_int_size_list_tuple(
-    elements: List[Tuple], size_min: int, size_max: int
+    elements: List[Tuple[Any]], size_min: int, size_max: int
 ) -> bool:
     return all(
         size_min <= element and element <= size_max

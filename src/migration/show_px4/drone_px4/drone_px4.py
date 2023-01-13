@@ -3,7 +3,7 @@ from typing import List, Tuple
 from .events.color_events import ColorEvents
 from .events.events import Events
 from .events.fire_events import FireEvents
-from .events.position_events import PositionEvent, PositionEvents
+from .events.position_events import PositionEvents
 
 
 class DronePx4:
@@ -34,34 +34,9 @@ class DronePx4:
         return events_enum[event_index]
 
     @property
-    def last_position_event(self) -> PositionEvent:
-        if not (self.position_events.events):
-            msg = "Empty positions events"
-            raise IndexError(msg)
-        return self.position_events.events[-1]
-
-    @property
-    def first_xyz(self) -> Tuple[int, int, int]:
-        return self.position_events.get_xyz_by_event_index(0)
-
-    @property
-    def last_xyz(self) -> Tuple[int, int, int]:
-        if self.position_events.events == []:
-            return (0, 0, 0)
-        return self.position_events.get_xyz_by_event_index(-1)
-
-    @property
-    def last_rgbw(self) -> Tuple[int, int, int, int]:
-        if self.color_events.events == []:
-            return (0, 0, 0, 0)
-        return self.color_events.get_rgbw_by_event_index(-1)
-
-    # TODO place a test on that
-    @property
     def events_list(self) -> List[Events]:
         return [self.position_events, self.color_events, self.fire_events]
 
-    # TODO place a test on that
     @property
     def non_empty_events_list(self) -> List[Events]:
         return [events for events in self.events_list if events.events]

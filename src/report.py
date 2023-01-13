@@ -5,7 +5,7 @@ from typing import List
 @dataclass
 class ErrorMessage:
     name: str = ""
-    validation: str = False
+    validation: bool = False
 
 
 @dataclass

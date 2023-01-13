@@ -12,11 +12,17 @@ class ShowPx4(List[DronePx4]):
 
     @property
     def duration(self) -> int:
-        return max(drone.last_position_event.timecode for drone in self)
+        return max(drone_px4.position_events.events[-1].timecode for drone_px4 in self)
 
     @property
     def first_horizontal_positions(self) -> List[Tuple[int, int]]:
-        return [(drone.first_xyz[0], drone.first_xyz[1]) for drone in self]
+        return [
+            (
+                drone.position_events.events[0].xyz[0],
+                drone.position_events.events[0].xyz[1],
+            )
+            for drone in self
+        ]
 
     @property
     def convex_hull(self) -> List[Tuple[int, int]]:

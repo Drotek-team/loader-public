@@ -36,8 +36,6 @@ def valid_east_west_lign_drone_show_px4():
     second_drone_px4.add_position(1000, (1, 0, -10))
     return ShowPx4([first_drone_px4, second_drone_px4])
 
-    # TODO: de manière générale le grid_angle_estimation est pas très lisible donc autant le refaire bien (virer le 90...)
-
 
 def test_sp_to_sc_procedure_east_west_lign_drone(
     valid_east_west_lign_drone_show_px4: ShowPx4,

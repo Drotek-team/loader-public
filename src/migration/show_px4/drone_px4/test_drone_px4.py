@@ -60,18 +60,25 @@ def test_get_events_by_index_out_of_range():
         drone.get_events_by_index(event_index=3)
 
 
-def test_last_position_event_standard_case():
+def test_events_list_standard_case():
     drone = DronePx4(index=0)
+    assert drone.events_list == [
+        drone.position_events,
+        drone.color_events,
+        drone.fire_events,
+    ]
+
+
+def test_non_empty_events_list_standard_case():
+    drone = DronePx4(index=0)
+    assert drone.non_empty_events_list == []
     drone.add_position(timecode=0, xyz=(0, 0, 0))
-    drone.add_position(timecode=1, xyz=(1, 1, 1))
-    drone.add_position(timecode=2, xyz=(2, 2, 2))
-    assert drone.last_position_event.xyz == (2, 2, 2)
-
-
-def test_last_position_event_out_of_range():
-    drone = DronePx4(index=0)
-    with pytest.raises(IndexError):
-        drone.last_position_event
-
-
-# TODO: finished the test
+    assert drone.non_empty_events_list == [drone.position_events]
+    drone.add_color(timecode=0, rgbw=(0, 0, 0, 0))
+    assert drone.non_empty_events_list == [drone.position_events, drone.color_events]
+    drone.add_fire(timecode=0, chanel=0, duration_frame=0)
+    assert drone.non_empty_events_list == [
+        drone.position_events,
+        drone.color_events,
+        drone.fire_events,
+    ]

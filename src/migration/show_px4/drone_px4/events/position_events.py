@@ -1,10 +1,11 @@
 import struct
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 from .events import Event, Events
 
 
+# TODO: passer à pydantic
 @dataclass(frozen=True)
 class PositionEvent(Event):
     timecode: int  # time frame associate to the "fps_px4" parameter
@@ -34,7 +35,7 @@ class PositionEvent(Event):
         return (self.timecode, self.x, self.y, self.z)
 
 
-# IMPROVE: this typing events thing is not a real pratical problem but I really do not see a pretty solution for that
+# TODO: you know you can do much better for that class typing
 class PositionEvents(Events):
     events: List[PositionEvent]
     format_ = ">Ihhh"
@@ -49,7 +50,7 @@ class PositionEvents(Events):
     def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.events.append(PositionEvent(timecode, xyz[0], xyz[1], xyz[2]))
 
-    def add_data(self, data: Tuple) -> None:
+    def add_data(self, data: Tuple[Any, Any, Any, Any]) -> None:
         self.events.append(PositionEvent(data[0], data[1], data[2], data[3]))
 
     @property
