@@ -10,8 +10,8 @@ class EventsSizeEasing:
     previous_rgbw: Tuple[int, int, int, int] = (0, 0, 0, 0)
 
     def reset_previous_events(self):
-        self.previous_position = (0.0, 0.0, 0.0)
-        self.previous_rgbw = (0.0, 0.0, 0.0, 0.0)
+        self.previous_position = (0, 0, 0)
+        self.previous_rgbw = (0, 0, 0, 0)
 
     def is_xyz_valid(self, xyz: Tuple[int, int, int]) -> bool:
         valid_event = xyz != self.previous_xyz

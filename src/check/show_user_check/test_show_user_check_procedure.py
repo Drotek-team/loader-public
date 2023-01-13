@@ -117,7 +117,7 @@ def test_empty_position_events():
 
 def test_valid_one_position_events():
     one_position_events_drone_user = DroneUser(
-        position_events=[PositionEventUser(frame=0, xyz=[2.0, 2.0, 0.0])],
+        position_events=[PositionEventUser(frame=0, xyz=(2.0, 2.0, 0.0))],
         color_events=[],
         fire_events=[],
     )
@@ -131,7 +131,7 @@ def test_valid_one_position_events():
 
 def test_invalid_by_time_one_position_events():
     one_position_events_drone_user = DroneUser(
-        position_events=[PositionEventUser(frame=1, xyz=[2.0, 2.0, 0.0])],
+        position_events=[PositionEventUser(frame=1, xyz=(2.0, 2.0, 0.0))],
         color_events=[],
         fire_events=[],
     )

@@ -13,8 +13,5 @@ class ShowTrajectoryPerformanceCheckReport(Contenor):
     def __init__(self, nb_drone: int):
         self.name = "Performance check report"
         self.drones_trajectory_performance_check_report = [
-            DronePerformanceCheckReport(
-                f"Drone {drone_index} Trajectory Performance check report"
-            )
-            for drone_index in range(nb_drone)
+            DronePerformanceCheckReport(drone_index) for drone_index in range(nb_drone)
         ]

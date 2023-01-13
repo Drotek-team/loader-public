@@ -44,7 +44,7 @@ def add_fire_events_user(
     for fire_event_user in fire_events_user:
         drone_px4.add_fire(
             JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-                fire_event_user.timecode
+                fire_event_user.frame
             ),
             fire_event_user.chanel,
             JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
@@ -70,6 +70,7 @@ def drone_user_to_drone_px4_procedure(
     return drone_px4
 
 
+# TODO:place a test on this function
 def su_to_sp_procedure(
     show_user: ShowUser,
 ) -> ShowPx4:

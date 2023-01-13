@@ -21,7 +21,7 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser):
 def test_position_event_user_invalid_input(empty_drone_user: DroneUser):
     with pytest.raises(ValidationError):
         empty_drone_user.add_position_event(
-            frame=1.0,
+            frame=1.0,  # pyright: ignore
             xyz=(1.0, 2.0, 3.0),
         )
     with pytest.raises(ValidationError):
@@ -43,7 +43,7 @@ def test_color_event_user_standard_case(empty_drone_user: DroneUser):
 def test_color_event_user_invalid_input(empty_drone_user: DroneUser):
     with pytest.raises(ValidationError):
         empty_drone_user.add_color_event(
-            frame=1.0,
+            frame=1.0,  # pyright: ignore
             rgbw=(1.0, 2.0, 3.0, 4.0),
         )
     with pytest.raises(ValidationError):
@@ -67,19 +67,19 @@ def test_fire_event_user_standard_case(empty_drone_user: DroneUser):
 def test_fire_event_user_invalid_input(empty_drone_user: DroneUser):
     with pytest.raises(ValidationError):
         empty_drone_user.add_fire_event(
-            frame=1.0,
+            frame=1.0,  # pyright: ignore
             chanel=0,
             duration_frame=2,
         )
     with pytest.raises(ValidationError):
         empty_drone_user.add_fire_event(
             frame=1,
-            chanel=0.0,
+            chanel=0.0,  # pyright: ignore
             duration_frame=2,
         )
     with pytest.raises(ValidationError):
         empty_drone_user.add_fire_event(
             frame=1,
             chanel=0,
-            duration_frame=2.0,
+            duration_frame=2.0,  # pyright: ignore
         )

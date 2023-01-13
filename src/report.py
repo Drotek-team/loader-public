@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 
+# TODO: pydantic seems better here
 @dataclass
 class ErrorMessage:
     name: str = ""
