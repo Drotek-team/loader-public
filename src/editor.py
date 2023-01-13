@@ -1,15 +1,29 @@
+from typing import Tuple
+
 from .check.all_check_from_show_user_procedure import (
     apply_all_check_from_show_user_procedure,
 )
 from .check.show_check_report import ShowCheckReport
-from .export_procedure import apply_export_procedure
 from .migration.iostar_json.iostar_json import IostarJson
 from .migration.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .migration.migration_sp_ij.ij_to_sp_procedure import ij_to_sp_procedure
+from .migration.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
 from .migration.migration_sp_ijg.ijg_to_sp_procedure import ijg_to_sp_procedure
 from .migration.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
 from .migration.migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
+from .migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
 from .migration.show_user.show_user import DroneUser, ShowUser
+
+
+def apply_export_procedure(
+    show_user: ShowUser,
+) -> Tuple[IostarJson, ShowCheckReport]:
+    show_check_report = ShowCheckReport(len(show_user.drones_user))
+    apply_all_check_from_show_user_procedure(show_user, show_check_report)
+    return (
+        sp_to_ij_procedure(su_to_sp_procedure(show_user)),
+        show_check_report,
+    )
 
 
 def create_show_user(drone_number: int) -> ShowUser:
@@ -50,5 +64,7 @@ def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     """Check the validity of an iostar_json_gcs."""
     show_user = sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
     show_check_report = ShowCheckReport(len(show_user.drones_user))
+    apply_all_check_from_show_user_procedure(show_user, show_check_report)
+    return show_check_report.validation
     apply_all_check_from_show_user_procedure(show_user, show_check_report)
     return show_check_report.validation

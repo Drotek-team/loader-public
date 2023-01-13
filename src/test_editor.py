@@ -1,6 +1,7 @@
 import pytest
 
 from .editor import (
+    apply_export_procedure,
     create_show_user,
     export_show_user_to_iostar_json_gcs_string,
     export_show_user_to_iostar_json_string,
@@ -9,6 +10,29 @@ from .editor import (
 from .migration.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
 from .migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
 from .migration.show_user.show_user import ShowUser
+from .migration.show_user.show_user_generator import get_valid_show_user
+
+NB_X = 1
+NB_Y = 1
+NB_DRONE_PER_FAMILY = 1
+STEP_TAKEOFF = 1.5
+ANGLE_TAKEOFF = 0
+SHOW_DURATION_SECOND = 30.0
+
+
+def test_export_procedure():
+    _, show_check_report = apply_export_procedure(
+        get_valid_show_user(
+            NB_X,
+            NB_Y,
+            NB_DRONE_PER_FAMILY,
+            STEP_TAKEOFF,
+            ANGLE_TAKEOFF,
+            SHOW_DURATION_SECOND,
+        )
+    )
+    assert show_check_report.validation
+    assert show_check_report.validation
 
 
 @pytest.fixture
