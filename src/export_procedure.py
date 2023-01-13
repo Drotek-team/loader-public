@@ -7,7 +7,7 @@ from .check.show_check_report import ShowCheckReport
 from .migration.iostar_json.iostar_json import IostarJson
 from .migration.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
 from .migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
-from .show_user.show_user import ShowUser
+from .migration.show_user.show_user import ShowUser
 
 
 def apply_export_procedure(

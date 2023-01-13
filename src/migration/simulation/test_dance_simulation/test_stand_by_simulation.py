@@ -5,7 +5,7 @@ import pytest
 
 from ....migration.simulation.position_simulation import SimulationInfo
 from ....migration.simulation.stand_by_simulation import stand_by_simulation
-from ....show_user.show_user import PositionEventUser
+from ...show_user.show_user import PositionEventUser
 
 FRAME_START = 0
 FRAME_END = 80

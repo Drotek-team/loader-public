@@ -8,7 +8,7 @@ from .migration.migration_sp_ij.ij_to_sp_procedure import ij_to_sp_procedure
 from .migration.migration_sp_ijg.ijg_to_sp_procedure import ijg_to_sp_procedure
 from .migration.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
 from .migration.migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
-from .show_user.show_user import DroneUser, ShowUser
+from .migration.show_user.show_user import DroneUser, ShowUser
 
 
 # TODO: put a test on this

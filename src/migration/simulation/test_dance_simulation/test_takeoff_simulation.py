@@ -9,7 +9,7 @@ from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PA
 from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ....show_user.show_user import PositionEventUser
+from ...show_user.show_user import PositionEventUser
 
 FRAME_START = 0
 FRAME_END = FRAME_START + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(

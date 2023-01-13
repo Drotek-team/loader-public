@@ -8,7 +8,7 @@ from ....migration.simulation.in_air_flight_simulation import (
     linear_interpolation,
 )
 from ....migration.simulation.position_simulation import SimulationInfo
-from ....show_user.show_user import PositionEventUser
+from ...show_user.show_user import PositionEventUser
 
 
 @pytest.fixture
