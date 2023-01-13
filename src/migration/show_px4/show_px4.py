@@ -35,3 +35,6 @@ class ShowPx4(List[DronePx4]):
         events_size_easing = EventsSizeEasing()
         for drone in self:
             apply_dance_size_relief(drone, events_size_easing)
+        events_size_easing = EventsSizeEasing()
+        for drone in self:
+            apply_dance_size_relief(drone, events_size_easing)

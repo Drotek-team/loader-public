@@ -1,5 +1,9 @@
 import pytest
 
+from ....migration.show_px4.drone_px4.events.position_events import (
+    PositionEvent,
+    PositionEvents,
+)
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
@@ -7,7 +11,6 @@ from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
 from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ....show_px4.drone_px4.events.position_events import PositionEvent, PositionEvents
 from .events_format_check_procedure import position_events_check
 from .events_format_check_report import PositionEventsCheckReport
 
@@ -111,6 +114,9 @@ def test_invalid_position_events_xyz_value_check(
     position_events_check(
         valid_position_events,
         position_events_check_report,
+    )
+    assert not (
+        position_events_check_report.xyz_check_report.xyz_value_check_report.validation
     )
     assert not (
         position_events_check_report.xyz_check_report.xyz_value_check_report.validation

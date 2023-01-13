@@ -1,6 +1,6 @@
 import struct
 
-from show_px4.drone_px4.drone_px4 import *
+from src.migration.show_px4.drone_px4.drone_px4 import *
 
 from .drone_encoding_procedure import get_dance_size
 
