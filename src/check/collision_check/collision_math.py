@@ -41,8 +41,9 @@ def get_collision_infractions(
     ]
     return [
         Displayer(
-            "Collision Infraction",
-            collision_infraction_message(
+            name="Collision Infraction",
+            validation=False,
+            annexe_message=collision_infraction_message(
                 local_drone_indices[
                     endangered_couples_distance_matrix_index // nb_drones_local
                 ],

@@ -157,5 +157,3 @@ def test_invalid_by_position_one_position_events():
     )
     assert takeoff_check_report.takeoff_duration_check_report.validation
     assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
-    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
-    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)

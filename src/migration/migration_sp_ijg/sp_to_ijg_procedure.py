@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from ..iostar_json.iostar_json_gcs import IostarJsonGCS
+from ..iostar_json.iostar_json_gcs import IostarJsonGcs
 from ..migration_dp_binary.drone_encoding_procedure import encode_drone
 from ..show_px4.drone_px4.drone_px4 import DronePx4
 from ..show_px4.show_px4 import ShowPx4
@@ -25,9 +25,9 @@ def get_family_dict_from_show_px4(
     }
 
 
-def sp_to_ijg_procedure(show_px4: ShowPx4) -> IostarJsonGCS:
+def sp_to_ijg_procedure(show_px4: ShowPx4) -> IostarJsonGcs:
     show_configuration = sp_to_sc_procedure(show_px4)
-    return IostarJsonGCS(
+    return IostarJsonGcs(
         **{
             "show": {
                 "families": [

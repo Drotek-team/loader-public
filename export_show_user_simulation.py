@@ -27,9 +27,9 @@ def main() -> None:
     iostar_json_gcs = sp_to_ijg_procedure(show_px4)
     print(show_check_report.get_contenor_report(0, "   "))
     print(show_user)
-    iostar_json_gcs.get_json()
+    iostar_json_gcs.json()
     json_file = open("export_show_user_simulation.json", "w")
-    json_file.write(iostar_json_gcs.get_json())
+    json_file.write(iostar_json_gcs.json())
 
 
 if __name__ == "__main__":

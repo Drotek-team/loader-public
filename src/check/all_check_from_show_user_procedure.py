@@ -14,8 +14,14 @@ def apply_all_check_from_show_user_procedure(
     show_user: ShowUser,
     show_check_report: ShowCheckReport,
 ) -> None:
+    # TODO: apply a test on this
     apply_show_user_check_procedure(show_user, show_check_report.show_user_check_report)
+    if not (show_check_report.show_user_check_report.validation):
+        return
+    # TODO: apply a test on this
     apply_show_px4_check_procedure(show_user, show_check_report.show_px4_check_report)
+    if not (show_check_report.show_px4_check_report.validation):
+        return
     apply_show_trajectory_performance_check_procedure(
         show_user,
         show_check_report.show_trajectory_performance_check_report,
@@ -24,5 +30,4 @@ def apply_all_check_from_show_user_procedure(
         show_user,
         show_check_report.show_simulation_collision_check_report,
     )
-    show_check_report.update_contenor_validation()
     show_check_report.update_contenor_validation()

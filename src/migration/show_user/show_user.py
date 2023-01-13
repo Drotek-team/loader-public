@@ -1,4 +1,3 @@
-import json
 from typing import List, Tuple
 
 from pydantic import BaseModel
@@ -41,14 +40,17 @@ class DroneUser(BaseModel):
     color_events: List[ColorEventUser]
     fire_events: List[FireEventUser]
 
+    # TODO: add a test for that
     def add_position_event(self, frame: int, xyz: Tuple[float, float, float]) -> None:
         self.position_events.append(PositionEventUser(frame=frame, xyz=xyz))
 
+    # TODO: add a test for that
     def add_color_event(
         self, frame: int, rgbw: Tuple[float, float, float, float]
     ) -> None:
         self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw))
 
+    # TODO: add a test for that
     def add_fire_event(
         self,
         frame: int,
@@ -87,15 +89,6 @@ class DroneUser(BaseModel):
 
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
-
-    def get_json(self) -> str:
-        class DummyClass:
-            def __init__(self, show: ShowUser):
-                self.show = show
-
-        return json.dumps(
-            DummyClass(self), default=lambda o: o.__dict__, sort_keys=True, indent=4
-        )
 
     def __iter__(self):
         yield from self.drones_user

@@ -91,4 +91,3 @@ def get_dance_size(drone_px4: DronePx4) -> int:
         drone_px4.fire_events.format_
     )
     return header_size + header_section_size + position_size + color_size + fire_size
-    return header_size + header_section_size + position_size + color_size + fire_size

@@ -3,10 +3,14 @@ from typing import List
 
 
 @dataclass
-class Displayer:
-    name: str
+class ErrorMessage:
+    name: str = ""
+    validation: str = False
+
+
+@dataclass
+class Displayer(ErrorMessage):
     annexe_message: str = ""
-    validation: bool = False
 
     def __hash__(self) -> int:
         return hash((self.name, self.annexe_message))
@@ -15,34 +19,34 @@ class Displayer:
         return self.name == __o.name and self.annexe_message == __o.annexe_message
 
     @property
-    def get_report(self) -> str:
+    def report(self) -> str:
         return self.name
 
 
-class Contenor:
-    validation: bool = False
-    name: str
-
+@dataclass
+class Contenor(ErrorMessage):
     def update_contenor_validation(self) -> None:
         displayer_validation = all(
             displayer.validation
             for displayer in self.__dict__.values()
             if isinstance(displayer, Displayer)
         )
-        contenor__validation = all(
+        contenor_validation = all(
             contenor.validation
             for contenor in self.__dict__.values()
             if isinstance(contenor, Contenor)
         )
-        displayer_list_validation = all(
-            displayer.validation
-            for displayer_list in self.__dict__.values()
-            if isinstance(displayer_list, List)
-            for displayer in displayer_list
-            if isinstance(displayer, Displayer)
+        error_message_list_validation = all(
+            error_message.validation
+            for attributes in self.__dict__.values()
+            if isinstance(attributes, List)
+            for error_message in attributes
+            if isinstance(error_message, ErrorMessage)
         )
         self.validation = (
-            displayer_validation and contenor__validation and displayer_list_validation
+            displayer_validation
+            and contenor_validation
+            and error_message_list_validation
         )
 
     @staticmethod
@@ -57,6 +61,7 @@ class Contenor:
     ) -> str:
         return f"{indentation_level * indentation_type} [Contenor] {report}  \n"
 
+    # TODO: place a test on that
     def get_children_report(self, indentation_level: int, indentation_type: str) -> str:
         children_report = ""
         for attribute in self.__dict__.values():
@@ -72,7 +77,7 @@ class Contenor:
                         attribute_element.validation
                     ):
                         children_report += self.displayer_formater(
-                            attribute_element.get_report(),
+                            attribute_element.report,
                             indentation_level + 1,
                             indentation_type,
                         )
@@ -82,7 +87,7 @@ class Contenor:
                 )
             if isinstance(attribute, Displayer) and not (attribute.validation):
                 children_report += self.displayer_formater(
-                    attribute.get_report(),
+                    attribute.report,
                     indentation_level + 1,
                     indentation_type,
                 )
