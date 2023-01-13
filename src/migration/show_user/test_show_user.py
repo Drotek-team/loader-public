@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from .show_user import ColorEventUser, FireEventUser, PositionEventUser
+from .show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser
 
 
 def test_position_event_user_standard_case():
@@ -13,15 +13,12 @@ def test_position_event_user_standard_case():
     assert position_event_user.xyz == (1.0, 2.0, 3.0)
 
 
-def test_position_event_user_invalid_frame_type():
+def test_position_event_user_invalid_input():
     with pytest.raises(ValidationError):
         PositionEventUser(
             frame=1.0,
             xyz=(1.0, 2.0, 3.0),
         )
-
-
-def test_position_event_user_invalid_xyz_type():
     with pytest.raises(ValidationError):
         PositionEventUser(
             frame=1,
@@ -38,15 +35,12 @@ def test_color_event_user_standard_case():
     assert color_event_user.rgbw == (1.0, 2.0, 3.0, 4.0)
 
 
-def test_color_event_user_invalid_frame_type():
+def test_color_event_user_invalid_input():
     with pytest.raises(ValidationError):
         ColorEventUser(
             frame=1.0,
             rgbw=(1.0, 2.0, 3.0, 4.0),
         )
-
-
-def test_color_event_user_invalid_xyz_type():
     with pytest.raises(ValidationError):
         ColorEventUser(
             frame=1,
@@ -65,28 +59,44 @@ def test_fire_event_user_standard_case():
     assert fire_event_user.duration_frame == 2
 
 
-def test_fire_event_user_invalid_frame_type():
+def test_fire_event_user_invalid_input():
     with pytest.raises(ValidationError):
         FireEventUser(
             frame=1.0,
             chanel=0,
             duration_frame=2,
         )
-
-
-def test_fire_event_user_invalid_chanel_type():
     with pytest.raises(ValidationError):
         FireEventUser(
             frame=1,
             chanel=0.0,
             duration_frame=2,
         )
-
-
-def test_fire_event_user_invalid_duration_frame_type():
     with pytest.raises(ValidationError):
         FireEventUser(
             frame=1,
             chanel=0,
             duration_frame=2.0,
         )
+
+
+def test_add_position_event_standard_case():
+    empty_drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    empty_drone_user.add_position_event(frame=1, xyz=(1.0, 2.0, 3.0))
+    assert empty_drone_user.position_events[0].frame == 1
+    assert empty_drone_user.position_events[0].xyz == (1.0, 2.0, 3.0)
+
+
+def test_add_color_event_standard_case():
+    empty_drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    empty_drone_user.add_color_event(frame=1, rgbw=(1.0, 2.0, 3.0, 4.0))
+    assert empty_drone_user.color_events[0].frame == 1
+    assert empty_drone_user.color_events[0].rgbw == (1.0, 2.0, 3.0, 4.0)
+
+
+def test_add_fire_event_standard_case():
+    empty_drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    empty_drone_user.add_fire_event(frame=1, chanel=0, duration_frame=2)
+    assert empty_drone_user.fire_events[0].frame == 1
+    assert empty_drone_user.fire_events[0].chanel == 0
+    assert empty_drone_user.fire_events[0].duration_frame == 2

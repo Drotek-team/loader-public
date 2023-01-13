@@ -66,5 +66,3 @@ def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     show_check_report = ShowCheckReport(len(show_user.drones_user))
     apply_all_check_from_show_user_procedure(show_user, show_check_report)
     return show_check_report.validation
-    apply_all_check_from_show_user_procedure(show_user, show_check_report)
-    return show_check_report.validation

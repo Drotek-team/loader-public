@@ -29,11 +29,15 @@ class DronePx4:
             self.fire_events.id_: self.fire_events,
         }
         if event_index not in events_enum.keys():
-            raise ValueError(event_index)
+            msg = f"{event_index} is not inside the events enum {events_enum.keys()}"
+            raise IndexError(msg)
         return events_enum[event_index]
 
     @property
     def last_position_event(self) -> PositionEvent:
+        if not (self.position_events.events):
+            msg = "Empty positions events"
+            raise IndexError(msg)
         return self.position_events.events[-1]
 
     @property

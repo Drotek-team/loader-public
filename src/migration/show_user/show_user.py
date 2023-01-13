@@ -40,25 +40,22 @@ class DroneUser(BaseModel):
     color_events: List[ColorEventUser]
     fire_events: List[FireEventUser]
 
-    # TODO: add a test for that
     def add_position_event(self, frame: int, xyz: Tuple[float, float, float]) -> None:
         self.position_events.append(PositionEventUser(frame=frame, xyz=xyz))
 
-    # TODO: add a test for that
     def add_color_event(
         self, frame: int, rgbw: Tuple[float, float, float, float]
     ) -> None:
         self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw))
 
-    # TODO: add a test for that
     def add_fire_event(
         self,
         frame: int,
         chanel: int,
-        duration: int,
+        duration_frame: int,
     ) -> None:
         self.fire_events.append(
-            FireEventUser(frame=frame, chanel=chanel, duration=duration)
+            FireEventUser(frame=frame, chanel=chanel, duration_frame=duration_frame)
         )
 
     @property
