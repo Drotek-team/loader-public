@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Callable, Dict
 
 import numpy as np
+import numpy.typing as npt
 
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
@@ -27,43 +28,60 @@ class Metric(Enum):
         return METRICS_RANGE[self]
 
     def validation(
-        self, position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+        self,
+        position: npt.NDArray[np.float64],
+        velocity: npt.NDArray[np.float64],
+        acceleration: npt.NDArray[np.float64],
     ) -> bool:
         return self.range_.validation(self.evaluation(position, velocity, acceleration))
 
 
 def vertical_position_evaluation(
-    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+    position: npt.NDArray[np.float64],
+    velocity: npt.NDArray[np.float64],
+    acceleration: npt.NDArray[np.float64],
 ) -> float:
     return float(position[2])
 
 
 def horizontal_velocity_evaluation(
-    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+    position: npt.NDArray[np.float64],
+    velocity: npt.NDArray[np.float64],
+    acceleration: npt.NDArray[np.float64],
 ) -> float:
     return float(np.linalg.norm(velocity[0:2]))
 
 
 def up_velocity_evaluation(
-    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+    position: npt.NDArray[np.float64],
+    velocity: npt.NDArray[np.float64],
+    acceleration: npt.NDArray[np.float64],
 ) -> float:
     return float(velocity[2])
 
 
 def down_velocity_evaluation(
-    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+    position: npt.NDArray[np.float64],
+    velocity: npt.NDArray[np.float64],
+    acceleration: npt.NDArray[np.float64],
 ) -> float:
     return float(-velocity[2])
 
 
 def acceleration_evaluation(
-    position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray
+    position: npt.NDArray[np.float64],
+    velocity: npt.NDArray[np.float64],
+    acceleration: npt.NDArray[np.float64],
 ) -> float:
     return float(np.linalg.norm(acceleration))
 
 
 METRICS_EVALUATION: Dict[
-    Metric, Callable[[np.ndarray, np.ndarray, np.ndarray], float]
+    Metric,
+    Callable[
+        [npt.NDArray[np.float64], npt.NDArray[np.float64], npt.NDArray[np.float64]],
+        float,
+    ],
 ] = {
     Metric.VERTICAL_POSITION: vertical_position_evaluation,
     Metric.HORIZONTAL_VELOCITY: horizontal_velocity_evaluation,
@@ -112,9 +130,9 @@ def get_performance_infraction(
 
 def performance_evaluation(
     absolute_frame: int,
-    position: np.ndarray,
-    velocity: np.ndarray,
-    acceleration: np.ndarray,
+    position: npt.NDArray[np.float64],
+    velocity: npt.NDArray[np.float64],
+    acceleration: npt.NDArray[np.float64],
     drone_trajectory_performance_check: DronePerformanceCheckReport,
 ) -> None:
     for metric in Metric:

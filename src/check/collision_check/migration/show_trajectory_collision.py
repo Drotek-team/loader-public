@@ -2,12 +2,13 @@ from dataclasses import dataclass
 from typing import List
 
 import numpy as np
+import numpy.typing as npt
 
 
 @dataclass(frozen=True)
 class CollisionPositionInfo:
     frame: int
-    position: np.ndarray
+    position: npt.NDArray[np.float64]
     in_air: bool
 
     def __eq__(self, other: "CollisionPositionInfo"):

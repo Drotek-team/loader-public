@@ -1,6 +1,7 @@
-from typing import List
+from typing import Any, List
 
 import numpy as np
+import numpy.typing as npt
 
 from ...report import Displayer
 
@@ -8,7 +9,9 @@ ARBITRARY_DICHOTOMY_THRESHOLD = 400
 
 
 # TODO: se renseigner sur le typing de numpy pour les array
-def get_couple_distance_matrix(positions_numpy: np.ndarray) -> np.ndarray:
+def get_couple_distance_matrix(
+    positions_numpy: npt.NDArray[np.float64],
+) -> npt.NDArray[np.float64]:
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
     return config_matrix + np.linalg.norm(
         positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
@@ -26,8 +29,8 @@ def collision_infraction_message(
 
 # IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_collision_infractions(
-    local_drone_indices: np.ndarray,
-    local_drone_positions: np.ndarray,
+    local_drone_indices: npt.NDArray[np.float64],
+    local_drone_positions: npt.NDArray[np.float64],
     endangered_distance: float,
     *,
     in_air: bool,
@@ -61,7 +64,9 @@ def get_collision_infractions(
     ]
 
 
-def get_principal_axis(positions_numpy: np.ndarray) -> np.ndarray:
+def get_principal_axis(
+    positions_numpy: npt.NDArray[np.float64],
+) -> npt.NDArray[np.float64]:
     x_meaned = positions_numpy - np.mean(positions_numpy, axis=0)
     cov_mat = np.cov(x_meaned, rowvar=False)
     eigen_values, eigen_vectors = np.linalg.eigh(cov_mat)
@@ -69,8 +74,8 @@ def get_principal_axis(positions_numpy: np.ndarray) -> np.ndarray:
 
 
 def get_border_indices(
-    sorted_positions_numpy: np.ndarray, endangered_distance: float
-) -> np.ndarray:
+    sorted_positions_numpy: npt.NDArray[np.float64], endangered_distance: float
+) -> npt.NDArray[np.float64]:
     middle_position_numpy = sorted_positions_numpy[len(sorted_positions_numpy) // 2]
     return np.arange(
         np.searchsorted(
@@ -86,14 +91,14 @@ def get_border_indices(
     )
 
 
-def get_unique_list_from_list(non_unique_list: List) -> List:
+def get_unique_list_from_list(non_unique_list: List[Any]) -> List[Any]:
     return list(set(non_unique_list))
 
 
 # IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_optimized_collision_infractions(
-    local_indices: np.ndarray,
-    local_positions_numpy: np.ndarray,
+    local_indices: npt.NDArray[np.float64],
+    local_positions_numpy: npt.NDArray[np.float64],
     endangered_distance: float,
     *,
     in_air: bool,

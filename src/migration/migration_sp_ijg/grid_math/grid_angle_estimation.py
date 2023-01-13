@@ -2,6 +2,7 @@ import math
 from typing import Tuple
 
 import numpy as np
+import numpy.typing as npt
 
 from .grid import Grid, HorizontalPosition
 
@@ -10,7 +11,7 @@ def is_grid_a_row(grid: Grid) -> bool:
     return set(grid.horizontal_x_extremes) == set(grid.horizontal_y_extremes)
 
 
-def get_angle_degree_from_vector(u_x: np.ndarray) -> int:
+def get_angle_degree_from_vector(u_x: npt.NDArray[np.float64]) -> int:
     u_x_unit = u_x / np.linalg.norm(u_x)
     angle_radian = np.arctan2(u_x_unit[1], u_x_unit[0])
     return int(math.degrees(angle_radian))

@@ -2,14 +2,15 @@ from dataclasses import dataclass
 from typing import List
 
 import numpy as np
+import numpy.typing as npt
 
 
 @dataclass(frozen=True)
 class TrajectoryPerformanceInfo:
     frame: int
-    position: np.ndarray
-    velocity: np.ndarray
-    acceleration: np.ndarray
+    position: npt.NDArray[np.float64]
+    velocity: npt.NDArray[np.float64]
+    acceleration: npt.NDArray[np.float64]
 
 
 class DroneTrajectoryPerformance:

@@ -2,12 +2,13 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 import numpy as np
+import numpy.typing as npt
 
 
 @dataclass(frozen=True)
 class SimulationInfo:
     frame: int  # absolute frame
-    position: np.ndarray
+    position: npt.NDArray[np.float64]
     in_air: bool
     in_dance: bool
 
@@ -26,7 +27,7 @@ def linear_interpolation(
     nb_points: int,
     *,
     end_point: bool = False,
-) -> List[np.ndarray]:
+) -> List[npt.NDArray[np.float64]]:
     if nb_points < 0:
         msg = f"nb_points must be positive: position_begin: {position_begin}, position_end: {position_end}, nb_points: {nb_points}"
         raise ValueError(msg)

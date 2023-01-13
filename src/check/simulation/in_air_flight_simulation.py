@@ -1,6 +1,7 @@
 from typing import List
 
 import numpy as np
+import numpy.typing as npt
 
 from ...migration.show_user.show_user import PositionEventUser
 from .position_simulation import SimulationInfo, linear_interpolation
@@ -9,7 +10,7 @@ from .position_simulation import SimulationInfo, linear_interpolation
 def in_air_flight_simulation(
     position_events_user: List[PositionEventUser],
 ) -> List[SimulationInfo]:
-    flight_positions: List[np.ndarray] = []
+    flight_positions: List[npt.NDArray[np.float64]] = []
     for position_simulation, next_position_events_user in zip(
         position_events_user[:-1], position_events_user[1:]
     ):

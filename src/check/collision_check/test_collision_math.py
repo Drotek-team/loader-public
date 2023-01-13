@@ -3,7 +3,7 @@ import numpy as np
 from .collision_math import *
 
 
-def get_grid(nb_x: int, nb_y: int) -> np.ndarray:
+def get_grid(nb_x: int, nb_y: int) -> npt.NDArray[np.float64]:
     return np.array(
         [(index_x, index_y, 0) for index_x in range(nb_x) for index_y in range(nb_y)]
     )

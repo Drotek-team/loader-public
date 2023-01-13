@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 import numpy as np
+import numpy.typing as npt
 
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
@@ -11,7 +12,7 @@ from .position_simulation import SimulationInfo, linear_interpolation
 
 def generate_takeoff_first_part(
     takeoff_start_position: Tuple[float, float, float],
-) -> List[np.ndarray]:
+) -> List[npt.NDArray[np.float64]]:
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
@@ -28,7 +29,7 @@ def generate_takeoff_first_part(
 
 def generate_takeoff_second_part(
     takeoff_start_position: Tuple[float, float, float],
-) -> List[np.ndarray]:
+) -> List[npt.NDArray[np.float64]]:
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],

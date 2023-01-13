@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 import numpy as np
+import numpy.typing as npt
 
 
 @dataclass
@@ -14,19 +15,19 @@ class HorizontalPosition:
         return self.drone_index
 
     @property
-    def xy_array(self) -> np.ndarray:
+    def xy_array(self) -> npt.NDArray[np.float64]:
         return np.array((self.x, self.y))
 
     @property
     def xy_tuple(self) -> Tuple[float, float]:
         return (self.x, self.y)
 
-    def rotated_positions(self, rotation_matrix: np.ndarray) -> None:
+    def rotated_positions(self, rotation_matrix: npt.NDArray[np.float64]) -> None:
         xy_array_rotated = rotation_matrix @ self.xy_array
         self.x, self.y = xy_array_rotated[0], xy_array_rotated[1]
 
 
-def get_rotation_matrix(angle: float) -> np.ndarray:
+def get_rotation_matrix(angle: float) -> npt.NDArray[np.float64]:
     angle = np.radians(angle)
     c, s = np.cos(angle), np.sin(angle)
     return np.array(((c, -s), (s, c)))

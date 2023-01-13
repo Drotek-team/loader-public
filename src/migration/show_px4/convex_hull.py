@@ -1,9 +1,12 @@
 from typing import List, Tuple
 
 import numpy as np
+import numpy.typing as npt
 
 
-def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
+def get_relative_angle(
+    origin: npt.NDArray[np.float64], coordinate: npt.NDArray[np.float64]
+) -> float:
     if np.array_equal(origin, coordinate):
         msg = "get_relative_angle(): origin is equal to coordinate"
         raise ValueError(msg)
@@ -12,30 +15,38 @@ def get_relative_angle(origin: np.ndarray, coordinate: np.ndarray) -> float:
     return u_vector[0]
 
 
-def sorted_by_pivot(positions: np.ndarray, pivot: np.ndarray) -> List[np.ndarray]:
+def sorted_by_pivot(
+    positions: npt.NDArray[np.float64], pivot: npt.NDArray[np.float64]
+) -> List[npt.NDArray[np.float64]]:
     argsort = np.argsort(
         [get_relative_angle(pivot, position) for position in positions]
     )
     return list(positions[argsort])
 
 
-def evaluate_pivot(positions: List[np.ndarray]) -> np.ndarray:
+def evaluate_pivot(positions: List[npt.NDArray[np.float64]]) -> npt.NDArray[np.float64]:
     return max(positions, key=lambda u: u[1])
 
 
 def two_dimensionnal_cross_product(
-    position_0: np.ndarray, position_1: np.ndarray, position_2: np.ndarray
+    position_0: npt.NDArray[np.float64],
+    position_1: npt.NDArray[np.float64],
+    position_2: npt.NDArray[np.float64],
 ) -> float:
     return (position_1[0] - position_0[0]) * (position_2[1] - position_0[1]) - (
         position_1[1] - position_0[1]
     ) * (position_2[0] - position_0[0])
 
 
-def tuple_list_to_array_list(tuple_list: List[Tuple[int, int]]) -> List[np.ndarray]:
+def tuple_list_to_array_list(
+    tuple_list: List[Tuple[int, int]]
+) -> List[npt.NDArray[np.float64]]:
     return [np.array(tuple_element) for tuple_element in tuple_list]
 
 
-def array_list_to_tuple_list(array_list: List[np.ndarray]) -> List[Tuple[int, int]]:
+def array_list_to_tuple_list(
+    array_list: List[npt.NDArray[np.float64]],
+) -> List[Tuple[int, int]]:
     return [
         (int(array_element[0]), int(array_element[1])) for array_element in array_list
     ]

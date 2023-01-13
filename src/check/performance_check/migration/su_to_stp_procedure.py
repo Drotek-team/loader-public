@@ -1,6 +1,7 @@
 from typing import List
 
 import numpy as np
+import numpy.typing as npt
 
 from ....migration.show_user.show_user import ShowUser
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
@@ -30,7 +31,7 @@ def get_trajectory_performance_info_from_simulation_infos(
         )
         for position_index in range(len(positions))
     ]
-    accelerations: List[np.ndarray] = [
+    accelerations: List[npt.NDArray[np.float64]] = [
         FRAME_PARAMETER.absolute_fps
         * FRAME_PARAMETER.absolute_fps
         * (
