@@ -29,14 +29,16 @@ def collision_infraction_message(
 
 # IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_collision_infractions(
-    local_drone_indices: npt.NDArray[np.float64],
+    local_drone_indices: npt.NDArray[np.int32],
     local_drone_positions: npt.NDArray[np.float64],
     endangered_distance: float,
     *,
     in_air: bool,
 ) -> List[Displayer]:
     nb_drones_local = len(local_drone_indices)
-    couples_distance_matrix_indices = np.arange(nb_drones_local * nb_drones_local)
+    couples_distance_matrix_indices = np.array(
+        list(range(nb_drones_local * nb_drones_local))
+    )
     couple_distance_matrix = get_couple_distance_matrix(local_drone_positions).reshape(
         nb_drones_local * nb_drones_local,
     )
