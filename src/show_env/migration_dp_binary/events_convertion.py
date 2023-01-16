@@ -22,8 +22,10 @@ def encode_events(events: Events) -> bytearray:
 def decode_events(events: Events, byte_array: bytearray) -> None:
     for event_index in range(0, len(byte_array), events.event_size):
         events.add_data(
-            struct.unpack(
-                events.format_,
-                byte_array[event_index : event_index + events.event_size],
+            list(
+                struct.unpack(
+                    events.format_,
+                    byte_array[event_index : event_index + events.event_size],
+                )
             )
         )

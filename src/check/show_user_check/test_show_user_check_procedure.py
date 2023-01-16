@@ -146,7 +146,7 @@ def test_invalid_by_time_one_position_events():
 
 def test_invalid_by_position_one_position_events():
     one_position_events_drone_user = DroneUser(
-        position_events=[PositionEventUser(frame=0, xyz=[2.0, 2.0, 0.1])],
+        position_events=[PositionEventUser(frame=0, xyz=[2.0, 2.0, 0.1])],  # type: ignore[This a test destined to prove the robustness of the typing check]
         color_events=[],
         fire_events=[],
     )

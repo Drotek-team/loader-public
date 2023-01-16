@@ -83,9 +83,8 @@ def invalid_show_user_horizontal_velocity() -> ShowUser:
                 )
                 + 1,
                 xyz=(
-                    FRAME_PARAMETER.from_absolute_frame_to_absolute_time(
-                        IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
-                    )
+                    FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    * IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
                     + EPSILON_DELTA,
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
@@ -198,9 +197,8 @@ def invalid_show_user_velocity_up() -> ShowUser:
                     0.0,
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    + FRAME_PARAMETER.from_absolute_frame_to_absolute_time(
-                        IOSTAR_PHYSIC_PARAMETER.velocity_up_max
-                    )
+                    + FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    * IOSTAR_PHYSIC_PARAMETER.velocity_up_max
                     + EPSILON_DELTA,
                 ),
             ),
@@ -257,9 +255,8 @@ def invalid_show_user_velocity_down() -> ShowUser:
                     0.0,
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    - FRAME_PARAMETER.from_absolute_frame_to_absolute_time(
-                        IOSTAR_PHYSIC_PARAMETER.velocity_down_max
-                    )
+                    - FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    * IOSTAR_PHYSIC_PARAMETER.velocity_down_max
                     - EPSILON_DELTA,
                 ),
             ),
@@ -315,9 +312,8 @@ def invalid_show_user_acceleration() -> ShowUser:
                     0.0,
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    - FRAME_PARAMETER.from_absolute_frame_to_absolute_time(
-                        IOSTAR_PHYSIC_PARAMETER.velocity_down_max
-                    )
+                    - IOSTAR_PHYSIC_PARAMETER.velocity_down_max
+                    * FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
                     - EPSILON_DELTA,
                 ),
             ),
