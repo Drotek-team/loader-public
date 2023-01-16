@@ -3,7 +3,6 @@ from ..migration_dp_binary.drone_decoding_procedure import decode_drone
 from ..show_px4.show_px4 import ShowPx4
 
 
-# TODO: place a test on that
 def ijg_to_sp_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowPx4:
     return ShowPx4(
         [

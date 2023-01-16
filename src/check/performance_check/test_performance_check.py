@@ -172,7 +172,6 @@ def test_invalid_show_user_vertical_position(
     )
 
 
-# TODO: suspect test, the time step is missing for the second position event
 @pytest.fixture
 def invalid_show_user_velocity_up() -> ShowUser:
     drone_user = DroneUser(
