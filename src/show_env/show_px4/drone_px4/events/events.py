@@ -1,3 +1,4 @@
+import struct
 from abc import ABC, abstractmethod
 from typing import Any, List
 
@@ -11,30 +12,43 @@ class Event(ABC):
         pass
 
 
-class Events(ABC):
+class Events:
     format_: str
     id_: int
-
-    @property
-    @abstractmethod
-    def generic_events(self) -> List[Event]:
-        pass
+    _events: List[Event]
 
     @abstractmethod
     def add_data(self, data: List[Any]) -> None:
         pass
 
-    @property
-    @abstractmethod
-    def event_size(self) -> int:
-        pass
+    # TODO: test these methods
+    def __iter__(self):
+        yield from self._events
+
+    def __getitem__(self, position_event_index: int):
+        return self._events[position_event_index]
+
+    def __len__(self) -> int:
+        return len(self._events)
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Events) and len(self) == len(other):
+            return all(
+                [
+                    self._events[event_index] == other._events[event_index]
+                    for event_index in range(len(self._events))
+                ]
+            )
+        return False
 
     @property
-    @abstractmethod
-    def events_size(self) -> int:
-        pass
+    def event_size(self):
+        return struct.calcsize(self.format_)
 
     @property
-    @abstractmethod
+    def events_size(self):
+        return len(self._events) * struct.calcsize(self.format_)
+
+    @property
     def nb_events(self) -> int:
-        pass
+        return len(self._events)

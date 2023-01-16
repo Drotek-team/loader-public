@@ -49,4 +49,4 @@ class DronePx4:
 
     @property
     def non_empty_events_list(self) -> List[Events]:
-        return [events for events in self.events_list if events.generic_events]
+        return [events for events in self.events_list if events]

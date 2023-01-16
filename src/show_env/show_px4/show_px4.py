@@ -18,8 +18,8 @@ class ShowPx4(List[DronePx4]):
     def first_horizontal_positions(self) -> List[Tuple[int, int]]:
         return [
             (
-                drone.position_events[0].xyz[0],
-                drone.position_events[0].xyz[1],
+                drone.position_events.specific_events[0].xyz[0],
+                drone.position_events.specific_events[0].xyz[1],
             )
             for drone in self
         ]
@@ -33,7 +33,7 @@ class ShowPx4(List[DronePx4]):
         z_positions = [
             position_event.xyz[2]
             for drone in self
-            for position_event in drone.position_events
+            for position_event in drone.position_events.specific_events
         ]
         return (min(z_positions), max(z_positions))
 

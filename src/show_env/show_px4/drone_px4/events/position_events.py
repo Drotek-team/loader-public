@@ -1,4 +1,3 @@
-import struct
 from dataclasses import dataclass
 from typing import Any, List, Tuple
 
@@ -24,30 +23,12 @@ class PositionEvent(Event):
 
 class PositionEvents(Events):
     format_ = ">Ihhh"
+    id_ = EVENTS_ID[EventsType.position]
 
     def __init__(self):
-        self.id_ = EVENTS_ID[EventsType.position]
-        # TODO: !!!!!!!!!!!!! make this one an event !!!!!!!!!!!!!!!!!!
-        self._events: List[PositionEvent] = []
-
-    def __iter__(self):
-        yield from self._events
-
-    def __getitem__(self, position_event_index: int):
-        return self._events[position_event_index]
-
-    def __len__(self) -> int:
-        return len(self._events)
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, PositionEvents) and len(self) == len(other):
-            return all(
-                [
-                    self._events[event_index] == other._events[event_index]
-                    for event_index in range(len(self._events))
-                ]
-            )
-        return False
+        # Had to pass with the init because python mutable defaults are the source of all evil
+        # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
+        self._events: List[Event] = []
 
     def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self._events.append(
@@ -59,18 +40,18 @@ class PositionEvents(Events):
             PositionEvent(timecode=data[0], x=data[1], y=data[2], z=data[3])
         )
 
-    @property
-    def event_size(self):
-        return struct.calcsize(self.format_)
+    def get_position_event_by_index(self, index: int) -> PositionEvent:
+        position_event_data = self._events[index].get_data
+        return PositionEvent(
+            timecode=position_event_data[0],
+            x=position_event_data[1],
+            y=position_event_data[2],
+            z=position_event_data[3],
+        )
 
     @property
-    def events_size(self):
-        return len(self._events) * struct.calcsize(self.format_)
-
-    @property
-    def nb_events(self) -> int:
-        return len(self._events)
-
-    @property
-    def generic_events(self) -> List[Event]:
-        return self._events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return Position with a Event typing]
+    def specific_events(self) -> List[PositionEvent]:
+        return [
+            self.get_position_event_by_index(event_index)
+            for event_index in range(len(self._events))
+        ]

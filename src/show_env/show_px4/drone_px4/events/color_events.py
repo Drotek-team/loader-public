@@ -1,4 +1,3 @@
-import struct
 from dataclasses import dataclass
 from typing import Any, List, Tuple
 
@@ -25,34 +24,12 @@ class ColorEvent(Event):
 
 class ColorEvents(Events):
     format_ = ">IBBBB"
+    id_ = EVENTS_ID[EventsType.color]
 
     def __init__(self):
-        self.id_ = EVENTS_ID[EventsType.color]
-        self._events: List[ColorEvent] = []
-
-    # TODO: test these methods and with the other classes
-    def __iter__(self):
-        yield from self._events
-
-    def __getitem__(self, color_event_index: int):
-        return self._events[color_event_index]
-
-    def __len__(self) -> int:
-        return len(self._events)
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, ColorEvents) and len(self) == len(other):
-            return all(
-                [
-                    self._events[event_index] == other._events[event_index]
-                    for event_index in range(len(self._events))
-                ]
-            )
-        return False
-
-    @property
-    def generic_events(self) -> List[Event]:
-        return self._events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return ColorEvent with a Event typing]
+        # Had to pass with the init because python mutable defaults are the source of all evil
+        # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
+        self._events: List[Event] = []
 
     def add_timecode_rgbw(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
         self._events.append(
@@ -64,14 +41,19 @@ class ColorEvents(Events):
             ColorEvent(timecode=data[0], r=data[1], g=data[2], b=data[3], w=data[4])
         )
 
-    @property
-    def event_size(self):
-        return struct.calcsize(self.format_)
+    def get_color_event_by_index(self, index: int) -> ColorEvent:
+        color_event_data = self._events[index].get_data
+        return ColorEvent(
+            timecode=color_event_data[0],
+            r=color_event_data[1],
+            g=color_event_data[2],
+            b=color_event_data[3],
+            w=color_event_data[4],
+        )
 
     @property
-    def events_size(self):
-        return len(self._events) * struct.calcsize(self.format_)
-
-    @property
-    def nb_events(self) -> int:
-        return len(self._events)
+    def specific_events(self) -> List[ColorEvent]:
+        return [
+            self.get_color_event_by_index(event_index)
+            for event_index in range(len(self._events))
+        ]
