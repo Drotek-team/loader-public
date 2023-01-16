@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from pydantic import StrictInt
+
 from .check.all_check_from_show_user_procedure import (
     apply_all_check_from_show_user_procedure,
 )
@@ -26,11 +28,8 @@ def apply_export_procedure(
     )
 
 
-def create_show_user(drone_number: int) -> ShowUser:
+def create_show_user(drone_number: StrictInt) -> ShowUser:
     """Create a ShowUser object from a JSON file."""
-    if not isinstance(drone_number, int):
-        msg = f"{drone_number} is not an integer"
-        raise TypeError(msg)
     if drone_number < 1:
         msg = f"{drone_number} is not a positive integer"
         raise ValueError(msg)
@@ -64,5 +63,7 @@ def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     """Check the validity of an iostar_json_gcs."""
     show_user = sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
     show_check_report = ShowCheckReport(len(show_user.drones_user))
+    apply_all_check_from_show_user_procedure(show_user, show_check_report)
+    return show_check_report.validation
     apply_all_check_from_show_user_procedure(show_user, show_check_report)
     return show_check_report.validation

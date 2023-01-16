@@ -56,7 +56,7 @@ def test_create_show_user_standard_case():
 def test_create_show_incorrect_input():
     not_integer_input = "popo"
     inferior_to_one_input = 0
-    with pytest.raises(TypeError, match=f"{not_integer_input} is not an integer"):
+    with pytest.raises(TypeError):
         create_show_user(not_integer_input)  # type: ignore[Test destined to prove the robustess of the create_show_user argument typing]
     with pytest.raises(
         ValueError, match=f"{inferior_to_one_input} is not a positive integer"
