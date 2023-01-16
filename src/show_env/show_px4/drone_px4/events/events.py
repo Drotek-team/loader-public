@@ -1,22 +1,27 @@
 from abc import ABC, abstractmethod
-from typing import List, Tuple
+from typing import Any, List
 
 
 class Event(ABC):
     timecode: int
 
+    @property
     @abstractmethod
-    def get_data(self) -> Tuple:
+    def get_data(self) -> List[Any]:
         pass
 
 
 class Events(ABC):
     format_: str
     id_: int
-    events: List[Event]
+
+    @property
+    @abstractmethod
+    def generic_events(self) -> List[Event]:
+        pass
 
     @abstractmethod
-    def add_data(self, data: Tuple) -> None:
+    def add_data(self, data: List[Any]) -> None:
         pass
 
     @property

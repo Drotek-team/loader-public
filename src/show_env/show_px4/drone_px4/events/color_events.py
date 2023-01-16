@@ -1,56 +1,52 @@
 import struct
-from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, List, Tuple
+
+from pydantic import BaseModel, StrictInt
 
 from .events import Event, Events
 
 
-@dataclass(frozen=True)
-class ColorEvent(Event):
-    timecode: int  # time frame associate to the "fps_px4" parameter
-    r: int  # red color between 0 and 255
-    g: int  # green color between 0 and 255
-    b: int  # blue color between 0 and 255
-    w: int  # white color between 0 and 255
+class ColorEvent(Event, BaseModel):
+    timecode: StrictInt  # time frame associate to the "fps_px4" parameter
+    r: StrictInt  # red color between 0 and 255
+    g: StrictInt  # green color between 0 and 255
+    b: StrictInt  # blue color between 0 and 255
+    w: StrictInt  # white color between 0 and 255
 
-    def __post_init__(self):
-        if not (isinstance(self.timecode, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.r, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.g, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.b, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.w, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
+    class Config:
+        allow_mutation = False
 
+    # TODO: put a test on that
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:
         return (self.r, self.g, self.b, self.w)
 
-    def get_data(self) -> Tuple[int, int, int, int, int]:
-        return (self.timecode, self.r, self.g, self.b, self.w)
+    # TODO: put a test on that
+    @property
+    def get_data(self) -> List[Any]:
+        return [self.timecode, self.r, self.g, self.b, self.w]
 
 
 class ColorEvents(Events):
-    events: List[ColorEvent]
     format_ = ">IBBBB"
     id_: int = 1
 
     def __init__(self):
-        self.events = []
+        self.events: List[ColorEvent] = []
+
+    @property
+    def generic_events(self) -> List[Event]:
+        return self.events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return ColorEvent with a Event typing]
 
     def add_timecode_rgbw(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self.events.append(ColorEvent(timecode, rgbw[0], rgbw[1], rgbw[2], rgbw[3]))
+        self.events.append(
+            ColorEvent(timecode=timecode, r=rgbw[0], g=rgbw[1], b=rgbw[2], w=rgbw[3])
+        )
 
-    def add_data(self, data: Tuple) -> None:
-        self.events.append(ColorEvent(data[0], data[1], data[2], data[3], data[4]))
+    def add_data(self, data: List[Any]) -> None:
+        self.events.append(
+            ColorEvent(timecode=data[0], r=data[1], g=data[2], b=data[3], w=data[4])
+        )
 
     @property
     def event_size(self):

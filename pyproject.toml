@@ -72,11 +72,12 @@ select = [
     "YTT", # sys.version
 ]
 ignore = [
-    "D10",  # Missing docstring
-    "E501", # Line too long
-    "F403", # Star import used
-    "F405", # Module may be undefined
-    "S101", # Use of `assert` detected
+    "D10",    # Missing docstring
+    "E501",   # Line too long
+    "F403",   # Star import used
+    "F405",   # Module may be undefined
+    "S101",   # Use of `assert` detected
+    "PGH003", # Allow "type: ignore"
 ]
 unfixable = [
     "ERA001", # Found commented-out code

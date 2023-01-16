@@ -1,50 +1,50 @@
 import struct
-from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, List, Tuple
+
+from pydantic import BaseModel, StrictInt
 
 from .events import Event, Events
 
 
-@dataclass(frozen=True)
-class FireEvent(Event):
-    timecode: int  # time frame associate to the "fps_px4" parameter
-    chanel: int  # chanel of the fire event
-    duration: int  # duration of the fire event in timecode
+class FireEvent(Event, BaseModel):
+    timecode: StrictInt  # time frame associate to the "fps_px4" parameter
+    chanel: StrictInt  # chanel of the fire event
+    duration: StrictInt  # duration of the fire event in timecode
 
-    def __post_init__(self):
-        if not (isinstance(self.timecode, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.chanel, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.duration, int)):
-            msg = "This value should be an integer"
-            raise ValueError(msg)
+    class Config:
+        allow_mutation = False
 
     @property
     def chanel_duration(self) -> Tuple[int, int]:
         return (self.chanel, self.duration)
 
-    def get_data(self) -> Tuple[int, int, int]:
-        return (self.timecode, self.chanel, self.duration)
+    @property
+    def get_data(self) -> List[Any]:
+        return [self.timecode, self.chanel, self.duration]
 
 
 class FireEvents(Events):
-    events: List[FireEvent]
     format_ = ">IBB"
     id_ = 2
 
     def __init__(self):
-        self.events = []
+        self.events: List[FireEvent] = []
+
+    @property
+    def generic_events(self) -> List[Event]:
+        return self.events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return FireEvent with a Event typing]
 
     def add_timecode_chanel_duration(
         self, timecode: int, chanel: int, duration: int
     ) -> None:
-        self.events.append(FireEvent(timecode, chanel, duration))
+        self.events.append(
+            FireEvent(timecode=timecode, chanel=chanel, duration=duration)
+        )
 
-    def add_data(self, data: Tuple) -> None:
-        self.events.append(FireEvent(data[0], data[1], data[2]))
+    def add_data(self, data: List[Any]) -> None:
+        self.events.append(
+            FireEvent(timecode=data[0], chanel=data[1], duration=data[2])
+        )
 
     @property
     def event_size(self):

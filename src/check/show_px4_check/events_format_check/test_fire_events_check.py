@@ -59,12 +59,12 @@ def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events.events.insert(
         0,
         FireEvent(
-            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             )
             - 1,
-            0,
-            0,
+            chanel=0,
+            duration=0,
         ),
     )
     fire_events_check(

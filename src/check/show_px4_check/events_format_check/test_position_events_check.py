@@ -83,13 +83,13 @@ def test_invalid_position_events_frame_first_frame_check(
     valid_position_events.events.insert(
         0,
         PositionEvent(
-            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             )
             - 1,
-            0,
-            0,
-            0,
+            x=0,
+            y=0,
+            z=0,
         ),
     )
     position_events_check(

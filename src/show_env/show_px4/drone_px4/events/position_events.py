@@ -1,57 +1,54 @@
 import struct
-from dataclasses import dataclass
 from typing import Any, List, Tuple
+
+from pydantic import BaseModel, StrictInt
 
 from .events import Event, Events
 
 
-# TODO: passer à pydantic
-@dataclass(frozen=True)
-class PositionEvent(Event):
-    timecode: int  # time frame associate to the "fps_px4" parameter
-    x: int  # x relative coordinate in NED and centimeter between -32 561 and 32 561
-    y: int  # y relative coordinate in NED and centimeter between -32 561 and 32 561
-    z: int  # z relative coordinate in NED and centimeter between -32 561 and 32 561
+class PositionEvent(BaseModel, Event):
+    timecode: StrictInt  # time frame associate to the "fps_px4" parameter
+    x: StrictInt  # x relative coordinate in NED and centimeter between -32 561 and 32 561
+    y: StrictInt  # y relative coordinate in NED and centimeter between -32 561 and 32 561
+    z: StrictInt  # z relative coordinate in NED and centimeter between -32 561 and 32 561
 
-    def __post_init__(self):
-        if not (isinstance(self.timecode, int)):
-            msg = f"This value {self.timecode} should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.x, int)):
-            msg = f"This value {self.x} should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.y, int)):
-            msg = f"This value {self.y} should be an integer"
-            raise ValueError(msg)
-        if not (isinstance(self.z, int)):
-            msg = f"This value {self.z} should be an integer"
-            raise ValueError(msg)
+    class Config:
+        allow_mutation = False
 
+    # TODO: put a test on that
     @property
     def xyz(self) -> Tuple[int, int, int]:
         return (self.x, self.y, self.z)
 
-    def get_data(self) -> Tuple[int, int, int, int]:
-        return (self.timecode, self.x, self.y, self.z)
+    # TODO: put a test on that
+    @property
+    def get_data(self) -> List[Any]:
+        return [self.timecode, self.x, self.y, self.z]
 
 
-# TODO: you know you can do much better for that class typing
 class PositionEvents(Events):
-    events: List[PositionEvent]
     format_ = ">Ihhh"
     id_ = 0
 
     def __init__(self):
-        self.events = []
+        self.events: List[PositionEvent] = []
 
     def __iter__(self):
         yield from self.events
 
-    def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
-        self.events.append(PositionEvent(timecode, xyz[0], xyz[1], xyz[2]))
+    @property
+    def generic_events(self) -> List[Event]:
+        return self.events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return ColorEvent with a Event typing]
 
-    def add_data(self, data: Tuple[Any, Any, Any, Any]) -> None:
-        self.events.append(PositionEvent(data[0], data[1], data[2], data[3]))
+    def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
+        self.events.append(
+            PositionEvent(timecode=timecode, x=xyz[0], y=xyz[1], z=xyz[2])
+        )
+
+    def add_data(self, data: List[Any]) -> None:
+        self.events.append(
+            PositionEvent(timecode=data[0], x=data[1], y=data[2], z=data[3])
+        )
 
     @property
     def event_size(self):

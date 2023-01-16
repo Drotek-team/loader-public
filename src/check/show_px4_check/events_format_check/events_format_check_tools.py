@@ -36,7 +36,7 @@ def frame_check(
     events: Events,
     frame_check_report: FrameCheckReport,
 ) -> None:
-    frames = [event.timecode for event in events.events]
+    frames = [event.timecode for event in events.generic_events]
     frame_check_report.frame_value_check_report.validation = check_int_size_list(
         frames,
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(

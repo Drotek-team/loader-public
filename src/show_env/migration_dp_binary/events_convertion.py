@@ -3,14 +3,15 @@ import struct
 from ..show_px4.drone_px4.events.events import Events
 
 
+# TODO: place a test on that
 def encode_events(events: Events) -> bytearray:
     event_size = events.event_size
-    binary = bytearray(event_size * len(events.events))
-    for cpt_event, event_data in enumerate(events.events):
+    binary = bytearray(event_size * len(events.generic_events))
+    for cpt_event, event_data in enumerate(events.generic_events):
         try:
             # IMPROVE: An append() would be more elegant here
             binary[cpt_event * event_size : (cpt_event + 1) * event_size] = struct.pack(
-                events.format_, *event_data.get_data()
+                events.format_, *event_data.get_data
             )
         except struct.error:
             msg = f"{cpt_event} {event_size}  {events.format_}"

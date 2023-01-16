@@ -69,14 +69,14 @@ def test_invalid_color_events_frame_first_frame_check(
     valid_color_events.events.insert(
         0,
         ColorEvent(
-            FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             )
             - 1,
-            0,
-            0,
-            0,
-            0,
+            r=0,
+            g=0,
+            b=0,
+            w=0,
         ),
     )
     color_events_check(
