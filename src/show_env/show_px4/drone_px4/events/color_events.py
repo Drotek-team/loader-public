@@ -1,20 +1,18 @@
 import struct
+from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from pydantic import BaseModel, StrictInt
-
 from .events import Event, Events
+from .events_order import EVENTS_ID, EventsType
 
 
-class ColorEvent(Event, BaseModel):
-    timecode: StrictInt  # time frame associate to the "fps_px4" parameter
-    r: StrictInt  # red color between 0 and 255
-    g: StrictInt  # green color between 0 and 255
-    b: StrictInt  # blue color between 0 and 255
-    w: StrictInt  # white color between 0 and 255
-
-    class Config:
-        allow_mutation = False
+@dataclass(frozen=True)
+class ColorEvent(Event):
+    timecode: int  # time frame associate to the "fps_px4" parameter
+    r: int  # red color between 0 and 255
+    g: int  # green color between 0 and 255
+    b: int  # blue color between 0 and 255
+    w: int  # white color between 0 and 255
 
     # TODO: put a test on that
     @property
@@ -29,9 +27,9 @@ class ColorEvent(Event, BaseModel):
 
 class ColorEvents(Events):
     format_ = ">IBBBB"
-    id_: int = 1
 
     def __init__(self):
+        self.id_ = EVENTS_ID[EventsType.color]
         self.events: List[ColorEvent] = []
 
     @property
@@ -59,9 +57,5 @@ class ColorEvents(Events):
     @property
     def nb_events(self) -> int:
         return len(self.events)
-
-    def get_frame_by_event_index(self, event_index: int) -> int:
-        return self.events[event_index].timecode
-
-    def get_rgbw_by_event_index(self, event_index: int) -> Tuple[int, int, int, int]:
-        return self.events[event_index].rgbw
+        return len(self.events)
+        return len(self.events)

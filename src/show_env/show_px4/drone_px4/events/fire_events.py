@@ -1,18 +1,16 @@
 import struct
+from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from pydantic import BaseModel, StrictInt
-
 from .events import Event, Events
+from .events_order import EVENTS_ID, EventsType
 
 
-class FireEvent(Event, BaseModel):
-    timecode: StrictInt  # time frame associate to the "fps_px4" parameter
-    chanel: StrictInt  # chanel of the fire event
-    duration: StrictInt  # duration of the fire event in timecode
-
-    class Config:
-        allow_mutation = False
+@dataclass(frozen=True)
+class FireEvent(Event):
+    timecode: int  # time frame associate to the "fps_px4" parameter
+    chanel: int  # chanel of the fire event
+    duration: int  # duration of the fire event in timecode
 
     @property
     def chanel_duration(self) -> Tuple[int, int]:
@@ -25,10 +23,10 @@ class FireEvent(Event, BaseModel):
 
 class FireEvents(Events):
     format_ = ">IBB"
-    id_ = 2
 
     def __init__(self):
         self.events: List[FireEvent] = []
+        self.id_ = EVENTS_ID[EventsType.fire]
 
     @property
     def generic_events(self) -> List[Event]:
@@ -57,6 +55,3 @@ class FireEvents(Events):
     @property
     def nb_events(self) -> int:
         return len(self.events)
-
-    def get_frame_by_event_index(self, event_index: int) -> int:
-        return self.events[event_index].timecode

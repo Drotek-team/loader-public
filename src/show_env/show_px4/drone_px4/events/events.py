@@ -38,7 +38,3 @@ class Events(ABC):
     @abstractmethod
     def nb_events(self) -> int:
         pass
-
-    @abstractmethod
-    def get_frame_by_event_index(self, event_index: int) -> int:
-        pass

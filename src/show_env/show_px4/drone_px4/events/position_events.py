@@ -1,19 +1,17 @@
 import struct
+from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from pydantic import BaseModel, StrictInt
-
 from .events import Event, Events
+from .events_order import EVENTS_ID, EventsType
 
 
-class PositionEvent(BaseModel, Event):
-    timecode: StrictInt  # time frame associate to the "fps_px4" parameter
-    x: StrictInt  # x relative coordinate in NED and centimeter between -32 561 and 32 561
-    y: StrictInt  # y relative coordinate in NED and centimeter between -32 561 and 32 561
-    z: StrictInt  # z relative coordinate in NED and centimeter between -32 561 and 32 561
-
-    class Config:
-        allow_mutation = False
+@dataclass(frozen=True)
+class PositionEvent(Event):
+    timecode: int  # time frame associate to the "fps_px4" parameter
+    x: int  # x relative coordinate in NED and centimeter between -32 561 and 32 561
+    y: int  # y relative coordinate in NED and centimeter between -32 561 and 32 561
+    z: int  # z relative coordinate in NED and centimeter between -32 561 and 32 561
 
     # TODO: put a test on that
     @property
@@ -28,17 +26,13 @@ class PositionEvent(BaseModel, Event):
 
 class PositionEvents(Events):
     format_ = ">Ihhh"
-    id_ = 0
 
     def __init__(self):
+        self.id_ = EVENTS_ID[EventsType.position]
         self.events: List[PositionEvent] = []
 
     def __iter__(self):
         yield from self.events
-
-    @property
-    def generic_events(self) -> List[Event]:
-        return self.events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return ColorEvent with a Event typing]
 
     def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.events.append(
@@ -62,8 +56,6 @@ class PositionEvents(Events):
     def nb_events(self) -> int:
         return len(self.events)
 
-    def get_frame_by_event_index(self, event_index: int) -> int:
-        return self.events[event_index].timecode
-
-    def get_xyz_by_event_index(self, event_index: int) -> Tuple[int, int, int]:
-        return self.events[event_index].xyz
+    @property
+    def generic_events(self) -> List[Event]:
+        return self.events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return Position with a Event typing]
