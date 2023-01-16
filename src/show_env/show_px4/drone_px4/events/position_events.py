@@ -13,12 +13,10 @@ class PositionEvent(Event):
     y: int  # y relative coordinate in NED and centimeter between -32 561 and 32 561
     z: int  # z relative coordinate in NED and centimeter between -32 561 and 32 561
 
-    # TODO: put a test on that
     @property
     def xyz(self) -> Tuple[int, int, int]:
         return (self.x, self.y, self.z)
 
-    # TODO: put a test on that
     @property
     def get_data(self) -> List[Any]:
         return [self.timecode, self.x, self.y, self.z]
@@ -29,18 +27,24 @@ class PositionEvents(Events):
 
     def __init__(self):
         self.id_ = EVENTS_ID[EventsType.position]
-        self.events: List[PositionEvent] = []
+        self._events: List[PositionEvent] = []
 
     def __iter__(self):
-        yield from self.events
+        yield from self._events
+
+    def __getitem__(self, position_event_index: int):
+        return self._events[position_event_index]
+
+    def __len__(self) -> int:
+        return len(self._events)
 
     def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
-        self.events.append(
+        self._events.append(
             PositionEvent(timecode=timecode, x=xyz[0], y=xyz[1], z=xyz[2])
         )
 
     def add_data(self, data: List[Any]) -> None:
-        self.events.append(
+        self._events.append(
             PositionEvent(timecode=data[0], x=data[1], y=data[2], z=data[3])
         )
 
@@ -50,12 +54,12 @@ class PositionEvents(Events):
 
     @property
     def events_size(self):
-        return len(self.events) * struct.calcsize(self.format_)
+        return len(self._events) * struct.calcsize(self.format_)
 
     @property
     def nb_events(self) -> int:
-        return len(self.events)
+        return len(self._events)
 
     @property
     def generic_events(self) -> List[Event]:
-        return self.events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return Position with a Event typing]
+        return self._events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return Position with a Event typing]

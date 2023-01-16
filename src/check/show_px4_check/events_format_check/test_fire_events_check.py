@@ -56,7 +56,7 @@ def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events: FireEvents,
     fire_events_check_report: FireEventsCheckReport,
 ):
-    valid_fire_events.events.insert(
+    valid_fire_events._events.insert(
         0,
         FireEvent(
             timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(

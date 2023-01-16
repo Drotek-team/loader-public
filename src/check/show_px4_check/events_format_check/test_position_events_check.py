@@ -7,10 +7,7 @@ from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
 from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ....show_env.show_px4.drone_px4.events.position_events import (
-    PositionEvent,
-    PositionEvents,
-)
+from ....show_env.show_px4.drone_px4.events.position_events import PositionEvents
 from .events_format_check_procedure import position_events_check
 from .events_format_check_report import PositionEventsCheckReport
 
@@ -80,17 +77,12 @@ def test_invalid_position_events_frame_first_frame_check(
     position_events_check_report: PositionEventsCheckReport,
 ):
 
-    valid_position_events.events.insert(
-        0,
-        PositionEvent(
-            timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-                JSON_BINARY_PARAMETER.show_duration_min_second
-            )
-            - 1,
-            x=0,
-            y=0,
-            z=0,
-        ),
+    valid_position_events.add_timecode_xyz(
+        timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        )
+        - 1,
+        xyz=(0, 0, 0),
     )
     position_events_check(
         valid_position_events,

@@ -66,7 +66,7 @@ def test_invalid_color_events_frame_first_frame_check(
     valid_color_events: ColorEvents,
     color_events_check_report: ColorEventsCheckReport,
 ):
-    valid_color_events.events.insert(
+    valid_color_events._events.insert(
         0,
         ColorEvent(
             timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(

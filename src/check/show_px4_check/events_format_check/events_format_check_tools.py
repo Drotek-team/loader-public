@@ -57,7 +57,7 @@ def xyz_check(
     xyz_check_report: XyzCheckReport,
 ) -> None:
     xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
-        [list(event.xyz) for event in position_events.events],
+        [list(event.xyz) for event in position_events],
         JSON_BINARY_PARAMETER.position_value_min,
         JSON_BINARY_PARAMETER.position_value_max,
     )
@@ -69,7 +69,7 @@ def rgbw_check(
     rgbw_check_report: RgbwCheckReport,
 ) -> None:
     rgbw_check_report.rgbw_value_check_report.validation = check_int_size_list_tuple(
-        [list(event.rgbw) for event in color_events.events],
+        [list(event.rgbw) for event in color_events._events],
         JSON_BINARY_PARAMETER.color_value_min,
         JSON_BINARY_PARAMETER.color_value_max,
     )
@@ -86,7 +86,7 @@ def fire_chanel_check(
 ) -> None:
     fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
         check_int_size_list(
-            [event.chanel for event in fire_events.events],
+            [event.chanel for event in fire_events._events],
             JSON_BINARY_PARAMETER.fire_chanel_value_min,
             JSON_BINARY_PARAMETER.fire_chanel_value_max,
         )
@@ -98,7 +98,7 @@ def fire_duration_frame_check(
     fire_events: FireEvents,
     fire_events_chanel_check_report: FireDurationCheckReport,
 ) -> None:
-    durations = [event.duration for event in fire_events.events]
+    durations = [event.duration for event in fire_events._events]
     fire_events_chanel_check_report.fire_duration_value_check_report.validation = (
         check_int_size_list(
             durations,

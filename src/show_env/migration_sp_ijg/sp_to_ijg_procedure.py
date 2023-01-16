@@ -20,9 +20,9 @@ def get_family_from_show_px4(
             )
             for drone_px4_family in show_px4_family
         ],
-        x=show_px4_family[0].position_events.events[0].xyz[0],
-        y=show_px4_family[0].position_events.events[0].xyz[1],
-        z=show_px4_family[0].position_events.events[0].xyz[2],
+        x=show_px4_family[0].position_events[0].xyz[0],
+        y=show_px4_family[0].position_events[0].xyz[1],
+        z=show_px4_family[0].position_events[0].xyz[2],
     )
 
 

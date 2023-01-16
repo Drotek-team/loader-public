@@ -70,7 +70,6 @@ def drone_user_to_drone_px4_procedure(
     return drone_px4
 
 
-# TODO:place a test on this function
 def su_to_sp_procedure(
     show_user: ShowUser,
 ) -> ShowPx4:
