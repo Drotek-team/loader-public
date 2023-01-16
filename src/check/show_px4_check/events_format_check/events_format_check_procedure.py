@@ -1,7 +1,7 @@
-from ....migration.show_px4.drone_px4.drone_px4 import DronePx4
-from ....migration.show_px4.drone_px4.events.color_events import ColorEvents
-from ....migration.show_px4.drone_px4.events.fire_events import FireEvents
-from ....migration.show_px4.drone_px4.events.position_events import PositionEvents
+from ....show_env.show_px4.drone_px4.drone_px4 import DronePx4
+from ....show_env.show_px4.drone_px4.events.color_events import ColorEvents
+from ....show_env.show_px4.drone_px4.events.fire_events import FireEvents
+from ....show_env.show_px4.drone_px4.events.position_events import PositionEvents
 from .events_format_check_report import *
 from .events_format_check_tools import *
 

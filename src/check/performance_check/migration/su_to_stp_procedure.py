@@ -3,8 +3,8 @@ from typing import List
 import numpy as np
 import numpy.typing as npt
 
-from ....migration.show_user.show_user import ShowUser
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ....show_env.show_user.show_user import ShowUser
 from ...simulation.in_air_flight_simulation import in_air_flight_simulation
 from ...simulation.position_simulation import SimulationInfo
 from .show_trajectory_performance import (

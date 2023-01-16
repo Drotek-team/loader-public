@@ -3,7 +3,7 @@ from typing import Tuple
 import numpy as np
 import pytest
 
-from ...migration.show_user.show_user import PositionEventUser
+from ...show_env.show_user.show_user import PositionEventUser
 from .position_simulation import SimulationInfo
 from .stand_by_simulation import stand_by_simulation
 

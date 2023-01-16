@@ -1,6 +1,6 @@
 import pytest
 
-from src.migration.show_px4.drone_px4.drone_px4 import DronePx4
+from src.show_env.show_px4.drone_px4.drone_px4 import DronePx4
 
 from ....report import Displayer
 from .dances_size_check_procedure import apply_dance_size_check_procedure

@@ -4,15 +4,15 @@ from .check.all_check_from_show_user_procedure import (
     apply_all_check_from_show_user_procedure,
 )
 from .check.show_check_report import ShowCheckReport
-from .migration.iostar_json.iostar_json import IostarJson
-from .migration.iostar_json.iostar_json_gcs import IostarJsonGcs
-from .migration.migration_sp_ij.ij_to_sp_procedure import ij_to_sp_procedure
-from .migration.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
-from .migration.migration_sp_ijg.ijg_to_sp_procedure import ijg_to_sp_procedure
-from .migration.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
-from .migration.migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
-from .migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
-from .migration.show_user.show_user import DroneUser, ShowUser
+from .show_env.iostar_json.iostar_json import IostarJson
+from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
+from .show_env.migration_sp_ij.ij_to_sp_procedure import ij_to_sp_procedure
+from .show_env.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
+from .show_env.migration_sp_ijg.ijg_to_sp_procedure import ijg_to_sp_procedure
+from .show_env.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
+from .show_env.migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
+from .show_env.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from .show_env.show_user.show_user import DroneUser, ShowUser
 
 
 def apply_export_procedure(

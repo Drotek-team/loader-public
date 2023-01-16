@@ -7,10 +7,10 @@ from .editor import (
     export_show_user_to_iostar_json_string,
     global_check_iostar_json_gcs,
 )
-from .migration.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
-from .migration.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
-from .migration.show_user.show_user import ShowUser
-from .migration.show_user.show_user_generator import get_valid_show_user
+from .show_env.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
+from .show_env.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from .show_env.show_user.show_user import ShowUser
+from .show_env.show_user.show_user_generator import get_valid_show_user
 
 NB_X = 1
 NB_Y = 1

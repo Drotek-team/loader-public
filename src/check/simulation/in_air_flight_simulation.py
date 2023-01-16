@@ -3,7 +3,7 @@ from typing import List
 import numpy as np
 import numpy.typing as npt
 
-from ...migration.show_user.show_user import PositionEventUser
+from ...show_env.show_user.show_user import PositionEventUser
 from .position_simulation import SimulationInfo, linear_interpolation
 
 

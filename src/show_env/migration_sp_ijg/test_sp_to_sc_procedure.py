@@ -1,6 +1,6 @@
 import pytest
 
-from src.migration.show_px4.show_px4 import DronePx4, ShowPx4
+from src.show_env.show_px4.show_px4 import DronePx4, ShowPx4
 
 from .sp_to_sc_procedure import sp_to_sc_procedure
 

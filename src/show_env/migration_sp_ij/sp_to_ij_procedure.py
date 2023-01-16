@@ -1,4 +1,4 @@
-from ...migration.migration_dp_binary.drone_encoding_procedure import encode_drone
+from ...show_env.migration_dp_binary.drone_encoding_procedure import encode_drone
 from ..iostar_json.iostar_json import IostarJson
 from ..show_px4.show_px4 import ShowPx4
 
