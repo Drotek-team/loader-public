@@ -13,6 +13,16 @@ class DronePx4:
         self.color_events = ColorEvents()
         self.fire_events = FireEvents()
 
+    def __eq__(self, other_drone_px4: object) -> bool:
+        if isinstance(other_drone_px4, DronePx4):
+            return (
+                self.index == self.index
+                and self.position_events == other_drone_px4.position_events
+                and self.color_events == other_drone_px4.color_events
+                and self.fire_events == other_drone_px4.fire_events
+            )
+        return False
+
     def add_position(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.position_events.add_timecode_xyz(timecode, xyz)
 

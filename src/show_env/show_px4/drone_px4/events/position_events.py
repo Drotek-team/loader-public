@@ -27,6 +27,7 @@ class PositionEvents(Events):
 
     def __init__(self):
         self.id_ = EVENTS_ID[EventsType.position]
+        # TODO: !!!!!!!!!!!!! make this one an event !!!!!!!!!!!!!!!!!!
         self._events: List[PositionEvent] = []
 
     def __iter__(self):
@@ -37,6 +38,16 @@ class PositionEvents(Events):
 
     def __len__(self) -> int:
         return len(self._events)
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, PositionEvents) and len(self) == len(other):
+            return all(
+                [
+                    self._events[event_index] == other._events[event_index]
+                    for event_index in range(len(self._events))
+                ]
+            )
+        return False
 
     def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self._events.append(

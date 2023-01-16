@@ -30,6 +30,7 @@ class ColorEvents(Events):
         self.id_ = EVENTS_ID[EventsType.color]
         self._events: List[ColorEvent] = []
 
+    # TODO: test these methods and with the other classes
     def __iter__(self):
         yield from self._events
 
@@ -38,6 +39,16 @@ class ColorEvents(Events):
 
     def __len__(self) -> int:
         return len(self._events)
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, ColorEvents) and len(self) == len(other):
+            return all(
+                [
+                    self._events[event_index] == other._events[event_index]
+                    for event_index in range(len(self._events))
+                ]
+            )
+        return False
 
     @property
     def generic_events(self) -> List[Event]:

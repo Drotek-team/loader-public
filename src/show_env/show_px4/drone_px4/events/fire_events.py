@@ -34,6 +34,16 @@ class FireEvents(Events):
     def __len__(self) -> int:
         return len(self._events)
 
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, FireEvents) and len(self) == len(other):
+            return all(
+                [
+                    self._events[event_index] == other._events[event_index]
+                    for event_index in range(len(self._events))
+                ]
+            )
+        return False
+
     @property
     def generic_events(self) -> List[Event]:
         return self._events  # type: ignore[I an pretty this is a bug from pylance, the typing works if the function return FireEvent with a Event typing]
