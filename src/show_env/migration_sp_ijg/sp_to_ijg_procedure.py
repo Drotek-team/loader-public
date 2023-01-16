@@ -7,8 +7,7 @@ from ..show_px4.show_px4 import ShowPx4
 from .sp_to_sc_procedure import sp_to_sc_procedure
 
 
-# TODO: put a test on this
-def get_family_from_show_px4(
+def get_family_from_drones_px4(
     show_px4_family: List[DronePx4],
 ) -> Family:
     return Family(
@@ -26,13 +25,12 @@ def get_family_from_show_px4(
     )
 
 
-# TODO: put a test on this
 def sp_to_ijg_procedure(show_px4: ShowPx4) -> IostarJsonGcs:
     show_configuration = sp_to_sc_procedure(show_px4)
     return IostarJsonGcs(
         show=Show(
             families=[
-                get_family_from_show_px4(
+                get_family_from_drones_px4(
                     show_px4[
                         show_configuration.nb_drone_per_family
                         * family_index : show_configuration.nb_drone_per_family
