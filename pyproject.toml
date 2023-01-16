@@ -16,9 +16,9 @@ black = { version = "^22.10.0", allow-prereleases = true }
 flake8 = "^5.0.4"
 mypy = "^0.990"
 pre-commit = "^2.20.0"
-pytest = "^7.2.0"
 ruff = "0.0.217"
 pytest-cov = "^4.0.0"
+pyright = "^1.1.289"
 
 [build-system]
 requires = ["poetry-core"]
@@ -29,6 +29,10 @@ target-version = ['py38']
 
 [tool.isort]
 profile = "black"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
 required-version = "0.0.217"

@@ -50,13 +50,17 @@ def get_collision_infractions(
             name="Collision Infraction",
             validation=False,
             annexe_message=collision_infraction_message(
-                local_drone_indices[
-                    endangered_couples_distance_matrix_index // nb_drones_local
-                ],
-                local_drone_indices[
-                    endangered_couples_distance_matrix_index % nb_drones_local
-                ],
-                couple_distance_matrix[endangered_couples_distance_matrix_index],
+                int(
+                    local_drone_indices[
+                        endangered_couples_distance_matrix_index // nb_drones_local
+                    ]
+                ),
+                int(
+                    local_drone_indices[
+                        endangered_couples_distance_matrix_index % nb_drones_local
+                    ]
+                ),
+                float(couple_distance_matrix[endangered_couples_distance_matrix_index]),
                 in_air=in_air,
             ),
         )

@@ -81,6 +81,11 @@ repos:
       # Check no eval used
       - id: python-no-eval
 
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.289
+    hooks:
+      - id: pyright
+
   - repo: local
     hooks:
       - id: ruff
