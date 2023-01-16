@@ -21,7 +21,7 @@ class Events:
     def add_data(self, data: List[Any]) -> None:
         pass
 
-    # TODO: test these methods
+    # TODO: test these methods, this implies that the structure of the init is different: need to do a super()
     def __iter__(self):
         yield from self._events
 
@@ -48,7 +48,3 @@ class Events:
     @property
     def events_size(self):
         return len(self._events) * struct.calcsize(self.format_)
-
-    @property
-    def nb_events(self) -> int:
-        return len(self._events)
