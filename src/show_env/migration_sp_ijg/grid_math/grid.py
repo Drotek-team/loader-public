@@ -33,38 +33,17 @@ def get_rotation_matrix(angle: float) -> npt.NDArray[np.float64]:
     return np.array(((c, -s), (s, c)))
 
 
-# IMPROVE: make a list type for this one
-class Grid:
-    def __init__(self, horizontal_positions: List[Tuple[float, float]]):
-        self.horizontal_positions = [
-            HorizontalPosition(
-                drone_index, horizontal_position[0], horizontal_position[1]
-            )
-            for drone_index, horizontal_position in enumerate(horizontal_positions)
-        ]
-
-    def __iter__(self):
-        yield from self.horizontal_positions
-
-    def __getitem__(self, horizontal_position_index: int) -> HorizontalPosition:
-        if not (isinstance(horizontal_position_index, int)):
-            msg = "Only integer index are dealing by this function"
-            raise ValueError(msg)
-        return self.horizontal_positions[horizontal_position_index]
-
-    def __len__(self):
-        return len(self.horizontal_positions)
-
+class Grid(List[HorizontalPosition]):
     def rotate_horizontal_positions(self, angle_rotation: float) -> None:
         rotation_matrix = get_rotation_matrix(angle_rotation)
-        for horizontal_position in self.horizontal_positions:
+        for horizontal_position in self:
             horizontal_position.rotated_positions(rotation_matrix)
 
     @property
     def horizontal_x_extremes(self) -> Tuple[HorizontalPosition, HorizontalPosition]:
         self.rotate_horizontal_positions(1e-3)
         ordered_horizontal_positions = sorted(
-            self.horizontal_positions,
+            self,
             key=lambda horizontal_position: horizontal_position.x,
         )
         self.rotate_horizontal_positions(-1e-3)
@@ -77,7 +56,7 @@ class Grid:
     def horizontal_y_extremes(self) -> Tuple[HorizontalPosition, HorizontalPosition]:
         self.rotate_horizontal_positions(1e-3)
         ordered_horizontal_positions = sorted(
-            self.horizontal_positions,
+            self,
             key=lambda horizontal_position: horizontal_position.y,
         )
         self.rotate_horizontal_positions(-1e-3)
@@ -85,3 +64,16 @@ class Grid:
             ordered_horizontal_positions[0],
             ordered_horizontal_positions[-1],
         )
+
+
+def get_grid_from_horizontal_positions(positions: List[Tuple[float, float]]):
+    return Grid(
+        [
+            HorizontalPosition(
+                drone_index,
+                horizontal_position[0],
+                horizontal_position[1],
+            )
+            for drone_index, horizontal_position in enumerate(positions)
+        ]
+    )

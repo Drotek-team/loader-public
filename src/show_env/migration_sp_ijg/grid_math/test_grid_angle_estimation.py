@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from .grid import Grid
+from .grid import Grid, get_grid_from_horizontal_positions
 from .grid_angle_estimation import (
     get_angle_degree_from_vector,
     get_angle_takeoff_from_grid,
@@ -12,37 +12,43 @@ from .grid_angle_estimation import (
 
 @pytest.fixture
 def valid_grid():
-    return Grid([(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)])
+    return get_grid_from_horizontal_positions(
+        [(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)]
+    )
 
 
 @pytest.fixture
 def valid_grid_45_degree():
-    return Grid([(2.0, 0.0), (0.0, 2.0), (-2.0, 0.0), (0.0, -2.0)])
+    return get_grid_from_horizontal_positions(
+        [(2.0, 0.0), (0.0, 2.0), (-2.0, 0.0), (0.0, -2.0)]
+    )
 
 
 @pytest.fixture
 def valid_grid_90_degree():
-    return Grid([(1.0, -1.0), (1.0, 1.0), (-1.0, 1.0), (-1.0, -1.0)])
+    return get_grid_from_horizontal_positions(
+        [(1.0, -1.0), (1.0, 1.0), (-1.0, 1.0), (-1.0, -1.0)]
+    )
 
 
 @pytest.fixture
 def one_point_grid():
-    return Grid([(0.0, 0.0)])
+    return get_grid_from_horizontal_positions([(0.0, 0.0)])
 
 
 @pytest.fixture
 def horizontal_row_grid():
-    return Grid([(0.0, 0.0), (1.0, 0.0)])
+    return get_grid_from_horizontal_positions([(0.0, 0.0), (1.0, 0.0)])
 
 
 @pytest.fixture
 def diagonal_row_grid():
-    return Grid([(0.0, 0.0), (1.0, 1.0)])
+    return get_grid_from_horizontal_positions([(0.0, 0.0), (1.0, 1.0)])
 
 
 @pytest.fixture
 def vertical_row_grid():
-    return Grid([(0.0, 0.0), (0.0, 1.0)])
+    return get_grid_from_horizontal_positions([(0.0, 0.0), (0.0, 1.0)])
 
 
 def test_get_angle_from_vector():
@@ -89,5 +95,6 @@ def test_get_angle_takeoff_from_grid_valid_grid_90_degree(valid_grid_90_degree: 
 
 
 def test_get_angle_takeoff_from_grid_one_point_grid(one_point_grid: Grid):
+    assert get_angle_takeoff_from_grid(one_point_grid) == 0.0
     assert get_angle_takeoff_from_grid(one_point_grid) == 0.0
     assert get_angle_takeoff_from_grid(one_point_grid) == 0.0

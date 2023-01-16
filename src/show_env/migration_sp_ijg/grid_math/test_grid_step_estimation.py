@@ -1,17 +1,21 @@
 import pytest
 
-from .grid import Grid
+from .grid import Grid, get_grid_from_horizontal_positions
 from .grid_step_estimation import get_step_from_grid
 
 
 @pytest.fixture
 def valid_grid():
-    return Grid([(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)])
+    return get_grid_from_horizontal_positions(
+        [(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)]
+    )
 
 
 @pytest.fixture
 def valid_grid_step_two_meter():
-    return Grid([(-2.0, -2.0), (2.0, -2.0), (-2.0, 2.0), (2.0, 2.0)])
+    return get_grid_from_horizontal_positions(
+        [(-2.0, -2.0), (2.0, -2.0), (-2.0, 2.0), (2.0, 2.0)]
+    )
 
 
 def test_get_nb_drone_per_family_from_grid_valid_grid(valid_grid: Grid):

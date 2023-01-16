@@ -1,17 +1,19 @@
 import pytest
 
-from .grid import Grid
+from .grid import Grid, get_grid_from_horizontal_positions
 from .grid_nb_per_family_estimation import get_nb_drone_per_family_from_grid
 
 
 @pytest.fixture
 def valid_grid():
-    return Grid([(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)])
+    return get_grid_from_horizontal_positions(
+        [(-1.0, -1.0), (1.0, -1.0), (-1.0, 1.0), (1.0, 1.0)]
+    )
 
 
 @pytest.fixture
 def valid_grid_two_drone_per_family():
-    return Grid(
+    return get_grid_from_horizontal_positions(
         [
             (-1.0, -1.0),
             (-1.0, -1.0),

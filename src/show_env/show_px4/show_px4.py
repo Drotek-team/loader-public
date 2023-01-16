@@ -29,7 +29,7 @@ class ShowPx4(List[DronePx4]):
         return calculate_convex_hull(self.first_horizontal_positions)
 
     @property
-    def altitude_range(self) -> Tuple[float, float]:
+    def altitude_range(self) -> Tuple[int, int]:
         z_positions = [
             position_event.xyz[2]
             for drone in self

@@ -49,6 +49,6 @@ def get_angle_takeoff_from_grid(
     )
 
 
-def get_ned_angle_takeoff_from_grid(grid: Grid) -> float:
+def get_ned_angle_takeoff_from_grid(grid: Grid) -> int:
     angle = get_angle_takeoff_from_grid(grid)
-    return angle - 90 if angle != 0.0 else angle
+    return int(angle - 90) if angle != 0.0 else int(angle)

@@ -9,10 +9,10 @@ class ShowConfiguration:
     nb_drone_per_family: int  # Number of drones in each families
     step: int  # Distance separating the families during the takeoff in centimeter
     angle_takeoff: int  # Angle of the takeoff grid in degree
-    duration: float  # Duration of the show in second
+    duration: int  # Duration of the show in microsecond
     hull: List[
-        Tuple[float, float]
-    ]  # List of the relative coordinate (XY in ENU and meter) symbolysing a convex hull of a show
+        Tuple[int, int]
+    ]  # List of the relative coordinate (XY in NED and centimeter) symbolysing a convex hull of a show
     altitude_range: Tuple[
-        float, float
-    ]  # Relative coordinate ( z_min and z_max in ENU and meter) symbolising the range of the z-axis
+        int, int
+    ]  # Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis
