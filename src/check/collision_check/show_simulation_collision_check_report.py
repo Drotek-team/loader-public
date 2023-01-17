@@ -31,6 +31,7 @@ class ShowSimulationCollisionCheckReport(Contenor):
     def add_slice_report(
         self, frame: int, collision_infractions: List[CollisionInfraction]
     ) -> None:
+        # TODO: have fun ?
         self.collision_slices_check_report.append(
             ErrorMessageList(f"Frame {frame}", collision_infractions)  # type: ignore[Have fun cleaning this]
         )

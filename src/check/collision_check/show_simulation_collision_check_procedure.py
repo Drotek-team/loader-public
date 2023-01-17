@@ -34,6 +34,7 @@ def apply_show_simulation_collision_check_procedure(
             in_air=True,
         )
         if collision_infractions:
+            # TODO: have fun ?
             collision_check_report.collision_slices_check_report.append(
                 ErrorMessageList(
                     f"Collision slice check report at frame {show_simulation_slice.frame}",
