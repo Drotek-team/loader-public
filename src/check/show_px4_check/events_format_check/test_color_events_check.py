@@ -58,7 +58,7 @@ def test_invalid_color_events_frame_increasing_check(
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.frame_check_report.increasing_frame_check_report.validation
+        color_events_check_report.frame_check_report.increasing_frame_check_report.user_validation
     )
 
 
@@ -84,7 +84,7 @@ def test_invalid_color_events_frame_first_frame_check(
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.frame_check_report.frame_value_check_report.validation
+        color_events_check_report.frame_check_report.frame_value_check_report.user_validation
     )
 
 
@@ -103,5 +103,5 @@ def test_invalid_color_events_rgbw_value_check(
         color_events_check_report,
     )
     assert not (
-        color_events_check_report.rgbw_check_report.rgbw_value_check_report.validation
+        color_events_check_report.rgbw_check_report.rgbw_value_check_report.user_validation
     )

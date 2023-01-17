@@ -2,9 +2,10 @@ from ....report import Contenor, Displayer
 
 
 class FrameCheckReport(Contenor):
-    name = "Frame Check Report"
-    frame_value_check_report = Displayer("Frame Value Check Report")
-    increasing_frame_check_report = Displayer("Increasing Frame Check Report")
+    def __init__(self) -> None:
+        self.name = "Frame Check Report"
+        self.frame_value_check_report = Displayer("Frame Value Check Report")
+        self.increasing_frame_check_report = Displayer("Increasing Frame Check Report")
 
 
 class XyzCheckReport(Contenor):

@@ -22,14 +22,16 @@ def valid_fire_events():
     fire_events.add_timecode_chanel_duration(
         timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
+        )
+        + 1,
         chanel=1,
         duration=1000,
     )
     fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
+        )
+        + 2,
         chanel=2,
         duration=1000,
     )
@@ -43,19 +45,19 @@ def fire_events_check_report():
 
 def test_valid_fire_events_check(
     valid_fire_events: FireEvents,
-    fire_events_check_report: FireEventsCheckReport,
 ):
+    fire_events_check_report = FireEventsCheckReport()
     fire_events_check(
         valid_fire_events,
         fire_events_check_report,
     )
-    assert fire_events_check_report.validation
+    assert fire_events_check_report.user_validation
 
 
 def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events: FireEvents,
-    fire_events_check_report: FireEventsCheckReport,
 ):
+    fire_events_check_report = FireEventsCheckReport()
     valid_fire_events._events.insert(
         0,
         FireEvent(
@@ -72,14 +74,14 @@ def test_invalid_fire_events_frame_first_frame_check(
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_frame_check_report.frame_value_check_report.validation
+        fire_events_check_report.fire_frame_check_report.frame_value_check_report.user_validation
     )
 
 
 def test_invalid_fire_events_chanel_value_check(
     valid_fire_events: FireEvents,
-    fire_events_check_report: FireEventsCheckReport,
 ):
+    fire_events_check_report = FireEventsCheckReport()
     valid_fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
@@ -92,14 +94,14 @@ def test_invalid_fire_events_chanel_value_check(
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_chanel_check_report.fire_chanel_value_check_report.validation
+        fire_events_check_report.fire_chanel_check_report.fire_chanel_value_check_report.user_validation
     )
 
 
 def test_invalid_fire_events_duration_value_check(
     valid_fire_events: FireEvents,
-    fire_events_check_report: FireEventsCheckReport,
 ):
+    fire_events_check_report = FireEventsCheckReport()
     valid_fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
@@ -112,5 +114,5 @@ def test_invalid_fire_events_duration_value_check(
         fire_events_check_report,
     )
     assert not (
-        fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.validation
+        fire_events_check_report.fire_duration_check_report.fire_duration_value_check_report.user_validation
     )

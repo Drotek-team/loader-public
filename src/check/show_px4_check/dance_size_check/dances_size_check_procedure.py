@@ -10,6 +10,5 @@ def apply_dance_size_check_procedure(
     drone_px4: DronePx4,
     dance_size_check_report: Displayer,
 ) -> None:
-    dance_size_check_report.validation = (
-        get_dance_size(drone_px4) < JSON_BINARY_PARAMETER.dance_size_max
-    )
+    if get_dance_size(drone_px4) < JSON_BINARY_PARAMETER.dance_size_max:
+        dance_size_check_report.validate()

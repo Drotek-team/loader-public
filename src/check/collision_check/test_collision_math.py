@@ -27,12 +27,8 @@ def test_get_border_indices():
 
 
 def test_get_unique_list_from_list_unique():
-    collision_infraction_1 = Displayer(
-        "collision_infraction_1", annexe_message="message_1"
-    )
-    collision_infraction_2 = Displayer(
-        "collision_infraction_2", annexe_message="message_2"
-    )
+    collision_infraction_1 = 0
+    collision_infraction_2 = 1
     assert (
         len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2]))
         == 2
@@ -40,12 +36,8 @@ def test_get_unique_list_from_list_unique():
 
 
 def test_get_unique_list_from_list_non_unique():
-    collision_infraction_1 = Displayer(
-        "collision_infraction_1", annexe_message="message_1"
-    )
-    collision_infraction_2 = Displayer(
-        "collision_infraction_1", annexe_message="message_1"
-    )
+    collision_infraction_1 = 1
+    collision_infraction_2 = 1
     assert (
         len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2]))
         == 1

@@ -116,32 +116,21 @@ METRICS_RANGE: Dict[Metric, MetricRange] = {
 }
 
 
-def get_performance_infraction(
-    performance_name: str,
-    performance_value: float,
-    metric_range: MetricRange,
-    absolute_frame: int,
-) -> Displayer:
-    metric_convention_name = "max" if metric_range.standard_convention else "min"
-    return Displayer(
-        name=f"The performance {performance_name} has the value: {performance_value:.2f} ({metric_convention_name}: {metric_range.threshold}) at the frame {absolute_frame}",
-    )
-
-
 def performance_evaluation(
-    absolute_frame: int,
+    frame: int,
     position: npt.NDArray[np.float64],
     velocity: npt.NDArray[np.float64],
     acceleration: npt.NDArray[np.float64],
-    drone_trajectory_performance_check: DronePerformanceCheckReport,
+    drone_trajectory_performance_check: ErrorMessageList,
 ) -> None:
     for metric in Metric:
         if not (metric.validation(position, velocity, acceleration)):
-            drone_trajectory_performance_check.performance_infractions.append(
-                get_performance_infraction(
-                    metric.value,
-                    metric.evaluation(position, velocity, acceleration),
-                    metric.range_,
-                    absolute_frame,
+            drone_trajectory_performance_check.add_error_message(
+                PerformanceInfraction(
+                    name=metric.value,
+                    frame=frame,
+                    value=metric.evaluation(position, velocity, acceleration),
+                    threshold=metric.range_.threshold,
+                    metric_convention=metric.range_.standard_convention,
                 )
             )

@@ -37,7 +37,7 @@ def frame_check(
     frame_check_report: FrameCheckReport,
 ) -> None:
     frames = [event.timecode for event in events]
-    frame_check_report.frame_value_check_report.validation = check_int_size_list(
+    if check_int_size_list(
         frames,
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
@@ -45,35 +45,34 @@ def frame_check(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
-    )
-    frame_check_report.increasing_frame_check_report.validation = (
-        check_increasing_frame(frames)
-    )
-    frame_check_report.update_contenor_validation()
+    ):
+        frame_check_report.frame_value_check_report.validate()
+    if check_increasing_frame(frames):
+        frame_check_report.increasing_frame_check_report.validate()
 
 
 def xyz_check(
     position_events: PositionEvents,
     xyz_check_report: XyzCheckReport,
 ) -> None:
-    xyz_check_report.xyz_value_check_report.validation = check_int_size_list_tuple(
+    if check_int_size_list_tuple(
         [list(event.xyz) for event in position_events.specific_events],
         JSON_BINARY_PARAMETER.position_value_min,
         JSON_BINARY_PARAMETER.position_value_max,
-    )
-    xyz_check_report.update_contenor_validation()
+    ):
+        xyz_check_report.xyz_value_check_report.validate()
 
 
 def rgbw_check(
     color_events: ColorEvents,
     rgbw_check_report: RgbwCheckReport,
 ) -> None:
-    rgbw_check_report.rgbw_value_check_report.validation = check_int_size_list_tuple(
+    if check_int_size_list_tuple(
         [list(event.rgbw) for event in color_events.specific_events],
         JSON_BINARY_PARAMETER.color_value_min,
         JSON_BINARY_PARAMETER.color_value_max,
-    )
-    rgbw_check_report.update_contenor_validation()
+    ):
+        rgbw_check_report.rgbw_value_check_report.validate()
 
 
 def check_chanel_unicity(chanels: List[int]) -> bool:
@@ -84,14 +83,12 @@ def fire_chanel_check(
     fire_events: FireEvents,
     fire_events_chanel_check_report: FireChanelCheckReport,
 ) -> None:
-    fire_events_chanel_check_report.fire_chanel_value_check_report.validation = (
-        check_int_size_list(
-            [event.chanel for event in fire_events.specific_events],
-            JSON_BINARY_PARAMETER.fire_chanel_value_min,
-            JSON_BINARY_PARAMETER.fire_chanel_value_max,
-        )
-    )
-    fire_events_chanel_check_report.update_contenor_validation()
+    if check_int_size_list(
+        [event.chanel for event in fire_events.specific_events],
+        JSON_BINARY_PARAMETER.fire_chanel_value_min,
+        JSON_BINARY_PARAMETER.fire_chanel_value_max,
+    ):
+        fire_events_chanel_check_report.fire_chanel_value_check_report.validate()
 
 
 def fire_duration_frame_check(
@@ -99,13 +96,9 @@ def fire_duration_frame_check(
     fire_events_chanel_check_report: FireDurationCheckReport,
 ) -> None:
     durations = [event.duration for event in fire_events.specific_events]
-    fire_events_chanel_check_report.fire_duration_value_check_report.validation = (
-        check_int_size_list(
-            durations,
-            JSON_BINARY_PARAMETER.fire_duration_value_frame_min,
-            JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
-        )
-    )
-    fire_events_chanel_check_report.update_contenor_validation()
-    fire_events_chanel_check_report.update_contenor_validation()
-    fire_events_chanel_check_report.update_contenor_validation()
+    if check_int_size_list(
+        durations,
+        JSON_BINARY_PARAMETER.fire_duration_value_frame_min,
+        JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
+    ):
+        fire_events_chanel_check_report.fire_duration_value_check_report.validate()

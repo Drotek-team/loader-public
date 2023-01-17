@@ -30,7 +30,7 @@ def test_valid_drone_dance_size_check(valid_drone_dance_size: DronePx4):
         valid_drone_dance_size,
         dance_size_check_report,
     )
-    assert dance_size_check_report.validation
+    assert dance_size_check_report.user_validation
 
 
 def test_invalid_drone_dance_size_check(invalid_drone_dance_size: DronePx4):
@@ -39,4 +39,4 @@ def test_invalid_drone_dance_size_check(invalid_drone_dance_size: DronePx4):
         invalid_drone_dance_size,
         dance_size_check_report,
     )
-    assert not (dance_size_check_report.validation)
+    assert not (dance_size_check_report.user_validation)

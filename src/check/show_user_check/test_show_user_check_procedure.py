@@ -34,7 +34,7 @@ def test_valid_position_events_takeoff_duration_xyz_check(
         valid_drone_user,
         takeoff_check_report,
     )
-    assert takeoff_check_report.validation
+    assert takeoff_check_report.user_validation
 
 
 FRAME_BIAS = 1
@@ -66,8 +66,8 @@ def test_invalid_position_events_takeoff_duration_check(
         invalid_drone_user_takeoff_duration,
         takeoff_check_report,
     )
-    assert not (takeoff_check_report.takeoff_duration_check_report.validation)
-    assert takeoff_check_report.takeoff_xyz_check_report.validation
+    assert not (takeoff_check_report.takeoff_duration_check_report.user_validation)
+    assert takeoff_check_report.takeoff_xyz_check_report.user_validation
 
 
 Z_BIAS = 1e-2
@@ -98,8 +98,8 @@ def test_invalid_position_events_takeoff_xyz_check(
         invalid_drone_user_takeoff_xyz,
         takeoff_check_report,
     )
-    assert takeoff_check_report.takeoff_duration_check_report.validation
-    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
+    assert takeoff_check_report.takeoff_duration_check_report.user_validation
+    assert not (takeoff_check_report.takeoff_xyz_check_report.user_validation)
 
 
 def test_empty_position_events():
@@ -111,8 +111,8 @@ def test_empty_position_events():
         empty_position_events_drone_user,
         takeoff_check_report,
     )
-    assert not (takeoff_check_report.takeoff_duration_check_report.validation)
-    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
+    assert not (takeoff_check_report.takeoff_duration_check_report.user_validation)
+    assert not (takeoff_check_report.takeoff_xyz_check_report.user_validation)
 
 
 def test_valid_one_position_events():
@@ -126,7 +126,7 @@ def test_valid_one_position_events():
         one_position_events_drone_user,
         takeoff_check_report,
     )
-    assert takeoff_check_report.validation
+    assert takeoff_check_report.user_validation
 
 
 def test_invalid_by_time_one_position_events():
@@ -140,8 +140,8 @@ def test_invalid_by_time_one_position_events():
         one_position_events_drone_user,
         takeoff_check_report,
     )
-    assert not (takeoff_check_report.takeoff_duration_check_report.validation)
-    assert takeoff_check_report.takeoff_xyz_check_report.validation
+    assert not (takeoff_check_report.takeoff_duration_check_report.user_validation)
+    assert takeoff_check_report.takeoff_xyz_check_report.user_validation
 
 
 def test_invalid_by_position_one_position_events():
@@ -155,5 +155,8 @@ def test_invalid_by_position_one_position_events():
         one_position_events_drone_user,
         takeoff_check_report,
     )
-    assert takeoff_check_report.takeoff_duration_check_report.validation
-    assert not (takeoff_check_report.takeoff_xyz_check_report.validation)
+    assert takeoff_check_report.takeoff_duration_check_report.user_validation
+    assert not (takeoff_check_report.takeoff_xyz_check_report.user_validation)
+
+
+# TODO: add the show user part to the test

@@ -35,28 +35,24 @@ def valid_position_events():
     return position_events
 
 
-@pytest.fixture
-def position_events_check_report():
-    return PositionEventsCheckReport()
-
-
 def test_valid_position_events_check(
     valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
 ):
-
+    position_events_check_report = PositionEventsCheckReport()
     position_events_check(
         valid_position_events,
         position_events_check_report,
     )
-    assert position_events_check_report.validation
+    assert position_events_check_report.user_validation
 
 
 def test_invalid_position_events_frame_increasing_check(
     valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
 ):
-
+    position_events_check_report = PositionEventsCheckReport()
+    assert not (
+        position_events_check_report.frame_check_report.increasing_frame_check_report.user_validation
+    )
     valid_position_events.add_timecode_xyz(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
@@ -68,15 +64,14 @@ def test_invalid_position_events_frame_increasing_check(
         position_events_check_report,
     )
     assert not (
-        position_events_check_report.frame_check_report.increasing_frame_check_report.validation
+        position_events_check_report.frame_check_report.increasing_frame_check_report.user_validation
     )
 
 
 def test_invalid_position_events_frame_first_frame_check(
     valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
 ):
-
+    position_events_check_report = PositionEventsCheckReport()
     valid_position_events.add_timecode_xyz(
         timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
@@ -89,14 +84,14 @@ def test_invalid_position_events_frame_first_frame_check(
         position_events_check_report,
     )
     assert not (
-        position_events_check_report.frame_check_report.frame_value_check_report.validation
+        position_events_check_report.frame_check_report.frame_value_check_report.user_validation
     )
 
 
 def test_invalid_position_events_xyz_value_check(
     valid_position_events: PositionEvents,
-    position_events_check_report: PositionEventsCheckReport,
 ):
+    position_events_check_report = PositionEventsCheckReport()
     valid_position_events.add_timecode_xyz(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
@@ -108,8 +103,8 @@ def test_invalid_position_events_xyz_value_check(
         position_events_check_report,
     )
     assert not (
-        position_events_check_report.xyz_check_report.xyz_value_check_report.validation
+        position_events_check_report.xyz_check_report.xyz_value_check_report.user_validation
     )
     assert not (
-        position_events_check_report.xyz_check_report.xyz_value_check_report.validation
+        position_events_check_report.xyz_check_report.xyz_value_check_report.user_validation
     )

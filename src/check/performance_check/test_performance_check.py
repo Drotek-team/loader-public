@@ -59,7 +59,7 @@ def test_valid_show_trajectory_performance(
         valid_show_user,
         show_trajectory_performance_check_report,
     )
-    assert show_trajectory_performance_check_report.validation
+    assert show_trajectory_performance_check_report.user_validation
 
 
 @pytest.fixture
@@ -110,10 +110,10 @@ def test_invalid_show_user_horizontal_velocity(
     )
     performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
         0
-    ].performance_infractions
+    ]
     assert len(performance_infractions) >= 1
     assert (
-        performance_infractions[0].name
+        performance_infractions[0].display_message(0, " ")
         == "The performance horizontal velocity has the value: 6.24 (max: 6.0) at the frame 240"
     )
 
@@ -164,10 +164,10 @@ def test_invalid_show_user_vertical_position(
     )
     performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
         0
-    ].performance_infractions
+    ]
     assert len(performance_infractions) >= 1
     assert (
-        performance_infractions[0].name
+        performance_infractions[0].display_message(0, " ")
         == "The performance vertical position has the value: 0.99 (min: 1.0) at the frame 240"
     )
 
@@ -222,10 +222,10 @@ def test_invalid_show_user_velocity_up(
     )
     performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
         0
-    ].performance_infractions
+    ]
     assert len(performance_infractions) >= 1
     assert (
-        performance_infractions[0].name
+        performance_infractions[0].display_message(0, " ")
         == "The performance up velocity has the value: 4.24 (max: 4.0) at the frame 240"
     )
 
@@ -279,10 +279,10 @@ def test_invalid_show_user_velocity_down(
     )
     performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
         0
-    ].performance_infractions
+    ]
     assert len(performance_infractions) >= 1
     assert (
-        performance_infractions[1].name
+        performance_infractions[1].display_message(0, " ")
         == "The performance down velocity has the value: 4.24 (max: 4.0) at the frame 240"
     )
 
@@ -336,9 +336,9 @@ def test_invalid_show_user_acceleration(
     )
     performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
         0
-    ].performance_infractions
+    ]
     assert len(performance_infractions) >= 1
     assert (
-        performance_infractions[2].name
+        performance_infractions[2].display_message(0, " ")
         == "The performance acceleration has the value: 101.76 (max: 2.0) at the frame 240"
     )

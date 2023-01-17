@@ -80,12 +80,12 @@ def test_invalid_simulation_on_ground():
     assert not (
         show_simulation_collision_check_report.collision_slices_check_report[
             0
-        ].validation
+        ].user_validation
     )
     assert not (
         show_simulation_collision_check_report.collision_slices_check_report[
             50
-        ].validation
+        ].user_validation
     )
 
 
@@ -98,7 +98,7 @@ def test_valid_simulation_in_air():
         valid_show_user_in_air,
         show_simulation_collision_check_report,
     )
-    assert show_simulation_collision_check_report.validation
+    assert show_simulation_collision_check_report.user_validation
 
 
 def test_invalid_simulation_in_air():

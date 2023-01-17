@@ -31,8 +31,8 @@ def test_export_procedure():
             SHOW_DURATION_SECOND,
         )
     )
-    assert show_check_report.validation
-    assert show_check_report.validation
+    assert show_check_report.user_validation
+    assert show_check_report.user_validation
 
 
 @pytest.fixture

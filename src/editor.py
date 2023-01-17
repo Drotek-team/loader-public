@@ -44,8 +44,8 @@ def create_show_user(drone_number: StrictInt) -> ShowUser:
 def export_show_user_to_iostar_json_string(show_user: ShowUser) -> str:
     """Export a ShowUser object to a IostarJson on the string format."""
     iostar_json, show_check_report = apply_export_procedure(show_user)
-    if not (show_check_report.validation):
-        show_check_report.get_contenor_report(4, " ")
+    if not (show_check_report.user_validation):
+        show_check_report.display_message(4, " ")
         msg = "The show is not valid"
         raise ValueError(msg)
     return iostar_json.json()
@@ -64,6 +64,4 @@ def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     show_user = sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
     show_check_report = ShowCheckReport(len(show_user.drones_user))
     apply_all_check_from_show_user_procedure(show_user, show_check_report)
-    return show_check_report.validation
-    apply_all_check_from_show_user_procedure(show_user, show_check_report)
-    return show_check_report.validation
+    return show_check_report.user_validation

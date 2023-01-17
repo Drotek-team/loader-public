@@ -1,16 +1,16 @@
+from ...report import ErrorMessageList
 from ...show_env.show_user.show_user import ShowUser
 from .migration.show_trajectory_performance import DroneTrajectoryPerformance
 from .migration.su_to_stp_procedure import su_to_stp_procedure
 from .performance_evaluation import performance_evaluation
 from .show_trajectory_performance_check_report import (
-    DronePerformanceCheckReport,
     ShowTrajectoryPerformanceCheckReport,
 )
 
 
 def apply_drone_trajectory_performance_check_procedure(
     drone_trajectory_performance: DroneTrajectoryPerformance,
-    drone_trajectory_performance_check_report: DronePerformanceCheckReport,
+    drone_trajectory_performance_check_report: ErrorMessageList,
 ) -> None:
     for (
         trajectory_performance_info
@@ -37,7 +37,3 @@ def apply_show_trajectory_performance_check_procedure(
         apply_drone_trajectory_performance_check_procedure(
             drone_trajectory_performance, drone_trajectory_performance_check_report
         )
-        drone_trajectory_performance_check_report.update_contenor_validation()
-    show_trajectory_performance_check_report.update_contenor_validation()
-    show_trajectory_performance_check_report.update_contenor_validation()
-    show_trajectory_performance_check_report.update_contenor_validation()

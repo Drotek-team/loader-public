@@ -1,103 +1,111 @@
-from dataclasses import dataclass
+from abc import ABC, abstractmethod
 from typing import List
 
 
-# TODO: pydantic seems better here
-@dataclass
-class ErrorMessage:
-    name: str = ""
-    validation: bool = False
-
-
-@dataclass
-class Displayer(ErrorMessage):
-    annexe_message: str = ""
-
-    def __hash__(self) -> int:  # pyright: ignore
-        return hash((self.name, self.annexe_message))
-
-    def __eq__(self, __o: "Displayer") -> bool:
-        return self.name == __o.name and self.annexe_message == __o.annexe_message
+class ErrorMessage(ABC):
+    name: str
 
     @property
-    def report(self) -> str:
-        return self.name
+    @abstractmethod
+    def user_validation(self) -> bool:
+        pass
+
+    @abstractmethod
+    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+        pass
 
 
-@dataclass
+class Displayer(ErrorMessage):
+    def __init__(
+        self, name: str, *, validation: bool = False, annexe_message: str = ""
+    ):
+        self.name = name
+        self._validation = validation
+        self._annexe_message = annexe_message
+
+    def __hash__(self) -> int:  # pyright: ignore
+        return hash((self.name, self._annexe_message))
+
+    @property
+    def user_validation(self) -> bool:
+        return self._validation
+
+    # TODO: put the indention part on the error message
+    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+        if self.user_validation:
+            return ""
+        if self._annexe_message == "":
+            return f"{indentation_level * indentation_type}[Displayer] {self.name} \n"
+        return f"{indentation_level * indentation_type}[Displayer] {self.name}:{self._annexe_message} \n"
+
+    def validate(self):
+        self._validation = True
+
+    def update_annexe_message(self, annexe_message: str) -> None:
+        self._annexe_message += annexe_message
+
+
+class ErrorMessageList(ErrorMessage):
+    def __init__(self, name: str, error_messages: List[ErrorMessage]):
+        self.name = name
+        self._error_messages = error_messages
+
+    def __iter__(self):
+        yield from self._error_messages
+
+    def __getitem__(self, error_message_index: int) -> ErrorMessage:
+        return self._error_messages[error_message_index]
+
+    def __len__(self) -> int:
+        return len(self._error_messages)
+
+    def add_error_message(self, error_message: ErrorMessage) -> None:
+        self._error_messages.append(error_message)
+
+    def add_error_messages(self, error_messages: List[ErrorMessage]) -> None:
+        self._error_messages.extend(error_messages)
+
+    @property
+    def user_validation(self) -> bool:
+        return all(
+            error_message.user_validation for error_message in self._error_messages
+        )
+
+    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+        if self.user_validation:
+            return ""
+        initial_message = (
+            f"{indentation_level * indentation_type}[Error Message List] {self.name} \n"
+        )
+        list_messages = "".join(
+            [
+                error_message.display_message(indentation_level + 1, indentation_type)
+                for error_message in self._error_messages
+            ]
+        )
+        return initial_message + list_messages
+
+
 class Contenor(ErrorMessage):
-    def update_contenor_validation(self) -> None:
-        displayer_validation = all(
-            displayer.validation
-            for displayer in self.__dict__.values()
-            if isinstance(displayer, Displayer)
-        )
-        contenor_validation = all(
-            contenor.validation
-            for contenor in self.__dict__.values()
-            if isinstance(contenor, Contenor)
-        )
-        error_message_list_validation = all(
-            error_message.validation
-            for attributes in self.__dict__.values()
-            if isinstance(attributes, List)
-            for error_message in attributes
+    @property
+    def user_validation(self) -> bool:
+        return all(
+            error_message.user_validation
+            for error_message in self.__dict__.values()
             if isinstance(error_message, ErrorMessage)
         )
-        self.validation = (
-            displayer_validation
-            and contenor_validation
-            and error_message_list_validation
+
+    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+        if self.user_validation:
+            return ""
+        initial_message = (
+            f"{indentation_level * indentation_type}[Contenor] {self.name} \n"
         )
-
-    @staticmethod
-    def displayer_formater(
-        report: str, indentation_level: int, indentation_type: str
-    ) -> str:
-        return f"{indentation_level * indentation_type} [Displayer] {report}  \n"
-
-    @staticmethod
-    def contenor_formater(
-        report: str, indentation_level: int, indentation_type: str
-    ) -> str:
-        return f"{indentation_level * indentation_type} [Contenor] {report}  \n"
-
-    # TODO: place a test on that
-    # TODO: faire une classe abstraite englobant tout les types de report pour pouvoir virer les isinstance ou alors faire un dictionnaire: au choix !
-    def get_children_report(self, indentation_level: int, indentation_type: str) -> str:
-        children_report = ""
-        for attribute in self.__dict__.values():
-            if isinstance(attribute, list):
-                for attribute_element in attribute:
-                    if isinstance(attribute_element, Contenor) and not (
-                        attribute_element.validation
-                    ):
-                        children_report += attribute_element.get_contenor_report(
-                            indentation_level + 1, indentation_type
-                        )
-                    if isinstance(attribute_element, Displayer) and not (
-                        attribute_element.validation
-                    ):
-                        children_report += self.displayer_formater(
-                            attribute_element.report,
-                            indentation_level + 1,
-                            indentation_type,
-                        )
-            if isinstance(attribute, Contenor) and not (attribute.validation):
-                children_report += attribute.get_contenor_report(
-                    indentation_level + 1, indentation_type
-                )
-            if isinstance(attribute, Displayer) and not (attribute.validation):
-                children_report += self.displayer_formater(
-                    attribute.report,
-                    indentation_level + 1,
-                    indentation_type,
-                )
-        return children_report
-
-    def get_contenor_report(self, indentation_level: int, indentation_type: str) -> str:
-        return self.contenor_formater(
-            self.name,
-            indentation_level,
-            indentation_type,
-        ) + self.get_children_report(indentation_level, indentation_type)
+        children_message = "".join(
+            [
+                attribute.display_message(indentation_level + 1, indentation_type)
+                for attribute in self.__dict__.values()
+                if isinstance(attribute, ErrorMessage)
+            ]
+        )
+        return initial_message + children_message

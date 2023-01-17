@@ -35,9 +35,8 @@ def apply_show_simulation_collision_check_procedure(
         )
         if collision_infractions:
             collision_check_report.collision_slices_check_report.append(
-                CollisionSliceCheckReport(
-                    show_simulation_slice.frame, collision_infractions
+                ErrorMessageList(
+                    f"Collision slice check report at frame {show_simulation_slice.frame}",
+                    collision_infractions,  # type: ignore[Have fun cleaning this]
                 )
             )
-    collision_check_report.update_contenor_validation()
-    collision_check_report.update_contenor_validation()
