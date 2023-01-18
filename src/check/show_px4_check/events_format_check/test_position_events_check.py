@@ -24,8 +24,8 @@ def valid_position_events():
         FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
-        + int(
-            TAKEOFF_PARAMETER.takeoff_duration_second * FRAME_PARAMETER._absolute_fps
+        + FRAME_PARAMETER.from_second_to_frame(
+            TAKEOFF_PARAMETER.takeoff_duration_second
         ),
         (
             0,

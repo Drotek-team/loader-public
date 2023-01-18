@@ -23,8 +23,9 @@ def get_trajectory_performance_info_from_simulation_infos(
     positions = [simulation_infos[0].position, simulation_infos[0].position] + [
         simulation_info.position for simulation_info in simulation_infos
     ]
+    # TODO: WARNING if the sampling frequence is different from _fps, this calculus is wrong
     velocities = [
-        FRAME_PARAMETER._absolute_fps
+        FRAME_PARAMETER.from_second_to_frame(1)
         * (
             positions[position_index]
             - positions[position_index - VELOCITY_ESTIMATION_INDEX]
@@ -32,8 +33,8 @@ def get_trajectory_performance_info_from_simulation_infos(
         for position_index in range(len(positions))
     ]
     accelerations: List[npt.NDArray[np.float64]] = [
-        FRAME_PARAMETER._absolute_fps
-        * FRAME_PARAMETER._absolute_fps
+        FRAME_PARAMETER.from_second_to_frame(1)
+        * FRAME_PARAMETER.from_second_to_frame(1)
         * (
             positions[position_index]
             - 2 * positions[position_index - VELOCITY_ESTIMATION_INDEX]

@@ -3,13 +3,13 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class FrameParameter:
-    _absolute_fps = 24
+    _fps = 24
 
     def from_second_to_frame(self, time: float) -> int:
-        return int(time * self._absolute_fps)
+        return int(time * self._fps)
 
     def from_frame_to_second(self, frame: int) -> float:
-        return frame / self._absolute_fps
+        return frame / self._fps
 
 
 FRAME_PARAMETER = FrameParameter()
