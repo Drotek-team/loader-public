@@ -87,9 +87,6 @@ class DroneUser(BaseModel):
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
 
-    def __iter__(self):
-        yield from self.drones_user
-
     def __getitem__(self, drone_user_index: int):
         return self.drones_user[drone_user_index]
 

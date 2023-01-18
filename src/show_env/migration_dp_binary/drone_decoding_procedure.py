@@ -23,7 +23,7 @@ def get_header_section_header(
         number_non_empty_events=header_data[2],
     )
 
-    section_headers = []
+    section_headers: List[SectionHeader] = []
     byte_begin_index = struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
     byte_step_index = struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
     for event_index in range(header.number_non_empty_events):
