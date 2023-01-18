@@ -3,9 +3,7 @@ from typing import Any, List
 import numpy as np
 import numpy.typing as npt
 
-from src.check.collision_check.show_simulation_collision_check_report import (
-    CollisionInfraction,
-)
+from ...report import CollisionInfraction
 
 ARBITRARY_DICHOTOMY_THRESHOLD = 400
 

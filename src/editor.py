@@ -5,7 +5,7 @@ from pydantic import StrictInt
 from .check.all_check_from_show_user_procedure import (
     apply_all_check_from_show_user_procedure,
 )
-from .check.show_check_report import ShowCheckReport
+from .report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ij.ij_to_sp_procedure import ij_to_sp_procedure
@@ -19,13 +19,9 @@ from .show_env.show_user.show_user import DroneUser, ShowUser
 
 def apply_export_procedure(
     show_user: ShowUser,
-) -> Tuple[IostarJson, ShowCheckReport]:
-    show_check_report = ShowCheckReport(len(show_user.drones_user))
-    apply_all_check_from_show_user_procedure(show_user, show_check_report)
-    return (
-        sp_to_ij_procedure(su_to_sp_procedure(show_user)),
-        show_check_report,
-    )
+) -> Tuple[IostarJson, Contenor]:
+    check_contenor = apply_all_check_from_show_user_procedure(show_user)
+    return (sp_to_ij_procedure(su_to_sp_procedure(show_user)), check_contenor)
 
 
 def create_show_user(drone_number: StrictInt) -> ShowUser:
@@ -62,6 +58,5 @@ def export_show_user_to_iostar_json_gcs_string(show_user: ShowUser) -> str:
 def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     """Check the validity of an iostar_json_gcs."""
     show_user = sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
-    show_check_report = ShowCheckReport(len(show_user.drones_user))
-    apply_all_check_from_show_user_procedure(show_user, show_check_report)
+    show_check_report = apply_all_check_from_show_user_procedure(show_user)
     return show_check_report.user_validation

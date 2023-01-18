@@ -6,7 +6,6 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
 )
 from ...show_env.show_user.show_user import *
 from .show_user_check_procedure import *
-from .show_user_check_report import *
 
 
 @pytest.fixture
@@ -29,10 +28,8 @@ def valid_drone_user() -> DroneUser:
 def test_valid_position_events_takeoff_duration_xyz_check(
     valid_drone_user: DroneUser,
 ):
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check_report = apply_takeoff_check(
         valid_drone_user,
-        takeoff_check_report,
     )
     assert takeoff_check_report.user_validation
 
@@ -61,13 +58,11 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
 def test_invalid_position_events_takeoff_duration_check(
     invalid_drone_user_takeoff_duration: DroneUser,
 ):
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check = apply_takeoff_check(
         invalid_drone_user_takeoff_duration,
-        takeoff_check_report,
     )
-    assert not (takeoff_check_report.takeoff_duration_check_report.user_validation)
-    assert takeoff_check_report.takeoff_xyz_check_report.user_validation
+    assert not (takeoff_check["Takeoff duration"].user_validation)
+    assert takeoff_check["Takeoff xyz"].user_validation
 
 
 Z_BIAS = 1e-2
@@ -93,26 +88,22 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
 def test_invalid_position_events_takeoff_xyz_check(
     invalid_drone_user_takeoff_xyz: DroneUser,
 ):
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check = apply_takeoff_check(
         invalid_drone_user_takeoff_xyz,
-        takeoff_check_report,
     )
-    assert takeoff_check_report.takeoff_duration_check_report.user_validation
-    assert not (takeoff_check_report.takeoff_xyz_check_report.user_validation)
+    assert takeoff_check["Takeoff duration"].user_validation
+    assert not (takeoff_check["Takeoff xyz"].user_validation)
 
 
 def test_empty_position_events():
     empty_position_events_drone_user = DroneUser(
         position_events=[], color_events=[], fire_events=[]
     )
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check = apply_takeoff_check(
         empty_position_events_drone_user,
-        takeoff_check_report,
     )
-    assert not (takeoff_check_report.takeoff_duration_check_report.user_validation)
-    assert not (takeoff_check_report.takeoff_xyz_check_report.user_validation)
+    assert not (takeoff_check["Takeoff duration"].user_validation)
+    assert not (takeoff_check["Takeoff xyz"].user_validation)
 
 
 def test_valid_one_position_events():
@@ -121,10 +112,8 @@ def test_valid_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check_report = apply_takeoff_check(
         one_position_events_drone_user,
-        takeoff_check_report,
     )
     assert takeoff_check_report.user_validation
 
@@ -135,13 +124,11 @@ def test_invalid_by_time_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check = apply_takeoff_check(
         one_position_events_drone_user,
-        takeoff_check_report,
     )
-    assert not (takeoff_check_report.takeoff_duration_check_report.user_validation)
-    assert takeoff_check_report.takeoff_xyz_check_report.user_validation
+    assert not (takeoff_check["Takeoff duration"].user_validation)
+    assert takeoff_check["Takeoff xyz"].user_validation
 
 
 def test_invalid_by_position_one_position_events():
@@ -150,13 +137,8 @@ def test_invalid_by_position_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check_report = TakeoffCheckReport()
-    apply_takeoff_check(
+    takeoff_check = apply_takeoff_check(
         one_position_events_drone_user,
-        takeoff_check_report,
     )
-    assert takeoff_check_report.takeoff_duration_check_report.user_validation
-    assert not (takeoff_check_report.takeoff_xyz_check_report.user_validation)
-
-
-# TODO: add the show user part to the test
+    assert takeoff_check["Takeoff duration"].user_validation
+    assert not (takeoff_check["Takeoff xyz"].user_validation)

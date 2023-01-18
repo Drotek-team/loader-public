@@ -9,9 +9,6 @@ from ...show_env.show_user.show_user import *
 from .show_trajectory_performance_check_procedure import (
     apply_show_trajectory_performance_check_procedure,
 )
-from .show_trajectory_performance_check_report import (
-    ShowTrajectoryPerformanceCheckReport,
-)
 
 EPSILON_DELTA = 1e-2
 
@@ -52,14 +49,12 @@ def valid_show_user() -> ShowUser:
 def test_valid_show_trajectory_performance(
     valid_show_user: ShowUser,
 ):
-    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-        valid_show_user.nb_drones
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            valid_show_user,
+        )
     )
-    apply_show_trajectory_performance_check_procedure(
-        valid_show_user,
-        show_trajectory_performance_check_report,
-    )
-    assert show_trajectory_performance_check_report.user_validation
+    assert show_trajectory_performance_contenor.user_validation
 
 
 @pytest.fixture
@@ -100,20 +95,17 @@ def invalid_show_user_horizontal_velocity() -> ShowUser:
 def test_invalid_show_user_horizontal_velocity(
     invalid_show_user_horizontal_velocity: ShowUser,
 ):
-    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-        invalid_show_user_horizontal_velocity.nb_drones
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            invalid_show_user_horizontal_velocity,
+        )
     )
-
-    apply_show_trajectory_performance_check_procedure(
-        invalid_show_user_horizontal_velocity,
-        show_trajectory_performance_check_report,
-    )
-    performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
-        0
-    ]
-    assert len(performance_infractions) >= 1
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation"]
+    assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
-        performance_infractions[0].display_message(0, " ")
+        performance_infractions["horizontal velocity"].display_message(0, " ")
         == "The performance horizontal velocity has the value: 6.24 (max: 6.0) at the frame 240"
     )
 
@@ -154,20 +146,17 @@ def invalid_show_user_vertical_position() -> ShowUser:
 def test_invalid_show_user_vertical_position(
     invalid_show_user_vertical_position: ShowUser,
 ):
-    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-        invalid_show_user_vertical_position.nb_drones
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            invalid_show_user_vertical_position,
+        )
     )
-
-    apply_show_trajectory_performance_check_procedure(
-        invalid_show_user_vertical_position,
-        show_trajectory_performance_check_report,
-    )
-    performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
-        0
-    ]
-    assert len(performance_infractions) >= 1
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation"]
+    assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
-        performance_infractions[0].display_message(0, " ")
+        performance_infractions["vertical position"].display_message(0, " ")
         == "The performance vertical position has the value: 0.99 (min: 1.0) at the frame 240"
     )
 
@@ -208,24 +197,20 @@ def invalid_show_user_velocity_up() -> ShowUser:
     return ShowUser(drones_user=[drone_user])
 
 
-# TODO: performance infraction should not have the specification in the name
 def test_invalid_show_user_velocity_up(
     invalid_show_user_velocity_up: ShowUser,
 ):
-    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-        invalid_show_user_velocity_up.nb_drones
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            invalid_show_user_velocity_up,
+        )
     )
-
-    apply_show_trajectory_performance_check_procedure(
-        invalid_show_user_velocity_up,
-        show_trajectory_performance_check_report,
-    )
-    performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
-        0
-    ]
-    assert len(performance_infractions) >= 1
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation"]
+    assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
-        performance_infractions[0].display_message(0, " ")
+        performance_infractions["up velocity"].display_message(0, " ")
         == "The performance up velocity has the value: 4.24 (max: 4.0) at the frame 240"
     )
 
@@ -269,20 +254,17 @@ def invalid_show_user_velocity_down() -> ShowUser:
 def test_invalid_show_user_velocity_down(
     invalid_show_user_velocity_down: ShowUser,
 ):
-    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-        invalid_show_user_velocity_down.nb_drones
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            invalid_show_user_velocity_down,
+        )
     )
-
-    apply_show_trajectory_performance_check_procedure(
-        invalid_show_user_velocity_down,
-        show_trajectory_performance_check_report,
-    )
-    performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
-        0
-    ]
-    assert len(performance_infractions) >= 1
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation"]
+    assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
-        performance_infractions[1].display_message(0, " ")
+        performance_infractions["down velocity"].display_message(0, " ")
         == "The performance down velocity has the value: 4.24 (max: 4.0) at the frame 240"
     )
 
@@ -326,19 +308,16 @@ def invalid_show_user_acceleration() -> ShowUser:
 def test_invalid_show_user_acceleration(
     invalid_show_user_velocity_down: ShowUser,
 ):
-    show_trajectory_performance_check_report = ShowTrajectoryPerformanceCheckReport(
-        invalid_show_user_velocity_down.nb_drones
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            invalid_show_user_velocity_down,
+        )
     )
-
-    apply_show_trajectory_performance_check_procedure(
-        invalid_show_user_velocity_down,
-        show_trajectory_performance_check_report,
-    )
-    performance_infractions = show_trajectory_performance_check_report.drones_trajectory_performance_check_report[
-        0
-    ]
-    assert len(performance_infractions) >= 1
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation"]
+    assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
-        performance_infractions[2].display_message(0, " ")
+        performance_infractions["acceleration"].display_message(0, " ")
         == "The performance acceleration has the value: 101.76 (max: 2.0) at the frame 240"
     )

@@ -1,55 +1,59 @@
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
+from ...report import Contenor, Displayer
 from ...show_env.show_user.show_user import *
-from .show_user_check_report import *
 
 
 def apply_takeoff_check(
     drone_user: DroneUser,
-    takeoff_check_report: TakeoffCheckReport,
-) -> None:
-    # TODO:place a test on that
+) -> Contenor:
+    takeoff_check_contenor = Contenor("Takeoff")
+    takeoff_duration_displayer = Displayer("Takeoff duration")
+    takeoff_xyz_displayer = Displayer("Takeoff xyz")
+    takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
+    takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
+
     if drone_user.nb_position_events == 0:
-        return
-    # TODO:place a test on that
+        return takeoff_check_contenor
     if drone_user.nb_position_events == 1:
         first_frame = drone_user.get_position_frame_by_index(0)
         first_position = drone_user.get_xyz_simulation_by_index(0)
         if first_frame == 0:
-            takeoff_check_report.takeoff_duration_check_report.validate()
+            takeoff_duration_displayer.validate()
         if first_position[2] == 0.0:
-            takeoff_check_report.takeoff_xyz_check_report.validate()
-    if drone_user.nb_position_events > 1:
-        first_time = drone_user.get_absolute_time_by_index(0)
-        second_time = drone_user.get_absolute_time_by_index(1)
-        first_position = drone_user.get_xyz_simulation_by_index(0)
-        second_position = drone_user.get_xyz_simulation_by_index(1)
-        if (second_time - first_time) == TAKEOFF_PARAMETER.takeoff_duration_second:
-            takeoff_check_report.takeoff_duration_check_report.validate()
-        if (
-            first_position[0] == second_position[0]
-            and first_position[1] == second_position[1]
-            and first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-            <= second_position[2]
-            and second_position[2]
-            <= first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
-        ):
-            takeoff_check_report.takeoff_xyz_check_report.validate()
+            takeoff_xyz_displayer.validate()
+        return takeoff_check_contenor
+    first_time = drone_user.get_absolute_time_by_index(0)
+    second_time = drone_user.get_absolute_time_by_index(1)
+    first_position = drone_user.get_xyz_simulation_by_index(0)
+    second_position = drone_user.get_xyz_simulation_by_index(1)
+    if (second_time - first_time) == TAKEOFF_PARAMETER.takeoff_duration_second:
+        takeoff_duration_displayer.validate()
+    if (
+        first_position[0] == second_position[0]
+        and first_position[1] == second_position[1]
+        and first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min
+        <= second_position[2]
+        and second_position[2]
+        <= first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
+    ):
+        takeoff_xyz_displayer.validate()
+    return takeoff_check_contenor
 
 
 def apply_drone_user_check_procedure(
     drone_user: DroneUser,
-    drone_user_check_report: DroneUserCheckReport,
-) -> None:
-    apply_takeoff_check(drone_user, drone_user_check_report.takeoff_check_report)
+) -> Contenor:
+    return apply_takeoff_check(drone_user)
 
 
 def apply_show_user_check_procedure(
     show_user: ShowUser,
-    show_user_check_report: ShowUserCheckReport,
-) -> None:
-    for drone_user, drone_user_check_report in zip(
-        show_user.drones_user, show_user_check_report.drones_user_check_report
-    ):
-        apply_drone_user_check_procedure(drone_user, drone_user_check_report)
+) -> Contenor:
+    show_user_contenor = Contenor("show user check procedure")
+    for drone_user in show_user.drones_user:
+        show_user_contenor.add_error_message(
+            apply_drone_user_check_procedure(drone_user)
+        )
+    return show_user_contenor

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List
+from dataclasses import dataclass
+from typing import Dict, Union
 
 
 class ErrorMessage(ABC):
@@ -16,15 +17,19 @@ class ErrorMessage(ABC):
 
 
 class Displayer(ErrorMessage):
-    def __init__(
-        self, name: str, *, validation: bool = False, annexe_message: str = ""
-    ):
+    def __init__(self, name: str, annexe_message: str = ""):
         self.name = name
-        self._validation = validation
+        self._validation = False
         self._annexe_message = annexe_message
 
     def __hash__(self) -> int:  # pyright: ignore
         return hash((self.name, self._annexe_message))
+
+    def __getitem__(self, displayer_name: str) -> "Displayer":
+        if self.name == displayer_name:
+            msg = f"the name should be {self.name}"
+            raise NameError(msg)
+        return self
 
     @property
     def user_validation(self) -> bool:
@@ -45,54 +50,86 @@ class Displayer(ErrorMessage):
         self._annexe_message += annexe_message
 
 
-class ErrorMessageList(ErrorMessage):
-    def __init__(self, name: str, error_messages: List[ErrorMessage]):
-        self.name = name
-        self._error_messages = error_messages
+@dataclass(frozen=True)
+class PerformanceInfraction(ErrorMessage):
+    name: str
+    frame: int
+    value: float
+    threshold: float
+    metric_convention: bool
 
-    def __iter__(self):
-        yield from self._error_messages
-
-    def __getitem__(self, error_message_index: int) -> ErrorMessage:
-        return self._error_messages[error_message_index]
-
-    def __len__(self) -> int:
-        return len(self._error_messages)
-
-    def add_error_message(self, error_message: ErrorMessage) -> None:
-        self._error_messages.append(error_message)
-
-    def add_error_messages(self, error_messages: List[ErrorMessage]) -> None:
-        self._error_messages.extend(error_messages)
+    def __getitem__(self, displayer_name: str) -> "PerformanceInfraction":
+        if self.name == displayer_name:
+            msg = f"the name should be {self.name}"
+            raise NameError(msg)
+        return self
 
     @property
     def user_validation(self) -> bool:
-        return all(
-            error_message.user_validation for error_message in self._error_messages
-        )
+        return False
 
     def display_message(self, indentation_level: int, indentation_type: str) -> str:
-        if self.user_validation:
-            return ""
-        initial_message = (
-            f"{indentation_level * indentation_type}[Error Message List] {self.name} \n"
+        metric_convention_name = "max" if self.metric_convention else "min"
+        return (
+            f"{indentation_level * indentation_type}The performance {self.name} has the value: {self.value:.2f}"
+            f" ({metric_convention_name}: {self.threshold}) at the frame {self.frame}"
         )
-        list_messages = "".join(
-            [
-                error_message.display_message(indentation_level + 1, indentation_type)
-                for error_message in self._error_messages
-            ]
+
+
+@dataclass(frozen=True)
+class CollisionInfraction(ErrorMessage):
+    name: str
+    drone_index_1: int
+    drone_index_2: int
+    distance: float
+    in_air: bool
+
+    def __getitem__(self, displayer_name: str) -> "CollisionInfraction":
+        if self.name == displayer_name:
+            msg = f"the name should be {self.name}"
+            raise NameError(msg)
+        return self
+
+    @property
+    def user_validation(self) -> bool:
+        return False
+
+    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+        return (
+            f"{indentation_level*indentation_type}Collision between drone {self.drone_index_1} and drone {self.drone_index_2} "
+            f"{'in air' if self.in_air else 'on ground'} with a distance of {self.distance}"
         )
-        return initial_message + list_messages
 
 
 class Contenor(ErrorMessage):
+    def __init__(self, name: str):
+        self.name = name
+        self._error_messages: Dict[
+            str,
+            Union["Contenor", Displayer, PerformanceInfraction, CollisionInfraction],
+        ] = {}
+
+    def add_error_message(
+        self,
+        error_message: Union[
+            "Contenor", Displayer, PerformanceInfraction, CollisionInfraction
+        ],
+    ) -> None:
+        self._error_messages[error_message.name] = error_message
+
+    def __getitem__(
+        self, error_message_name: str
+    ) -> Union["Contenor", Displayer, PerformanceInfraction, CollisionInfraction]:
+        if error_message_name not in self._error_messages:
+            msg = f"the name should be {self._error_messages.keys()}"
+            raise KeyError(msg)
+        return self._error_messages[error_message_name]
+
     @property
     def user_validation(self) -> bool:
         return all(
             error_message.user_validation
-            for error_message in self.__dict__.values()
-            if isinstance(error_message, ErrorMessage)
+            for error_message in self._error_messages.values()
         )
 
     def display_message(self, indentation_level: int, indentation_type: str) -> str:
@@ -103,9 +140,8 @@ class Contenor(ErrorMessage):
         )
         children_message = "".join(
             [
-                attribute.display_message(indentation_level + 1, indentation_type)
-                for attribute in self.__dict__.values()
-                if isinstance(attribute, ErrorMessage)
+                error_message.display_message(indentation_level + 1, indentation_type)
+                for error_message in self._error_messages.values()
             ]
         )
         return initial_message + children_message

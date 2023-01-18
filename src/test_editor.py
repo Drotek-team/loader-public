@@ -32,7 +32,6 @@ def test_export_procedure():
         )
     )
     assert show_check_report.user_validation
-    assert show_check_report.user_validation
 
 
 @pytest.fixture

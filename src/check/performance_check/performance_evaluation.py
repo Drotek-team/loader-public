@@ -9,7 +9,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from .show_trajectory_performance_check_report import *
+from ...report import Contenor, PerformanceInfraction
 
 
 class Metric(Enum):
@@ -121,11 +121,11 @@ def performance_evaluation(
     position: npt.NDArray[np.float64],
     velocity: npt.NDArray[np.float64],
     acceleration: npt.NDArray[np.float64],
-    drone_trajectory_performance_check: ErrorMessageList,
-) -> None:
+) -> Contenor:
+    performance_evaluation_contenor = Contenor("Performance evaluation")
     for metric in Metric:
         if not (metric.validation(position, velocity, acceleration)):
-            drone_trajectory_performance_check.add_error_message(
+            performance_evaluation_contenor.add_error_message(
                 PerformanceInfraction(
                     name=metric.value,
                     frame=frame,
@@ -134,3 +134,4 @@ def performance_evaluation(
                     metric_convention=metric.range_.standard_convention,
                 )
             )
+    return performance_evaluation_contenor

@@ -4,9 +4,8 @@ from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PA
 from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from ....show_env.show_px4.drone_px4.events.color_events import ColorEvent, ColorEvents
+from ....show_env.show_px4.drone_px4.events.color_events import ColorEvents
 from .events_format_check_procedure import color_events_check
-from .events_format_check_report import ColorEventsCheckReport
 
 
 @pytest.fixture
@@ -28,24 +27,16 @@ def valid_color_events():
     return color_events
 
 
-@pytest.fixture
-def color_events_check_report():
-    return ColorEventsCheckReport()
-
-
 def test_valid_color_events_check(
     valid_color_events: ColorEvents,
-    color_events_check_report: ColorEventsCheckReport,
 ):
     color_events_check(
         valid_color_events,
-        color_events_check_report,
     )
 
 
 def test_invalid_color_events_frame_increasing_check(
     valid_color_events: ColorEvents,
-    color_events_check_report: ColorEventsCheckReport,
 ):
     valid_color_events.add_timecode_rgbw(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
@@ -53,44 +44,30 @@ def test_invalid_color_events_frame_increasing_check(
         ),
         (0, 0, 0, 0),
     )
-    color_events_check(
+    color_events_contenor = color_events_check(
         valid_color_events,
-        color_events_check_report,
     )
-    assert not (
-        color_events_check_report.frame_check_report.increasing_frame_check_report.user_validation
-    )
+    assert not color_events_contenor["Frame check"]["Increasing"].user_validation
 
 
 def test_invalid_color_events_frame_first_frame_check(
     valid_color_events: ColorEvents,
-    color_events_check_report: ColorEventsCheckReport,
 ):
-    valid_color_events._events.insert(
-        0,
-        ColorEvent(
-            timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-                JSON_BINARY_PARAMETER.show_duration_min_second
-            )
-            - 1,
-            r=0,
-            g=0,
-            b=0,
-            w=0,
-        ),
+    valid_color_events.add_timecode_rgbw(
+        timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+            JSON_BINARY_PARAMETER.show_duration_min_second
+        )
+        - 1,
+        rgbw=(0, 0, 0, 0),
     )
-    color_events_check(
+    color_events_contenor = color_events_check(
         valid_color_events,
-        color_events_check_report,
     )
-    assert not (
-        color_events_check_report.frame_check_report.frame_value_check_report.user_validation
-    )
+    assert not (color_events_contenor["Frame check"]["Value"].user_validation)
 
 
 def test_invalid_color_events_rgbw_value_check(
     valid_color_events: ColorEvents,
-    color_events_check_report: ColorEventsCheckReport,
 ):
     valid_color_events.add_timecode_rgbw(
         FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
@@ -98,10 +75,7 @@ def test_invalid_color_events_rgbw_value_check(
         ),
         (JSON_BINARY_PARAMETER.color_value_max + 1, 0, 0, 0),
     )
-    color_events_check(
+    color_events_contenor = color_events_check(
         valid_color_events,
-        color_events_check_report,
     )
-    assert not (
-        color_events_check_report.rgbw_check_report.rgbw_value_check_report.user_validation
-    )
+    assert not (color_events_contenor["Rgbw check"]["Value"].user_validation)

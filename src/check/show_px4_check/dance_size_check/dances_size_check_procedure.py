@@ -8,7 +8,8 @@ from ....show_env.show_px4.drone_px4.drone_px4 import DronePx4
 
 def apply_dance_size_check_procedure(
     drone_px4: DronePx4,
-    dance_size_check_report: Displayer,
-) -> None:
+) -> Displayer:
+    dance_size_check = Displayer("Dance size")
     if get_dance_size(drone_px4) < JSON_BINARY_PARAMETER.dance_size_max:
-        dance_size_check_report.validate()
+        dance_size_check.validate()
+    return dance_size_check
