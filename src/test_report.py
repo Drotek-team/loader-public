@@ -37,9 +37,9 @@ def test_contenor_standard_case():
     dummy_contenor["two"]._validation = True  # type:ignore[for the sack of the test]
     assert dummy_contenor.display_message(0, " ") == a + d + e + f
     assert not (dummy_contenor.user_validation)
-    dummy_contenor["Dummier contenor"]["three"]._validation = True  # type: ignore[this is just a test]
+    dummy_contenor["Dummier contenor"]["three"]._validation = True  # type: ignore[test env]
     assert dummy_contenor.display_message(0, " ") == a + d + f
     assert not (dummy_contenor.user_validation)
-    dummy_contenor["Dummier contenor"]["four"]._validation = True  # type: ignore[this is just a test]
+    dummy_contenor["Dummier contenor"]["four"]._validation = True  # type: ignore[test env]
     assert dummy_contenor.display_message(0, " ") == ""
     assert dummy_contenor.user_validation
