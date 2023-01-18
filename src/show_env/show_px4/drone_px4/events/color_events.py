@@ -23,13 +23,12 @@ class ColorEvent(Event):
 
 
 class ColorEvents(Events):
-    format_ = ">IBBBB"
-    id_ = EVENTS_ID[EventsType.color]
-
     def __init__(self):
+        self.id_ = EVENTS_ID[EventsType.color]
+        self.format_ = ">IBBBB"
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
-        self._events: List[Event] = []
+        self._events = []
 
     def add_timecode_rgbw(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
         self._events.append(

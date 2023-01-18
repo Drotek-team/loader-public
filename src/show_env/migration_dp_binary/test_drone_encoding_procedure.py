@@ -5,9 +5,9 @@ from src.show_env.show_px4.drone_px4.drone_px4 import *
 from .drone_encoding_procedure import get_dance_size
 
 DANCE_BASIC_SIZE = 34
-POSITION_EVENT_SIZE = struct.calcsize(PositionEvents.format_)
-COLOR_EVENT_SIZE = struct.calcsize(ColorEvents.format_)
-FIRE_EVENT_SIZE = struct.calcsize(FireEvents.format_)
+POSITION_EVENT_SIZE = struct.calcsize(PositionEvents().format_)
+COLOR_EVENT_SIZE = struct.calcsize(ColorEvents().format_)
+FIRE_EVENT_SIZE = struct.calcsize(FireEvents().format_)
 
 
 def test_get_dance_size():

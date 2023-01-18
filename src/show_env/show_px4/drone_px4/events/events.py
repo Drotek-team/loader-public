@@ -12,7 +12,7 @@ class Event(ABC):
         pass
 
 
-class Events:
+class Events(ABC):
     format_: str
     id_: int
     _events: List[Event]
@@ -21,7 +21,6 @@ class Events:
     def add_data(self, data: List[Any]) -> None:
         pass
 
-    # TODO: test these methods, this implies that the structure of the init is different: need to do a super()
     def __iter__(self):
         yield from self._events
 

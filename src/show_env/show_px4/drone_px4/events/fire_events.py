@@ -21,13 +21,12 @@ class FireEvent(Event):
 
 
 class FireEvents(Events):
-    format_ = ">IBB"
-    id_ = EVENTS_ID[EventsType.fire]
-
     def __init__(self):
+        self.format_ = ">IBB"
+        self.id_ = EVENTS_ID[EventsType.fire]
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
-        self._events: List[Event] = []
+        self._events = []
 
     def add_timecode_chanel_duration(
         self, timecode: int, chanel: int, duration: int
