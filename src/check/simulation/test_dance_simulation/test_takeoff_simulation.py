@@ -12,7 +12,7 @@ from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
 from ....show_env.show_user.show_user import PositionEventUser
 
 FRAME_START = 0
-FRAME_END = FRAME_START + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+FRAME_END = FRAME_START + FRAME_PARAMETER.from_second_to_frame(
     TAKEOFF_PARAMETER.takeoff_duration_second
 )
 POSITION = (0.0, 0.0, 0.0)
@@ -45,14 +45,14 @@ def test_takeoff_simulation(
     first_theorical_positions = linear_interpolation(
         first_position_event.xyz,
         second_position_event.xyz,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_elevation_duration_second
         ),
     )
     second_theorical_positions = linear_interpolation(
         second_position_event.xyz,
         second_position_event.xyz,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
         )
         - 1,

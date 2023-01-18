@@ -12,14 +12,14 @@ from .events_format_check_procedure import fire_events_check
 def valid_fire_events():
     fire_events = FireEvents()
     fire_events.add_timecode_chanel_duration(
-        timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        timecode=FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=0,
         duration=1000,
     )
     fire_events.add_timecode_chanel_duration(
-        timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        timecode=FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         + 1,
@@ -27,7 +27,7 @@ def valid_fire_events():
         duration=1000,
     )
     fire_events.add_timecode_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         + 2,
@@ -50,7 +50,7 @@ def test_invalid_fire_events_frame_first_frame_check(
     valid_fire_events: FireEvents,
 ):
     valid_fire_events.add_timecode_chanel_duration(
-        timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        timecode=FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         - 1,
@@ -67,7 +67,7 @@ def test_invalid_fire_events_chanel_value_check(
     valid_fire_events: FireEvents,
 ):
     valid_fire_events.add_timecode_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
         JSON_BINARY_PARAMETER.fire_chanel_value_max + 1,
@@ -83,7 +83,7 @@ def test_invalid_fire_events_duration_value_check(
     valid_fire_events: FireEvents,
 ):
     valid_fire_events.add_timecode_chanel_duration(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
         0,

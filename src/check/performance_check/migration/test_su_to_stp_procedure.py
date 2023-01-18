@@ -15,13 +15,13 @@ def valid_show_user() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -47,7 +47,7 @@ def test_su_to_stp_procedure(valid_show_user: ShowUser):
     )
     assert (
         first_trajectory_performance.frame + 1
-        == FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        == FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_duration_second
         )
     )
@@ -61,11 +61,8 @@ def test_su_to_stp_procedure(valid_show_user: ShowUser):
             )
         ),
     )
-    assert (
-        second_trajectory_performance.frame
-        == FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
-            TAKEOFF_PARAMETER.takeoff_duration_second
-        )
+    assert second_trajectory_performance.frame == FRAME_PARAMETER.from_second_to_frame(
+        TAKEOFF_PARAMETER.takeoff_duration_second
     )
     assert np.array_equal(
         second_trajectory_performance.position,

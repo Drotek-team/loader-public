@@ -12,13 +12,13 @@ from .events_format_check_procedure import color_events_check
 def valid_color_events():
     color_events = ColorEvents()
     color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0, 0),
     )
     color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         + 1,
@@ -39,7 +39,7 @@ def test_invalid_color_events_frame_increasing_check(
     valid_color_events: ColorEvents,
 ):
     valid_color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (0, 0, 0, 0),
@@ -54,7 +54,7 @@ def test_invalid_color_events_frame_first_frame_check(
     valid_color_events: ColorEvents,
 ):
     valid_color_events.add_timecode_rgbw(
-        timecode=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        timecode=FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         )
         - 1,
@@ -70,7 +70,7 @@ def test_invalid_color_events_rgbw_value_check(
     valid_color_events: ColorEvents,
 ):
     valid_color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         (JSON_BINARY_PARAMETER.color_value_max + 1, 0, 0, 0),

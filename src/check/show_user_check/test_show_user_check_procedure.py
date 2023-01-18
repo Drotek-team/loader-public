@@ -14,7 +14,7 @@ def valid_drone_user() -> DroneUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
@@ -43,7 +43,7 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + FRAME_BIAS,
@@ -74,7 +74,7 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_max + Z_BIAS),

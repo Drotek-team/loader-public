@@ -32,12 +32,11 @@ class JsonBinaryParameter:
 
     def from_user_frame_to_px4_timecode(self, user_frame: int) -> int:
         return int(
-            SECOND_TO_TIMECODE_FACTOR
-            * FRAME_PARAMETER.from_absolute_frame_to_absolute_time(user_frame)
+            SECOND_TO_TIMECODE_FACTOR * FRAME_PARAMETER.from_frame_to_second(user_frame)
         )
 
     def from_px4_timecode_to_user_frame(self, px4_timecode: int) -> int:
-        return FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        return FRAME_PARAMETER.from_second_to_frame(
             TIMECODE_TO_SECOND_FACTOR * px4_timecode
         )
 

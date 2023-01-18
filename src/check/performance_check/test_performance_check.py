@@ -19,7 +19,7 @@ def valid_show_user() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(
@@ -29,7 +29,7 @@ def valid_show_user() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -63,7 +63,7 @@ def invalid_show_user_horizontal_velocity() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(
@@ -73,12 +73,12 @@ def invalid_show_user_horizontal_velocity() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
                 xyz=(
-                    FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    FRAME_PARAMETER.from_frame_to_second(1)
                     * IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
                     + EPSILON_DELTA,
                     0.0,
@@ -116,7 +116,7 @@ def invalid_show_user_vertical_position() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(
@@ -126,7 +126,7 @@ def invalid_show_user_vertical_position() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -167,7 +167,7 @@ def invalid_show_user_velocity_up() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(
@@ -177,7 +177,7 @@ def invalid_show_user_velocity_up() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -185,7 +185,7 @@ def invalid_show_user_velocity_up() -> ShowUser:
                     0.0,
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    + FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    + FRAME_PARAMETER.from_frame_to_second(1)
                     * IOSTAR_PHYSIC_PARAMETER.velocity_up_max
                     + EPSILON_DELTA,
                 ),
@@ -221,7 +221,7 @@ def invalid_show_user_velocity_down() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(
@@ -231,7 +231,7 @@ def invalid_show_user_velocity_down() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -239,7 +239,7 @@ def invalid_show_user_velocity_down() -> ShowUser:
                     0.0,
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    - FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    - FRAME_PARAMETER.from_frame_to_second(1)
                     * IOSTAR_PHYSIC_PARAMETER.velocity_down_max
                     - EPSILON_DELTA,
                 ),
@@ -275,7 +275,7 @@ def invalid_show_user_acceleration() -> ShowUser:
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(
@@ -285,7 +285,7 @@ def invalid_show_user_acceleration() -> ShowUser:
                 ),
             ),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
                 + 1,
@@ -294,7 +294,7 @@ def invalid_show_user_acceleration() -> ShowUser:
                     0.0,
                     TAKEOFF_PARAMETER.takeoff_altitude_meter_min
                     - IOSTAR_PHYSIC_PARAMETER.velocity_down_max
-                    * FRAME_PARAMETER.from_absolute_frame_to_absolute_time(1)
+                    * FRAME_PARAMETER.from_frame_to_second(1)
                     - EPSILON_DELTA,
                 ),
             ),

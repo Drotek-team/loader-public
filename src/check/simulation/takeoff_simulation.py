@@ -21,7 +21,7 @@ def generate_takeoff_first_part(
     return linear_interpolation(
         takeoff_start_position,
         takeoff_end_position,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_elevation_duration_second
         ),
     )
@@ -38,7 +38,7 @@ def generate_takeoff_second_part(
     return linear_interpolation(
         takeoff_end_position,
         takeoff_end_position,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
         )
         - 1,

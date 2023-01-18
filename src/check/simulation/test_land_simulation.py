@@ -68,7 +68,7 @@ def test_land_simulation_first_case(
     theorical_position = linear_interpolation(
         land_middle_position,
         land_end_position,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             LAND_PARAMETER.get_second_land_second_delta(
                 valid_position_event_user_first_case.xyz[2]
             )
@@ -119,14 +119,14 @@ def test_land_simulation_second_case(
     first_theorical_position = linear_interpolation(
         land_first_position,
         land_middle_position,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             LAND_PARAMETER.get_first_land_second_delta(land_first_position[2])
         ),
     )
     second_theorical_position = linear_interpolation(
         land_middle_position,
         land_end_position,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             LAND_PARAMETER.get_second_land_second_delta(land_middle_position[2])
         ),
     )

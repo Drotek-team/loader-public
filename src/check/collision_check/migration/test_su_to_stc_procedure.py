@@ -28,7 +28,7 @@ def valid_show_user():
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
-                frame=FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),

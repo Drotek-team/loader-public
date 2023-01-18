@@ -24,7 +24,7 @@ def get_trajectory_performance_info_from_simulation_infos(
         simulation_info.position for simulation_info in simulation_infos
     ]
     velocities = [
-        FRAME_PARAMETER.absolute_fps
+        FRAME_PARAMETER._absolute_fps
         * (
             positions[position_index]
             - positions[position_index - VELOCITY_ESTIMATION_INDEX]
@@ -32,8 +32,8 @@ def get_trajectory_performance_info_from_simulation_infos(
         for position_index in range(len(positions))
     ]
     accelerations: List[npt.NDArray[np.float64]] = [
-        FRAME_PARAMETER.absolute_fps
-        * FRAME_PARAMETER.absolute_fps
+        FRAME_PARAMETER._absolute_fps
+        * FRAME_PARAMETER._absolute_fps
         * (
             positions[position_index]
             - 2 * positions[position_index - VELOCITY_ESTIMATION_INDEX]

@@ -43,10 +43,10 @@ def frame_check(
     frames = [event.timecode for event in events]
     if check_int_size_list(
         frames,
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
-        FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+        FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_max_second
         ),
     ):

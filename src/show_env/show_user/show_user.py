@@ -13,7 +13,7 @@ class PositionEventUser(BaseModel):
 
     @property
     def absolute_time(self) -> float:
-        return FRAME_PARAMETER.from_absolute_frame_to_absolute_time(self.frame)
+        return FRAME_PARAMETER.from_frame_to_second(self.frame)
 
 
 class ColorEventUser(BaseModel):
@@ -22,7 +22,7 @@ class ColorEventUser(BaseModel):
 
     @property
     def absolute_time(self) -> float:
-        return FRAME_PARAMETER.from_absolute_frame_to_absolute_time(self.frame)
+        return FRAME_PARAMETER.from_frame_to_second(self.frame)
 
 
 class FireEventUser(BaseModel):
@@ -32,7 +32,7 @@ class FireEventUser(BaseModel):
 
     @property
     def absolute_time(self) -> float:
-        return FRAME_PARAMETER.from_absolute_frame_to_absolute_time(self.frame)
+        return FRAME_PARAMETER.from_frame_to_second(self.frame)
 
 
 class DroneUser(BaseModel):
@@ -104,7 +104,7 @@ class ShowUser(BaseModel):
         return max(
             [
                 drone_user.last_frame
-                + FRAME_PARAMETER.from_absolute_time_to_absolute_frame(
+                + FRAME_PARAMETER.from_second_to_frame(
                     LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
                 )
                 for drone_user in self.drones_user
