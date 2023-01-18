@@ -20,6 +20,7 @@ ACCELERATION_ESTIMATION_INDEX = 2
 def get_trajectory_performance_info_from_simulation_infos(
     simulation_infos: List[SimulationInfo],
 ) -> List[TrajectoryPerformanceInfo]:
+    # TODO: what the hell is this ?
     positions = [simulation_infos[0].position, simulation_infos[0].position] + [
         simulation_info.position for simulation_info in simulation_infos
     ]

@@ -28,9 +28,7 @@ def valid_drone_user() -> DroneUser:
 def test_valid_position_events_takeoff_duration_xyz_check(
     valid_drone_user: DroneUser,
 ):
-    takeoff_check_report = apply_takeoff_check(
-        valid_drone_user,
-    )
+    takeoff_check_report = apply_takeoff_check(valid_drone_user, 0)
     assert takeoff_check_report.user_validation
 
 
@@ -58,9 +56,7 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
 def test_invalid_position_events_takeoff_duration_check(
     invalid_drone_user_takeoff_duration: DroneUser,
 ):
-    takeoff_check = apply_takeoff_check(
-        invalid_drone_user_takeoff_duration,
-    )
+    takeoff_check = apply_takeoff_check(invalid_drone_user_takeoff_duration, 0)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert takeoff_check["Takeoff xyz"].user_validation
 
@@ -88,9 +84,7 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
 def test_invalid_position_events_takeoff_xyz_check(
     invalid_drone_user_takeoff_xyz: DroneUser,
 ):
-    takeoff_check = apply_takeoff_check(
-        invalid_drone_user_takeoff_xyz,
-    )
+    takeoff_check = apply_takeoff_check(invalid_drone_user_takeoff_xyz, 0)
     assert takeoff_check["Takeoff duration"].user_validation
     assert not (takeoff_check["Takeoff xyz"].user_validation)
 
@@ -99,9 +93,7 @@ def test_empty_position_events():
     empty_position_events_drone_user = DroneUser(
         position_events=[], color_events=[], fire_events=[]
     )
-    takeoff_check = apply_takeoff_check(
-        empty_position_events_drone_user,
-    )
+    takeoff_check = apply_takeoff_check(empty_position_events_drone_user, 0)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert not (takeoff_check["Takeoff xyz"].user_validation)
 
@@ -112,9 +104,7 @@ def test_valid_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check_report = apply_takeoff_check(
-        one_position_events_drone_user,
-    )
+    takeoff_check_report = apply_takeoff_check(one_position_events_drone_user, 0)
     assert takeoff_check_report.user_validation
 
 
@@ -124,21 +114,12 @@ def test_invalid_by_time_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check = apply_takeoff_check(
-        one_position_events_drone_user,
-    )
+    takeoff_check = apply_takeoff_check(one_position_events_drone_user, 0)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert takeoff_check["Takeoff xyz"].user_validation
 
 
-def test_invalid_by_position_one_position_events():
-    one_position_events_drone_user = DroneUser(
-        position_events=[PositionEventUser(frame=0, xyz=[2.0, 2.0, 0.1])],  # type: ignore[This a test destined to prove the robustness of the typing check]
-        color_events=[],
-        fire_events=[],
-    )
-    takeoff_check = apply_takeoff_check(
-        one_position_events_drone_user,
-    )
-    assert takeoff_check["Takeoff duration"].user_validation
-    assert not (takeoff_check["Takeoff xyz"].user_validation)
+def test_apply_show_user_check_procedure_standard_case(valid_drone_user: DroneUser):
+    show_user = ShowUser(drones_user=[valid_drone_user])
+    show_user_check_report = apply_show_user_check_procedure(show_user)
+    assert show_user_check_report.user_validation

@@ -25,7 +25,6 @@ def apply_drone_trajectory_performance_check_procedure(
     return drone_trajectory_performance_check_report
 
 
-# TODO: place a test on it
 def apply_show_trajectory_performance_check_procedure(
     show_user: ShowUser,
 ) -> Contenor:

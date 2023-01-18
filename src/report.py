@@ -115,6 +115,9 @@ class Contenor(ErrorMessage):
             "Contenor", Displayer, PerformanceInfraction, CollisionInfraction
         ],
     ) -> None:
+        if error_message.name in self._error_messages:
+            msg = f"{error_message.name} already exist in {self._error_messages.keys()}"
+            raise NameError(msg)
         self._error_messages[error_message.name] = error_message
 
     def __getitem__(

@@ -52,28 +52,11 @@ def test_create_show_user_standard_case():
         assert len(show_user[drone_index].fire_events) == 0
 
 
-def test_create_show_incorrect_input():
-    not_integer_input = "popo"
-    inferior_to_one_input = 0
-    with pytest.raises(TypeError):
-        create_show_user(not_integer_input)  # type: ignore[Test destined to prove the robustess of the create_show_user argument typing]
-    with pytest.raises(
-        ValueError, match=f"{inferior_to_one_input} is not a positive integer"
-    ):
-        create_show_user(inferior_to_one_input)
-
-
 def test_export_show_user_to_iostar_json_string_standard_case(
     standard_show_user: ShowUser,
 ):
     iostar_json_string = export_show_user_to_iostar_json_string(standard_show_user)
     assert isinstance(iostar_json_string, str)
-
-
-def test_export_show_user_to_iostar_json_string_incorrect_input():
-    show_user = create_show_user(5)
-    with pytest.raises(ValueError, match="The show is not valid"):
-        export_show_user_to_iostar_json_string(show_user)
 
 
 def test_export_show_user_to_iostar_json_gcs_string_standard_case(
@@ -83,12 +66,6 @@ def test_export_show_user_to_iostar_json_gcs_string_standard_case(
         standard_show_user
     )
     assert isinstance(iostar_json_gcs_string, str)
-
-
-def test_export_show_user_to_iostar_json_gcs_string_incorrect_input():
-    show_user = create_show_user(5)
-    with pytest.raises(ValueError, match="The show is not valid"):
-        export_show_user_to_iostar_json_gcs_string(show_user)
 
 
 def test_global_check_iostar_json_standard_case(

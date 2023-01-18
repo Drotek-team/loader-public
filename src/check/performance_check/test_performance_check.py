@@ -102,7 +102,7 @@ def test_invalid_show_user_horizontal_velocity(
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation"]
+    ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
         performance_infractions["horizontal velocity"].display_message(0, " ")
@@ -153,7 +153,7 @@ def test_invalid_show_user_vertical_position(
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation"]
+    ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
         performance_infractions["vertical position"].display_message(0, " ")
@@ -207,7 +207,7 @@ def test_invalid_show_user_velocity_up(
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation"]
+    ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
         performance_infractions["up velocity"].display_message(0, " ")
@@ -261,7 +261,7 @@ def test_invalid_show_user_velocity_down(
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation"]
+    ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
         performance_infractions["down velocity"].display_message(0, " ")
@@ -315,7 +315,7 @@ def test_invalid_show_user_acceleration(
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation"]
+    ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[for the sack of the test]
     assert (
         performance_infractions["acceleration"].display_message(0, " ")

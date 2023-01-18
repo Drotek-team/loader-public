@@ -122,7 +122,9 @@ def performance_evaluation(
     velocity: npt.NDArray[np.float64],
     acceleration: npt.NDArray[np.float64],
 ) -> Contenor:
-    performance_evaluation_contenor = Contenor("Performance evaluation")
+    performance_evaluation_contenor = Contenor(
+        f"Performance evaluation at frame {frame}"
+    )
     for metric in Metric:
         if not (metric.validation(position, velocity, acceleration)):
             performance_evaluation_contenor.add_error_message(

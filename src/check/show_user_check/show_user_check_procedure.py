@@ -5,10 +5,8 @@ from ...report import Contenor, Displayer
 from ...show_env.show_user.show_user import *
 
 
-def apply_takeoff_check(
-    drone_user: DroneUser,
-) -> Contenor:
-    takeoff_check_contenor = Contenor("Takeoff")
+def apply_takeoff_check(drone_user: DroneUser, drone_index: int) -> Contenor:
+    takeoff_check_contenor = Contenor(f"Drone {drone_index} Takeoff")
     takeoff_duration_displayer = Displayer("Takeoff duration")
     takeoff_xyz_displayer = Displayer("Takeoff xyz")
     takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
@@ -42,18 +40,20 @@ def apply_takeoff_check(
     return takeoff_check_contenor
 
 
+# Not really a usefull function but can be used in case there is more check to the drone user
 def apply_drone_user_check_procedure(
     drone_user: DroneUser,
+    drone_index: int,
 ) -> Contenor:
-    return apply_takeoff_check(drone_user)
+    return apply_takeoff_check(drone_user, drone_index)
 
 
 def apply_show_user_check_procedure(
     show_user: ShowUser,
 ) -> Contenor:
     show_user_contenor = Contenor("show user check procedure")
-    for drone_user in show_user.drones_user:
+    for drone_index, drone_user in enumerate(show_user.drones_user):
         show_user_contenor.add_error_message(
-            apply_drone_user_check_procedure(drone_user)
+            apply_drone_user_check_procedure(drone_user, drone_index)
         )
     return show_user_contenor

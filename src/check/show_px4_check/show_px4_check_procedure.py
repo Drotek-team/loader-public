@@ -9,7 +9,6 @@ from .events_format_check.events_format_check_procedure import (
 )
 
 
-# TODO: I mean wtf there is not test for this ???
 def apply_show_px4_check_procedure(show_user: ShowUser) -> Contenor:
     show_px4_check_contenor = Contenor("show px4 check procedure")
     show_px4 = su_to_sp_procedure(

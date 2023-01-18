@@ -37,7 +37,8 @@ def get_collision_infractions(
     ]
     return [
         CollisionInfraction(
-            name="Collision Infraction",
+            name=f"Collision Infraction between drone :{int(local_drone_indices[endangered_couples_distance_matrix_index // nb_drones_local])} "
+            f"and drone {int(local_drone_indices[endangered_couples_distance_matrix_index % nb_drones_local])}",
             drone_index_1=int(
                 local_drone_indices[
                     endangered_couples_distance_matrix_index // nb_drones_local

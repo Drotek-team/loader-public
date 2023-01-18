@@ -59,23 +59,22 @@ def fire_events_check(
 
 
 def apply_events_format_check_procedure(
-    drone: DronePx4,
+    drone_px4: DronePx4,
 ) -> Contenor:
-    events_format_contenor = Contenor("events_format")
+    events_format_contenor = Contenor(f"Drone {drone_px4.index} events format")
     events_format_contenor.add_error_message(
         position_events_check(
-            drone.position_events,
+            drone_px4.position_events,
         )
     )
     events_format_contenor.add_error_message(
         color_events_check(
-            drone.color_events,
+            drone_px4.color_events,
         )
     )
     events_format_contenor.add_error_message(
         fire_events_check(
-            drone.fire_events,
+            drone_px4.fire_events,
         )
     )
-    return events_format_contenor
     return events_format_contenor

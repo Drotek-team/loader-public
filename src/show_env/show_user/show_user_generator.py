@@ -6,12 +6,12 @@ from .show_user import ColorEventUser, DroneUser, PositionEventUser, ShowUser
 
 
 def get_valid_show_user(
-    nb_x: int,
-    nb_y: int,
-    nb_drone_per_family: int,
-    step_takeoff: float,
-    angle_takeoff: int,
-    show_duration_absolute_time: float,
+    nb_x: int = 1,
+    nb_y: int = 1,
+    nb_drone_per_family: int = 1,
+    step_takeoff: float = 0,
+    angle_takeoff: int = 0,
+    show_duration_absolute_time: float = 30.0,
 ) -> ShowUser:
     index_bias = 1.5
     valid_drones_user = [
