@@ -99,17 +99,15 @@ class ShowUser(BaseModel):
         return len(self.drones_user)
 
     @property
-    def get_last_frame(
+    def last_frame(
         self,
     ) -> int:
         return max(
-            [
-                drone_user.last_frame
-                + FRAME_PARAMETER.from_second_to_frame(
-                    LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
-                )
-                for drone_user in self.drones_user
-            ]
+            drone_user.last_frame
+            + FRAME_PARAMETER.from_second_to_frame(
+                LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
+            )
+            for drone_user in self.drones_user
         )
 
     @property
@@ -124,7 +122,7 @@ class ShowUser(BaseModel):
 
     @property
     def duration(self) -> float:
-        return FRAME_PARAMETER.from_frame_to_second(self.get_last_frame)
+        return FRAME_PARAMETER.from_frame_to_second(self.last_frame)
 
     @property
     def convex_hull(self) -> List[Tuple[float, float]]:

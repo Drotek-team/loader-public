@@ -31,7 +31,7 @@ def su_to_stc_procedure(
                 get_position_info_from_simulation_infos(
                     flight_simulation(
                         drone_user,
-                        show_user.get_last_frame,
+                        show_user.last_frame,
                     )
                 ),
             )

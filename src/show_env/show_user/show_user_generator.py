@@ -16,7 +16,7 @@ def rotated_horizontal_coordinates(
     return (x_rotated, y_rotated, xyz[2])
 
 
-# TODO: test this, and make it work
+# TODO: hypothesis and make ShowUserConfiguration dataclass which inheritance from GridConfiguration, add takeoff altitude too!!!
 def get_valid_show_user(
     nb_x: int = 1,
     nb_y: int = 1,

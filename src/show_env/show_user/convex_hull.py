@@ -53,6 +53,7 @@ def array_list_to_tuple_list(
     ]
 
 
+# TODO: not tested ^^
 def calculate_convex_hull(
     positions_tuple: List[Tuple[float, float]]
 ) -> List[Tuple[float, float]]:

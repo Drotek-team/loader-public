@@ -40,7 +40,6 @@ def test_is_grid_one_drone():
         ]
     )
     assert not grid.is_grid_one_drone()
-
     grid = Grid([first_horizontal_position])
     assert grid.is_grid_one_drone()
 
