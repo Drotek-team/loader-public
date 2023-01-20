@@ -10,7 +10,7 @@ from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ij.ij_to_sp_procedure import ij_to_sp_procedure
 from .show_env.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
-from .show_env.migration_sp_ijg.ijg_to_sp_procedure import ijg_to_sp_procedure
+from .show_env.migration_sp_ijg.ijg_to_su_procedure import ijg_to_su_procedure
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
 from .show_env.migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
 from .show_env.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
@@ -57,6 +57,6 @@ def export_show_user_to_iostar_json_gcs_string(show_user: ShowUser) -> str:
 
 def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     """Check the validity of an iostar_json_gcs."""
-    show_user = sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
+    show_user = ijg_to_su_procedure(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user_procedure(show_user)
     return show_check_report.user_validation

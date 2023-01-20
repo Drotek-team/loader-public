@@ -1,6 +1,8 @@
 from ..iostar_json.iostar_json_gcs import IostarJsonGcs
 from ..migration_dp_binary.drone_decoding_procedure import decode_drone
+from ..migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
 from ..show_px4.show_px4 import ShowPx4
+from ..show_user.show_user import ShowUser
 
 
 def ijg_to_sp_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowPx4:
@@ -14,3 +16,7 @@ def ijg_to_sp_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowPx4:
             for drone_index, binary_dance in enumerate(family.drones)
         ]
     )
+
+
+def ijg_to_su_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowUser:
+    return sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
