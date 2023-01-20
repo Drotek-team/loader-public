@@ -32,7 +32,6 @@ class Show(BaseModel):
 class IostarJsonGcs(BaseModel):
     show: Show
 
-    # TODO: put a test of this
     @property
     def nb_drones_per_family(self) -> int:
         return len(self.show.families[0].drones)

@@ -3,7 +3,6 @@ import struct
 from ..show_px4.drone_px4.events.events import Events
 
 
-# TODO: place a test on that
 def encode_events(events: Events) -> bytearray:
     event_size = events.event_size
     binary = bytearray(event_size * len(events))

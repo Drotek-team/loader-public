@@ -59,6 +59,7 @@ def assemble_dance(
     return list(map(int, dance_binary))
 
 
+# TODO:place a test on that
 def encode_drone(
     drone_user: DronePx4,
 ) -> List[int]:
@@ -74,7 +75,6 @@ def encode_drone(
         dance_size=dance_size(section_headers, encoded_events_list),
         number_non_empty_events=len(non_empty_events_list),
     )
-    print(header)
     return assemble_dance(header, section_headers, encoded_events_list)
 
 
