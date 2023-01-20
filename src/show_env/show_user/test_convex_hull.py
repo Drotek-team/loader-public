@@ -29,7 +29,6 @@ def points_intersect(a: Point, b: Point, c: Point, d: Point) -> bool:
     return ccw(a, c, d) != ccw(b, c, d) and ccw(a, b, c) != ccw(a, b, d)
 
 
-# TODO: maybe a little bit of documentation would not hurst
 def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:
     mean_polygon_point = Point(
         float(np.mean([p.x for p in polygon])), float(np.mean([p.y for p in polygon]))

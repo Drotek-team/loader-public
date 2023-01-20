@@ -9,6 +9,7 @@ from .su_to_scg_procedure import su_to_sc_procedure
 
 
 # TODO: find a way to properly deal with the vertical lign exception
+# Maybe an exception in a crucial function might do the thing
 @given(
     nb_x=st.integers(2, 5),
     nb_y=st.integers(1, 5),

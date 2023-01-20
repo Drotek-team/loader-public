@@ -30,8 +30,6 @@ def angle_distance(first_angle_radian: float, second_angle_radian: float) -> flo
     return abs((second_angle - first_angle + 180) % 360 - 180)
 
 
-# TODO: faire des structures catéristique d'hypothèse: composite
-# TODO: important convention: this algorithm consider that is impossible to have a vertical lign, only bend horizontal lign (detailled that )
 @given(
     nb_x=st.integers(2, 4),
     nb_y=st.integers(1, 4),
