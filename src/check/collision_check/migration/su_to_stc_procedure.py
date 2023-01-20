@@ -3,7 +3,11 @@ from typing import List
 from ....show_env.show_user.show_user import ShowUser
 from ...simulation.flight_simulation import flight_simulation
 from ...simulation.position_simulation import SimulationInfo
-from .show_trajectory_collision import *
+from .show_trajectory_collision import (
+    CollisionPositionInfo,
+    CollisionShowTrajectory,
+    CollisionTrajectory,
+)
 
 
 def get_position_info_from_simulation_infos(

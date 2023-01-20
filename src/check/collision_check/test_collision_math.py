@@ -1,6 +1,12 @@
 import numpy as np
+import numpy.typing as npt
 
-from .collision_math import *
+from .collision_math import (
+    get_border_indices,
+    get_optimized_collision_infractions,
+    get_principal_axis,
+    get_unique_list_from_list,
+)
 
 
 def get_numpy_grid(nb_x: int, nb_y: int) -> npt.NDArray[np.float64]:

@@ -6,7 +6,7 @@ from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ....show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
-from .show_trajectory_collision import *
+from .show_trajectory_collision import CollisionShowTrajectory
 from .stc_to_ssc_procedure import stc_to_ss_procedure
 from .su_to_stc_procedure import su_to_stc_procedure
 

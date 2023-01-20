@@ -5,6 +5,7 @@ from pydantic.types import StrictFloat, StrictInt
 
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
+from .convex_hull import calculate_convex_hull
 
 
 class PositionEventUser(BaseModel):
@@ -110,3 +111,30 @@ class ShowUser(BaseModel):
                 for drone_user in self.drones_user
             ]
         )
+
+    @property
+    def first_horizontal_positions(self) -> List[Tuple[float, float]]:
+        return [
+            (
+                drone.position_events[0].xyz[0],
+                drone.position_events[0].xyz[1],
+            )
+            for drone in self.drones_user
+        ]
+
+    @property
+    def duration(self) -> float:
+        return FRAME_PARAMETER.from_frame_to_second(self.get_last_frame)
+
+    @property
+    def convex_hull(self) -> List[Tuple[float, float]]:
+        return calculate_convex_hull(self.first_horizontal_positions)
+
+    @property
+    def altitude_range(self) -> Tuple[float, float]:
+        z_positions = [
+            position_event.xyz[2]
+            for drone in self.drones_user
+            for position_event in drone.position_events
+        ]
+        return (min(z_positions), max(z_positions))

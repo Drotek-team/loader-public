@@ -4,8 +4,11 @@ from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PAR
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_env.show_user.show_user import *
-from .show_user_check_procedure import *
+from ...show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
+from .show_user_check_procedure import (
+    apply_show_user_check_procedure,
+    apply_takeoff_check,
+)
 
 
 @pytest.fixture
@@ -120,6 +123,9 @@ def test_invalid_by_time_one_position_events():
 
 
 def test_apply_show_user_check_procedure_standard_case(valid_drone_user: DroneUser):
+    show_user = ShowUser(drones_user=[valid_drone_user])
+    show_user_check_report = apply_show_user_check_procedure(show_user)
+    assert show_user_check_report.user_validation
     show_user = ShowUser(drones_user=[valid_drone_user])
     show_user_check_report = apply_show_user_check_procedure(show_user)
     assert show_user_check_report.user_validation

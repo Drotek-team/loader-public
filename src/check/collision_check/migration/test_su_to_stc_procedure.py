@@ -1,11 +1,17 @@
+import numpy as np
 import pytest
 
+from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ....show_env.show_user.show_user import *
+from ....show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
 from ...simulation.position_simulation import SimulationInfo
-from .su_to_stc_procedure import *
+from .su_to_stc_procedure import (
+    CollisionPositionInfo,
+    get_position_info_from_simulation_infos,
+    su_to_stc_procedure,
+)
 
 
 def test_get_position_info_from_simulation_infos():
@@ -44,6 +50,11 @@ def test_su_to_stc_procedure(valid_show_user: ShowUser):
     show_trajectory = su_to_stc_procedure(valid_show_user)
     assert show_trajectory.drone_number == 1
     assert len(show_trajectory.frames) == 301
+    assert show_trajectory.frames == list(range(301))
+    assert show_trajectory.frames == list(range(301))
+    assert show_trajectory.frames == list(range(301))
+    assert show_trajectory.frames == list(range(301))
+    assert show_trajectory.frames == list(range(301))
     assert show_trajectory.frames == list(range(301))
     assert show_trajectory.frames == list(range(301))
     assert show_trajectory.frames == list(range(301))

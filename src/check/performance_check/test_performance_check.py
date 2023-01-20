@@ -5,7 +5,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...show_env.show_user.show_user import *
+from ...show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
 from .show_trajectory_performance_check_procedure import (
     apply_show_trajectory_performance_check_procedure,
 )
@@ -15,6 +15,7 @@ EPSILON_DELTA = 1e-2
 
 @pytest.fixture
 def valid_show_user() -> ShowUser:
+    # TODO I think this is a bit deep, maybe making a function for that
     drone_user = DroneUser(
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),

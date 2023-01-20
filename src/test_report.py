@@ -1,4 +1,4 @@
-from .report import *
+from .report import Contenor, Displayer
 
 
 def test_displayer_standard_case():

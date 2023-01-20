@@ -43,7 +43,8 @@ def get_trajectory_performance_info_from_simulation_infos(
         )
         for position_index in range(len(positions))
     ]
-
+    # TODO: WTF there is more positions/velocities/accelerations than simulations infos !!!!
+    # TODO: redo and test that seriously
     return [
         TrajectoryPerformanceInfo(
             simulation_info.frame, position, velocity, acceleration

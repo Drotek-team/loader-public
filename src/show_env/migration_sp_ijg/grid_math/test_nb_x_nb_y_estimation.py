@@ -1,27 +1,44 @@
-import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 
-from .grid import Grid, get_grid_from_horizontal_positions
+from .grid import GridConfiguration, get_grid_from_configuration
+from .grid_angle_estimation import get_angle_takeoff_from_grid
 from .grid_nb_x_nb_y_estimation import get_nb_x_nb_y_from_grid
 
 
-@pytest.fixture
-def valid_grid():
-    return get_grid_from_horizontal_positions(
-        [(-1.0, -1.0), (-1.0, 1.0), (1.0, -1.0), (1.0, 1.0)]
-    )
-
-
-@pytest.fixture
-def valid_grid_two_drones():
-    return get_grid_from_horizontal_positions([(-1.0, 0.0), (1.0, 0.0)])
-
-
-def test_get_nb_drone_per_family_from_grid_valid_grid(valid_grid: Grid):
-    assert get_nb_x_nb_y_from_grid(valid_grid, 0) == (2, 2)
-
-
-def test_get_nb_drone_per_family_from_grid_valid_grid_step_two_metery(
-    valid_grid_two_drones: Grid,
+@given(
+    nb_x=st.integers(2, 4),
+    nb_y=st.integers(1, 2),
+    nb_drone_per_family=st.integers(1, 3),
+    angle_takeoff=st.integers(0, 360),
+)
+def test_get_nb_drone_per_family_from_grid_standard_grids(
+    nb_x: int, nb_y: int, nb_drone_per_family: int, angle_takeoff: int
 ):
-    assert get_nb_x_nb_y_from_grid(valid_grid_two_drones, 0) == (1, 2)
-    assert get_nb_x_nb_y_from_grid(valid_grid_two_drones, 0) == (1, 2)
+    grid_configuration = GridConfiguration(
+        nb_x=nb_x,
+        nb_y=nb_y,
+        nb_drone_per_family=nb_drone_per_family,
+        angle_takeoff=angle_takeoff,
+    )
+    grid = get_grid_from_configuration(grid_configuration)
+    if not (
+        get_nb_x_nb_y_from_grid(
+            grid,
+            grid_configuration.nb_drone_per_family,
+            get_angle_takeoff_from_grid(grid, nb_drone_per_family),
+        )
+        == (
+            grid_configuration.nb_x,
+            grid_configuration.nb_y,
+        )
+    ):
+        raise ValueError(
+            grid,
+            grid_configuration,
+            get_nb_x_nb_y_from_grid(
+                grid,
+                grid_configuration.nb_drone_per_family,
+                get_angle_takeoff_from_grid(grid, nb_drone_per_family),
+            ),
+        )

@@ -9,6 +9,7 @@ readme = "README.md"
 python = "3.8.2"
 numpy = "^1.23.4"
 pydantic = "^1.10.2"
+hypothesis = "^6.62.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -78,7 +79,6 @@ select = [
 ignore = [
     "D10",    # Missing docstring
     "E501",   # Line too long
-    "F403",   # Star import used
     "F405",   # Module may be undefined
     "S101",   # Use of `assert` detected
     "PGH003", # Allow "type: ignore"

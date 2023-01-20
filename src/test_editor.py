@@ -7,8 +7,7 @@ from .editor import (
     export_show_user_to_iostar_json_string,
     global_check_iostar_json_gcs,
 )
-from .show_env.migration_sp_ijg.sp_to_ijg_procedure import sp_to_ijg_procedure
-from .show_env.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
 from .show_env.show_user.show_user import ShowUser
 from .show_env.show_user.show_user_generator import get_valid_show_user
 
@@ -71,5 +70,5 @@ def test_export_show_user_to_iostar_json_gcs_string_standard_case(
 def test_global_check_iostar_json_standard_case(
     standard_show_user: ShowUser,
 ):
-    iostar_json_gcs = sp_to_ijg_procedure(su_to_sp_procedure(standard_show_user))
+    iostar_json_gcs = su_to_ijg_procedure(standard_show_user)
     assert global_check_iostar_json_gcs(iostar_json_gcs)

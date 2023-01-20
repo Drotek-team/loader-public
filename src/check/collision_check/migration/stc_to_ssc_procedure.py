@@ -1,5 +1,5 @@
 from .show_simulation import ShowSimulation
-from .show_trajectory_collision import *
+from .show_trajectory_collision import CollisionShowTrajectory, CollisionTrajectory
 
 
 def update_show_simulation_from_drone_trajectory(

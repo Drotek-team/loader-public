@@ -2,7 +2,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...report import Contenor, Displayer
-from ...show_env.show_user.show_user import *
+from ...show_env.show_user.show_user import DroneUser, ShowUser
 
 
 def apply_takeoff_check(drone_user: DroneUser, drone_index: int) -> Contenor:
