@@ -40,31 +40,30 @@ class JsonBinaryParameter:
             TIMECODE_TO_SECOND_FACTOR * px4_timecode
         )
 
+    def from_user_position_to_px4_position(self, user_position: float) -> int:
+        return int(
+            (METER_TO_CENTIMETER_FACTOR * user_position) / self.position_reformat_factor
+        )
+
     def from_user_xyz_to_px4_xyz(
-        self, simulation_xyz: Tuple[float, float, float]
+        self, user_xyz: Tuple[float, float, float]
     ) -> Tuple[int, int, int]:
         return (
-            int(
-                (METER_TO_CENTIMETER_FACTOR * simulation_xyz[1])
-                / self.position_reformat_factor
-            ),
-            int(
-                (METER_TO_CENTIMETER_FACTOR * simulation_xyz[0])
-                / self.position_reformat_factor
-            ),
-            int(
-                -(METER_TO_CENTIMETER_FACTOR * simulation_xyz[2])
-                / self.position_reformat_factor
-            ),
+            self.from_user_position_to_px4_position(user_xyz[1]),
+            self.from_user_position_to_px4_position(user_xyz[0]),
+            -self.from_user_position_to_px4_position(user_xyz[2]),
         )
+
+    def from_px4_position_to_user_position(self, px4_position: int) -> float:
+        return CENTIMETER_TO_METER_FACTOR * self.position_reformat_factor * px4_position
 
     def from_px4_xyz_to_user_xyz(
         self, px4_xyz: Tuple[int, int, int]
     ) -> Tuple[float, float, float]:
         return (
-            CENTIMETER_TO_METER_FACTOR * self.position_reformat_factor * px4_xyz[1],
-            CENTIMETER_TO_METER_FACTOR * self.position_reformat_factor * px4_xyz[0],
-            -CENTIMETER_TO_METER_FACTOR * self.position_reformat_factor * px4_xyz[2],
+            self.from_px4_position_to_user_position(px4_xyz[1]),
+            self.from_px4_position_to_user_position(px4_xyz[0]),
+            -self.from_px4_position_to_user_position(px4_xyz[2]),
         )
 
     def from_user_rgbw_to_px4_rgbw(
