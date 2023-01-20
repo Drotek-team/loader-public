@@ -1,11 +1,17 @@
 from dataclasses import dataclass
 from typing import List, Tuple
 
+import numpy as np
+from hypothesis import given
+from hypothesis import strategies as st
+
+from .convex_hull import calculate_convex_hull
+
 
 @dataclass(frozen=True)
 class Point:
-    x: int
-    y: int
+    x: float
+    y: float
 
 
 @dataclass(frozen=True)
@@ -23,8 +29,12 @@ def points_intersect(a: Point, b: Point, c: Point, d: Point) -> bool:
     return ccw(a, c, d) != ccw(b, c, d) and ccw(a, b, c) != ccw(a, b, d)
 
 
+# TODO: maybe a little bit of documentation would not hurst
 def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:
-    point_segment = Segment(Point(0, 0), point)
+    mean_polygon_point = Point(
+        float(np.mean([p.x for p in polygon])), float(np.mean([p.y for p in polygon]))
+    )
+    point_segment = Segment(mean_polygon_point, point)
     polygon_segments = [
         Segment(first_polygon_point, second_polygon_point)
         for first_polygon_point, second_polygon_point in zip(polygon[1:], polygon[:-1])
@@ -49,14 +59,28 @@ def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:
     )
 
 
-def from_tuple_to_point(tuple_input: Tuple[int, int]) -> Point:
+def from_tuple_to_point(tuple_input: Tuple[float, float]) -> Point:
     return Point(tuple_input[0], tuple_input[1])
 
 
 def from_tuple_list_to_point_list(
-    tuple_list_input: List[Tuple[int, int]]
+    tuple_list_input: List[Tuple[float, float]]
 ) -> List[Point]:
     return [from_tuple_to_point(tuple_input) for tuple_input in tuple_list_input]
 
 
-# TODO: hypothesis for that convex hull
+@given(nb_points=st.integers(2, 100))
+def test_calculate_convex_hull(nb_points: int):
+    positions_array = np.random.random((nb_points, 2))
+    positions_tuple = [
+        (float(position_array[0]), float(position_array[1]))
+        for position_array in positions_array
+    ]
+    convex_hull = calculate_convex_hull(positions_tuple)
+
+    position_points = from_tuple_list_to_point_list(positions_tuple)
+    convex_hull_points = from_tuple_list_to_point_list(convex_hull)
+    assert all(
+        is_point_inside_convex_polygon(position_point, convex_hull_points)
+        for position_point in position_points
+    )
