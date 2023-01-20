@@ -2,38 +2,12 @@ import math
 from dataclasses import dataclass
 from typing import Tuple
 
-import numpy as np
-
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
+from ..migration_sp_ijg.grid_math.grid_configuration import GridConfiguration
 from .show_user import ColorEventUser, DroneUser, PositionEventUser, ShowUser
-
-
-@dataclass()
-class GridConfiguration:
-    nb_x: int = 1
-    nb_y: int = 1
-    nb_drone_per_family: int = 1
-    step_takeoff: float = 1.5
-    angle_takeoff: float = 0.0
-
-    @staticmethod
-    def _is_grid_one_family(nb_x: int, nb_y: int) -> bool:
-        return nb_x == 1 and nb_y == 1
-
-    @staticmethod
-    def _is_grid_angle_fuzzy(nb_x: int, nb_y: int) -> bool:
-        return nb_x == 1 and nb_y != 1
-
-    def __post_init__(self):
-        if self._is_grid_one_family(self.nb_x, self.nb_y):
-            self.step_takeoff = 0.0
-            self.angle_takeoff = 0.0
-        if self._is_grid_angle_fuzzy(self.nb_x, self.nb_y):
-            self.nb_y, self.nb_x = self.nb_x, self.nb_y
-            self.angle_takeoff += 0.5 * np.pi
 
 
 @dataclass()
@@ -52,10 +26,10 @@ def rotated_horizontal_coordinates(
 
 def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowUser:
     index_bias_x = (
-        0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step_takeoff
+        0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
     )
     index_bias_y = (
-        0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step_takeoff
+        0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
     )
     valid_drones_user = [
         DroneUser(
@@ -64,10 +38,8 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
                     frame=0,
                     xyz=rotated_horizontal_coordinates(
                         (
-                            show_user_configuration.step_takeoff * index_x
-                            - index_bias_x,
-                            show_user_configuration.step_takeoff * index_y
-                            - index_bias_y,
+                            show_user_configuration.step * index_x - index_bias_x,
+                            show_user_configuration.step * index_y - index_bias_y,
                             0.0,
                         ),
                         show_user_configuration.angle_takeoff,
@@ -79,10 +51,8 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
                     ),
                     xyz=rotated_horizontal_coordinates(
                         (
-                            show_user_configuration.step_takeoff * index_x
-                            - index_bias_x,
-                            show_user_configuration.step_takeoff * index_y
-                            - index_bias_y,
+                            show_user_configuration.step * index_x - index_bias_x,
+                            show_user_configuration.step * index_y - index_bias_y,
                             show_user_configuration.takeoff_altitude,
                         ),
                         show_user_configuration.angle_takeoff,
@@ -97,10 +67,8 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
                     ),
                     xyz=rotated_horizontal_coordinates(
                         (
-                            show_user_configuration.step_takeoff * index_x
-                            - index_bias_x,
-                            show_user_configuration.step_takeoff * index_y
-                            - index_bias_y,
+                            show_user_configuration.step * index_x - index_bias_x,
+                            show_user_configuration.step * index_y - index_bias_y,
                             show_user_configuration.takeoff_altitude,
                         ),
                         show_user_configuration.angle_takeoff,

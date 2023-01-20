@@ -98,7 +98,7 @@ def get_grid_from_configuration(grid_configuration: GridConfiguration) -> Grid:
                 nb_x=grid_configuration.nb_x,
                 nb_y=grid_configuration.nb_y,
                 nb_drone_per_family=grid_configuration.nb_drone_per_family,
-                step_takeoff=grid_configuration.step_takeoff,
+                step=grid_configuration.step,
                 angle_takeoff=grid_configuration.angle_takeoff,
             )
         )

@@ -25,7 +25,7 @@ def test_get_nb_drone_per_family_from_grid_valid_grids(
             nb_x=nb_x,
             nb_y=nb_y,
             nb_drone_per_family=nb_drone_per_family,
-            step_takeoff=step_takeoff,
+            step=step_takeoff,
             angle_takeoff=angle_takeoff,
         )
     )

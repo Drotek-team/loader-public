@@ -28,7 +28,7 @@ def test_su_to_sc_procedure_hypothesis(
         nb_x=nb_x,
         nb_y=nb_y,
         nb_drone_per_family=nb_drone_per_family,
-        step_takeoff=step_takeoff,
+        step=step_takeoff,
         angle_takeoff=angle_takeoff,
         show_duration_absolute_time=show_duration_absolute_time,
     )

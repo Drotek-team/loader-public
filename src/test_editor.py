@@ -29,7 +29,7 @@ def test_export_procedure_standard_case():
                 nb_x=NB_X,
                 nb_y=NB_Y,
                 nb_drone_per_family=NB_DRONE_PER_FAMILY,
-                step_takeoff=STEP_TAKEOFF,
+                step=STEP_TAKEOFF,
                 angle_takeoff=ANGLE_TAKEOFF,
                 show_duration_absolute_time=SHOW_DURATION_SECOND,
             )

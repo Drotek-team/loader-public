@@ -49,9 +49,7 @@ def test_grid_is_grid_one_family():
 
 
 def test_grid_rotate_horizontal_positions():
-    grid = get_grid_from_configuration(
-        GridConfiguration(nb_x=2, nb_y=2, step_takeoff=2.0)
-    )
+    grid = get_grid_from_configuration(GridConfiguration(nb_x=2, nb_y=2, step=2.0))
     grid.rotate_horizontal_positions(0.0)
     assert grid[0].coordinate == Coordinate(-1.0, -1.0)
     grid.rotate_horizontal_positions(np.pi)
@@ -79,9 +77,7 @@ def test_get_grid_from_show_user():
 
 
 def test_get_grid_from_show_configuration():
-    grid = get_grid_from_configuration(
-        GridConfiguration(nb_x=2, nb_y=2, step_takeoff=2.0)
-    )
+    grid = get_grid_from_configuration(GridConfiguration(nb_x=2, nb_y=2, step=2.0))
     assert grid[0].coordinate == Coordinate(-1.0, -1.0)
     assert grid[1].coordinate == Coordinate(1.0, -1.0)
     assert grid[2].coordinate == Coordinate(-1.0, 1.0)

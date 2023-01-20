@@ -74,7 +74,7 @@ def test_get_angle_takeoff_from_grid(
         nb_x=nb_x,
         nb_y=nb_y,
         nb_drone_per_family=nb_drone_per_family,
-        step_takeoff=1.5,
+        step=1.5,
         angle_takeoff=angle_takeoff,
     )
     grid = get_grid_from_configuration(grid_configuration)
