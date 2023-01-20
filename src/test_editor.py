@@ -9,7 +9,10 @@ from .editor import (
 )
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
 from .show_env.show_user.show_user import ShowUser
-from .show_env.show_user.show_user_generator import get_valid_show_user
+from .show_env.show_user.show_user_generator import (
+    ShowUserConfiguration,
+    get_valid_show_user,
+)
 
 NB_X = 1
 NB_Y = 1
@@ -19,15 +22,17 @@ ANGLE_TAKEOFF = 0
 SHOW_DURATION_SECOND = 30.0
 
 
-def test_export_procedure():
+def test_export_procedure_standard_case():
     _, show_check_report = apply_export_procedure(
         get_valid_show_user(
-            NB_X,
-            NB_Y,
-            NB_DRONE_PER_FAMILY,
-            STEP_TAKEOFF,
-            ANGLE_TAKEOFF,
-            SHOW_DURATION_SECOND,
+            ShowUserConfiguration(
+                nb_x=NB_X,
+                nb_y=NB_Y,
+                nb_drone_per_family=NB_DRONE_PER_FAMILY,
+                step_takeoff=STEP_TAKEOFF,
+                angle_takeoff=ANGLE_TAKEOFF,
+                show_duration_absolute_time=SHOW_DURATION_SECOND,
+            )
         )
     )
     assert show_check_report.user_validation

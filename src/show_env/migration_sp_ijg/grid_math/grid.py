@@ -5,7 +5,11 @@ from typing import List, Tuple
 import numpy as np
 import numpy.typing as npt
 
-from ....show_env.show_user.show_user_generator import get_valid_show_user
+from ....show_env.show_user.show_user_generator import (
+    GridConfiguration,
+    ShowUserConfiguration,
+    get_valid_show_user,
+)
 from ...show_user.show_user import ShowUser
 
 
@@ -81,15 +85,6 @@ class Grid(List[HorizontalPosition]):
         return (self[0], self[nb_drone_per_family])
 
 
-@dataclass(frozen=True)
-class GridConfiguration:
-    nb_x: int = 1
-    nb_y: int = 1
-    nb_drone_per_family: int = 1
-    step_takeoff: float = 1.5
-    angle_takeoff: float = 0.0
-
-
 # TODO: test this
 def get_grid_from_show_user(show_user: ShowUser) -> Grid:
     return Grid(
@@ -109,10 +104,12 @@ def get_grid_from_show_user(show_user: ShowUser) -> Grid:
 def get_grid_from_configuration(grid_configuration: GridConfiguration) -> Grid:
     return get_grid_from_show_user(
         get_valid_show_user(
-            grid_configuration.nb_x,
-            grid_configuration.nb_y,
-            grid_configuration.nb_drone_per_family,
-            grid_configuration.step_takeoff,
-            grid_configuration.angle_takeoff,
+            ShowUserConfiguration(
+                nb_x=grid_configuration.nb_x,
+                nb_y=grid_configuration.nb_y,
+                nb_drone_per_family=grid_configuration.nb_drone_per_family,
+                step_takeoff=grid_configuration.step_takeoff,
+                angle_takeoff=grid_configuration.angle_takeoff,
+            )
         )
     )

@@ -2,7 +2,7 @@ import pytest
 from pydantic import ValidationError
 
 from .show_user import DroneUser
-from .show_user_generator import get_valid_show_user
+from .show_user_generator import ShowUserConfiguration, get_valid_show_user
 
 
 @pytest.fixture
@@ -87,40 +87,46 @@ def test_fire_event_user_invalid_input(empty_drone_user: DroneUser):
 
 
 def test_show_user_nb_drones_standard_case():
-    show_user = get_valid_show_user()
+    show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.nb_drones == 1
-    show_user = get_valid_show_user(nb_x=2)
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2))
     assert show_user.nb_drones == 2
 
 
 def test_show_user_last_frame_standard_case():
-    show_user = get_valid_show_user()
+    show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.last_frame == 1020
-    show_user = get_valid_show_user(show_duration_absolute_time=60)
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(show_duration_absolute_time=60)
+    )
     assert show_user.last_frame == 1740
 
 
 def test_show_user_first_horizontal_positions_standard_case():
-    show_user = get_valid_show_user()
+    show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.first_horizontal_positions == [(0.0, 0.0)]
-    show_user = get_valid_show_user(nb_x=2, step_takeoff=2)
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, step_takeoff=2))
     assert show_user.first_horizontal_positions == [(-1.0, 0.0), (1.0, 0.0)]
 
 
 def test_show_user_duration_standard_case():
-    show_user = get_valid_show_user()
+    show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.duration == 42.5
-    show_user = get_valid_show_user(show_duration_absolute_time=60)
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(show_duration_absolute_time=60)
+    )
     assert show_user.duration == 72.5
 
 
 def test_show_user_convex_hull_standard_case():
-    show_user = get_valid_show_user()
+    show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.convex_hull == [(0.0, 0.0)]
-    show_user = get_valid_show_user(nb_x=2, nb_y=2, step_takeoff=2.0)
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(nb_x=2, nb_y=2, step_takeoff=2.0)
+    )
     assert show_user.convex_hull == [(-1.0, 1.0), (-1.0, -1.0), (1.0, -1.0), (1.0, 1.0)]
 
 
 def test_show_user_altitude_range_standard_case():
-    show_user = get_valid_show_user()
+    show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.altitude_range == (0.0, 1.0)
