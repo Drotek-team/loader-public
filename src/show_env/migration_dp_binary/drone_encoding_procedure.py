@@ -59,7 +59,6 @@ def assemble_dance(
     return list(map(int, dance_binary))
 
 
-# TODO:place a test on that
 def encode_drone(
     drone_user: DronePx4,
 ) -> List[int]:
