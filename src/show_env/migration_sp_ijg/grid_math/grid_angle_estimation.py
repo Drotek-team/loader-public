@@ -11,11 +11,10 @@ def get_angle_degree_from_vector(u_x: npt.NDArray[np.float64]) -> float:
     return np.arctan2(u_x_unit[1], u_x_unit[0])
 
 
-# TODO: add a test for that
 def first_and_second_family_horizontal_positions(
     grid: Grid, nb_drone_per_family: int
 ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-    if grid.is_grid_one_drone() or len(grid) == nb_drone_per_family:
+    if grid.is_grid_one_drone() or grid.is_grid_one_family():
         return (grid[0], grid[0])
     return (grid[0], grid[nb_drone_per_family])
 
