@@ -79,7 +79,6 @@ class Grid(List[HorizontalPosition]):
     def get_corner_down_right_and_down_left(
         self, nb_drone_per_family: int
     ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-        self.rotate_horizontal_positions(1e-3)
         if self.is_grid_one_drone() or len(self) == nb_drone_per_family:
             return (self[0], self[0])
         return (self[0], self[nb_drone_per_family])
