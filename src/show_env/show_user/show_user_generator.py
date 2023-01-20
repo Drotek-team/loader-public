@@ -19,13 +19,16 @@ class GridConfiguration:
     step_takeoff: float = 1.5
     angle_takeoff: float = 0.0
 
-    # TODO: See the documentation here
+    @staticmethod
+    def _is_grid_one_family(nb_x: int, nb_y: int) -> bool:
+        return nb_x == 1 and nb_y == 1
+
     @staticmethod
     def _is_grid_angle_fuzzy(nb_x: int, nb_y: int) -> bool:
         return nb_x == 1 and nb_y != 1
 
     def __post_init__(self):
-        if self.nb_x == 1 and self.nb_y == 1:
+        if self._is_grid_one_family(self.nb_x, self.nb_y):
             self.step_takeoff = 0.0
             self.angle_takeoff = 0.0
         if self._is_grid_angle_fuzzy(self.nb_x, self.nb_y):
