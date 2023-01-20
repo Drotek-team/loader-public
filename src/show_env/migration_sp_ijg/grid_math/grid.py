@@ -63,10 +63,6 @@ class HorizontalPosition:
 
 
 class Grid(List[HorizontalPosition]):
-    def rotate_horizontal_positions(self, angle_radian: float) -> None:
-        for horizontal_position in self:
-            horizontal_position.rotated_positions(angle_radian)
-
     def is_grid_one_drone(self) -> bool:
         return len(self) == 1
 
@@ -76,15 +72,11 @@ class Grid(List[HorizontalPosition]):
             for horizontal_position in self[1:]
         )
 
-    def get_corner_down_right_and_down_left(
-        self, nb_drone_per_family: int
-    ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-        if self.is_grid_one_drone() or len(self) == nb_drone_per_family:
-            return (self[0], self[0])
-        return (self[0], self[nb_drone_per_family])
+    def rotate_horizontal_positions(self, angle_radian: float) -> None:
+        for horizontal_position in self:
+            horizontal_position.rotated_positions(angle_radian)
 
 
-# TODO: test this
 def get_grid_from_show_user(show_user: ShowUser) -> Grid:
     return Grid(
         [
@@ -99,7 +91,6 @@ def get_grid_from_show_user(show_user: ShowUser) -> Grid:
     )
 
 
-# TODO: test this
 def get_grid_from_configuration(grid_configuration: GridConfiguration) -> Grid:
     return get_grid_from_show_user(
         get_valid_show_user(

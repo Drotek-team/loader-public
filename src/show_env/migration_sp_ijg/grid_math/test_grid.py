@@ -1,6 +1,14 @@
 import numpy as np
 
-from .grid import Coordinate, Grid, HorizontalPosition
+from src.show_env.show_user.show_user_generator import GridConfiguration
+
+from ...show_user.show_user import DroneUser, ShowUser
+from .grid import (
+    Coordinate,
+    HorizontalPosition,
+    get_grid_from_configuration,
+    get_grid_from_show_user,
+)
 
 
 def test_coordinate_standard_case_and_method():
@@ -26,36 +34,55 @@ def test_horizontal_position_standard_case_and_method():
     )
 
 
-def test_is_grid_one_drone():
-    first_horizontal_position = HorizontalPosition(0, Coordinate(-1.0, -1.0))
-    second_horizontal_position = HorizontalPosition(1, Coordinate(1.0, -1.0))
-    third_horizontal_position = HorizontalPosition(2, Coordinate(-1.0, 1.0))
-    fourth_horizontal_position = HorizontalPosition(3, Coordinate(1.0, 1.0))
-    grid = Grid(
-        [
-            first_horizontal_position,
-            second_horizontal_position,
-            third_horizontal_position,
-            fourth_horizontal_position,
-        ]
-    )
-    assert not grid.is_grid_one_drone()
-    grid = Grid([first_horizontal_position])
+def test_grid_is_grid_one_drone():
+    grid = get_grid_from_configuration(GridConfiguration())
     assert grid.is_grid_one_drone()
+    grid = get_grid_from_configuration(GridConfiguration(nb_x=2))
+    assert not grid.is_grid_one_drone()
 
 
-# TODO: finish this test
-def test_grid_standard_case_and_method():
-    first_horizontal_position = HorizontalPosition(0, Coordinate(-1.0, -1.0))
-    second_horizontal_position = HorizontalPosition(1, Coordinate(1.0, -1.0))
-    third_horizontal_position = HorizontalPosition(2, Coordinate(-1.0, 1.0))
-    fourth_horizontal_position = HorizontalPosition(3, Coordinate(1.0, 1.0))
-    grid = Grid(
-        [
-            first_horizontal_position,
-            second_horizontal_position,
-            third_horizontal_position,
-            fourth_horizontal_position,
+def test_grid_is_grid_one_family():
+    grid = get_grid_from_configuration(GridConfiguration(nb_drone_per_family=2))
+    assert grid.is_grid_one_family()
+    grid = get_grid_from_configuration(GridConfiguration(nb_x=2))
+    assert not grid.is_grid_one_family()
+
+
+def test_grid_rotate_horizontal_positions():
+    grid = get_grid_from_configuration(
+        GridConfiguration(nb_x=2, nb_y=2, step_takeoff=2.0)
+    )
+    grid.rotate_horizontal_positions(0.0)
+    assert grid[0].coordinate == Coordinate(-1.0, -1.0)
+    grid.rotate_horizontal_positions(np.pi)
+    assert grid[0].coordinate == Coordinate(1.0, 1.0)
+    grid.rotate_horizontal_positions(-np.pi)
+    assert grid[0].coordinate == Coordinate(-1.0, -1.0)
+
+
+def test_get_grid_from_show_user():
+    show_user = ShowUser(
+        drones_user=[
+            DroneUser(position_events=[], color_events=[], fire_events=[])
+            for _ in range(4)
         ]
     )
-    assert grid
+    show_user.drones_user[0].add_position_event(0, (-1.0, -1.0, 0.0))
+    show_user.drones_user[1].add_position_event(0, (1.0, -1.0, 0.0))
+    show_user.drones_user[2].add_position_event(0, (-1.0, 1.0, 0.0))
+    show_user.drones_user[3].add_position_event(0, (1.0, 1.0, 0.0))
+    grid = get_grid_from_show_user(show_user)
+    assert grid[0].coordinate == Coordinate(-1.0, -1.0)
+    assert grid[1].coordinate == Coordinate(1.0, -1.0)
+    assert grid[2].coordinate == Coordinate(-1.0, 1.0)
+    assert grid[3].coordinate == Coordinate(1.0, 1.0)
+
+
+def test_get_grid_from_show_configuration():
+    grid = get_grid_from_configuration(
+        GridConfiguration(nb_x=2, nb_y=2, step_takeoff=2.0)
+    )
+    assert grid[0].coordinate == Coordinate(-1.0, -1.0)
+    assert grid[1].coordinate == Coordinate(1.0, -1.0)
+    assert grid[2].coordinate == Coordinate(-1.0, 1.0)
+    assert grid[3].coordinate == Coordinate(1.0, 1.0)

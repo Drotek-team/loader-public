@@ -13,12 +13,12 @@ from .grid_angle_estimation import (
 
 def test_get_angle_from_vector():
     assert get_angle_degree_from_vector(np.array([1.0, 0])) == math.radians(0)
-    assert get_angle_degree_from_vector(np.array([-1.0, 0])) == math.radians(180)
     assert get_angle_degree_from_vector(np.array([0, 1.0])) == math.radians(90)
+    assert get_angle_degree_from_vector(np.array([-1.0, 0])) == math.radians(180)
     assert get_angle_degree_from_vector(np.array([0, -1.0])) == math.radians(-90)
     assert get_angle_degree_from_vector(np.array([1.0, 1.0])) == math.radians(45)
-    assert get_angle_degree_from_vector(np.array([-1.0, -1.0])) == math.radians(-135)
     assert get_angle_degree_from_vector(np.array([-1.0, 1.0])) == math.radians(135)
+    assert get_angle_degree_from_vector(np.array([-1.0, -1.0])) == math.radians(-135)
     assert get_angle_degree_from_vector(np.array([1.0, -1.0])) == math.radians(-45)
 
 
