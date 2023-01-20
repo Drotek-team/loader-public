@@ -2,6 +2,8 @@ import math
 from dataclasses import dataclass
 from typing import Tuple
 
+import numpy as np
+
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
@@ -9,7 +11,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
 from .show_user import ColorEventUser, DroneUser, PositionEventUser, ShowUser
 
 
-@dataclass(frozen=True)
+@dataclass()
 class GridConfiguration:
     nb_x: int = 1
     nb_y: int = 1
@@ -17,8 +19,21 @@ class GridConfiguration:
     step_takeoff: float = 1.5
     angle_takeoff: float = 0.0
 
+    # TODO: See the documentation here
+    @staticmethod
+    def _is_grid_angle_fuzzy(nb_x: int, nb_y: int) -> bool:
+        return nb_x == 1 and nb_y != 1
 
-@dataclass(frozen=True)
+    def __post_init__(self):
+        if self.nb_x == 1 and self.nb_y == 1:
+            self.step_takeoff = 0.0
+            self.angle_takeoff = 0.0
+        if self._is_grid_angle_fuzzy(self.nb_x, self.nb_y):
+            self.nb_y, self.nb_x = self.nb_x, self.nb_y
+            self.angle_takeoff += 0.5 * np.pi
+
+
+@dataclass()
 class ShowUserConfiguration(GridConfiguration):
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETER.takeoff_altitude_meter_min

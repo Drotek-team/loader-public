@@ -59,7 +59,7 @@ def angle_distance(first_angle_radian: float, second_angle_radian: float) -> flo
 
 
 @given(
-    nb_x=st.integers(2, 4),
+    nb_x=st.integers(1, 4),
     nb_y=st.integers(1, 4),
     nb_drone_per_family=st.integers(1, 3),
     angle_takeoff=st.floats(0, 0.5 * np.pi),
@@ -70,20 +70,18 @@ def test_get_angle_takeoff_from_grid(
     nb_drone_per_family: int,
     angle_takeoff: float,
 ):
-    grid = get_grid_from_configuration(
-        GridConfiguration(
-            nb_x=nb_x,
-            nb_y=nb_y,
-            nb_drone_per_family=nb_drone_per_family,
-            step_takeoff=1.5,
-            angle_takeoff=angle_takeoff,
-        )
+    grid_configuration = GridConfiguration(
+        nb_x=nb_x,
+        nb_y=nb_y,
+        nb_drone_per_family=nb_drone_per_family,
+        step_takeoff=1.5,
+        angle_takeoff=angle_takeoff,
     )
-    if grid.is_grid_one_family() and angle_takeoff != 0:
-        return
+    grid = get_grid_from_configuration(grid_configuration)
     assert (
         angle_distance(
-            get_angle_takeoff_from_grid(grid, nb_drone_per_family), angle_takeoff
+            get_angle_takeoff_from_grid(grid, grid_configuration.nb_drone_per_family),
+            grid_configuration.angle_takeoff,
         )
         < 1e-6
     )

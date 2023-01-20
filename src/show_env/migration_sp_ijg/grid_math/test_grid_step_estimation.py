@@ -1,5 +1,5 @@
 import numpy as np
-from hypothesis import assume, given
+from hypothesis import given
 from hypothesis import strategies as st
 
 from .grid import GridConfiguration, get_grid_from_configuration
@@ -20,16 +20,17 @@ def test_get_nb_drone_per_family_from_grid_valid_grids(
     step_takeoff: int,
     angle_takeoff: int,
 ):
-    assume(nb_x != 1 and nb_y != 1)
     grid = get_grid_from_configuration(
         GridConfiguration(
             nb_x=nb_x,
-            nb_y=nb_x,
+            nb_y=nb_y,
             nb_drone_per_family=nb_drone_per_family,
             step_takeoff=step_takeoff,
             angle_takeoff=angle_takeoff,
         )
     )
+    if grid.is_grid_one_family():
+        return
     assert (
         np.abs(
             get_step_from_grid(grid) - step_takeoff,
