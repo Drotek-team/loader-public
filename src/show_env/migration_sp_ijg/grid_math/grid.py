@@ -63,71 +63,22 @@ class Grid(List[HorizontalPosition]):
         for horizontal_position in self:
             horizontal_position.rotated_positions(angle_radian)
 
-    # TODO: maybe there is a way to fuse these two methods
-    def horizontal_x_extremes(
-        self, nb_drone_per_family: int
-    ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-        ordered_horizontal_positions = sorted(
-            self,
-            key=lambda horizontal_position: (
-                horizontal_position.x,
-                horizontal_position.drone_index,
-            ),
-        )
-        return (
-            ordered_horizontal_positions[nb_drone_per_family - 1],
-            ordered_horizontal_positions[-1],
-        )
-
-    # TODO: maybe there is a way to fuse these two methods
-    def horizontal_y_extremes(
-        self, nb_drone_per_family: int
-    ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-        ordered_horizontal_positions = sorted(
-            self,
-            key=lambda horizontal_position: (
-                horizontal_position.y,
-                horizontal_position.drone_index,
-            ),
-        )
-        return (
-            ordered_horizontal_positions[nb_drone_per_family - 1],
-            ordered_horizontal_positions[-1],
-        )
-
     def is_grid_one_drone(self) -> bool:
         return len(self) == 1
 
-    # TODO: test these methods
     def is_grid_one_family(self) -> bool:
         return all(
             self[0].xy_tuple == horizontal_position.xy_tuple
             for horizontal_position in self[1:]
         )
 
-    def is_grid_a_row(self, nb_drone_per_family: int) -> bool:
-        return set(self.horizontal_x_extremes(nb_drone_per_family)) == set(
-            self.horizontal_y_extremes(nb_drone_per_family)
-        )
-
-    # TODO: get corners are useless, all you need to do is know the number of family and jump to the next one
     def get_corner_down_right_and_down_left(
         self, nb_drone_per_family: int
     ) -> Tuple[HorizontalPosition, HorizontalPosition]:
         self.rotate_horizontal_positions(1e-3)
-        corners = list(self.horizontal_x_extremes(nb_drone_per_family)) + list(
-            self.horizontal_y_extremes(nb_drone_per_family)
-        )
-        enu_sorted_corners = sorted(
-            corners,
-            key=lambda corner: corner.drone_index,
-        )
-        if self.is_grid_a_row(nb_drone_per_family):
-            return (enu_sorted_corners[0], enu_sorted_corners[-1])
-        return (
-            enu_sorted_corners[0],
-            enu_sorted_corners[1],
-        )
+        if self.is_grid_one_drone() or len(self) == nb_drone_per_family:
+            return (self[0], self[0])
+        return (self[0], self[nb_drone_per_family])
 
 
 @dataclass(frozen=True)
