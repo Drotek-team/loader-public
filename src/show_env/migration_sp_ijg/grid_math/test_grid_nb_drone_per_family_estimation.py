@@ -1,3 +1,6 @@
+from hypothesis import given
+from hypothesis import strategies as st
+
 from .grid import GridConfiguration, get_grid_from_configuration
 from .grid_nb_per_family_estimation import get_nb_drone_per_family_from_grid
 
@@ -25,26 +28,21 @@ def test_is_grid_one_family():
         )
 
 
-# TODO: let's do hypothesis to make Jon happy
-def test_get_nb_drone_per_family_from_grid_valid_grid():
-    standard_grids = {
-        GridConfiguration(
-            nb_x=nb_x,
-            nb_y=nb_y,
-            nb_drone_per_family=nb_drone_per_family,
-        ): get_grid_from_configuration(
-            GridConfiguration(
-                nb_x=nb_x,
-                nb_y=nb_y,
-                nb_drone_per_family=nb_drone_per_family,
+@given(
+    nb_x=st.integers(1, 3),
+    nb_y=st.integers(1, 3),
+    nb_drone_per_family=st.integers(1, 3),
+)
+def test_get_nb_drone_per_family_from_grid_valid_grid(
+    nb_x: int, nb_y: int, nb_drone_per_family: int
+):
+    assert (
+        get_nb_drone_per_family_from_grid(
+            get_grid_from_configuration(
+                GridConfiguration(
+                    nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family
+                )
             )
         )
-        for nb_x in range(1, 5)
-        for nb_y in range(1, 5)
-        for nb_drone_per_family in range(1, 5)
-    }
-    for grid_configuration in standard_grids:
-        assert (
-            get_nb_drone_per_family_from_grid(standard_grids[grid_configuration])
-            == grid_configuration.nb_drone_per_family
-        )
+        == nb_drone_per_family
+    )
