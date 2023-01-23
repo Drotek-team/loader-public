@@ -106,8 +106,8 @@ def test_invalid_show_user_horizontal_velocity(
     ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
-        performance_infractions["horizontal velocity"].display_message(0, " ")
-        == "The performance horizontal velocity has the value: 6.24 (max: 6.0) at the frame 240"
+        performance_infractions["horizontal velocity"].display_message()
+        == "[Performance Infraction] The performance horizontal velocity has the value: 6.24 (max: 6.0) at the frame 240"
     )
 
 
@@ -157,8 +157,8 @@ def test_invalid_show_user_vertical_position(
     ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
-        performance_infractions["vertical position"].display_message(0, " ")
-        == "The performance vertical position has the value: 0.99 (min: 1.0) at the frame 240"
+        performance_infractions["vertical position"].display_message()
+        == "[Performance Infraction] The performance vertical position has the value: 0.99 (min: 1.0) at the frame 240"
     )
 
 
@@ -211,8 +211,8 @@ def test_invalid_show_user_velocity_up(
     ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
-        performance_infractions["up velocity"].display_message(0, " ")
-        == "The performance up velocity has the value: 4.24 (max: 4.0) at the frame 240"
+        performance_infractions["up velocity"].display_message()
+        == "[Performance Infraction] The performance up velocity has the value: 4.24 (max: 4.0) at the frame 240"
     )
 
 
@@ -265,8 +265,8 @@ def test_invalid_show_user_velocity_down(
     ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
-        performance_infractions["down velocity"].display_message(0, " ")
-        == "The performance down velocity has the value: 4.24 (max: 4.0) at the frame 240"
+        performance_infractions["down velocity"].display_message()
+        == "[Performance Infraction] The performance down velocity has the value: 4.24 (max: 4.0) at the frame 240"
     )
 
 
@@ -319,6 +319,6 @@ def test_invalid_show_user_acceleration(
     ]["Performance evaluation at frame 240"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
-        performance_infractions["acceleration"].display_message(0, " ")
-        == "The performance acceleration has the value: 101.76 (max: 2.0) at the frame 240"
+        performance_infractions["acceleration"].display_message()
+        == "[Performance Infraction] The performance acceleration has the value: 101.76 (max: 2.0) at the frame 240"
     )

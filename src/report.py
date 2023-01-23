@@ -11,9 +11,9 @@ class ErrorMessage(ABC):
     def user_validation(self) -> bool:
         pass
 
-    @abstractmethod
-    def display_message(self, indentation_level: int, indentation_type: str) -> str:
-        pass
+    def display_message(self, indentation_level: int = 0) -> str:
+        indentation_type = " "
+        return f"{indentation_level * indentation_type}"
 
 
 class Displayer(ErrorMessage):
@@ -36,12 +36,13 @@ class Displayer(ErrorMessage):
         return self._validation
 
     # TODO: put the indention part on the error message
-    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+    def display_message(self, indentation_level: int = 0) -> str:
         if self.user_validation:
             return ""
+        message_begin = super().display_message(indentation_level)
         if self._annexe_message == "":
-            return f"{indentation_level * indentation_type}[Displayer] {self.name} \n"
-        return f"{indentation_level * indentation_type}[Displayer] {self.name}:{self._annexe_message} \n"
+            return f"{message_begin}[Displayer] {self.name} \n"
+        return f"{message_begin}[Displayer] {self.name}:{self._annexe_message} \n"
 
     def validate(self):
         self._validation = True
@@ -68,10 +69,11 @@ class PerformanceInfraction(ErrorMessage):
     def user_validation(self) -> bool:
         return False
 
-    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+    def display_message(self, indentation_level: int = 0) -> str:
+        message_begin = super().display_message(indentation_level)
         metric_convention_name = "max" if self.metric_convention else "min"
         return (
-            f"{indentation_level * indentation_type}The performance {self.name} has the value: {self.value:.2f}"
+            f"{message_begin}[Performance Infraction] The performance {self.name} has the value: {self.value:.2f}"
             f" ({metric_convention_name}: {self.threshold}) at the frame {self.frame}"
         )
 
@@ -94,9 +96,10 @@ class CollisionInfraction(ErrorMessage):
     def user_validation(self) -> bool:
         return False
 
-    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+    def display_message(self, indentation_level: int = 0) -> str:
+        message_begin = super().display_message(indentation_level)
         return (
-            f"{indentation_level*indentation_type}Collision between drone {self.drone_index_1} and drone {self.drone_index_2} "
+            f"{message_begin}[Collision Infraction] Collision between drone {self.drone_index_1} and drone {self.drone_index_2} "
             f"{'in air' if self.in_air else 'on ground'} with a distance of {self.distance}"
         )
 
@@ -135,15 +138,14 @@ class Contenor(ErrorMessage):
             for error_message in self._error_messages.values()
         )
 
-    def display_message(self, indentation_level: int, indentation_type: str) -> str:
+    def display_message(self, indentation_level: int = 0) -> str:
         if self.user_validation:
             return ""
-        initial_message = (
-            f"{indentation_level * indentation_type}[Contenor] {self.name} \n"
-        )
+        message_begin = super().display_message(indentation_level)
+        initial_message = f"{message_begin}[Contenor] {self.name} \n"
         children_message = "".join(
             [
-                error_message.display_message(indentation_level + 1, indentation_type)
+                error_message.display_message(indentation_level + 1)
                 for error_message in self._error_messages.values()
             ]
         )

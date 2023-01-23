@@ -5,14 +5,13 @@ def test_displayer_standard_case():
     displayer = Displayer(name="test")
     assert displayer.name == "test"
     assert not (displayer.user_validation)
-    assert displayer.display_message(0, " ") == "[Displayer] test \n"
+    assert displayer.display_message() == "[Displayer] test \n"
     displayer.update_annexe_message(annexe_message="annexe")
-    assert displayer.display_message(0, " ") == "[Displayer] test:annexe \n"
-    assert displayer.display_message(1, " ") == " [Displayer] test:annexe \n"
-    assert displayer.display_message(1, "*") == "*[Displayer] test:annexe \n"
+    assert displayer.display_message() == "[Displayer] test:annexe \n"
+    assert displayer.display_message(1) == " [Displayer] test:annexe \n"
     assert displayer != Displayer(name="test")
     displayer.validate()
-    assert displayer.display_message(0, " ") == ""
+    assert displayer.display_message() == ""
 
 
 def test_contenor_standard_case():
@@ -29,17 +28,17 @@ def test_contenor_standard_case():
     d = " [Contenor] Dummier contenor \n"
     e = "  [Displayer] three \n"
     f = "  [Displayer] four \n"
-    assert dummy_contenor.display_message(0, " ") == a + b + c + d + e + f
+    assert dummy_contenor.display_message() == a + b + c + d + e + f
     assert not (dummy_contenor.user_validation)
     dummy_contenor["one"]._validation = True  # type:ignore[for the sack of the test]
-    assert dummy_contenor.display_message(0, " ") == a + c + d + e + f
+    assert dummy_contenor.display_message() == a + c + d + e + f
     assert not (dummy_contenor.user_validation)
     dummy_contenor["two"]._validation = True  # type:ignore[for the sack of the test]
-    assert dummy_contenor.display_message(0, " ") == a + d + e + f
+    assert dummy_contenor.display_message() == a + d + e + f
     assert not (dummy_contenor.user_validation)
     dummy_contenor["Dummier contenor"]["three"]._validation = True  # type: ignore[test env]
-    assert dummy_contenor.display_message(0, " ") == a + d + f
+    assert dummy_contenor.display_message() == a + d + f
     assert not (dummy_contenor.user_validation)
     dummy_contenor["Dummier contenor"]["four"]._validation = True  # type: ignore[test env]
-    assert dummy_contenor.display_message(0, " ") == ""
+    assert dummy_contenor.display_message() == ""
     assert dummy_contenor.user_validation
