@@ -58,7 +58,6 @@ def test_grid_rotate_horizontal_positions():
     assert grid[0].coordinate == Coordinate(-1.0, -1.0)
 
 
-# TODO: get_valid_show_user
 def test_get_grid_from_show_user():
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
     grid = get_grid_from_show_user(show_user)

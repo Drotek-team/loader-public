@@ -79,7 +79,6 @@ def test_land_simulation_first_case(
             frame=valid_position_event_user_first_case.frame + frame_index,
             position=theorical_position,
             in_air=True,
-            in_dance=False,
         )
         for frame_index, theorical_position in enumerate(theorical_position)
     ]
@@ -136,7 +135,6 @@ def test_land_simulation_second_case(
             frame=valid_position_event_user_second_case.frame + frame_index,
             position=theorical_position,
             in_air=True,
-            in_dance=False,
         )
         for frame_index, theorical_position in enumerate(theorical_position)
     ]

@@ -2,14 +2,14 @@ from typing import Tuple
 
 import pytest
 
-from ....check.simulation.in_air_flight_simulation import linear_interpolation
-from ....check.simulation.position_simulation import SimulationInfo
-from ....check.simulation.takeoff_simulation import takeoff_simulation
-from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
+from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ....show_env.show_user.show_user import PositionEventUser
+from ...show_env.show_user.show_user import PositionEventUser
+from .in_air_flight_simulation import linear_interpolation
+from .position_simulation import SimulationInfo
+from .takeoff_simulation import takeoff_simulation
 
 FRAME_START = 0
 FRAME_END = FRAME_START + FRAME_PARAMETER.from_second_to_frame(
@@ -63,7 +63,6 @@ def test_takeoff_simulation(
             frame=first_position_event.frame + frame_index,
             position=theorical_position,
             in_air=True,
-            in_dance=False,
         )
         for frame_index, theorical_position in enumerate(theorical_positions)
     ]

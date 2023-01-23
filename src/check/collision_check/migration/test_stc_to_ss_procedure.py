@@ -26,7 +26,11 @@ def test_valid_show_flags():
         show_simulation.show_slices[240].positions[0],
         np.array([0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min]),
     )
+
     assert np.array_equal(
         show_simulation.show_slices[-1].positions[0],
         np.array([0.0, 0.0, 0.0]),
+    )
+    assert np.array_equal(
+        show_simulation.show_slices[-1].in_air_flags, np.array([False])
     )

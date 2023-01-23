@@ -75,6 +75,7 @@ class DroneUser(BaseModel):
     def last_height(self) -> float:
         return self.position_events[-1].xyz[2]
 
+    # TODO: rename and see what to do with these methods
     def get_position_frame_by_index(self, index: int) -> int:
         return self.position_events[index].frame
 
@@ -107,6 +108,7 @@ class ShowUser(BaseModel):
             + FRAME_PARAMETER.from_second_to_frame(
                 LAND_PARAMETER.get_land_second_delta(drone_user.last_height)
             )
+            + 1
             for drone_user in self.drones_user
         )
 

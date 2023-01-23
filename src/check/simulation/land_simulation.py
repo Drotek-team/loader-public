@@ -61,7 +61,6 @@ def land_simulation(
             frame=frame_begin + frame_index,
             position=land_position,
             in_air=True,
-            in_dance=False,
         )
         for frame_index, land_position in enumerate(land_positions)
     ]

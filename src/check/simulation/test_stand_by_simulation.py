@@ -39,7 +39,6 @@ def test_stand_by_simulation(
             frame=first_position_event.frame + frame_index,
             position=np.array(first_position_event.xyz),
             in_air=False,
-            in_dance=False,
         )
         for frame_index in range(
             second_position_event.frame - first_position_event.frame

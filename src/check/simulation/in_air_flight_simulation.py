@@ -25,7 +25,6 @@ def in_air_flight_simulation(
             frame=position_events_user[0].frame - 1 + frame_index,
             position=flight_position,
             in_air=True,
-            in_dance=True,
         )
         for frame_index, flight_position in enumerate(flight_positions)
     ]

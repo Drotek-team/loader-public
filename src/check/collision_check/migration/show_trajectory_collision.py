@@ -1,41 +1,29 @@
-from dataclasses import dataclass
 from typing import List
 
-import numpy as np
-import numpy.typing as npt
-
-
-@dataclass(frozen=True)
-class CollisionPositionInfo:
-    frame: int
-    position: npt.NDArray[np.float64]
-    in_air: bool
-
-    def __eq__(self, other: "CollisionPositionInfo"):
-        return (
-            self.frame == other.frame
-            and np.array_equal(self.position, other.position)
-            and self.in_air == other.in_air
-        )
+from src.check.simulation.position_simulation import SimulationInfo
 
 
 class CollisionTrajectory:
-    def __init__(self, drone_index: int, trajectory: List[CollisionPositionInfo]):
+    def __init__(self, drone_index: int, trajectory: List[SimulationInfo]):
         self.drone_index = drone_index
         self._trajectory = trajectory
 
     @property
-    def collision_position_infos(self) -> List[CollisionPositionInfo]:
+    def collision_position_infos(self) -> List[SimulationInfo]:
         return self._trajectory
 
 
 class CollisionShowTrajectory(List[CollisionTrajectory]):
     @property
     def frames(self) -> List[int]:
-        return [
-            collision_position_info.frame
-            for collision_position_info in self[0].collision_position_infos
-        ]
+        return list(
+            range(
+                max(
+                    collision_trajectory.collision_position_infos[-1].frame + 1
+                    for collision_trajectory in self
+                )
+            )
+        )
 
     @property
     def drone_number(self) -> int:

@@ -10,14 +10,12 @@ class SimulationInfo:
     frame: int
     position: npt.NDArray[np.float64]
     in_air: bool
-    in_dance: bool
 
     def __eq__(self, other_simulation_info: "SimulationInfo"):
         return (
             self.frame == other_simulation_info.frame
             and np.array_equal(self.position, other_simulation_info.position)
             and self.in_air == other_simulation_info.in_air
-            and self.in_dance == other_simulation_info.in_dance
         )
 
 
@@ -35,7 +33,7 @@ def linear_interpolation(
         np.round(
             np.array(position_begin) * (1 - percentile)
             + np.array(position_end) * percentile,
-            2,
+            3,
         )
         for percentile in np.linspace(
             0,
