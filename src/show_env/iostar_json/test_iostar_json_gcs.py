@@ -1,5 +1,5 @@
 from ..migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
-from ..show_user.show_user_generator import ShowUserConfiguration, get_valid_show_user
+from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_iostar_json_gcs_standard_case_and_method():

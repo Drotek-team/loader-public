@@ -4,11 +4,11 @@ from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PAR
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_env.show_user.show_user import DroneUser, PositionEventUser
-from ...show_env.show_user.show_user_generator import (
+from ...show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
+from ...show_env.show_user.show_user import DroneUser, PositionEventUser
 from .show_user_check_procedure import (
     apply_show_user_check_procedure,
     apply_takeoff_check,

@@ -1,5 +1,5 @@
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...show_env.show_user.show_user_generator import (
+from ...show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

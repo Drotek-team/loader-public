@@ -1,8 +1,8 @@
 import numpy as np
 
-from src.show_env.show_user.show_user_generator import GridConfiguration
+from src.show_env.show_user.generate_show_user import GridConfiguration
 
-from ...show_user.show_user_generator import ShowUserConfiguration, get_valid_show_user
+from ...show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from .grid import (
     Coordinate,
     HorizontalPosition,

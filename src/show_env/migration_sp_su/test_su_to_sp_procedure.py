@@ -1,11 +1,11 @@
 from ..show_px4.drone_px4.drone_px4 import DronePx4
+from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from ..show_user.show_user import (
     ColorEventUser,
     DroneUser,
     FireEventUser,
     PositionEventUser,
 )
-from ..show_user.show_user_generator import ShowUserConfiguration, get_valid_show_user
 from .su_to_sp_procedure import (
     add_color_events_user,
     add_fire_events_user,

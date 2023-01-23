@@ -1,5 +1,5 @@
 from ..migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
-from ..show_user.show_user_generator import ShowUserConfiguration, get_valid_show_user
+from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from .su_to_ijg_procedure import get_family_from_drones_px4, su_to_ijg_procedure
 
 

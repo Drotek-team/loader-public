@@ -6,7 +6,7 @@ from .editor import (
     global_check_iostar_json_gcs,
 )
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
-from .show_env.show_user.show_user_generator import (
+from .show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

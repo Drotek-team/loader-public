@@ -16,7 +16,6 @@ from .show_user import (
 )
 
 
-# TODO: rename show_user_generator to generate_show_user
 @dataclass()
 class ShowUserConfiguration(GridConfiguration):
     show_duration_absolute_time: float = 30.0

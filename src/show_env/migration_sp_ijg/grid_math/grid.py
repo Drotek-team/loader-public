@@ -5,7 +5,7 @@ from typing import List, Tuple
 import numpy as np
 import numpy.typing as npt
 
-from ....show_env.show_user.show_user_generator import (
+from ...show_user.generate_show_user import (
     GridConfiguration,
     ShowUserConfiguration,
     get_valid_show_user,
