@@ -32,6 +32,7 @@ def check_increasing_frame(frames: List[int]) -> bool:
     )
 
 
+# TODO: test this
 def frame_check(
     events: Events,
 ) -> Contenor:
@@ -56,6 +57,7 @@ def frame_check(
     return frame_check
 
 
+# TODO: test this
 def xyz_check(
     position_events: PositionEvents,
 ) -> Contenor:
@@ -71,6 +73,7 @@ def xyz_check(
     return xyz_contenor
 
 
+# TODO: test this
 def rgbw_check(
     color_events: ColorEvents,
 ) -> Contenor:
@@ -86,10 +89,7 @@ def rgbw_check(
     return rgbw_check
 
 
-def check_chanel_unicity(chanels: List[int]) -> bool:
-    return len(set(chanels)) == len(chanels)
-
-
+# TODO: test this
 def fire_chanel_check(
     fire_events: FireEvents,
 ) -> Contenor:
@@ -105,6 +105,7 @@ def fire_chanel_check(
     return fire_chanel_contenor
 
 
+# TODO: test this
 def fire_duration_frame_check(
     fire_events: FireEvents,
 ) -> Contenor:
@@ -118,5 +119,4 @@ def fire_duration_frame_check(
         JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
     ):
         value_displayer.validate()
-    return fire_chanel_contenor
     return fire_chanel_contenor

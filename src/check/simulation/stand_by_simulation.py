@@ -10,8 +10,6 @@ def stand_by_simulation(
     frame_end: int,
     stand_by_position: Tuple[float, float, float],
 ) -> List[SimulationInfo]:
-    if not (isinstance(frame_begin, int)) or not (isinstance(frame_end, int)):
-        raise ValueError(frame_begin, frame_end)
     return [
         SimulationInfo(
             frame=frame_begin + frame_index,

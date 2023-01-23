@@ -4,8 +4,8 @@ from ..show_user.show_user import (
     DroneUser,
     FireEventUser,
     PositionEventUser,
-    ShowUser,
 )
+from ..show_user.show_user_generator import ShowUserConfiguration, get_valid_show_user
 from .su_to_sp_procedure import (
     add_color_events_user,
     add_fire_events_user,
@@ -115,46 +115,22 @@ def test_drone_user_to_drone_px4_procedure_standard_case():
     assert drone_px4.fire_events.get_fire_event_by_index(0).chanel_duration == (0, 41)
 
 
-# TODO: get valid_show_user
+# TODO: make test with several drones
 def test_su_to_sp_procedure_standard_case():
-    show_user = ShowUser(
-        drones_user=[
-            DroneUser(
-                position_events=[
-                    PositionEventUser(
-                        frame=0,
-                        xyz=(0.0, 1.0, 2.0),
-                    ),
-                ],
-                color_events=[
-                    ColorEventUser(
-                        frame=0,
-                        rgbw=(0.0, 1.0, 0.0, 1.0),
-                    ),
-                ],
-                fire_events=[
-                    FireEventUser(
-                        frame=0,
-                        chanel=0,
-                        duration_frame=1,
-                    ),
-                ],
-            ),
-        ],
-    )
+    show_user = get_valid_show_user(ShowUserConfiguration())
     show_px4 = su_to_sp_procedure(show_user)
     assert show_px4[0].position_events.get_position_event_by_index(0).timecode == 0
     assert show_px4[0].position_events.get_position_event_by_index(0).xyz == (
-        100,
         0,
-        -200,
+        0,
+        0,
     )
     assert show_px4[0].color_events.get_color_event_by_index(0).timecode == 0
     assert show_px4[0].color_events.get_color_event_by_index(0).rgbw == (
-        0,
         255,
         0,
-        255,
+        0,
+        0,
     )
     assert show_px4[0].fire_events.get_fire_event_by_index(0).timecode == 0
-    assert show_px4[0].fire_events.get_fire_event_by_index(0).chanel_duration == (0, 41)
+    assert show_px4[0].fire_events.get_fire_event_by_index(0).chanel_duration == (0, 0)

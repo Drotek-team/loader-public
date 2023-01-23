@@ -2,7 +2,7 @@ import numpy as np
 
 from src.show_env.show_user.show_user_generator import GridConfiguration
 
-from ...show_user.show_user import DroneUser, ShowUser
+from ...show_user.show_user_generator import ShowUserConfiguration, get_valid_show_user
 from .grid import (
     Coordinate,
     HorizontalPosition,
@@ -60,16 +60,7 @@ def test_grid_rotate_horizontal_positions():
 
 # TODO: get_valid_show_user
 def test_get_grid_from_show_user():
-    show_user = ShowUser(
-        drones_user=[
-            DroneUser(position_events=[], color_events=[], fire_events=[])
-            for _ in range(4)
-        ]
-    )
-    show_user.drones_user[0].add_position_event(0, (-1.0, -1.0, 0.0))
-    show_user.drones_user[1].add_position_event(0, (1.0, -1.0, 0.0))
-    show_user.drones_user[2].add_position_event(0, (-1.0, 1.0, 0.0))
-    show_user.drones_user[3].add_position_event(0, (1.0, 1.0, 0.0))
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
     grid = get_grid_from_show_user(show_user)
     assert grid[0].coordinate == Coordinate(-1.0, -1.0)
     assert grid[1].coordinate == Coordinate(1.0, -1.0)

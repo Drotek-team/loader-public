@@ -16,7 +16,7 @@ def valid_fire_events():
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         chanel=0,
-        duration=1000,
+        duration=0,
     )
     fire_events.add_timecode_chanel_duration(
         timecode=FRAME_PARAMETER.from_second_to_frame(
@@ -24,7 +24,7 @@ def valid_fire_events():
         )
         + 1,
         chanel=1,
-        duration=1000,
+        duration=0,
     )
     fire_events.add_timecode_chanel_duration(
         FRAME_PARAMETER.from_second_to_frame(
@@ -32,7 +32,7 @@ def valid_fire_events():
         )
         + 2,
         chanel=2,
-        duration=1000,
+        duration=0,
     )
     return fire_events
 

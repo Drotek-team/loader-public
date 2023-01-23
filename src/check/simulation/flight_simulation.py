@@ -12,7 +12,7 @@ from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
 
 
-# TO DO: this is the one that must be test like hell
+# TODO: this is the one that must be test like hell, all the cases of last frame
 def flight_simulation(
     drone_user: DroneUser,
     last_frame: int,
@@ -54,5 +54,4 @@ def flight_simulation(
         frame_end=last_frame + 1,
         stand_by_position=(last_position[0], last_position[1], 0),
     )
-    return simulation_infos
     return simulation_infos

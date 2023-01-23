@@ -1,11 +1,9 @@
 import numpy as np
-import pytest
 
-from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
+from ....show_env.show_user.show_user_generator import (
+    ShowUserConfiguration,
+    get_valid_show_user,
 )
-from ....show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
 from ...simulation.position_simulation import SimulationInfo
 from .su_to_stc_procedure import (
     CollisionPositionInfo,
@@ -28,34 +26,10 @@ def test_get_position_info_from_simulation_infos():
     ]
 
 
-@pytest.fixture
-def valid_show_user():
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
-    )
-    return ShowUser(drones_user=[drone_user])
-
-
 # TODO: get_valid_show_user
-def test_su_to_stc_procedure(valid_show_user: ShowUser):
-    show_trajectory = su_to_stc_procedure(valid_show_user)
+def test_su_to_stc_procedure():
+    show_trajectory = su_to_stc_procedure(get_valid_show_user(ShowUserConfiguration()))
     assert show_trajectory.drone_number == 1
-    assert len(show_trajectory.frames) == 301
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
-    assert show_trajectory.frames == list(range(301))
+    assert len(show_trajectory.frames) == 1021
+    assert show_trajectory.frames == list(range(1021))
+    assert show_trajectory.drone_number == 1

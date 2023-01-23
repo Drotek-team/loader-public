@@ -1,19 +1,27 @@
 import math
 from dataclasses import dataclass
-from typing import Tuple
+from typing import List, Tuple
 
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ..migration_sp_ijg.grid_math.grid_configuration import GridConfiguration
-from .show_user import ColorEventUser, DroneUser, PositionEventUser, ShowUser
+from .show_user import (
+    ColorEventUser,
+    DroneUser,
+    FireEventUser,
+    PositionEventUser,
+    ShowUser,
+)
 
 
+# TODO: rename show_user_generator to generate_show_user
 @dataclass()
 class ShowUserConfiguration(GridConfiguration):
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETER.takeoff_altitude_meter_min
+    duration_before_takeoff: float = 0.0
 
     def __post_init__(self) -> None:
         if self.show_duration_absolute_time <= 0.0:
@@ -29,6 +37,118 @@ def rotated_horizontal_coordinates(
     return (x_rotated, y_rotated, xyz[2])
 
 
+def get_valid_position_events_user(
+    index_x: int,
+    index_bias_x: float,
+    index_y: int,
+    index_bias_y: float,
+    show_user_configuration: ShowUserConfiguration,
+) -> List[PositionEventUser]:
+    return [
+        PositionEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+            ),
+            xyz=rotated_horizontal_coordinates(
+                (
+                    show_user_configuration.step * index_x - index_bias_x,
+                    show_user_configuration.step * index_y - index_bias_y,
+                    0.0,
+                ),
+                show_user_configuration.angle_takeoff,
+            ),
+        ),
+        PositionEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+                + TAKEOFF_PARAMETER.takeoff_duration_second
+            ),
+            xyz=rotated_horizontal_coordinates(
+                (
+                    show_user_configuration.step * index_x - index_bias_x,
+                    show_user_configuration.step * index_y - index_bias_y,
+                    show_user_configuration.takeoff_altitude,
+                ),
+                show_user_configuration.angle_takeoff,
+            ),
+        ),
+        PositionEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+                + TAKEOFF_PARAMETER.takeoff_duration_second
+                + show_user_configuration.show_duration_absolute_time
+            ),
+            xyz=rotated_horizontal_coordinates(
+                (
+                    show_user_configuration.step * index_x - index_bias_x,
+                    show_user_configuration.step * index_y - index_bias_y,
+                    show_user_configuration.takeoff_altitude,
+                ),
+                show_user_configuration.angle_takeoff,
+            ),
+        ),
+    ]
+
+
+def get_valid_color_events_user(
+    show_user_configuration: ShowUserConfiguration,
+) -> List[ColorEventUser]:
+    return [
+        ColorEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+            ),
+            rgbw=(1.0, 0.0, 0.0, 0.0),
+        ),
+        ColorEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+                + TAKEOFF_PARAMETER.takeoff_duration_second
+            ),
+            rgbw=(0.0, 1.0, 0.0, 0.0),
+        ),
+        ColorEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+                + TAKEOFF_PARAMETER.takeoff_duration_second
+                + show_user_configuration.show_duration_absolute_time
+            ),
+            rgbw=(0.0, 0.0, 1.0, 0.0),
+        ),
+    ]
+
+
+def get_valid_fire_events(
+    show_user_configuration: ShowUserConfiguration,
+) -> List[FireEventUser]:
+    return [
+        FireEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+            ),
+            chanel=0,
+            duration_frame=0,
+        ),
+        FireEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+                + TAKEOFF_PARAMETER.takeoff_duration_second
+            ),
+            chanel=1,
+            duration_frame=0,
+        ),
+        FireEventUser(
+            frame=FRAME_PARAMETER.from_second_to_frame(
+                show_user_configuration.duration_before_takeoff
+                + TAKEOFF_PARAMETER.takeoff_duration_second
+                + show_user_configuration.show_duration_absolute_time
+            ),
+            chanel=0,
+            duration_frame=0,
+        ),
+    ]
+
+
 def get_valid_show_user(
     show_user_configuration: ShowUserConfiguration,
 ) -> ShowUser:
@@ -40,71 +160,11 @@ def get_valid_show_user(
     )
     valid_drones_user = [
         DroneUser(
-            position_events=[
-                PositionEventUser(
-                    frame=0,
-                    xyz=rotated_horizontal_coordinates(
-                        (
-                            show_user_configuration.step * index_x - index_bias_x,
-                            show_user_configuration.step * index_y - index_bias_y,
-                            0.0,
-                        ),
-                        show_user_configuration.angle_takeoff,
-                    ),
-                ),
-                PositionEventUser(
-                    frame=FRAME_PARAMETER.from_second_to_frame(
-                        TAKEOFF_PARAMETER.takeoff_duration_second
-                    ),
-                    xyz=rotated_horizontal_coordinates(
-                        (
-                            show_user_configuration.step * index_x - index_bias_x,
-                            show_user_configuration.step * index_y - index_bias_y,
-                            show_user_configuration.takeoff_altitude,
-                        ),
-                        show_user_configuration.angle_takeoff,
-                    ),
-                ),
-                PositionEventUser(
-                    frame=FRAME_PARAMETER.from_second_to_frame(
-                        TAKEOFF_PARAMETER.takeoff_duration_second
-                    )
-                    + FRAME_PARAMETER.from_second_to_frame(
-                        show_user_configuration.show_duration_absolute_time
-                    ),
-                    xyz=rotated_horizontal_coordinates(
-                        (
-                            show_user_configuration.step * index_x - index_bias_x,
-                            show_user_configuration.step * index_y - index_bias_y,
-                            show_user_configuration.takeoff_altitude,
-                        ),
-                        show_user_configuration.angle_takeoff,
-                    ),
-                ),
-            ],
-            color_events=[
-                ColorEventUser(
-                    frame=FRAME_PARAMETER.from_second_to_frame(
-                        TAKEOFF_PARAMETER.takeoff_duration_second
-                    ),
-                    rgbw=(1.0, 0.0, 0.0, 0.0),
-                ),
-                ColorEventUser(
-                    frame=FRAME_PARAMETER.from_second_to_frame(
-                        TAKEOFF_PARAMETER.takeoff_duration_second
-                    )
-                    + 24,
-                    rgbw=(0.0, 1.0, 0.0, 0.0),
-                ),
-                ColorEventUser(
-                    frame=FRAME_PARAMETER.from_second_to_frame(
-                        TAKEOFF_PARAMETER.takeoff_duration_second
-                    )
-                    + 48,
-                    rgbw=(0.0, 0.0, 1.0, 0.0),
-                ),
-            ],
-            fire_events=[],
+            position_events=get_valid_position_events_user(
+                index_x, index_bias_x, index_y, index_bias_y, show_user_configuration
+            ),
+            color_events=get_valid_color_events_user(show_user_configuration),
+            fire_events=get_valid_fire_events(show_user_configuration),
         )
         for index_y in range(show_user_configuration.nb_y)
         for index_x in range(show_user_configuration.nb_x)

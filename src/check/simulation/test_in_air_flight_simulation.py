@@ -17,7 +17,7 @@ def valid_position_events_user() -> List[PositionEventUser]:
     ]
 
 
-def test_flight_simulation(valid_position_events_user: List[PositionEventUser]):
+def test_in_air_flight_simulation(valid_position_events_user: List[PositionEventUser]):
     first_position_event_user, second_position_event_user, third_position_event_user = (
         valid_position_events_user[0],
         valid_position_events_user[1],

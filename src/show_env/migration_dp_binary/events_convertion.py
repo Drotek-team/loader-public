@@ -13,7 +13,7 @@ def encode_events(events: Events) -> bytearray:
                 events.format_, *event_data.get_data
             )
         except struct.error:
-            msg = f"{cpt_event} {event_size}  {events.format_}"
+            msg = f"{cpt_event} {event_size}  {events.format_} {event_data.get_data}"
             raise ValueError(msg) from None
     return binary
 

@@ -22,7 +22,7 @@ class JsonBinaryParameter:
     fire_chanel_value_min = 0
     fire_chanel_value_max = 2
     fire_duration_value_frame_min = 0
-    fire_duration_value_frame_max = 28_800
+    fire_duration_value_frame_max = 255
     position_value_min = -32768
     position_value_max = 327687
     color_value_min = 0
