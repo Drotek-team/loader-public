@@ -15,6 +15,11 @@ class ShowUserConfiguration(GridConfiguration):
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETER.takeoff_altitude_meter_min
 
+    def __post_init__(self) -> None:
+        if self.show_duration_absolute_time <= 0.0:
+            msg = f"Show duration must be stricly positif, not {self.show_duration_absolute_time}"
+            raise ValueError(msg)
+
 
 def rotated_horizontal_coordinates(
     xyz: Tuple[float, float, float], angle_radian: float
@@ -24,7 +29,9 @@ def rotated_horizontal_coordinates(
     return (x_rotated, y_rotated, xyz[2])
 
 
-def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowUser:
+def get_valid_show_user(
+    show_user_configuration: ShowUserConfiguration,
+) -> ShowUser:
     index_bias_x = (
         0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
     )

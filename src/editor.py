@@ -41,7 +41,7 @@ def export_show_user_to_iostar_json_string(show_user: ShowUser) -> str:
     """Export a ShowUser object to a IostarJson on the string format."""
     iostar_json, show_check_report = apply_export_procedure(show_user)
     if not (show_check_report.user_validation):
-        show_check_report.display_message(4, " ")
+        show_check_report.display_message(4)
         msg = "The show is not valid"
         raise ValueError(msg)
     return iostar_json.json()

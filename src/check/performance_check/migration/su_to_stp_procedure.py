@@ -1,59 +1,52 @@
 from typing import List
 
 import numpy as np
-import numpy.typing as npt
 
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from ....show_env.show_user.show_user import ShowUser
-from ...simulation.in_air_flight_simulation import in_air_flight_simulation
-from ...simulation.position_simulation import SimulationInfo
+from ....show_env.show_user.show_user import PositionEventUser, ShowUser
 from .show_trajectory_performance import (
     DroneTrajectoryPerformance,
     ShowTrajectoryPerformance,
     TrajectoryPerformanceInfo,
 )
 
-VELOCITY_ESTIMATION_INDEX = 1
-ACCELERATION_ESTIMATION_INDEX = 2
 
-
-def get_trajectory_performance_info_from_simulation_infos(
-    simulation_infos: List[SimulationInfo],
+# TODO: there is a protection for empty position_events ?
+def get_trajectory_performance_info_from_position_events(
+    position_events_user: List[PositionEventUser],
 ) -> List[TrajectoryPerformanceInfo]:
-    # TODO: what the hell is this ?
-    positions = [simulation_infos[0].position, simulation_infos[0].position] + [
-        simulation_info.position for simulation_info in simulation_infos
+    frames = [position_event.frame for position_event in position_events_user]
+    positions = [
+        np.array(position_event.xyz) for position_event in position_events_user
     ]
-    # TODO: WARNING if the sampling frequence is different from _fps, this calculus is wrong
     velocities = [
-        FRAME_PARAMETER.from_second_to_frame(1)
-        * (
-            positions[position_index]
-            - positions[position_index - VELOCITY_ESTIMATION_INDEX]
+        FRAME_PARAMETER.from_frame_to_second(
+            frames[position_index + 1] - frames[position_index]
         )
-        for position_index in range(len(positions))
+        * (positions[position_index + 1] - positions[position_index])
+        for position_index in range(len(positions) - 1)
     ]
-    accelerations: List[npt.NDArray[np.float64]] = [
-        FRAME_PARAMETER.from_second_to_frame(1)
-        * FRAME_PARAMETER.from_second_to_frame(1)
-        * (
-            positions[position_index]
-            - 2 * positions[position_index - VELOCITY_ESTIMATION_INDEX]
-            + positions[position_index - ACCELERATION_ESTIMATION_INDEX]
+    accelerations = [
+        FRAME_PARAMETER.from_frame_to_second(
+            frames[velocity_index + 2] - frames[velocity_index + 1]
         )
-        for position_index in range(len(positions))
+        * (velocities[velocity_index + 1] - velocities[velocity_index])
+        for velocity_index in range(len(velocities) - 1)
     ]
-    # TODO: WTF there is more positions/velocities/accelerations than simulations infos !!!!
-    # TODO: redo and test that seriously
+    velocities.insert(0, np.array([0.0, 0.0, 0.0]))
+    accelerations.insert(0, np.array([0.0, 0.0, 0.0]))
+    accelerations.insert(0, np.array([0.0, 0.0, 0.0]))
+
+    if len(frames) != len(positions) != len(velocities) != len(accelerations):
+        msg = "You should have the same number of frames, positions, velocities and accelerations"
+        raise ValueError(msg)
     return [
-        TrajectoryPerformanceInfo(
-            simulation_info.frame, position, velocity, acceleration
-        )
-        for simulation_info, position, velocity, acceleration in zip(
-            simulation_infos,
-            positions[ACCELERATION_ESTIMATION_INDEX:],
-            velocities[ACCELERATION_ESTIMATION_INDEX:],
-            accelerations[ACCELERATION_ESTIMATION_INDEX:],
+        TrajectoryPerformanceInfo(frame, position, velocity, acceleration)
+        for frame, position, velocity, acceleration in zip(
+            frames,
+            positions,
+            velocities,
+            accelerations,
         )
     ]
 
@@ -65,10 +58,8 @@ def su_to_stp_procedure(
         [
             DroneTrajectoryPerformance(
                 drone_index,
-                get_trajectory_performance_info_from_simulation_infos(
-                    in_air_flight_simulation(
-                        drone_user.position_events[1:],
-                    ),
+                get_trajectory_performance_info_from_position_events(
+                    drone_user.position_events[1:],
                 ),
             )
             for drone_index, drone_user in enumerate(show_user.drones_user)

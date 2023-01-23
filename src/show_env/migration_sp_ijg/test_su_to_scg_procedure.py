@@ -14,7 +14,7 @@ from .su_to_scg_procedure import su_to_sc_procedure
     nb_drone_per_family=st.integers(1, 5),
     step_takeoff=st.floats(1, 10),
     angle_takeoff=st.floats(0, 2 * np.pi),
-    show_duration_absolute_time=st.floats(0, 10),
+    show_duration_absolute_time=st.floats(1.0, 10),
 )
 def test_su_to_sc_procedure_hypothesis(
     nb_x: int,

@@ -7,11 +7,12 @@ import numpy.typing as npt
 
 @dataclass(frozen=True)
 class SimulationInfo:
-    frame: int  # absolute frame
+    frame: int
     position: npt.NDArray[np.float64]
     in_air: bool
     in_dance: bool
 
+    # TODO: remove that ?
     def __eq__(self, other_simulation_info: "SimulationInfo"):
         return (
             self.frame == other_simulation_info.frame

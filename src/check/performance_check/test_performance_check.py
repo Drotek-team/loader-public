@@ -1,11 +1,11 @@
-import pytest
-
-from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
+from ...show_env.show_user.show_user_generator import (
+    ShowUserConfiguration,
+    get_valid_show_user,
+)
 from .show_trajectory_performance_check_procedure import (
     apply_show_trajectory_performance_check_procedure,
 )
@@ -13,312 +13,286 @@ from .show_trajectory_performance_check_procedure import (
 EPSILON_DELTA = 1e-2
 
 
-@pytest.fixture
-def valid_show_user() -> ShowUser:
-    # TODO I think this is a bit deep, maybe making a function for that
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 1,
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
-    )
-    return ShowUser(drones_user=[drone_user])
-
-
-def test_valid_show_trajectory_performance(
-    valid_show_user: ShowUser,
-):
+def test_valid_show_trajectory_performance():
     show_trajectory_performance_contenor = (
         apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
+            get_valid_show_user(ShowUserConfiguration()),
         )
     )
     assert show_trajectory_performance_contenor.user_validation
 
 
-@pytest.fixture
-def invalid_show_user_horizontal_velocity() -> ShowUser:
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 1,
-                xyz=(
-                    FRAME_PARAMETER.from_frame_to_second(1)
-                    * IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
-                    + EPSILON_DELTA,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
+def test_valid_show_user_vertical_position():
+    valid_show_user = get_valid_show_user(
+        ShowUserConfiguration(
+            takeoff_altitude=TAKEOFF_PARAMETER.takeoff_altitude_meter_min
+        )
     )
-    return ShowUser(drones_user=[drone_user])
-
-
-def test_invalid_show_user_horizontal_velocity(
-    invalid_show_user_horizontal_velocity: ShowUser,
-):
     show_trajectory_performance_contenor = (
         apply_show_trajectory_performance_check_procedure(
-            invalid_show_user_horizontal_velocity,
+            valid_show_user,
         )
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation at frame 240"]
+    ]["Performance evaluation at frame 960"]
+    assert len(performance_infractions._error_messages) == 0  # type: ignore[test env]
+
+
+def test_invalid_show_user_vertical_position():
+    valid_show_user = get_valid_show_user(
+        ShowUserConfiguration(
+            takeoff_altitude=TAKEOFF_PARAMETER.takeoff_altitude_meter_min
+            - EPSILON_DELTA
+        )
+    )
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            valid_show_user,
+        )
+    )
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation at frame 960"]
+    assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
+    assert (
+        performance_infractions["vertical position"].display_message()
+        == "[Performance Infraction] The performance vertical position has the value: 0.99 (min: 1.0) at the frame 960"
+    )
+
+
+def test_valid_show_user_horizontal_velocity():
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0]
+            + IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max,
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            valid_show_user,
+        )
+    )
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation at frame 984"]
+    assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
+    assert (
+        performance_infractions["acceleration"].display_message()
+        == "[Performance Infraction] The performance acceleration has the value: 6.00 (max: 2.0) at the frame 984"
+    )
+
+
+def test_invalid_show_user_horizontal_velocity():
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0]
+            + IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
+            + EPSILON_DELTA,
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            valid_show_user,
+        )
+    )
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation at frame 984"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
         performance_infractions["horizontal velocity"].display_message()
-        == "[Performance Infraction] The performance horizontal velocity has the value: 6.24 (max: 6.0) at the frame 240"
+        == "[Performance Infraction] The performance horizontal velocity has the value: 6.01 (max: 6.0) at the frame 984"
     )
 
 
-@pytest.fixture
-def invalid_show_user_vertical_position() -> ShowUser:
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 1,
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min - EPSILON_DELTA,
-                ),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
+def test_valid_show_user_up_velocity():
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETER.velocity_up_max,
+        ),
     )
-    return ShowUser(drones_user=[drone_user])
-
-
-def test_invalid_show_user_vertical_position(
-    invalid_show_user_vertical_position: ShowUser,
-):
     show_trajectory_performance_contenor = (
         apply_show_trajectory_performance_check_procedure(
-            invalid_show_user_vertical_position,
+            valid_show_user,
         )
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation at frame 240"]
-    assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
+    ]["Performance evaluation at frame 984"]
+    assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
-        performance_infractions["vertical position"].display_message()
-        == "[Performance Infraction] The performance vertical position has the value: 0.99 (min: 1.0) at the frame 240"
+        performance_infractions["acceleration"].display_message()
+        == "[Performance Infraction] The performance acceleration has the value: 4.00 (max: 2.0) at the frame 984"
     )
 
 
-@pytest.fixture
-def invalid_show_user_velocity_up() -> ShowUser:
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 1,
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    + FRAME_PARAMETER.from_frame_to_second(1)
-                    * IOSTAR_PHYSIC_PARAMETER.velocity_up_max
-                    + EPSILON_DELTA,
-                ),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
+def test_invalid_show_user_up_velocity():
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2]
+            + IOSTAR_PHYSIC_PARAMETER.velocity_up_max
+            + EPSILON_DELTA,
+        ),
     )
-    return ShowUser(drones_user=[drone_user])
-
-
-def test_invalid_show_user_velocity_up(
-    invalid_show_user_velocity_up: ShowUser,
-):
     show_trajectory_performance_contenor = (
         apply_show_trajectory_performance_check_procedure(
-            invalid_show_user_velocity_up,
+            valid_show_user,
         )
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation at frame 240"]
+    ]["Performance evaluation at frame 984"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
         performance_infractions["up velocity"].display_message()
-        == "[Performance Infraction] The performance up velocity has the value: 4.24 (max: 4.0) at the frame 240"
+        == "[Performance Infraction] The performance up velocity has the value: 4.01 (max: 4.0) at the frame 984"
     )
 
 
-@pytest.fixture
-def invalid_show_user_velocity_down() -> ShowUser:
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 1,
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    - FRAME_PARAMETER.from_frame_to_second(1)
-                    * IOSTAR_PHYSIC_PARAMETER.velocity_down_max
-                    - EPSILON_DELTA,
-                ),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
+def test_valid_show_user_down_velocity():
+    valid_show_user = get_valid_show_user(
+        ShowUserConfiguration(
+            takeoff_altitude=IOSTAR_PHYSIC_PARAMETER.velocity_down_max + 1
+        )
     )
-    return ShowUser(drones_user=[drone_user])
-
-
-def test_invalid_show_user_velocity_down(
-    invalid_show_user_velocity_down: ShowUser,
-):
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETER.velocity_down_max,
+        ),
+    )
     show_trajectory_performance_contenor = (
         apply_show_trajectory_performance_check_procedure(
-            invalid_show_user_velocity_down,
+            valid_show_user,
         )
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation at frame 240"]
+    ]["Performance evaluation at frame 984"]
+    assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
+    assert (
+        performance_infractions["acceleration"].display_message()
+        == "[Performance Infraction] The performance acceleration has the value: 4.00 (max: 2.0) at the frame 984"
+    )
+
+
+def test_invalid_show_user_down_velocity():
+    valid_show_user = get_valid_show_user(
+        ShowUserConfiguration(
+            takeoff_altitude=IOSTAR_PHYSIC_PARAMETER.velocity_down_max + 1
+        )
+    )
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2]
+            - IOSTAR_PHYSIC_PARAMETER.velocity_down_max
+            - EPSILON_DELTA,
+        ),
+    )
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            valid_show_user,
+        )
+    )
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation at frame 984"]
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
         performance_infractions["down velocity"].display_message()
-        == "[Performance Infraction] The performance down velocity has the value: 4.24 (max: 4.0) at the frame 240"
+        == "[Performance Infraction] The performance down velocity has the value: 4.01 (max: 4.0) at the frame 984"
     )
 
 
-@pytest.fixture
-def invalid_show_user_acceleration() -> ShowUser:
-    drone_user = DroneUser(
-        position_events=[
-            PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                ),
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-                ),
-            ),
-            PositionEventUser(
-                frame=FRAME_PARAMETER.from_second_to_frame(
-                    TAKEOFF_PARAMETER.takeoff_duration_second
-                )
-                + 1,
-                xyz=(
-                    0.0,
-                    0.0,
-                    TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-                    - IOSTAR_PHYSIC_PARAMETER.velocity_down_max
-                    * FRAME_PARAMETER.from_frame_to_second(1)
-                    - EPSILON_DELTA,
-                ),
-            ),
-        ],
-        color_events=[],
-        fire_events=[],
+def test_valid_show_user_acceleration():
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
     )
-    return ShowUser(drones_user=[drone_user])
-
-
-def test_invalid_show_user_acceleration(
-    invalid_show_user_velocity_down: ShowUser,
-):
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 48,
+        xyz=(
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETER.acceleration_max,
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
     show_trajectory_performance_contenor = (
         apply_show_trajectory_performance_check_procedure(
-            invalid_show_user_velocity_down,
+            valid_show_user,
         )
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
-    ]["Performance evaluation at frame 240"]
-    assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
+    ]["Performance evaluation at frame 1008"]
+    assert len(performance_infractions._error_messages) == 0  # type: ignore[test env]
+
+
+def test_invalid_show_user_acceleration():
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 48,
+        xyz=(
+            last_position_event.xyz[0]
+            + IOSTAR_PHYSIC_PARAMETER.acceleration_max
+            + EPSILON_DELTA,
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    show_trajectory_performance_contenor = (
+        apply_show_trajectory_performance_check_procedure(
+            valid_show_user,
+        )
+    )
+    performance_infractions = show_trajectory_performance_contenor[
+        "drone trajectory performance 0"
+    ]["Performance evaluation at frame 1008"]
+    assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
         performance_infractions["acceleration"].display_message()
-        == "[Performance Infraction] The performance acceleration has the value: 101.76 (max: 2.0) at the frame 240"
+        == "[Performance Infraction] The performance acceleration has the value: 2.01 (max: 2.0) at the frame 1008"
     )
