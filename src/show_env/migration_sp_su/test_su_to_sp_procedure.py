@@ -115,6 +115,7 @@ def test_drone_user_to_drone_px4_procedure_standard_case():
     assert drone_px4.fire_events.get_fire_event_by_index(0).chanel_duration == (0, 41)
 
 
+# TODO: get valid_show_user
 def test_su_to_sp_procedure_standard_case():
     show_user = ShowUser(
         drones_user=[

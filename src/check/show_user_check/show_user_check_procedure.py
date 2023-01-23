@@ -5,8 +5,8 @@ from ...report import Contenor, Displayer
 from ...show_env.show_user.show_user import DroneUser, ShowUser
 
 
-def apply_takeoff_check(drone_user: DroneUser, drone_index: int) -> Contenor:
-    takeoff_check_contenor = Contenor(f"Drone {drone_index} Takeoff")
+def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
+    takeoff_check_contenor = Contenor("Takeoff")
     takeoff_duration_displayer = Displayer("Takeoff duration")
     takeoff_xyz_displayer = Displayer("Takeoff xyz")
     takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
@@ -40,12 +40,26 @@ def apply_takeoff_check(drone_user: DroneUser, drone_index: int) -> Contenor:
     return takeoff_check_contenor
 
 
-# Not really a usefull function but can be used in case there is more check to the drone user
+# TODO: test this
+def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Displayer:
+    minimal_position_events_displayer = Displayer(
+        "Minimal position event number: must be only 1 for a only led show or at least 3 for a flight"
+    )
+    if drone_user.nb_position_events == 1 or drone_user.nb_position_events >= 3:
+        minimal_position_events_displayer.validate()
+    return minimal_position_events_displayer
+
+
 def apply_drone_user_check_procedure(
     drone_user: DroneUser,
     drone_index: int,
 ) -> Contenor:
-    return apply_takeoff_check(drone_user, drone_index)
+    drone_user_contenor = Contenor(f"Drone user {drone_index} check procedure")
+    drone_user_contenor.add_error_message(
+        apply_minimal_position_events_number_check(drone_user)
+    )
+    drone_user_contenor.add_error_message(apply_takeoff_check(drone_user))
+    return drone_user_contenor
 
 
 def apply_show_user_check_procedure(

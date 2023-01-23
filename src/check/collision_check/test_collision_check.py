@@ -13,6 +13,7 @@ ROUNDING_ERROR = 0.04
 
 
 def get_show_user(distance_between_drones: float) -> ShowUser:
+    # TODO: get_valid_show_user
     first_drone_user = DroneUser(
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),

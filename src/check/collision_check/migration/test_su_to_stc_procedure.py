@@ -46,6 +46,7 @@ def valid_show_user():
     return ShowUser(drones_user=[drone_user])
 
 
+# TODO: get_valid_show_user
 def test_su_to_stc_procedure(valid_show_user: ShowUser):
     show_trajectory = su_to_stc_procedure(valid_show_user)
     assert show_trajectory.drone_number == 1

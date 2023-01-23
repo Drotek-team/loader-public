@@ -12,7 +12,6 @@ class SimulationInfo:
     in_air: bool
     in_dance: bool
 
-    # TODO: remove that ?
     def __eq__(self, other_simulation_info: "SimulationInfo"):
         return (
             self.frame == other_simulation_info.frame

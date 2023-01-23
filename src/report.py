@@ -35,7 +35,6 @@ class Displayer(ErrorMessage):
     def user_validation(self) -> bool:
         return self._validation
 
-    # TODO: put the indention part on the error message
     def display_message(self, indentation_level: int = 0) -> str:
         if self.user_validation:
             return ""

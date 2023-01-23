@@ -1,5 +1,3 @@
-import pytest
-
 from .editor import (
     apply_export_procedure,
     create_show_user,
@@ -8,7 +6,6 @@ from .editor import (
     global_check_iostar_json_gcs,
 )
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
-from .show_env.show_user.show_user import ShowUser
 from .show_env.show_user.show_user_generator import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -38,14 +35,6 @@ def test_export_procedure_standard_case():
     assert show_check_report.user_validation
 
 
-@pytest.fixture
-def standard_show_user():
-    show_user = create_show_user(1)
-    show_user[0].add_position_event(0, (0.0, 0.0, 0.0))
-    show_user[0].add_position_event(240, (0.0, 0.0, 1.0))
-    return show_user
-
-
 def test_create_show_user_standard_case():
     drone_number = 5
     show_user = create_show_user(drone_number)
@@ -56,24 +45,20 @@ def test_create_show_user_standard_case():
         assert len(show_user[drone_index].fire_events) == 0
 
 
-def test_export_show_user_to_iostar_json_string_standard_case(
-    standard_show_user: ShowUser,
-):
-    iostar_json_string = export_show_user_to_iostar_json_string(standard_show_user)
+def test_export_show_user_to_iostar_json_string_standard_case():
+    iostar_json_string = export_show_user_to_iostar_json_string(
+        get_valid_show_user(ShowUserConfiguration())
+    )
     assert isinstance(iostar_json_string, str)
 
 
-def test_export_show_user_to_iostar_json_gcs_string_standard_case(
-    standard_show_user: ShowUser,
-):
+def test_export_show_user_to_iostar_json_gcs_string_standard_case():
     iostar_json_gcs_string = export_show_user_to_iostar_json_gcs_string(
-        standard_show_user
+        get_valid_show_user(ShowUserConfiguration())
     )
     assert isinstance(iostar_json_gcs_string, str)
 
 
-def test_global_check_iostar_json_standard_case(
-    standard_show_user: ShowUser,
-):
-    iostar_json_gcs = su_to_ijg_procedure(standard_show_user)
+def test_global_check_iostar_json_standard_case():
+    iostar_json_gcs = su_to_ijg_procedure(get_valid_show_user(ShowUserConfiguration()))
     assert global_check_iostar_json_gcs(iostar_json_gcs)

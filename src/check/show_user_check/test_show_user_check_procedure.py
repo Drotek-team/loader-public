@@ -4,7 +4,11 @@ from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PAR
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from ...show_env.show_user.show_user import DroneUser, PositionEventUser, ShowUser
+from ...show_env.show_user.show_user import DroneUser, PositionEventUser
+from ...show_env.show_user.show_user_generator import (
+    ShowUserConfiguration,
+    get_valid_show_user,
+)
 from .show_user_check_procedure import (
     apply_show_user_check_procedure,
     apply_takeoff_check,
@@ -31,7 +35,7 @@ def valid_drone_user() -> DroneUser:
 def test_valid_position_events_takeoff_duration_xyz_check(
     valid_drone_user: DroneUser,
 ):
-    takeoff_check_report = apply_takeoff_check(valid_drone_user, 0)
+    takeoff_check_report = apply_takeoff_check(valid_drone_user)
     assert takeoff_check_report.user_validation
 
 
@@ -59,7 +63,7 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
 def test_invalid_position_events_takeoff_duration_check(
     invalid_drone_user_takeoff_duration: DroneUser,
 ):
-    takeoff_check = apply_takeoff_check(invalid_drone_user_takeoff_duration, 0)
+    takeoff_check = apply_takeoff_check(invalid_drone_user_takeoff_duration)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert takeoff_check["Takeoff xyz"].user_validation
 
@@ -87,7 +91,7 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
 def test_invalid_position_events_takeoff_xyz_check(
     invalid_drone_user_takeoff_xyz: DroneUser,
 ):
-    takeoff_check = apply_takeoff_check(invalid_drone_user_takeoff_xyz, 0)
+    takeoff_check = apply_takeoff_check(invalid_drone_user_takeoff_xyz)
     assert takeoff_check["Takeoff duration"].user_validation
     assert not (takeoff_check["Takeoff xyz"].user_validation)
 
@@ -96,7 +100,7 @@ def test_empty_position_events():
     empty_position_events_drone_user = DroneUser(
         position_events=[], color_events=[], fire_events=[]
     )
-    takeoff_check = apply_takeoff_check(empty_position_events_drone_user, 0)
+    takeoff_check = apply_takeoff_check(empty_position_events_drone_user)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert not (takeoff_check["Takeoff xyz"].user_validation)
 
@@ -107,7 +111,7 @@ def test_valid_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check_report = apply_takeoff_check(one_position_events_drone_user, 0)
+    takeoff_check_report = apply_takeoff_check(one_position_events_drone_user)
     assert takeoff_check_report.user_validation
 
 
@@ -117,15 +121,12 @@ def test_invalid_by_time_one_position_events():
         color_events=[],
         fire_events=[],
     )
-    takeoff_check = apply_takeoff_check(one_position_events_drone_user, 0)
+    takeoff_check = apply_takeoff_check(one_position_events_drone_user)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert takeoff_check["Takeoff xyz"].user_validation
 
 
-def test_apply_show_user_check_procedure_standard_case(valid_drone_user: DroneUser):
-    show_user = ShowUser(drones_user=[valid_drone_user])
-    show_user_check_report = apply_show_user_check_procedure(show_user)
-    assert show_user_check_report.user_validation
-    show_user = ShowUser(drones_user=[valid_drone_user])
+def test_apply_show_user_check_procedure_standard_case():
+    show_user = get_valid_show_user(ShowUserConfiguration())
     show_user_check_report = apply_show_user_check_procedure(show_user)
     assert show_user_check_report.user_validation

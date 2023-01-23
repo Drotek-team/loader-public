@@ -11,6 +11,7 @@ from .stc_to_ssc_procedure import stc_to_ss_procedure
 from .su_to_stc_procedure import su_to_stc_procedure
 
 
+# TODO: get_valid_show_user
 @pytest.fixture
 def valid_show_trajectory() -> CollisionShowTrajectory:
     drone_user = DroneUser(

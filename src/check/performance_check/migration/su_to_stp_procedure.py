@@ -11,7 +11,6 @@ from .show_trajectory_performance import (
 )
 
 
-# TODO: there is a protection for empty position_events ?
 def get_trajectory_performance_info_from_position_events(
     position_events_user: List[PositionEventUser],
 ) -> List[TrajectoryPerformanceInfo]:
