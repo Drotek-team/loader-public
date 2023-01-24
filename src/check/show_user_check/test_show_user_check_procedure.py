@@ -102,9 +102,11 @@ def test_empty_position_events():
     empty_position_events_drone_user = DroneUser(
         position_events=[], color_events=[], fire_events=[]
     )
-    takeoff_check = apply_takeoff_check(empty_position_events_drone_user)
-    assert not (takeoff_check["Takeoff duration"].user_validation)
-    assert not (takeoff_check["Takeoff xyz"].user_validation)
+    with pytest.raises(
+        ValueError,
+        match="This check can not operate on a drone without position events",
+    ):
+        apply_takeoff_check(empty_position_events_drone_user)
 
 
 def test_valid_one_position_events():

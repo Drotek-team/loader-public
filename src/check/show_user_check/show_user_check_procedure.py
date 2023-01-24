@@ -13,7 +13,8 @@ def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
     takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
 
     if drone_user.nb_position_events == 0:
-        return takeoff_check_contenor
+        msg = "This check can not operate on a drone without position events"
+        raise ValueError(msg)
     if drone_user.nb_position_events == 1:
         first_frame = drone_user.get_position_frame_by_index(0)
         first_position = drone_user.get_xyz_simulation_by_index(0)
@@ -57,7 +58,8 @@ def apply_drone_user_check_procedure(
     drone_user_contenor.add_error_message(
         apply_minimal_position_events_number_check(drone_user)
     )
-    drone_user_contenor.add_error_message(apply_takeoff_check(drone_user))
+    if drone_user_contenor.user_validation:
+        drone_user_contenor.add_error_message(apply_takeoff_check(drone_user))
     return drone_user_contenor
 
 
