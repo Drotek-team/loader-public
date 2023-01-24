@@ -40,7 +40,6 @@ def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
     return takeoff_check_contenor
 
 
-# TODO: test this
 def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Displayer:
     minimal_position_events_displayer = Displayer(
         "Minimal position event number: must be only 1 for a only led show or at least 3 for a flight"

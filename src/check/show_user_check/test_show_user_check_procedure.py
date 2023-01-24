@@ -10,6 +10,7 @@ from ...show_env.show_user.generate_show_user import (
 )
 from ...show_env.show_user.show_user import DroneUser, PositionEventUser
 from .show_user_check_procedure import (
+    apply_minimal_position_events_number_check,
     apply_show_user_check_procedure,
     apply_takeoff_check,
 )
@@ -26,6 +27,13 @@ def valid_drone_user() -> DroneUser:
                 ),
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
+            PositionEventUser(
+                frame=FRAME_PARAMETER.from_second_to_frame(
+                    TAKEOFF_PARAMETER.takeoff_duration_second
+                )
+                + 1,
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
+            ),
         ],
         color_events=[],
         fire_events=[],
@@ -39,9 +47,6 @@ def test_valid_position_events_takeoff_duration_xyz_check(
     assert takeoff_check_report.user_validation
 
 
-FRAME_BIAS = 1
-
-
 @pytest.fixture
 def invalid_drone_user_takeoff_duration() -> DroneUser:
     return DroneUser(
@@ -51,7 +56,7 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
                 frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
-                + FRAME_BIAS,
+                + 1,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
@@ -68,9 +73,6 @@ def test_invalid_position_events_takeoff_duration_check(
     assert takeoff_check["Takeoff xyz"].user_validation
 
 
-Z_BIAS = 1e-2
-
-
 @pytest.fixture
 def invalid_drone_user_takeoff_xyz() -> DroneUser:
     return DroneUser(
@@ -80,7 +82,7 @@ def invalid_drone_user_takeoff_xyz() -> DroneUser:
                 frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 ),
-                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_max + Z_BIAS),
+                xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_max + 1e-2),
             ),
         ],
         color_events=[],
@@ -124,6 +126,42 @@ def test_invalid_by_time_one_position_events():
     takeoff_check = apply_takeoff_check(one_position_events_drone_user)
     assert not (takeoff_check["Takeoff duration"].user_validation)
     assert takeoff_check["Takeoff xyz"].user_validation
+
+
+def test_apply_minimal_position_events_number_check_3_events(
+    valid_drone_user: DroneUser,
+):
+    minimal_position_events_number_check = apply_minimal_position_events_number_check(
+        valid_drone_user
+    )
+    assert minimal_position_events_number_check.user_validation
+
+
+def test_apply_minimal_position_events_number_check_1_events():
+    one_position_events_drone_user = DroneUser(
+        position_events=[PositionEventUser(frame=1, xyz=(2.0, 2.0, 0.0))],
+        color_events=[],
+        fire_events=[],
+    )
+    minimal_position_events_number_check = apply_minimal_position_events_number_check(
+        one_position_events_drone_user
+    )
+    assert minimal_position_events_number_check.user_validation
+
+
+def test_apply_minimal_position_events_number_check_2_events():
+    one_position_events_drone_user = DroneUser(
+        position_events=[
+            PositionEventUser(frame=1, xyz=(2.0, 2.0, 0.0)),
+            PositionEventUser(frame=2, xyz=(2.0, 2.0, 0.0)),
+        ],
+        color_events=[],
+        fire_events=[],
+    )
+    minimal_position_events_number_check = apply_minimal_position_events_number_check(
+        one_position_events_drone_user
+    )
+    assert not (minimal_position_events_number_check.user_validation)
 
 
 def test_apply_show_user_check_procedure_standard_case():
