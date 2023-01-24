@@ -36,6 +36,7 @@ class Metric(Enum):
         return self.range_.validation(self.evaluation(position, velocity, acceleration))
 
 
+# TODO: class PositionVelocityAcceleration to gain + not very pretty for an evaluation to know about data they don't use
 def vertical_position_evaluation(
     position: npt.NDArray[np.float64],
     velocity: npt.NDArray[np.float64],
@@ -126,14 +127,15 @@ def performance_evaluation(
         f"Performance evaluation at frame {frame}"
     )
     for metric in Metric:
-        if not (metric.validation(position, velocity, acceleration)):
-            performance_evaluation_contenor.add_error_message(
-                PerformanceInfraction(
-                    name=metric.value,
-                    frame=frame,
-                    value=metric.evaluation(position, velocity, acceleration),
-                    threshold=metric.range_.threshold,
-                    metric_convention=metric.range_.standard_convention,
-                )
+        if metric.validation(position, velocity, acceleration):
+            continue
+        performance_evaluation_contenor.add_error_message(
+            PerformanceInfraction(
+                name=metric.value,
+                frame=frame,
+                value=metric.evaluation(position, velocity, acceleration),
+                threshold=metric.range_.threshold,
+                metric_convention=metric.range_.standard_convention,
             )
+        )
     return performance_evaluation_contenor

@@ -32,6 +32,7 @@ def check_increasing_frame(frames: List[int]) -> bool:
     )
 
 
+# TODO: too much reponsibility for one function
 def frame_check(
     events: Events,
 ) -> Contenor:
@@ -56,6 +57,7 @@ def frame_check(
     return frame_check
 
 
+# TODO: too much reponsibility for one function
 def xyz_check(
     position_events: PositionEvents,
 ) -> Contenor:
@@ -71,6 +73,7 @@ def xyz_check(
     return xyz_contenor
 
 
+# TODO: too much reponsibility for one function
 def rgbw_check(
     color_events: ColorEvents,
 ) -> Contenor:
@@ -86,6 +89,7 @@ def rgbw_check(
     return rgbw_check
 
 
+# TODO: too much reponsibility for one function
 def fire_chanel_check(
     fire_events: FireEvents,
 ) -> Contenor:
@@ -101,6 +105,7 @@ def fire_chanel_check(
     return fire_chanel_contenor
 
 
+# TODO: too much reponsibility for one function
 def fire_duration_frame_check(
     fire_events: FireEvents,
 ) -> Contenor:

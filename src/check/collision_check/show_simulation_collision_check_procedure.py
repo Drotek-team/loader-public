@@ -6,6 +6,7 @@ from .migration.stc_to_ssc_procedure import stc_to_ss_procedure
 from .migration.test_su_to_stc_procedure import su_to_stc_procedure
 
 
+# TODO: too much reponsibility for one function
 def apply_show_simulation_collision_check_procedure(
     show_user: ShowUser,
 ) -> Contenor:

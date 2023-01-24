@@ -11,6 +11,7 @@ from .show_trajectory_performance import (
 )
 
 
+# TODO: too much reponsibility for one function
 def get_trajectory_performance_info_from_position_events(
     position_events_user: List[PositionEventUser],
 ) -> List[TrajectoryPerformanceInfo]:
@@ -58,7 +59,7 @@ def su_to_stp_procedure(
             DroneTrajectoryPerformance(
                 drone_index,
                 get_trajectory_performance_info_from_position_events(
-                    drone_user.position_events[1:],
+                    drone_user.flight_positions,
                 ),
             )
             for drone_index, drone_user in enumerate(show_user.drones_user)

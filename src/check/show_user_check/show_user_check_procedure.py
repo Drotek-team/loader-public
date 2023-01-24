@@ -5,6 +5,7 @@ from ...report import Contenor, Displayer
 from ...show_env.show_user.show_user import DroneUser, ShowUser
 
 
+# TODO: too much responsibility for one function
 def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
     takeoff_check_contenor = Contenor("Takeoff")
     takeoff_duration_displayer = Displayer("Takeoff duration")
