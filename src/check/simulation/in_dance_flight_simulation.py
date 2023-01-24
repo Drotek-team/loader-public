@@ -7,7 +7,7 @@ from ...show_env.show_user.show_user import PositionEventUser
 from .position_simulation import SimulationInfo, linear_interpolation
 
 
-def in_air_flight_simulation(
+def in_dance_flight_simulation(
     position_events_user: List[PositionEventUser],
 ) -> List[SimulationInfo]:
     flight_positions: List[npt.NDArray[np.float64]] = []

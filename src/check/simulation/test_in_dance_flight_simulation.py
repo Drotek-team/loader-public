@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from ...show_env.show_user.show_user import PositionEventUser
-from .in_air_flight_simulation import in_air_flight_simulation, linear_interpolation
+from .in_dance_flight_simulation import in_dance_flight_simulation, linear_interpolation
 from .position_simulation import SimulationInfo
 
 
@@ -23,7 +23,7 @@ def test_in_air_flight_simulation(valid_position_events_user: List[PositionEvent
         valid_position_events_user[1],
         valid_position_events_user[2],
     )
-    real_in_air_flight_simulation_infos = in_air_flight_simulation(
+    real_in_air_flight_simulation_infos = in_dance_flight_simulation(
         valid_position_events_user,
     )
     first_theorical_positions = linear_interpolation(

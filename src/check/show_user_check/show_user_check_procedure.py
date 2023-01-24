@@ -9,6 +9,7 @@ def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
     takeoff_check_contenor = Contenor("Takeoff")
     takeoff_duration_displayer = Displayer("Takeoff duration")
     takeoff_xyz_displayer = Displayer("Takeoff xyz")
+
     takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
     takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
 

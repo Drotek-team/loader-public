@@ -5,7 +5,7 @@ from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
 from ...show_env.show_user.show_user import DroneUser
-from .in_air_flight_simulation import in_air_flight_simulation
+from .in_dance_flight_simulation import in_dance_flight_simulation
 from .land_simulation import land_simulation
 from .position_simulation import SimulationInfo
 from .stand_by_simulation import stand_by_simulation
@@ -28,13 +28,20 @@ def get_on_ground_flight_simulation(
     return simulation_infos
 
 
-# TODO: still not very readable
+def get_last_frame_stand_by(drone_user: DroneUser) -> int:
+    return (
+        drone_user.get_position_frame_by_index(0)
+        if drone_user.get_position_frame_by_index(0) != 0
+        else 0
+    )
+
+
 def get_in_air_flight_simulation(
     drone_user: DroneUser, last_frame: int
 ) -> List[SimulationInfo]:
     simulation_infos: List[SimulationInfo] = []
-    last_frame_stand_by = 0
-    if drone_user.get_position_frame_by_index(0) != 0:
+    last_frame_stand_by = get_last_frame_stand_by(drone_user)
+    if last_frame_stand_by != 0:
         simulation_infos += stand_by_simulation(
             FRAME_PARAMETER.from_second_to_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
@@ -42,12 +49,11 @@ def get_in_air_flight_simulation(
             drone_user.get_position_frame_by_index(0),
             drone_user.get_xyz_simulation_by_index(0),
         )
-        last_frame_stand_by = drone_user.get_position_frame_by_index(0)
     simulation_infos += takeoff_simulation(
         drone_user.get_xyz_simulation_by_index(0),
         last_frame_stand_by,
     )
-    simulation_infos += in_air_flight_simulation(
+    simulation_infos += in_dance_flight_simulation(
         drone_user.flight_positions,
     )
     last_position = drone_user.get_xyz_simulation_by_index(-1)
