@@ -32,15 +32,10 @@ def check_increasing_frame(frames: List[int]) -> bool:
     )
 
 
-# TODO: too much reponsibility for one function
-def frame_check(
+def frame_value_check(
     events: Events,
-) -> Contenor:
-    frame_check = Contenor("Frame check")
+):
     value_displayer = Displayer("Value")
-    increasing_displayer = Displayer("Increasing")
-    frame_check.add_error_message(value_displayer)
-    frame_check.add_error_message(increasing_displayer)
     frames = [event.timecode for event in events]
     if check_int_size_list(
         frames,
@@ -52,8 +47,25 @@ def frame_check(
         ),
     ):
         value_displayer.validate()
+    return value_displayer
+
+
+def increasing_frame_check(
+    events: Events,
+) -> Displayer:
+    increasing_displayer = Displayer("Increasing")
+    frames = [event.timecode for event in events]
     if check_increasing_frame(frames):
         increasing_displayer.validate()
+    return increasing_displayer
+
+
+def frame_check(
+    events: Events,
+) -> Contenor:
+    frame_check = Contenor("Frame check")
+    frame_check.add_error_message(frame_value_check(events))
+    frame_check.add_error_message(increasing_frame_check(events))
     return frame_check
 
 

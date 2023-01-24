@@ -86,5 +86,3 @@ def apply_show_user_check_procedure(
             apply_drone_user_check_procedure(drone_user, drone_index)
         )
     return show_user_contenor
-    return show_user_contenor
-    return show_user_contenor
