@@ -31,7 +31,7 @@ def from_user_altitude_range_to_px4_altitude_range(
     ), JSON_BINARY_PARAMETER.from_user_xyz_to_px4_xyz(
         user_maximal_coordinate
     )
-    return (px4_minimal_coordinate[2], px4_maximal_coordinate[2])
+    return (px4_maximal_coordinate[2], px4_minimal_coordinate[2])
 
 
 def from_user_duration_to_px4_duration(duration: float) -> int:
