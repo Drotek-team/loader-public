@@ -53,7 +53,6 @@ def from_user_hull_to_px4_hull(
     ]
 
 
-# TODO: test this
 def sc_to_scg(show_configuration: ShowConfiguration) -> ShowConfigurationGcs:
     return ShowConfigurationGcs(
         nb_x=show_configuration.nb_x,

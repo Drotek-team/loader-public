@@ -11,7 +11,6 @@ EPSILON_DELTA = 1e-2
 
 
 def test_valid_simulation_on_ground():
-    # TODO: add something to prove that the drone on grounds were goods ?
     valid_show_user_on_ground = get_valid_show_user(
         ShowUserConfiguration(
             nb_x=2, nb_y=2, step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground
@@ -29,6 +28,12 @@ def test_valid_simulation_on_ground():
                 f"Collision slice check report at frame {flight_index}"
             ].user_validation
         )
+        for (
+            collision_infraction
+        ) in simulation_collision_contenor._error_messages[  # type:ignore[test]
+            f"Collision slice check report at frame {flight_index}"
+        ]._error_messages.values():  # type:ignore[test]
+            assert collision_infraction.in_air  # type:ignore[test]
 
 
 def test_invalid_simulation_on_ground():
@@ -67,7 +72,6 @@ def test_valid_simulation_in_air():
     assert len(simulation_collision_contenor._error_messages) == 0  # type:ignore[test]
 
 
-# TODO: add something to prove that the drone on grounds were goods ?
 def test_invalid_simulation_in_air():
     invalid_show_user_on_ground = get_valid_show_user(
         ShowUserConfiguration(
@@ -88,3 +92,9 @@ def test_invalid_simulation_in_air():
                 f"Collision slice check report at frame {flight_index}"
             ].user_validation
         )
+        for (
+            collision_infraction
+        ) in simulation_collision_contenor._error_messages[  # type:ignore[test]
+            f"Collision slice check report at frame {flight_index}"
+        ]._error_messages.values():  # type:ignore[test]
+            assert collision_infraction.in_air  # type:ignore[test]
