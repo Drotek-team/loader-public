@@ -78,4 +78,4 @@ def test_invalid_color_events_rgbw_value_check(
     color_events_contenor = color_events_check(
         valid_color_events,
     )
-    assert not (color_events_contenor["Rgbw check"]["Value"].user_validation)
+    assert not (color_events_contenor["RGBW value check"].user_validation)

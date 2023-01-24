@@ -69,66 +69,54 @@ def frame_check(
     return frame_check
 
 
-# TODO: too much reponsibility for one function
 def xyz_check(
     position_events: PositionEvents,
-) -> Contenor:
-    xyz_contenor = Contenor("Xyz check")
-    value_displayer = Displayer("Value")
-    xyz_contenor.add_error_message(value_displayer)
+) -> Displayer:
+    xyz_value_displayer = Displayer("XYZ value check")
     if check_int_size_list_tuple(
         [list(event.xyz) for event in position_events.specific_events],
         JSON_BINARY_PARAMETER.position_value_min,
         JSON_BINARY_PARAMETER.position_value_max,
     ):
-        value_displayer.validate()
-    return xyz_contenor
+        xyz_value_displayer.validate()
+    return xyz_value_displayer
 
 
-# TODO: too much reponsibility for one function
 def rgbw_check(
     color_events: ColorEvents,
-) -> Contenor:
-    rgbw_check = Contenor("Rgbw check")
-    value_displayer = Displayer("Value")
-    rgbw_check.add_error_message(value_displayer)
+) -> Displayer:
+    rgbw_value_displayer = Displayer("RGBW value check")
     if check_int_size_list_tuple(
         [list(event.rgbw) for event in color_events.specific_events],
         JSON_BINARY_PARAMETER.color_value_min,
         JSON_BINARY_PARAMETER.color_value_max,
     ):
-        value_displayer.validate()
-    return rgbw_check
+        rgbw_value_displayer.validate()
+    return rgbw_value_displayer
 
 
-# TODO: too much reponsibility for one function
 def fire_chanel_check(
     fire_events: FireEvents,
-) -> Contenor:
-    fire_chanel_contenor = Contenor("Fire chanel check")
-    value_displayer = Displayer("Value")
-    fire_chanel_contenor.add_error_message(value_displayer)
+) -> Displayer:
+    fire_chanel_value_displayer = Displayer("Fire chanel value check")
     if check_int_size_list(
         [event.chanel for event in fire_events.specific_events],
         JSON_BINARY_PARAMETER.fire_chanel_value_min,
         JSON_BINARY_PARAMETER.fire_chanel_value_max,
     ):
-        value_displayer.validate()
-    return fire_chanel_contenor
+        fire_chanel_value_displayer.validate()
+    return fire_chanel_value_displayer
 
 
-# TODO: too much reponsibility for one function
 def fire_duration_frame_check(
     fire_events: FireEvents,
-) -> Contenor:
-    fire_chanel_contenor = Contenor("Fire duration check")
-    value_displayer = Displayer("Value")
-    fire_chanel_contenor.add_error_message(value_displayer)
+) -> Displayer:
+    fire_duration_value_displayer = Displayer("Fire duration value check")
     durations = [event.duration for event in fire_events.specific_events]
     if check_int_size_list(
         durations,
         JSON_BINARY_PARAMETER.fire_duration_value_frame_min,
         JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
     ):
-        value_displayer.validate()
-    return fire_chanel_contenor
+        fire_duration_value_displayer.validate()
+    return fire_duration_value_displayer

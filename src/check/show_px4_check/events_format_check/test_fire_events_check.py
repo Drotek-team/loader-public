@@ -60,7 +60,7 @@ def test_invalid_fire_events_frame_first_frame_check(
     fire_events_contenor = fire_events_check(
         valid_fire_events,
     )
-    assert not (fire_events_contenor["Frame check"]["Value"].user_validation)
+    assert not (fire_events_contenor["Frame check"].user_validation)
 
 
 def test_invalid_fire_events_chanel_value_check(
@@ -76,7 +76,7 @@ def test_invalid_fire_events_chanel_value_check(
     fire_events_contenor = fire_events_check(
         valid_fire_events,
     )
-    assert not (fire_events_contenor["Fire chanel check"]["Value"].user_validation)
+    assert not (fire_events_contenor["Fire chanel value check"].user_validation)
 
 
 def test_invalid_fire_events_duration_value_check(
@@ -92,4 +92,4 @@ def test_invalid_fire_events_duration_value_check(
     fire_events_contenor = fire_events_check(
         valid_fire_events,
     )
-    assert not (fire_events_contenor["Fire duration check"]["Value"].user_validation)
+    assert not (fire_events_contenor["Fire duration value check"].user_validation)
