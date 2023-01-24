@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from pydantic import StrictInt
+from pydantic import NonNegativeInt
 
 from .check.all_check_from_show_user_procedure import (
     apply_all_check_from_show_user_procedure,
@@ -8,32 +8,14 @@ from .check.all_check_from_show_user_procedure import (
 from .report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
-from .show_env.migration_sp_ij.sp_to_ij_procedure import sp_to_ij_procedure
+from .show_env.migration_sp_ij.sp_to_ij_procedure import su_to_ij_procedure
 from .show_env.migration_sp_ijg.ijg_to_su_procedure import ijg_to_su_procedure
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
-from .show_env.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
 from .show_env.show_user.show_user import DroneUser, ShowUser
 
 
-def apply_export_to_iostar_json(
-    show_user: ShowUser,
-) -> Tuple[IostarJson, Contenor]:
-    check_contenor = apply_all_check_from_show_user_procedure(show_user)
-    return (sp_to_ij_procedure(su_to_sp_procedure(show_user)), check_contenor)
-
-
-def apply_export_to_iostar_json_gcs(
-    show_user: ShowUser,
-) -> Tuple[IostarJsonGcs, Contenor]:
-    check_contenor = apply_all_check_from_show_user_procedure(show_user)
-    return (su_to_ijg_procedure(show_user), check_contenor)
-
-
-def create_show_user(drone_number: StrictInt) -> ShowUser:
-    """Create a ShowUser object from a JSON file."""
-    if drone_number < 1:
-        msg = f"{drone_number} is not a positive integer"
-        raise ValueError(msg)
+def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
+    """Create an empy ShowUser object with 'drone_number' drone."""
     return ShowUser(
         drones_user=[
             DroneUser(position_events=[], color_events=[], fire_events=[])
@@ -42,11 +24,27 @@ def create_show_user(drone_number: StrictInt) -> ShowUser:
     )
 
 
-def export_show_user_to_iostar_json_str(show_user: ShowUser) -> str:
+def apply_export_to_iostar_json(
+    show_user: ShowUser,
+) -> Tuple[IostarJson, Contenor]:
+    """Convert a show user into an iostar json and check it."""
+    check_contenor = apply_all_check_from_show_user_procedure(show_user)
+    return (su_to_ij_procedure(show_user), check_contenor)
+
+
+def apply_export_to_iostar_json_gcs(
+    show_user: ShowUser,
+) -> Tuple[IostarJsonGcs, Contenor]:
+    """Convert a show user into an iostar json gcs and check it."""
+    check_contenor = apply_all_check_from_show_user_procedure(show_user)
+    return (su_to_ijg_procedure(show_user), check_contenor)
+
+
+def export_show_user_to_iostar_json_string(show_user: ShowUser) -> str:
     """Export a ShowUser object to a IostarJson on the string format."""
     iostar_json, show_check_report = apply_export_to_iostar_json(show_user)
     if not (show_check_report.user_validation):
-        show_check_report.display_message(4)
+        show_check_report.display_message()
         msg = "The show is not valid"
         raise ValueError(msg)
     return iostar_json.json()
@@ -56,7 +54,7 @@ def export_show_user_to_iostar_json_gcs_string(show_user: ShowUser) -> str:
     """Export a ShowUser object to a iostar_json_gcs JSON file."""
     iostar_json_gcs, show_check_report = apply_export_to_iostar_json_gcs(show_user)
     if not (show_check_report.user_validation):
-        show_check_report.display_message(4)
+        show_check_report.display_message()
         msg = "The show is not valid"
         raise ValueError(msg)
     return iostar_json_gcs.json()

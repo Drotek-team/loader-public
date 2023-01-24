@@ -5,9 +5,9 @@ from pathlib import Path
 from .editor import (
     apply_export_to_iostar_json,
     apply_export_to_iostar_json_gcs,
-    create_show_user,
+    create_empty_show_user,
     export_show_user_to_iostar_json_gcs_string,
-    export_show_user_to_iostar_json_str,
+    export_show_user_to_iostar_json_string,
     global_check_iostar_json_gcs,
 )
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
@@ -19,7 +19,7 @@ from .show_env.show_user.generate_show_user import (
 
 def test_create_show_user_standard_case():
     drone_number = 5
-    show_user = create_show_user(drone_number)
+    show_user = create_empty_show_user(drone_number)
     assert len(show_user) == drone_number
     for drone_index in range(drone_number):
         assert len(show_user[drone_index].position_events) == 0
@@ -60,7 +60,7 @@ def test_export_procedure_to_iostar_json_gcs_standard_case():
 
 
 def test_export_show_user_to_iostar_json_string_standard_case():
-    iostar_json_string = export_show_user_to_iostar_json_str(
+    iostar_json_string = export_show_user_to_iostar_json_string(
         get_valid_show_user(ShowUserConfiguration())
     )
     assert isinstance(iostar_json_string, str)
