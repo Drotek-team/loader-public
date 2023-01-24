@@ -1,6 +1,6 @@
 from typing import List
 
-from src.check.simulation.position_simulation import SimulationInfo
+from ...simulation.position_simulation import SimulationInfo
 
 
 class CollisionTrajectory:

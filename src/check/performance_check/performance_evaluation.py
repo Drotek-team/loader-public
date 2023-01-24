@@ -4,15 +4,12 @@ from typing import Callable, Dict
 
 import numpy as np
 
-from src.check.performance_check.migration.show_trajectory_performance import (
-    Performance,
-)
-
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...report import Contenor, PerformanceInfraction
+from ..performance_check.migration.show_trajectory_performance import Performance
 
 
 class Metric(Enum):
