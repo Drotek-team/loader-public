@@ -60,7 +60,7 @@ class PerformanceInfraction(ErrorMessage):
 
     def __getitem__(self, displayer_name: str) -> "PerformanceInfraction":
         if self.name == displayer_name:
-            msg = f"the name should be {self.name}"
+            msg = f"{self.name} should be exactly equal to {self.name}"
             raise NameError(msg)
         return self
 
@@ -87,7 +87,7 @@ class CollisionInfraction(ErrorMessage):
 
     def __getitem__(self, displayer_name: str) -> "CollisionInfraction":
         if self.name == displayer_name:
-            msg = f"the name should be {self.name}"
+            msg = f"{self.name} should be exactly equal to {self.name}"
             raise NameError(msg)
         return self
 
@@ -126,7 +126,7 @@ class Contenor(ErrorMessage):
         self, error_message_name: str
     ) -> Union["Contenor", Displayer, PerformanceInfraction, CollisionInfraction]:
         if error_message_name not in self._error_messages:
-            msg = f"the name should be {self._error_messages.keys()}"
+            msg = f"{error_message_name} should be inside {self._error_messages.keys()}"
             raise KeyError(msg)
         return self._error_messages[error_message_name]
 

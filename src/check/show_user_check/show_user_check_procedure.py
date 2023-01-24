@@ -5,26 +5,29 @@ from ...report import Contenor, Displayer
 from ...show_env.show_user.show_user import DroneUser, ShowUser
 
 
-# TODO: too much responsibility for one function
-def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
+# TODO: too much reponsibility for one function
+def apply_one_event_takeoff_check(drone_user: DroneUser) -> Contenor:
     takeoff_check_contenor = Contenor("Takeoff")
     takeoff_duration_displayer = Displayer("Takeoff duration")
     takeoff_xyz_displayer = Displayer("Takeoff xyz")
-
     takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
     takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
+    first_frame = drone_user.position_events[0].frame
+    first_position = drone_user.position_events[0].xyz
+    if first_frame == 0:
+        takeoff_duration_displayer.validate()
+    if first_position[2] == 0.0:
+        takeoff_xyz_displayer.validate()
+    return takeoff_check_contenor
 
-    if len(drone_user.position_events) == 0:
-        msg = "This check can not operate on a drone without position events"
-        raise ValueError(msg)
-    if len(drone_user.position_events) == 1:
-        first_frame = drone_user.position_events[0].frame
-        first_position = drone_user.position_events[0].xyz
-        if first_frame == 0:
-            takeoff_duration_displayer.validate()
-        if first_position[2] == 0.0:
-            takeoff_xyz_displayer.validate()
-        return takeoff_check_contenor
+
+# TODO: too much reponsibility for one function
+def apply_multiple_events_takeoff_check(drone_user: DroneUser) -> Contenor:
+    takeoff_check_contenor = Contenor("Takeoff")
+    takeoff_duration_displayer = Displayer("Takeoff duration")
+    takeoff_xyz_displayer = Displayer("Takeoff xyz")
+    takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
+    takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
     first_time = drone_user.position_events[0].absolute_time
     second_time = drone_user.position_events[1].absolute_time
     first_position = drone_user.position_events[0].xyz
@@ -41,6 +44,15 @@ def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
     ):
         takeoff_xyz_displayer.validate()
     return takeoff_check_contenor
+
+
+def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
+    if len(drone_user.position_events) == 0:
+        msg = "This check can not operate on a drone without position events"
+        raise ValueError(msg)
+    if len(drone_user.position_events) == 1:
+        return apply_one_event_takeoff_check(drone_user)
+    return apply_multiple_events_takeoff_check(drone_user)
 
 
 def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Displayer:
@@ -73,4 +85,6 @@ def apply_show_user_check_procedure(
         show_user_contenor.add_error_message(
             apply_drone_user_check_procedure(drone_user, drone_index)
         )
+    return show_user_contenor
+    return show_user_contenor
     return show_user_contenor
