@@ -60,10 +60,6 @@ class DroneUser(BaseModel):
         )
 
     @property
-    def nb_position_events(self) -> int:
-        return len(self.position_events)
-
-    @property
     def flight_positions(self) -> List[PositionEventUser]:
         return self.position_events[1:]
 
@@ -74,16 +70,6 @@ class DroneUser(BaseModel):
     @property
     def last_height(self) -> float:
         return self.position_events[-1].xyz[2]
-
-    # TODO: rename and see what to do with these methods
-    def get_position_frame_by_index(self, index: int) -> int:
-        return self.position_events[index].frame
-
-    def get_absolute_time_by_index(self, index: int) -> float:
-        return self.position_events[index].absolute_time
-
-    def get_xyz_simulation_by_index(self, index: int) -> Tuple[float, float, float]:
-        return self.position_events[index].xyz
 
 
 class ShowUser(BaseModel):

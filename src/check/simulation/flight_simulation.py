@@ -17,21 +17,21 @@ def get_on_ground_flight_simulation(
 ) -> List[SimulationInfo]:
     simulation_infos: List[SimulationInfo] = []
     if last_frame == -1:
-        last_frame = drone_user.get_position_frame_by_index(0)
+        last_frame = drone_user.position_events[0].frame
     simulation_infos += stand_by_simulation(
         FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
         last_frame + 1,
-        drone_user.get_xyz_simulation_by_index(0),
+        drone_user.position_events[0].xyz,
     )
     return simulation_infos
 
 
 def get_last_frame_stand_by(drone_user: DroneUser) -> int:
     return (
-        drone_user.get_position_frame_by_index(0)
-        if drone_user.get_position_frame_by_index(0) != 0
+        drone_user.position_events[0].frame
+        if drone_user.position_events[0].frame != 0
         else 0
     )
 
@@ -46,17 +46,17 @@ def get_in_air_flight_simulation(
             FRAME_PARAMETER.from_second_to_frame(
                 JSON_BINARY_PARAMETER.show_duration_min_second
             ),
-            drone_user.get_position_frame_by_index(0),
-            drone_user.get_xyz_simulation_by_index(0),
+            drone_user.position_events[0].frame,
+            drone_user.position_events[0].xyz,
         )
     simulation_infos += takeoff_simulation(
-        drone_user.get_xyz_simulation_by_index(0),
+        drone_user.position_events[0].xyz,
         last_frame_stand_by,
     )
     simulation_infos += in_dance_flight_simulation(
         drone_user.flight_positions,
     )
-    last_position = drone_user.get_xyz_simulation_by_index(-1)
+    last_position = drone_user.position_events[-1].xyz
     simulation_infos += land_simulation(
         last_position,
         simulation_infos[-1].frame + 1,

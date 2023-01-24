@@ -13,21 +13,21 @@ def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
     takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
     takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
 
-    if drone_user.nb_position_events == 0:
+    if len(drone_user.position_events) == 0:
         msg = "This check can not operate on a drone without position events"
         raise ValueError(msg)
-    if drone_user.nb_position_events == 1:
-        first_frame = drone_user.get_position_frame_by_index(0)
-        first_position = drone_user.get_xyz_simulation_by_index(0)
+    if len(drone_user.position_events) == 1:
+        first_frame = drone_user.position_events[0].frame
+        first_position = drone_user.position_events[0].xyz
         if first_frame == 0:
             takeoff_duration_displayer.validate()
         if first_position[2] == 0.0:
             takeoff_xyz_displayer.validate()
         return takeoff_check_contenor
-    first_time = drone_user.get_absolute_time_by_index(0)
-    second_time = drone_user.get_absolute_time_by_index(1)
-    first_position = drone_user.get_xyz_simulation_by_index(0)
-    second_position = drone_user.get_xyz_simulation_by_index(1)
+    first_time = drone_user.position_events[0].absolute_time
+    second_time = drone_user.position_events[1].absolute_time
+    first_position = drone_user.position_events[0].xyz
+    second_position = drone_user.position_events[1].xyz
     if (second_time - first_time) == TAKEOFF_PARAMETER.takeoff_duration_second:
         takeoff_duration_displayer.validate()
     if (
@@ -46,7 +46,7 @@ def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Display
     minimal_position_events_displayer = Displayer(
         "Minimal position event number: must be only 1 for a only led show or at least 3 for a flight"
     )
-    if drone_user.nb_position_events == 1 or drone_user.nb_position_events >= 3:
+    if len(drone_user.position_events) == 1 or len(drone_user.position_events) >= 3:
         minimal_position_events_displayer.validate()
     return minimal_position_events_displayer
 

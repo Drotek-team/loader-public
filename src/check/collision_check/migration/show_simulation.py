@@ -4,7 +4,6 @@ import numpy as np
 import numpy.typing as npt
 
 
-# TODO: faire une couche utilisateur
 class ShowSimulationSlice:
     def __init__(self, frame: int, nb_drones: int):
         self.frame = frame
