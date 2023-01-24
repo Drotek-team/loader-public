@@ -6,11 +6,28 @@ import numpy.typing as npt
 
 
 @dataclass(frozen=True)
-class TrajectoryPerformanceInfo:
-    frame: int
+class Performance:
     position: npt.NDArray[np.float64]
     velocity: npt.NDArray[np.float64]
     acceleration: npt.NDArray[np.float64]
+
+
+@dataclass(frozen=True)
+class TrajectoryPerformanceInfo:
+    frame: int
+    performance: Performance
+
+    @property
+    def position(self) -> npt.NDArray[np.float64]:
+        return self.performance.position
+
+    @property
+    def velocity(self) -> npt.NDArray[np.float64]:
+        return self.performance.velocity
+
+    @property
+    def acceleration(self) -> npt.NDArray[np.float64]:
+        return self.performance.acceleration
 
 
 class DroneTrajectoryPerformance:

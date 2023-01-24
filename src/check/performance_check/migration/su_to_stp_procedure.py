@@ -6,6 +6,7 @@ from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PA
 from ....show_env.show_user.show_user import PositionEventUser, ShowUser
 from .show_trajectory_performance import (
     DroneTrajectoryPerformance,
+    Performance,
     ShowTrajectoryPerformance,
     TrajectoryPerformanceInfo,
 )
@@ -41,7 +42,7 @@ def get_trajectory_performance_info_from_position_events(
         msg = "You should have the same number of frames, positions, velocities and accelerations"
         raise ValueError(msg)
     return [
-        TrajectoryPerformanceInfo(frame, position, velocity, acceleration)
+        TrajectoryPerformanceInfo(frame, Performance(position, velocity, acceleration))
         for frame, position, velocity, acceleration in zip(
             frames,
             positions,

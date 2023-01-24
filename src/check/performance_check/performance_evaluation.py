@@ -3,7 +3,10 @@ from enum import Enum
 from typing import Callable, Dict
 
 import numpy as np
-import numpy.typing as npt
+
+from src.check.performance_check.migration.show_trajectory_performance import (
+    Performance,
+)
 
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
@@ -27,63 +30,31 @@ class Metric(Enum):
     def range_(self):
         return METRICS_RANGE[self]
 
-    def validation(
-        self,
-        position: npt.NDArray[np.float64],
-        velocity: npt.NDArray[np.float64],
-        acceleration: npt.NDArray[np.float64],
-    ) -> bool:
-        return self.range_.validation(self.evaluation(position, velocity, acceleration))
+    def validation(self, performance: Performance) -> bool:
+        return self.range_.validation(self.evaluation(performance))
 
 
-# TODO: class PositionVelocityAcceleration to gain + not very pretty for an evaluation to know about data they don't use
-def vertical_position_evaluation(
-    position: npt.NDArray[np.float64],
-    velocity: npt.NDArray[np.float64],
-    acceleration: npt.NDArray[np.float64],
-) -> float:
-    return float(position[2])
+def vertical_position_evaluation(performance: Performance) -> float:
+    return float(performance.position[2])
 
 
-def horizontal_velocity_evaluation(
-    position: npt.NDArray[np.float64],
-    velocity: npt.NDArray[np.float64],
-    acceleration: npt.NDArray[np.float64],
-) -> float:
-    return float(np.linalg.norm(velocity[0:2]))
+def horizontal_velocity_evaluation(performance: Performance) -> float:
+    return float(np.linalg.norm(performance.velocity[0:2]))
 
 
-def up_velocity_evaluation(
-    position: npt.NDArray[np.float64],
-    velocity: npt.NDArray[np.float64],
-    acceleration: npt.NDArray[np.float64],
-) -> float:
-    return float(velocity[2])
+def up_velocity_evaluation(performance: Performance) -> float:
+    return float(performance.velocity[2])
 
 
-def down_velocity_evaluation(
-    position: npt.NDArray[np.float64],
-    velocity: npt.NDArray[np.float64],
-    acceleration: npt.NDArray[np.float64],
-) -> float:
-    return float(-velocity[2])
+def down_velocity_evaluation(performance: Performance) -> float:
+    return float(-performance.velocity[2])
 
 
-def acceleration_evaluation(
-    position: npt.NDArray[np.float64],
-    velocity: npt.NDArray[np.float64],
-    acceleration: npt.NDArray[np.float64],
-) -> float:
-    return float(np.linalg.norm(acceleration))
+def acceleration_evaluation(performance: Performance) -> float:
+    return float(np.linalg.norm(performance.acceleration))
 
 
-METRICS_EVALUATION: Dict[
-    Metric,
-    Callable[
-        [npt.NDArray[np.float64], npt.NDArray[np.float64], npt.NDArray[np.float64]],
-        float,
-    ],
-] = {
+METRICS_EVALUATION: Dict[Metric, Callable[[Performance], float]] = {
     Metric.VERTICAL_POSITION: vertical_position_evaluation,
     Metric.HORIZONTAL_VELOCITY: horizontal_velocity_evaluation,
     Metric.UP_VELOCITY: up_velocity_evaluation,
@@ -117,23 +88,18 @@ METRICS_RANGE: Dict[Metric, MetricRange] = {
 }
 
 
-def performance_evaluation(
-    frame: int,
-    position: npt.NDArray[np.float64],
-    velocity: npt.NDArray[np.float64],
-    acceleration: npt.NDArray[np.float64],
-) -> Contenor:
+def performance_evaluation(frame: int, performance: Performance) -> Contenor:
     performance_evaluation_contenor = Contenor(
         f"Performance evaluation at frame {frame}"
     )
     for metric in Metric:
-        if metric.validation(position, velocity, acceleration):
+        if metric.validation(performance):
             continue
         performance_evaluation_contenor.add_error_message(
             PerformanceInfraction(
                 name=metric.value,
                 frame=frame,
-                value=metric.evaluation(position, velocity, acceleration),
+                value=metric.evaluation(performance),
                 threshold=metric.range_.threshold,
                 metric_convention=metric.range_.standard_convention,
             )

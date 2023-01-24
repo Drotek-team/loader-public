@@ -17,9 +17,7 @@ def apply_drone_trajectory_performance_check_procedure(
         drone_trajectory_performance_check_report.add_error_message(
             performance_evaluation(
                 trajectory_performance_info.frame,
-                trajectory_performance_info.position,
-                trajectory_performance_info.velocity,
-                trajectory_performance_info.acceleration,
+                trajectory_performance_info.performance,
             )
         )
     return drone_trajectory_performance_check_report
