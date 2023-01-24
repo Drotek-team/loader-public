@@ -1,3 +1,7 @@
+import json
+import os
+from pathlib import Path
+
 from .editor import (
     apply_export_to_iostar_json,
     apply_export_to_iostar_json_gcs,
@@ -64,12 +68,12 @@ def test_export_show_user_to_iostar_json_string_standard_case():
 
 def test_export_show_user_to_iostar_json_gcs_string_standard_case():
     iostar_json_gcs_string = export_show_user_to_iostar_json_gcs_string(
-        get_valid_show_user(ShowUserConfiguration())
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
     )
-    assert isinstance(iostar_json_gcs_string, str)
+    with open(Path(os.getcwd()).joinpath("iostar_json_gcs_reference.json")) as f:
+        assert json.loads(iostar_json_gcs_string) == json.load(f)
 
 
 def test_global_check_iostar_json_standard_case():
     iostar_json_gcs = su_to_ijg_procedure(get_valid_show_user(ShowUserConfiguration()))
-    assert global_check_iostar_json_gcs(iostar_json_gcs)
     assert global_check_iostar_json_gcs(iostar_json_gcs)
