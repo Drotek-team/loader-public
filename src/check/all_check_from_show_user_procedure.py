@@ -20,10 +20,14 @@ def apply_all_check_from_show_user_procedure(
     check_contenor.add_error_message(apply_show_px4_check_procedure(show_user))
     if not (check_contenor["show px4 check procedure"].user_validation):
         return check_contenor
-    apply_show_trajectory_performance_check_procedure(
-        show_user,
+    check_contenor.add_error_message(
+        apply_show_trajectory_performance_check_procedure(
+            show_user,
+        )
     )
-    apply_show_simulation_collision_check_procedure(
-        show_user,
+    check_contenor.add_error_message(
+        apply_show_simulation_collision_check_procedure(
+            show_user,
+        )
     )
     return check_contenor
