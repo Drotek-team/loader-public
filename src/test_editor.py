@@ -66,6 +66,7 @@ def test_export_show_user_to_iostar_json_string_standard_case():
     assert isinstance(iostar_json_string, str)
 
 
+# WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_export_show_user_to_iostar_json_gcs_string_standard_case():
     iostar_json_gcs_string = export_show_user_to_iostar_json_gcs_string(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
