@@ -1,8 +1,9 @@
 from .editor import (
-    apply_export_procedure,
+    apply_export_to_iostar_json,
+    apply_export_to_iostar_json_gcs,
     create_show_user,
     export_show_user_to_iostar_json_gcs_string,
-    export_show_user_to_iostar_json_string,
+    export_show_user_to_iostar_json_str,
     global_check_iostar_json_gcs,
 )
 from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
@@ -10,29 +11,6 @@ from .show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-
-NB_X = 1
-NB_Y = 1
-NB_DRONE_PER_FAMILY = 1
-STEP_TAKEOFF = 1.5
-ANGLE_TAKEOFF = 0
-SHOW_DURATION_SECOND = 30.0
-
-
-def test_export_procedure_standard_case():
-    _, show_check_report = apply_export_procedure(
-        get_valid_show_user(
-            ShowUserConfiguration(
-                nb_x=NB_X,
-                nb_y=NB_Y,
-                nb_drone_per_family=NB_DRONE_PER_FAMILY,
-                step=STEP_TAKEOFF,
-                angle_takeoff=ANGLE_TAKEOFF,
-                show_duration_absolute_time=SHOW_DURATION_SECOND,
-            )
-        )
-    )
-    assert show_check_report.user_validation
 
 
 def test_create_show_user_standard_case():
@@ -45,8 +23,40 @@ def test_create_show_user_standard_case():
         assert len(show_user[drone_index].fire_events) == 0
 
 
+def test_export_procedure_to_iostar_json_standard_case():
+    _, show_check_report = apply_export_to_iostar_json(
+        get_valid_show_user(
+            ShowUserConfiguration(
+                nb_x=1,
+                nb_y=1,
+                nb_drone_per_family=1,
+                step=1.5,
+                angle_takeoff=0,
+                show_duration_absolute_time=30.0,
+            )
+        )
+    )
+    assert show_check_report.user_validation
+
+
+def test_export_procedure_to_iostar_json_gcs_standard_case():
+    _, show_check_report = apply_export_to_iostar_json_gcs(
+        get_valid_show_user(
+            ShowUserConfiguration(
+                nb_x=1,
+                nb_y=1,
+                nb_drone_per_family=1,
+                step=1.5,
+                angle_takeoff=0,
+                show_duration_absolute_time=30.0,
+            )
+        )
+    )
+    assert show_check_report.user_validation
+
+
 def test_export_show_user_to_iostar_json_string_standard_case():
-    iostar_json_string = export_show_user_to_iostar_json_string(
+    iostar_json_string = export_show_user_to_iostar_json_str(
         get_valid_show_user(ShowUserConfiguration())
     )
     assert isinstance(iostar_json_string, str)
@@ -61,4 +71,5 @@ def test_export_show_user_to_iostar_json_gcs_string_standard_case():
 
 def test_global_check_iostar_json_standard_case():
     iostar_json_gcs = su_to_ijg_procedure(get_valid_show_user(ShowUserConfiguration()))
+    assert global_check_iostar_json_gcs(iostar_json_gcs)
     assert global_check_iostar_json_gcs(iostar_json_gcs)
