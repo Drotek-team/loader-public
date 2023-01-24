@@ -25,13 +25,13 @@ def test_get_trajectory_performance_info_from_position_events():
     position_events = [
         PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
         PositionEventUser(frame=24, xyz=(0.0, 0.0, 1.0)),
-        PositionEventUser(frame=48, xyz=(0.0, 0.0, 4.0)),
-        PositionEventUser(frame=96, xyz=(0.0, 0.0, 5.0)),
+        PositionEventUser(frame=48, xyz=(0.0, 0.0, 2.0)),
+        PositionEventUser(frame=96, xyz=(0.0, 0.0, 3.0)),
     ]
     trajectory_performance_infos = get_trajectory_performance_info_from_position_events(
         position_events
     )
-    for position_index in range(3):
+    for position_index in range(4):
         assert (
             trajectory_performance_infos[position_index].frame
             == position_events[position_index].frame
@@ -42,7 +42,7 @@ def test_get_trajectory_performance_info_from_position_events():
         )
     assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 0.0)
     assert from_ca_to_ct(trajectory_performance_infos[1].velocity) == (0.0, 0.0, 1.0)
-    assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 3.0)
+    assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 1.0)
     assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 2.0)
 
     assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (
@@ -53,17 +53,17 @@ def test_get_trajectory_performance_info_from_position_events():
     assert from_ca_to_ct(trajectory_performance_infos[1].acceleration) == (
         0.0,
         0.0,
-        0.0,
+        1.0,
     )
     assert from_ca_to_ct(trajectory_performance_infos[2].acceleration) == (
         0.0,
         0.0,
-        2.0,
+        0.0,
     )
     assert from_ca_to_ct(trajectory_performance_infos[3].acceleration) == (
         0.0,
         0.0,
-        -2.0,
+        2.0,
     )
 
 
