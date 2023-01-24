@@ -5,35 +5,43 @@ from ...report import Contenor, Displayer
 from ...show_env.show_user.show_user import DroneUser, ShowUser
 
 
-# TODO: too much reponsibility for one function
-def apply_one_event_takeoff_check(drone_user: DroneUser) -> Contenor:
-    takeoff_check_contenor = Contenor("Takeoff")
+def one_event_takeoff_duration_check(drone_user: DroneUser) -> Displayer:
     takeoff_duration_displayer = Displayer("Takeoff duration")
-    takeoff_xyz_displayer = Displayer("Takeoff xyz")
-    takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
-    takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
-    first_frame = drone_user.position_events[0].frame
-    first_position = drone_user.position_events[0].xyz
-    if first_frame == 0:
+    if drone_user.position_events[0].frame == 0:
         takeoff_duration_displayer.validate()
+    return takeoff_duration_displayer
+
+
+def one_event_takeoff_xyz_check(drone_user: DroneUser) -> Displayer:
+    takeoff_xyz_displayer = Displayer("Takeoff xyz")
+    first_position = drone_user.position_events[0].xyz
     if first_position[2] == 0.0:
         takeoff_xyz_displayer.validate()
+    return takeoff_xyz_displayer
+
+
+def apply_one_event_takeoff_check(drone_user: DroneUser) -> Contenor:
+    takeoff_check_contenor = Contenor("Takeoff")
+    takeoff_check_contenor.add_error_message(
+        one_event_takeoff_duration_check(drone_user)
+    )
+    takeoff_check_contenor.add_error_message(one_event_takeoff_xyz_check(drone_user))
     return takeoff_check_contenor
 
 
-# TODO: too much reponsibility for one function
-def apply_multiple_events_takeoff_check(drone_user: DroneUser) -> Contenor:
-    takeoff_check_contenor = Contenor("Takeoff")
+def apply_multiple_events_takeoff_duration_check(drone_user: DroneUser) -> Displayer:
     takeoff_duration_displayer = Displayer("Takeoff duration")
-    takeoff_xyz_displayer = Displayer("Takeoff xyz")
-    takeoff_check_contenor.add_error_message(takeoff_duration_displayer)
-    takeoff_check_contenor.add_error_message(takeoff_xyz_displayer)
     first_time = drone_user.position_events[0].absolute_time
     second_time = drone_user.position_events[1].absolute_time
-    first_position = drone_user.position_events[0].xyz
-    second_position = drone_user.position_events[1].xyz
     if (second_time - first_time) == TAKEOFF_PARAMETER.takeoff_duration_second:
         takeoff_duration_displayer.validate()
+    return takeoff_duration_displayer
+
+
+def apply_multiple_events_takeoff_xyz_check(drone_user: DroneUser) -> Displayer:
+    takeoff_xyz_displayer = Displayer("Takeoff xyz")
+    first_position = drone_user.position_events[0].xyz
+    second_position = drone_user.position_events[1].xyz
     if (
         first_position[0] == second_position[0]
         and first_position[1] == second_position[1]
@@ -43,6 +51,17 @@ def apply_multiple_events_takeoff_check(drone_user: DroneUser) -> Contenor:
         <= first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
     ):
         takeoff_xyz_displayer.validate()
+    return takeoff_xyz_displayer
+
+
+def apply_multiple_events_takeoff_check(drone_user: DroneUser) -> Contenor:
+    takeoff_check_contenor = Contenor("Takeoff")
+    takeoff_check_contenor.add_error_message(
+        apply_multiple_events_takeoff_duration_check(drone_user)
+    )
+    takeoff_check_contenor.add_error_message(
+        apply_multiple_events_takeoff_xyz_check(drone_user)
+    )
     return takeoff_check_contenor
 
 
