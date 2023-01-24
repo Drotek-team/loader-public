@@ -19,10 +19,9 @@ def in_dance_flight_simulation(
             next_position_events_user.xyz,
             next_position_events_user.frame - position_simulation.frame,
         )
-    flight_positions.append(np.array(position_events_user[-1].xyz))
     return [
         SimulationInfo(
-            frame=position_events_user[0].frame - 1 + frame_index,
+            frame=position_events_user[0].frame + frame_index,
             position=flight_position,
             in_air=True,
         )

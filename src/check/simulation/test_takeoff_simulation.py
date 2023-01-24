@@ -54,8 +54,7 @@ def test_takeoff_simulation(
         second_position_event.xyz,
         FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
-        )
-        - 1,
+        ),
     )
     theorical_positions = first_theorical_positions + second_theorical_positions
     theorical_takeoff_simulation_infos = [

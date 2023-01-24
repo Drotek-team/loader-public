@@ -5,7 +5,6 @@ import numpy as np
 from .position_simulation import SimulationInfo
 
 
-# TODO: add the corner case test
 def stand_by_simulation(
     frame_begin: int,
     frame_end: int,

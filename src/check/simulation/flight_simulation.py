@@ -17,12 +17,12 @@ def get_on_ground_flight_simulation(
 ) -> List[SimulationInfo]:
     simulation_infos: List[SimulationInfo] = []
     if last_frame == -1:
-        last_frame = drone_user.get_position_frame_by_index(0) + 1
+        last_frame = drone_user.get_position_frame_by_index(0)
     simulation_infos += stand_by_simulation(
         FRAME_PARAMETER.from_second_to_frame(
             JSON_BINARY_PARAMETER.show_duration_min_second
         ),
-        last_frame,
+        last_frame + 1,
         drone_user.get_xyz_simulation_by_index(0),
     )
     return simulation_infos
@@ -62,10 +62,10 @@ def get_in_air_flight_simulation(
         simulation_infos[-1].frame + 1,
     )
     if last_frame == -1:
-        last_frame = simulation_infos[-1].frame + 2
+        last_frame = simulation_infos[-1].frame + 1
     simulation_infos += stand_by_simulation(
         frame_begin=simulation_infos[-1].frame + 1,
-        frame_end=last_frame,
+        frame_end=last_frame + 1,
         stand_by_position=(last_position[0], last_position[1], 0),
     )
     return simulation_infos

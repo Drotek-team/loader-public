@@ -43,9 +43,9 @@ def test_invalid_simulation_on_ground():
         invalid_show_user_on_ground,
     )
     assert (
-        len(simulation_collision_contenor._error_messages) == 1021  # type:ignore[test]
+        len(simulation_collision_contenor._error_messages) == 1022  # type:ignore[test]
     )
-    for flight_index in range(1021):
+    for flight_index in range(1022):
         assert not (
             simulation_collision_contenor._error_messages[  # type:ignore[test]
                 f"Collision slice check report at frame {flight_index}"

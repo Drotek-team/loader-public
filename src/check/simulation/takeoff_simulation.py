@@ -40,8 +40,7 @@ def generate_takeoff_second_part(
         takeoff_end_position,
         FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second
-        )
-        - 1,
+        ),
     )
 
 

@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from ...show_env.show_user.show_user import PositionEventUser
-from .in_dance_flight_simulation import in_dance_flight_simulation, linear_interpolation
+from .in_dance_flight_simulation import in_dance_flight_simulation
 from .position_simulation import SimulationInfo
 
 
@@ -12,53 +12,32 @@ from .position_simulation import SimulationInfo
 def valid_position_events_user() -> List[PositionEventUser]:
     return [
         PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-        PositionEventUser(frame=5, xyz=(0.0, 0.0, 1.0)),
-        PositionEventUser(frame=23, xyz=(0.0, 0.0, 2.0)),
+        PositionEventUser(frame=1, xyz=(0.0, 0.0, 1.0)),
+        PositionEventUser(frame=3, xyz=(0.0, 0.0, 2.0)),
     ]
 
 
 def test_in_air_flight_simulation(valid_position_events_user: List[PositionEventUser]):
-    first_position_event_user, second_position_event_user, third_position_event_user = (
-        valid_position_events_user[0],
-        valid_position_events_user[1],
-        valid_position_events_user[2],
-    )
     real_in_air_flight_simulation_infos = in_dance_flight_simulation(
         valid_position_events_user,
     )
-    first_theorical_positions = linear_interpolation(
-        first_position_event_user.xyz,
-        second_position_event_user.xyz,
-        second_position_event_user.frame - first_position_event_user.frame,
-    )
-    second_theorical_positions = linear_interpolation(
-        second_position_event_user.xyz,
-        third_position_event_user.xyz,
-        third_position_event_user.frame - second_position_event_user.frame,
-    )
-    theorical_positions = (
-        first_theorical_positions
-        + second_theorical_positions
-        + [np.array(third_position_event_user.xyz)]
-    )
     theorical_in_air_flight_simulation_infos = [
         SimulationInfo(
-            frame=first_position_event_user.frame - 1 + frame_index,
-            position=theorical_position,
+            frame=0,
+            position=np.array((0.0, 0.0, 0.0)),
             in_air=True,
-        )
-        for frame_index, theorical_position in enumerate(theorical_positions)
+        ),
+        SimulationInfo(
+            frame=1,
+            position=np.array((0.0, 0.0, 1.0)),
+            in_air=True,
+        ),
+        SimulationInfo(
+            frame=2,
+            position=np.array((0.0, 0.0, 1.5)),
+            in_air=True,
+        ),
     ]
-    assert len(real_in_air_flight_simulation_infos) == len(
-        theorical_in_air_flight_simulation_infos
-    )
-    assert all(
-        [
-            real_in_air_flight_simulation_info
-            == theorical_in_air_flight_simulation_info
-            for real_in_air_flight_simulation_info, theorical_in_air_flight_simulation_info in zip(
-                real_in_air_flight_simulation_infos,
-                theorical_in_air_flight_simulation_infos,
-            )
-        ]
+    assert (
+        real_in_air_flight_simulation_infos == theorical_in_air_flight_simulation_infos
     )

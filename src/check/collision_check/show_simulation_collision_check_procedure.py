@@ -19,6 +19,7 @@ def apply_show_simulation_collision_check_procedure(
         show_trajectory_collision,
     )
     drone_indices = np.array(range(show_simulation.nb_drones))
+    # TODO: lisibilité entrée de fonction, test performance indexing numpy/dataclass
     for show_simulation_slice in show_simulation.show_slices:
         collision_infractions = get_optimized_collision_infractions(
             drone_indices[np.invert(show_simulation_slice.in_air_flags)],

@@ -3,6 +3,7 @@ from typing import List
 import numpy as np
 
 
+# TODO: faire une couche utilisateur
 class ShowSimulationSlice:
     def __init__(self, frame: int, nb_drones: int):
         self.frame = frame

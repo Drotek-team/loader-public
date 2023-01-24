@@ -17,7 +17,7 @@ def test_valid_show_flags():
             get_valid_show_user(ShowUserConfiguration()),
         )
     )
-    assert len(show_simulation.show_slices) == 1021
+    assert len(show_simulation.show_slices) == 1022
     assert np.array_equal(
         show_simulation.show_slices[0].positions[0], np.array([0.0, 0.0, 0.0])
     )
