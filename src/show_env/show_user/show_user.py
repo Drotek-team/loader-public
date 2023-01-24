@@ -28,8 +28,8 @@ class ColorEventUser(BaseModel):
 
 class FireEventUser(BaseModel):
     frame: StrictInt  # 24 fps
-    chanel: StrictInt  # Chanel of the drone
-    duration_frame: StrictInt  # Duration of the event if int
+    chanel: StrictInt  # Chanel of the drone between 0 and 2
+    duration_frame: StrictInt  # Duration of the event in frame
 
     @property
     def absolute_time(self) -> float:

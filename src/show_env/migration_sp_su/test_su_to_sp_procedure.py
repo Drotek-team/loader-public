@@ -1,3 +1,6 @@
+from hypothesis import given
+from hypothesis import strategies as st
+
 from ..show_px4.drone_px4.drone_px4 import DronePx4
 from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from ..show_user.show_user import (
@@ -6,6 +9,7 @@ from ..show_user.show_user import (
     FireEventUser,
     PositionEventUser,
 )
+from .sp_to_su_procedure import sp_to_su_procedure
 from .su_to_sp_procedure import (
     add_color_events_user,
     add_fire_events_user,
@@ -115,22 +119,20 @@ def test_drone_user_to_drone_px4_procedure_standard_case():
     assert drone_px4.fire_events.get_fire_event_by_index(0).chanel_duration == (0, 41)
 
 
-# TODO: make test with several drones
-def test_su_to_sp_procedure_standard_case():
-    show_user = get_valid_show_user(ShowUserConfiguration())
-    show_px4 = su_to_sp_procedure(show_user)
-    assert show_px4[0].position_events.get_position_event_by_index(0).timecode == 0
-    assert show_px4[0].position_events.get_position_event_by_index(0).xyz == (
-        0,
-        0,
-        0,
+@given(
+    nb_x=st.integers(1, 3),
+    nb_y=st.integers(1, 3),
+    nb_drone_per_family=st.integers(1, 3),
+)
+def test_su_to_sp_procedure_standard_case(
+    nb_x: int, nb_y: int, nb_drone_per_family: int
+):
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(
+            nb_x=nb_x,
+            nb_y=nb_y,
+            nb_drone_per_family=nb_drone_per_family,
+        )
     )
-    assert show_px4[0].color_events.get_color_event_by_index(0).timecode == 0
-    assert show_px4[0].color_events.get_color_event_by_index(0).rgbw == (
-        255,
-        0,
-        0,
-        0,
-    )
-    assert show_px4[0].fire_events.get_fire_event_by_index(0).timecode == 0
-    assert show_px4[0].fire_events.get_fire_event_by_index(0).chanel_duration == (0, 0)
+    new_show_user = sp_to_su_procedure(su_to_sp_procedure(show_user))
+    assert show_user == new_show_user

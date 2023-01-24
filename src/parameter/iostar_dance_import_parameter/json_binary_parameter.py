@@ -40,6 +40,7 @@ class JsonBinaryParameter:
             TIMECODE_TO_SECOND_FACTOR * px4_timecode
         )
 
+    # Lose of information here due to rounding
     def from_user_position_to_px4_position(self, user_position: float) -> int:
         return int(
             (METER_TO_CENTIMETER_FACTOR * user_position) / self.position_reformat_factor
@@ -66,6 +67,7 @@ class JsonBinaryParameter:
             -self.from_px4_position_to_user_position(px4_xyz[2]),
         )
 
+    # Lose of information here due to rounding
     def from_user_rgbw_to_px4_rgbw(
         self, user_rgbw: Tuple[float, float, float, float]
     ) -> Tuple[int, int, int, int]:
