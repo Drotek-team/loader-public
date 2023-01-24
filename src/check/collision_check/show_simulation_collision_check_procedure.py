@@ -1,5 +1,3 @@
-import numpy as np
-
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...report import Contenor
 from ...show_env.show_user.show_user import ShowUser
@@ -18,21 +16,21 @@ def apply_show_simulation_collision_check_procedure(
     show_simulation = stc_to_ss_procedure(
         show_trajectory_collision,
     )
-    drone_indices = np.array(range(show_simulation.nb_drones))
-    # TODO: lisibilité entrée de fonction, test performance indexing numpy/dataclass
     for show_simulation_slice in show_simulation.show_slices:
-        collision_infractions = get_optimized_collision_infractions(
-            drone_indices[np.invert(show_simulation_slice.in_air_flags)],
-            show_simulation_slice.positions[
-                np.invert(show_simulation_slice.in_air_flags)
-            ],
+        on_ground_collision_infractions = get_optimized_collision_infractions(
+            show_simulation_slice.on_ground_indices,
+            show_simulation_slice.on_ground_positions,
             IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
             in_air=False,
-        ) + get_optimized_collision_infractions(
-            drone_indices[show_simulation_slice.in_air_flags],
-            show_simulation_slice.positions[show_simulation_slice.in_air_flags],
+        )
+        in_air_collision_infractions = get_optimized_collision_infractions(
+            show_simulation_slice.in_air_indices,
+            show_simulation_slice.in_air_positions,
             IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
             in_air=True,
+        )
+        collision_infractions = (
+            on_ground_collision_infractions + in_air_collision_infractions
         )
         if collision_infractions:
             collision_slice_contenor = Contenor(

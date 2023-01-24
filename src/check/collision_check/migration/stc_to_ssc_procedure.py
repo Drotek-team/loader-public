@@ -9,12 +9,11 @@ def update_show_simulation_from_drone_trajectory(
     for show_slice, collision_position_infos in zip(
         show_simulation.show_slices, collision_trajectory.collision_position_infos
     ):
-        show_slice.positions[
-            collision_trajectory.drone_index
-        ] = collision_position_infos.position
-        show_slice.in_air_flags[
-            collision_trajectory.drone_index
-        ] = collision_position_infos.in_air
+        show_slice.update_position_air_flag(
+            collision_trajectory.drone_index,
+            collision_position_infos.position,
+            in_air_flag=collision_position_infos.in_air,
+        )
 
 
 def stc_to_ss_procedure(
