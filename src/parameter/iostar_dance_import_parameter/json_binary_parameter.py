@@ -9,6 +9,9 @@ class JsonBinaryParameter:
     magic_number = 43605  # A signature add in the header of the binary
     fmt_header = ">HIB"  # Size in bits of the header
     fmt_section_header = ">BII"  # Size in bits of the section header
+    position_event_format = ">Ihhh"
+    color_event_format = ">IBBBB"
+    fire_event_format = ">IBB"
     dance_size_max = 100_000  # Maximal size of the binary send to the drone in octect
     frame_reformat_factor = (
         1  # Factor apply to the frame before the import to compress the dance size
