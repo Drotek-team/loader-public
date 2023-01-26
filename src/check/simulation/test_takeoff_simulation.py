@@ -7,8 +7,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...show_env.show_user.show_user import PositionEventUser
-from .in_dance_flight_simulation import linear_interpolation
-from .position_simulation import SimulationInfo
+from .position_simulation import SimulationInfo, linear_interpolation
 from .takeoff_simulation import takeoff_simulation
 
 FRAME_START = 0

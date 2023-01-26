@@ -17,6 +17,7 @@ def valid_position_events_user() -> List[PositionEventUser]:
     ]
 
 
+# TODO: remplir les champs x et y par acquis de conscience
 def test_in_air_flight_simulation(valid_position_events_user: List[PositionEventUser]):
     real_in_air_flight_simulation_infos = in_dance_flight_simulation(
         valid_position_events_user,
