@@ -16,7 +16,7 @@ def update_show_simulation_from_drone_trajectory(
         )
 
 
-def stc_to_ss_procedure(
+def stc_to_ss(
     collision_show_trajectory: CollisionShowTrajectory,
 ) -> ShowSimulation:
     show_simulation = ShowSimulation(

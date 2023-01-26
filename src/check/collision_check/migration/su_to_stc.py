@@ -3,7 +3,7 @@ from ...simulation.flight_simulation import get_flight_simulation
 from .show_trajectory_collision import CollisionShowTrajectory, CollisionTrajectory
 
 
-def su_to_stc_procedure(
+def su_to_stc(
     show_user: ShowUser,
 ) -> CollisionShowTrajectory:
     return CollisionShowTrajectory(

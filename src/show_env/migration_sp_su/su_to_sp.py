@@ -59,7 +59,7 @@ def add_fire_events_user(
         )
 
 
-def drone_user_to_drone_px4_procedure(
+def drone_user_to_drone_px4(
     drone_user: DroneUser,
     drone_index: int,
 ) -> DronePx4:
@@ -76,12 +76,12 @@ def drone_user_to_drone_px4_procedure(
     return drone_px4
 
 
-def su_to_sp_procedure(
+def su_to_sp(
     show_user: ShowUser,
 ) -> ShowPx4:
     return ShowPx4(
         [
-            drone_user_to_drone_px4_procedure(
+            drone_user_to_drone_px4(
                 drone_user,
                 drone_index,
             )

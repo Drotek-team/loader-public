@@ -70,7 +70,7 @@ def sc_to_scg(show_configuration: ShowConfiguration) -> ShowConfigurationGcs:
     )
 
 
-def su_to_sc_procedure(show_user: ShowUser) -> ShowConfiguration:
+def su_to_sc(show_user: ShowUser) -> ShowConfiguration:
     grid = get_grid_from_show_user(show_user)
     nb_drone_per_family = get_nb_drone_per_family_from_grid(grid)
     step = get_step_from_grid(grid)
@@ -88,5 +88,5 @@ def su_to_sc_procedure(show_user: ShowUser) -> ShowConfiguration:
     )
 
 
-def su_to_scg_procedure(show_user: ShowUser) -> ShowConfigurationGcs:
-    return sc_to_scg(su_to_sc_procedure(show_user))
+def su_to_scg(show_user: ShowUser) -> ShowConfigurationGcs:
+    return sc_to_scg(su_to_sc(show_user))

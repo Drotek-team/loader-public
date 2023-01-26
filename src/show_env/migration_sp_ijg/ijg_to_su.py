@@ -1,11 +1,11 @@
 from ..iostar_json.iostar_json_gcs import IostarJsonGcs
 from ..migration_dp_binary.drone_decoding import decode_drone
-from ..migration_sp_su.sp_to_su import sp_to_su_procedure
+from ..migration_sp_su.sp_to_su import sp_to_su
 from ..show_px4.show_px4 import ShowPx4
 from ..show_user.show_user import ShowUser
 
 
-def ijg_to_sp_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowPx4:
+def ijg_to_sp(iostar_json_gcs: IostarJsonGcs) -> ShowPx4:
     return ShowPx4(
         [
             decode_drone(
@@ -18,5 +18,5 @@ def ijg_to_sp_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowPx4:
     )
 
 
-def ijg_to_su_procedure(iostar_json_gcs: IostarJsonGcs) -> ShowUser:
-    return sp_to_su_procedure(ijg_to_sp_procedure(iostar_json_gcs))
+def ijg_to_su(iostar_json_gcs: IostarJsonGcs) -> ShowUser:
+    return sp_to_su(ijg_to_sp(iostar_json_gcs))

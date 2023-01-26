@@ -11,7 +11,7 @@ from ..show_user.show_user import (
 )
 
 
-def drone_px4_to_drone_user_procedure(
+def drone_px4_to_drone_user(
     drone_px4: DronePx4,
 ) -> DroneUser:
     position_events_user = [
@@ -53,12 +53,12 @@ def drone_px4_to_drone_user_procedure(
     )
 
 
-def sp_to_su_procedure(
+def sp_to_su(
     show_px4: ShowPx4,
 ) -> ShowUser:
     return ShowUser(
         drones_user=[
-            drone_px4_to_drone_user_procedure(
+            drone_px4_to_drone_user(
                 drone_px4,
             )
             for drone_px4 in show_px4

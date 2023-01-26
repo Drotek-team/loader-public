@@ -6,18 +6,14 @@ from ...show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from .show_trajectory_performance_check import (
-    apply_show_trajectory_performance_check_procedure,
-)
+from .show_trajectory_performance_check import apply_show_trajectory_performance_check
 
 EPSILON_DELTA = 1e-2
 
 
 def test_valid_show_trajectory_performance():
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            get_valid_show_user(ShowUserConfiguration()),
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        get_valid_show_user(ShowUserConfiguration()),
     )
     assert show_trajectory_performance_contenor.user_validation
 
@@ -28,10 +24,8 @@ def test_valid_show_user_vertical_position():
             takeoff_altitude=TAKEOFF_PARAMETER.takeoff_altitude_meter_min
         )
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -46,10 +40,8 @@ def test_invalid_show_user_vertical_position():
             - EPSILON_DELTA
         )
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -73,10 +65,8 @@ def test_valid_show_user_horizontal_velocity():
             last_position_event.xyz[2],
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -101,10 +91,8 @@ def test_invalid_show_user_horizontal_velocity():
             last_position_event.xyz[2],
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -127,10 +115,8 @@ def test_valid_show_user_up_velocity():
             last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETER.velocity_up_max,
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -155,10 +141,8 @@ def test_invalid_show_user_up_velocity():
             + EPSILON_DELTA,
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -185,10 +169,8 @@ def test_valid_show_user_down_velocity():
             last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETER.velocity_down_max,
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -217,10 +199,8 @@ def test_invalid_show_user_down_velocity():
             - EPSILON_DELTA,
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -251,10 +231,8 @@ def test_valid_show_user_acceleration():
             last_position_event.xyz[2],
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"
@@ -283,10 +261,8 @@ def test_invalid_show_user_acceleration():
             last_position_event.xyz[2],
         ),
     )
-    show_trajectory_performance_contenor = (
-        apply_show_trajectory_performance_check_procedure(
-            valid_show_user,
-        )
+    show_trajectory_performance_contenor = apply_show_trajectory_performance_check(
+        valid_show_user,
     )
     performance_infractions = show_trajectory_performance_contenor[
         "drone trajectory performance 0"

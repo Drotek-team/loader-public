@@ -9,13 +9,13 @@ from ..show_user.show_user import (
     FireEventUser,
     PositionEventUser,
 )
-from .sp_to_su import sp_to_su_procedure
+from .sp_to_su import sp_to_su
 from .su_to_sp import (
     add_color_events_user,
     add_fire_events_user,
     add_position_events_user,
-    drone_user_to_drone_px4_procedure,
-    su_to_sp_procedure,
+    drone_user_to_drone_px4,
+    su_to_sp,
 )
 
 
@@ -106,7 +106,7 @@ def test_drone_user_to_drone_px4_procedure_standard_case():
             ),
         ],
     )
-    drone_px4 = drone_user_to_drone_px4_procedure(drone_user, 0)
+    drone_px4 = drone_user_to_drone_px4(drone_user, 0)
     assert drone_px4.position_events.get_position_event_by_index(0).timecode == 0
     assert drone_px4.position_events.get_position_event_by_index(0).xyz == (
         100,
@@ -134,5 +134,5 @@ def test_su_to_sp_procedure_standard_case(
             nb_drone_per_family=nb_drone_per_family,
         )
     )
-    new_show_user = sp_to_su_procedure(su_to_sp_procedure(show_user))
+    new_show_user = sp_to_su(su_to_sp(show_user))
     assert show_user == new_show_user

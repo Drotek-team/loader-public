@@ -84,7 +84,7 @@ def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Display
     return minimal_position_events_displayer
 
 
-def apply_drone_user_check_procedure(
+def apply_drone_user_check(
     drone_user: DroneUser,
     drone_index: int,
 ) -> Contenor:
@@ -98,12 +98,12 @@ def apply_drone_user_check_procedure(
 
 
 # TODO: virer les "procedure", convention de nommage
-def apply_show_user_check_procedure(
+def apply_show_user_check(
     show_user: ShowUser,
 ) -> Contenor:
     show_user_contenor = Contenor("show user check procedure")
     for drone_index, drone_user in enumerate(show_user.drones_user):
         show_user_contenor.add_error_message(
-            apply_drone_user_check_procedure(drone_user, drone_index)
+            apply_drone_user_check(drone_user, drone_index)
         )
     return show_user_contenor

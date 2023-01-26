@@ -5,8 +5,8 @@ from ...report import CollisionInfraction, Contenor
 from ...show_env.show_user.show_user import ShowUser
 from .collision_math import get_optimized_collision_infractions
 from .migration.show_simulation import ShowSimulationSlice
-from .migration.stc_to_ssc import stc_to_ss_procedure
-from .migration.test_su_to_stc import su_to_stc_procedure
+from .migration.stc_to_ssc import stc_to_ss
+from .migration.test_su_to_stc import su_to_stc
 
 
 def get_collision_infractions(
@@ -39,14 +39,14 @@ def get_collision_slice_check_report(
 
 
 # TODO: rapport d'analyse, performance de l'algorithme 480 000 * collision(400)
-def apply_show_simulation_collision_check_procedure(
+def apply_show_simulation_collision_check(
     show_user: ShowUser,
 ) -> Contenor:
     show_simulation_collision_contenor = Contenor("Show simulation collision contenor")
-    show_trajectory_collision = su_to_stc_procedure(
+    show_trajectory_collision = su_to_stc(
         show_user,
     )
-    show_simulation = stc_to_ss_procedure(
+    show_simulation = stc_to_ss(
         show_trajectory_collision,
     )
     for show_simulation_slice in show_simulation.show_slices:

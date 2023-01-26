@@ -6,7 +6,7 @@ from ....show_env.migration_dp_binary.drone_encoding import get_dance_size
 from ....show_env.show_px4.drone_px4.drone_px4 import DronePx4
 
 
-def apply_dance_size_check_procedure(
+def apply_dance_size_check(
     drone_px4: DronePx4,
 ) -> Displayer:
     dance_size_check = Displayer(f"Drone {drone_px4.index } Dance size")

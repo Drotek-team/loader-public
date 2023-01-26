@@ -2,10 +2,10 @@ from typing import List
 
 from ..iostar_json.iostar_json_gcs import Dance, Family, IostarJsonGcs, Show
 from ..migration_dp_binary.drone_encoding import encode_drone
-from ..migration_sp_su.su_to_sp import su_to_sp_procedure
+from ..migration_sp_su.su_to_sp import su_to_sp
 from ..show_px4.drone_px4.drone_px4 import DronePx4
 from ..show_user.show_user import ShowUser
-from .su_to_scg import su_to_scg_procedure
+from .su_to_scg import su_to_scg
 
 
 def get_family_from_drones_px4(
@@ -26,9 +26,9 @@ def get_family_from_drones_px4(
     )
 
 
-def su_to_ijg_procedure(show_user: ShowUser) -> IostarJsonGcs:
-    show_configuration = su_to_scg_procedure(show_user)
-    show_px4 = su_to_sp_procedure(show_user)
+def su_to_ijg(show_user: ShowUser) -> IostarJsonGcs:
+    show_configuration = su_to_scg(show_user)
+    show_px4 = su_to_sp(show_user)
     return IostarJsonGcs(
         show=Show(
             families=[

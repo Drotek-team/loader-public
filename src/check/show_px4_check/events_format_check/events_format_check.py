@@ -58,7 +58,7 @@ def fire_events_check(
     return fire_events_contenor
 
 
-def apply_events_format_check_procedure(
+def apply_events_format_check(
     drone_px4: DronePx4,
 ) -> Contenor:
     events_format_contenor = Contenor(f"Drone {drone_px4.index} events format")

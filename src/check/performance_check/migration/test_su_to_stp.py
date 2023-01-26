@@ -8,10 +8,7 @@ from ....show_env.show_user.generate_show_user import (
     get_valid_show_user,
 )
 from ....show_env.show_user.show_user import PositionEventUser
-from .su_to_stp import (
-    get_trajectory_performance_info_from_position_events,
-    su_to_stp_procedure,
-)
+from .su_to_stp import get_trajectory_performance_info_from_position_events, su_to_stp
 
 
 def from_ca_to_ct(
@@ -66,8 +63,8 @@ def test_get_trajectory_performance_info_from_position_events():
     )
 
 
-def test_su_to_stp_procedure():
-    show_trajectory_performance = su_to_stp_procedure(
+def test_su_to_stp():
+    show_trajectory_performance = su_to_stp(
         get_valid_show_user(ShowUserConfiguration())
     )
     drone_trajectory_performance = (

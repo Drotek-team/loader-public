@@ -11,7 +11,7 @@ from ...show_env.show_user.generate_show_user import (
 from ...show_env.show_user.show_user import DroneUser, PositionEventUser
 from .show_user_check import (
     apply_minimal_position_events_number_check,
-    apply_show_user_check_procedure,
+    apply_show_user_check,
     apply_takeoff_check,
 )
 
@@ -168,5 +168,5 @@ def test_apply_minimal_position_events_number_check_2_events():
 
 def test_apply_show_user_check_procedure_standard_case():
     show_user = get_valid_show_user(ShowUserConfiguration())
-    show_user_check_report = apply_show_user_check_procedure(show_user)
+    show_user_check_report = apply_show_user_check(show_user)
     assert show_user_check_report.user_validation

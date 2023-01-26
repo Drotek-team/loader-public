@@ -4,7 +4,7 @@ from hypothesis import strategies as st
 
 from ..iostar_json.show_configuration import ShowConfiguration
 from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from .su_to_scg import su_to_sc_procedure
+from .su_to_scg import su_to_sc
 
 
 @given(
@@ -42,6 +42,4 @@ def test_su_to_sc_procedure_hypothesis(
         hull=show_user.convex_hull,
         altitude_range=show_user.altitude_range,
     )
-    assert show_configuration == su_to_sc_procedure(
-        get_valid_show_user(show_user_configuration)
-    )
+    assert show_configuration == su_to_sc(get_valid_show_user(show_user_configuration))

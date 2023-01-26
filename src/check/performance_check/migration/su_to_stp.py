@@ -71,7 +71,7 @@ def get_trajectory_performance_info_from_position_events(
     ]
 
 
-def su_to_stp_procedure(
+def su_to_stp(
     show_user: ShowUser,
 ) -> ShowTrajectoryPerformance:
     return ShowTrajectoryPerformance(
