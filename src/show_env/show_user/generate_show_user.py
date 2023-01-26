@@ -177,7 +177,7 @@ ITERATION_NUMBER = 20 * 60 * 24  # 20 minutes, 60 seconds, 24 fps
 STANDARD_SHOW_USER = get_valid_show_user(ShowUserConfiguration(nb_x=DRONE_NUMBER))
 for drone_user in STANDARD_SHOW_USER.drones_user:
     last_position_event = drone_user.position_events[-1]
-    for iteration_index in range(ITERATION_NUMBER):
+    for iteration_index in range(1, ITERATION_NUMBER):
         drone_user.add_position_event(
             last_position_event.frame + iteration_index, last_position_event.xyz
         )
