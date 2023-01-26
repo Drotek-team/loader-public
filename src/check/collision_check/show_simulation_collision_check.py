@@ -4,7 +4,7 @@ from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...report import CollisionInfraction, Contenor
 from ...show_env.show_user.show_user import ShowUser
 from .collision_math import get_optimized_collision_infractions
-from .migration.show_simulation import ShowSimulationSlice
+from .migration.show_simulation import ShowSimulation, ShowSimulationSlice
 from .migration.stc_to_ssc import stc_to_ss
 from .migration.test_su_to_stc import su_to_stc
 
@@ -38,17 +38,15 @@ def get_collision_slice_check_report(
     return collision_slice_contenor
 
 
-# TODO: rapport d'analyse, performance de l'algorithme 480 000 * collision(400)
+def su_to_ss(show_user: ShowUser) -> ShowSimulation:
+    return stc_to_ss(su_to_stc(show_user))
+
+
 def apply_show_simulation_collision_check(
     show_user: ShowUser,
 ) -> Contenor:
     show_simulation_collision_contenor = Contenor("Show simulation collision contenor")
-    show_trajectory_collision = su_to_stc(
-        show_user,
-    )
-    show_simulation = stc_to_ss(
-        show_trajectory_collision,
-    )
+    show_simulation = su_to_ss(show_user)
     for show_simulation_slice in show_simulation.show_slices:
         collision_infractions = get_collision_infractions(show_simulation_slice)
         if collision_infractions:

@@ -170,3 +170,11 @@ def get_valid_show_user(
         for _ in range(show_user_configuration.nb_drone_per_family)
     ]
     return ShowUser(drones_user=valid_drones_user)
+
+
+DRONE_NUMBER = 1
+ITERATION_NUMBER = 20 * 60 * 24  # 20 minutes, 60 seconds, 24 fps
+STANDARD_SHOW_USER = get_valid_show_user(ShowUserConfiguration(nb_x=DRONE_NUMBER))
+for drone_user in STANDARD_SHOW_USER.drones_user:
+    for iteration_index in range(ITERATION_NUMBER):
+        drone_user.add_position_event(1000 + iteration_index, (0.0, 0.0, 5.0))

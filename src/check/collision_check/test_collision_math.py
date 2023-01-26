@@ -1,8 +1,11 @@
+import time
+
 import numpy as np
 import numpy.typing as npt
 
 from .collision_math import (
     get_border_indices,
+    get_couple_distance_matrix,
     get_optimized_collision_infractions,
     get_principal_axis,
     get_unique_list_from_list,
@@ -74,3 +77,18 @@ def test_get_optimized_collision_infractions_big_number():
             in_air=True,
         )
     ) == (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
+
+
+ITERATION_NUMBER = 20 * 60 * 24  # 20 minutes, 60 seconds, 24 fps
+DRONE_NUMBER = 100
+ACTIVE = False
+
+
+def test_get_couple_distance_matrix_complexity():
+    if not ACTIVE:
+        return
+    positions = np.random.rand(DRONE_NUMBER, 3)
+    time_begin = time.time()
+    for _ in range(ITERATION_NUMBER):
+        get_couple_distance_matrix(positions)
+    raise ValueError(time.time() - time_begin)

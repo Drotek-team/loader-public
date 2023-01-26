@@ -22,7 +22,12 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
     )
 
 
-# TODO: make the import function
+# TODO: test this
+def import_show_user_from_iostar_json_string(iostar_json_string: str) -> ShowUser:
+    """Import a ShowUser object from a iostar_json JSON file."""
+    iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_string)
+    return ijg_to_su(iostar_json_gcs)
+
 
 # TODO: make specific check (performane,collision)
 
