@@ -1,6 +1,5 @@
 from typing import Any, List
 
-from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
@@ -38,14 +37,11 @@ def frame_value_check(
 ):
     value_displayer = Displayer("Value")
     frames = [event.timecode for event in events]
+
     if check_int_size_list(
         frames,
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_max_second
-        ),
+        JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
+        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
     ):
         value_displayer.validate()
     return value_displayer
@@ -76,8 +72,8 @@ def xyz_check(
     xyz_value_displayer = Displayer("XYZ value check")
     if check_int_size_list_tuple(
         [list(event.xyz) for event in position_events.specific_events],
-        JSON_BINARY_PARAMETER.position_value_min,
-        JSON_BINARY_PARAMETER.position_value_max,
+        JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
+        JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
     ):
         xyz_value_displayer.validate()
     return xyz_value_displayer
@@ -89,8 +85,8 @@ def rgbw_check(
     rgbw_value_displayer = Displayer("RGBW value check")
     if check_int_size_list_tuple(
         [list(event.rgbw) for event in color_events.specific_events],
-        JSON_BINARY_PARAMETER.color_value_min,
-        JSON_BINARY_PARAMETER.color_value_max,
+        JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
+        JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
     ):
         rgbw_value_displayer.validate()
     return rgbw_value_displayer
@@ -102,8 +98,8 @@ def fire_chanel_check(
     fire_chanel_value_displayer = Displayer("Fire chanel value check")
     if check_int_size_list(
         [event.chanel for event in fire_events.specific_events],
-        JSON_BINARY_PARAMETER.fire_chanel_value_min,
-        JSON_BINARY_PARAMETER.fire_chanel_value_max,
+        JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
+        JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
     ):
         fire_chanel_value_displayer.validate()
     return fire_chanel_value_displayer
@@ -116,8 +112,8 @@ def fire_duration_frame_check(
     durations = [event.duration for event in fire_events.specific_events]
     if check_int_size_list(
         durations,
-        JSON_BINARY_PARAMETER.fire_duration_value_frame_min,
-        JSON_BINARY_PARAMETER.fire_duration_value_frame_max,
+        JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
+        JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
     ):
         fire_duration_value_displayer.validate()
     return fire_duration_value_displayer

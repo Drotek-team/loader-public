@@ -12,15 +12,11 @@ from .events_format_check_procedure import color_events_check
 def valid_color_events():
     color_events = ColorEvents()
     color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
+        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame),
         (0, 0, 0, 0),
     )
     color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        )
+        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame)
         + 1,
         (255, 255, 255, 255),
     )
@@ -39,9 +35,7 @@ def test_invalid_color_events_frame_increasing_check(
     valid_color_events: ColorEvents,
 ):
     valid_color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
+        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame),
         (0, 0, 0, 0),
     )
     color_events_contenor = color_events_check(
@@ -54,10 +48,7 @@ def test_invalid_color_events_frame_first_frame_check(
     valid_color_events: ColorEvents,
 ):
     valid_color_events.add_timecode_rgbw(
-        timecode=FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        )
-        - 1,
+        timecode=JSON_BINARY_PARAMETER.show_start_frame - 1,
         rgbw=(0, 0, 0, 0),
     )
     color_events_contenor = color_events_check(
@@ -70,10 +61,8 @@ def test_invalid_color_events_rgbw_value_check(
     valid_color_events: ColorEvents,
 ):
     valid_color_events.add_timecode_rgbw(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
-        (JSON_BINARY_PARAMETER.color_value_max + 1, 0, 0, 0),
+        JSON_BINARY_PARAMETER.show_start_frame,
+        (JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1, 0, 0, 0),
     )
     color_events_contenor = color_events_check(
         valid_color_events,

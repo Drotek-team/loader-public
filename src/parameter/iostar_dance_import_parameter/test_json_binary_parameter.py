@@ -1,7 +1,17 @@
-from .json_binary_parameter import JSON_BINARY_PARAMETER
+from .json_binary_parameter import JSON_BINARY_PARAMETER, Bound
 
 
 def test_json_binary_parameter_standard_case():
+    assert JSON_BINARY_PARAMETER.position_event_format == ">Ihhh"
+    assert JSON_BINARY_PARAMETER.color_event_format == ">IBBBB"
+    assert JSON_BINARY_PARAMETER.fire_event_format == ">IBB"
+
+    assert JSON_BINARY_PARAMETER.timecode_value_bound == Bound(0, 2**32)
+    assert JSON_BINARY_PARAMETER.coordinate_value_bound == Bound(-(2**15), 2**15)
+    assert JSON_BINARY_PARAMETER.chrome_value_bound == Bound(0, 2**8)
+    assert JSON_BINARY_PARAMETER.fire_chanel_value_bound == Bound(0, 2)
+    assert JSON_BINARY_PARAMETER.fire_duration_value_bound == Bound(0, 2**8)
+
     assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
     assert JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(24) == 1_000
 
@@ -36,4 +46,7 @@ def test_json_binary_parameter_standard_case():
     )
 
     assert JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(24) == 1_000
+    assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
+    assert JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(24) == 1_000
+    assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
     assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24

@@ -80,6 +80,7 @@ def encode_drone(
 def get_dance_size(drone_px4: DronePx4) -> int:
     header_size = struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
     header_section_size = 3 * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
+    # TODO: get the value to the parameter
     position_size = len(drone_px4.position_events) * struct.calcsize(
         drone_px4.position_events.format_
     )

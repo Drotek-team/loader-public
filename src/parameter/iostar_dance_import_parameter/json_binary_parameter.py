@@ -1,3 +1,4 @@
+import struct
 from dataclasses import dataclass
 from typing import Tuple
 
@@ -5,13 +6,21 @@ from .frame_parameter import FRAME_PARAMETER
 
 
 @dataclass(frozen=True)
+class Bound:
+    minimal: int
+    maximal: int
+
+
+@dataclass(frozen=True)
 class JsonBinaryParameter:
     magic_number = 43605  # A signature add in the header of the binary
     fmt_header = ">HIB"  # Size in bits of the header
     fmt_section_header = ">BII"  # Size in bits of the section header
-    position_event_format = ">Ihhh"
-    color_event_format = ">IBBBB"
-    fire_event_format = ">IBB"
+    timecode_format = "I"
+    coordinate_format = "h"
+    chrome_format = "B"
+    fire_chanel_format = "B"
+    fire_duration_format = "B"
     dance_size_max = 100_000  # Maximal size of the binary send to the drone in octect
     frame_reformat_factor = (
         1  # Factor apply to the frame before the import to compress the dance size
@@ -19,16 +28,63 @@ class JsonBinaryParameter:
     position_reformat_factor = (
         1  # Factor apply to the position before the import to compress the dance size
     )
-    fire_chanel_value_min = 0
-    fire_chanel_value_max = 2
-    fire_duration_value_frame_min = 0
-    fire_duration_value_frame_max = 2**8
-    position_value_min = -(2**15)
-    position_value_max = 2**15
-    color_value_min = 0
-    color_value_max = 2**8
-    show_duration_min_second = 0.0
-    show_duration_max_second = 1800.0
+    fire_chanel_number = 3
+
+    @property
+    def position_event_format(self) -> str:
+        return f">{self.timecode_format}{self.coordinate_format}{self.coordinate_format}{self.coordinate_format}"
+
+    @property
+    def color_event_format(self) -> str:
+        return f">{self.timecode_format}{self.chrome_format}{self.chrome_format}{self.chrome_format}{self.chrome_format}"
+
+    @property
+    def fire_event_format(self) -> str:
+        return f">{self.timecode_format}{self.fire_chanel_format}{self.fire_duration_format}"
+
+    @staticmethod
+    def _binary_format_size(binary_format: str) -> int:
+        return 2 ** (8 * struct.calcsize(f">{binary_format}"))
+
+    # TODO Test these methods for documentation test
+    @property
+    def timecode_value_bound(self) -> Bound:
+        return Bound(
+            0,
+            self._binary_format_size(self.timecode_format),
+        )
+
+    @property
+    def coordinate_value_bound(self) -> Bound:
+        return Bound(
+            -self._binary_format_size(self.coordinate_format) // 2,
+            self._binary_format_size(self.coordinate_format) // 2,
+        )
+
+    @property
+    def chrome_value_bound(self) -> Bound:
+        return Bound(
+            0,
+            self._binary_format_size(self.chrome_format),
+        )
+
+    @property
+    def fire_chanel_value_bound(self) -> Bound:
+        return Bound(
+            0,
+            self.fire_chanel_number - 1,
+        )
+
+    @property
+    def fire_duration_value_bound(self) -> Bound:
+        return Bound(
+            0,
+            self._binary_format_size(self.fire_duration_format),
+        )
+
+    @property
+    def show_start_frame(self) -> int:
+        return 0
 
     @staticmethod
     def _second_to_millisecond(second: float) -> int:
@@ -109,4 +165,6 @@ class JsonBinaryParameter:
         )
 
 
+JSON_BINARY_PARAMETER = JsonBinaryParameter()
+JSON_BINARY_PARAMETER = JsonBinaryParameter()
 JSON_BINARY_PARAMETER = JsonBinaryParameter()

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, List, Tuple
 
 from .....parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JsonBinaryParameter,
+    JSON_BINARY_PARAMETER,
 )
 from .events import Event, Events
 from .events_order import EVENTS_ID, EventsType
@@ -11,10 +11,10 @@ from .events_order import EVENTS_ID, EventsType
 @dataclass(frozen=True)
 class ColorEvent(Event):
     timecode: int  # time frame associate to the "fps_px4" parameter
-    r: int  # red color between 0 and 255
-    g: int  # green color between 0 and 255
-    b: int  # blue color between 0 and 255
-    w: int  # white color between 0 and 255
+    r: int  # red color
+    g: int  # green color
+    b: int  # blue color
+    w: int  # white color
 
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:
@@ -28,7 +28,7 @@ class ColorEvent(Event):
 class ColorEvents(Events):
     def __init__(self):
         self.id_ = EVENTS_ID[EventsType.color]
-        self.format_ = JsonBinaryParameter.color_event_format
+        self.format_ = JSON_BINARY_PARAMETER.color_event_format
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []

@@ -19,9 +19,7 @@ def get_on_ground_flight_simulation(
     if last_frame == -1:
         last_frame = drone_user.position_events[0].frame
     simulation_infos += stand_by_simulation(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        ),
+        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame),
         last_frame + 1,
         drone_user.position_events[0].xyz,
     )
@@ -44,7 +42,7 @@ def get_in_air_flight_simulation(
     if last_frame_stand_by != 0:
         simulation_infos += stand_by_simulation(
             FRAME_PARAMETER.from_second_to_frame(
-                JSON_BINARY_PARAMETER.show_duration_min_second
+                JSON_BINARY_PARAMETER.show_start_frame
             ),
             drone_user.position_events[0].frame,
             drone_user.position_events[0].xyz,

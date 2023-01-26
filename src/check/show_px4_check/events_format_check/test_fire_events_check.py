@@ -13,23 +13,21 @@ def valid_fire_events():
     fire_events = FireEvents()
     fire_events.add_timecode_chanel_duration(
         timecode=FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
+            JSON_BINARY_PARAMETER.show_start_frame
         ),
         chanel=0,
         duration=0,
     )
     fire_events.add_timecode_chanel_duration(
         timecode=FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
+            JSON_BINARY_PARAMETER.show_start_frame
         )
         + 1,
         chanel=1,
         duration=0,
     )
     fire_events.add_timecode_chanel_duration(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
-        )
+        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame)
         + 2,
         chanel=2,
         duration=0,
@@ -51,7 +49,7 @@ def test_invalid_fire_events_frame_first_frame_check(
 ):
     valid_fire_events.add_timecode_chanel_duration(
         timecode=FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_min_second
+            JSON_BINARY_PARAMETER.show_start_frame
         )
         - 1,
         chanel=0,
@@ -67,10 +65,8 @@ def test_invalid_fire_events_chanel_value_check(
     valid_fire_events: FireEvents,
 ):
     valid_fire_events.add_timecode_chanel_duration(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_max_second
-        ),
-        JSON_BINARY_PARAMETER.fire_chanel_value_max + 1,
+        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal + 1,
         0,
     )
     fire_events_contenor = fire_events_check(
@@ -83,11 +79,9 @@ def test_invalid_fire_events_duration_value_check(
     valid_fire_events: FireEvents,
 ):
     valid_fire_events.add_timecode_chanel_duration(
-        FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_duration_max_second
-        ),
+        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
         0,
-        JSON_BINARY_PARAMETER.fire_duration_value_frame_max + 1,
+        JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal + 1,
     )
     fire_events_contenor = fire_events_check(
         valid_fire_events,

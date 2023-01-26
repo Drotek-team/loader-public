@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, List, Tuple
 
 from .....parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JsonBinaryParameter,
+    JSON_BINARY_PARAMETER,
 )
 from .events import Event, Events
 from .events_order import EVENTS_ID, EventsType
@@ -11,9 +11,9 @@ from .events_order import EVENTS_ID, EventsType
 @dataclass(frozen=True)
 class PositionEvent(Event):
     timecode: int  # time frame associate to the "fps_px4" parameter
-    x: int  # x relative coordinate in NED and centimeter between -2**15 and 2**15
-    y: int  # y relative coordinate in NED and centimeter between -2**15 and 2**15
-    z: int  # z relative coordinate in NED and centimeter between -2**15 and 2**15
+    x: int  # x relative coordinate in NED and centimeter
+    y: int  # y relative coordinate in NED and centimeter
+    z: int  # z relative coordinate in NED and centimeter
 
     @property
     def xyz(self) -> Tuple[int, int, int]:
@@ -26,7 +26,7 @@ class PositionEvent(Event):
 
 class PositionEvents(Events):
     def __init__(self):
-        self.format_ = JsonBinaryParameter.position_event_format
+        self.format_ = JSON_BINARY_PARAMETER.position_event_format
         self.id_ = EVENTS_ID[EventsType.position]
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/

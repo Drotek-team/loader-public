@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, List, Tuple
 
 from .....parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JsonBinaryParameter,
+    JSON_BINARY_PARAMETER,
 )
 from .events import Event, Events
 from .events_order import EVENTS_ID, EventsType
@@ -25,7 +25,7 @@ class FireEvent(Event):
 
 class FireEvents(Events):
     def __init__(self):
-        self.format_ = JsonBinaryParameter.fire_event_format
+        self.format_ = JSON_BINARY_PARAMETER.fire_event_format
         self.id_ = EVENTS_ID[EventsType.fire]
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
