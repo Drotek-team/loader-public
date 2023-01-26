@@ -19,14 +19,11 @@ class JsonBinaryParameter:
     fire_chanel_value_min = 0
     fire_chanel_value_max = 2
     fire_duration_value_frame_min = 0
-    fire_duration_value_frame_max = 255
-    # TODO: test unitaire + size("I")????
-    position_value_min = -32_687
-    position_value_max = 32_687
-    # TODO: test unitaire ????
+    fire_duration_value_frame_max = 2**8
+    position_value_min = -(2**15)
+    position_value_max = 2**15
     color_value_min = 0
-    color_value_max = 255
-    # TODO: test unitaire ????
+    color_value_max = 2**8
     show_duration_min_second = 0.0
     show_duration_max_second = 1800.0
 
