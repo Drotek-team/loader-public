@@ -1,7 +1,6 @@
 from typing import List
 
-from src.check.collision_check.migration.show_simulation import ShowSimulationSlice
-
+from ...check.collision_check.migration.show_simulation import ShowSimulationSlice
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...report import CollisionInfraction, Contenor
 from ...show_env.show_user.show_user import ShowUser
@@ -39,6 +38,7 @@ def get_collision_slice_check_report(
     return collision_slice_contenor
 
 
+# TODO: rapport d'analyse, performance de l'algorithme 480 000 * collision(400)
 def apply_show_simulation_collision_check_procedure(
     show_user: ShowUser,
 ) -> Contenor:

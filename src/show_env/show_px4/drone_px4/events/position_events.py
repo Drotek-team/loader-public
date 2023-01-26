@@ -8,6 +8,7 @@ from .events_order import EVENTS_ID, EventsType
 @dataclass(frozen=True)
 class PositionEvent(Event):
     timecode: int  # time frame associate to the "fps_px4" parameter
+    # TODO: réflichir meilleur format pour les valeurs min/max
     x: int  # x relative coordinate in NED and centimeter between -32 561 and 32 561
     y: int  # y relative coordinate in NED and centimeter between -32 561 and 32 561
     z: int  # z relative coordinate in NED and centimeter between -32 561 and 32 561

@@ -66,7 +66,7 @@ def apply_multiple_events_takeoff_check(drone_user: DroneUser) -> Contenor:
 
 
 def apply_takeoff_check(drone_user: DroneUser) -> Contenor:
-    if len(drone_user.position_events) == 0:
+    if not (drone_user.position_events):
         msg = "This check can not operate on a drone without position events"
         raise ValueError(msg)
     if len(drone_user.position_events) == 1:
@@ -78,6 +78,7 @@ def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Display
     minimal_position_events_displayer = Displayer(
         "Minimal position event number: must be only 1 for a only led show or at least 3 for a flight"
     )
+    # TODO: finir la discussion convention 1 position event
     if len(drone_user.position_events) == 1 or len(drone_user.position_events) >= 3:
         minimal_position_events_displayer.validate()
     return minimal_position_events_displayer
@@ -96,6 +97,7 @@ def apply_drone_user_check_procedure(
     return drone_user_contenor
 
 
+# TODO: virer les "procedure", convention de nommage
 def apply_show_user_check_procedure(
     show_user: ShowUser,
 ) -> Contenor:

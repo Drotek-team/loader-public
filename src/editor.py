@@ -24,6 +24,11 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
     )
 
 
+# TODO: make the import function
+
+# TODO: make specific check (performane,collision)
+
+
 def apply_export_to_iostar_json(
     show_user: ShowUser,
 ) -> Tuple[IostarJson, Contenor]:

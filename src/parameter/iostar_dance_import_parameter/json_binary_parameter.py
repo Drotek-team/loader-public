@@ -3,12 +3,15 @@ from typing import Tuple
 
 from .frame_parameter import FRAME_PARAMETER
 
+# TODO: transformer en function
 CENTIMETER_TO_METER_FACTOR = 1e-2
 METER_TO_CENTIMETER_FACTOR = 1e2
 UNIT_TO_OCTECT_FACTOR = 255.0
 OCTECT_TO_UNIT_FACTOR = 1 / 255
+# TODO: TIMECODE to millisecond
 SECOND_TO_TIMECODE_FACTOR = 1e3
 TIMECODE_TO_SECOND_FACTOR = 1e-3
+# TODO: rajouter les unites/commentaires
 
 
 @dataclass(frozen=True)
@@ -21,12 +24,16 @@ class JsonBinaryParameter:
     position_reformat_factor = 1
     fire_chanel_value_min = 0
     fire_chanel_value_max = 2
+    # TODO: test unitaire ????
     fire_duration_value_frame_min = 0
     fire_duration_value_frame_max = 255
-    position_value_min = -32768
-    position_value_max = 327687
+    # TODO: test unitaire + size("I")????
+    position_value_min = -32_687
+    position_value_max = 32_687
+    # TODO: test unitaire ????
     color_value_min = 0
     color_value_max = 255
+    # TODO: test unitaire ????
     show_duration_min_second = 0.0
     show_duration_max_second = 1800.0
 
@@ -40,7 +47,6 @@ class JsonBinaryParameter:
             TIMECODE_TO_SECOND_FACTOR * px4_timecode
         )
 
-    # Lose of information here due to rounding
     def from_user_position_to_px4_position(self, user_position: float) -> int:
         return int(
             (METER_TO_CENTIMETER_FACTOR * user_position) / self.position_reformat_factor
@@ -67,7 +73,6 @@ class JsonBinaryParameter:
             -self.from_px4_position_to_user_position(px4_xyz[2]),
         )
 
-    # Lose of information here due to rounding
     def from_user_rgbw_to_px4_rgbw(
         self, user_rgbw: Tuple[float, float, float, float]
     ) -> Tuple[int, int, int, int]:

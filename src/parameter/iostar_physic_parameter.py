@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 
+# TODO: comment variable unit
 @dataclass(frozen=True)
 class IostarPhysicParameter:
     iostar_mass = 0.3

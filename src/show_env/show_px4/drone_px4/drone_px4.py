@@ -6,6 +6,7 @@ from .events.fire_events import FireEvents
 from .events.position_events import PositionEvents
 
 
+# TODO: en reparler pour généraliser nouveau drone
 class DronePx4:
     def __init__(self, index: int):
         self.index = index
@@ -49,4 +50,5 @@ class DronePx4:
 
     @property
     def non_empty_events_list(self) -> List[Events]:
+        return [events for events in self.events_list if events]
         return [events for events in self.events_list if events]

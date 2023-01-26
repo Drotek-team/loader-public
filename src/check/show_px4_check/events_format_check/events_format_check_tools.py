@@ -32,6 +32,7 @@ def check_increasing_frame(frames: List[int]) -> bool:
     )
 
 
+# TODO: check frame by frame
 def frame_value_check(
     events: Events,
 ):

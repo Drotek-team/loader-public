@@ -76,10 +76,13 @@ select = [
     "W",   # style warnings
     "YTT", # sys.version
 ]
+
 ignore = [
-    "D10",    # Missing docstring
-    "E501",   # Line too long
-    "F405",   # Module may be undefined
+    "D10",  # Missing docstring
+    "E501", # Line too long
+    #TODO: check that
+    "F405", # Module may be undefined
+    #TODO: check that
     "S101",   # Use of `assert` detected
     "PGH003", # Allow "type: ignore"
 ]

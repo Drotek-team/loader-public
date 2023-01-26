@@ -1,12 +1,11 @@
 import struct
 
-from src.show_env.show_px4.drone_px4.drone_px4 import (
+from ...show_env.show_px4.drone_px4.drone_px4 import (
     ColorEvents,
     DronePx4,
     FireEvents,
     PositionEvents,
 )
-
 from .drone_encoding_procedure import get_dance_size
 
 DANCE_BASIC_SIZE = 34

@@ -3,12 +3,11 @@ from typing import Tuple
 import numpy as np
 import numpy.typing as npt
 
-from src.show_env.show_user.show_user import PositionEventUser
-
 from ....show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
+from ....show_env.show_user.show_user import PositionEventUser
 from .su_to_stp_procedure import (
     get_trajectory_performance_info_from_position_events,
     su_to_stp_procedure,

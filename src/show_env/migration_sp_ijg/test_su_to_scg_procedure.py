@@ -2,8 +2,7 @@ import numpy as np
 from hypothesis import given
 from hypothesis import strategies as st
 
-from src.show_env.iostar_json.show_configuration import ShowConfiguration
-
+from ...show_env.iostar_json.show_configuration import ShowConfiguration
 from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from .su_to_scg_procedure import su_to_sc_procedure
 
