@@ -10,7 +10,6 @@ from ....show_env.show_px4.drone_px4.events.fire_events import FireEvents
 from ....show_env.show_px4.drone_px4.events.position_events import PositionEvents
 
 
-# TODO: check this
 def check_integer_bound(integer: int, lower_bound: int, upper_bound: int) -> bool:
     return lower_bound <= integer and integer <= upper_bound
 
