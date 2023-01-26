@@ -1,6 +1,6 @@
 from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from .ijg_to_su_procedure import ijg_to_su_procedure
-from .su_to_ijg_procedure import su_to_ijg_procedure
+from .ijg_to_su import ijg_to_su_procedure
+from .su_to_ijg import su_to_ijg_procedure
 
 
 def test_ijg_to_su_procedure():

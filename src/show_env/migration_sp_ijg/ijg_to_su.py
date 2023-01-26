@@ -1,6 +1,6 @@
 from ..iostar_json.iostar_json_gcs import IostarJsonGcs
 from ..migration_dp_binary.drone_decoding_procedure import decode_drone
-from ..migration_sp_su.sp_to_su_procedure import sp_to_su_procedure
+from ..migration_sp_su.sp_to_su import sp_to_su_procedure
 from ..show_px4.show_px4 import ShowPx4
 from ..show_user.show_user import ShowUser
 

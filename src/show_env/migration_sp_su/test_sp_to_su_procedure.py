@@ -5,7 +5,7 @@ from ...parameter.iostar_dance_import_parameter.json_binary_parameter import (
 )
 from ..show_px4.drone_px4.drone_px4 import DronePx4
 from ..show_px4.show_px4 import ShowPx4
-from .sp_to_su_procedure import sp_to_su_procedure
+from .sp_to_su import sp_to_su_procedure
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)

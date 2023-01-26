@@ -7,8 +7,8 @@ from ....show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from .stc_to_ssc_procedure import stc_to_ss_procedure
-from .su_to_stc_procedure import su_to_stc_procedure
+from .stc_to_ssc import stc_to_ss_procedure
+from .su_to_stc import su_to_stc_procedure
 
 
 def test_valid_show_flags():

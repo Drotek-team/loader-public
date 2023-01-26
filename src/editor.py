@@ -8,9 +8,9 @@ from .check.all_check_from_show_user_procedure import (
 from .report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
-from .show_env.migration_sp_ij.sp_to_ij_procedure import su_to_ij_procedure
-from .show_env.migration_sp_ijg.ijg_to_su_procedure import ijg_to_su_procedure
-from .show_env.migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
+from .show_env.migration_sp_ij.sp_to_ij import su_to_ij_procedure
+from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su_procedure
+from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg_procedure
 from .show_env.show_user.show_user import DroneUser, ShowUser
 
 

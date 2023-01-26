@@ -1,4 +1,4 @@
-from ..migration_sp_ijg.su_to_ijg_procedure import su_to_ijg_procedure
+from ..migration_sp_ijg.su_to_ijg import su_to_ijg_procedure
 from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 

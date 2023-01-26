@@ -5,8 +5,8 @@ from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...report import CollisionInfraction, Contenor
 from ...show_env.show_user.show_user import ShowUser
 from .collision_math import get_optimized_collision_infractions
-from .migration.stc_to_ssc_procedure import stc_to_ss_procedure
-from .migration.test_su_to_stc_procedure import su_to_stc_procedure
+from .migration.stc_to_ssc import stc_to_ss_procedure
+from .migration.test_su_to_stc import su_to_stc_procedure
 
 
 def get_collision_infractions(

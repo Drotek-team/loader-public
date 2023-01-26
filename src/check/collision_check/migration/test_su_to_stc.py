@@ -2,7 +2,7 @@ from ....show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from .su_to_stc_procedure import su_to_stc_procedure
+from .su_to_stc import su_to_stc_procedure
 
 
 def test_su_to_stc_procedure():

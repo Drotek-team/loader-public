@@ -1,5 +1,5 @@
 from ...report import Contenor
-from ...show_env.migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from ...show_env.migration_sp_su.su_to_sp import su_to_sp_procedure
 from ...show_env.show_user.show_user import ShowUser
 from .dance_size_check.dances_size_check_procedure import (
     apply_dance_size_check_procedure,

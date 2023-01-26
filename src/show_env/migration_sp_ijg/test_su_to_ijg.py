@@ -1,6 +1,6 @@
-from ..migration_sp_su.su_to_sp_procedure import su_to_sp_procedure
+from ..migration_sp_su.su_to_sp import su_to_sp_procedure
 from ..show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from .su_to_ijg_procedure import get_family_from_drones_px4, su_to_ijg_procedure
+from .su_to_ijg import get_family_from_drones_px4, su_to_ijg_procedure
 
 
 def test_get_family_from_drones_px4_standard_case():

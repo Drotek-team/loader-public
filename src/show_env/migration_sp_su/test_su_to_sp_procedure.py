@@ -9,8 +9,8 @@ from ..show_user.show_user import (
     FireEventUser,
     PositionEventUser,
 )
-from .sp_to_su_procedure import sp_to_su_procedure
-from .su_to_sp_procedure import (
+from .sp_to_su import sp_to_su_procedure
+from .su_to_sp import (
     add_color_events_user,
     add_fire_events_user,
     add_position_events_user,
