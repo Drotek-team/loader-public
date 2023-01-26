@@ -6,7 +6,7 @@ from ...show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from .show_trajectory_performance_check_procedure import (
+from .show_trajectory_performance_check import (
     apply_show_trajectory_performance_check_procedure,
 )
 

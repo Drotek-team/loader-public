@@ -3,7 +3,7 @@ from ...show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from .show_simulation_collision_check_procedure import (
+from .show_simulation_collision_check import (
     apply_show_simulation_collision_check_procedure,
 )
 

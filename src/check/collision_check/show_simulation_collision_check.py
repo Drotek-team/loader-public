@@ -1,10 +1,10 @@
 from typing import List
 
-from ...check.collision_check.migration.show_simulation import ShowSimulationSlice
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from ...report import CollisionInfraction, Contenor
 from ...show_env.show_user.show_user import ShowUser
 from .collision_math import get_optimized_collision_infractions
+from .migration.show_simulation import ShowSimulationSlice
 from .migration.stc_to_ssc import stc_to_ss_procedure
 from .migration.test_su_to_stc import su_to_stc_procedure
 

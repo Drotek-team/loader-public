@@ -1,12 +1,8 @@
 from ...report import Contenor
 from ...show_env.migration_sp_su.su_to_sp import su_to_sp_procedure
 from ...show_env.show_user.show_user import ShowUser
-from .dance_size_check.dances_size_check_procedure import (
-    apply_dance_size_check_procedure,
-)
-from .events_format_check.events_format_check_procedure import (
-    apply_events_format_check_procedure,
-)
+from .dance_size_check.dances_size_check import apply_dance_size_check_procedure
+from .events_format_check.events_format_check import apply_events_format_check_procedure
 
 
 def apply_show_px4_check_procedure(show_user: ShowUser) -> Contenor:

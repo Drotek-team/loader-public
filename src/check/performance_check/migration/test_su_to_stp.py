@@ -8,7 +8,7 @@ from ....show_env.show_user.generate_show_user import (
     get_valid_show_user,
 )
 from ....show_env.show_user.show_user import PositionEventUser
-from .su_to_stp_procedure import (
+from .su_to_stp import (
     get_trajectory_performance_info_from_position_events,
     su_to_stp_procedure,
 )

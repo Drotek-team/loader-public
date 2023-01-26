@@ -8,7 +8,7 @@ from ....parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ....show_env.show_px4.drone_px4.events.position_events import PositionEvents
-from .events_format_check_procedure import position_events_check
+from .events_format_check import position_events_check
 
 
 @pytest.fixture

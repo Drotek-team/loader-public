@@ -2,7 +2,7 @@ from ..show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from .all_check_from_show_user_procedure import apply_all_check_from_show_user_procedure
+from .all_check_from_show_user import apply_all_check_from_show_user_procedure
 
 
 def test_apply_all_check_from_show_user_procedure_standard_case():

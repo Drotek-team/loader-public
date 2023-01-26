@@ -2,7 +2,7 @@ import pytest
 
 from src.show_env.show_px4.drone_px4.drone_px4 import DronePx4
 
-from .dances_size_check_procedure import apply_dance_size_check_procedure
+from .dances_size_check import apply_dance_size_check_procedure
 
 MAGIC_BREAKER_NUMBER = 12495
 

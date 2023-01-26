@@ -2,9 +2,7 @@ from typing import Tuple
 
 from pydantic import NonNegativeInt
 
-from .check.all_check_from_show_user_procedure import (
-    apply_all_check_from_show_user_procedure,
-)
+from .check.all_check_from_show_user import apply_all_check_from_show_user_procedure
 from .report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs

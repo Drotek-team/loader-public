@@ -2,8 +2,8 @@ from hypothesis import given
 from hypothesis import strategies as st
 
 from ..show_px4.drone_px4.drone_px4 import DronePx4
-from .drone_decoding_procedure import decode_drone
-from .drone_encoding_procedure import encode_drone
+from .drone_decoding import decode_drone
+from .drone_encoding import encode_drone
 
 
 @given(

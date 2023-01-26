@@ -1,5 +1,5 @@
 from ..iostar_json.iostar_json import IostarJson
-from ..migration_dp_binary.drone_decoding_procedure import decode_drone
+from ..migration_dp_binary.drone_decoding import decode_drone
 from ..show_px4.show_px4 import ShowPx4
 
 

@@ -6,7 +6,7 @@ from ...show_env.show_px4.drone_px4.drone_px4 import (
     FireEvents,
     PositionEvents,
 )
-from .drone_encoding_procedure import get_dance_size
+from .drone_encoding import get_dance_size
 
 DANCE_BASIC_SIZE = 34
 POSITION_EVENT_SIZE = struct.calcsize(PositionEvents().format_)

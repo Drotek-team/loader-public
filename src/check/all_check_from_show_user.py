@@ -1,13 +1,13 @@
 from ..report import Contenor
 from ..show_env.show_user.show_user import ShowUser
-from .collision_check.show_simulation_collision_check_procedure import (
+from .collision_check.show_simulation_collision_check import (
     apply_show_simulation_collision_check_procedure,
 )
-from .performance_check.show_trajectory_performance_check_procedure import (
+from .performance_check.show_trajectory_performance_check import (
     apply_show_trajectory_performance_check_procedure,
 )
-from .show_px4_check.show_px4_check_procedure import apply_show_px4_check_procedure
-from .show_user_check.show_user_check_procedure import apply_show_user_check_procedure
+from .show_px4_check.show_px4_check import apply_show_px4_check_procedure
+from .show_user_check.show_user_check import apply_show_user_check_procedure
 
 
 def apply_all_check_from_show_user_procedure(

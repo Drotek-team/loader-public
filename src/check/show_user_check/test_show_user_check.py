@@ -9,7 +9,7 @@ from ...show_env.show_user.generate_show_user import (
     get_valid_show_user,
 )
 from ...show_env.show_user.show_user import DroneUser, PositionEventUser
-from .show_user_check_procedure import (
+from .show_user_check import (
     apply_minimal_position_events_number_check,
     apply_show_user_check_procedure,
     apply_takeoff_check,
