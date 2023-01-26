@@ -78,11 +78,8 @@ select = [
 ]
 
 ignore = [
-    "D10",  # Missing docstring
-    "E501", # Line too long
-    #TODO: check that
-    "F405", # Module may be undefined
-    #TODO: check that
+    "D10",    # Missing docstring
+    "E501",   # Line too long
     "S101",   # Use of `assert` detected
     "PGH003", # Allow "type: ignore"
 ]
