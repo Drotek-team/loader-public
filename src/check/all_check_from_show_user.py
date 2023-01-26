@@ -15,10 +15,10 @@ def apply_all_check_from_show_user(
 ) -> Contenor:
     check_contenor = Contenor("Check")
     check_contenor.add_error_message(apply_show_user_check(show_user))
-    if not (check_contenor["show user check procedure"].user_validation):
+    if not (check_contenor["show user check"].user_validation):
         return check_contenor
     check_contenor.add_error_message(apply_show_px4_check(show_user))
-    if not (check_contenor["show px4 check procedure"].user_validation):
+    if not (check_contenor["show px4 check"].user_validation):
         return check_contenor
     check_contenor.add_error_message(
         apply_show_trajectory_performance_check(

@@ -27,7 +27,7 @@ def test_create_show_user_standard_case():
         assert len(show_user[drone_index].fire_events) == 0
 
 
-def test_export_procedure_to_iostar_json_standard_case():
+def test_export_to_iostar_json_standard_case():
     _, show_check_report = apply_export_to_iostar_json(
         get_valid_show_user(
             ShowUserConfiguration(
@@ -43,7 +43,7 @@ def test_export_procedure_to_iostar_json_standard_case():
     assert show_check_report.user_validation
 
 
-def test_export_procedure_to_iostar_json_gcs_standard_case():
+def test_export_to_iostar_json_gcs_standard_case():
     _, show_check_report = apply_export_to_iostar_json_gcs(
         get_valid_show_user(
             ShowUserConfiguration(

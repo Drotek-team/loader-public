@@ -6,7 +6,7 @@ from .events_format_check.events_format_check import apply_events_format_check
 
 
 def apply_show_px4_check(show_user: ShowUser) -> Contenor:
-    show_px4_check_contenor = Contenor("show px4 check procedure")
+    show_px4_check_contenor = Contenor("show px4 check")
     show_px4 = su_to_sp(
         show_user,
     )

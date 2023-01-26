@@ -13,7 +13,7 @@ def test_get_family_from_drones_px4_standard_case():
     assert family_from_drone_px4.z == 0
 
 
-def test_sp_to_ijg_procedure_standard_case():
+def test_sp_to_ijg_standard_case():
     iostar_json_gcs = su_to_ijg(
         get_valid_show_user(ShowUserConfiguration(nb_y=2, step=2.0))
     )

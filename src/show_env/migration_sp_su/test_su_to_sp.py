@@ -84,7 +84,7 @@ def test_add_fire_events_user_standard_case():
     assert second_fire_event.chanel_duration == (1, 83)
 
 
-def test_drone_user_to_drone_px4_procedure_standard_case():
+def test_drone_user_to_drone_px4_standard_case():
     drone_user = DroneUser(
         position_events=[
             PositionEventUser(
@@ -124,9 +124,7 @@ def test_drone_user_to_drone_px4_procedure_standard_case():
     nb_y=st.integers(1, 3),
     nb_drone_per_family=st.integers(1, 3),
 )
-def test_su_to_sp_procedure_standard_case(
-    nb_x: int, nb_y: int, nb_drone_per_family: int
-):
+def test_su_to_sp_standard_case(nb_x: int, nb_y: int, nb_drone_per_family: int):
     show_user = get_valid_show_user(
         ShowUserConfiguration(
             nb_x=nb_x,

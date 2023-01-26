@@ -5,7 +5,7 @@ from ...show_env.show_user.generate_show_user import (
 from .show_px4_check import apply_show_px4_check
 
 
-def test_apply_show_px4_check_procedure_standard_case():
+def test_apply_show_px4_check_standard_case():
     valid_show_user = get_valid_show_user(
         ShowUserConfiguration(nb_x=2, nb_y=2),
     )

@@ -15,7 +15,7 @@ from .su_to_scg import su_to_sc
     angle_takeoff=st.floats(0, 2 * np.pi),
     show_duration_absolute_time=st.floats(1.0, 10),
 )
-def test_su_to_sc_procedure_hypothesis(
+def test_su_to_sc_hypothesis(
     nb_x: int,
     nb_y: int,
     nb_drone_per_family: int,
