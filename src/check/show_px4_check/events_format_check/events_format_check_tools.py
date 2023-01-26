@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List, Tuple
 
 from ....parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
@@ -10,18 +10,9 @@ from ....show_env.show_px4.drone_px4.events.fire_events import FireEvents
 from ....show_env.show_px4.drone_px4.events.position_events import PositionEvents
 
 
-def check_int_size_list(elements: List[Any], size_min: int, size_max: int) -> bool:
-    return all(size_min <= element and element <= size_max for element in elements)
-
-
-def check_int_size_list_tuple(
-    elements: List[List[Any]], size_min: int, size_max: int
-) -> bool:
-    return all(
-        size_min <= element and element <= size_max
-        for tuple_element in elements
-        for element in tuple_element
-    )
+# TODO: check this
+def check_integer_bound(integer: int, lower_bound: int, upper_bound: int) -> bool:
+    return lower_bound <= integer and integer <= upper_bound
 
 
 def check_increasing_frame(frames: List[int]) -> bool:
@@ -31,23 +22,29 @@ def check_increasing_frame(frames: List[int]) -> bool:
     )
 
 
-# TODO: check frame by frame
-def frame_value_check(
+def timecodes_value_check(
     events: Events,
 ):
-    value_displayer = Displayer("Value")
-    frames = [event.timecode for event in events]
+    value_contenor = Contenor("Values")
+    for frame_index, frame in enumerate([event.timecode for event in events]):
+        if not (
+            check_integer_bound(
+                frame,
+                JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
+                JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+            )
+        ):
+            value_contenor.add_error_message(
+                Displayer(
+                    f"{frame} at the index {frame_index} is not in the bound"
+                    f"{JSON_BINARY_PARAMETER.timecode_value_bound.minimal}"
+                    f"to {JSON_BINARY_PARAMETER.timecode_value_bound.maximal}"
+                )
+            )
+    return value_contenor
 
-    if check_int_size_list(
-        frames,
-        JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
-    ):
-        value_displayer.validate()
-    return value_displayer
 
-
-def increasing_frame_check(
+def increasing_timecode_check(
     events: Events,
 ) -> Displayer:
     increasing_displayer = Displayer("Increasing")
@@ -57,63 +54,122 @@ def increasing_frame_check(
     return increasing_displayer
 
 
-def frame_check(
+def timecodes_check(
     events: Events,
 ) -> Contenor:
     frame_check = Contenor("Frame check")
-    frame_check.add_error_message(frame_value_check(events))
-    frame_check.add_error_message(increasing_frame_check(events))
+    frame_check.add_error_message(timecodes_value_check(events))
+    frame_check.add_error_message(increasing_timecode_check(events))
     return frame_check
 
 
-def xyz_check(
+def coordinate_value_check(frame_index: int, xyz: Tuple[int, int, int]) -> Contenor:
+    coordinate_value_contenor = Contenor(
+        f"Coordinate value at frame index {frame_index}"
+    )
+    for coordinate_index in range(3):
+        if not (
+            check_integer_bound(
+                xyz[coordinate_index],
+                JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
+                JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+            )
+        ):
+            coordinate_value_contenor.add_error_message(
+                Displayer(
+                    f"{xyz[coordinate_index]} at the coordinate {coordinate_index}"
+                    f"is not in the bound"
+                    f"{JSON_BINARY_PARAMETER.coordinate_value_bound.minimal}"
+                    f"to {JSON_BINARY_PARAMETER.coordinate_value_bound.maximal}"
+                )
+            )
+    return coordinate_value_contenor
+
+
+def coordinates_value_check(
     position_events: PositionEvents,
-) -> Displayer:
-    xyz_value_displayer = Displayer("XYZ value check")
-    if check_int_size_list_tuple(
-        [list(event.xyz) for event in position_events.specific_events],
-        JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-        JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+) -> Contenor:
+    value_contenor = Contenor("Values")
+    for position_event_index, position_event in enumerate(
+        position_events.specific_events
     ):
-        xyz_value_displayer.validate()
-    return xyz_value_displayer
+        value_contenor.add_error_message(
+            coordinate_value_check(
+                position_event_index,
+                position_event.xyz,
+            )
+        )
+    return value_contenor
 
 
-def rgbw_check(
+def chrome_value_check(frame_index: int, rgbw: Tuple[int, int, int, int]) -> Contenor:
+    coordinate_value_contenor = Contenor(f"Chrome value at frame index {frame_index}")
+    for chrome_index in range(4):
+        if not (
+            check_integer_bound(
+                rgbw[chrome_index],
+                JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
+                JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
+            )
+        ):
+            coordinate_value_contenor.add_error_message(
+                Displayer(
+                    f"{rgbw[chrome_index]} at the coordinate {chrome_index}"
+                    f"is not in the bound"
+                    f"{JSON_BINARY_PARAMETER.chrome_value_bound.minimal}"
+                    f"to {JSON_BINARY_PARAMETER.chrome_value_bound.maximal}"
+                )
+            )
+    return coordinate_value_contenor
+
+
+def chromes_value_check(
     color_events: ColorEvents,
-) -> Displayer:
-    rgbw_value_displayer = Displayer("RGBW value check")
-    if check_int_size_list_tuple(
-        [list(event.rgbw) for event in color_events.specific_events],
-        JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
-        JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
-    ):
-        rgbw_value_displayer.validate()
-    return rgbw_value_displayer
+) -> Contenor:
+    value_contenor = Contenor("Values")
+    for color_event_index, color_event in enumerate(color_events.specific_events):
+        value_contenor.add_error_message(
+            chrome_value_check(
+                color_event_index,
+                color_event.rgbw,
+            )
+        )
+    return value_contenor
 
 
-def fire_chanel_check(
+def fire_chanel_duration_check(
     fire_events: FireEvents,
-) -> Displayer:
-    fire_chanel_value_displayer = Displayer("Fire chanel value check")
-    if check_int_size_list(
-        [event.chanel for event in fire_events.specific_events],
-        JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
-        JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
-    ):
-        fire_chanel_value_displayer.validate()
-    return fire_chanel_value_displayer
-
-
-def fire_duration_frame_check(
-    fire_events: FireEvents,
-) -> Displayer:
-    fire_duration_value_displayer = Displayer("Fire duration value check")
-    durations = [event.duration for event in fire_events.specific_events]
-    if check_int_size_list(
-        durations,
-        JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
-        JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
-    ):
-        fire_duration_value_displayer.validate()
-    return fire_duration_value_displayer
+) -> Contenor:
+    value_contenor = Contenor("Values")
+    for fire_event_index, fire_event in enumerate(fire_events.specific_events):
+        if not (
+            check_integer_bound(
+                fire_event.chanel,
+                JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
+                JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
+            )
+        ):
+            value_contenor.add_error_message(
+                Displayer(
+                    f"{fire_event.chanel} chanel at "
+                    f"the frame index {fire_event_index} is not in the bound"
+                    f"{JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal}"
+                    f"to {JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal}"
+                )
+            )
+        if not (
+            check_integer_bound(
+                fire_event.duration,
+                JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
+                JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
+            )
+        ):
+            value_contenor.add_error_message(
+                Displayer(
+                    f"{fire_event.duration} duration at "
+                    f"the frame index {fire_event_index} is not in the bound"
+                    f"{JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal}"
+                    f"to {JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal}"
+                )
+            )
+    return value_contenor

@@ -46,26 +46,25 @@ class JsonBinaryParameter:
     def _binary_format_size(binary_format: str) -> int:
         return 2 ** (8 * struct.calcsize(f">{binary_format}"))
 
-    # TODO Test these methods for documentation test
     @property
     def timecode_value_bound(self) -> Bound:
         return Bound(
             0,
-            self._binary_format_size(self.timecode_format),
+            self._binary_format_size(self.timecode_format) - 1,
         )
 
     @property
     def coordinate_value_bound(self) -> Bound:
         return Bound(
             -self._binary_format_size(self.coordinate_format) // 2,
-            self._binary_format_size(self.coordinate_format) // 2,
+            self._binary_format_size(self.coordinate_format) // 2 - 1,
         )
 
     @property
     def chrome_value_bound(self) -> Bound:
         return Bound(
             0,
-            self._binary_format_size(self.chrome_format),
+            self._binary_format_size(self.chrome_format) - 1,
         )
 
     @property
@@ -79,7 +78,7 @@ class JsonBinaryParameter:
     def fire_duration_value_bound(self) -> Bound:
         return Bound(
             0,
-            self._binary_format_size(self.fire_duration_format),
+            self._binary_format_size(self.fire_duration_format) - 1,
         )
 
     @property
@@ -165,6 +164,4 @@ class JsonBinaryParameter:
         )
 
 
-JSON_BINARY_PARAMETER = JsonBinaryParameter()
-JSON_BINARY_PARAMETER = JsonBinaryParameter()
 JSON_BINARY_PARAMETER = JsonBinaryParameter()

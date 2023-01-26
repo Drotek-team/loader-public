@@ -4,11 +4,10 @@ from ....show_env.show_px4.drone_px4.events.color_events import ColorEvents
 from ....show_env.show_px4.drone_px4.events.fire_events import FireEvents
 from ....show_env.show_px4.drone_px4.events.position_events import PositionEvents
 from .events_format_check_tools import (
-    fire_chanel_check,
-    fire_duration_frame_check,
-    frame_check,
-    rgbw_check,
-    xyz_check,
+    chromes_value_check,
+    coordinates_value_check,
+    fire_chanel_duration_check,
+    timecodes_check,
 )
 
 
@@ -17,12 +16,12 @@ def position_events_check(
 ) -> Contenor:
     position_events_contenor = Contenor("position_events")
     position_events_contenor.add_error_message(
-        frame_check(
+        timecodes_check(
             position_events,
         )
     )
     position_events_contenor.add_error_message(
-        xyz_check(
+        coordinates_value_check(
             position_events,
         )
     )
@@ -34,12 +33,12 @@ def color_events_check(
 ) -> Contenor:
     color_events_contenor = Contenor("color_events")
     color_events_contenor.add_error_message(
-        frame_check(
+        timecodes_check(
             color_events,
         )
     )
     color_events_contenor.add_error_message(
-        rgbw_check(
+        chromes_value_check(
             color_events,
         )
     )
@@ -51,16 +50,11 @@ def fire_events_check(
 ) -> Contenor:
     fire_events_contenor = Contenor("fire_events")
     fire_events_contenor.add_error_message(
-        frame_check(
+        timecodes_check(
             fire_events,
         )
     )
-    fire_events_contenor.add_error_message(fire_chanel_check(fire_events))
-    fire_events_contenor.add_error_message(
-        fire_duration_frame_check(
-            fire_events,
-        )
-    )
+    fire_events_contenor.add_error_message(fire_chanel_duration_check(fire_events))
     return fire_events_contenor
 
 

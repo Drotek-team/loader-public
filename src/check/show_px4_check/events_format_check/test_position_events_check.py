@@ -15,13 +15,15 @@ from .events_format_check_procedure import position_events_check
 def valid_position_events():
     position_events = PositionEvents()
     position_events.add_timecode_xyz(
-        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame),
+        JSON_BINARY_PARAMETER.show_start_frame,
         (0, 0, 0),
     )
     position_events.add_timecode_xyz(
-        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame)
-        + FRAME_PARAMETER.from_second_to_frame(
-            TAKEOFF_PARAMETER.takeoff_duration_second
+        JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETER.show_start_frame
+            + FRAME_PARAMETER.from_second_to_frame(
+                TAKEOFF_PARAMETER.takeoff_duration_second
+            )
         ),
         (
             0,
@@ -60,16 +62,15 @@ def test_invalid_position_events_frame_first_frame_check(
     valid_position_events: PositionEvents,
 ):
     valid_position_events.add_timecode_xyz(
-        timecode=FRAME_PARAMETER.from_second_to_frame(
-            JSON_BINARY_PARAMETER.show_start_frame
-        )
-        - 1,
+        timecode=JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETER.show_start_frame - 1
+        ),
         xyz=(0, 0, 0),
     )
     position_events_contenor = position_events_check(
         valid_position_events,
     )
-    assert not (position_events_contenor["Frame check"]["Value"].user_validation)
+    assert not (position_events_contenor["Frame check"]["Values"].user_validation)
 
 
 def test_invalid_position_events_xyz_value_check(
