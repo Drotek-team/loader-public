@@ -37,8 +37,7 @@ def get_collision_infractions(
     ]
     return [
         CollisionInfraction(
-            name=f"Collision Infraction between drone :{int(local_drone_indices[endangered_couples_distance_matrix_index // nb_drones_local])} "
-            f"and drone {int(local_drone_indices[endangered_couples_distance_matrix_index % nb_drones_local])}",
+            name=f"Collision Infraction between {endangered_couples_distance_matrix_index}",
             drone_index_1=int(
                 local_drone_indices[
                     endangered_couples_distance_matrix_index // nb_drones_local
@@ -91,7 +90,6 @@ def get_unique_list_from_list(non_unique_list: List[Any]) -> List[Any]:
     return list(set(non_unique_list))
 
 
-# IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_optimized_collision_infractions(
     local_indices: npt.NDArray[np.int32],
     local_positions_numpy: npt.NDArray[np.float64],

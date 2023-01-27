@@ -73,7 +73,7 @@ class PerformanceInfraction(ErrorMessage):
         metric_convention_name = "max" if self.metric_convention else "min"
         return (
             f"{message_begin}[Performance Infraction] The performance {self.name} has the value: {self.value:.2f}"
-            f" ({metric_convention_name}: {self.threshold}) at the frame {self.frame}"
+            f" ({metric_convention_name}: {self.threshold}) at the frame {self.frame} \n"
         )
 
 
@@ -99,7 +99,7 @@ class CollisionInfraction(ErrorMessage):
         message_begin = super().display_message(indentation_level)
         return (
             f"{message_begin}[Collision Infraction] Collision between drone {self.drone_index_1} and drone {self.drone_index_2} "
-            f"{'in air' if self.in_air else 'on ground'} with a distance of {self.distance}"
+            f"{'in air' if self.in_air else 'on ground'} with a distance of {self.distance:.2f} \n"
         )
 
 
@@ -129,6 +129,9 @@ class Contenor(ErrorMessage):
             msg = f"{error_message_name} should be inside {self._error_messages.keys()}"
             raise KeyError(msg)
         return self._error_messages[error_message_name]
+
+    def __iter__(self):
+        yield from self._error_messages.values()
 
     @property
     def user_validation(self) -> bool:
