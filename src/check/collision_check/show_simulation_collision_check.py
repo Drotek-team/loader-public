@@ -42,11 +42,10 @@ def su_to_ss(show_user: ShowUser) -> ShowSimulation:
     return stc_to_ss(su_to_stc(show_user))
 
 
-def apply_show_simulation_collision_check(
-    show_user: ShowUser,
+def apply_show_simulation_check_to_show_simulation(
+    show_simulation: ShowSimulation,
 ) -> Contenor:
     show_simulation_collision_contenor = Contenor("Show simulation collision contenor")
-    show_simulation = su_to_ss(show_user)
     for show_simulation_slice in show_simulation.show_slices:
         collision_infractions = get_collision_infractions(show_simulation_slice)
         if collision_infractions:
@@ -56,3 +55,9 @@ def apply_show_simulation_collision_check(
                 )
             )
     return show_simulation_collision_contenor
+
+
+def apply_show_simulation_collision_check(
+    show_user: ShowUser,
+) -> Contenor:
+    return apply_show_simulation_check_to_show_simulation(su_to_ss(show_user))

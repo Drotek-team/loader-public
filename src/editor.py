@@ -2,7 +2,14 @@ from typing import Tuple
 
 from pydantic import NonNegativeInt
 
-from .check.all_check_from_show_user import apply_all_check_from_show_user
+from .check.all_check_from_show_user import (
+    apply_all_check_from_show_user,
+    apply_show_trajectory_performance_check,
+)
+from .check.collision_check.migration.show_simulation import ShowSimulation
+from .check.collision_check.show_simulation_collision_check import (
+    apply_show_simulation_check_to_show_simulation,
+)
 from .report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
@@ -13,7 +20,7 @@ from .show_env.show_user.show_user import DroneUser, ShowUser
 
 
 def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
-    """Create an empy ShowUser object with 'drone_number' drone."""
+    """Create an empy ShowUser object with 'drone_number' drones."""
     return ShowUser(
         drones_user=[
             DroneUser(position_events=[], color_events=[], fire_events=[])
@@ -29,7 +36,16 @@ def import_show_user_from_iostar_json_string(iostar_json_string: str) -> ShowUse
     return ijg_to_su(iostar_json_gcs)
 
 
-# TODO: make specific check (performane,collision)
+# TODO: test this
+def get_collisions(show_simulation: ShowSimulation) -> Contenor:
+    """Return a contenor with all the collision ordered by slice."""
+    return apply_show_simulation_check_to_show_simulation(show_simulation)
+
+
+# TODO: test this
+def get_performance_infractions(show_user: ShowUser) -> Contenor:
+    """Return a contenor with all the performance infractions ordered by drone."""
+    return apply_show_trajectory_performance_check(show_user)
 
 
 def apply_export_to_iostar_json(
@@ -62,9 +78,7 @@ def export_show_user_to_iostar_json_gcs_string(show_user: ShowUser) -> str:
     """Export a ShowUser object to a iostar_json_gcs JSON file."""
     iostar_json_gcs, show_check_report = apply_export_to_iostar_json_gcs(show_user)
     if not (show_check_report.user_validation):
-        show_check_report.display_message()
-        msg = "The show is not valid"
-        raise ValueError(msg)
+        raise ValueError(show_check_report.display_message())
     return iostar_json_gcs.json()
 
 

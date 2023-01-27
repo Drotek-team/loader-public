@@ -35,6 +35,12 @@ def apply_multiple_events_takeoff_duration_check(drone_user: DroneUser) -> Displ
     second_time = drone_user.position_events[1].absolute_time
     if (second_time - first_time) == TAKEOFF_PARAMETER.takeoff_duration_second:
         takeoff_duration_displayer.validate()
+    else:
+        takeoff_duration_displayer.update_annexe_message(
+            f"The duration between the first position {first_time}"
+            f" and the second position {second_time} must be exactly "
+            f"{TAKEOFF_PARAMETER.takeoff_duration_second}"
+        )
     return takeoff_duration_displayer
 
 
@@ -51,6 +57,13 @@ def apply_multiple_events_takeoff_xyz_check(drone_user: DroneUser) -> Displayer:
         <= first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
     ):
         takeoff_xyz_displayer.validate()
+    else:
+        takeoff_xyz_displayer.update_annexe_message(
+            f"The altitude between the first position {first_position}"
+            f" and the second position {second_position} must be between "
+            f"{TAKEOFF_PARAMETER.takeoff_altitude_meter_min} and "
+            f"{TAKEOFF_PARAMETER.takeoff_altitude_meter_max}"
+        )
     return takeoff_xyz_displayer
 
 

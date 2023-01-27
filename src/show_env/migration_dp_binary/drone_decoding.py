@@ -46,7 +46,6 @@ def get_header_section_header(
     return header, section_headers
 
 
-# Place a test on that
 def decode_drone(
     drone_index: int,
     binary: List[int],

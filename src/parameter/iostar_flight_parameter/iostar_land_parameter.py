@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from ..iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+
 
 @dataclass(frozen=True)
 class LandParameter:
@@ -31,6 +33,12 @@ class LandParameter:
         return self.get_first_land_second_delta(
             drone_hgt_meter
         ) + self.get_second_land_second_delta(drone_hgt_meter)
+
+    # TODO: test this
+    def get_land_frame_delta(self, drone_hgt_meter: float) -> int:
+        return FRAME_PARAMETER.from_second_to_frame(
+            self.get_land_second_delta(drone_hgt_meter)
+        )
 
 
 LAND_PARAMETER = LandParameter()
