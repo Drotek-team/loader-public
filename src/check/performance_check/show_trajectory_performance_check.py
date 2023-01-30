@@ -1,6 +1,9 @@
 from ...report import Contenor
 from ...show_env.show_user.show_user import ShowUser
-from .migration.show_trajectory_performance import DroneTrajectoryPerformance
+from .migration.show_trajectory_performance import (
+    DroneTrajectoryPerformance,
+    ShowTrajectoryPerformance,
+)
 from .migration.su_to_stp import su_to_stp
 from .performance_evaluation import performance_evaluation
 
@@ -23,10 +26,9 @@ def apply_drone_trajectory_performance_check(
     return drone_trajectory_performance_check_report
 
 
-def apply_show_trajectory_performance_check(
-    show_user: ShowUser,
+def apply_stp_check_to_stp(
+    show_trajectory_performance: ShowTrajectoryPerformance,
 ) -> Contenor:
-    show_trajectory_performance = su_to_stp(show_user)
     show_trajectory_performance_check_report = Contenor("Show trajectory performance")
     for (
         drone_trajectory_performance
@@ -35,3 +37,9 @@ def apply_show_trajectory_performance_check(
             apply_drone_trajectory_performance_check(drone_trajectory_performance)
         )
     return show_trajectory_performance_check_report
+
+
+def apply_show_trajectory_performance_check(
+    show_user: ShowUser,
+) -> Contenor:
+    return apply_stp_check_to_stp(su_to_stp(show_user))

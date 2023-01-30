@@ -2,13 +2,13 @@ from typing import Tuple
 
 from pydantic import NonNegativeInt
 
-from .check.all_check_from_show_user import (
-    apply_all_check_from_show_user,
-    apply_show_trajectory_performance_check,
-)
+from .check.all_check_from_show_user import apply_all_check_from_show_user
 from .check.collision_check.migration.show_simulation import ShowSimulation
 from .check.collision_check.show_simulation_collision_check import (
     apply_show_simulation_check_to_show_simulation,
+)
+from .check.performance_check.show_trajectory_performance_check import (
+    apply_show_trajectory_performance_check,
 )
 from .report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
@@ -43,7 +43,9 @@ def get_collisions(show_simulation: ShowSimulation) -> Contenor:
 
 
 # TODO: test this
-def get_performance_infractions(show_user: ShowUser) -> Contenor:
+def get_performance_infractions(
+    show_user: ShowUser,
+) -> Contenor:
     """Return a contenor with all the performance infractions ordered by drone."""
     return apply_show_trajectory_performance_check(show_user)
 
@@ -86,5 +88,10 @@ def export_show_user_to_iostar_json_gcs_string(show_user: ShowUser) -> str:
 def global_check_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> bool:
     """Check the validity of an iostar_json_gcs."""
     show_user = ijg_to_su(iostar_json_gcs)
+    show_check_report = apply_all_check_from_show_user(show_user)
+    return show_check_report.user_validation
+    show_user = ijg_to_su(iostar_json_gcs)
+    show_check_report = apply_all_check_from_show_user(show_user)
+    return show_check_report.user_validation
     show_check_report = apply_all_check_from_show_user(show_user)
     return show_check_report.user_validation

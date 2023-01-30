@@ -59,8 +59,8 @@ class PerformanceInfraction(ErrorMessage):
     metric_convention: bool
 
     def __getitem__(self, displayer_name: str) -> "PerformanceInfraction":
-        if self.name == displayer_name:
-            msg = f"{self.name} should be exactly equal to {self.name}"
+        if self.name != displayer_name:
+            msg = f"{self.name} should be exactly equal to {displayer_name}"
             raise NameError(msg)
         return self
 
@@ -86,8 +86,8 @@ class CollisionInfraction(ErrorMessage):
     in_air: bool
 
     def __getitem__(self, displayer_name: str) -> "CollisionInfraction":
-        if self.name == displayer_name:
-            msg = f"{self.name} should be exactly equal to {self.name}"
+        if self.name != displayer_name:
+            msg = f"{self.name} should be exactly equal to {displayer_name}"
             raise NameError(msg)
         return self
 
