@@ -12,6 +12,17 @@ from ...report import Contenor, PerformanceInfraction
 from ..performance_check.migration.show_trajectory_performance import Performance
 
 
+@dataclass(frozen=True)
+class MetricRange:
+    threshold: float
+    standard_convention: bool = True
+
+    def validation(self, value: float) -> bool:
+        if self.standard_convention:
+            return value <= self.threshold
+        return value >= self.threshold
+
+
 class Metric(Enum):
     VERTICAL_POSITION = "vertical position"
     HORIZONTAL_VELOCITY = "horizontal velocity"
@@ -24,7 +35,7 @@ class Metric(Enum):
         return METRICS_EVALUATION[self]
 
     @property
-    def range_(self):
+    def range_(self) -> MetricRange:
         return METRICS_RANGE[self]
 
     def validation(self, performance: Performance) -> bool:
@@ -60,29 +71,26 @@ METRICS_EVALUATION: Dict[Metric, Callable[[Performance], float]] = {
 }
 
 
-@dataclass(frozen=True)
-class MetricRange:
-    threshold: float
-    standard_convention: bool = True
-
-    def validation(self, value: float) -> bool:
-        if self.standard_convention:
-            return value <= self.threshold
-        return value >= self.threshold
+class MetricsRange(Dict[Metric, MetricRange]):
+    def update(self, new_metric_range: Dict[Metric, MetricRange]) -> None:
+        for metric in self:
+            self[metric] = new_metric_range[metric]
 
 
-METRICS_RANGE: Dict[Metric, MetricRange] = {
-    Metric.VERTICAL_POSITION: MetricRange(
-        threshold=TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-        standard_convention=False,
-    ),
-    Metric.HORIZONTAL_VELOCITY: MetricRange(
-        IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
-    ),
-    Metric.UP_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_up_max),
-    Metric.DOWN_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_down_max),
-    Metric.ACCELERATION: MetricRange(IOSTAR_PHYSIC_PARAMETER.acceleration_max),
-}
+METRICS_RANGE = MetricsRange(
+    {
+        Metric.VERTICAL_POSITION: MetricRange(
+            threshold=TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
+            standard_convention=False,
+        ),
+        Metric.HORIZONTAL_VELOCITY: MetricRange(
+            IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
+        ),
+        Metric.UP_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_up_max),
+        Metric.DOWN_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_down_max),
+        Metric.ACCELERATION: MetricRange(IOSTAR_PHYSIC_PARAMETER.acceleration_max),
+    }
+)
 
 
 def performance_evaluation(frame: int, performance: Performance) -> Contenor:
