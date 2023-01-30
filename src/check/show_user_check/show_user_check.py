@@ -1,3 +1,5 @@
+import numpy as np
+
 from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
@@ -33,7 +35,10 @@ def apply_multiple_events_takeoff_duration_check(drone_user: DroneUser) -> Displ
     takeoff_duration_displayer = Displayer("Takeoff duration")
     first_time = drone_user.position_events[0].absolute_time
     second_time = drone_user.position_events[1].absolute_time
-    if (second_time - first_time) == TAKEOFF_PARAMETER.takeoff_duration_second:
+    if (
+        np.abs((second_time - first_time) - TAKEOFF_PARAMETER.takeoff_duration_second)
+        < 1e-8
+    ):
         takeoff_duration_displayer.validate()
     else:
         takeoff_duration_displayer.update_annexe_message(
