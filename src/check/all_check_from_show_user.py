@@ -10,7 +10,6 @@ from .show_px4_check.show_px4_check import apply_show_px4_check
 from .show_user_check.show_user_check import apply_show_user_check
 
 
-# TODO: redo the "apply" convention
 def apply_all_check_from_show_user(
     show_user: ShowUser,
 ) -> Contenor:

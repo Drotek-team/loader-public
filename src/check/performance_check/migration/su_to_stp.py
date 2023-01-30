@@ -49,7 +49,6 @@ def get_accelerations_from_velocities(
     ]
 
 
-# TODO: the tests was not sufficient !!!!
 def get_trajectory_performance_info_from_position_events(
     position_events_user: List[PositionEventUser],
 ) -> List[TrajectoryPerformanceInfo]:

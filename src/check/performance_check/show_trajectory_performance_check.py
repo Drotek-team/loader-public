@@ -39,6 +39,7 @@ def apply_stp_check_to_stp(
     return show_trajectory_performance_check_report
 
 
+# TODO: ValueError for the report is not practical for the CTRF+MAJ+F
 def apply_show_trajectory_performance_check(
     show_user: ShowUser,
 ) -> Contenor:

@@ -1,3 +1,4 @@
+import math
 from typing import List, Tuple
 
 from pydantic import BaseModel
@@ -15,6 +16,17 @@ class PositionEventUser(BaseModel):
     @property
     def absolute_time(self) -> float:
         return FRAME_PARAMETER.from_frame_to_second(self.frame)
+
+    # TODO: test this
+    def apply_horizontal_rotation(self, angle_degree: int) -> None:
+        c, s = math.cos(math.radians(angle_degree)), math.sin(
+            math.radians(angle_degree)
+        )
+        self.xyz = (
+            c * self.xyz[0] - s * self.xyz[1],
+            s * self.xyz[0] + c * self.xyz[1],
+            self.xyz[2],
+        )
 
 
 class ColorEventUser(BaseModel):
@@ -71,6 +83,10 @@ class DroneUser(BaseModel):
     def last_height(self) -> float:
         return self.position_events[-1].xyz[2]
 
+    def apply_horizontal_rotation(self, angle_degree: int) -> None:
+        for position in self.position_events:
+            position.apply_horizontal_rotation(angle_degree)
+
 
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
@@ -124,3 +140,8 @@ class ShowUser(BaseModel):
             for position_event in drone.position_events
         ]
         return (min(z_positions), max(z_positions))
+
+    def apply_horizontal_rotation(self, angle_degree: int) -> None:
+        for drone_user in self.drones_user:
+            drone_user.apply_horizontal_rotation(angle_degree)
+            drone_user.apply_horizontal_rotation(angle_degree)

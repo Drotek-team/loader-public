@@ -34,7 +34,6 @@ class LandParameter:
             drone_hgt_meter
         ) + self.get_second_land_second_delta(drone_hgt_meter)
 
-    # TODO: test this
     def get_land_frame_delta(self, drone_hgt_meter: float) -> int:
         return FRAME_PARAMETER.from_second_to_frame(
             self.get_land_second_delta(drone_hgt_meter)
