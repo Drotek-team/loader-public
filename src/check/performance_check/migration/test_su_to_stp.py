@@ -39,7 +39,7 @@ def test_get_trajectory_performance_info_from_position_events():
     assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 0.0)
     assert from_ca_to_ct(trajectory_performance_infos[1].velocity) == (0.0, 0.0, 1.0)
     assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 1.0)
-    assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 2.0)
+    assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 0.5)
 
     assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (
         0.0,
@@ -59,7 +59,7 @@ def test_get_trajectory_performance_info_from_position_events():
     assert from_ca_to_ct(trajectory_performance_infos[3].acceleration) == (
         0.0,
         0.0,
-        2.0,
+        -0.25,
     )
 
 

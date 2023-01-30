@@ -19,7 +19,8 @@ def get_velocities_from_positions(
     extended_frames = [frames[0] - 1] + frames
     extended_positions = [positions[0]] + positions
     return [
-        FRAME_PARAMETER.from_frame_to_second(
+        1
+        / FRAME_PARAMETER.from_frame_to_second(
             extended_frames[coordinate_index] - extended_frames[coordinate_index - 1]
         )
         * (
@@ -36,7 +37,8 @@ def get_accelerations_from_velocities(
     extended_frames = [frames[0] - 1] + frames
     extended_velocities = [velocities[0]] + velocities
     return [
-        FRAME_PARAMETER.from_frame_to_second(
+        1
+        / FRAME_PARAMETER.from_frame_to_second(
             extended_frames[coordinate_index] - extended_frames[coordinate_index - 1]
         )
         * (
@@ -47,6 +49,7 @@ def get_accelerations_from_velocities(
     ]
 
 
+# TODO: the tests was not sufficient !!!!
 def get_trajectory_performance_info_from_position_events(
     position_events_user: List[PositionEventUser],
 ) -> List[TrajectoryPerformanceInfo]:
