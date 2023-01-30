@@ -1,3 +1,4 @@
+import copy
 from dataclasses import dataclass
 from enum import Enum
 from typing import Callable, Dict
@@ -73,7 +74,7 @@ METRICS_EVALUATION: Dict[Metric, Callable[[Performance], float]] = {
 
 class MetricsRange(Dict[Metric, MetricRange]):
     def update(self, new_metric_range: Dict[Metric, MetricRange]) -> None:
-        for metric in self:
+        for metric in new_metric_range:
             self[metric] = new_metric_range[metric]
 
 
@@ -92,6 +93,8 @@ METRICS_RANGE = MetricsRange(
     }
 )
 
+METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
+
 
 def performance_evaluation(frame: int, performance: Performance) -> Contenor:
     performance_evaluation_contenor = Contenor(
@@ -109,4 +112,5 @@ def performance_evaluation(frame: int, performance: Performance) -> Contenor:
                 metric_convention=metric.range_.standard_convention,
             )
         )
+    return performance_evaluation_contenor
     return performance_evaluation_contenor

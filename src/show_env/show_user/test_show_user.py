@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 from pydantic import ValidationError
 
@@ -17,6 +18,14 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser):
     )
     assert empty_drone_user.position_events[0].frame == 1
     assert empty_drone_user.position_events[0].xyz == (1.0, 2.0, 3.0)
+    empty_drone_user.apply_horizontal_rotation(90)
+    assert (
+        np.linalg.norm(
+            np.array(empty_drone_user.position_events[0].xyz)
+            - np.array((-2.0, 1.0, 3.0))
+        )
+        < 1e-6
+    )
 
 
 def test_position_event_user_invalid_input(empty_drone_user: DroneUser):
@@ -127,4 +136,5 @@ def test_show_user_convex_hull_standard_case():
 
 def test_show_user_altitude_range_standard_case():
     show_user = get_valid_show_user(ShowUserConfiguration())
+    assert show_user.altitude_range == (0.0, 1.0)
     assert show_user.altitude_range == (0.0, 1.0)

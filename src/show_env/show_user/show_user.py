@@ -17,7 +17,6 @@ class PositionEventUser(BaseModel):
     def absolute_time(self) -> float:
         return FRAME_PARAMETER.from_frame_to_second(self.frame)
 
-    # TODO: test this
     def apply_horizontal_rotation(self, angle_degree: int) -> None:
         c, s = math.cos(math.radians(angle_degree)), math.sin(
             math.radians(angle_degree)

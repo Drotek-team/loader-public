@@ -2,16 +2,14 @@ from typing import Dict, Tuple
 
 from pydantic import NonNegativeInt
 
-from .check.all_check_from_show_user import (
-    apply_all_check_from_show_user,
-    apply_show_px4_check,
-)
+from .check.all_check_from_show_user import apply_all_check_from_show_user
 from .check.collision_check.migration.show_simulation import ShowSimulation
 from .check.collision_check.show_simulation_collision_check import (
     apply_show_simulation_check_to_show_simulation,
 )
 from .check.performance_check.performance_evaluation import (
     METRICS_RANGE,
+    METRICS_RANGE_COPY,
     Metric,
     MetricRange,
 )
@@ -45,23 +43,22 @@ def import_show_user_from_iostar_json_string(iostar_json_string: str) -> ShowUse
 
 
 # TODO: test this
-def get_collisions(show_simulation: ShowSimulation) -> Contenor:
-    """Return a contenor with all the collision ordered by slice."""
-    return apply_show_simulation_check_to_show_simulation(show_simulation)
+def get_performance_infractions(
+    show_user: ShowUser, update_metrics_range: Dict[Metric, MetricRange]
+) -> Contenor:
+    """Return a contenor with all the performance infractions ordered by drone."""
+    METRICS_RANGE.update(update_metrics_range)
+    show_trajectory_performance_check = apply_show_trajectory_performance_check(
+        show_user
+    )
+    METRICS_RANGE.update(METRICS_RANGE_COPY)
+    return show_trajectory_performance_check
 
 
 # TODO: test this
-def get_performance_infractions(
-    show_user: ShowUser, metrics_range: Dict[Metric, MetricRange]
-) -> Contenor:
-    """Return a contenor with all the performance infractions ordered by drone."""
-    # TODO: check if the copy is relative or absolute
-    METRICS_RANGE.update(metrics_range)
-    return apply_show_trajectory_performance_check(show_user)
-
-
-def get_dance_size_infractions(show_user: ShowUser) -> Contenor:
-    return apply_show_px4_check(show_user)
+def get_collisions(show_simulation: ShowSimulation) -> Contenor:
+    """Return a contenor with all the collision ordered by slice."""
+    return apply_show_simulation_check_to_show_simulation(show_simulation)
 
 
 def apply_export_to_iostar_json(

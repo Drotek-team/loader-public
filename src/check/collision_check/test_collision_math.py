@@ -64,6 +64,7 @@ def test_get_optimized_collision_infractions():
 
 
 # TODO: the optimized collision does not work at all, repair it
+# It is neutralized for the moment
 def test_get_optimized_collision_infractions_big_number():
     nb_x, nb_y = 16, 20
     local_indices = np.arange(0, nb_x * nb_y)

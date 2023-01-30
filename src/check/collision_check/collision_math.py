@@ -5,7 +5,7 @@ import numpy.typing as npt
 
 from ...report import CollisionInfraction
 
-ARBITRARY_DICHOTOMY_THRESHOLD = 400
+ARBITRARY_DICHOTOMY_THRESHOLD = 400_000
 
 
 def get_couple_distance_matrix(

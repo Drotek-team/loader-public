@@ -2,12 +2,15 @@ import json
 import os
 from pathlib import Path
 
+from src.check.performance_check.performance_evaluation import Metric, MetricRange
+
 from .editor import (
     apply_export_to_iostar_json,
     apply_export_to_iostar_json_gcs,
     create_empty_show_user,
     export_show_user_to_iostar_json_gcs_string,
     export_show_user_to_iostar_json_string,
+    get_performance_infractions,
     global_check_iostar_json_gcs,
 )
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
@@ -27,34 +30,32 @@ def test_create_show_user_standard_case():
         assert len(show_user[drone_index].fire_events) == 0
 
 
+def test_get_performance_infractions():
+    show_user = get_valid_show_user(ShowUserConfiguration())
+    assert get_performance_infractions(show_user, {}).user_validation
+    assert not (
+        get_performance_infractions(
+            show_user,
+            {
+                Metric.VERTICAL_POSITION: MetricRange(
+                    threshold=1.5, standard_convention=False
+                )
+            },
+        ).user_validation
+    )
+    assert get_performance_infractions(show_user, {}).user_validation
+
+
 def test_export_to_iostar_json_standard_case():
     _, show_check_report = apply_export_to_iostar_json(
-        get_valid_show_user(
-            ShowUserConfiguration(
-                nb_x=1,
-                nb_y=1,
-                nb_drone_per_family=1,
-                step=1.5,
-                angle_takeoff=0,
-                show_duration_absolute_time=30.0,
-            )
-        )
+        get_valid_show_user(ShowUserConfiguration())
     )
     assert show_check_report.user_validation
 
 
 def test_export_to_iostar_json_gcs_standard_case():
     _, show_check_report = apply_export_to_iostar_json_gcs(
-        get_valid_show_user(
-            ShowUserConfiguration(
-                nb_x=1,
-                nb_y=1,
-                nb_drone_per_family=1,
-                step=1.5,
-                angle_takeoff=0,
-                show_duration_absolute_time=30.0,
-            )
-        )
+        get_valid_show_user(ShowUserConfiguration())
     )
     assert show_check_report.user_validation
 
