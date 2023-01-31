@@ -11,6 +11,10 @@ def one_event_takeoff_duration_check(drone_user: DroneUser) -> Displayer:
     takeoff_duration_displayer = Displayer("Takeoff duration")
     if drone_user.position_events[0].frame == 0:
         takeoff_duration_displayer.validate()
+    else:
+        takeoff_duration_displayer.update_annexe_message(
+            "The first position must be frame 0"
+        )
     return takeoff_duration_displayer
 
 
@@ -19,6 +23,10 @@ def one_event_takeoff_xyz_check(drone_user: DroneUser) -> Displayer:
     first_position = drone_user.position_events[0].xyz
     if first_position[2] == 0.0:
         takeoff_xyz_displayer.validate()
+    else:
+        takeoff_xyz_displayer.update_annexe_message(
+            "The first position must be z = 0.0"
+        )
     return takeoff_xyz_displayer
 
 
