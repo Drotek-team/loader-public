@@ -12,4 +12,10 @@ def apply_dance_size_check(
     dance_size_check = Displayer(f"Drone {drone_px4.index } Dance size")
     if get_dance_size(drone_px4) < JSON_BINARY_PARAMETER.dance_size_max:
         dance_size_check.validate()
+    else:
+        dance_size_check.update_annexe_message(
+            f"with a size of {get_dance_size(drone_px4)}"
+            f" exceeds the maximal dance size"
+            f" ({JSON_BINARY_PARAMETER.dance_size_max})"
+        )
     return dance_size_check
