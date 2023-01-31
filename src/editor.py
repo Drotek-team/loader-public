@@ -95,8 +95,8 @@ def export_show_user_to_iostar_json_gcs_string(show_user: ShowUser) -> str:
     return iostar_json_gcs.json()
 
 
-def global_check_iostar_json(iostar_json_gcs: IostarJsonGcs) -> bool:
+def global_check_iostar_json(iostar_json_gcs: IostarJsonGcs) -> str:
     """Check the validity of an iostar_json_gcs."""
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
-    return show_check_report.user_validation
+    return show_check_report.display_message()
