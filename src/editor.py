@@ -100,3 +100,7 @@ def global_check_iostar_json(iostar_json_gcs: IostarJsonGcs) -> str:
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
     return show_check_report.display_message()
+
+
+def get_clean_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> IostarJsonGcs:
+    return su_to_ijg(ijg_to_su(iostar_json_gcs))
