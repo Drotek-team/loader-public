@@ -35,14 +35,12 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
     )
 
 
-# TODO: test this
 def import_show_user_from_iostar_json_string(iostar_json_string: str) -> ShowUser:
     """Import a ShowUser object from a iostar_json JSON file."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_string)
     return ijg_to_su(iostar_json_gcs)
 
 
-# TODO: test this
 def get_performance_infractions(
     show_user: ShowUser, update_metrics_range: Dict[Metric, MetricRange]
 ) -> Contenor:
@@ -55,7 +53,6 @@ def get_performance_infractions(
     return show_trajectory_performance_check
 
 
-# TODO: test this
 def get_collisions(show_simulation: ShowSimulation) -> Contenor:
     """Return a contenor with all the collision ordered by slice."""
     return apply_show_simulation_check_to_show_simulation(show_simulation)
@@ -103,4 +100,9 @@ def global_check_iostar_json(iostar_json_gcs: IostarJsonGcs) -> str:
 
 
 def get_clean_iostar_json_gcs(iostar_json_gcs: IostarJsonGcs) -> IostarJsonGcs:
-    return su_to_ijg(ijg_to_su(iostar_json_gcs))
+    """Get a version of iostart_json_gcs with checked metadata."""
+    show_user = ijg_to_su(iostar_json_gcs)
+    iostar_json_gcs, show_check_report = apply_export_to_iostar_json_gcs(show_user)
+    if not (show_check_report.user_validation):
+        raise ValueError(show_check_report.display_message())
+    return iostar_json_gcs
