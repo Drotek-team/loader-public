@@ -1,4 +1,4 @@
-from ...report import Contenor
+from ...report.report import Contenor
 from ...show_env.migration_sp_su.su_to_sp import su_to_sp
 from ...show_env.show_user.show_user import ShowUser
 from .dance_size_check.dances_size_check import apply_dance_size_check

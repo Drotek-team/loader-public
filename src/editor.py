@@ -16,7 +16,7 @@ from .check.performance_check.performance_evaluation import (
 from .check.performance_check.show_trajectory_performance_check import (
     apply_show_trajectory_performance_check,
 )
-from .report import Contenor
+from .report.report import Contenor
 from .show_env.iostar_json.iostar_json import IostarJson
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ij.sp_to_ij import su_to_ij

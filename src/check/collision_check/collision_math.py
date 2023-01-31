@@ -3,7 +3,7 @@ from typing import Any, List
 import numpy as np
 import numpy.typing as npt
 
-from ...report import CollisionInfraction
+from ...report.report import CollisionInfraction
 
 ARBITRARY_DICHOTOMY_THRESHOLD = 400_000
 

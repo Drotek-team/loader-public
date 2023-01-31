@@ -9,7 +9,7 @@ from ...parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from ...parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from ...report import Contenor, PerformanceInfraction
+from ...report.report import Contenor, PerformanceInfraction
 from ..performance_check.migration.show_trajectory_performance import Performance
 
 
