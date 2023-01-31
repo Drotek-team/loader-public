@@ -17,7 +17,6 @@ def get_couple_distance_matrix(
     )
 
 
-# IMPROVE: not very clean to have two different object for indices and position, better group them in a single class
 def get_collision_infractions(
     local_drone_indices: npt.NDArray[np.int32],
     local_drone_positions: npt.NDArray[np.float64],

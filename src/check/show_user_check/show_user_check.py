@@ -96,7 +96,7 @@ def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Display
     minimal_position_events_displayer = Displayer(
         "Minimal position event number: must be only 1 for a only led show or at least 3 for a flight"
     )
-    # TODO: finir la discussion convention 1 position event
+    # Improve: finir la discussion convention 1 position event
     if len(drone_user.position_events) == 1 or len(drone_user.position_events) >= 3:
         minimal_position_events_displayer.validate()
     return minimal_position_events_displayer

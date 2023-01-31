@@ -63,7 +63,7 @@ def test_get_optimized_collision_infractions():
     ) == (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
 
 
-# TODO: the optimized collision does not work at all, repair it
+# Improve: the optimized collision does not work at all, repair it
 # It is neutralized for the moment
 def test_get_optimized_collision_infractions_big_number():
     nb_x, nb_y = 16, 20

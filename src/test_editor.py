@@ -11,7 +11,7 @@ from .editor import (
     export_show_user_to_iostar_json_gcs_string,
     export_show_user_to_iostar_json_string,
     get_performance_infractions,
-    global_check_iostar_json_gcs,
+    global_check_iostar_json,
 )
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from .show_env.show_user.generate_show_user import (
@@ -78,4 +78,4 @@ def test_export_show_user_to_iostar_json_gcs_string_standard_case():
 
 def test_global_check_iostar_json_standard_case():
     iostar_json_gcs = su_to_ijg(get_valid_show_user(ShowUserConfiguration()))
-    assert global_check_iostar_json_gcs(iostar_json_gcs)
+    assert global_check_iostar_json(iostar_json_gcs)
