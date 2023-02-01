@@ -108,6 +108,13 @@ class ShowUser(BaseModel):
     def nb_drones(self) -> int:
         return len(self.drones_user)
 
+    def update_drones_user_indices(self, indices: List[int]) -> None:
+        if len(indices) != len(self.drones_user):
+            msg = f"Indices length {len(indices)} != drones_user length {len(self.drones_user)}"
+            raise IndexError(msg)
+        for drone_user, index in zip(self.drones_user, indices):
+            drone_user.index = index
+
     @property
     def last_frame(
         self,

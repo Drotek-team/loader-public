@@ -52,6 +52,7 @@ class Displayer(ErrorMessage):
 
 @dataclass(frozen=True)
 class PerformanceInfraction(ErrorMessage):
+    drone_index: int
     name: str
     frame: int
     value: float
@@ -72,7 +73,8 @@ class PerformanceInfraction(ErrorMessage):
         message_begin = super().display_message(indentation_level)
         metric_convention_name = "max" if self.metric_convention else "min"
         return (
-            f"{message_begin}[Performance Infraction] The performance {self.name} has the value: {self.value:.2f}"
+            f"{message_begin}[Performance Infraction] The drone {self.drone_index} "
+            f"has the performance {self.name} has the value: {self.value:.2f}"
             f" ({metric_convention_name}: {self.threshold}) at the frame {self.frame} \n"
         )
 

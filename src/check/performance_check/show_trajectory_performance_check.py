@@ -12,13 +12,14 @@ def apply_drone_trajectory_performance_check(
     drone_trajectory_performance: DroneTrajectoryPerformance,
 ) -> Contenor:
     drone_trajectory_performance_check_report = Contenor(
-        f"drone trajectory performance {drone_trajectory_performance.drone_index}"
+        f"drone trajectory performance {drone_trajectory_performance.index}"
     )
     for (
         trajectory_performance_info
     ) in drone_trajectory_performance.trajectory_performance_infos:
         drone_trajectory_performance_check_report.add_error_message(
             performance_evaluation(
+                drone_trajectory_performance.index,
                 trajectory_performance_info.frame,
                 trajectory_performance_info.performance,
             )

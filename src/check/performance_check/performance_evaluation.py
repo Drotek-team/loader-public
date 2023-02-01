@@ -98,7 +98,9 @@ METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
 # TODO: add index check for performance/collision/dance size check
 
 
-def performance_evaluation(frame: int, performance: Performance) -> Contenor:
+def performance_evaluation(
+    drone_index: int, frame: int, performance: Performance
+) -> Contenor:
     performance_evaluation_contenor = Contenor(
         f"Performance evaluation at frame {frame}"
     )
@@ -107,8 +109,9 @@ def performance_evaluation(frame: int, performance: Performance) -> Contenor:
             continue
         performance_evaluation_contenor.add_error_message(
             PerformanceInfraction(
-                name=metric.value,
+                drone_index=drone_index,
                 frame=frame,
+                name=metric.value,
                 value=metric.evaluation(performance),
                 threshold=metric.range_.threshold,
                 metric_convention=metric.range_.standard_convention,

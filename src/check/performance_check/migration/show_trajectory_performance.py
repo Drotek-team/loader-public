@@ -33,10 +33,10 @@ class TrajectoryPerformanceInfo:
 class DroneTrajectoryPerformance:
     def __init__(
         self,
-        drone_index: int,
+        index: int,
         trajectory_performance_infos: List[TrajectoryPerformanceInfo],
     ):
-        self.drone_index = drone_index
+        self.index = index
         self.trajectory_performance_infos = trajectory_performance_infos
 
 

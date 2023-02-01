@@ -49,7 +49,7 @@ def test_invalid_show_user_vertical_position():
     assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
         performance_infractions["vertical position"].display_message()
-        == "[Performance Infraction] The performance vertical position has the value: 0.99 (min: 1.0) at the frame 960 \n"
+        == "[Performance Infraction] The drone 0 has the performance vertical position has the value: 0.99 (min: 1.0) at the frame 960 \n"
     )
 
 
@@ -74,7 +74,7 @@ def test_valid_show_user_horizontal_velocity():
     assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
         performance_infractions["acceleration"].display_message()
-        == "[Performance Infraction] The performance acceleration has the value: 6.00 (max: 2.0) at the frame 984 \n"
+        == "[Performance Infraction] The drone 0 has the performance acceleration has the value: 6.00 (max: 2.0) at the frame 984 \n"
     )
 
 
@@ -100,7 +100,7 @@ def test_invalid_show_user_horizontal_velocity():
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
         performance_infractions["horizontal velocity"].display_message()
-        == "[Performance Infraction] The performance horizontal velocity has the value: 6.01 (max: 6.0) at the frame 984 \n"
+        == "[Performance Infraction] The drone 0 has the performance horizontal velocity has the value: 6.01 (max: 6.0) at the frame 984 \n"
     )
 
 
@@ -124,7 +124,7 @@ def test_valid_show_user_up_velocity():
     assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
         performance_infractions["acceleration"].display_message()
-        == "[Performance Infraction] The performance acceleration has the value: 4.00 (max: 2.0) at the frame 984 \n"
+        == "[Performance Infraction] The drone 0 has the performance acceleration has the value: 4.00 (max: 2.0) at the frame 984 \n"
     )
 
 
@@ -150,7 +150,7 @@ def test_invalid_show_user_up_velocity():
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
         performance_infractions["up velocity"].display_message()
-        == "[Performance Infraction] The performance up velocity has the value: 4.01 (max: 4.0) at the frame 984 \n"
+        == "[Performance Infraction] The drone 0 has the performance up velocity has the value: 4.01 (max: 4.0) at the frame 984 \n"
     )
 
 
@@ -178,7 +178,7 @@ def test_valid_show_user_down_velocity():
     assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
         performance_infractions["acceleration"].display_message()
-        == "[Performance Infraction] The performance acceleration has the value: 4.00 (max: 2.0) at the frame 984 \n"
+        == "[Performance Infraction] The drone 0 has the performance acceleration has the value: 4.00 (max: 2.0) at the frame 984 \n"
     )
 
 
@@ -208,7 +208,7 @@ def test_invalid_show_user_down_velocity():
     assert len(performance_infractions._error_messages) >= 1  # type: ignore[test env]
     assert (
         performance_infractions["down velocity"].display_message()
-        == "[Performance Infraction] The performance down velocity has the value: 4.01 (max: 4.0) at the frame 984 \n"
+        == "[Performance Infraction] The drone 0 has the performance down velocity has the value: 4.01 (max: 4.0) at the frame 984 \n"
     )
 
 
@@ -270,5 +270,5 @@ def test_invalid_show_user_acceleration():
     assert len(performance_infractions._error_messages) == 1  # type: ignore[test env]
     assert (
         performance_infractions["acceleration"].display_message()
-        == "[Performance Infraction] The performance acceleration has the value: 2.01 (max: 2.0) at the frame 1008 \n"
+        == "[Performance Infraction] The drone 0 has the performance acceleration has the value: 2.01 (max: 2.0) at the frame 1008 \n"
     )
