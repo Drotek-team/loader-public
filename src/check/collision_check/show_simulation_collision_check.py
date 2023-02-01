@@ -13,12 +13,14 @@ def get_collision_infractions(
     show_simulation_slice: ShowSimulationSlice,
 ) -> List[CollisionInfraction]:
     on_ground_collision_infractions = get_optimized_collision_infractions(
+        show_simulation_slice.frame,
         show_simulation_slice.on_ground_indices,
         show_simulation_slice.on_ground_positions,
         IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
         in_air=False,
     )
     in_air_collision_infractions = get_optimized_collision_infractions(
+        show_simulation_slice.frame,
         show_simulation_slice.in_air_indices,
         show_simulation_slice.in_air_positions,
         IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,

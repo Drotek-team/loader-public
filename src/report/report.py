@@ -82,6 +82,7 @@ class PerformanceInfraction(ErrorMessage):
 @dataclass(frozen=True)
 class CollisionInfraction(ErrorMessage):
     name: str
+    frame: int
     drone_index_1: int
     drone_index_2: int
     distance: float
@@ -100,7 +101,8 @@ class CollisionInfraction(ErrorMessage):
     def display_message(self, indentation_level: int = 0) -> str:
         message_begin = super().display_message(indentation_level)
         return (
-            f"{message_begin}[Collision Infraction] Collision between drone {self.drone_index_1} and drone {self.drone_index_2} "
+            f"{message_begin}[Collision Infraction] Collision at the frame {self.frame} "
+            f"between drone {self.drone_index_1} and drone {self.drone_index_2} "
             f"{'in air' if self.in_air else 'on ground'} with a distance of {self.distance:.2f} \n"
         )
 

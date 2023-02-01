@@ -55,6 +55,7 @@ def test_get_optimized_collision_infractions():
     local_indices = np.arange(0, nb_x * nb_y)
     assert len(
         get_optimized_collision_infractions(
+            0,
             local_indices,
             get_numpy_grid(nb_x, nb_y),
             endangered_distance=1.2,
@@ -72,6 +73,7 @@ def test_get_optimized_collision_infractions_big_number():
     assert (
         len(
             get_optimized_collision_infractions(
+                0,
                 local_indices,
                 get_numpy_grid(nb_x, nb_y),
                 endangered_distance=1.2,

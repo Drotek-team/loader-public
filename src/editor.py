@@ -27,6 +27,9 @@ from .show_env.show_user.show_user import DroneUser, ShowUser
 
 def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
     """Create an empy ShowUser object with 'drone_number' drones."""
+    if drone_number <= 0:
+        msg = f"drone_number must be positive, not {drone_number}"
+        raise ValueError(msg)
     return ShowUser(
         drones_user=[
             DroneUser(

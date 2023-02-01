@@ -36,6 +36,9 @@ class ShowSimulationSlice:
 
 class ShowSimulation:
     def __init__(self, frames: List[int], nb_drones: int):
+        if nb_drones < 1:
+            msg = f"nb_drones must be at least 2, got {nb_drones}"
+            raise ValueError(msg)
         self.nb_drones: int = nb_drones
         self.show_slices: List[ShowSimulationSlice] = [
             ShowSimulationSlice(frame, nb_drones) for frame in frames

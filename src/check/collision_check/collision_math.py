@@ -18,6 +18,7 @@ def get_couple_distance_matrix(
 
 
 def get_collision_infractions(
+    frame: int,
     local_drone_indices: npt.NDArray[np.int32],
     local_drone_positions: npt.NDArray[np.float64],
     endangered_distance: float,
@@ -37,6 +38,7 @@ def get_collision_infractions(
     return [
         CollisionInfraction(
             name=f"Collision Infraction between {endangered_couples_distance_matrix_index}",
+            frame=frame,
             drone_index_1=int(
                 local_drone_indices[
                     endangered_couples_distance_matrix_index // nb_drones_local
@@ -90,6 +92,7 @@ def get_unique_list_from_list(non_unique_list: List[Any]) -> List[Any]:
 
 
 def get_optimized_collision_infractions(
+    frame: int,
     local_indices: npt.NDArray[np.int32],
     local_positions_numpy: npt.NDArray[np.float64],
     endangered_distance: float,
@@ -100,6 +103,7 @@ def get_optimized_collision_infractions(
     half_nb_drones_local = len(local_indices) // 2
     if nb_drones_local < ARBITRARY_DICHOTOMY_THRESHOLD:
         return get_collision_infractions(
+            frame,
             local_indices,
             local_positions_numpy,
             endangered_distance,
@@ -112,6 +116,7 @@ def get_optimized_collision_infractions(
     )
     return get_unique_list_from_list(
         get_optimized_collision_infractions(
+            frame,
             local_indices[argsort_by_axis_positions_numpy[:half_nb_drones_local]],
             local_positions_numpy[
                 argsort_by_axis_positions_numpy[:half_nb_drones_local]
@@ -120,6 +125,7 @@ def get_optimized_collision_infractions(
             in_air=in_air,
         )
         + get_optimized_collision_infractions(
+            frame,
             local_indices[argsort_by_axis_positions_numpy[half_nb_drones_local:]],
             local_positions_numpy[
                 argsort_by_axis_positions_numpy[half_nb_drones_local:]
@@ -128,6 +134,7 @@ def get_optimized_collision_infractions(
             in_air=in_air,
         )
         + get_optimized_collision_infractions(
+            frame,
             local_indices[argsort_by_axis_positions_numpy[border_indices]],
             local_positions_numpy[argsort_by_axis_positions_numpy[border_indices]],
             endangered_distance,
