@@ -9,12 +9,12 @@ def su_to_stc(
     return CollisionShowTrajectory(
         [
             CollisionTrajectory(
-                drone_index,
+                drone_user.index,
                 get_flight_simulation(
                     drone_user,
                     show_user.last_frame,
                 ),
             )
-            for drone_index, drone_user in enumerate(show_user.drones_user)
+            for drone_user in show_user.drones_user
         ]
     )

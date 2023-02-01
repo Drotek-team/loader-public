@@ -81,12 +81,13 @@ def get_grid_from_show_user(show_user: ShowUser) -> Grid:
     return Grid(
         [
             HorizontalPosition(
-                drone_index,
-                Coordinate(horizontal_position[0], horizontal_position[1]),
+                drone_user.index,
+                Coordinate(
+                    drone_user.first_horizontal_position[0],
+                    drone_user.first_horizontal_position[1],
+                ),
             )
-            for drone_index, horizontal_position in enumerate(
-                show_user.first_horizontal_positions
-            )
+            for drone_user in show_user.drones_user
         ]
     )
 

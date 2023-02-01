@@ -48,6 +48,7 @@ class FireEventUser(BaseModel):
 
 
 class DroneUser(BaseModel):
+    index: int
     position_events: List[PositionEventUser]
     color_events: List[ColorEventUser]
     fire_events: List[FireEventUser]
@@ -86,6 +87,13 @@ class DroneUser(BaseModel):
         for position in self.position_events:
             position.apply_horizontal_rotation(angle_degree)
 
+    @property
+    def first_horizontal_position(self) -> Tuple[float, float]:
+        return (
+            self.position_events[0].xyz[0],
+            self.position_events[0].xyz[1],
+        )
+
 
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
@@ -114,22 +122,14 @@ class ShowUser(BaseModel):
         )
 
     @property
-    def first_horizontal_positions(self) -> List[Tuple[float, float]]:
-        return [
-            (
-                drone.position_events[0].xyz[0],
-                drone.position_events[0].xyz[1],
-            )
-            for drone in self.drones_user
-        ]
-
-    @property
     def duration(self) -> float:
         return FRAME_PARAMETER.from_frame_to_second(self.last_frame)
 
     @property
     def convex_hull(self) -> List[Tuple[float, float]]:
-        return calculate_convex_hull(self.first_horizontal_positions)
+        return calculate_convex_hull(
+            [drone_user.first_horizontal_position for drone_user in self.drones_user]
+        )
 
     @property
     def altitude_range(self) -> Tuple[float, float]:

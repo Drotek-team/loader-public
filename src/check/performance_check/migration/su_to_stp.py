@@ -79,11 +79,11 @@ def su_to_stp(
     return ShowTrajectoryPerformance(
         [
             DroneTrajectoryPerformance(
-                drone_index,
+                drone_user.index,
                 get_trajectory_performance_info_from_position_events(
                     drone_user.flight_positions,
                 ),
             )
-            for drone_index, drone_user in enumerate(show_user.drones_user)
+            for drone_user in show_user.drones_user
         ]
     )

@@ -19,6 +19,7 @@ from .show_user_check import (
 @pytest.fixture
 def valid_drone_user() -> DroneUser:
     return DroneUser(
+        index=0,
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
@@ -50,6 +51,7 @@ def test_valid_position_events_takeoff_duration_xyz_check(
 @pytest.fixture
 def invalid_drone_user_takeoff_duration() -> DroneUser:
     return DroneUser(
+        index=0,
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
@@ -76,6 +78,7 @@ def test_invalid_position_events_takeoff_duration_check(
 @pytest.fixture
 def invalid_drone_user_takeoff_xyz() -> DroneUser:
     return DroneUser(
+        index=0,
         position_events=[
             PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
             PositionEventUser(
@@ -100,7 +103,7 @@ def test_invalid_position_events_takeoff_xyz_check(
 
 def test_empty_position_events():
     empty_position_events_drone_user = DroneUser(
-        position_events=[], color_events=[], fire_events=[]
+        index=0, position_events=[], color_events=[], fire_events=[]
     )
     with pytest.raises(
         ValueError,
@@ -111,6 +114,7 @@ def test_empty_position_events():
 
 def test_valid_one_position_events():
     one_position_events_drone_user = DroneUser(
+        index=0,
         position_events=[PositionEventUser(frame=0, xyz=(2.0, 2.0, 0.0))],
         color_events=[],
         fire_events=[],
@@ -121,6 +125,7 @@ def test_valid_one_position_events():
 
 def test_invalid_by_time_one_position_events():
     one_position_events_drone_user = DroneUser(
+        index=0,
         position_events=[PositionEventUser(frame=1, xyz=(2.0, 2.0, 0.0))],
         color_events=[],
         fire_events=[],
@@ -141,6 +146,7 @@ def test_apply_minimal_position_events_number_check_3_events(
 
 def test_apply_minimal_position_events_number_check_1_events():
     one_position_events_drone_user = DroneUser(
+        index=0,
         position_events=[PositionEventUser(frame=1, xyz=(2.0, 2.0, 0.0))],
         color_events=[],
         fire_events=[],
@@ -153,6 +159,7 @@ def test_apply_minimal_position_events_number_check_1_events():
 
 def test_apply_minimal_position_events_number_check_2_events():
     one_position_events_drone_user = DroneUser(
+        index=0,
         position_events=[
             PositionEventUser(frame=1, xyz=(2.0, 2.0, 0.0)),
             PositionEventUser(frame=2, xyz=(2.0, 2.0, 0.0)),

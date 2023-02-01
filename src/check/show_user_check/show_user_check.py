@@ -112,9 +112,8 @@ def apply_minimal_position_events_number_check(drone_user: DroneUser) -> Display
 
 def apply_drone_user_check(
     drone_user: DroneUser,
-    drone_index: int,
 ) -> Contenor:
-    drone_user_contenor = Contenor(f"Drone user {drone_index} check")
+    drone_user_contenor = Contenor(f"Drone user {drone_user.index} check")
     drone_user_contenor.add_error_message(
         apply_minimal_position_events_number_check(drone_user)
     )
@@ -127,8 +126,6 @@ def apply_show_user_check(
     show_user: ShowUser,
 ) -> Contenor:
     show_user_contenor = Contenor("show user check")
-    for drone_index, drone_user in enumerate(show_user.drones_user):
-        show_user_contenor.add_error_message(
-            apply_drone_user_check(drone_user, drone_index)
-        )
+    for drone_user in show_user.drones_user:
+        show_user_contenor.add_error_message(apply_drone_user_check(drone_user))
     return show_user_contenor

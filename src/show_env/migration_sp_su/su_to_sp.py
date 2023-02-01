@@ -61,9 +61,8 @@ def add_fire_events_user(
 
 def drone_user_to_drone_px4(
     drone_user: DroneUser,
-    drone_index: int,
 ) -> DronePx4:
-    drone_px4 = DronePx4(drone_index)
+    drone_px4 = DronePx4(drone_user.index)
     add_position_events_user(drone_px4, drone_user.position_events)
     add_color_events_user(
         drone_px4,
@@ -83,8 +82,7 @@ def su_to_sp(
         [
             drone_user_to_drone_px4(
                 drone_user,
-                drone_index,
             )
-            for drone_index, drone_user in enumerate(show_user.drones_user)
+            for drone_user in show_user.drones_user
         ]
     )

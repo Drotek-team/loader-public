@@ -9,7 +9,7 @@ from .takeoff_simulation import takeoff_simulation
 
 
 def test_flight_simulation_standard_case():
-    drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
     drone_user.add_position_event(0, (0.0, 0.0, 0.0))
     drone_user.add_position_event(240, (0.0, 0.0, 1.0))
     drone_user.add_position_event(360, (2.0, 0.0, 1.0))
@@ -32,7 +32,7 @@ def test_flight_simulation_standard_case():
 
 def test_flight_simulation_takeoff_delayed():
     takeoff_delay = 100
-    drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
     drone_user.add_position_event(takeoff_delay + 0, (0.0, 0.0, 0.0))
     drone_user.add_position_event(takeoff_delay + 240, (0.0, 0.0, 1.0))
     drone_user.add_position_event(takeoff_delay + 360, (2.0, 0.0, 1.0))
@@ -58,7 +58,7 @@ def test_flight_simulation_takeoff_delayed():
 
 def test_flight_simulation_last_frame_delayed():
     last_frame_delayed = 1000
-    drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
     drone_user.add_position_event(0, (0.0, 0.0, 0.0))
     drone_user.add_position_event(240, (0.0, 0.0, 1.0))
     drone_user.add_position_event(360, (2.0, 0.0, 1.0))
@@ -83,7 +83,7 @@ def test_flight_simulation_last_frame_delayed():
 
 
 def test_flight_simulation_non_takeoff():
-    drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
     drone_user.add_position_event(240, (0.0, 0.0, 0.0))
     flight_simulation = get_flight_simulation(drone_user)
 
@@ -95,7 +95,7 @@ def test_flight_simulation_non_takeoff():
 
 def test_flight_simulation_non_takeoff_last_frame_delayed():
     last_frame_delayed = 1000
-    drone_user = DroneUser(position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
     drone_user.add_position_event(240, (0.0, 0.0, 0.0))
     flight_simulation = get_flight_simulation(drone_user, last_frame_delayed)
 

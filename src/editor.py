@@ -29,8 +29,10 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
     """Create an empy ShowUser object with 'drone_number' drones."""
     return ShowUser(
         drones_user=[
-            DroneUser(position_events=[], color_events=[], fire_events=[])
-            for _ in range(drone_number)
+            DroneUser(
+                index=drone_index, position_events=[], color_events=[], fire_events=[]
+            )
+            for drone_index in range(drone_number)
         ]
     )
 

@@ -47,6 +47,7 @@ def drone_px4_to_drone_user(
     ]
 
     return DroneUser(
+        index=drone_px4.index,
         position_events=position_events_user,
         color_events=color_events_user,
         fire_events=fire_events_user,

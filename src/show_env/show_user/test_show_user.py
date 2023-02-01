@@ -8,7 +8,7 @@ from .show_user import DroneUser
 
 @pytest.fixture
 def empty_drone_user():
-    return DroneUser(position_events=[], color_events=[], fire_events=[])
+    return DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
 
 
 def test_position_event_user_standard_case(empty_drone_user: DroneUser):
@@ -109,13 +109,6 @@ def test_show_user_last_frame_standard_case():
         ShowUserConfiguration(show_duration_absolute_time=60)
     )
     assert show_user.last_frame == 1741
-
-
-def test_show_user_first_horizontal_positions_standard_case():
-    show_user = get_valid_show_user(ShowUserConfiguration())
-    assert show_user.first_horizontal_positions == [(0.0, 0.0)]
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, step=2))
-    assert show_user.first_horizontal_positions == [(-1.0, 0.0), (1.0, 0.0)]
 
 
 def test_show_user_duration_standard_case():

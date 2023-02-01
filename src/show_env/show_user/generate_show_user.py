@@ -157,8 +157,11 @@ def get_valid_show_user(
     index_bias_y = (
         0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
     )
+    # TODO: test the index
     valid_drones_user = [
         DroneUser(
+            index=show_user_configuration.nb_drone_per_family
+            * (index_y * show_user_configuration.nb_x + index_x),
             position_events=get_valid_position_events_user(
                 index_x, index_bias_x, index_y, index_bias_y, show_user_configuration
             ),

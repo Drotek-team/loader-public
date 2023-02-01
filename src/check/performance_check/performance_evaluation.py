@@ -95,6 +95,8 @@ METRICS_RANGE = MetricsRange(
 
 METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
 
+# TODO: add index check for performance/collision/dance size check
+
 
 def performance_evaluation(frame: int, performance: Performance) -> Contenor:
     performance_evaluation_contenor = Contenor(
@@ -112,5 +114,4 @@ def performance_evaluation(frame: int, performance: Performance) -> Contenor:
                 metric_convention=metric.range_.standard_convention,
             )
         )
-    return performance_evaluation_contenor
     return performance_evaluation_contenor
