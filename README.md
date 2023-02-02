@@ -41,7 +41,7 @@ This project goal is to help the creation and verification of Drotek dance file.
    ```shell
    from loader.src.editor import create_empty_show_user
 
-   nb_drones = 1
+   nb_drones = 5
    show_user = create_empty_show_user(nb_drones)
    ```
 
