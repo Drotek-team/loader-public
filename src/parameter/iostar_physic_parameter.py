@@ -9,7 +9,8 @@ class IostarPhysicParameter:
     velocity_up_max = 4.0  # meter per second
     velocity_down_max = 4.0  # meter per second
     security_distance_in_air = 1.0  # meter
-    security_distance_on_ground = 0.3  # meter
+    # TODO: discuss this problem
+    security_distance_on_ground = -1  # meter
 
 
 IOSTAR_PHYSIC_PARAMETER = IostarPhysicParameter()

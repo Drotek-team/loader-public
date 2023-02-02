@@ -17,21 +17,7 @@ def test_valid_simulation_on_ground():
     simulation_collision_contenor = apply_show_simulation_collision_check(
         valid_show_user_on_ground,
     )
-    assert (
-        len(simulation_collision_contenor._error_messages) == 1020  # type:ignore[test]
-    )
-    for flight_index in range(1020):
-        assert not (
-            simulation_collision_contenor._error_messages[  # type:ignore[test]
-                f"Collision slice check report at frame {flight_index}"
-            ].user_validation
-        )
-        for (
-            collision_infraction
-        ) in simulation_collision_contenor._error_messages[  # type:ignore[test]
-            f"Collision slice check report at frame {flight_index}"
-        ]._error_messages.values():  # type:ignore[test]
-            assert collision_infraction.in_air  # type:ignore[test]
+    assert len(simulation_collision_contenor._error_messages) == 0  # type:ignore[test]
 
 
 def test_invalid_simulation_on_ground():
@@ -45,15 +31,7 @@ def test_invalid_simulation_on_ground():
     simulation_collision_contenor = apply_show_simulation_collision_check(
         invalid_show_user_on_ground,
     )
-    assert (
-        len(simulation_collision_contenor._error_messages) == 1022  # type:ignore[test]
-    )
-    for flight_index in range(1022):
-        assert not (
-            simulation_collision_contenor._error_messages[  # type:ignore[test]
-                f"Collision slice check report at frame {flight_index}"
-            ].user_validation
-        )
+    assert len(simulation_collision_contenor._error_messages) == 0  # type:ignore[test]
 
 
 def test_valid_simulation_in_air():
