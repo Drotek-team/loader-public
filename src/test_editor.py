@@ -8,8 +8,8 @@ from .check.collision_check.show_simulation_collision_check import su_to_ss
 from .editor import (
     create_empty_show_user,
     export_show_user_to_iostar_json_gcs_string,
-    get_collisions,
-    get_dance_size_report,
+    get_collision_infractions,
+    get_dance_size_infractions,
     get_performance_infractions,
     get_verified_iostar_json_gcs,
     global_check_iostar_json_gcs,
@@ -53,12 +53,12 @@ def test_get_collisions():
     show_simulation = su_to_ss(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     )
-    assert get_collisions(show_simulation).user_validation
+    assert get_collision_infractions(show_simulation).user_validation
 
 
 def test_get_dance_size_report():
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    assert get_dance_size_report(show_user).user_validation
+    assert get_dance_size_infractions(show_user).user_validation
 
 
 def test_global_check_show_user():
@@ -93,4 +93,6 @@ def test_import_iostar_json_gcs_string_to_show_user():
 def test_get_verified_iostar_json_gcs():
     show_user = get_valid_show_user(ShowUserConfiguration())
     iostar_json_gcs = su_to_ijg(show_user)
-    assert get_verified_iostar_json_gcs(iostar_json_gcs.json()) == iostar_json_gcs
+    assert (
+        get_verified_iostar_json_gcs(iostar_json_gcs.json()) == iostar_json_gcs.json()
+    )

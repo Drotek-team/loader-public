@@ -53,12 +53,12 @@ def get_performance_infractions(
     return show_trajectory_performance_check
 
 
-def get_collisions(show_simulation: ShowSimulation) -> Contenor:
+def get_collision_infractions(show_simulation: ShowSimulation) -> Contenor:
     """Return a contenor with all the collision ordered by slice."""
     return apply_show_simulation_check_to_show_simulation(show_simulation)
 
 
-def get_dance_size_report(show_user: ShowUser) -> Contenor:
+def get_dance_size_infractions(show_user: ShowUser) -> Contenor:
     """Return a contenor with the dance size report."""
     return apply_show_px4_check(show_user)
 
@@ -93,11 +93,11 @@ def import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string: str) -> S
     return ijg_to_su(iostar_json_gcs)
 
 
-def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> IostarJsonGcs:
+def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> str:
     """Get a version of iostart_json_gcs with checked metadata."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
     if not (show_check_report.user_validation):
         raise ValueError(show_check_report.display_message())
-    return su_to_ijg(show_user)
+    return su_to_ijg(show_user).json()
