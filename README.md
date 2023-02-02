@@ -71,67 +71,67 @@ This project goal is to help the creation and verification of Drotek dance file.
 
 ### Show Check
 
-1. Check the show validity with the `global_check_show_user`
+- Check the show validity with the `global_check_show_user`
 
-   ```shell
-   report_string = global_check_show_user(show_user)
-   print(report_string)
-   ```
+  ```shell
+  report_string = global_check_show_user(show_user)
+  print(report_string)
+  ```
 
-1. Check the performance of the show with the `get_performance_infractions` function
+- Check the performance of the show with the `get_performance_infractions` function
 
-   ```shell
-   from loader.src.editor import get_performance_infractions,Metric,MetricRange
+  ```shell
+  from loader.src.editor import get_performance_infractions,Metric,MetricRange
 
-   performance_infractions = get_performance_infractions(show_user,{})
-   print(performance_infractions.display_message())
+  performance_infractions = get_performance_infractions(show_user,{})
+  print(performance_infractions.display_message())
 
-   new_performance_configuration = {Metric.HORIZONTAL_VELOCITY:MetricRange(3.0)}
-   performance_infractions = get_performance_infractions(show_user,new_performance_configuration)
-   print(performance_infractions.display_message())
-   ```
+  new_performance_configuration = {Metric.HORIZONTAL_VELOCITY:MetricRange(3.0)}
+  performance_infractions = get_performance_infractions(show_user,new_performance_configuration)
+  print(performance_infractions.display_message())
+  ```
 
-1. Check the collisions of the show with the `get_collision_infractions` function
+- Check the collisions of the show with the `get_collision_infractions` function
 
-   ```shell
-   from loader.src.editor import get_collision_infractions, su_to_ss
+  ```shell
+  from loader.src.editor import get_collision_infractions, su_to_ss
 
-   collision_infractions = get_collision_infractions(su_to_ss(show_user))
-   print(collision_infractions.display_message())
-   ```
+  collision_infractions = get_collision_infractions(su_to_ss(show_user))
+  print(collision_infractions.display_message())
+  ```
 
-1. Check the dance size infractions of the show with the `get_dance_size_infractions`
-   function
+- Check the dance size infractions of the show with the `get_dance_size_infractions`
+  function
 
-   ```shell
-   from loader.src.editor import get_dance_size_infractions, su_to_ss
+  ```shell
+  from loader.src.editor import get_dance_size_infractions, su_to_ss
 
-   dance_size_infractions = get_dance_size_infractions(show_user)
-   print(dance_size_infractions.display_message())
-   ```
+  dance_size_infractions = get_dance_size_infractions(show_user)
+  print(dance_size_infractions.display_message())
+  ```
 
 ### Import & Export
 
-1. Export the show user with the `export_show_user_to_iostar_json_gcs_string`
+- Export the show user with the `export_show_user_to_iostar_json_gcs_string`
 
-   ```shell
-   from loader.src.editor import export_show_user_to_iostar_json_gcs_string
+  ```shell
+  from loader.src.editor import export_show_user_to_iostar_json_gcs_string
 
-   iostart_json_gcs_string = export_show_user_to_iostar_json_gcs_string(show_user)
-   ```
+  iostart_json_gcs_string = export_show_user_to_iostar_json_gcs_string(show_user)
+  ```
 
-1. Import an iostar json gcs string with `import_iostar_json_gcs_string_to_show_user`
+- Import an iostar json gcs string with `import_iostar_json_gcs_string_to_show_user`
 
-   ```shell
-   from loader.src.editor import import_iostar_json_gcs_string_to_show_user
+  ```shell
+  from loader.src.editor import import_iostar_json_gcs_string_to_show_user
 
-   show_user = import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string)
-   ```
+  show_user = import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string)
+  ```
 
-1. Get an iostar json gcs with verified metadata with `get_verified_iostar_json_gcs`
+- Get an iostar json gcs with verified metadata with `get_verified_iostar_json_gcs`
 
-   ```shell
-   from loader.src.editor import import_iostar_json_gcs_string_to_show_user
+  ```shell
+  from loader.src.editor import import_iostar_json_gcs_string_to_show_user
 
-   verified_iostar_json_gcs = get_verified_iostar_json_gcs(iostar_json_gcs_string)
-   ```
+  verified_iostar_json_gcs = get_verified_iostar_json_gcs(iostar_json_gcs_string)
+  ```

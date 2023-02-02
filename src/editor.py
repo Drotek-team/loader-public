@@ -27,7 +27,7 @@ from .show_env.show_user.show_user import DroneUser, ShowUser
 
 
 def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
-    """Create an empy ShowUser object with 'drone_number' drones."""
+    """Return an ShowUser object with 'drone_number' user drones. These drones contains no events."""
     if drone_number <= 0:
         msg = f"drone_number must be positive, not {drone_number}"
         raise ValueError(msg)
@@ -44,7 +44,7 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
 def get_performance_infractions(
     show_user: ShowUser, update_metrics_range: Dict[Metric, MetricRange]
 ) -> Contenor:
-    """Return a contenor with all the performance infractions ordered by drone."""
+    """Return a contenor with all the performance infractions ordered by drone and by slice."""
     METRICS_RANGE.update(update_metrics_range)
     show_trajectory_performance_check = apply_show_trajectory_performance_check(
         show_user
@@ -59,18 +59,18 @@ def get_collision_infractions(show_simulation: ShowSimulation) -> Contenor:
 
 
 def get_dance_size_infractions(show_user: ShowUser) -> Contenor:
-    """Return a contenor with the dance size report."""
+    """Return a contenor with the dance size report ordered by drones."""
     return apply_show_px4_check(show_user)
 
 
 def global_check_show_user(show_user: ShowUser) -> str:
-    """Check the validity of a show_user."""
+    """Return a report of show user validity as a string. The show user is valid if the report is empty."""
     show_check_report = apply_all_check_from_show_user(show_user)
     return show_check_report.display_message()
 
 
 def global_check_iostar_json_gcs(iostar_json_gcs_string: str) -> str:
-    """Check the validity of an iostar_json_gcs."""
+    """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
@@ -80,7 +80,7 @@ def global_check_iostar_json_gcs(iostar_json_gcs_string: str) -> str:
 def export_show_user_to_iostar_json_gcs_string(
     show_user: ShowUser,
 ) -> str:
-    """Convert a show user into an iostar json gcs and check it."""
+    """Return a check iostar json gcs from a show user object."""
     check_contenor = apply_all_check_from_show_user(show_user)
     if not (check_contenor.user_validation):
         raise ValueError(check_contenor.display_message())
@@ -88,13 +88,13 @@ def export_show_user_to_iostar_json_gcs_string(
 
 
 def import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string: str) -> ShowUser:
-    """Import a ShowUser object from a iostar_json JSON file."""
+    """Return a check show user from an iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     return ijg_to_su(iostar_json_gcs)
 
 
 def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> str:
-    """Get a version of iostart_json_gcs with checked metadata."""
+    """Return a check iostar json gcs string from an iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
