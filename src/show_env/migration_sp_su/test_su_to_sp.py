@@ -84,7 +84,6 @@ def test_add_fire_events_user_standard_case():
     assert second_fire_event.chanel_duration == (1, 83)
 
 
-# TODO: test the index system in the check performance/collision/dance_size
 def test_drone_user_to_drone_px4_standard_case():
     drone_user = DroneUser(
         index=0,
@@ -109,6 +108,7 @@ def test_drone_user_to_drone_px4_standard_case():
         ],
     )
     drone_px4 = drone_user_to_drone_px4(drone_user)
+    assert drone_px4.index == 0
     assert drone_px4.position_events.get_position_event_by_index(0).timecode == 0
     assert drone_px4.position_events.get_position_event_by_index(0).xyz == (
         100,

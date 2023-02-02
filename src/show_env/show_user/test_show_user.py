@@ -98,8 +98,13 @@ def test_fire_event_user_invalid_input(empty_drone_user: DroneUser):
 def test_show_user_nb_drones_standard_case():
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.nb_drones == 1
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2))
-    assert show_user.nb_drones == 2
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(nb_x=2, nb_y=3, nb_drone_per_family=4)
+    )
+    assert show_user.nb_drones == 2 * 3 * 4
+    assert [drone_user.index for drone_user in show_user.drones_user] == list(
+        range(show_user.nb_drones)
+    )
 
 
 def test_show_user_last_frame_standard_case():
@@ -129,5 +134,4 @@ def test_show_user_convex_hull_standard_case():
 
 def test_show_user_altitude_range_standard_case():
     show_user = get_valid_show_user(ShowUserConfiguration())
-    assert show_user.altitude_range == (0.0, 1.0)
     assert show_user.altitude_range == (0.0, 1.0)

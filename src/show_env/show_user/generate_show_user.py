@@ -148,6 +148,16 @@ def get_valid_fire_events(
     ]
 
 
+def get_drone_user_index_by_parameter(
+    index_x: int,
+    index_y: int,
+    nb_x: int,
+    family_index: int,
+    nb_drone_per_family: int,
+) -> int:
+    return nb_drone_per_family * (index_y * nb_x + index_x) + family_index
+
+
 def get_valid_show_user(
     show_user_configuration: ShowUserConfiguration,
 ) -> ShowUser:
@@ -157,11 +167,15 @@ def get_valid_show_user(
     index_bias_y = (
         0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
     )
-    # TODO: test the index
     valid_drones_user = [
         DroneUser(
-            index=show_user_configuration.nb_drone_per_family
-            * (index_y * show_user_configuration.nb_x + index_x),
+            index=get_drone_user_index_by_parameter(
+                index_x,
+                index_y,
+                show_user_configuration.nb_x,
+                family_index,
+                show_user_configuration.nb_drone_per_family,
+            ),
             position_events=get_valid_position_events_user(
                 index_x, index_bias_x, index_y, index_bias_y, show_user_configuration
             ),
@@ -170,7 +184,7 @@ def get_valid_show_user(
         )
         for index_y in range(show_user_configuration.nb_y)
         for index_x in range(show_user_configuration.nb_x)
-        for _ in range(show_user_configuration.nb_drone_per_family)
+        for family_index in range(show_user_configuration.nb_drone_per_family)
     ]
     return ShowUser(drones_user=valid_drones_user)
 

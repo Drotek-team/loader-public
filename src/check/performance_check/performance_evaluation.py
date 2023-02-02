@@ -95,8 +95,6 @@ METRICS_RANGE = MetricsRange(
 
 METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
 
-# TODO: add index check for performance/collision/dance size check
-
 
 def performance_evaluation(
     drone_index: int, frame: int, performance: Performance
