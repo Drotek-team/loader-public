@@ -6,7 +6,9 @@ This project goal is to help the creation and verification of Drotek dance file.
 
 ### Installation of the python tools
 
-- Install pyenv and poetry [pyenv & poetry](https://drotek.atlassian.net/wiki/spaces/DRONE/pages/36143105/Python+Tools+Tutorial)
+1. Install pyenv
+
+1. Install poetry
 
 ### Installation of the module in your project
 
