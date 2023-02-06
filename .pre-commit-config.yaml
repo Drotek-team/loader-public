@@ -14,7 +14,7 @@ repos:
         exclude: ^mqtt_mock/(messages/(topics|mqtt)|mavlink)
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
+    rev: 5.12.0
     hooks:
       # Sort imports from python files
       - id: isort
