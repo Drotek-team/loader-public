@@ -1,15 +1,12 @@
 from dataclasses import dataclass
-from typing import List
-
-import numpy as np
-import numpy.typing as npt
+from typing import Any, List
 
 
 @dataclass(frozen=True)
 class Performance:
-    position: npt.NDArray[np.float64]
-    velocity: npt.NDArray[np.float64]
-    acceleration: npt.NDArray[np.float64]
+    position: Any
+    velocity: Any
+    acceleration: Any
 
 
 @dataclass(frozen=True)
@@ -18,15 +15,15 @@ class TrajectoryPerformanceInfo:
     performance: Performance
 
     @property
-    def position(self) -> npt.NDArray[np.float64]:
+    def position(self) -> Any:
         return self.performance.position
 
     @property
-    def velocity(self) -> npt.NDArray[np.float64]:
+    def velocity(self) -> Any:
         return self.performance.velocity
 
     @property
-    def acceleration(self) -> npt.NDArray[np.float64]:
+    def acceleration(self) -> Any:
         return self.performance.acceleration
 
 

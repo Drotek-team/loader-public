@@ -1,5 +1,6 @@
+from typing import Any
+
 import numpy as np
-import numpy.typing as npt
 
 from .collision_math import (
     get_border_indices,
@@ -9,7 +10,7 @@ from .collision_math import (
 )
 
 
-def get_numpy_grid(nb_x: int, nb_y: int) -> npt.NDArray[np.float64]:
+def get_numpy_grid(nb_x: int, nb_y: int) -> Any:
     return np.array(
         [(index_x, index_y, 0) for index_x in range(nb_x) for index_y in range(nb_y)]
     )

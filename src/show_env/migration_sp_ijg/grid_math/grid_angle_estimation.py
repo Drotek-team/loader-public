@@ -1,12 +1,11 @@
-from typing import Tuple
+from typing import Any, Tuple
 
 import numpy as np
-import numpy.typing as npt
 
 from .grid import Grid, HorizontalPosition
 
 
-def get_angle_degree_from_vector(u_x: npt.NDArray[np.float64]) -> float:
+def get_angle_degree_from_vector(u_x: Any) -> float:
     u_x_unit = u_x / np.linalg.norm(u_x)
     return np.arctan2(u_x_unit[1], u_x_unit[0])
 

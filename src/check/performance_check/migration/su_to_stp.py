@@ -1,7 +1,6 @@
-from typing import List
+from typing import Any, List
 
 import numpy as np
-import numpy.typing as npt
 
 from ....parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ....show_env.show_user.show_user import PositionEventUser, ShowUser
@@ -13,9 +12,7 @@ from .show_trajectory_performance import (
 )
 
 
-def get_velocities_from_positions(
-    frames: List[int], positions: List[npt.NDArray[np.float64]]
-) -> List[npt.NDArray[np.float64]]:
+def get_velocities_from_positions(frames: List[int], positions: List[Any]) -> List[Any]:
     extended_frames = [frames[0] - 1] + frames
     extended_positions = [positions[0]] + positions
     return [
@@ -32,8 +29,8 @@ def get_velocities_from_positions(
 
 
 def get_accelerations_from_velocities(
-    frames: List[int], velocities: List[npt.NDArray[np.float64]]
-) -> List[npt.NDArray[np.float64]]:
+    frames: List[int], velocities: List[Any]
+) -> List[Any]:
     extended_frames = [frames[0] - 1] + frames
     extended_velocities = [velocities[0]] + velocities
     return [

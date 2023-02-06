@@ -1,7 +1,4 @@
-from typing import List, Tuple
-
-import numpy as np
-import numpy.typing as npt
+from typing import Any, List, Tuple
 
 from ...parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
 from ...parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
@@ -10,7 +7,7 @@ from .position_simulation import SimulationInfo, linear_interpolation
 
 def generate_land_first_part(
     land_start_position: Tuple[float, float, float],
-) -> List[npt.NDArray[np.float64]]:
+) -> List[Any]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
@@ -27,7 +24,7 @@ def generate_land_first_part(
 
 def generate_land_second_part(
     land_start_position: Tuple[float, float, float],
-) -> List[npt.NDArray[np.float64]]:
+) -> List[Any]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],

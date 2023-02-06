@@ -1,7 +1,4 @@
-from typing import Tuple
-
-import numpy as np
-import numpy.typing as npt
+from typing import Any, Tuple
 
 from ....show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -12,7 +9,7 @@ from .su_to_stp import get_trajectory_performance_info_from_position_events, su_
 
 
 def from_ca_to_ct(
-    coordinate_array: npt.NDArray[np.float64],
+    coordinate_array: Any,
 ) -> Tuple[float, float, float]:
     return (coordinate_array[0], coordinate_array[1], coordinate_array[2])
 

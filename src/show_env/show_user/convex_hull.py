@@ -1,12 +1,9 @@
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 import numpy as np
-import numpy.typing as npt
 
 
-def get_relative_angle(
-    origin: npt.NDArray[np.float64], coordinate: npt.NDArray[np.float64]
-) -> float:
+def get_relative_angle(origin: Any, coordinate: Any) -> float:
     if np.array_equal(origin, coordinate):
         msg = "get_relative_angle(): origin is equal to coordinate"
         raise ValueError(msg)
@@ -15,37 +12,33 @@ def get_relative_angle(
     return u_vector[0]
 
 
-def sorted_by_pivot(
-    positions: npt.NDArray[np.float64], pivot: npt.NDArray[np.float64]
-) -> List[npt.NDArray[np.float64]]:
+def sorted_by_pivot(positions: Any, pivot: Any) -> List[Any]:
     argsort = np.argsort(
         [get_relative_angle(pivot, position) for position in positions]
     )
     return list(positions[argsort])
 
 
-def evaluate_pivot(positions: List[npt.NDArray[np.float64]]) -> npt.NDArray[np.float64]:
+def evaluate_pivot(positions: List[Any]) -> Any:
     return max(positions, key=lambda u: u[1])
 
 
 def two_dimensionnal_cross_product(
-    position_0: npt.NDArray[np.float64],
-    position_1: npt.NDArray[np.float64],
-    position_2: npt.NDArray[np.float64],
+    position_0: Any,
+    position_1: Any,
+    position_2: Any,
 ) -> float:
     return (position_1[0] - position_0[0]) * (position_2[1] - position_0[1]) - (
         position_1[1] - position_0[1]
     ) * (position_2[0] - position_0[0])
 
 
-def tuple_list_to_array_list(
-    tuple_list: List[Tuple[float, float]]
-) -> List[npt.NDArray[np.float64]]:
+def tuple_list_to_array_list(tuple_list: List[Tuple[float, float]]) -> List[Any]:
     return [np.array(tuple_element) for tuple_element in tuple_list]
 
 
 def array_list_to_tuple_list(
-    array_list: List[npt.NDArray[np.float64]],
+    array_list: List[Any],
 ) -> List[Tuple[float, float]]:
     return [
         (float(array_element[0]), float(array_element[1]))

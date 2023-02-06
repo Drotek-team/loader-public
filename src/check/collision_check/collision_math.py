@@ -1,7 +1,6 @@
 from typing import Any, List
 
 import numpy as np
-import numpy.typing as npt
 
 from ...report.report import CollisionInfraction
 
@@ -9,8 +8,8 @@ ARBITRARY_DICHOTOMY_THRESHOLD = 400_000
 
 
 def get_couple_distance_matrix(
-    positions_numpy: npt.NDArray[np.float64],
-) -> npt.NDArray[np.float64]:
+    positions_numpy: Any,
+) -> Any:
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
     return config_matrix + np.linalg.norm(
         positions_numpy[:, None, :] - positions_numpy[None, :, :], axis=-1
@@ -19,8 +18,8 @@ def get_couple_distance_matrix(
 
 def get_collision_infractions(
     frame: int,
-    local_drone_indices: npt.NDArray[np.int32],
-    local_drone_positions: npt.NDArray[np.float64],
+    local_drone_indices: Any,
+    local_drone_positions: Any,
     endangered_distance: float,
     *,
     in_air: bool,
@@ -61,17 +60,15 @@ def get_collision_infractions(
 
 
 def get_principal_axis(
-    positions_numpy: npt.NDArray[np.float64],
-) -> npt.NDArray[np.float64]:
+    positions_numpy: Any,
+) -> Any:
     x_meaned = positions_numpy - np.mean(positions_numpy, axis=0)
     cov_mat = np.cov(x_meaned, rowvar=False)
     eigen_values, eigen_vectors = np.linalg.eigh(cov_mat)
     return eigen_vectors[:, np.argsort(eigen_values)[-1]]
 
 
-def get_border_indices(
-    sorted_positions_numpy: npt.NDArray[np.float64], endangered_distance: float
-) -> npt.NDArray[np.float64]:
+def get_border_indices(sorted_positions_numpy: Any, endangered_distance: float) -> Any:
     middle_position_numpy = sorted_positions_numpy[len(sorted_positions_numpy) // 2]
     return np.arange(
         np.searchsorted(
@@ -93,8 +90,8 @@ def get_unique_list_from_list(non_unique_list: List[Any]) -> List[Any]:
 
 def get_optimized_collision_infractions(
     frame: int,
-    local_indices: npt.NDArray[np.int32],
-    local_positions_numpy: npt.NDArray[np.float64],
+    local_indices: Any,
+    local_positions_numpy: Any,
     endangered_distance: float,
     *,
     in_air: bool,

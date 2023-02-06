@@ -1,7 +1,6 @@
-from typing import List
+from typing import Any, List
 
 import numpy as np
-import numpy.typing as npt
 
 
 class ShowSimulationSlice:
@@ -12,25 +11,25 @@ class ShowSimulationSlice:
         self._in_air_flags = np.array([False for _ in range(nb_drones)])
 
     def update_position_air_flag(
-        self, index: int, position: npt.NDArray[np.float64], *, in_air_flag: bool
+        self, index: int, position: Any, *, in_air_flag: bool
     ) -> None:
         self._positions[index] = position
         self._in_air_flags[index] = in_air_flag
 
     @property
-    def in_air_indices(self) -> npt.NDArray[np.int32]:
+    def in_air_indices(self) -> Any:
         return self._indices[self._in_air_flags]
 
     @property
-    def on_ground_indices(self) -> npt.NDArray[np.int32]:
+    def on_ground_indices(self) -> Any:
         return self._indices[np.invert(self._in_air_flags)]
 
     @property
-    def in_air_positions(self) -> npt.NDArray[np.float64]:
+    def in_air_positions(self) -> Any:
         return self._positions[self._in_air_flags]
 
     @property
-    def on_ground_positions(self) -> npt.NDArray[np.float64]:
+    def on_ground_positions(self) -> Any:
         return self._positions[np.invert(self._in_air_flags)]
 
 

@@ -1,9 +1,8 @@
 import math
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 import numpy as np
-import numpy.typing as npt
 
 from ...show_user.generate_show_user import (
     GridConfiguration,
@@ -19,7 +18,7 @@ class Coordinate:
     y: float  # ENU in meter
 
     @property
-    def xy_array(self) -> npt.NDArray[np.float64]:
+    def xy_array(self) -> Any:
         return np.array((self.x, self.y))
 
     @property
@@ -54,7 +53,7 @@ class HorizontalPosition:
         return self.coordinate.y
 
     @property
-    def xy_array(self) -> npt.NDArray[np.float64]:
+    def xy_array(self) -> Any:
         return self.coordinate.xy_array
 
     @property
