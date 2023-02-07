@@ -1,9 +1,9 @@
-from dataclasses import dataclass
 from typing import List, Tuple
 
+from pydantic import BaseModel
 
-@dataclass(frozen=True)
-class ShowConfigurationGcs:
+
+class ShowConfigurationGcs(BaseModel):
     nb_x: int  # Number of families on the x-axis during the takeoff
     nb_y: int  # Number of families on the y-axis during the takeoff
     nb_drone_per_family: int  # Number of drones in each families

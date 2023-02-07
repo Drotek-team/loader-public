@@ -14,6 +14,7 @@ from .editor import (
     get_drotek_check_from_show_user,
     get_drotek_json_check_from_iostar_json_gcs_string,
     get_performance_infractions,
+    get_show_configuration_from_iostar_json_gcs_string,
     get_verified_iostar_json_gcs,
     import_iostar_json_gcs_string_to_show_user,
 )
@@ -79,9 +80,26 @@ def test_get_drotek_json_check_from_iostar_json_gcs_string():
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=3))
     ).json()
     assert (
-        get_drotek_json_check_from_iostar_json_gcs_string(iostar_json_gcs_string)
-        == "{}"
+        get_drotek_json_check_from_iostar_json_gcs_string(iostar_json_gcs_string) == {}
     )
+
+
+def test_get_show_configuration_from_iostar_json_gcs_string():
+    iostar_json_gcs_string = su_to_ijg(
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=3))
+    ).json()
+    assert get_show_configuration_from_iostar_json_gcs_string(
+        iostar_json_gcs_string
+    ) == {
+        "nb_x": 2,
+        "nb_y": 3,
+        "nb_drone_per_family": 1,
+        "step": 100,
+        "angle_takeoff": 0,
+        "duration": 42541,
+        "hull": [[100, -50], [0, -50], [-100, 50], [100, 50]],
+        "altitude_range": [-100, 0],
+    }
 
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs

@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Any, Dict
 
 from pydantic import NonNegativeInt
 
@@ -24,6 +24,7 @@ from .report.report import Contenor
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
+from .show_env.migration_sp_ijg.su_to_scg import su_to_scg
 from .show_env.show_user.show_user import DroneUser, ShowUser
 
 
@@ -80,12 +81,22 @@ def get_drotek_check_from_iostar_json_gcs_string(iostar_json_gcs_string: str) ->
 
 def get_drotek_json_check_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
-) -> str:
-    """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
+) -> Dict[str, Any]:
+    """Return a report of iostar json gcs string validity in the dict format. The show user is valid if the report is empty."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
-    return json.dumps(show_check_report.get_json())
+    return show_check_report.get_json()
+
+
+def get_show_configuration_from_iostar_json_gcs_string(
+    iostar_json_gcs_string: str,
+) -> Dict[str, Any]:
+    """Return the show configuration in the dict format from an iostar json gcs string."""
+    iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
+    show_user = ijg_to_su(iostar_json_gcs)
+    show_configuration_gcs = su_to_scg(show_user)
+    return json.loads(show_configuration_gcs.json())
 
 
 def export_show_user_to_iostar_json_gcs_string(
