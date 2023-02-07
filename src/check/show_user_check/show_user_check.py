@@ -45,7 +45,7 @@ def apply_multiple_events_takeoff_duration_check(drone_user: DroneUser) -> Displ
     second_time = drone_user.position_events[1].absolute_time
     if (
         np.abs((second_time - first_time) - TAKEOFF_PARAMETER.takeoff_duration_second)
-        < 1e-8
+        < 1 / 24 + 1e-8
     ):
         takeoff_duration_displayer.validate()
     else:

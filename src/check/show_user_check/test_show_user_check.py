@@ -58,7 +58,7 @@ def invalid_drone_user_takeoff_duration() -> DroneUser:
                 frame=FRAME_PARAMETER.from_second_to_frame(
                     TAKEOFF_PARAMETER.takeoff_duration_second
                 )
-                + 1,
+                + 2,
                 xyz=(0.0, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
             ),
         ],
