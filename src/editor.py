@@ -63,13 +63,13 @@ def get_dance_size_infractions(show_user: ShowUser) -> Contenor:
     return apply_show_px4_check(show_user)
 
 
-def global_check_show_user(show_user: ShowUser) -> str:
+def get_drotek_check_from_show_user(show_user: ShowUser) -> str:
     """Return a report of show user validity as a string. The show user is valid if the report is empty."""
     show_check_report = apply_all_check_from_show_user(show_user)
     return show_check_report.display_message()
 
 
-def global_check_iostar_json_gcs(iostar_json_gcs_string: str) -> str:
+def get_drotek_check_from_iostar_json_gcs_string(iostar_json_gcs_string: str) -> str:
     """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
@@ -81,9 +81,6 @@ def export_show_user_to_iostar_json_gcs_string(
     show_user: ShowUser,
 ) -> str:
     """Return a check iostar json gcs from a show user object."""
-    check_contenor = apply_all_check_from_show_user(show_user)
-    if not (check_contenor.user_validation):
-        raise ValueError(check_contenor.display_message())
     return su_to_ijg(show_user).json()
 
 

@@ -108,6 +108,10 @@ class ShowUser(BaseModel):
     def nb_drones(self) -> int:
         return len(self.drones_user)
 
+    @property
+    def drones_user_indices(self) -> List[int]:
+        return [drone_user.index for drone_user in self.drones_user]
+
     def update_drones_user_indices(self, indices: List[int]) -> None:
         if len(indices) != len(self.drones_user):
             msg = f"Indices length {len(indices)} != drones_user length {len(self.drones_user)}"
