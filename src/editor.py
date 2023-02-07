@@ -1,3 +1,4 @@
+import json
 from typing import Dict
 
 from pydantic import NonNegativeInt
@@ -75,6 +76,16 @@ def get_drotek_check_from_iostar_json_gcs_string(iostar_json_gcs_string: str) ->
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = apply_all_check_from_show_user(show_user)
     return show_check_report.display_message()
+
+
+def get_drotek_json_check_from_iostar_json_gcs_string(
+    iostar_json_gcs_string: str,
+) -> str:
+    """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
+    iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
+    show_user = ijg_to_su(iostar_json_gcs)
+    show_check_report = apply_all_check_from_show_user(show_user)
+    return json.dumps(show_check_report.get_json())
 
 
 def export_show_user_to_iostar_json_gcs_string(

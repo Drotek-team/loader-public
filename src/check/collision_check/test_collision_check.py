@@ -48,6 +48,7 @@ def test_valid_simulation_in_air():
     assert len(simulation_collision_contenor._error_messages) == 0  # type:ignore[test]
 
 
+# TODO: no family in these tests
 def test_invalid_simulation_in_air():
     invalid_show_user_on_ground = get_valid_show_user(
         ShowUserConfiguration(

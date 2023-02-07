@@ -12,6 +12,7 @@ from .editor import (
     get_dance_size_infractions,
     get_drotek_check_from_iostar_json_gcs_string,
     get_drotek_check_from_show_user,
+    get_drotek_json_check_from_iostar_json_gcs_string,
     get_performance_infractions,
     get_verified_iostar_json_gcs,
     import_iostar_json_gcs_string_to_show_user,
@@ -71,6 +72,16 @@ def test_global_check_iostar_json_gcs():
         get_valid_show_user(ShowUserConfiguration())
     ).json()
     assert get_drotek_check_from_iostar_json_gcs_string(iostar_json_gcs_string) == ""
+
+
+def test_get_drotek_json_check_from_iostar_json_gcs_string():
+    iostar_json_gcs_string = su_to_ijg(
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=3))
+    ).json()
+    assert (
+        get_drotek_json_check_from_iostar_json_gcs_string(iostar_json_gcs_string)
+        == "{}"
+    )
 
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs

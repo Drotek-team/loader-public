@@ -1,3 +1,5 @@
+import json
+
 from .report import Contenor, Displayer
 
 
@@ -14,7 +16,7 @@ def test_displayer_standard_case():
     assert displayer.display_message() == ""
 
 
-def test_contenor_standard_case():
+def test_contenor_display_message_standard_case():
     dummy_contenor = Contenor("Dummy contenor")
     dummy_contenor.add_error_message(Displayer("one"))
     dummy_contenor.add_error_message(Displayer("two"))
@@ -30,15 +32,64 @@ def test_contenor_standard_case():
     f = "  [Displayer] four \n"
     assert dummy_contenor.display_message() == a + b + c + d + e + f
     assert not (dummy_contenor.user_validation)
+
     dummy_contenor["one"]._validation = True  # type:ignore[for the sack of the test]
     assert dummy_contenor.display_message() == a + c + d + e + f
     assert not (dummy_contenor.user_validation)
+
     dummy_contenor["two"]._validation = True  # type:ignore[for the sack of the test]
     assert dummy_contenor.display_message() == a + d + e + f
     assert not (dummy_contenor.user_validation)
+
     dummy_contenor["Dummier contenor"]["three"]._validation = True  # type: ignore[test env]
     assert dummy_contenor.display_message() == a + d + f
     assert not (dummy_contenor.user_validation)
+
     dummy_contenor["Dummier contenor"]["four"]._validation = True  # type: ignore[test env]
     assert dummy_contenor.display_message() == ""
+    assert dummy_contenor.user_validation
+
+
+def test_contenor_get_json_standard_case():
+    dummy_contenor = Contenor("Dummy contenor")
+    dummy_contenor.add_error_message(Displayer("one"))
+    dummy_contenor.add_error_message(Displayer("two"))
+    dummier_contenor = Contenor("Dummier contenor")
+    dummier_contenor.add_error_message(Displayer("three"))
+    dummier_contenor.add_error_message(Displayer("four"))
+    dummy_contenor.add_error_message(dummier_contenor)
+    returned_json = {
+        "Dummy contenor": [
+            {"one": ""},
+            {"two": ""},
+            {
+                "Dummier contenor": [{"three": ""}, {"four": ""}],
+            },
+        ],
+    }
+    assert dummy_contenor.get_json() == returned_json
+    assert json.loads(json.dumps(returned_json)) == returned_json
+    assert not (dummy_contenor.user_validation)
+
+    dummy_contenor["one"]._validation = True  # type:ignore[for the sack of the test]
+    returned_json["Dummy contenor"] = returned_json["Dummy contenor"][1:]
+    assert dummy_contenor.get_json() == returned_json
+    assert not (dummy_contenor.user_validation)
+
+    dummy_contenor["two"]._validation = True  # type:ignore[for the sack of the test]
+    returned_json["Dummy contenor"] = returned_json["Dummy contenor"][1:]
+    assert dummy_contenor.get_json() == returned_json
+    assert not (dummy_contenor.user_validation)
+
+    dummy_contenor["Dummier contenor"][
+        "three"
+    ]._validation = True  # type:ignore[for the sack of the test]
+    returned_json["Dummy contenor"][0]["Dummier contenor"] = returned_json[
+        "Dummy contenor"
+    ][0]["Dummier contenor"][1:]
+    assert dummy_contenor.get_json() == returned_json
+    assert not (dummy_contenor.user_validation)
+
+    dummy_contenor["Dummier contenor"]["four"]._validation = True  # type: ignore[test env]
+    assert dummy_contenor.get_json() == {}
     assert dummy_contenor.user_validation

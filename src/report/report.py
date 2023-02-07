@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 
 class ErrorMessage(ABC):
@@ -14,6 +14,10 @@ class ErrorMessage(ABC):
     def display_message(self, indentation_level: int = 0) -> str:
         indentation_type = " "
         return f"{indentation_level * indentation_type}"
+
+    @abstractmethod
+    def get_json(self) -> Dict[str, Any]:
+        pass
 
 
 class Displayer(ErrorMessage):
@@ -42,6 +46,9 @@ class Displayer(ErrorMessage):
         if self._annexe_message == "":
             return f"{message_begin}[Displayer] {self.name} \n"
         return f"{message_begin}[Displayer] {self.name}:{self._annexe_message} \n"
+
+    def get_json(self) -> Dict[str, Any]:
+        return {self.name: self._annexe_message}
 
     def validate(self):
         self._validation = True
@@ -78,6 +85,9 @@ class PerformanceInfraction(ErrorMessage):
             f" ({metric_convention_name}: {self.threshold}) at the frame {self.frame} \n"
         )
 
+    def get_json(self) -> Dict[str, Any]:
+        return {self.name: self.display_message()}
+
 
 @dataclass(frozen=True)
 class CollisionInfraction(ErrorMessage):
@@ -105,6 +115,9 @@ class CollisionInfraction(ErrorMessage):
             f"between drone {self.drone_index_1} and drone {self.drone_index_2} "
             f"{'in air' if self.in_air else 'on ground'} with a distance of {self.distance:.2f} \n"
         )
+
+    def get_json(self) -> Dict[str, Any]:
+        return {self.name: self.display_message()}
 
 
 class Contenor(ErrorMessage):
@@ -156,3 +169,14 @@ class Contenor(ErrorMessage):
             ]
         )
         return initial_message + children_message
+
+    def get_json(self) -> Dict[str, Any]:
+        if self.user_validation:
+            return {}
+        return {
+            self.name: [
+                error_message.get_json()
+                for error_message in self._error_messages.values()
+                if not (error_message.user_validation)
+            ],
+        }
