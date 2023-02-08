@@ -12,7 +12,10 @@ from .show_trajectory_performance import (
 )
 
 
+# TODO: add the corner case test
 def get_velocities_from_positions(frames: List[int], positions: List[Any]) -> List[Any]:
+    if len(positions) == 1:
+        return [np.array([0, 0, 0])]
     extended_frames = [frames[0] - 1] + frames
     extended_positions = [positions[0]] + positions
     return [
@@ -28,9 +31,12 @@ def get_velocities_from_positions(frames: List[int], positions: List[Any]) -> Li
     ]
 
 
+# TODO: add the corner case test
 def get_accelerations_from_velocities(
     frames: List[int], velocities: List[Any]
 ) -> List[Any]:
+    if len(velocities) == 1:
+        return [np.array([0, 0, 0])]
     extended_frames = [frames[0] - 1] + frames
     extended_velocities = [velocities[0]] + velocities
     return [
