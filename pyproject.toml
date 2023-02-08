@@ -6,22 +6,21 @@ authors = ["Thomas PERRIN <thomas.perrin@drotek.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.8.2"
-numpy = "^1.23.4"
-pydantic = "^1.10.2"
+python = "^3.8"
+numpy = "^1.24.2"
+pydantic = "^1.10.4"
 
 
 [tool.poetry.group.dev.dependencies]
-black = { version = "^22.10.0", allow-prereleases = true }
-flake8 = "^5.0.4"
-mypy = "^0.990"
-pre-commit = "^2.20.0"
-ruff = "0.0.217"
-pytest-cov = "^4.0.0"
-pyright = "^1.1.290"
+black = "^23.1.0"
 hypothesis = "^6.67.1"
+pre-commit = "^3.0.4"
+pyright = "^1.1.293"
+pytest = "^7.2.1"
 pytest-clarity = "^1.0.1"
+pytest-cov = "^4.0.0"
 pytest-xdist = "^3.2.0"
+ruff = "^0.0.243"
 
 [build-system]
 requires = ["poetry-core"]
@@ -34,59 +33,33 @@ target-version = ['py38']
 profile = "black"
 
 [tool.pyright]
-venvPath = "."
+typeCheckingMode = "strict"
 venv = ".venv"
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
-required-version = "0.0.217"
+required-version = "0.0.243"
 target-version = "py38"
-update-check = false
-src = ["src"]
-select = [
-    "A",   # builtins
-    "B",   # bugbear
-    "BLE", # blind except
-    "C",   # comprehension and mccabe
-    "D",   # docstring
-    "DTZ", # datetimez
-    "E",   # style errors
-    "EM",  # error messages
-    "ERA", # eradicate
-    "F",   # flakes
-    "I",   # import
-    "ISC", # implicit str concat
-    "ICN", # import conventions
-    "FBT", # boolean trap
-    "N",   # naming
-    "PT",  # pytest style
-    "PD",  # pandas-vet
-    "PGH", # pygrep-hooks
-    "PIE", # pie
-    "PLC", # pylint convention
-    "PLE", # pylint error
-    "PLR", # pylint refactor
-    "PLW", # pylint warning
-    "Q",   # quotes
-    "RET", # return
-    "RUF", # ruff
-    "S",   # bandit
-    "SIM", # simplify
-    # "T20",   # print # TODO: use logging instead of print
-    "T10", # debugger
-    # "TID", # tidy-imports
-    # "UP",   # pyupgrade # TODO: enable when ruff reach feature parity
-    "W",   # style warnings
-    "YTT", # sys.version
-]
-
+src = ["loader"]
+select = ["ALL"]
 ignore = [
-    "D10",    # Missing docstring
-    "E501",   # Line too long
-    "S101",   # Use of `assert` detected
-    "PGH003", # Allow "type: ignore"
+    "ANN101",  # missing-type-self
+    "ANN102",  # missing-type-cls
+    "D10",     # missing-docstring
+    "E501",    # line-too-long
+    "PLR0913", # too-many-arguments # TODO: Use dataclass instead
+    "PLR2004", # magic-value-comparison
+    "S101",    # assert-used
+    "TCH",     # type-checking
 ]
 unfixable = [
-    "ERA001", # Found commented-out code
+    "B007",   # unused-loop-control-variable
+    "B021",   # f-string-docstring
+    "ERA001", # commented-out-code
+    "F401",   # unused-import
+    "F541",   # f-string-missing-placeholders
+    "F841",   # unused-variable
+    "RUF100", # unused-noqa
+    "T20",    # print-found
 ]
 
 [tool.ruff.pydocstyle]
@@ -97,5 +70,29 @@ fixture-parentheses = false
 mark-parentheses = false
 parametrize-names-type = "csv"
 
+[tool.ruff.per-file-ignores]
+"tests/*.py" = ["SLF001"]
+
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+addopts = "--color=yes --exitfirst --failed-first --strict-config --strict-markers"
+filterwarnings = ["error"]
+pythonpath = ["loader"]
+xfail_strict = true
+
+[tool.coverage.run] # https://coverage.readthedocs.io/en/latest/config.html#run
+branch = true
+
+[tool.coverage.report] # https://coverage.readthedocs.io/en/latest/config.html#report
+fail_under = 75
+precision = 1
+show_missing = true
+skip_covered = true
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    # Don't complain if tests do not hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
