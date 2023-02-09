@@ -1,34 +1,45 @@
-from loader.report.report import Contenor
+from typing import Optional
+
+from loader.report.report import BaseReport
 from loader.show_env.show_user.show_user import ShowUser
 
 from .collision_check.show_simulation_collision_check import (
-    apply_show_simulation_collision_check,
+    CollisionReport,
+    get_collision_report,
 )
 from .performance_check.show_trajectory_performance_check import (
-    apply_show_trajectory_performance_check,
+    PerformanceReport,
+    get_performance_report,
 )
-from .show_px4_check.show_px4_check import apply_show_px4_check
-from .show_user_check.show_user_check import apply_show_user_check
+from .show_px4_check.show_px4_check import ShowPx4Report, apply_show_px4_report
+from .show_user_check.show_user_check import ShowUserReport, get_show_user_report
 
 
-def apply_all_check_from_show_user(
+class GlobalReport(BaseReport):
+    show_user_report: Optional[ShowUserReport] = None
+    show_px4_report: Optional[ShowPx4Report] = None
+    performance_report: Optional[PerformanceReport] = None
+    collision_report: Optional[CollisionReport] = None
+
+
+def get_global_report(
     show_user: ShowUser,
-) -> Contenor:
-    check_contenor = Contenor("Check")
-    check_contenor.add_error_message(apply_show_user_check(show_user))
-    if not (check_contenor["show user check"].user_validation):
-        return check_contenor
-    check_contenor.add_error_message(apply_show_px4_check(show_user))
-    if not (check_contenor["show px4 check"].user_validation):
-        return check_contenor
-    check_contenor.add_error_message(
-        apply_show_trajectory_performance_check(
-            show_user,
-        ),
+) -> GlobalReport:
+    show_user_infraction = get_show_user_report(show_user)
+    if show_user_infraction is not None:
+        return GlobalReport(show_user_report=show_user_infraction)
+    show_px4_infraction = apply_show_px4_report(show_user)
+    if show_px4_infraction is not None:
+        return GlobalReport(show_px4_report=show_px4_infraction)
+    performance_report = get_performance_report(
+        show_user,
     )
-    check_contenor.add_error_message(
-        apply_show_simulation_collision_check(
-            show_user,
-        ),
+    collision_infraction = get_collision_report(
+        show_user,
     )
-    return check_contenor
+    return GlobalReport(
+        show_user_report=show_px4_infraction,
+        show_px4_report=show_px4_infraction,
+        performance_report=performance_report,
+        collision_report=collision_infraction,
+    )

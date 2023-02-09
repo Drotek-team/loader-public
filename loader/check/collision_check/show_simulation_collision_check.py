@@ -1,10 +1,11 @@
-from typing import List
+import itertools
+from typing import List, Optional
 
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report.report import CollisionInfraction, Contenor
+from loader.report.report import BaseReport
 from loader.show_env.show_user.show_user import ShowUser
 
-from .collision_math import get_optimized_collision_infractions
+from .collision_math import CollisionInfraction, get_optimized_collision_infractions
 from .migration.show_simulation import ShowSimulation, ShowSimulationSlice
 from .migration.stc_to_ssc import stc_to_ss
 from .migration.su_to_stc import su_to_stc
@@ -30,39 +31,39 @@ def get_collision_infractions(
     return on_ground_collision_infractions + in_air_collision_infractions
 
 
-def get_collision_slice_check_report(
-    frame: int,
-    collision_infractions: List[CollisionInfraction],
-) -> Contenor:
-    collision_slice_contenor = Contenor(
-        f"Collision slice check report at frame {frame}",
+def get_collision_infractions_from_show_simulation(
+    show_simulation: ShowSimulation,
+) -> List[CollisionInfraction]:
+    global_collision_infractions: List[CollisionInfraction] = []
+    for show_simulation_slice in show_simulation.show_slices:
+        local_collision_infractions = get_collision_infractions(show_simulation_slice)
+        if local_collision_infractions:
+            global_collision_infractions += local_collision_infractions
+
+    return list(
+        itertools.chain.from_iterable(
+            [
+                get_collision_infractions(show_simulation_slice)
+                for show_simulation_slice in show_simulation.show_slices
+            ],
+        ),
     )
-    for collision_infraction in collision_infractions:
-        collision_slice_contenor.add_error_message(collision_infraction)
-    return collision_slice_contenor
+
+
+class CollisionReport(BaseReport):
+    collision_infractions: List[CollisionInfraction]
 
 
 def su_to_ss(show_user: ShowUser) -> ShowSimulation:
     return stc_to_ss(su_to_stc(show_user))
 
 
-def apply_show_simulation_check_to_show_simulation(
-    show_simulation: ShowSimulation,
-) -> Contenor:
-    show_simulation_collision_contenor = Contenor("Show simulation collision contenor")
-    for show_simulation_slice in show_simulation.show_slices:
-        collision_infractions = get_collision_infractions(show_simulation_slice)
-        if collision_infractions:
-            show_simulation_collision_contenor.add_error_message(
-                get_collision_slice_check_report(
-                    show_simulation_slice.frame,
-                    collision_infractions,
-                ),
-            )
-    return show_simulation_collision_contenor
-
-
-def apply_show_simulation_collision_check(
+def get_collision_report(
     show_user: ShowUser,
-) -> Contenor:
-    return apply_show_simulation_check_to_show_simulation(su_to_ss(show_user))
+) -> Optional[CollisionReport]:
+    collision_infractions = get_collision_infractions_from_show_simulation(
+        su_to_ss(show_user),
+    )
+    if collision_infractions:
+        return CollisionReport(collision_infractions=collision_infractions)
+    return None

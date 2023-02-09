@@ -1,15 +1,12 @@
-import json
-from typing import Any, Dict
+from typing import Dict, List
 
 from pydantic import NonNegativeInt
 
-from .check.all_check_from_show_user import (
-    apply_all_check_from_show_user,
-    apply_show_px4_check,
-)
+from .check.all_check_from_show_user import GlobalReport, get_global_report
 from .check.collision_check.migration.show_simulation import ShowSimulation
 from .check.collision_check.show_simulation_collision_check import (
-    apply_show_simulation_check_to_show_simulation,
+    CollisionInfraction,
+    get_collision_infractions_from_show_simulation,
 )
 from .check.performance_check.performance_evaluation import (
     METRICS_RANGE,
@@ -18,13 +15,19 @@ from .check.performance_check.performance_evaluation import (
     MetricRange,
 )
 from .check.performance_check.show_trajectory_performance_check import (
-    apply_show_trajectory_performance_check,
+    PerformanceInfraction,
+    get_performance_infractions_from_show_trajectory,
+    su_to_stp,
 )
-from .report.report import Contenor
+from .check.show_px4_check.show_px4_check import (
+    DanceSizeInfraction,
+    get_drone_px4_report,
+)
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
-from .show_env.migration_sp_ijg.su_to_scg import su_to_scg
+from .show_env.migration_sp_ijg.su_to_scg import ShowConfigurationGcs, su_to_scg
+from .show_env.migration_sp_su.su_to_sp import su_to_sp
 from .show_env.show_user.show_user import DroneUser, ShowUser
 
 
@@ -49,65 +52,62 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
 def get_performance_infractions(
     show_user: ShowUser,
     update_metrics_range: Dict[Metric, MetricRange],
-) -> Contenor:
-    """Return a contenor with all the performance infractions ordered by drone and by slice."""
+) -> List[PerformanceInfraction]:
+    """Return all the performance infractions ordered by drone and by slice."""
     METRICS_RANGE.update(update_metrics_range)
-    show_trajectory_performance_check = apply_show_trajectory_performance_check(
-        show_user,
+    performance_infractions = get_performance_infractions_from_show_trajectory(
+        su_to_stp(show_user),
     )
     METRICS_RANGE.update(METRICS_RANGE_COPY)
-    return show_trajectory_performance_check
+    return performance_infractions
 
 
-def get_collision_infractions(show_simulation: ShowSimulation) -> Contenor:
-    """Return a contenor with all the collision ordered by slice."""
-    return apply_show_simulation_check_to_show_simulation(show_simulation)
+def get_collision_infractions(
+    show_simulation: ShowSimulation,
+) -> List[CollisionInfraction]:
+    """Return all the collision infractions ordered by slice."""
+    return get_collision_infractions_from_show_simulation(show_simulation)
 
 
-def get_dance_size_infractions(show_user: ShowUser) -> Contenor:
-    """Return a contenor with the dance size report ordered by drones."""
-    return apply_show_px4_check(show_user)
+def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]:
+    """Return all dance size infractions ordered by drones."""
+    show_px4 = su_to_sp(show_user)
+    return [
+        dance_size_infraction
+        for drone_px4 in show_px4
+        if (drone_px4_report := get_drone_px4_report(drone_px4)) is not None
+        if (dance_size_infraction := drone_px4_report.dance_size_infraction) is not None
+    ]
 
 
-def get_drotek_check_from_show_user(show_user: ShowUser) -> str:
+def get_drotek_check_from_show_user(show_user: ShowUser) -> GlobalReport:
     """Return a report of show user validity as a string. The show user is valid if the report is empty."""
-    show_check_report = apply_all_check_from_show_user(show_user)
-    return show_check_report.display_message()
+    return get_global_report(show_user)
 
 
-def get_drotek_check_from_iostar_json_gcs_string(iostar_json_gcs_string: str) -> str:
+def get_drotek_check_from_iostar_json_gcs_string(
+    iostar_json_gcs_string: str,
+) -> GlobalReport:
     """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    show_check_report = apply_all_check_from_show_user(show_user)
-    return show_check_report.display_message()
-
-
-def get_drotek_json_check_from_iostar_json_gcs_string(
-    iostar_json_gcs_string: str,
-) -> Dict[str, Any]:
-    """Return a report of iostar json gcs string validity in the dict format. The show user is valid if the report is empty."""
-    iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
-    show_user = ijg_to_su(iostar_json_gcs)
-    show_check_report = apply_all_check_from_show_user(show_user)
-    return show_check_report.get_json()
+    return get_global_report(show_user)
 
 
 def get_show_configuration_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
-) -> Dict[str, Any]:
+) -> ShowConfigurationGcs:
     """Return the show configuration in the dict format from an iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    show_configuration_gcs = su_to_scg(show_user)
-    return json.loads(show_configuration_gcs.json())
+    return su_to_scg(show_user)
 
 
 def export_show_user_to_iostar_json_gcs_string(
     show_user: ShowUser,
-) -> str:
+) -> IostarJsonGcs:
     """Return a check iostar json gcs from a show user object."""
-    return su_to_ijg(show_user).json()
+    return su_to_ijg(show_user)
 
 
 def import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string: str) -> ShowUser:
@@ -116,11 +116,11 @@ def import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string: str) -> S
     return ijg_to_su(iostar_json_gcs)
 
 
-def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> str:
+def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> IostarJsonGcs:
     """Return a check iostar json gcs string from an iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    show_check_report = apply_all_check_from_show_user(show_user)
-    if not (show_check_report.user_validation):
-        raise ValueError(show_check_report.display_message())
-    return su_to_ijg(show_user).json()
+    show_check_report = get_global_report(show_user)
+    if not (show_check_report.json()):
+        raise ValueError(show_check_report.json())
+    return su_to_ijg(show_user)

@@ -35,7 +35,7 @@ class Events(ABC):
             return all(
                 [
                     self._events[event_index]
-                    == other._events[event_index]  # noqa: SLF001 # TODO: fix this
+                    == other._events[event_index]  # noqa: SLF001
                     for event_index in range(len(self._events))
                 ],
             )

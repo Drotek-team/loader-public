@@ -1,7 +1,7 @@
 import copy
 from dataclasses import dataclass
 from enum import Enum
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 
 import numpy as np
 
@@ -12,7 +12,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report.report import Contenor, PerformanceInfraction
+from loader.report.report import BaseReport
 
 
 @dataclass(frozen=True)
@@ -98,25 +98,29 @@ METRICS_RANGE = MetricsRange(
 METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
 
 
-def performance_evaluation(
+class PerformanceInfraction(BaseReport):
+    performance_name: str
+    drone_index: int
+    frame: int
+    value: float
+    threshold: float
+    metric_convention: bool
+
+
+def get_performance_infractions_from_performance(
     drone_index: int,
     frame: int,
     performance: Performance,
-) -> Contenor:
-    performance_evaluation_contenor = Contenor(
-        f"Performance evaluation at frame {frame}",
-    )
-    for metric in Metric:
-        if metric.validation(performance):
-            continue
-        performance_evaluation_contenor.add_error_message(
-            PerformanceInfraction(
-                drone_index=drone_index,
-                frame=frame,
-                name=metric.value,
-                value=metric.evaluation(performance),
-                threshold=metric.range_.threshold,
-                metric_convention=metric.range_.standard_convention,
-            ),
+) -> List[PerformanceInfraction]:
+    return [
+        PerformanceInfraction(
+            performance_name=metric.value,
+            drone_index=drone_index,
+            frame=frame,
+            value=metric.evaluation(performance),
+            threshold=metric.range_.threshold,
+            metric_convention=metric.range_.standard_convention,
         )
-    return performance_evaluation_contenor
+        for metric in Metric
+        if not metric.validation(performance)
+    ]

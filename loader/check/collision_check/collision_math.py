@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, TypeVar
 
 import numpy as np
 
-from loader.report.report import CollisionInfraction
+from loader.report.report import BaseReport
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -22,6 +22,14 @@ def get_couple_distance_matrix(
         positions_numpy[:, None, :] - positions_numpy[None, :, :],
         axis=-1,
     )
+
+
+class CollisionInfraction(BaseReport):
+    frame: int
+    drone_index_1: int
+    drone_index_2: int
+    distance: float
+    in_air: bool
 
 
 def get_collision_infractions(
@@ -45,7 +53,6 @@ def get_collision_infractions(
     ]
     return [
         CollisionInfraction(
-            name=f"Collision Infraction between {endangered_couples_distance_matrix_index}",
             frame=frame,
             drone_index_1=int(
                 local_drone_indices[

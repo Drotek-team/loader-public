@@ -1,7 +1,8 @@
 from loader.check.collision_check.show_simulation_collision_check import (
-    apply_show_simulation_collision_check,
+    get_collision_report,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+from loader.report.report import get_base_report_validation
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -18,15 +19,12 @@ def test_valid_simulation_on_ground() -> None:
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
         ),
     )
-    simulation_collision_contenor = apply_show_simulation_collision_check(
+
+    collision_report = get_collision_report(
         valid_show_user_on_ground,
     )
-    assert (
-        len(
-            simulation_collision_contenor._error_messages,  # pyright: ignore[reportPrivateUsage]
-        )
-        == 0
-    )  # pyright: ignore[reportPrivateUsage]
+
+    assert get_base_report_validation(collision_report)
 
 
 def test_invalid_simulation_on_ground() -> None:
@@ -37,15 +35,10 @@ def test_invalid_simulation_on_ground() -> None:
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA,
         ),
     )
-    simulation_collision_contenor = apply_show_simulation_collision_check(
+    collision_report = get_collision_report(
         invalid_show_user_on_ground,
     )
-    assert (
-        len(
-            simulation_collision_contenor._error_messages,  # pyright: ignore[reportPrivateUsage]
-        )
-        == 0
-    )  # pyright: ignore[reportPrivateUsage]
+    assert get_base_report_validation(collision_report)
 
 
 def test_valid_simulation_in_air() -> None:
@@ -56,46 +49,29 @@ def test_valid_simulation_in_air() -> None:
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
         ),
     )
-    simulation_collision_contenor = apply_show_simulation_collision_check(
+    collision_report = get_collision_report(
         invalid_show_user_on_ground,
     )
-    assert (
-        len(
-            simulation_collision_contenor._error_messages,  # pyright: ignore[reportPrivateUsage]
-        )
-        == 0
-    )
+    assert get_base_report_validation(collision_report)
 
 
-# TODO: no family in these tests
 def test_invalid_simulation_in_air() -> None:
     invalid_show_user_on_ground = get_valid_show_user(
         ShowUserConfiguration(
             nb_x=2,
-            nb_y=2,
+            nb_y=1,
+            nb_drone_per_family=2,
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
         ),
     )
-    simulation_collision_contenor = apply_show_simulation_collision_check(
+    collision_report = get_collision_report(
         invalid_show_user_on_ground,
     )
-    assert (
-        len(
-            simulation_collision_contenor._error_messages,  # pyright: ignore[reportPrivateUsage]
-        )
-        == 1020
-    )  # pyright: ignore[reportPrivateUsage]
-    for flight_index in range(1020):
-        assert not (
-            simulation_collision_contenor._error_messages[  # pyright: ignore[reportPrivateUsage]
-                f"Collision slice check report at frame {flight_index}"
-            ].user_validation
-        )
-        for (
-            collision_infraction
-        ) in simulation_collision_contenor._error_messages[  # pyright: ignore[reportUnknownMemberType, reportUnknownVariableType, reportPrivateUsage]
-            f"Collision slice check report at frame {flight_index}"
-        ]._error_messages.values():  # pyright: ignore[reportGeneralTypeIssues]
-            assert (
-                collision_infraction.in_air
-            )  # pyright: ignore[reportUnknownMemberType]
+    assert not (get_base_report_validation(collision_report))
+    if collision_report is None:
+        msg = "Collision report is None"
+        raise ValueError(msg)
+    collision_infractions = collision_report.collision_infractions
+    assert len(collision_infractions) == 6120
+    for collision_infraction in collision_infractions:
+        assert collision_infraction.in_air

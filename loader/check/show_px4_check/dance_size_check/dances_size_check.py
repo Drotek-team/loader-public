@@ -1,21 +1,26 @@
+from typing import Optional
+
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report.report import Displayer
+from loader.report.report import BaseReport
 from loader.show_env.migration_dp_binary.drone_encoding import get_dance_size
 from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
 
 
-def apply_dance_size_check(
+class DanceSizeInfraction(BaseReport):
+    drone_index: int
+    dance_size: int
+    dance_size_max: int
+
+
+def get_dance_size_infraction(
     drone_px4: DronePx4,
-) -> Displayer:
-    dance_size_check = Displayer(f"Drone {drone_px4.index } Dance size")
-    if get_dance_size(drone_px4) < JSON_BINARY_PARAMETER.dance_size_max:
-        dance_size_check.validate()
-    else:
-        dance_size_check.update_annexe_message(
-            f"with a size of {get_dance_size(drone_px4)}"
-            f" exceeds the maximal dance size"
-            f" ({JSON_BINARY_PARAMETER.dance_size_max})",
+) -> Optional[DanceSizeInfraction]:
+    if get_dance_size(drone_px4) >= JSON_BINARY_PARAMETER.dance_size_max:
+        return DanceSizeInfraction(
+            drone_index=drone_px4.index,
+            dance_size=get_dance_size(drone_px4),
+            dance_size_max=JSON_BINARY_PARAMETER.dance_size_max,
         )
-    return dance_size_check
+    return None
