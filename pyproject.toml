@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python project template"
+name = "loader"
 version = "0.1.0"
 description = ""
 authors = ["Thomas PERRIN <thomas.perrin@drotek.com>"]
