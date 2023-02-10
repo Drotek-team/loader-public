@@ -3,12 +3,12 @@ from typing import Optional
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report.report import BaseReport
+from loader.report.report import BaseInfraction
 from loader.show_env.migration_dp_binary.drone_encoding import get_dance_size
 from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
 
 
-class DanceSizeInfraction(BaseReport):
+class DanceSizeInfraction(BaseInfraction):
     drone_index: int
     dance_size: int
     dance_size_max: int

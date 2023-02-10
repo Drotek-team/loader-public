@@ -18,7 +18,7 @@ from .events_format_check_tools import (
 
 class PositionEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    coordinate_infractions: List[IntegerBoundaryInfraction]
+    coordinate_infractions: List[IntegerBoundaryInfraction] = []
 
 
 def get_position_events_report(
@@ -38,7 +38,7 @@ def get_position_events_report(
 
 class ColorEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    chrome_infractions: List[IntegerBoundaryInfraction]
+    chrome_infractions: List[IntegerBoundaryInfraction] = []
 
 
 def get_color_events_report(
@@ -60,7 +60,7 @@ def get_color_events_report(
 
 class FireEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    duration_chanel_infractions: List[IntegerBoundaryInfraction]
+    duration_chanel_infractions: List[IntegerBoundaryInfraction] = []
 
 
 def get_fire_events_report(
@@ -79,7 +79,6 @@ def get_fire_events_report(
 
 
 class EventsFormatReport(BaseReport):
-    drone_index: int
     position_events_report: Optional[PositionEventsReport] = None
     color_events_report: Optional[ColorEventsReport] = None
     fire_events_report: Optional[FireEventsReport] = None
@@ -99,7 +98,6 @@ def get_events_format_report(
     )
     if position_events_report or color_events_report or fire_events_report:
         return EventsFormatReport(
-            drone_index=drone_px4.index,
             position_events_report=position_events_report,
             color_events_report=color_events_report,
             fire_events_report=fire_events_report,

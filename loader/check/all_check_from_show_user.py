@@ -16,30 +16,28 @@ from .show_user_check.show_user_check import ShowUserReport, get_show_user_repor
 
 
 class GlobalReport(BaseReport):
-    show_user_report: Optional[ShowUserReport] = None
-    show_px4_report: Optional[ShowPx4Report] = None
-    performance_report: Optional[PerformanceReport] = None
-    collision_report: Optional[CollisionReport] = None
+    show_user: Optional[ShowUserReport] = None
+    show_px4: Optional[ShowPx4Report] = None
+    performance: Optional[PerformanceReport] = None
+    collision: Optional[CollisionReport] = None
 
 
 def get_global_report(
     show_user: ShowUser,
 ) -> GlobalReport:
-    show_user_infraction = get_show_user_report(show_user)
-    if show_user_infraction is not None:
-        return GlobalReport(show_user_report=show_user_infraction)
-    show_px4_infraction = apply_show_px4_report(show_user)
-    if show_px4_infraction is not None:
-        return GlobalReport(show_px4_report=show_px4_infraction)
+    show_user_report = get_show_user_report(show_user)
+    if show_user_report is not None:
+        return GlobalReport(show_user=show_user_report)
+    show_px4_report = apply_show_px4_report(show_user)
+    if show_px4_report is not None:
+        return GlobalReport(show_px4=show_px4_report)
     performance_report = get_performance_report(
         show_user,
     )
-    collision_infraction = get_collision_report(
+    collision_report = get_collision_report(
         show_user,
     )
     return GlobalReport(
-        show_user_report=show_px4_infraction,
-        show_px4_report=show_px4_infraction,
-        performance_report=performance_report,
-        collision_report=collision_infraction,
+        performance=performance_report,
+        collision=collision_report,
     )

@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import List, Optional, Tuple
 
 import numpy as np
@@ -6,15 +5,15 @@ import numpy as np
 from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from loader.report.report import BaseReport
+from loader.report.report import BaseInfraction, BaseReport
 from loader.show_env.show_user.show_user import DroneUser, ShowUser
 
 
-class TakeoffReport(BaseReport, ABC):
+class TakeoffReport(BaseReport):
     pass
 
 
-class OneEventTakeoffDurationInfraction(BaseReport):
+class OneEventTakeoffDurationInfraction(BaseInfraction):
     frame: int
 
 
@@ -28,7 +27,7 @@ def one_event_takeoff_duration_check(
     return None
 
 
-class OneEventTakeoffPositionInfraction(BaseReport):
+class OneEventTakeoffPositionInfraction(BaseInfraction):
     altitude: float
 
 
@@ -59,7 +58,7 @@ def apply_one_event_takeoff_check(
     return None
 
 
-class MultipleEventTakeoffDurationInfraction(BaseReport):
+class MultipleEventTakeoffDurationInfraction(BaseInfraction):
     first_time: float
     second_time: float
     takeoff_duration: float
@@ -84,7 +83,7 @@ def apply_multiple_event_takeoff_duration_check(
     return None
 
 
-class MultipleEventTakeoffPositionInfraction(BaseReport):
+class MultipleEventTakeoffPositionInfraction(BaseInfraction):
     first_position: Tuple[float, float, float]
     second_position: Tuple[float, float, float]
 
@@ -152,8 +151,8 @@ def apply_minimal_position_events_number_report(
 
 
 class DroneUserReport(BaseReport):
-    minimal_position_event_report: Optional[MinimalPositionEventsNumber] = None
-    takeoff_report: Optional[TakeoffReport] = None
+    minimal_position_event: Optional[MinimalPositionEventsNumber] = None
+    takeoff: Optional[TakeoffReport] = None
 
 
 def get_drone_user_report(
@@ -164,16 +163,16 @@ def get_drone_user_report(
     )
     if minimal_position_event_report is not None:
         return DroneUserReport(
-            minimal_position_event_report=minimal_position_event_report,
+            minimal_position_event=minimal_position_event_report,
         )
     takeoff_report = apply_takeoff_report(drone_user)
     if takeoff_report is not None:
-        return DroneUserReport(takeoff_report=takeoff_report)
+        return DroneUserReport(takeoff=takeoff_report)
     return None
 
 
 class ShowUserReport(BaseReport):
-    drone_user_reports: List[DroneUserReport]
+    drone_users: List[DroneUserReport] = []
 
 
 def get_show_user_report(
@@ -186,4 +185,4 @@ def get_show_user_report(
     ]
     if not (drone_user_reports):
         return None
-    return ShowUserReport(drone_user_reports=drone_user_reports)
+    return ShowUserReport(drone_users=drone_user_reports)

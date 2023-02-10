@@ -3,14 +3,14 @@ from typing import List, Optional
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report.report import BaseReport
+from loader.report.report import BaseInfraction, BaseReport
 from loader.show_env.show_px4.drone_px4.events.color_events import ColorEvents
 from loader.show_env.show_px4.drone_px4.events.events import Events
 from loader.show_env.show_px4.drone_px4.events.fire_events import FireEvents
 from loader.show_env.show_px4.drone_px4.events.position_events import PositionEvents
 
 
-class IntegerBoundaryInfraction(BaseReport):
+class IntegerBoundaryInfraction(BaseInfraction):
     data_type: str
     event_index: int
     value: int
@@ -18,7 +18,7 @@ class IntegerBoundaryInfraction(BaseReport):
     value_max: int
 
 
-class IncreasingFrameInfraction(BaseReport):
+class IncreasingFrameInfraction(BaseInfraction):
     event_index: int
     previous_frame: int
     frame: int
@@ -66,8 +66,8 @@ def get_increasing_timecode_infractions(
 
 
 class TimecodeReport(BaseReport):
-    bound_infractions: List[IntegerBoundaryInfraction]
-    increasing_infractions: List[IncreasingFrameInfraction]
+    bound_infractions: List[IntegerBoundaryInfraction] = []
+    increasing_infractions: List[IncreasingFrameInfraction] = []
 
 
 def get_timecode_report(

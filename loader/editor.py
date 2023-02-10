@@ -94,7 +94,7 @@ def get_drotek_check_from_iostar_json_gcs_string(
     return get_global_report(show_user)
 
 
-def get_show_configuration_from_iostar_json_gcs_string(
+def convert_iostar_json_gcs_string_to_show_configuration_gcs(
     iostar_json_gcs_string: str,
 ) -> ShowConfigurationGcs:
     """Return the show configuration in the dict format from an iostar json gcs string."""
@@ -103,14 +103,14 @@ def get_show_configuration_from_iostar_json_gcs_string(
     return su_to_scg(show_user)
 
 
-def export_show_user_to_iostar_json_gcs_string(
-    show_user: ShowUser,
-) -> IostarJsonGcs:
+def convert_show_user_to_iostar_json_gcs(show_user: ShowUser) -> IostarJsonGcs:
     """Return a check iostar json gcs from a show user object."""
     return su_to_ijg(show_user)
 
 
-def import_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string: str) -> ShowUser:
+def convert_iostar_json_gcs_string_to_show_user(
+    iostar_json_gcs_string: str,
+) -> ShowUser:
     """Return a check show user from an iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     return ijg_to_su(iostar_json_gcs)

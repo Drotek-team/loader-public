@@ -12,7 +12,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report.report import BaseReport
+from loader.report.report import BaseInfraction
 
 
 @dataclass(frozen=True)
@@ -98,7 +98,7 @@ METRICS_RANGE = MetricsRange(
 METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
 
 
-class PerformanceInfraction(BaseReport):
+class PerformanceInfraction(BaseInfraction):
     performance_name: str
     drone_index: int
     frame: int

@@ -48,7 +48,7 @@ def get_performance_infractions_from_show_trajectory(
 
 
 class PerformanceReport(BaseReport):
-    performance_infractions: List[PerformanceInfraction]
+    performance_infractions: List[PerformanceInfraction] = []
 
 
 def get_performance_report(

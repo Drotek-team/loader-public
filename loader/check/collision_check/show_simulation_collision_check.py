@@ -51,7 +51,7 @@ def get_collision_infractions_from_show_simulation(
 
 
 class CollisionReport(BaseReport):
-    collision_infractions: List[CollisionInfraction]
+    collision_infractions: List[CollisionInfraction] = []
 
 
 def su_to_ss(show_user: ShowUser) -> ShowSimulation:

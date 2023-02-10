@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Dict, Optional
 
 from loader.report.report import BaseReport
 from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
@@ -21,7 +21,7 @@ class DronePx4Report(BaseReport):
 
 
 class ShowPx4Report(BaseReport):
-    drone_px4_reports: List[DronePx4Report]
+    drone_px4_reports: Dict[int, DronePx4Report] = {}
 
 
 def get_drone_px4_report(drone_px4: DronePx4) -> Optional[DronePx4Report]:
@@ -43,11 +43,11 @@ def apply_show_px4_report(show_user: ShowUser) -> Optional[ShowPx4Report]:
     show_px4 = su_to_sp(
         show_user,
     )
-    drone_px4_reports = [
-        drone_px4_report
+    drone_px4_reports = {
+        drone_px4.index: drone_px4_report
         for drone_px4 in show_px4
         if (drone_px4_report := get_drone_px4_report(drone_px4)) is not None
-    ]
+    }
     if drone_px4_reports:
         return ShowPx4Report(drone_px4_reports=drone_px4_reports)
     return None
