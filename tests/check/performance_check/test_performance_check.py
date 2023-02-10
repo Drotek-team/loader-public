@@ -101,7 +101,7 @@ def test_valid_show_user_horizontal_velocity() -> None:
             performance_name="acceleration",
             drone_index=0,
             frame=984,
-            value=6.0,
+            value=5.0,
             threshold=2.0,
             metric_convention=True,
         ).dict()
@@ -136,8 +136,8 @@ def test_invalid_show_user_horizontal_velocity() -> None:
             performance_name="horizontal velocity",
             drone_index=0,
             frame=984,
-            value=6.01,
-            threshold=6.0,
+            value=5.01,
+            threshold=5.0,
             metric_convention=True,
         ).dict()
     )
