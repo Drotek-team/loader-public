@@ -1,17 +1,15 @@
 import struct
-from abc import ABC, abstractmethod
 
 from pydantic import BaseModel
 
 
-class BytesManager(ABC):
+class BytesManager(BaseModel):
     @property
-    @abstractmethod
     def bytes_data(self) -> bytes:
-        pass
+        raise NotImplementedError
 
 
-class Header(BaseModel, BytesManager):
+class Header(BytesManager):
     fmt_header: str  # binary format of the header
     magic_number: int  # Magic number with no purpose for the moment
     dance_size: int  # Dance size in bytes
@@ -25,7 +23,7 @@ class Header(BaseModel, BytesManager):
         )
 
 
-class SectionHeader(BaseModel, BytesManager):
+class SectionHeader(BytesManager):
     fmt_section_header: str  # binary format of the section header
     event_id: int  # index associate to the type of events
     byte_array_start_index: int  # index which indicates the start of the section in the binary
