@@ -1,6 +1,9 @@
+# Move to: loader/__init__.py
 from typing import Dict, List
 
 from pydantic import NonNegativeInt
+
+from loader.report.report import BaseReport
 
 from .check.all_check_from_show_user import (
     GlobalReport,
@@ -11,6 +14,7 @@ from .check.collision_check.migration.show_simulation import ShowSimulation
 from .check.collision_check.show_simulation_collision_check import (
     CollisionInfraction,
     get_collision_infractions_from_show_simulation,
+    su_to_ss,
 )
 from .check.performance_check.performance_evaluation import (
     METRICS_RANGE,
@@ -33,6 +37,32 @@ from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from .show_env.migration_sp_ijg.su_to_scg import ShowConfigurationGcs, su_to_scg
 from .show_env.migration_sp_su.su_to_sp import su_to_sp
 from .show_env.show_user.show_user import DroneUser, ShowUser
+
+__all__ = (
+    "ReportError",
+    "create_empty_show_user",
+    "get_performance_infractions",
+    "get_collision_infractions",
+    "get_dance_size_infractions",
+    "generate_report_from_show_user",
+    "generate_report_summary_from_show_user",
+    "generate_report_from_iostar_json_gcs_string",
+    "generate_report_summary_from_iostar_json_gcs_string",
+    "get_show_configuration_from_iostar_json_gcs_string",
+    "convert_show_user_to_iostar_json_gcs",
+    "convert_iostar_json_gcs_string_to_show_user",
+    "get_verified_iostar_json_gcs",
+    "su_to_ss",
+)
+
+
+class ReportError(Exception):
+    """Exception raised when a report is invalid."""
+
+    def __init__(self, report: BaseReport) -> None:
+        self.report = report
+        message = f"Report is invalid, found {report.get_nb_errors()} errors"
+        super().__init__(message)
 
 
 def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
@@ -84,17 +114,17 @@ def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]
     ]
 
 
-def get_drotek_check_from_show_user(show_user: ShowUser) -> GlobalReport:
-    """Return a report of show user validity as a string. The show user is valid if the report is empty."""
+def generate_report_from_show_user(show_user: ShowUser) -> GlobalReport:
+    """Return a report of show user validity."""
     return get_global_report(show_user)
 
 
-def get_drotek_check_summary_from_show_user(show_user: ShowUser) -> GlobalReportSummary:
+def generate_report_summary_from_show_user(show_user: ShowUser) -> GlobalReportSummary:
     """Return a report of show user validity as a string. The show user is valid if the report is empty."""
-    return get_drotek_check_from_show_user(show_user).summary()
+    return generate_report_from_show_user(show_user).summary()
 
 
-def get_drotek_check_from_iostar_json_gcs_string(
+def generate_report_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> GlobalReport:
     """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
@@ -103,16 +133,16 @@ def get_drotek_check_from_iostar_json_gcs_string(
     return get_global_report(show_user)
 
 
-def get_drotek_check_summary_from_iostar_json_gcs_string(
+def generate_report_summary_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> GlobalReportSummary:
     """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
-    return get_drotek_check_from_iostar_json_gcs_string(
+    return generate_report_from_iostar_json_gcs_string(
         iostar_json_gcs_string,
     ).summary()
 
 
-def convert_iostar_json_gcs_string_to_show_configuration_gcs(
+def get_show_configuration_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> ShowConfigurationGcs:
     """Return the show configuration in the dict format from an iostar json gcs string."""
@@ -139,6 +169,6 @@ def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> IostarJsonGcs:
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     show_check_report = get_global_report(show_user)
-    if not (show_check_report.json()):
-        raise ValueError(show_check_report.json())
+    if show_check_report.get_nb_errors() > 0:
+        raise ReportError(show_check_report)
     return su_to_ijg(show_user)
