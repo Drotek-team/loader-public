@@ -34,12 +34,6 @@ def get_collision_infractions(
 def get_collision_infractions_from_show_simulation(
     show_simulation: ShowSimulation,
 ) -> List[CollisionInfraction]:
-    global_collision_infractions: List[CollisionInfraction] = []
-    for show_simulation_slice in show_simulation.show_slices:
-        local_collision_infractions = get_collision_infractions(show_simulation_slice)
-        if local_collision_infractions:
-            global_collision_infractions += local_collision_infractions
-
     return list(
         itertools.chain.from_iterable(
             [
