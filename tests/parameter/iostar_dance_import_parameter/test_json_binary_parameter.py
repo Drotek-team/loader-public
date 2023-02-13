@@ -55,4 +55,3 @@ def test_json_binary_parameter_standard_case() -> None:
     assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
     assert JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(24) == 1_000
     assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
-    assert JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(1_000) == 24
