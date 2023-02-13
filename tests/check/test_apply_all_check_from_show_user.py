@@ -13,6 +13,7 @@ def test_global_report_summary_standard_case() -> None:
     assert global_report.summary().show_px4 == 0
     assert global_report.summary().performance == 0
     assert global_report.summary().collision == 0
+    assert global_report.summary().is_valid()
 
 
 def test_global_report_summary_collision_check() -> None:
@@ -24,6 +25,7 @@ def test_global_report_summary_collision_check() -> None:
     assert global_report.summary().show_px4 == 0
     assert global_report.summary().performance == 0
     assert global_report.summary().collision == 6120
+    assert not (global_report.summary().is_valid())
 
 
 def test_apply_all_check_from_show_user_standard_case() -> None:

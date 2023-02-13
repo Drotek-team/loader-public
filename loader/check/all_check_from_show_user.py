@@ -23,6 +23,16 @@ class GlobalReportSummary(BaseModel, extra=Extra.forbid):
     performance: int
     collision: int
 
+    def is_valid(self) -> bool:
+        return (
+            sum(
+                nb_errors
+                for field in self.__fields__.values()
+                if isinstance(nb_errors := getattr(self, field.name), int)
+            )
+            == 0
+        )
+
 
 class GlobalReport(BaseReport):
     show_user: Optional[ShowUserReport] = None
