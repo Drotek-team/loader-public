@@ -6,6 +6,26 @@ from loader.show_env.show_user.generate_show_user import (
 )
 
 
+def test_global_report_summary_standard_case() -> None:
+    valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    global_report = get_global_report(valid_show_user)
+    assert global_report.summary().show_user == 0
+    assert global_report.summary().show_px4 == 0
+    assert global_report.summary().performance == 0
+    assert global_report.summary().collision == 0
+
+
+def test_global_report_summary_collision_check() -> None:
+    valid_show_user = get_valid_show_user(
+        ShowUserConfiguration(nb_x=2, nb_y=2, step=0.3),
+    )
+    global_report = get_global_report(valid_show_user)
+    assert global_report.summary().show_user == 0
+    assert global_report.summary().show_px4 == 0
+    assert global_report.summary().performance == 0
+    assert global_report.summary().collision == 6120
+
+
 def test_apply_all_check_from_show_user_standard_case() -> None:
     valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     global_report = get_global_report(valid_show_user)

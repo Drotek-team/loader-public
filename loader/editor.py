@@ -2,7 +2,11 @@ from typing import Dict, List
 
 from pydantic import NonNegativeInt
 
-from .check.all_check_from_show_user import GlobalReport, get_global_report
+from .check.all_check_from_show_user import (
+    GlobalReport,
+    GlobalReportSummary,
+    get_global_report,
+)
 from .check.collision_check.migration.show_simulation import ShowSimulation
 from .check.collision_check.show_simulation_collision_check import (
     CollisionInfraction,
@@ -85,6 +89,11 @@ def get_drotek_check_from_show_user(show_user: ShowUser) -> GlobalReport:
     return get_global_report(show_user)
 
 
+def get_drotek_check_summary_from_show_user(show_user: ShowUser) -> GlobalReportSummary:
+    """Return a report of show user validity as a string. The show user is valid if the report is empty."""
+    return get_drotek_check_from_show_user(show_user).summary()
+
+
 def get_drotek_check_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> GlobalReport:
@@ -92,6 +101,15 @@ def get_drotek_check_from_iostar_json_gcs_string(
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     return get_global_report(show_user)
+
+
+def get_drotek_check_summary_from_iostar_json_gcs_string(
+    iostar_json_gcs_string: str,
+) -> GlobalReportSummary:
+    """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
+    return get_drotek_check_from_iostar_json_gcs_string(
+        iostar_json_gcs_string,
+    ).summary()
 
 
 def convert_iostar_json_gcs_string_to_show_configuration_gcs(

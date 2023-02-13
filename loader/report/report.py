@@ -4,12 +4,17 @@ from pydantic import BaseModel
 from pydantic.fields import ModelField
 
 
-class BaseInfraction(BaseModel):
+class BaseMessage(BaseModel):
+    def get_nb_errors(self) -> int:
+        raise NotImplementedError
+
+
+class BaseInfraction(BaseMessage):
     def get_nb_errors(self) -> int:
         return 1
 
 
-class BaseReport(BaseModel):
+class BaseReport(BaseMessage):
     def get_nb_errors(self) -> int:
         nb_errors = 0
 
@@ -20,9 +25,9 @@ class BaseReport(BaseModel):
         for field in self.__fields__.values():
             if getattr(self, field.name) is None:
                 pass
-            elif isinstance(getattr(self, field.name), (BaseInfraction, BaseReport)):
+            elif isinstance(getattr(self, field.name), BaseMessage):
                 nb_errors += cast(
-                    Union[BaseInfraction, BaseReport],
+                    BaseMessage,
                     getattr(self, field.name),
                 ).get_nb_errors()
             elif isinstance(getattr(self, field.name), (list, dict)):
@@ -42,14 +47,14 @@ class BaseReport(BaseModel):
             type_ = Dict[Any, field.type_]
             reports_or_infractions = list(
                 cast(
-                    Dict[Any, Union[BaseInfraction, BaseReport]],
+                    Dict[Any, BaseMessage],
                     getattr(self, field.name),
                 ).values(),
             )
         else:
             type_ = List[field.type_]
             reports_or_infractions = cast(
-                List[Union[BaseInfraction, BaseReport]],
+                List[BaseMessage],
                 getattr(self, field.name),
             )
 
@@ -67,7 +72,7 @@ class BaseReport(BaseModel):
 
 
 def get_base_report_validation(
-    base_report: Union[BaseInfraction, BaseReport, None],
+    base_report: Union[BaseMessage, None],
 ) -> bool:
     if base_report is None:
         return True

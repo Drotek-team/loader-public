@@ -12,6 +12,8 @@ from loader.editor import (
     get_dance_size_infractions,
     get_drotek_check_from_iostar_json_gcs_string,
     get_drotek_check_from_show_user,
+    get_drotek_check_summary_from_iostar_json_gcs_string,
+    get_drotek_check_summary_from_show_user,
     get_performance_infractions,
     get_verified_iostar_json_gcs,
 )
@@ -65,13 +67,23 @@ def test_get_dance_size_report() -> None:
     assert len(get_dance_size_infractions(show_user)) == 0
 
 
-def test_global_check_show_user() -> None:
+def test_get_drotek_check_from_show_user_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     assert get_drotek_check_from_show_user(show_user).dict() == {
         "show_user": None,
         "show_px4": None,
         "performance": None,
         "collision": None,
+    }
+
+
+def test_get_drotek_check_summary_from_show_user_standard_case() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    assert get_drotek_check_summary_from_show_user(show_user).dict() == {
+        "show_user": 0,
+        "show_px4": 0,
+        "performance": 0,
+        "collision": 0,
     }
 
 
@@ -86,6 +98,20 @@ def test_global_check_iostar_json_gcs() -> None:
         "show_px4": None,
         "performance": None,
         "collision": None,
+    }
+
+
+def test_get_drotek_check_summary_from_iostar_json_gcs_string_standard_case() -> None:
+    iostar_json_gcs_string = su_to_ijg(
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2)),
+    ).json()
+    assert get_drotek_check_summary_from_iostar_json_gcs_string(
+        iostar_json_gcs_string,
+    ).dict() == {
+        "show_user": 0,
+        "show_px4": 0,
+        "performance": 0,
+        "collision": 0,
     }
 
 
