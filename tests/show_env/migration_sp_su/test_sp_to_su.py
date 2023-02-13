@@ -1,10 +1,11 @@
+from typing import List
+
 import pytest
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
 from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
 from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
-from loader.show_env.show_px4.show_px4 import ShowPx4
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)
@@ -30,7 +31,7 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 
 @pytest.fixture
-def valid_show_px4() -> ShowPx4:
+def valid_show_px4() -> List[DronePx4]:
     drone_px4 = DronePx4(0)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
@@ -60,10 +61,12 @@ def valid_show_px4() -> ShowPx4:
         ARBITRARY_FIRE_EVENT_CHANEL_BIS,
         ARBITRARY_FIRE_EVENT_DURATION_BIS,
     )
-    return ShowPx4([drone_px4, drone_px4_bis])
+    return [drone_px4, drone_px4_bis]
 
 
-def test_drone_px4_to_drone_user_position_events(valid_show_px4: ShowPx4) -> None:
+def test_drone_px4_to_drone_user_position_events(
+    valid_show_px4: List[DronePx4],
+) -> None:
     show_user = sp_to_su(valid_show_px4)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
@@ -91,7 +94,7 @@ def test_drone_px4_to_drone_user_position_events(valid_show_px4: ShowPx4) -> Non
     )
 
 
-def test_drone_px4_to_drone_user_color_events(valid_show_px4: ShowPx4) -> None:
+def test_drone_px4_to_drone_user_color_events(valid_show_px4: List[DronePx4]) -> None:
     show_user = sp_to_su(valid_show_px4)
     drone_users = show_user.drones_user
 
@@ -109,7 +112,7 @@ def test_drone_px4_to_drone_user_color_events(valid_show_px4: ShowPx4) -> None:
     )
 
 
-def test_drone_px4_to_drone_user_fire_events(valid_show_px4: ShowPx4) -> None:
+def test_drone_px4_to_drone_user_fire_events(valid_show_px4: List[DronePx4]) -> None:
     show_user = sp_to_su(valid_show_px4)
     drone_users = show_user.drones_user
 

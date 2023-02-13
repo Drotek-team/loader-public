@@ -3,7 +3,7 @@ from typing import List
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.show_env.show_px4.show_px4 import DronePx4, ShowPx4
+from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
 from loader.show_env.show_user.show_user import (
     ColorEventUser,
     DroneUser,
@@ -77,12 +77,10 @@ def drone_user_to_drone_px4(
 
 def su_to_sp(
     show_user: ShowUser,
-) -> ShowPx4:
-    return ShowPx4(
-        [
-            drone_user_to_drone_px4(
-                drone_user,
-            )
-            for drone_user in show_user.drones_user
-        ],
-    )
+) -> List[DronePx4]:
+    return [
+        drone_user_to_drone_px4(
+            drone_user,
+        )
+        for drone_user in show_user.drones_user
+    ]
