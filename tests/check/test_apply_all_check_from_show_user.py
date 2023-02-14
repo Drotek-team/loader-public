@@ -25,6 +25,7 @@ def test_global_report_summary_collision_check() -> None:
     assert global_report.summary().show_px4 == 0
     assert global_report.summary().performance == 0
     assert global_report.summary().collision == 6120
+    # TODO: Find all useless parentheses
     assert not (global_report.summary().is_valid())
 
 
