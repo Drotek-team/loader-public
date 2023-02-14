@@ -46,11 +46,9 @@ def get_global_report(
     show_user: ShowUser,
 ) -> GlobalReport:
     show_user_report = get_show_user_report(show_user)
-    if show_user_report is not None:
-        return GlobalReport(show_user=show_user_report)
     show_px4_report = apply_show_px4_report(show_user)
-    if show_px4_report is not None:
-        return GlobalReport(show_px4=show_px4_report)
+    if show_user_report is not None or show_px4_report is not None:
+        return GlobalReport(show_user=show_user_report, show_px4=show_px4_report)
     performance_report = get_performance_report(
         show_user,
     )
