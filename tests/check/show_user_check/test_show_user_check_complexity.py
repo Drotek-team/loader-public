@@ -1,6 +1,6 @@
 import time
 
-from loader.check.show_user_check.show_user_check import get_show_user_report
+from loader.check.show_user_check import get_show_user_report
 from loader.show_env.show_user.generate_show_user import STANDARD_SHOW_USER
 
 ACTIVE = False
