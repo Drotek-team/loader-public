@@ -6,9 +6,9 @@ from loader.report import BaseReport
 from loader.show_env.show_user import ShowUser
 
 from .collision_math import CollisionInfraction, get_optimized_collision_infractions
+from .migration.sct_to_ss import sct_to_ss
 from .migration.show_simulation import ShowSimulation, ShowSimulationSlice
-from .migration.stc_to_ssc import stc_to_ss
-from .migration.su_to_stc import su_to_stc
+from .migration.su_to_sct import su_to_sct
 
 
 def get_collision_infractions(
@@ -49,7 +49,7 @@ class CollisionReport(BaseReport):
 
 
 def su_to_ss(show_user: ShowUser) -> ShowSimulation:
-    return stc_to_ss(su_to_stc(show_user))
+    return sct_to_ss(su_to_sct(show_user))
 
 
 def get_collision_report(

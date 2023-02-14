@@ -13,7 +13,7 @@ class CollisionTrajectory:
         return self._trajectory
 
 
-class CollisionShowTrajectory(List[CollisionTrajectory]):
+class ShowCollisionTrajectory(List[CollisionTrajectory]):
     @property
     def frames(self) -> List[int]:
         return list(

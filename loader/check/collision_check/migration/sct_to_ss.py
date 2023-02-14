@@ -1,5 +1,5 @@
 from .show_simulation import ShowSimulation
-from .show_trajectory_collision import CollisionShowTrajectory, CollisionTrajectory
+from .show_trajectory_collision import CollisionTrajectory, ShowCollisionTrajectory
 
 
 def update_show_simulation_from_drone_trajectory(
@@ -17,14 +17,14 @@ def update_show_simulation_from_drone_trajectory(
         )
 
 
-def stc_to_ss(
-    collision_show_trajectory: CollisionShowTrajectory,
+def sct_to_ss(
+    show_collision_trajectory: ShowCollisionTrajectory,
 ) -> ShowSimulation:
     show_simulation = ShowSimulation(
-        frames=collision_show_trajectory.frames,
-        drone_indices=list(range(collision_show_trajectory.drone_number)),
+        frames=show_collision_trajectory.frames,
+        drone_indices=list(range(show_collision_trajectory.drone_number)),
     )
-    for collision_trajectory in collision_show_trajectory:
+    for collision_trajectory in show_collision_trajectory:
         update_show_simulation_from_drone_trajectory(
             show_simulation,
             collision_trajectory,

@@ -1,6 +1,6 @@
 import numpy as np
-from loader.check.collision_check.migration.stc_to_ssc import stc_to_ss
-from loader.check.collision_check.migration.su_to_stc import su_to_stc
+from loader.check.collision_check.migration.sct_to_ss import sct_to_ss
+from loader.check.collision_check.migration.su_to_sct import su_to_sct
 from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
@@ -11,8 +11,8 @@ from loader.show_env.show_user.generate_show_user import (
 
 
 def test_valid_show_flags() -> None:
-    show_simulation = stc_to_ss(
-        su_to_stc(
+    show_simulation = sct_to_ss(
+        su_to_sct(
             get_valid_show_user(ShowUserConfiguration(nb_x=2)),
         ),
     )
