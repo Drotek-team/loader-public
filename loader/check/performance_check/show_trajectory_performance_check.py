@@ -1,7 +1,7 @@
 import itertools
 from typing import List, Optional
 
-from loader.report.report import BaseReport
+from loader.report import BaseReport
 from loader.show_env.show_user.show_user import ShowUser
 
 from .migration.show_trajectory_performance import (

@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 import pytest
-from loader.report.report import (
+from loader.report import (
     BaseInfraction,
     BaseReport,
     get_base_report_validation,

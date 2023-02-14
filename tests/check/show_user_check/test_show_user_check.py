@@ -1,7 +1,7 @@
 from loader.check.show_user_check.show_user_check import (
     get_show_user_report,
 )
-from loader.report.report import get_base_report_validation
+from loader.report import get_base_report_validation
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,

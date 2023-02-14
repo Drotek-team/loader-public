@@ -2,7 +2,7 @@ import itertools
 from typing import List, Optional
 
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report.report import BaseReport
+from loader.report import BaseReport
 from loader.show_env.show_user.show_user import ShowUser
 
 from .collision_math import CollisionInfraction, get_optimized_collision_infractions

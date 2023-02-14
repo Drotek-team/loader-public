@@ -3,7 +3,7 @@ from typing import List, Optional
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report.report import BaseInfraction, BaseReport
+from loader.report import BaseInfraction, BaseReport
 from loader.show_env.show_px4.drone_px4.events.color_events import ColorEvents
 from loader.show_env.show_px4.drone_px4.events.events import Events
 from loader.show_env.show_px4.drone_px4.events.fire_events import FireEvents

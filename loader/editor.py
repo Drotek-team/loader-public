@@ -3,7 +3,7 @@ from typing import Dict, List
 
 from pydantic import NonNegativeInt
 
-from loader.report.report import BaseReport
+from loader.report import BaseReport
 
 from .check.all_check_from_show_user import (
     GlobalReport,

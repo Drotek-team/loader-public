@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, TypeVar
 
 import numpy as np
 
-from loader.report.report import BaseInfraction
+from loader.report import BaseInfraction
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

@@ -12,7 +12,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report.report import BaseInfraction
+from loader.report import BaseInfraction
 
 
 @dataclass(frozen=True)
