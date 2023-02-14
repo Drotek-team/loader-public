@@ -1,6 +1,6 @@
 from typing import List
 
-from loader.show_env.iostar_json.iostar_json import IostarJson
+from loader.show_env.iostar_json import IostarJson
 from loader.show_env.migration_dp_binary.drone_decoding import decode_drone
 from loader.show_env.show_px4.drone_px4 import DronePx4
 
