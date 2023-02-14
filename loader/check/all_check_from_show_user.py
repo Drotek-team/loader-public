@@ -13,7 +13,7 @@ from .performance_check.show_trajectory_performance_check import (
     PerformanceReport,
     get_performance_report,
 )
-from .show_px4_check.show_px4_check import ShowPx4Report, apply_show_px4_report
+from .show_px4_check import ShowPx4Report, apply_show_px4_report
 from .show_user_check.show_user_check import ShowUserReport, get_show_user_report
 
 

@@ -26,7 +26,7 @@ from .check.performance_check.show_trajectory_performance_check import (
     get_performance_infractions_from_show_trajectory,
     su_to_stp,
 )
-from .check.show_px4_check.show_px4_check import (
+from .check.show_px4_check import (
     DanceSizeInfraction,
     get_drone_px4_report,
 )

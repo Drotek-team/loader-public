@@ -1,4 +1,4 @@
-from loader.check.show_px4_check.show_px4_check import apply_show_px4_report
+from loader.check.show_px4_check import apply_show_px4_report
 from loader.report import get_base_report_validation
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
