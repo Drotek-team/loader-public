@@ -16,7 +16,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 1. Create your show with the `create_empty_show_user` function
 
    ```python
-   from loader.editor import create_empty_show_user
+   from loader import create_empty_show_user
    nb_drones = 5
    show_user = create_empty_show_user(nb_drones)
    ```
@@ -48,7 +48,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Check the show validity with the `global_check_show_user`
 
   ```python
-  from loader.editor import get_drotek_check_from_show_user
+  from loader import get_drotek_check_from_show_user
 
   report = get_drotek_check_from_show_user(show_user)
   print(report)
@@ -57,7 +57,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Check the performance of the show with the `get_performance_infractions` function
 
   ```python
-  from loader.editor import get_performance_infractions, Metric, MetricRange
+  from loader import get_performance_infractions, Metric, MetricRange
 
   performance_infractions = get_performance_infractions(show_user, {})
   print(performance_infractions.display_message())
@@ -70,7 +70,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Check the collisions of the show with the `get_collision_infractions` function
 
   ```python
-  from loader.editor import get_collision_infractions, su_to_ss
+  from loader import get_collision_infractions, su_to_ss
 
   collision_infractions = get_collision_infractions(su_to_ss(show_user))
   print(collision_infractions.display_message())
@@ -80,7 +80,7 @@ This project goal is to help the creation and verification of Drotek dance file.
   function
 
   ```python
-  from loader.editor import get_dance_size_infractions
+  from loader import get_dance_size_infractions
 
   dance_size_infractions = get_dance_size_infractions(show_user)
   print(dance_size_infractions.display_message())
@@ -91,7 +91,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Export the show user with the `convert_show_user_to_iostar_json_gcs`
 
   ```python
-  from loader.editor import convert_show_user_to_iostar_json_gcs
+  from loader import convert_show_user_to_iostar_json_gcs
 
   iostart_json_gcs_string = convert_show_user_to_iostar_json_gcs(show_user)
   ```
@@ -99,7 +99,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Import an iostar json gcs string with `convert_iostar_json_gcs_string_to_show_user`
 
   ```python
-  from loader.editor import convert_iostar_json_gcs_string_to_show_user
+  from loader import convert_iostar_json_gcs_string_to_show_user
 
   show_user = convert_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string)
   ```
@@ -107,7 +107,7 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Get an iostar json gcs with verified metadata with `get_verified_iostar_json_gcs`
 
   ```python
-  from loader.editor import convert_iostar_json_gcs_string_to_show_user
+  from loader import convert_iostar_json_gcs_string_to_show_user
 
   verified_iostar_json_gcs = get_verified_iostar_json_gcs(iostar_json_gcs_string)
   ```

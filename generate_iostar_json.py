@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from loader.editor import convert_show_user_to_iostar_json_gcs
+from loader import convert_show_user_to_iostar_json_gcs
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
