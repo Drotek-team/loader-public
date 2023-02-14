@@ -9,9 +9,11 @@ if TYPE_CHECKING:
 
 
 class ShowSimulationSlice:
-    def __init__(self, frame: int, nb_drones: int) -> None:
+    def __init__(self, frame: int, drone_indices: list[int]) -> None:
+        nb_drones = len(drone_indices)
+
         self.frame = frame
-        self._indices = np.array(range(nb_drones), dtype=np.intp)
+        self._indices = np.array(drone_indices, dtype=np.intp)
         self._positions = np.zeros((nb_drones, 3), dtype=np.float64)
         self._in_air_flags = np.array([False for _ in range(nb_drones)], dtype=np.bool_)
 
@@ -22,6 +24,7 @@ class ShowSimulationSlice:
         *,
         in_air_flag: bool,
     ) -> None:
+        index = np.where(self._indices == index)[0][0]
         self._positions[index] = position
         self._in_air_flags[index] = in_air_flag
 
@@ -43,13 +46,15 @@ class ShowSimulationSlice:
 
 
 class ShowSimulation:
-    def __init__(self, frames: list[int], nb_drones: int) -> None:
+    def __init__(self, frames: list[int], drone_indices: list[int]) -> None:
+        nb_drones = len(drone_indices)
+
         if nb_drones < 1:
-            msg = f"nb_drones must be at least 2, got {nb_drones}"
+            msg = f"nb_drones must be at least 1, got {nb_drones}"
             raise ValueError(msg)
-        self.nb_drones: int = nb_drones
+
         self.show_slices: list[ShowSimulationSlice] = [
-            ShowSimulationSlice(frame, nb_drones) for frame in frames
+            ShowSimulationSlice(frame, drone_indices) for frame in frames
         ]
 
     @property

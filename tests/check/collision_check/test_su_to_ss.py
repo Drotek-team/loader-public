@@ -9,6 +9,7 @@ from loader.show_env.show_user.generate_show_user import STANDARD_SHOW_USER
 ACTIVE = False
 
 
+# TODO: Use pytest-benchmark or similar
 def test_su_to_ss_complexity() -> None:
     if not ACTIVE:
         return

@@ -22,7 +22,7 @@ def stc_to_ss(
 ) -> ShowSimulation:
     show_simulation = ShowSimulation(
         frames=collision_show_trajectory.frames,
-        nb_drones=collision_show_trajectory.drone_number,
+        drone_indices=list(range(collision_show_trajectory.drone_number)),
     )
     for collision_trajectory in collision_show_trajectory:
         update_show_simulation_from_drone_trajectory(

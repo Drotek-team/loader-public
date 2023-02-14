@@ -1,6 +1,6 @@
-# Move to: loader/__init__.py
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
+import numpy as np
 from pydantic import NonNegativeInt
 
 from loader.report import BaseReport
@@ -63,6 +63,47 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
             for drone_index in range(drone_number)
         ],
     )
+
+
+def create_show_simulation(
+    frame_start: int,
+    frame_end: int,
+    drone_indices: List[int],
+    frames_positions: List[List[Tuple[float, float, float]]],
+) -> ShowSimulation:
+    """Return a ShowSimulation object with 'drone_number' user drones. These drones contains no events."""
+    if frame_start >= frame_end:
+        msg = f"frame_start must be strictly smaller than frame_end, not {frame_start} and {frame_end}"
+        raise ValueError(msg)
+
+    if frame_end - frame_start != len(frames_positions):
+        msg = (
+            f"frame_end - frame_start must be equal to the length of frames_positions, "
+            f"not {frame_end - frame_start} and {len(frames_positions)}"
+        )
+        raise ValueError(msg)
+
+    if any(len(drone_indices) != len(positions) for positions in frames_positions):
+        msg = "drone_indices and frames_positions items must have the same length"
+        raise ValueError(msg)
+
+    show_simulation = ShowSimulation(
+        frames=list(
+            range(
+                frame_start,
+                frame_end,
+            ),
+        ),
+        drone_indices=drone_indices,
+    )
+    for show_slice, positions in zip(show_simulation.show_slices, frames_positions):
+        for index, position in zip(drone_indices, positions):
+            show_slice.update_position_air_flag(
+                index,
+                np.array(position),
+                in_air_flag=position[2] != 0,
+            )
+    return show_simulation
 
 
 def get_performance_infractions(
