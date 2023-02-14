@@ -8,7 +8,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
     JSON_BINARY_PARAMETER,
 )
 from loader.report import get_base_report_validation
-from loader.show_env.show_px4.drone_px4.events.position_events import PositionEvents
+from loader.show_env.show_px4.drone_px4.events import PositionEvents
 
 
 @pytest.fixture

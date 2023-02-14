@@ -7,8 +7,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 )
 from loader.show_env.show_px4.drone_px4 import DronePx4
 from loader.show_env.show_px4.drone_px4.binary import Header, SectionHeader
-from loader.show_env.show_px4.drone_px4.events.events import Events
-from loader.show_env.show_px4.drone_px4.events.events_order import EVENTS_ID
+from loader.show_env.show_px4.drone_px4.events import EVENTS_ID, Events
 
 from .events_convertion import encode_events
 

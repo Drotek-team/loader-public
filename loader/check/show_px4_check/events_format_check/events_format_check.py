@@ -2,9 +2,11 @@ from typing import List, Optional
 
 from loader.report import BaseReport
 from loader.show_env.show_px4.drone_px4 import DronePx4
-from loader.show_env.show_px4.drone_px4.events.color_events import ColorEvents
-from loader.show_env.show_px4.drone_px4.events.fire_events import FireEvents
-from loader.show_env.show_px4.drone_px4.events.position_events import PositionEvents
+from loader.show_env.show_px4.drone_px4.events import (
+    ColorEvents,
+    FireEvents,
+    PositionEvents,
+)
 
 from .events_format_check_tools import (
     IntegerBoundaryInfraction,

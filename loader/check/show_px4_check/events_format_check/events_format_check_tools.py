@@ -4,10 +4,12 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
     JSON_BINARY_PARAMETER,
 )
 from loader.report import BaseInfraction, BaseReport
-from loader.show_env.show_px4.drone_px4.events.color_events import ColorEvents
-from loader.show_env.show_px4.drone_px4.events.events import Events
-from loader.show_env.show_px4.drone_px4.events.fire_events import FireEvents
-from loader.show_env.show_px4.drone_px4.events.position_events import PositionEvents
+from loader.show_env.show_px4.drone_px4.events import (
+    ColorEvents,
+    Events,
+    FireEvents,
+    PositionEvents,
+)
 
 
 class IntegerBoundaryInfraction(BaseInfraction):

@@ -1,6 +1,6 @@
 import struct
 
-from loader.show_env.show_px4.drone_px4.events.events import Events
+from loader.show_env.show_px4.drone_px4.events import Events
 
 
 def encode_events(events: Events) -> bytearray:

@@ -1,4 +1,4 @@
-from loader.show_env.show_px4.drone_px4.events.position_events import (
+from loader.show_env.show_px4.drone_px4.events import (
     PositionEvent,
     PositionEvents,
 )

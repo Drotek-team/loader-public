@@ -13,7 +13,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.report import get_base_report_validation
-from loader.show_env.show_px4.drone_px4.events.position_events import PositionEvents
+from loader.show_env.show_px4.drone_px4.events import PositionEvents
 
 
 @pytest.fixture

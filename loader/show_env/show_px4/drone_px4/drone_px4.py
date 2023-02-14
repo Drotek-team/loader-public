@@ -1,9 +1,6 @@
 from typing import List, Tuple
 
-from .events.color_events import ColorEvents
-from .events.events import Events
-from .events.fire_events import FireEvents
-from .events.position_events import PositionEvents
+from .events import ColorEvents, Events, FireEvents, PositionEvents
 
 
 # TODO: en reparler pour généraliser nouveau drone

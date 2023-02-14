@@ -4,13 +4,9 @@ from loader.show_env.migration_dp_binary.drone_encoding import get_dance_size
 from loader.show_env.show_px4.drone_px4 import (
     DronePx4,
 )
-from loader.show_env.show_px4.drone_px4.events.color_events import (
+from loader.show_env.show_px4.drone_px4.events import (
     ColorEvents,
-)
-from loader.show_env.show_px4.drone_px4.events.fire_events import (
     FireEvents,
-)
-from loader.show_env.show_px4.drone_px4.events.position_events import (
     PositionEvents,
 )
 

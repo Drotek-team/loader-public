@@ -1,6 +1,7 @@
 from enum import Enum
 
 
+# TODO: Use IntEnum
 class EventsType(Enum):
     position = "position"
     color = "color"
