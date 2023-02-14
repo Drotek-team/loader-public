@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from .events import ColorEvents, Events, FireEvents, PositionEvents
+from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
 
 
 # TODO: en reparler pour généraliser nouveau drone
@@ -13,11 +13,12 @@ class DronePx4:
 
     def __eq__(self, other_drone_px4: object) -> bool:
         if isinstance(other_drone_px4, DronePx4):
-            return (
-                self.index == self.index
-                and self.position_events == other_drone_px4.position_events
-                and self.color_events == other_drone_px4.color_events
-                and self.fire_events == other_drone_px4.fire_events
+            return self.index == self.index and all(
+                events == other_events
+                for events, other_events in zip(
+                    self.events_list,
+                    other_drone_px4.events_list,
+                )
             )
         return False
 
@@ -30,16 +31,10 @@ class DronePx4:
     def add_fire(self, timecode: int, chanel: int, duration_frame: int) -> None:
         self.fire_events.add_timecode_chanel_duration(timecode, chanel, duration_frame)
 
-    def get_events_by_index(self, event_index: int) -> Events:
-        events_enum = {
-            self.position_events.id_: self.position_events,
-            self.color_events.id_: self.color_events,
-            self.fire_events.id_: self.fire_events,
-        }
-        if event_index not in events_enum.keys():
-            msg = f"{event_index} is not inside the events enum {events_enum.keys()}"
-            raise IndexError(msg)
-        return events_enum[event_index]
+    # TODO: Improve this method
+    def get_events_by_index(self, event_type: EventsType) -> Events:
+        events_enum = {events.id_: events for events in self.events_list}
+        return events_enum[event_type]
 
     @property
     def events_list(self) -> List[Events]:

@@ -1,5 +1,5 @@
-import pytest
 from loader.show_env.show_px4.drone_px4 import DronePx4
+from loader.show_env.show_px4.drone_px4.events.events_order import EventsType
 
 
 def test_add_position_standard_case() -> None:
@@ -28,17 +28,12 @@ def test_add_fire_standard_case() -> None:
 
 def test_get_events_by_index_standard_case() -> None:
     drone = DronePx4(index=0)
-    assert drone.get_events_by_index(event_index=0) == drone.position_events
-    assert drone.get_events_by_index(event_index=1) == drone.color_events
-    assert drone.get_events_by_index(event_index=2) == drone.fire_events
-
-
-def test_get_events_by_index_out_of_range() -> None:
-    drone = DronePx4(index=0)
-    with pytest.raises(IndexError):
-        drone.get_events_by_index(event_index=-1)
-    with pytest.raises(IndexError):
-        drone.get_events_by_index(event_index=3)
+    assert (
+        drone.get_events_by_index(event_type=EventsType.position)
+        == drone.position_events
+    )
+    assert drone.get_events_by_index(event_type=EventsType.color) == drone.color_events
+    assert drone.get_events_by_index(event_type=EventsType.fire) == drone.fire_events
 
 
 def test_events_list_standard_case() -> None:

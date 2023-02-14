@@ -2,6 +2,8 @@ import struct
 from abc import ABC, abstractmethod
 from typing import Any, Iterator, List
 
+from .events_order import EventsType
+
 
 class Event(ABC):
     timecode: int
@@ -14,7 +16,7 @@ class Event(ABC):
 
 class Events(ABC):
     format_: str
-    id_: int
+    id_: EventsType
     _events: List[Event]
 
     @abstractmethod

@@ -7,7 +7,8 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 )
 from loader.show_env.show_px4.drone_px4 import DronePx4
 from loader.show_env.show_px4.drone_px4.binary import Header, SectionHeader
-from loader.show_env.show_px4.drone_px4.events import EVENTS_ID, Events
+from loader.show_env.show_px4.drone_px4.events import Events
+from loader.show_env.show_px4.drone_px4.events.events_order import EventsType
 
 from .events_convertion import encode_events
 
@@ -81,7 +82,7 @@ def encode_drone(
 
 def get_dance_size(drone_px4: DronePx4) -> int:
     header_size = struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
-    header_section_size = len(EVENTS_ID) * struct.calcsize(
+    header_section_size = len(EventsType) * struct.calcsize(
         JSON_BINARY_PARAMETER.fmt_section_header,
     )
     position_size = len(drone_px4.position_events) * struct.calcsize(

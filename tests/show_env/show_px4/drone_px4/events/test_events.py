@@ -1,6 +1,7 @@
 from typing import Any, List
 
 from loader.show_env.show_px4.drone_px4.events import Event, Events
+from loader.show_env.show_px4.drone_px4.events.events_order import EventsType
 
 
 class DummyEvent(Event):
@@ -15,7 +16,7 @@ class DummyEvent(Event):
 class DummyEvents(Events):
     def __init__(self) -> None:
         self.format_ = ">Ihhh"
-        self.id_ = 0
+        self.id_ = EventsType.position
         self._events: List[Event] = []
 
     def add_data(self, data: List[Any]) -> None:  # noqa: ARG002

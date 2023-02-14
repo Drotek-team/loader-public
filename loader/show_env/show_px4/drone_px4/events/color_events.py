@@ -6,7 +6,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 )
 
 from .events import Event, Events
-from .events_order import EVENTS_ID, EventsType
+from .events_order import EventsType
 
 
 @dataclass(frozen=True)
@@ -28,7 +28,7 @@ class ColorEvent(Event):
 
 class ColorEvents(Events):
     def __init__(self) -> None:
-        self.id_ = EVENTS_ID[EventsType.color]
+        self.id_ = EventsType.color
         self.format_ = JSON_BINARY_PARAMETER.color_event_format
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/

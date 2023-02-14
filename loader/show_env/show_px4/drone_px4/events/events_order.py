@@ -1,15 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-# TODO: Use IntEnum
-class EventsType(Enum):
-    position = "position"
-    color = "color"
-    fire = "fire"
-
-
-EVENTS_ID = {
-    EventsType.position: 0,
-    EventsType.color: 1,
-    EventsType.fire: 2,
-}
+class EventsType(IntEnum):
+    position = 0
+    color = 1
+    fire = 2

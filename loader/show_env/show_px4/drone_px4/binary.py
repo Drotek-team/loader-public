@@ -2,6 +2,8 @@ import struct
 
 from pydantic import BaseModel
 
+from .events.events_order import EventsType
+
 
 class BytesManager(BaseModel):
     @property
@@ -25,7 +27,7 @@ class Header(BytesManager):
 
 class SectionHeader(BytesManager):
     fmt_section_header: str  # binary format of the section header
-    event_id: int  # index associate to the type of events
+    event_id: EventsType  # index associate to the type of events
     byte_array_start_index: int  # index which indicates the start of the section in the binary
     byte_array_end_index: int  # index which indicates the end of the section in the binary
 
