@@ -3,7 +3,7 @@ from loader.check.show_px4_check.dance_size_check.dances_size_check import (
     get_dance_size_infraction,
 )
 from loader.report import get_base_report_validation
-from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
+from loader.show_env.show_px4.drone_px4 import DronePx4
 
 MAGIC_BREAKER_NUMBER = 12495
 

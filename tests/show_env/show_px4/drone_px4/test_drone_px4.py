@@ -1,5 +1,5 @@
 import pytest
-from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
+from loader.show_env.show_px4.drone_px4 import DronePx4
 
 
 def test_add_position_standard_case() -> None:

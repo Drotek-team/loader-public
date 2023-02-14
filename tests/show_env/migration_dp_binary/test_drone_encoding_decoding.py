@@ -2,7 +2,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 from loader.show_env.migration_dp_binary.drone_decoding import decode_drone
 from loader.show_env.migration_dp_binary.drone_encoding import encode_drone
-from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
+from loader.show_env.show_px4.drone_px4 import DronePx4
 
 
 @given(
