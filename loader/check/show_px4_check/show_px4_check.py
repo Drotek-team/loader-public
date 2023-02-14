@@ -9,7 +9,7 @@ from .dance_size_check.dances_size_check import (
     DanceSizeInfraction,
     get_dance_size_infraction,
 )
-from .events_format_check.events_format_check import (
+from .events_format_check import (
     EventsFormatReport,
     get_events_format_report,
 )

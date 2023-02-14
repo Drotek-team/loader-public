@@ -1,5 +1,5 @@
 import pytest
-from loader.check.show_px4_check.events_format_check.events_format_check import (
+from loader.check.show_px4_check.events_format_check import (
     IntegerBoundaryInfraction,
     get_fire_events_report,
 )
