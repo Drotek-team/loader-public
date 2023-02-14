@@ -9,7 +9,7 @@ from loader.check.simulation.in_dance_flight_simulation import (
 from loader.check.simulation.land_simulation import land_simulation
 from loader.check.simulation.stand_by_simulation import stand_by_simulation
 from loader.check.simulation.takeoff_simulation import takeoff_simulation
-from loader.show_env.show_user.show_user import DroneUser
+from loader.show_env.show_user import DroneUser
 
 
 def test_flight_simulation_standard_case() -> None:

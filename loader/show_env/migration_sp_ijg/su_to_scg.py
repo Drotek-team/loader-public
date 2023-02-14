@@ -9,7 +9,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 )
 from loader.show_env.iostar_json.show_configuration import ShowConfiguration
 from loader.show_env.iostar_json.show_configuration_gcs import ShowConfigurationGcs
-from loader.show_env.show_user.show_user import ShowUser
+from loader.show_env.show_user import ShowUser
 
 from .grid_math.grid import get_grid_from_show_user
 from .grid_math.grid_angle_estimation import get_angle_takeoff_from_grid

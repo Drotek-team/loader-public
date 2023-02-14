@@ -6,7 +6,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.report import BaseInfraction, BaseReport
-from loader.show_env.show_user.show_user import DroneUser, ShowUser
+from loader.show_env.show_user import DroneUser, ShowUser
 
 
 class TakeoffReport(BaseReport):

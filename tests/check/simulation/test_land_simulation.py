@@ -10,7 +10,7 @@ from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
 from loader.parameter.iostar_flight_parameter.iostar_land_parameter import (
     LAND_PARAMETER,
 )
-from loader.show_env.show_user.show_user import PositionEventUser
+from loader.show_env.show_user import PositionEventUser
 
 NUMERICAL_TOLERANCE = 1e-3
 

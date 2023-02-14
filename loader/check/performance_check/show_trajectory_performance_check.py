@@ -2,7 +2,7 @@ import itertools
 from typing import List, Optional
 
 from loader.report import BaseReport
-from loader.show_env.show_user.show_user import ShowUser
+from loader.show_env.show_user import ShowUser
 
 from .migration.show_trajectory_performance import (
     DroneTrajectoryPerformance,

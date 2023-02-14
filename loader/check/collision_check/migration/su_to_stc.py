@@ -1,5 +1,5 @@
 from loader.check.simulation.flight_simulation import get_flight_simulation
-from loader.show_env.show_user.show_user import ShowUser
+from loader.show_env.show_user import ShowUser
 
 from .show_trajectory_collision import CollisionShowTrajectory, CollisionTrajectory
 

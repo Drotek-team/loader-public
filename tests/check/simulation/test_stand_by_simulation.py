@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from loader.check.simulation.position_simulation import SimulationInfo
 from loader.check.simulation.stand_by_simulation import stand_by_simulation
-from loader.show_env.show_user.show_user import PositionEventUser
+from loader.show_env.show_user import PositionEventUser
 
 
 @pytest.fixture

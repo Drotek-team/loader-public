@@ -6,7 +6,7 @@ from loader.check.simulation.in_dance_flight_simulation import (
     in_dance_flight_simulation,
 )
 from loader.check.simulation.position_simulation import SimulationInfo
-from loader.show_env.show_user.show_user import PositionEventUser
+from loader.show_env.show_user import PositionEventUser
 
 
 @pytest.fixture

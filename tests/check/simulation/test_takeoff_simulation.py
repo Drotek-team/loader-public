@@ -12,7 +12,7 @@ from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
 from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from loader.show_env.show_user.show_user import PositionEventUser
+from loader.show_env.show_user import PositionEventUser
 
 FRAME_START = 0
 FRAME_END = FRAME_START + FRAME_PARAMETER.from_second_to_frame(

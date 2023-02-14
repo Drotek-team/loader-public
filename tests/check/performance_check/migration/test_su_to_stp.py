@@ -7,11 +7,11 @@ from loader.check.performance_check.migration.su_to_stp import (
     get_trajectory_performance_info_from_position_events,
     su_to_stp,
 )
+from loader.show_env.show_user import PositionEventUser
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from loader.show_env.show_user.show_user import PositionEventUser
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

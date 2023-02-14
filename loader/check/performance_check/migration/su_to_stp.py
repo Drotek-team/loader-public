@@ -5,7 +5,7 @@ import numpy as np
 from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
     FRAME_PARAMETER,
 )
-from loader.show_env.show_user.show_user import PositionEventUser, ShowUser
+from loader.show_env.show_user import PositionEventUser, ShowUser
 
 from .show_trajectory_performance import (
     DroneTrajectoryPerformance,

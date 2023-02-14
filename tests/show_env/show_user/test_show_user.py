@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
+from loader.show_env.show_user import DroneUser
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from loader.show_env.show_user.show_user import DroneUser
 from pydantic import ValidationError
 
 

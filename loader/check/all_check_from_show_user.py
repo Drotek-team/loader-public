@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Extra
 
 from loader.report import BaseReport
-from loader.show_env.show_user.show_user import ShowUser
+from loader.show_env.show_user import ShowUser
 
 from .collision_check.show_simulation_collision_check import (
     CollisionReport,

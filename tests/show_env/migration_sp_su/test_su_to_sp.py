@@ -9,15 +9,15 @@ from loader.show_env.migration_sp_su.su_to_sp import (
     su_to_sp,
 )
 from loader.show_env.show_px4.drone_px4.drone_px4 import DronePx4
-from loader.show_env.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
-from loader.show_env.show_user.show_user import (
+from loader.show_env.show_user import (
     ColorEventUser,
     DroneUser,
     FireEventUser,
     PositionEventUser,
+)
+from loader.show_env.show_user.generate_show_user import (
+    ShowUserConfiguration,
+    get_valid_show_user,
 )
 
 

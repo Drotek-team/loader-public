@@ -35,7 +35,7 @@ from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from .show_env.migration_sp_ijg.su_to_scg import ShowConfigurationGcs, su_to_scg
 from .show_env.migration_sp_su.su_to_sp import su_to_sp
-from .show_env.show_user.show_user import DroneUser, ShowUser
+from .show_env.show_user import DroneUser, ShowUser
 
 
 class ReportError(Exception):
