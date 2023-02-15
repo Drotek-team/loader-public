@@ -1,7 +1,8 @@
 import pytest
+from loader.check.base import get_report_validation
 from loader.check.show_px4_check.events_format_check import (
     IntegerBoundaryInfraction,
-    get_position_events_report,
+    PositionEventsReport,
 )
 from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
     FRAME_PARAMETER,
@@ -12,7 +13,6 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import PositionEvents
 
 
@@ -42,7 +42,7 @@ def valid_position_events() -> PositionEvents:
 def test_valid_position_events_check(
     valid_position_events: PositionEvents,
 ) -> None:
-    position_events_report = get_position_events_report(
+    position_events_report = PositionEventsReport.generate(
         valid_position_events,
     )
     assert get_report_validation(position_events_report)
@@ -59,7 +59,7 @@ def test_invalid_position_events_xyz_value_check(
             JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
         ),
     )
-    position_events_report = get_position_events_report(
+    position_events_report = PositionEventsReport.generate(
         valid_position_events,
     )
     if position_events_report is None:

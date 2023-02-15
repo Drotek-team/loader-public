@@ -5,6 +5,7 @@ from typing import Callable, Dict, List
 
 import numpy as np
 
+from loader.check.base import BaseInfraction
 from loader.check.performance_check.migration.show_trajectory_performance import (
     Performance,
 )
@@ -12,7 +13,6 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report import BaseInfraction
 
 
 @dataclass(frozen=True)

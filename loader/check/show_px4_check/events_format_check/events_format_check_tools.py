@@ -1,9 +1,9 @@
 from typing import List, Optional
 
+from loader.check.base import BaseInfraction, BaseReport
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report import BaseInfraction, BaseReport
 from loader.show_env.show_px4.drone_px4.events import (
     ColorEvents,
     Events,
@@ -25,64 +25,69 @@ class IncreasingFrameInfraction(BaseInfraction):
     previous_frame: int
     frame: int
 
+    @classmethod
+    def generate(
+        cls,
+        events: Events,
+    ) -> List["IncreasingFrameInfraction"]:
+        frames = [event.timecode for event in events]
+        return [
+            IncreasingFrameInfraction(
+                event_index=event_index,
+                previous_frame=frames[event_index - 1],
+                frame=frames[event_index],
+            )
+            for event_index in range(1, len(frames))
+            if frames[event_index - 1] >= frames[event_index]
+        ]
+
 
 def check_integer_bound(integer: int, lower_bound: int, upper_bound: int) -> bool:
     return lower_bound <= integer and integer <= upper_bound
 
 
-def get_timecode_value_infractions(
-    events: Events,
-) -> List[IntegerBoundaryInfraction]:
-    return [
-        IntegerBoundaryInfraction(
-            data_type="frame",
-            event_index=event_index,
-            value=frame,
-            value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
-        )
-        for event_index, frame in enumerate([event.timecode for event in events])
-        if not (
-            check_integer_bound(
-                frame,
-                JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-                JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+class TimeCodeValueInfraction(IntegerBoundaryInfraction):
+    @classmethod
+    def generate(
+        cls,
+        events: Events,
+    ) -> List["TimeCodeValueInfraction"]:
+        return [
+            TimeCodeValueInfraction(
+                data_type="frame",
+                event_index=event_index,
+                value=frame,
+                value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
             )
-        )
-    ]
-
-
-def get_increasing_timecode_infractions(
-    events: Events,
-) -> List[IncreasingFrameInfraction]:
-    frames = [event.timecode for event in events]
-    return [
-        IncreasingFrameInfraction(
-            event_index=event_index,
-            previous_frame=frames[event_index - 1],
-            frame=frames[event_index],
-        )
-        for event_index in range(1, len(frames))
-        if frames[event_index - 1] >= frames[event_index]
-    ]
+            for event_index, frame in enumerate([event.timecode for event in events])
+            if not (
+                check_integer_bound(
+                    frame,
+                    JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
+                    JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+                )
+            )
+        ]
 
 
 class TimecodeReport(BaseReport):
-    bound_infractions: List[IntegerBoundaryInfraction] = []
+    bound_infractions: List[TimeCodeValueInfraction] = []
     increasing_infractions: List[IncreasingFrameInfraction] = []
 
-
-def get_timecode_report(
-    events: Events,
-) -> Optional[TimecodeReport]:
-    bound_infractions = get_timecode_value_infractions(events)
-    increasing_infractions = get_increasing_timecode_infractions(events)
-    if bound_infractions or increasing_infractions:
-        return TimecodeReport(
-            bound_infractions=bound_infractions,
-            increasing_infractions=increasing_infractions,
-        )
-    return None
+    @classmethod
+    def generate(
+        cls,
+        events: Events,
+    ) -> Optional["TimecodeReport"]:
+        bound_infractions = TimeCodeValueInfraction.generate(events)
+        increasing_infractions = IncreasingFrameInfraction.generate(events)
+        if bound_infractions or increasing_infractions:
+            return TimecodeReport(
+                bound_infractions=bound_infractions,
+                increasing_infractions=increasing_infractions,
+            )
+        return None
 
 
 def get_coordinate_infractions(

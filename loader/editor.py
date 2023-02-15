@@ -2,11 +2,13 @@ from typing import Dict, List, Tuple
 
 from pydantic import NonNegativeInt
 
+from loader.check.show_px4_check.show_px4_check import DronePx4Report
+
 from .check.all_check_from_show_user import (
     GlobalReport,
     GlobalReportSummary,
-    get_global_report,
 )
+from .check.base import BaseReport
 from .check.collision_check.migration.show_position_frames import (
     ShowPositionFrames,
 )
@@ -26,11 +28,7 @@ from .check.performance_check.show_trajectory_performance_check import (
     get_performance_infractions_from_show_trajectory,
     su_to_stp,
 )
-from .check.show_px4_check import (
-    DanceSizeInfraction,
-    get_drone_px4_report,
-)
-from .report import BaseReport
+from .check.show_px4_check import DanceSizeInfraction
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
@@ -114,14 +112,14 @@ def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]
     return [
         dance_size_infraction
         for drone_px4 in show_px4
-        if (drone_px4_report := get_drone_px4_report(drone_px4)) is not None
+        if (drone_px4_report := DronePx4Report.generate(drone_px4)) is not None
         if (dance_size_infraction := drone_px4_report.dance_size_infraction) is not None
     ]
 
 
 def generate_report_from_show_user(show_user: ShowUser) -> GlobalReport:
     """Return a report of show user validity."""
-    return get_global_report(show_user)
+    return GlobalReport.generate(show_user)
 
 
 def generate_report_summary_from_show_user(show_user: ShowUser) -> GlobalReportSummary:
@@ -135,7 +133,7 @@ def generate_report_from_iostar_json_gcs_string(
     """Return a report of iostar json gcs string validity as a string. The show user is valid if the report is empty."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    return get_global_report(show_user)
+    return GlobalReport.generate(show_user)
 
 
 def generate_report_summary_from_iostar_json_gcs_string(
@@ -173,7 +171,7 @@ def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> IostarJsonGcs:
     """Return a check iostar json gcs string from an iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    show_check_report = get_global_report(show_user)
+    show_check_report = GlobalReport.generate(show_user)
     if show_check_report.get_nb_errors() > 0:
         raise ReportError(show_check_report)
     return su_to_ijg(show_user)

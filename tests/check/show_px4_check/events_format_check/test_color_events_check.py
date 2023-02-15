@@ -1,12 +1,12 @@
 import pytest
+from loader.check.base import get_report_validation
 from loader.check.show_px4_check.events_format_check import (
+    ColorEventsReport,
     IntegerBoundaryInfraction,
-    get_color_events_report,
 )
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import ColorEvents
 
 
@@ -36,7 +36,7 @@ def valid_color_events() -> ColorEvents:
 def test_valid_color_events_check(
     valid_color_events: ColorEvents,
 ) -> None:
-    color_events_report = get_color_events_report(
+    color_events_report = ColorEventsReport.generate(
         valid_color_events,
     )
     assert get_report_validation(color_events_report)
@@ -51,7 +51,7 @@ def test_invalid_color_events_rgbw_value_check(
         ),
         (JSON_BINARY_PARAMETER.chrome_value_bound.maximal + 1, 0, 0, 0),
     )
-    color_events_report = get_color_events_report(
+    color_events_report = ColorEventsReport.generate(
         valid_color_events,
     )
     if color_events_report is None:

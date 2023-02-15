@@ -1,3 +1,4 @@
+from loader.check.base import get_report_validation
 from loader.check.performance_check.show_trajectory_performance_check import (
     PerformanceInfraction,
     get_performance_report,
@@ -6,7 +7,6 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report import get_report_validation
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,

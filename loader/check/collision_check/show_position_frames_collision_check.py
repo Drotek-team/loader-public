@@ -1,8 +1,8 @@
 import itertools
 from typing import List, Optional
 
+from loader.check.base import BaseReport
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report import BaseReport
 from loader.show_env.show_user import ShowUser
 
 from .collision_math import CollisionInfraction, get_optimized_collision_infractions

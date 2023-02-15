@@ -1,13 +1,13 @@
 import pytest
+from loader.check.base import get_report_validation
 from loader.check.show_px4_check.events_format_check.events_format_check_tools import (
     IncreasingFrameInfraction,
     IntegerBoundaryInfraction,
-    get_timecode_report,
+    TimecodeReport,
 )
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import PositionEvents
 
 
@@ -23,7 +23,7 @@ def standard_position_events() -> PositionEvents:
 def test_get_timecode_report_standard_case(
     standard_position_events: PositionEvents,
 ) -> None:
-    timecode_report = get_timecode_report(
+    timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
     assert get_report_validation(timecode_report)
@@ -40,7 +40,7 @@ def test_get_timecode_report_bound_violation(
         JSON_BINARY_PARAMETER.timecode_value_bound.maximal + 1,
         (0, 0, 0),
     )
-    timecode_report = get_timecode_report(
+    timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
     if timecode_report is None:
@@ -75,7 +75,7 @@ def test_get_timecode_report_increasing_frame_violation(
         1,
         (0, 0, 0),
     )
-    timecode_report = get_timecode_report(
+    timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
     if timecode_report is None:

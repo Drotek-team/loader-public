@@ -2,9 +2,9 @@ from typing import Optional
 
 from pydantic import BaseModel, Extra
 
-from loader.report import BaseReport
 from loader.show_env.show_user import ShowUser
 
+from .base import BaseReport
 from .collision_check.show_position_frames_collision_check import (
     CollisionReport,
     get_collision_report,
@@ -13,8 +13,8 @@ from .performance_check.show_trajectory_performance_check import (
     PerformanceReport,
     get_performance_report,
 )
-from .show_px4_check import ShowPx4Report, apply_show_px4_report
-from .show_user_check import ShowUserReport, get_show_user_report
+from .show_px4_check import ShowPx4Report
+from .show_user_check import ShowUserReport
 
 
 class GlobalReportSummary(BaseModel, extra=Extra.forbid):
@@ -41,21 +41,22 @@ class GlobalReport(BaseReport):
             collision=self.collision.get_nb_errors() if self.collision else 0,
         )
 
-
-def get_global_report(
-    show_user: ShowUser,
-) -> GlobalReport:
-    show_user_report = get_show_user_report(show_user)
-    show_px4_report = apply_show_px4_report(show_user)
-    if show_user_report is not None or show_px4_report is not None:
-        return GlobalReport(show_user=show_user_report, show_px4=show_px4_report)
-    performance_report = get_performance_report(
-        show_user,
-    )
-    collision_report = get_collision_report(
-        show_user,
-    )
-    return GlobalReport(
-        performance=performance_report,
-        collision=collision_report,
-    )
+    @classmethod
+    def generate(
+        cls,
+        show_user: ShowUser,
+    ) -> "GlobalReport":
+        show_user_report = ShowUserReport.generate(show_user)
+        show_px4_report = ShowPx4Report.generate(show_user)
+        if show_user_report is not None or show_px4_report is not None:
+            return GlobalReport(show_user=show_user_report, show_px4=show_px4_report)
+        performance_report = get_performance_report(
+            show_user,
+        )
+        collision_report = get_collision_report(
+            show_user,
+        )
+        return GlobalReport(
+            performance=performance_report,
+            collision=collision_report,
+        )

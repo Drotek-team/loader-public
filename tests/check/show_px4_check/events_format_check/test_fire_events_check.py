@@ -1,12 +1,12 @@
 import pytest
+from loader.check.base import get_report_validation
 from loader.check.show_px4_check.events_format_check import (
+    FireEventsReport,
     IntegerBoundaryInfraction,
-    get_fire_events_report,
 )
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import FireEvents
 
 
@@ -40,7 +40,7 @@ def valid_fire_events() -> FireEvents:
 def test_valid_fire_events_check(
     valid_fire_events: FireEvents,
 ) -> None:
-    fire_events_report = get_fire_events_report(
+    fire_events_report = FireEventsReport.generate(
         valid_fire_events,
     )
     assert get_report_validation(fire_events_report)
@@ -54,7 +54,7 @@ def test_invalid_fire_events_chanel_value_check(
         JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal + 1,
         0,
     )
-    fire_events_report = get_fire_events_report(
+    fire_events_report = FireEventsReport.generate(
         valid_fire_events,
     )
     if fire_events_report is None:
@@ -81,7 +81,7 @@ def test_invalid_fire_events_duration_value_check(
         0,
         JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal + 1,
     )
-    fire_events_report = get_fire_events_report(
+    fire_events_report = FireEventsReport.generate(
         valid_fire_events,
     )
     if fire_events_report is None:
