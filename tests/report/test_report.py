@@ -4,7 +4,7 @@ import pytest
 from loader.report import (
     BaseInfraction,
     BaseReport,
-    get_base_report_validation,
+    get_report_validation,
 )
 
 
@@ -83,18 +83,18 @@ class CleverBaseReport(BaseReport):
 
 # TODO: change the name, they are funny but are to understand
 def test_get_base_report_validation() -> None:
-    assert get_base_report_validation(None)
-    assert get_base_report_validation(DummyReport(dummy_infraction=None))
+    assert get_report_validation(None)
+    assert get_report_validation(DummyReport(dummy_infraction=None))
     assert not (
-        get_base_report_validation(
+        get_report_validation(
             DummyReport(
                 dummy_infraction=DummyBaseInfraction(important_attribute=0),
             ),
         )
     )
-    assert get_base_report_validation(CleverBaseReport(clever_base_infractions=[]))
+    assert get_report_validation(CleverBaseReport(clever_base_infractions=[]))
     assert not (
-        get_base_report_validation(
+        get_report_validation(
             CleverBaseReport(
                 clever_base_infractions=[
                     DummierBaseInfraction(importanter_attribute=0),

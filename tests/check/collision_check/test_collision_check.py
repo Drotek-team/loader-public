@@ -2,7 +2,7 @@ from loader.check.collision_check.show_position_frames_collision_check import (
     get_collision_report,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report import get_base_report_validation
+from loader.report import get_report_validation
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -24,7 +24,7 @@ def test_valid_simulation_on_ground() -> None:
         valid_show_user_on_ground,
     )
 
-    assert get_base_report_validation(collision_report)
+    assert get_report_validation(collision_report)
 
 
 def test_invalid_simulation_on_ground() -> None:
@@ -38,7 +38,7 @@ def test_invalid_simulation_on_ground() -> None:
     collision_report = get_collision_report(
         invalid_show_user_on_ground,
     )
-    assert get_base_report_validation(collision_report)
+    assert get_report_validation(collision_report)
 
 
 def test_valid_simulation_in_air() -> None:
@@ -52,7 +52,7 @@ def test_valid_simulation_in_air() -> None:
     collision_report = get_collision_report(
         invalid_show_user_on_ground,
     )
-    assert get_base_report_validation(collision_report)
+    assert get_report_validation(collision_report)
 
 
 def test_invalid_simulation_in_air() -> None:
@@ -67,7 +67,7 @@ def test_invalid_simulation_in_air() -> None:
     collision_report = get_collision_report(
         invalid_show_user_on_ground,
     )
-    assert not (get_base_report_validation(collision_report))
+    assert not (get_report_validation(collision_report))
     if collision_report is None:
         msg = "Collision report is None"
         raise ValueError(msg)

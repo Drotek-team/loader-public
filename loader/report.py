@@ -71,7 +71,7 @@ class BaseReport(BaseMessage):
         return nb_errors
 
 
-def get_base_report_validation(
+def get_report_validation(
     base_report: Union[BaseMessage, None],
 ) -> bool:
     if base_report is None:

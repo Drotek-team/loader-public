@@ -6,7 +6,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
-from loader.report import get_base_report_validation
+from loader.report import get_report_validation
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -19,7 +19,7 @@ def test_valid_show_trajectory_performance() -> None:
     performance_report = get_performance_report(
         get_valid_show_user(ShowUserConfiguration()),
     )
-    assert get_base_report_validation(performance_report)
+    assert get_report_validation(performance_report)
 
 
 def test_valid_show_user_vertical_position() -> None:
@@ -31,7 +31,7 @@ def test_valid_show_user_vertical_position() -> None:
     performance_report = get_performance_report(
         valid_show_user,
     )
-    assert get_base_report_validation(performance_report)
+    assert get_report_validation(performance_report)
 
 
 def test_invalid_show_user_vertical_position() -> None:
@@ -307,7 +307,7 @@ def test_valid_show_user_acceleration() -> None:
     performance_report = get_performance_report(
         valid_show_user,
     )
-    assert get_base_report_validation(performance_report)
+    assert get_report_validation(performance_report)
 
 
 def test_invalid_show_user_acceleration() -> None:

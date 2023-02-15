@@ -7,7 +7,7 @@ from loader.check.show_px4_check.events_format_check.events_format_check_tools i
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report import get_base_report_validation
+from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import PositionEvents
 
 
@@ -26,7 +26,7 @@ def test_get_timecode_report_standard_case(
     timecode_report = get_timecode_report(
         standard_position_events,
     )
-    assert get_base_report_validation(timecode_report)
+    assert get_report_validation(timecode_report)
 
 
 def test_get_timecode_report_bound_violation(

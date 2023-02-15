@@ -12,7 +12,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
-from loader.report import get_base_report_validation
+from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import PositionEvents
 
 
@@ -45,7 +45,7 @@ def test_valid_position_events_check(
     position_events_report = get_position_events_report(
         valid_position_events,
     )
-    assert get_base_report_validation(position_events_report)
+    assert get_report_validation(position_events_report)
 
 
 def test_invalid_position_events_xyz_value_check(

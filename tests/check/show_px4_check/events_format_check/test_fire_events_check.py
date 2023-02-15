@@ -6,7 +6,7 @@ from loader.check.show_px4_check.events_format_check import (
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.report import get_base_report_validation
+from loader.report import get_report_validation
 from loader.show_env.show_px4.drone_px4.events import FireEvents
 
 
@@ -43,7 +43,7 @@ def test_valid_fire_events_check(
     fire_events_report = get_fire_events_report(
         valid_fire_events,
     )
-    assert get_base_report_validation(fire_events_report)
+    assert get_report_validation(fire_events_report)
 
 
 def test_invalid_fire_events_chanel_value_check(
