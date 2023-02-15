@@ -6,39 +6,37 @@ from loader.report import BaseReport
 from loader.show_env.show_user import ShowUser
 
 from .collision_math import CollisionInfraction, get_optimized_collision_infractions
-from .migration.sct_to_ss import sct_to_ss
-from .migration.show_simulation import ShowSimulation, ShowSimulationSlice
-from .migration.su_to_sct import su_to_sct
+from .migration.show_position_frames import ShowPositionFrame, ShowPositionFrames
 
 
 def get_collision_infractions(
-    show_simulation_slice: ShowSimulationSlice,
+    show_position_frame: ShowPositionFrame,
 ) -> List[CollisionInfraction]:
     on_ground_collision_infractions = get_optimized_collision_infractions(
-        show_simulation_slice.frame,
-        show_simulation_slice.on_ground_indices,
-        show_simulation_slice.on_ground_positions,
+        show_position_frame.frame,
+        show_position_frame.on_ground_indices,
+        show_position_frame.on_ground_positions,
         IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
         in_air=False,
     )
     in_air_collision_infractions = get_optimized_collision_infractions(
-        show_simulation_slice.frame,
-        show_simulation_slice.in_air_indices,
-        show_simulation_slice.in_air_positions,
+        show_position_frame.frame,
+        show_position_frame.in_air_indices,
+        show_position_frame.in_air_positions,
         IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
         in_air=True,
     )
     return on_ground_collision_infractions + in_air_collision_infractions
 
 
-def get_collision_infractions_from_show_simulation(
-    show_simulation: ShowSimulation,
+def get_collision_infractions_from_show_position_frames(
+    show_position_frames: ShowPositionFrames,
 ) -> List[CollisionInfraction]:
     return list(
         itertools.chain.from_iterable(
             [
-                get_collision_infractions(show_simulation_slice)
-                for show_simulation_slice in show_simulation.show_slices
+                get_collision_infractions(show_position_frame)
+                for show_position_frame in show_position_frames.show_position_frames
             ],
         ),
     )
@@ -48,15 +46,15 @@ class CollisionReport(BaseReport):
     collision_infractions: List[CollisionInfraction] = []
 
 
-def su_to_ss(show_user: ShowUser) -> ShowSimulation:
-    return sct_to_ss(su_to_sct(show_user))
+def su_to_spf(show_user: ShowUser) -> ShowPositionFrames:
+    return ShowPositionFrames.create_from_show_user(show_user)
 
 
 def get_collision_report(
     show_user: ShowUser,
 ) -> Optional[CollisionReport]:
-    collision_infractions = get_collision_infractions_from_show_simulation(
-        su_to_ss(show_user),
+    collision_infractions = get_collision_infractions_from_show_position_frames(
+        su_to_spf(show_user),
     )
     if collision_infractions:
         return CollisionReport(collision_infractions=collision_infractions)

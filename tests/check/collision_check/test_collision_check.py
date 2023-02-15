@@ -1,4 +1,4 @@
-from loader.check.collision_check.show_simulation_collision_check import (
+from loader.check.collision_check.show_position_frames_collision_check import (
     get_collision_report,
 )
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER

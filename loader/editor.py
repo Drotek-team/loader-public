@@ -1,19 +1,19 @@
 from typing import Dict, List, Tuple
 
-import numpy as np
 from pydantic import NonNegativeInt
-
-from loader.report import BaseReport
 
 from .check.all_check_from_show_user import (
     GlobalReport,
     GlobalReportSummary,
     get_global_report,
 )
-from .check.collision_check.migration.show_simulation import ShowSimulation
-from .check.collision_check.show_simulation_collision_check import (
+from .check.collision_check.migration.show_position_frames import (
+    ShowPositionFrames,
+)
+from .check.collision_check.show_position_frames_collision_check import (
     CollisionInfraction,
-    get_collision_infractions_from_show_simulation,
+    get_collision_infractions_from_show_position_frames,
+    su_to_spf,
 )
 from .check.performance_check.performance_evaluation import (
     METRICS_RANGE,
@@ -30,6 +30,7 @@ from .check.show_px4_check import (
     DanceSizeInfraction,
     get_drone_px4_report,
 )
+from .report import BaseReport
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
 from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
@@ -65,45 +66,26 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
     )
 
 
-def create_show_simulation(
+def create_show_position_frames_from_frames_positions(
     frame_start: int,
     frame_end: int,
     drone_indices: List[int],
     frames_positions: List[List[Tuple[float, float, float]]],
-) -> ShowSimulation:
-    """Return a ShowSimulation object with 'drone_number' user drones. These drones contains no events."""
-    if frame_start >= frame_end:
-        msg = f"frame_start must be strictly smaller than frame_end, not {frame_start} and {frame_end}"
-        raise ValueError(msg)
-
-    if frame_end - frame_start != len(frames_positions):
-        msg = (
-            f"frame_end - frame_start must be equal to the length of frames_positions, "
-            f"not {frame_end - frame_start} and {len(frames_positions)}"
-        )
-        raise ValueError(msg)
-
-    if any(len(drone_indices) != len(positions) for positions in frames_positions):
-        msg = "drone_indices and frames_positions items must have the same length"
-        raise ValueError(msg)
-
-    show_simulation = ShowSimulation(
-        frames=list(
-            range(
-                frame_start,
-                frame_end,
-            ),
-        ),
-        drone_indices=drone_indices,
+) -> ShowPositionFrames:
+    """Return a ShowPositionFrames from frames_positions."""
+    return ShowPositionFrames.create_from_frames_positions(
+        frame_start,
+        frame_end,
+        drone_indices,
+        frames_positions,
     )
-    for show_slice, positions in zip(show_simulation.show_slices, frames_positions):
-        for index, position in zip(drone_indices, positions):
-            show_slice.update_position_air_flag(
-                index,
-                np.array(position),
-                in_air_flag=position[2] != 0,
-            )
-    return show_simulation
+
+
+def create_show_position_frames_from_show_user(
+    show_user: ShowUser,
+) -> ShowPositionFrames:
+    """Return a ShowPositionFrame from a ShowUser."""
+    return su_to_spf(show_user)
 
 
 def get_performance_infractions(
@@ -120,10 +102,10 @@ def get_performance_infractions(
 
 
 def get_collision_infractions(
-    show_simulation: ShowSimulation,
+    show_position_frames: ShowPositionFrames,
 ) -> List[CollisionInfraction]:
     """Return all the collision infractions ordered by slice."""
-    return get_collision_infractions_from_show_simulation(show_simulation)
+    return get_collision_infractions_from_show_position_frames(show_position_frames)
 
 
 def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]:

@@ -50,6 +50,7 @@ ignore = [
     "PLR0913", # too-many-arguments # TODO: Use dataclass instead
     "PLR2004", # magic-value-comparison
     "S101",    # assert-used
+    "SIM105",  # use-contextlib-suppress
     "TCH",     # type-checking
 ]
 unfixable = [

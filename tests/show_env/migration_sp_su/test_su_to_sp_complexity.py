@@ -6,7 +6,7 @@ from loader.show_env.show_user.generate_show_user import STANDARD_SHOW_USER
 ACTIVE = False
 
 
-def test_su_to_ss_complexity() -> None:
+def test_su_to_spf_complexity() -> None:
     if not ACTIVE:
         return
     time_begin = time.time()

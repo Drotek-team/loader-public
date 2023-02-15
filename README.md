@@ -70,9 +70,10 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Check the collisions of the show with the `get_collision_infractions` function
 
   ```python
-  from loader import get_collision_infractions, su_to_ss
+  from loader import get_collision_infractions, create_show_position_frames_from_show_user
 
-  collision_infractions = get_collision_infractions(su_to_ss(show_user))
+  show_position_frames = create_show_position_frames_from_show_user(show_user)
+  collision_infractions = get_collision_infractions(show_position_frames)
   print(collision_infractions.display_message())
   ```
 
