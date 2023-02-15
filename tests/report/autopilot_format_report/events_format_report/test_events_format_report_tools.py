@@ -49,7 +49,6 @@ def test_get_timecode_report_bound_violation(
     assert (
         timecode_report.bound_infractions[0].dict()
         == IntegerBoundaryInfraction(
-            data_type="frame",
             event_index=3,
             value=JSON_BINARY_PARAMETER.timecode_value_bound.minimal - 1,
             value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
@@ -59,7 +58,6 @@ def test_get_timecode_report_bound_violation(
     assert (
         timecode_report.bound_infractions[1].dict()
         == IntegerBoundaryInfraction(
-            data_type="frame",
             event_index=4,
             value=JSON_BINARY_PARAMETER.timecode_value_bound.maximal + 1,
             value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,

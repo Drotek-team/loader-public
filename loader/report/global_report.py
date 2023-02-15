@@ -8,11 +8,9 @@ from .autopilot_format_report import AutopilotFormatReport
 from .base import BaseReport
 from .collision_report.show_position_frames_collision_report import (
     CollisionReport,
-    get_collision_report,
 )
 from .performance_report.show_trajectory_performance_report import (
     PerformanceReport,
-    get_performance_report,
 )
 from .takeoff_format_report import TakeoffFormatReport
 
@@ -57,10 +55,10 @@ class GlobalReport(BaseReport):
                 takeoff_format=takeoff_format_report,
                 autopilot_format=autopilot_format_report,
             )
-        performance_report = get_performance_report(
+        performance_report = PerformanceReport.generate(
             show_user,
         )
-        collision_report = get_collision_report(
+        collision_report = CollisionReport.generate(
             show_user,
         )
         return GlobalReport(

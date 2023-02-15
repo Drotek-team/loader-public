@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 from loader.report.collision_report.collision_math import (
+    CollisionInfraction,
     get_border_indices,
-    get_optimized_collision_infractions,
     get_principal_axis,
     get_unique_list_from_list,
 )
@@ -69,7 +69,7 @@ def test_get_optimized_collision_infractions() -> None:
         nb_x * nb_y,
     )
     assert len(
-        get_optimized_collision_infractions(
+        CollisionInfraction._get_optimized_collision_infractions(  # pyright: ignore
             0,
             local_indices,
             get_numpy_grid(nb_x, nb_y),
@@ -90,7 +90,7 @@ def test_get_optimized_collision_infractions_big_number() -> None:
     normal_value = (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
     assert (
         len(
-            get_optimized_collision_infractions(
+            CollisionInfraction._get_optimized_collision_infractions(  # pyright: ignore
                 0,
                 local_indices,
                 get_numpy_grid(nb_x, nb_y),

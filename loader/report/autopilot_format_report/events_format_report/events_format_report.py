@@ -9,17 +9,16 @@ from loader.show_env.autopilot_format.drone_px4.events import (
 )
 
 from .events_format_report_tools import (
-    IntegerBoundaryInfraction,
+    ChromeInfraction,
+    CoordinateInfraction,
+    DurationChanelInfraction,
     TimecodeReport,
-    get_chrome_infractions,
-    get_coordinate_infractions,
-    get_duration_chanel_infractions,
 )
 
 
 class PositionEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    coordinate_infractions: List[IntegerBoundaryInfraction] = []
+    coordinate_infractions: List[CoordinateInfraction] = []
 
     @classmethod
     def generate(
@@ -27,7 +26,7 @@ class PositionEventsReport(BaseReport):
         position_events: PositionEvents,
     ) -> Optional["PositionEventsReport"]:
         timecode_report = TimecodeReport.generate(position_events)
-        coordinate_infractions = get_coordinate_infractions(
+        coordinate_infractions = CoordinateInfraction.generate(
             position_events,
         )
         if timecode_report or coordinate_infractions:
@@ -40,7 +39,7 @@ class PositionEventsReport(BaseReport):
 
 class ColorEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    chrome_infractions: List[IntegerBoundaryInfraction] = []
+    chrome_infractions: List[ChromeInfraction] = []
 
     @classmethod
     def generate(
@@ -50,7 +49,7 @@ class ColorEventsReport(BaseReport):
         timecode_report = TimecodeReport.generate(
             color_events,
         )
-        chrome_infractions = get_chrome_infractions(
+        chrome_infractions = ChromeInfraction.generate(
             color_events,
         )
         if timecode_report or chrome_infractions:
@@ -63,7 +62,7 @@ class ColorEventsReport(BaseReport):
 
 class FireEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    duration_chanel_infractions: List[IntegerBoundaryInfraction] = []
+    duration_chanel_infractions: List[DurationChanelInfraction] = []
 
     @classmethod
     def generate(
@@ -73,7 +72,7 @@ class FireEventsReport(BaseReport):
         timecode_report = TimecodeReport.generate(
             fire_events,
         )
-        duration_chanel_infractions = get_duration_chanel_infractions(fire_events)
+        duration_chanel_infractions = DurationChanelInfraction.generate(fire_events)
         if timecode_report or duration_chanel_infractions:
             return FireEventsReport(
                 timecode_report=timecode_report,

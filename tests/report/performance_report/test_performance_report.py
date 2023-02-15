@@ -5,7 +5,7 @@ from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from loader.report.base import get_report_validation
 from loader.report.performance_report.show_trajectory_performance_report import (
     PerformanceInfraction,
-    get_performance_report,
+    PerformanceReport,
 )
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -16,7 +16,7 @@ EPSILON_DELTA = 1e-2
 
 
 def test_valid_show_trajectory_performance() -> None:
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         get_valid_show_user(ShowUserConfiguration()),
     )
     assert get_report_validation(performance_report)
@@ -28,7 +28,7 @@ def test_valid_show_user_vertical_position() -> None:
             takeoff_altitude=TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     assert get_report_validation(performance_report)
@@ -41,7 +41,7 @@ def test_invalid_show_user_vertical_position() -> None:
             - EPSILON_DELTA,
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -86,7 +86,7 @@ def test_valid_show_user_horizontal_velocity() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -121,7 +121,7 @@ def test_invalid_show_user_horizontal_velocity() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -154,7 +154,7 @@ def test_valid_show_user_up_velocity() -> None:
             last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETER.velocity_up_max,
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -189,7 +189,7 @@ def test_invalid_show_user_up_velocity() -> None:
             + EPSILON_DELTA,
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -225,7 +225,7 @@ def test_valid_show_user_down_velocity() -> None:
             last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETER.velocity_down_max,
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -264,7 +264,7 @@ def test_invalid_show_user_down_velocity() -> None:
             - EPSILON_DELTA,
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:
@@ -304,7 +304,7 @@ def test_valid_show_user_acceleration() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     assert get_report_validation(performance_report)
@@ -331,7 +331,7 @@ def test_invalid_show_user_acceleration() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_report = get_performance_report(
+    performance_report = PerformanceReport.generate(
         valid_show_user,
     )
     if performance_report is None:

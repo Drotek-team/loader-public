@@ -13,7 +13,6 @@ from loader.show_env.autopilot_format.drone_px4.events import (
 
 
 class IntegerBoundaryInfraction(BaseInfraction):
-    data_type: str
     event_index: int
     value: int
     value_min: int
@@ -54,7 +53,6 @@ class TimeCodeValueInfraction(IntegerBoundaryInfraction):
     ) -> List["TimeCodeValueInfraction"]:
         return [
             TimeCodeValueInfraction(
-                data_type="frame",
                 event_index=event_index,
                 value=frame,
                 value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
@@ -90,95 +88,100 @@ class TimecodeReport(BaseReport):
         return None
 
 
-def get_coordinate_infractions(
-    position_events: PositionEvents,
-) -> List[IntegerBoundaryInfraction]:
-    return [
-        IntegerBoundaryInfraction(
-            data_type="coordinate",
-            event_index=event_index,
-            value=position_event.xyz[coordinate_index],
-            value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
-        )
-        for event_index, position_event in enumerate(
-            position_events.specific_events,
-        )
-        for coordinate_index in range(3)
-        if not (
-            check_integer_bound(
-                position_event.xyz[coordinate_index],
-                JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-                JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+class CoordinateInfraction(IntegerBoundaryInfraction):
+    @classmethod
+    def generate(
+        cls,
+        position_events: PositionEvents,
+    ) -> List["CoordinateInfraction"]:
+        return [
+            CoordinateInfraction(
+                event_index=event_index,
+                value=position_event.xyz[coordinate_index],
+                value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
             )
-        )
-    ]
+            for event_index, position_event in enumerate(
+                position_events.specific_events,
+            )
+            for coordinate_index in range(3)
+            if not (
+                check_integer_bound(
+                    position_event.xyz[coordinate_index],
+                    JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
+                    JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+                )
+            )
+        ]
 
 
-def get_chrome_infractions(
-    color_events: ColorEvents,
-) -> List[IntegerBoundaryInfraction]:
-    return [
-        IntegerBoundaryInfraction(
-            data_type="chrome",
-            event_index=event_index,
-            value=color_event.rgbw[chrome_index],
-            value_min=JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
-        )
-        for event_index, color_event in enumerate(
-            color_events.specific_events,
-        )
-        for chrome_index in range(4)
-        if not (
-            check_integer_bound(
-                color_event.rgbw[chrome_index],
-                JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
-                JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
+class ChromeInfraction(IntegerBoundaryInfraction):
+    @classmethod
+    def generate(
+        cls,
+        color_events: ColorEvents,
+    ) -> List["ChromeInfraction"]:
+        return [
+            ChromeInfraction(
+                event_index=event_index,
+                value=color_event.rgbw[chrome_index],
+                value_min=JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
             )
-        )
-    ]
+            for event_index, color_event in enumerate(
+                color_events.specific_events,
+            )
+            for chrome_index in range(4)
+            if not (
+                check_integer_bound(
+                    color_event.rgbw[chrome_index],
+                    JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
+                    JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
+                )
+            )
+        ]
 
 
-def get_duration_chanel_infractions(
-    fire_events: FireEvents,
-) -> List[IntegerBoundaryInfraction]:
-    fire_duration_boundary_infractions = [
-        IntegerBoundaryInfraction(
-            data_type="fire duration",
-            event_index=event_index,
-            value=fire_event.duration,
-            value_min=JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
-        )
-        for event_index, fire_event in enumerate(
-            fire_events.specific_events,
-        )
-        if not (
-            check_integer_bound(
-                fire_event.duration,
-                JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
-                JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
+class DurationChanelInfraction(IntegerBoundaryInfraction):
+    @classmethod
+    def generate(
+        cls,
+        fire_events: FireEvents,
+    ) -> List["DurationChanelInfraction"]:
+        fire_duration_boundary_infractions = [
+            DurationChanelInfraction(
+                event_index=event_index,
+                value=fire_event.duration,
+                value_min=JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
             )
-        )
-    ]
-    fire_chanel_boundary_infractions = [
-        IntegerBoundaryInfraction(
-            data_type="fire chanel",
-            event_index=event_index,
-            value=fire_event.chanel,
-            value_min=JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
-        )
-        for event_index, fire_event in enumerate(
-            fire_events.specific_events,
-        )
-        if not (
-            check_integer_bound(
-                fire_event.chanel,
-                JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
-                JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
+            for event_index, fire_event in enumerate(
+                fire_events.specific_events,
             )
-        )
-    ]
-    return fire_duration_boundary_infractions + fire_chanel_boundary_infractions
+            if not (
+                check_integer_bound(
+                    fire_event.duration,
+                    JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
+                    JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
+                )
+            )
+        ]
+        fire_chanel_boundary_infractions = [
+            DurationChanelInfraction(
+                event_index=event_index,
+                value=fire_event.chanel,
+                value_min=JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
+            )
+            for event_index, fire_event in enumerate(
+                fire_events.specific_events,
+            )
+            if not (
+                check_integer_bound(
+                    fire_event.chanel,
+                    JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
+                    JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
+                )
+            )
+        ]
+        return fire_duration_boundary_infractions + fire_chanel_boundary_infractions

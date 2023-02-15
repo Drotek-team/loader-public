@@ -5,13 +5,8 @@ from loader.show_env.autopilot_format.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
 from loader.show_env.show_user import ShowUser
 
-from .dances_size_report import (
-    DanceSizeInfraction,
-    get_dance_size_infraction,
-)
-from .events_format_report import (
-    EventsFormatReport,
-)
+from .dances_size_report import DanceSizeInfraction
+from .events_format_report import EventsFormatReport
 
 
 class DronePx4Report(BaseReport):
@@ -23,7 +18,7 @@ class DronePx4Report(BaseReport):
         events_format_report = EventsFormatReport.generate(
             drone_px4,
         )
-        dance_size_infraction = get_dance_size_infraction(
+        dance_size_infraction = DanceSizeInfraction.generate(
             drone_px4,
         )
         if events_format_report is not None or dance_size_infraction is not None:

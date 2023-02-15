@@ -9,7 +9,7 @@ from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
     TAKEOFF_PARAMETER,
 )
 from loader.report.autopilot_format_report.events_format_report import (
-    IntegerBoundaryInfraction,
+    CoordinateInfraction,
     PositionEventsReport,
 )
 from loader.report.base import get_report_validation
@@ -70,8 +70,7 @@ def test_invalid_position_events_xyz_value_report(
     for coordinate_infraction in coordinate_infractions:
         assert (
             coordinate_infraction.dict()
-            == IntegerBoundaryInfraction(
-                data_type="coordinate",
+            == CoordinateInfraction(
                 event_index=2,
                 value=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
                 value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,

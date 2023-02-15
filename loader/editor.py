@@ -11,7 +11,6 @@ from .report.collision_report.migration.show_position_frames import (
 )
 from .report.collision_report.show_position_frames_collision_report import (
     CollisionInfraction,
-    get_collision_infractions_from_show_position_frames,
     su_to_spf,
 )
 from .report.global_report import (
@@ -26,7 +25,6 @@ from .report.performance_report.performance_evaluation import (
 )
 from .report.performance_report.show_trajectory_performance_report import (
     PerformanceInfraction,
-    get_performance_infractions_from_show_trajectory,
     su_to_stp,
 )
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
@@ -92,7 +90,7 @@ def get_performance_infractions(
 ) -> List[PerformanceInfraction]:
     """Return all the performance infractions ordered by drone and by slice."""
     METRICS_RANGE.update(update_metrics_range)
-    performance_infractions = get_performance_infractions_from_show_trajectory(
+    performance_infractions = PerformanceInfraction.generate(
         su_to_stp(show_user),
     )
     METRICS_RANGE.update(METRICS_RANGE_COPY)
@@ -103,7 +101,7 @@ def get_collision_infractions(
     show_position_frames: ShowPositionFrames,
 ) -> List[CollisionInfraction]:
     """Return all the collision infractions ordered by slice."""
-    return get_collision_infractions_from_show_position_frames(show_position_frames)
+    return CollisionInfraction.generate(show_position_frames)
 
 
 def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]:

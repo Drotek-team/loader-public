@@ -1,4 +1,5 @@
 import copy
+import itertools
 from dataclasses import dataclass
 from enum import Enum
 from typing import Callable, Dict, List
@@ -12,6 +13,11 @@ from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from loader.report.base import BaseInfraction
 from loader.report.performance_report.migration.show_trajectory_performance import (
     Performance,
+)
+
+from .migration.show_trajectory_performance import (
+    DroneTrajectoryPerformance,
+    ShowTrajectoryPerformance,
 )
 
 
@@ -106,21 +112,56 @@ class PerformanceInfraction(BaseInfraction):
     threshold: float
     metric_convention: bool
 
+    @classmethod
+    def _get_performance_infractions_from_performance(
+        cls,
+        drone_index: int,
+        frame: int,
+        performance: Performance,
+    ) -> List["PerformanceInfraction"]:
+        return [
+            PerformanceInfraction(
+                performance_name=metric.value,
+                drone_index=drone_index,
+                frame=frame,
+                value=metric.evaluation(performance),
+                threshold=metric.range_.threshold,
+                metric_convention=metric.range_.standard_convention,
+            )
+            for metric in Metric
+            if not metric.validation(performance)
+        ]
 
-def get_performance_infractions_from_performance(
-    drone_index: int,
-    frame: int,
-    performance: Performance,
-) -> List[PerformanceInfraction]:
-    return [
-        PerformanceInfraction(
-            performance_name=metric.value,
-            drone_index=drone_index,
-            frame=frame,
-            value=metric.evaluation(performance),
-            threshold=metric.range_.threshold,
-            metric_convention=metric.range_.standard_convention,
+    @classmethod
+    def _get_performance_infractions_from_drone_performance(
+        cls,
+        drone_trajectory_performance: DroneTrajectoryPerformance,
+    ) -> List["PerformanceInfraction"]:
+        return list(
+            itertools.chain.from_iterable(
+                cls._get_performance_infractions_from_performance(
+                    drone_trajectory_performance.index,
+                    trajectory_performance_info.frame,
+                    trajectory_performance_info.performance,
+                )
+                for (
+                    trajectory_performance_info
+                ) in drone_trajectory_performance.trajectory_performance_infos
+            ),
         )
-        for metric in Metric
-        if not metric.validation(performance)
-    ]
+
+    @classmethod
+    def generate(
+        cls,
+        show_trajectory_performance: ShowTrajectoryPerformance,
+    ) -> List["PerformanceInfraction"]:
+        return list(
+            itertools.chain.from_iterable(
+                cls._get_performance_infractions_from_drone_performance(
+                    drone_trajectory_performance,
+                )
+                for (
+                    drone_trajectory_performance
+                ) in show_trajectory_performance.drones_trajectory_performance
+            ),
+        )

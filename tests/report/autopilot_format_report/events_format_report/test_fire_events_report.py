@@ -3,8 +3,8 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
     JSON_BINARY_PARAMETER,
 )
 from loader.report.autopilot_format_report.events_format_report import (
+    DurationChanelInfraction,
     FireEventsReport,
-    IntegerBoundaryInfraction,
 )
 from loader.report.base import get_report_validation
 from loader.show_env.autopilot_format.drone_px4.events import FireEvents
@@ -63,8 +63,7 @@ def test_invalid_fire_events_chanel_value_report(
     assert len(fire_events_report.duration_chanel_infractions) == 1
     assert (
         fire_events_report.duration_chanel_infractions[0].dict()
-        == IntegerBoundaryInfraction(
-            data_type="fire chanel",
+        == DurationChanelInfraction(
             event_index=3,
             value=3,
             value_min=0,
@@ -90,8 +89,7 @@ def test_invalid_fire_events_duration_value_report(
     assert len(fire_events_report.duration_chanel_infractions) == 1
     assert (
         fire_events_report.duration_chanel_infractions[0].dict()
-        == IntegerBoundaryInfraction(
-            data_type="fire duration",
+        == DurationChanelInfraction(
             event_index=3,
             value=256,
             value_min=0,

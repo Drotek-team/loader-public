@@ -1,15 +1,19 @@
 from .events_format_report import (
+    ChromeInfraction,
     ColorEventsReport,
+    CoordinateInfraction,
+    DurationChanelInfraction,
     EventsFormatReport,
     FireEventsReport,
-    IntegerBoundaryInfraction,
     PositionEventsReport,
 )
 
 __all__ = (
+    "ChromeInfraction",
     "ColorEventsReport",
+    "CoordinateInfraction",
+    "DurationChanelInfraction",
     "EventsFormatReport",
     "FireEventsReport",
-    "IntegerBoundaryInfraction",
     "PositionEventsReport",
 )

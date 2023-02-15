@@ -13,14 +13,15 @@ class DanceSizeInfraction(BaseInfraction):
     dance_size: int
     dance_size_max: int
 
-
-def get_dance_size_infraction(
-    drone_px4: DronePx4,
-) -> Optional[DanceSizeInfraction]:
-    if get_dance_size(drone_px4) >= JSON_BINARY_PARAMETER.dance_size_max:
-        return DanceSizeInfraction(
-            drone_index=drone_px4.index,
-            dance_size=get_dance_size(drone_px4),
-            dance_size_max=JSON_BINARY_PARAMETER.dance_size_max,
-        )
-    return None
+    @classmethod
+    def generate(
+        cls,
+        drone_px4: DronePx4,
+    ) -> Optional["DanceSizeInfraction"]:
+        if get_dance_size(drone_px4) >= JSON_BINARY_PARAMETER.dance_size_max:
+            return DanceSizeInfraction(
+                drone_index=drone_px4.index,
+                dance_size=get_dance_size(drone_px4),
+                dance_size_max=JSON_BINARY_PARAMETER.dance_size_max,
+            )
+        return None

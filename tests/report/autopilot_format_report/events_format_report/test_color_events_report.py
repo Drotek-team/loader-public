@@ -3,8 +3,8 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
     JSON_BINARY_PARAMETER,
 )
 from loader.report.autopilot_format_report.events_format_report import (
+    ChromeInfraction,
     ColorEventsReport,
-    IntegerBoundaryInfraction,
 )
 from loader.report.base import get_report_validation
 from loader.show_env.autopilot_format.drone_px4.events import ColorEvents
@@ -60,8 +60,7 @@ def test_invalid_color_events_rgbw_value_report(
     assert len(color_events_report.chrome_infractions) == 1
     assert (
         color_events_report.chrome_infractions[0].dict()
-        == IntegerBoundaryInfraction(
-            data_type="chrome",
+        == ChromeInfraction(
             event_index=2,
             value=JSON_BINARY_PARAMETER.chrome_value_bound.maximal + 1,
             value_min=JSON_BINARY_PARAMETER.chrome_value_bound.minimal,

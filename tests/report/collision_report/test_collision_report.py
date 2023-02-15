@@ -1,7 +1,7 @@
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from loader.report.base import get_report_validation
 from loader.report.collision_report.show_position_frames_collision_report import (
-    get_collision_report,
+    CollisionReport,
 )
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -20,7 +20,7 @@ def test_valid_simulation_on_ground() -> None:
         ),
     )
 
-    collision_report = get_collision_report(
+    collision_report = CollisionReport.generate(
         valid_show_user_on_ground,
     )
 
@@ -35,7 +35,7 @@ def test_invalid_simulation_on_ground() -> None:
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA,
         ),
     )
-    collision_report = get_collision_report(
+    collision_report = CollisionReport.generate(
         invalid_show_user_on_ground,
     )
     assert get_report_validation(collision_report)
@@ -49,7 +49,7 @@ def test_valid_simulation_in_air() -> None:
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
         ),
     )
-    collision_report = get_collision_report(
+    collision_report = CollisionReport.generate(
         invalid_show_user_on_ground,
     )
     assert get_report_validation(collision_report)
@@ -64,7 +64,7 @@ def test_invalid_simulation_in_air() -> None:
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
         ),
     )
-    collision_report = get_collision_report(
+    collision_report = CollisionReport.generate(
         invalid_show_user_on_ground,
     )
     assert not (get_report_validation(collision_report))
