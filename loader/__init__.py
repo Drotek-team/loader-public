@@ -1,32 +1,36 @@
-from .check.collision_check.show_simulation_collision_check import su_to_ss
-from .editor import (
-    CollisionInfraction,
-    DanceSizeInfraction,
-    DroneUser,
-    GlobalReport,
-    GlobalReportSummary,
-    IostarJsonGcs,
-    Metric,
-    MetricRange,
-    PerformanceInfraction,
-    ReportError,
-    ShowConfigurationGcs,
-    ShowSimulation,
-    ShowUser,
-    convert_iostar_json_gcs_string_to_show_user,
-    convert_show_user_to_iostar_json_gcs,
-    create_empty_show_user,
-    create_show_simulation,
-    generate_report_from_iostar_json_gcs_string,
-    generate_report_from_show_user,
-    generate_report_summary_from_iostar_json_gcs_string,
-    generate_report_summary_from_show_user,
-    get_collision_infractions,
-    get_dance_size_infractions,
-    get_performance_infractions,
-    get_show_configuration_from_iostar_json_gcs_string,
-    get_verified_iostar_json_gcs,
-)
+try:
+    from .check.collision_check.show_simulation_collision_check import su_to_ss
+    from .editor import (
+        CollisionInfraction,
+        DanceSizeInfraction,
+        DroneUser,
+        GlobalReport,
+        GlobalReportSummary,
+        IostarJsonGcs,
+        Metric,
+        MetricRange,
+        PerformanceInfraction,
+        ReportError,
+        ShowConfigurationGcs,
+        ShowSimulation,
+        ShowUser,
+        convert_iostar_json_gcs_string_to_show_user,
+        convert_show_user_to_iostar_json_gcs,
+        create_empty_show_user,
+        create_show_simulation,
+        generate_report_from_iostar_json_gcs_string,
+        generate_report_from_show_user,
+        generate_report_summary_from_iostar_json_gcs_string,
+        generate_report_summary_from_show_user,
+        get_collision_infractions,
+        get_dance_size_infractions,
+        get_performance_infractions,
+        get_show_configuration_from_iostar_json_gcs_string,
+        get_verified_iostar_json_gcs,
+    )
+
+except ModuleNotFoundError:
+    pass
 
 __all__ = (
     "su_to_ss",
