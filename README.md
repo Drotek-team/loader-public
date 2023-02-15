@@ -43,18 +43,18 @@ This project goal is to help the creation and verification of Drotek dance file.
    show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
    ```
 
-### Show Check
+### Show Reports
 
-- Check the show validity with the `global_check_show_user`
+- Generate the report of the show with the `generate_report_from_show_user`
 
   ```python
-  from loader import get_drotek_check_from_show_user
+  from loader import generate_report_from_show_user
 
-  report = get_drotek_check_from_show_user(show_user)
+  report = generate_report_from_show_user(show_user)
   print(report)
   ```
 
-- Check the performance of the show with the `get_performance_infractions` function
+- Generate the performance report of the show with the `get_performance_infractions` function
 
   ```python
   from loader import get_performance_infractions, Metric, MetricRange
@@ -67,7 +67,7 @@ This project goal is to help the creation and verification of Drotek dance file.
   print(performance_infractions.display_message())
   ```
 
-- Check the collisions of the show with the `get_collision_infractions` function
+- Generate the collisions report of the show with the `get_collision_infractions` function
 
   ```python
   from loader import get_collision_infractions, create_show_position_frames_from_show_user
@@ -77,7 +77,7 @@ This project goal is to help the creation and verification of Drotek dance file.
   print(collision_infractions.display_message())
   ```
 
-- Check the dance size infractions of the show with the `get_dance_size_infractions`
+- Generate the dance size report of the show with the `get_dance_size_infractions`
   function
 
   ```python

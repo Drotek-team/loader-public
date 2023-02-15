@@ -1,5 +1,6 @@
 from hypothesis import given
 from hypothesis import strategies as st
+from loader.show_env.autopilot_format.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
 from loader.show_env.migration_sp_su.su_to_sp import (
     add_color_events_user,
@@ -8,7 +9,6 @@ from loader.show_env.migration_sp_su.su_to_sp import (
     drone_user_to_drone_px4,
     su_to_sp,
 )
-from loader.show_env.show_px4.drone_px4 import DronePx4
 from loader.show_env.show_user import (
     ColorEventUser,
     DroneUser,

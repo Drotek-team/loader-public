@@ -4,8 +4,8 @@ import pytest
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
+from loader.show_env.autopilot_format.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
-from loader.show_env.show_px4.drone_px4 import DronePx4
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)
@@ -31,7 +31,7 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 
 @pytest.fixture
-def valid_show_px4() -> List[DronePx4]:
+def valid_autopilot_format() -> List[DronePx4]:
     drone_px4 = DronePx4(0)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
@@ -65,9 +65,9 @@ def valid_show_px4() -> List[DronePx4]:
 
 
 def test_drone_px4_to_drone_user_position_events(
-    valid_show_px4: List[DronePx4],
+    valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = sp_to_su(valid_show_px4)
+    show_user = sp_to_su(valid_autopilot_format)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[
@@ -94,8 +94,10 @@ def test_drone_px4_to_drone_user_position_events(
     )
 
 
-def test_drone_px4_to_drone_user_color_events(valid_show_px4: List[DronePx4]) -> None:
-    show_user = sp_to_su(valid_show_px4)
+def test_drone_px4_to_drone_user_color_events(
+    valid_autopilot_format: List[DronePx4],
+) -> None:
+    show_user = sp_to_su(valid_autopilot_format)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
@@ -112,8 +114,10 @@ def test_drone_px4_to_drone_user_color_events(valid_show_px4: List[DronePx4]) ->
     )
 
 
-def test_drone_px4_to_drone_user_fire_events(valid_show_px4: List[DronePx4]) -> None:
-    show_user = sp_to_su(valid_show_px4)
+def test_drone_px4_to_drone_user_fire_events(
+    valid_autopilot_format: List[DronePx4],
+) -> None:
+    show_user = sp_to_su(valid_autopilot_format)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1

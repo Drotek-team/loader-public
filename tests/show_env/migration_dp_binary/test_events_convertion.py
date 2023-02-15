@@ -1,13 +1,13 @@
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.show_env.migration_dp_binary.events_convertion import (
-    decode_events,
-    encode_events,
-)
-from loader.show_env.show_px4.drone_px4.events import (
+from loader.show_env.autopilot_format.drone_px4.events import (
     ColorEvents,
     FireEvents,
     PositionEvents,
+)
+from loader.show_env.migration_dp_binary.events_convertion import (
+    decode_events,
+    encode_events,
 )
 
 

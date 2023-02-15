@@ -161,11 +161,11 @@ def test_get_dance_size_report() -> None:
     assert len(get_dance_size_infractions(show_user)) == 0
 
 
-def test_get_drotek_check_from_show_user_standard_case() -> None:
+def test_generate_report_from_show_user_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     assert generate_report_from_show_user(show_user).dict() == {
-        "show_user": None,
-        "show_px4": None,
+        "takeoff_format": None,
+        "autopilot_format": None,
         "performance": None,
         "collision": None,
     }
@@ -174,36 +174,36 @@ def test_get_drotek_check_from_show_user_standard_case() -> None:
 def test_generate_report_summary_from_show_user_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     assert generate_report_summary_from_show_user(show_user).dict() == {
-        "show_user": 0,
-        "show_px4": 0,
+        "takeoff_format": 0,
+        "autopilot_format": 0,
         "performance": 0,
         "collision": 0,
     }
 
 
-def test_global_check_iostar_json_gcs() -> None:
+def test_generate_report_from_iostar_json_gcs_string() -> None:
     iostar_json_gcs_string = su_to_ijg(
         get_valid_show_user(ShowUserConfiguration()),
     ).json()
     assert generate_report_from_iostar_json_gcs_string(
         iostar_json_gcs_string,
     ).dict() == {
-        "show_user": None,
-        "show_px4": None,
+        "takeoff_format": None,
+        "autopilot_format": None,
         "performance": None,
         "collision": None,
     }
 
 
-def test_get_drotek_check_summary_from_iostar_json_gcs_string_standard_case() -> None:
+def test_generate_report_summary_from_iostar_json_gcs_string_standard_case() -> None:
     iostar_json_gcs_string = su_to_ijg(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2)),
     ).json()
     assert generate_report_summary_from_iostar_json_gcs_string(
         iostar_json_gcs_string,
     ).dict() == {
-        "show_user": 0,
-        "show_px4": 0,
+        "takeoff_format": 0,
+        "autopilot_format": 0,
         "performance": 0,
         "collision": 0,
     }

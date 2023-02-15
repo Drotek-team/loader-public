@@ -8,5 +8,5 @@ from loader.show_env.show_user.generate_show_user import (
 
 def test_ijg_to_su() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, step=2.0))
-    export_import_show_px4 = ijg_to_su(su_to_ijg(show_user))
-    assert show_user == export_import_show_px4
+    export_import_autopilot_format = ijg_to_su(su_to_ijg(show_user))
+    assert show_user == export_import_autopilot_format

@@ -1,14 +1,14 @@
 import struct
 
-from loader.show_env.migration_dp_binary.drone_encoding import get_dance_size
-from loader.show_env.show_px4.drone_px4 import (
+from loader.show_env.autopilot_format.drone_px4 import (
     DronePx4,
 )
-from loader.show_env.show_px4.drone_px4.events import (
+from loader.show_env.autopilot_format.drone_px4.events import (
     ColorEvents,
     FireEvents,
     PositionEvents,
 )
+from loader.show_env.migration_dp_binary.drone_encoding import get_dance_size
 
 DANCE_BASIC_SIZE = 34
 POSITION_EVENT_SIZE = struct.calcsize(PositionEvents().format_)
