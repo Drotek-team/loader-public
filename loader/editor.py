@@ -86,7 +86,7 @@ def get_performance_infractions(
     show_user: ShowUser,
     update_performances_range: Dict[PerformanceKind, PerformanceRange],
 ) -> List[PerformanceInfraction]:
-    """Return all the performance infractions ordered by drone and by slice."""
+    """Return all the performance infractions from show_user ordered by drone and by slice. The performances range is updated with 'update_performances_range' before the generation."""
     PERFORMANCES_RANGE.update(update_performances_range)
     performance_infractions = PerformanceInfraction.generate(
         su_to_stp(show_user),
@@ -98,12 +98,12 @@ def get_performance_infractions(
 def get_collision_infractions(
     show_position_frames: ShowPositionFrames,
 ) -> List[CollisionInfraction]:
-    """Return all the collision infractions ordered by slice."""
+    """Return all the collision infractions from show_position_frames ordered by slice."""
     return CollisionInfraction.generate(show_position_frames)
 
 
 def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]:
-    """Return all dance size infractions ordered by drones."""
+    """Return all dance size infractions from show_user ordered by drones."""
     autopilot_format = su_to_sp(show_user)
     return [
         dance_size_infraction
@@ -114,14 +114,14 @@ def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]
 
 
 def generate_report_from_show_user(show_user: ShowUser) -> GlobalReport:
-    """Return a report of show user validity."""
+    """Return a global report from show_user."""
     return GlobalReport.generate(show_user)
 
 
 def generate_report_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> GlobalReport:
-    """Return a report of iostar json gcs string validity as a string."""
+    """Return a global report from iostar_json_gcs_string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     return GlobalReport.generate(show_user)
@@ -130,27 +130,27 @@ def generate_report_from_iostar_json_gcs_string(
 def get_show_configuration_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> ShowConfigurationGcs:
-    """Return ShowConfigurationGcs of iostar json gcs string."""
+    """Return ShowConfigurationGcs based on iostar_json_gcs_string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     return su_to_scg(show_user)
 
 
 def convert_show_user_to_iostar_json_gcs(show_user: ShowUser) -> IostarJsonGcs:
-    """Convert ShowUser to IostarJsonGcs."""
+    """Return iostar json gcs string based on show_user."""
     return su_to_ijg(show_user)
 
 
 def convert_iostar_json_gcs_string_to_show_user(
     iostar_json_gcs_string: str,
 ) -> ShowUser:
-    """Return ShowUser from an iostar json gcs string."""
+    """Return show_user based on iostar json gcs string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     return ijg_to_su(iostar_json_gcs)
 
 
 def get_verified_iostar_json_gcs(iostar_json_gcs_string: str) -> IostarJsonGcs:
-    """Return IostarJsonGcs from an iostar json gcs string."""
+    """Return iostar_json_gcs from iostar_json_gcs_string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     global_report = GlobalReport.generate(show_user)
