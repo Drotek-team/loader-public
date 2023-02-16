@@ -18,10 +18,9 @@ from .report.global_report import (
     GlobalReportSummary,
 )
 from .report.performance_report.performance_evaluation import (
-    METRICS_RANGE,
-    METRICS_RANGE_COPY,
-    Metric,
-    MetricRange,
+    PERFORMANCES_RANGE,
+    PerformanceKind,
+    PerformanceRange,
 )
 from .report.performance_report.show_trajectory_performance_report import (
     PerformanceInfraction,
@@ -86,14 +85,14 @@ def create_show_position_frames_from_show_user(
 
 def get_performance_infractions(
     show_user: ShowUser,
-    update_metrics_range: Dict[Metric, MetricRange],
+    update_performances_range: Dict[PerformanceKind, PerformanceRange],
 ) -> List[PerformanceInfraction]:
     """Return all the performance infractions ordered by drone and by slice."""
-    METRICS_RANGE.update(update_metrics_range)
+    PERFORMANCES_RANGE.update(update_performances_range)
     performance_infractions = PerformanceInfraction.generate(
         su_to_stp(show_user),
     )
-    METRICS_RANGE.update(METRICS_RANGE_COPY)
+    PERFORMANCES_RANGE.reset()
     return performance_infractions
 
 

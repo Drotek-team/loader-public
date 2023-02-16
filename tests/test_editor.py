@@ -3,8 +3,8 @@ from pathlib import Path
 import pytest
 from loader import (
     IostarJsonGcs,
-    Metric,
-    MetricRange,
+    PerformanceKind,
+    PerformanceRange,
     convert_iostar_json_gcs_string_to_show_user,
     convert_show_user_to_iostar_json_gcs,
     create_empty_show_user,
@@ -130,16 +130,14 @@ def test_create_show_position_frames_incoherence_frame_indices_and_frame_positio
 
 def test_get_performance_infractions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
+    show_user.drones_user[0].add_position_event(frame=1000, xyz=(0.0, 0.0, 0.0))
     assert len(get_performance_infractions(show_user, {})) == 0
     assert (
         len(
             get_performance_infractions(
                 show_user,
                 {
-                    Metric.VERTICAL_POSITION: MetricRange(
-                        threshold=1.5,
-                        standard_convention=False,
-                    ),
+                    PerformanceKind.ACCELERATION: PerformanceRange(threshold=0.0001),
                 },
             ),
         )

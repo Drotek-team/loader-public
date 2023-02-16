@@ -57,12 +57,12 @@ This project goal is to help the creation and verification of Drotek dance file.
 - Generate the performance report of the show with the `get_performance_infractions` function
 
   ```python
-  from loader import get_performance_infractions, Metric, MetricRange
+  from loader import get_performance_infractions, PerformanceKind, PerformanceRange
 
   performance_infractions = get_performance_infractions(show_user, {})
   print(performance_infractions.display_message())
 
-  new_performance_configuration = {Metric.HORIZONTAL_VELOCITY: MetricRange(3.0)}
+  new_performance_configuration = {PerformanceKind.HORIZONTAL_VELOCITY: PerformanceRange(3.0)}
   performance_infractions = get_performance_infractions(show_user, new_performance_configuration)
   print(performance_infractions.display_message())
   ```

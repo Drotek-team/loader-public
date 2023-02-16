@@ -6,9 +6,6 @@ from typing import Callable, Dict, List
 
 import numpy as np
 
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
 from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
 from loader.report.base import BaseInfraction
 from loader.report.performance_report.migration.show_trajectory_performance import (
@@ -22,18 +19,14 @@ from .migration.show_trajectory_performance import (
 
 
 @dataclass(frozen=True)
-class MetricRange:
+class PerformanceRange:
     threshold: float
-    standard_convention: bool = True
 
     def validation(self, value: float) -> bool:
-        if self.standard_convention:
-            return value <= self.threshold
-        return value >= self.threshold
+        return value <= self.threshold
 
 
-class Metric(Enum):
-    VERTICAL_POSITION = "vertical position"
+class PerformanceKind(Enum):
     HORIZONTAL_VELOCITY = "horizontal velocity"
     UP_VELOCITY = "up velocity"
     DOWN_VELOCITY = "down velocity"
@@ -41,18 +34,14 @@ class Metric(Enum):
 
     @property
     def evaluation(self) -> Callable[[Performance], float]:
-        return METRICS_EVALUATION[self]
+        return PERFORMANCES_EVALUATION[self]
 
     @property
-    def range_(self) -> MetricRange:
-        return METRICS_RANGE[self]
+    def range_(self) -> PerformanceRange:
+        return PERFORMANCES_RANGE[self]
 
     def validation(self, performance: Performance) -> bool:
         return self.range_.validation(self.evaluation(performance))
-
-
-def vertical_position_evaluation(performance: Performance) -> float:
-    return float(performance.position[2])
 
 
 def horizontal_velocity_evaluation(performance: Performance) -> float:
@@ -71,37 +60,38 @@ def acceleration_evaluation(performance: Performance) -> float:
     return float(np.linalg.norm(performance.acceleration))
 
 
-METRICS_EVALUATION: Dict[Metric, Callable[[Performance], float]] = {
-    Metric.VERTICAL_POSITION: vertical_position_evaluation,
-    Metric.HORIZONTAL_VELOCITY: horizontal_velocity_evaluation,
-    Metric.UP_VELOCITY: up_velocity_evaluation,
-    Metric.DOWN_VELOCITY: down_velocity_evaluation,
-    Metric.ACCELERATION: acceleration_evaluation,
+PERFORMANCES_EVALUATION: Dict[PerformanceKind, Callable[[Performance], float]] = {
+    PerformanceKind.HORIZONTAL_VELOCITY: horizontal_velocity_evaluation,
+    PerformanceKind.UP_VELOCITY: up_velocity_evaluation,
+    PerformanceKind.DOWN_VELOCITY: down_velocity_evaluation,
+    PerformanceKind.ACCELERATION: acceleration_evaluation,
 }
 
 
-class MetricsRange(Dict[Metric, MetricRange]):
-    def update(self, new_metric_range: Dict[Metric, MetricRange]) -> None:
-        for metric in new_metric_range:
-            self[metric] = new_metric_range[metric]
+class PerformancesRange(Dict[PerformanceKind, PerformanceRange]):
+    def reset(self) -> None:
+        for performance in self:
+            self[performance] = PERFORMANCES_RANGE_COPY[performance]
 
 
-METRICS_RANGE = MetricsRange(
+PERFORMANCES_RANGE = PerformancesRange(
     {
-        Metric.VERTICAL_POSITION: MetricRange(
-            threshold=TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-            standard_convention=False,
-        ),
-        Metric.HORIZONTAL_VELOCITY: MetricRange(
+        PerformanceKind.HORIZONTAL_VELOCITY: PerformanceRange(
             IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max,
         ),
-        Metric.UP_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_up_max),
-        Metric.DOWN_VELOCITY: MetricRange(IOSTAR_PHYSIC_PARAMETER.velocity_down_max),
-        Metric.ACCELERATION: MetricRange(IOSTAR_PHYSIC_PARAMETER.acceleration_max),
+        PerformanceKind.UP_VELOCITY: PerformanceRange(
+            IOSTAR_PHYSIC_PARAMETER.velocity_up_max,
+        ),
+        PerformanceKind.DOWN_VELOCITY: PerformanceRange(
+            IOSTAR_PHYSIC_PARAMETER.velocity_down_max,
+        ),
+        PerformanceKind.ACCELERATION: PerformanceRange(
+            IOSTAR_PHYSIC_PARAMETER.acceleration_max,
+        ),
     },
 )
 
-METRICS_RANGE_COPY = copy.copy(METRICS_RANGE)
+PERFORMANCES_RANGE_COPY = copy.copy(PERFORMANCES_RANGE)
 
 
 class PerformanceInfraction(BaseInfraction):
@@ -110,7 +100,6 @@ class PerformanceInfraction(BaseInfraction):
     frame: int
     value: float
     threshold: float
-    metric_convention: bool
 
     @classmethod
     def _get_performance_infractions_from_performance(
@@ -121,15 +110,14 @@ class PerformanceInfraction(BaseInfraction):
     ) -> List["PerformanceInfraction"]:
         return [
             PerformanceInfraction(
-                performance_name=metric.value,
+                performance_name=performance_kind.value,
                 drone_index=drone_index,
                 frame=frame,
-                value=metric.evaluation(performance),
-                threshold=metric.range_.threshold,
-                metric_convention=metric.range_.standard_convention,
+                value=performance_kind.evaluation(performance),
+                threshold=performance_kind.range_.threshold,
             )
-            for metric in Metric
-            if not metric.validation(performance)
+            for performance_kind in PerformanceKind
+            if not performance_kind.validation(performance)
         ]
 
     @classmethod
