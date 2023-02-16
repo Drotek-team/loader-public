@@ -15,7 +15,6 @@ from .report.collision_report.show_position_frames_collision_report import (
 )
 from .report.global_report import (
     GlobalReport,
-    GlobalReportSummary,
 )
 from .report.performance_report.performance_evaluation import (
     PERFORMANCES_RANGE,
@@ -119,11 +118,6 @@ def generate_report_from_show_user(show_user: ShowUser) -> GlobalReport:
     return GlobalReport.generate(show_user)
 
 
-def generate_report_summary_from_show_user(show_user: ShowUser) -> GlobalReportSummary:
-    """Return a report of show user validity as a string."""
-    return generate_report_from_show_user(show_user).summary()
-
-
 def generate_report_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
 ) -> GlobalReport:
@@ -131,15 +125,6 @@ def generate_report_from_iostar_json_gcs_string(
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
     return GlobalReport.generate(show_user)
-
-
-def generate_report_summary_from_iostar_json_gcs_string(
-    iostar_json_gcs_string: str,
-) -> GlobalReportSummary:
-    """Return a report of iostar json gcs string validity as a string."""
-    return generate_report_from_iostar_json_gcs_string(
-        iostar_json_gcs_string,
-    ).summary()
 
 
 def get_show_configuration_from_iostar_json_gcs_string(

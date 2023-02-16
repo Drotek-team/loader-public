@@ -12,8 +12,6 @@ from loader import (
     create_show_position_frames_from_show_user,
     generate_report_from_iostar_json_gcs_string,
     generate_report_from_show_user,
-    generate_report_summary_from_iostar_json_gcs_string,
-    generate_report_summary_from_show_user,
     get_collision_infractions,
     get_dance_size_infractions,
     get_performance_infractions,
@@ -161,17 +159,14 @@ def test_get_dance_size_report() -> None:
 
 def test_generate_report_from_show_user_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    assert generate_report_from_show_user(show_user).dict() == {
+    global_report = generate_report_from_show_user(show_user)
+    assert global_report.dict() == {
         "takeoff_format": None,
         "autopilot_format": None,
         "performance": None,
         "collision": None,
     }
-
-
-def test_generate_report_summary_from_show_user_standard_case() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    assert generate_report_summary_from_show_user(show_user).dict() == {
+    assert global_report.summary().dict() == {
         "takeoff_format": 0,
         "autopilot_format": 0,
         "performance": 0,
@@ -183,23 +178,16 @@ def test_generate_report_from_iostar_json_gcs_string() -> None:
     iostar_json_gcs_string = su_to_ijg(
         get_valid_show_user(ShowUserConfiguration()),
     ).json()
-    assert generate_report_from_iostar_json_gcs_string(
+    global_report = generate_report_from_iostar_json_gcs_string(
         iostar_json_gcs_string,
-    ).dict() == {
+    )
+    assert global_report.dict() == {
         "takeoff_format": None,
         "autopilot_format": None,
         "performance": None,
         "collision": None,
     }
-
-
-def test_generate_report_summary_from_iostar_json_gcs_string_standard_case() -> None:
-    iostar_json_gcs_string = su_to_ijg(
-        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2)),
-    ).json()
-    assert generate_report_summary_from_iostar_json_gcs_string(
-        iostar_json_gcs_string,
-    ).dict() == {
+    assert global_report.summary().dict() == {
         "takeoff_format": 0,
         "autopilot_format": 0,
         "performance": 0,
