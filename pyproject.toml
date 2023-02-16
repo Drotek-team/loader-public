@@ -51,6 +51,7 @@ ignore = [
     "PLR2004", # magic-value-comparison
     "S101",    # assert-used
     "SIM105",  # use-contextlib-suppress
+    "S110",    # try-except-pass
     "TCH",     # type-checking
 ]
 unfixable = [
