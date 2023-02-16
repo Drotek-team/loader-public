@@ -190,7 +190,7 @@ def test_valid_show_user_down_velocity() -> None:
 def test_invalid_show_user_down_velocity() -> None:
     valid_show_user = get_valid_show_user(
         ShowUserConfiguration(
-            takeoff_altitude=IOSTAR_PHYSIC_PARAMETER.velocity_down_max + 1e8,
+            takeoff_altitude=IOSTAR_PHYSIC_PARAMETER.velocity_down_max,
         ),
     )
     last_position_event = valid_show_user.drones_user[0].position_events[-1]
@@ -218,7 +218,7 @@ def test_invalid_show_user_down_velocity() -> None:
             performance_name="down velocity",
             drone_index=0,
             frame=984,
-            value=4.010000005364418,
+            value=4.01,
             threshold=4.0,
         ).dict()
     )

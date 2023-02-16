@@ -76,4 +76,4 @@ def test_su_to_stp() -> None:
     drone_trajectory_performance = (
         show_trajectory_performance.drones_trajectory_performance[0]
     )
-    assert len(drone_trajectory_performance.trajectory_performance_infos) == 2
+    assert len(drone_trajectory_performance.trajectory_performance_infos) == 3
