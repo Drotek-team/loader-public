@@ -54,6 +54,7 @@ def get_in_air_flight_simulation(
         )
     simulation_infos += takeoff_simulation(
         drone_user.position_events[0].xyz,
+        drone_user.position_events[1].xyz,
         last_frame_stand_by,
     )
     simulation_infos += in_dance_flight_simulation(

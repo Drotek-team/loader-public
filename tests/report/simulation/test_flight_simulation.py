@@ -22,6 +22,7 @@ def test_flight_simulation_standard_case() -> None:
     assert len(flight_simulation) == 421
     assert flight_simulation[:240] == takeoff_simulation(
         drone_user.position_events[0].xyz,
+        drone_user.position_events[1].xyz,
         drone_user.position_events[0].frame,
     )
     assert flight_simulation[240:360] == in_dance_flight_simulation(
@@ -54,6 +55,7 @@ def test_flight_simulation_takeoff_delayed() -> None:
     )
     assert flight_simulation[takeoff_delay : takeoff_delay + 240] == takeoff_simulation(
         drone_user.position_events[0].xyz,
+        drone_user.position_events[1].xyz,
         takeoff_delay,
     )
     assert flight_simulation[
@@ -80,6 +82,7 @@ def test_flight_simulation_last_frame_delayed() -> None:
     assert len(flight_simulation) == last_frame_delayed + 1
     assert flight_simulation[:240] == takeoff_simulation(
         drone_user.position_events[0].xyz,
+        drone_user.position_events[1].xyz,
         drone_user.position_events[0].frame,
     )
     assert flight_simulation[240:360] == in_dance_flight_simulation(

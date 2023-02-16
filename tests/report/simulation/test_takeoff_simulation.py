@@ -33,7 +33,7 @@ def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
     )
 
 
-def test_takeoff_simulation(
+def test_takeoff_simulation_one_meter(
     valid_position_events_user: Tuple[PositionEventUser, PositionEventUser],
 ) -> None:
     first_position_event, second_position_event = (
@@ -42,6 +42,68 @@ def test_takeoff_simulation(
     )
     real_takeoff_simulation_infos = takeoff_simulation(
         first_position_event.xyz,
+        second_position_event.xyz,
+        first_position_event.frame,
+    )
+    first_theorical_positions = linear_interpolation(
+        first_position_event.xyz,
+        second_position_event.xyz,
+        FRAME_PARAMETER.from_second_to_frame(
+            TAKEOFF_PARAMETER.takeoff_elevation_duration_second,
+        ),
+    )
+    second_theorical_positions = linear_interpolation(
+        second_position_event.xyz,
+        second_position_event.xyz,
+        FRAME_PARAMETER.from_second_to_frame(
+            TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second,
+        ),
+    )
+    theorical_positions = first_theorical_positions + second_theorical_positions
+    theorical_takeoff_simulation_infos = [
+        SimulationInfo(
+            frame=first_position_event.frame + frame_index,
+            position=theorical_position,
+            in_air=True,
+        )
+        for frame_index, theorical_position in enumerate(theorical_positions)
+    ]
+    assert len(real_takeoff_simulation_infos) == len(theorical_takeoff_simulation_infos)
+    assert all(
+        [
+            real_takeoff_simulation_info == theorical_takeoff_simulation_info
+            for real_takeoff_simulation_info, theorical_takeoff_simulation_info in zip(
+                real_takeoff_simulation_infos,
+                theorical_takeoff_simulation_infos,
+            )
+        ],
+    )
+
+
+@pytest.fixture
+def valid_position_events_user_takeoff_altitude_max() -> (
+    Tuple[PositionEventUser, PositionEventUser]
+):
+    return PositionEventUser(frame=FRAME_START, xyz=POSITION), PositionEventUser(
+        frame=FRAME_END,
+        xyz=(
+            POSITION[0],
+            POSITION[1],
+            POSITION[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max,
+        ),
+    )
+
+
+def test_takeoff_simulation_eight_meter(
+    valid_position_events_user: Tuple[PositionEventUser, PositionEventUser],
+) -> None:
+    first_position_event, second_position_event = (
+        valid_position_events_user[0],
+        valid_position_events_user[1],
+    )
+    real_takeoff_simulation_infos = takeoff_simulation(
+        first_position_event.xyz,
+        second_position_event.xyz,
         first_position_event.frame,
     )
     first_theorical_positions = linear_interpolation(

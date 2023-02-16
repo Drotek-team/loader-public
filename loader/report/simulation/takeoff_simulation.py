@@ -29,11 +29,12 @@ def generate_takeoff_first_part(
 
 def generate_takeoff_second_part(
     takeoff_start_position: Tuple[float, float, float],
+    takeoff_altitude: float,
 ) -> List[Any]:
     takeoff_end_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],
-        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
+        takeoff_start_position[2] + takeoff_altitude,
     )
     return linear_interpolation(
         takeoff_end_position,
@@ -46,13 +47,12 @@ def generate_takeoff_second_part(
 
 def takeoff_simulation(
     takeoff_start_position: Tuple[float, float, float],
+    takeoff_end_position: Tuple[float, float, float],
     frame_begin: int,
 ) -> List[SimulationInfo]:
     takeoff_positions = generate_takeoff_first_part(
         takeoff_start_position,
-    ) + generate_takeoff_second_part(
-        takeoff_start_position,
-    )
+    ) + generate_takeoff_second_part(takeoff_start_position, takeoff_end_position[2])
     return [
         SimulationInfo(
             frame=frame_begin + frame_index,
