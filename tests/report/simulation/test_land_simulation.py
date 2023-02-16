@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
     FRAME_PARAMETER,
@@ -25,22 +26,7 @@ def valid_position_event_user_first_case() -> PositionEventUser:
         xyz=(
             position_x,
             position_y,
-            LAND_PARAMETER.land_safe_hgt + NUMERICAL_TOLERANCE,
-        ),
-    )
-
-
-@pytest.fixture
-def valid_position_event_user_second_case() -> PositionEventUser:
-    frame_start = 0
-    position_x = 2.36
-    position_y = 5.69
-    return PositionEventUser(
-        frame=frame_start,
-        xyz=(
-            position_x,
-            position_y,
-            LAND_PARAMETER.land_safe_hgt - NUMERICAL_TOLERANCE,
+            LAND_PARAMETER.land_safe_hgt,
         ),
     )
 
@@ -81,6 +67,16 @@ def test_land_simulation_first_case(
         )
         for frame_index, theorical_position in enumerate(theorical_position)
     ]
+    assert real_land_simulation_infos[0] == SimulationInfo(
+        frame=0,
+        position=np.array((2.36, 5.69, 3.0)),
+        in_air=True,
+    )
+    assert real_land_simulation_infos[-1] == SimulationInfo(
+        frame=179,
+        position=np.array((2.36, 5.69, 0.017)),
+        in_air=True,
+    )
     assert len(real_land_simulation_infos) == len(theorical_land_simulation_infos)
     assert all(
         [
@@ -90,6 +86,21 @@ def test_land_simulation_first_case(
                 theorical_land_simulation_infos,
             )
         ],
+    )
+
+
+@pytest.fixture
+def valid_position_event_user_second_case() -> PositionEventUser:
+    frame_start = 0
+    position_x = 2.36
+    position_y = 5.69
+    return PositionEventUser(
+        frame=frame_start,
+        xyz=(
+            position_x,
+            position_y,
+            LAND_PARAMETER.land_safe_hgt + 10,
+        ),
     )
 
 
@@ -138,6 +149,16 @@ def test_land_simulation_second_case(
         for frame_index, theorical_position in enumerate(theorical_position)
     ]
     assert len(real_land_simulation_infos) == len(theorical_land_simulation_infos)
+    assert theorical_land_simulation_infos[0] == SimulationInfo(
+        frame=0,
+        position=np.array((2.36, 5.69, 13.0)),
+        in_air=True,
+    )
+    assert theorical_land_simulation_infos[24] == SimulationInfo(
+        frame=24,
+        position=np.array((2.36, 5.69, 10.0)),
+        in_air=True,
+    )
     assert all(
         [
             real_land_simulation_info == theorical_land_simulation_info
