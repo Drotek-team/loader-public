@@ -97,4 +97,5 @@ exclude_lines = [
     "raise AssertionError",
     "raise NotImplementedError",
     "if TYPE_CHECKING:",
+    "@abstractmethod",
 ]
