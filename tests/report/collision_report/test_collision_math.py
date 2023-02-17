@@ -69,7 +69,7 @@ def test_get_optimized_collision_infractions() -> None:
         nb_x * nb_y,
     )
     assert len(
-        CollisionInfraction._get_optimized_collision_infractions(  # pyright: ignore
+        CollisionInfraction._get_collision_infractions(  # pyright: ignore
             0,
             local_indices,
             get_numpy_grid(nb_x, nb_y),
@@ -90,7 +90,7 @@ def test_get_optimized_collision_infractions_big_number() -> None:
     normal_value = (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
     assert (
         len(
-            CollisionInfraction._get_optimized_collision_infractions(  # pyright: ignore
+            CollisionInfraction._get_collision_infractions(  # pyright: ignore
                 0,
                 local_indices,
                 get_numpy_grid(nb_x, nb_y),

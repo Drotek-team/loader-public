@@ -82,74 +82,18 @@ class CollisionInfraction(BaseInfraction):
         ]
 
     @classmethod
-    def _get_optimized_collision_infractions(
-        cls,
-        frame: int,
-        local_indices: NDArray[np.intp],
-        local_positions_numpy: NDArray[np.float64],
-        endangered_distance: float,
-        *,
-        in_air: bool,
-    ) -> list[CollisionInfraction]:
-        nb_drones_local = len(local_indices)
-        half_nb_drones_local = len(local_indices) // 2
-        if nb_drones_local < ARBITRARY_DICHOTOMY_THRESHOLD:
-            return cls._get_collision_infractions(
-                frame,
-                local_indices,
-                local_positions_numpy,
-                endangered_distance,
-                in_air=in_air,
-            )
-        principal_axis = get_principal_axis(local_positions_numpy)
-        argsort_by_axis_positions_numpy = np.argsort(
-            local_positions_numpy @ principal_axis,
-        )
-        border_indices = get_border_indices(
-            local_positions_numpy @ principal_axis,
-            endangered_distance,
-        )
-        return get_unique_list_from_list(
-            cls._get_optimized_collision_infractions(
-                frame,
-                local_indices[argsort_by_axis_positions_numpy[:half_nb_drones_local]],
-                local_positions_numpy[
-                    argsort_by_axis_positions_numpy[:half_nb_drones_local]
-                ],
-                endangered_distance,
-                in_air=in_air,
-            )
-            + cls._get_optimized_collision_infractions(
-                frame,
-                local_indices[argsort_by_axis_positions_numpy[half_nb_drones_local:]],
-                local_positions_numpy[
-                    argsort_by_axis_positions_numpy[half_nb_drones_local:]
-                ],
-                endangered_distance,
-                in_air=in_air,
-            )
-            + cls._get_optimized_collision_infractions(
-                frame,
-                local_indices[argsort_by_axis_positions_numpy[border_indices]],
-                local_positions_numpy[argsort_by_axis_positions_numpy[border_indices]],
-                endangered_distance,
-                in_air=in_air,
-            ),
-        )
-
-    @classmethod
     def _get_on_ground_and_in_air_collision_infractions(
         cls,
         show_position_frame: ShowPositionFrame,
     ) -> list[CollisionInfraction]:
-        on_ground_collision_infractions = cls._get_optimized_collision_infractions(
+        on_ground_collision_infractions = cls._get_collision_infractions(
             show_position_frame.frame,
             show_position_frame.on_ground_indices,
             show_position_frame.on_ground_positions,
             IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
             in_air=False,
         )
-        in_air_collision_infractions = cls._get_optimized_collision_infractions(
+        in_air_collision_infractions = cls._get_collision_infractions(
             show_position_frame.frame,
             show_position_frame.in_air_indices,
             show_position_frame.in_air_positions,
