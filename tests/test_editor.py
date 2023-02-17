@@ -18,6 +18,7 @@ from loader import (
     get_show_configuration_from_iostar_json_gcs_string,
     get_verified_iostar_json_gcs,
 )
+from loader.editor import ReportError
 from loader.show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -33,6 +34,15 @@ def test_create_show_user_standard_case() -> None:
         assert len(show_user[drone_index].position_events) == 0
         assert len(show_user[drone_index].color_events) == 0
         assert len(show_user[drone_index].fire_events) == 0
+
+
+@pytest.mark.parametrize("drone_number", [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10])
+def test_create_show_user_invalid_drone_number(drone_number: int) -> None:
+    with pytest.raises(
+        ValueError,
+        match=f"drone_number must be positive, not {drone_number}",
+    ):
+        create_empty_show_user(drone_number)
 
 
 def test_create_show_position_frames_standard_user_case() -> None:
@@ -234,3 +244,10 @@ def test_get_verified_iostar_json_gcs() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     iostar_json_gcs = su_to_ijg(show_user)
     assert get_verified_iostar_json_gcs(iostar_json_gcs.json()) == iostar_json_gcs
+
+
+def test_get_verified_iostar_json_gcs_invalid() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=0.3))
+    iostar_json_gcs = su_to_ijg(show_user)
+    with pytest.raises(ReportError):
+        get_verified_iostar_json_gcs(iostar_json_gcs.json())
