@@ -179,3 +179,59 @@ def test_show_user_configuration_duration_before_takeoff_must_be_positive(
         match="Duration before takeoff must be positive",
     ):
         ShowUserConfiguration(duration_before_takeoff=duration_before_takeoff)
+
+
+def test_show_user_configuration_apply_horizontal_rotation() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    assert show_user.drones_user[0].position_events[0].xyz == (-1.0, -1.0, 0.0)
+    assert show_user.drones_user[1].position_events[0].xyz == (1.0, -1.0, 0.0)
+    assert show_user.drones_user[2].position_events[0].xyz == (-1.0, 1.0, 0.0)
+    assert show_user.drones_user[3].position_events[0].xyz == (1.0, 1.0, 0.0)
+
+    show_user.apply_horizontal_rotation(90)
+    np.testing.assert_allclose(
+        show_user.drones_user[2].position_events[0].xyz,
+        (-1.0, -1.0, 0.0),
+    )
+    np.testing.assert_allclose(
+        show_user.drones_user[0].position_events[0].xyz,
+        (1.0, -1.0, 0.0),
+    )
+    np.testing.assert_allclose(
+        show_user.drones_user[3].position_events[0].xyz,
+        (-1.0, 1.0, 0.0),
+    )
+    np.testing.assert_allclose(
+        show_user.drones_user[1].position_events[0].xyz,
+        (1.0, 1.0, 0.0),
+    )
+
+
+def test_update_drones_user_indices_standard_case() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    assert [drone_user.index for drone_user in show_user.drones_user] == list(
+        range(show_user.nb_drones),
+    )
+    new_indices = [3, 2, 1, 0]
+    show_user.update_drones_user_indices(new_indices)
+    assert [drone_user.index for drone_user in show_user.drones_user] == new_indices
+
+
+def test_update_drones_user_indices_wrong_length() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    new_indices = [3, 2, 1]
+    with pytest.raises(
+        ValueError,
+        match="New indices: 3 must have the same length as the number of drones: 4",
+    ):
+        show_user.update_drones_user_indices(new_indices)
+
+
+def test_update_drones_user_indices_not_unique() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    new_indices = [3, 2, 1, 1]
+    with pytest.raises(
+        ValueError,
+        match=" are not unique",
+    ):
+        show_user.update_drones_user_indices(new_indices)

@@ -110,8 +110,11 @@ class ShowUser(BaseModel):
 
     def update_drones_user_indices(self, indices: List[int]) -> None:
         if len(indices) != len(self.drones_user):
-            msg = f"Indices length {len(indices)} != drones_user length {len(self.drones_user)}"
-            raise IndexError(msg)
+            msg = f"New indices: {len(indices)} must have the same length as the number of drones: {len(self.drones_user)}"
+            raise ValueError(msg)
+        if len(set(indices)) != len(indices):
+            msg = f"Indices: {indices} are not unique"
+            raise ValueError(msg)
         for drone_user, index in zip(self.drones_user, indices):
             drone_user.index = index
 
