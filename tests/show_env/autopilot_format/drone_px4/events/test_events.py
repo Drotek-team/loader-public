@@ -4,7 +4,7 @@ from loader.show_env.autopilot_format.drone_px4.events import Event, Events
 from loader.show_env.autopilot_format.drone_px4.events.events_order import EventsType
 
 
-class DummyEvent(Event):
+class DummyEvent(Event):  # pragma: no cover
     def __init__(self) -> None:
         self.timecode = 5
 
@@ -13,7 +13,7 @@ class DummyEvent(Event):
         return [self.timecode]
 
 
-class DummyEvents(Events):
+class DummyEvents(Events):  # pragma: no cover
     def __init__(self) -> None:
         self.format_ = ">Ihhh"
         self.id_ = EventsType.position
