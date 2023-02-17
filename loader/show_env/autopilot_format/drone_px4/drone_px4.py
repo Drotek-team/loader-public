@@ -12,15 +12,15 @@ class DronePx4:
         self.fire_events = FireEvents()
 
     def __eq__(self, other_drone_px4: object) -> bool:
-        if isinstance(other_drone_px4, DronePx4):
-            return self.index == self.index and all(
-                events == other_events
-                for events, other_events in zip(
-                    self.events_list,
-                    other_drone_px4.events_list,
-                )
+        if not isinstance(other_drone_px4, DronePx4):
+            return False
+        return self.index == self.index and all(
+            events == other_events
+            for events, other_events in zip(
+                self.events_list,
+                other_drone_px4.events_list,
             )
-        return False
+        )
 
     def add_position(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.position_events.add_timecode_xyz(timecode, xyz)

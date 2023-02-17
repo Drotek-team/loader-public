@@ -69,6 +69,28 @@ def test_get_trajectory_performance_info_from_position_events() -> None:
     )
 
 
+def test_get_trajectory_performance_info_from_position_events_one_position_event() -> (
+    None
+):
+    position_events = [
+        PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
+    ]
+    trajectory_performance_infos = get_trajectory_performance_info_from_position_events(
+        position_events,
+    )
+    assert trajectory_performance_infos[0].frame == position_events[0].frame
+    assert (
+        from_ca_to_ct(trajectory_performance_infos[0].position)
+        == position_events[0].xyz
+    )
+    assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (
+        0.0,
+        0.0,
+        0.0,
+    )
+
+
 def test_su_to_stp() -> None:
     show_trajectory_performance = su_to_stp(
         get_valid_show_user(ShowUserConfiguration()),

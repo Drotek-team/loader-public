@@ -58,3 +58,27 @@ def test_non_empty_events_list_standard_case() -> None:
         drone.color_events,
         drone.fire_events,
     ]
+
+
+def test___eq___standard_case() -> None:
+    drone = DronePx4(index=0)
+    assert drone == drone
+    other_drone = DronePx4(index=0)
+    assert drone == other_drone
+    drone.add_position(timecode=0, xyz=(0, 0, 0))
+    assert drone != other_drone
+    other_drone.add_position(timecode=0, xyz=(0, 0, 0))
+    assert drone == other_drone
+    drone.add_color(timecode=0, rgbw=(0, 0, 0, 0))
+    assert drone != other_drone
+    other_drone.add_color(timecode=0, rgbw=(0, 0, 0, 0))
+    assert drone == other_drone
+    drone.add_fire(timecode=0, chanel=0, duration_frame=0)
+    assert drone != other_drone
+    other_drone.add_fire(timecode=0, chanel=0, duration_frame=0)
+    assert drone == other_drone
+
+
+def test___eq___with_other_type() -> None:
+    drone = DronePx4(index=0)
+    assert drone != 0

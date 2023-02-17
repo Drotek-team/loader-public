@@ -50,7 +50,3 @@ class ShowTrajectoryPerformance:
         drones_trajectory_performance: list[DroneTrajectoryPerformance],
     ) -> None:
         self.drones_trajectory_performance = drones_trajectory_performance
-
-    @property
-    def nb_drones(self) -> int:
-        return len(self.drones_trajectory_performance)

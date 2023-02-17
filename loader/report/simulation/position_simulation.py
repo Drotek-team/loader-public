@@ -31,7 +31,7 @@ def linear_interpolation(
     nb_points: int,
 ) -> list[NDArray[np.float64]]:
     if nb_points < 0:
-        msg = f"nb_points must be positive: position_begin: {position_begin}, position_end: {position_end}, nb_points: {nb_points}"
+        msg = f"nb_points must be positive: nb_points = {nb_points}"
         raise ValueError(msg)
     if nb_points == 0:
         return []

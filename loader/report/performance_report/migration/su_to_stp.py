@@ -65,9 +65,6 @@ def get_trajectory_performance_info_from_position_events(
     velocities = get_velocities_from_positions(frames, positions)
     accelerations = get_accelerations_from_velocities(frames, velocities)
 
-    if len(frames) != len(positions) != len(velocities) != len(accelerations):
-        msg = "You should have the same number of frames, positions, velocities and accelerations"
-        raise ValueError(msg)
     return [
         TrajectoryPerformanceInfo(frame, Performance(position, velocity, acceleration))
         for frame, position, velocity, acceleration in zip(

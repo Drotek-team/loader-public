@@ -46,3 +46,21 @@ def test_stand_by_simulation(
         ),
     ]
     assert real_stand_by_simulation_infos == theorical_stand_by_simulation_infos
+
+
+def test_stand_by_simulation_frame_begin_superior_to_frame_end(
+    valid_position_events_user: Tuple[PositionEventUser, PositionEventUser],
+) -> None:
+    first_position_event, second_position_event = (
+        valid_position_events_user[0],
+        valid_position_events_user[1],
+    )
+    with pytest.raises(
+        ValueError,
+        match=f"frame end {first_position_event.frame} must be at least equal to frame begin {second_position_event.frame}",
+    ):
+        stand_by_simulation(
+            second_position_event.frame,
+            first_position_event.frame,
+            first_position_event.xyz,
+        )

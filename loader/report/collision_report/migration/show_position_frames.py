@@ -61,7 +61,7 @@ class ShowPositionFrames:
         nb_drones = len(drone_indices)
 
         if nb_drones < 1:
-            msg = f"nb_drones must be at least 1, got {nb_drones}"
+            msg = "nb_drones must be at least 1"
             raise ValueError(msg)
 
         self.show_position_frames: list[ShowPositionFrame] = [

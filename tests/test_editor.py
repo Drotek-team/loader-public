@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List, Tuple
 
 import pytest
 from loader import (
@@ -127,6 +128,23 @@ def test_create_show_position_frames_incoherence_frame_indices_and_frame_positio
     with pytest.raises(
         ValueError,
         match="drone_indices and frames_positions items must have the same length",
+    ):
+        create_show_position_frames_from_frames_positions(
+            frame_start,
+            frame_end,
+            frame_indices,
+            frames_positions,
+        )
+
+
+def test_create_show_position_frames_0_drones() -> None:
+    frame_start = 0
+    frame_end = 1
+    frame_indices = []
+    frames_positions: List[List[Tuple[float, float, float]]] = [[]]
+    with pytest.raises(
+        ValueError,
+        match="nb_drones must be at least 1",
     ):
         create_show_position_frames_from_frames_positions(
             frame_start,
