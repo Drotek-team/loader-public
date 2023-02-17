@@ -26,7 +26,7 @@ try:
         get_verified_iostar_json_gcs,
     )
     from .report.global_report import GlobalReportSummary
-except (ImportError, ModuleNotFoundError):
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     pass
 
 __all__ = (
