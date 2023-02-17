@@ -15,21 +15,6 @@ from .stand_by_simulation import stand_by_simulation
 from .takeoff_simulation import takeoff_simulation
 
 
-def get_on_ground_flight_simulation(
-    drone_user: DroneUser,
-    last_frame: int,
-) -> List[SimulationInfo]:
-    simulation_infos: List[SimulationInfo] = []
-    if last_frame == -1:
-        last_frame = drone_user.position_events[0].frame
-    simulation_infos += stand_by_simulation(
-        FRAME_PARAMETER.from_second_to_frame(JSON_BINARY_PARAMETER.show_start_frame),
-        last_frame + 1,
-        drone_user.position_events[0].xyz,
-    )
-    return simulation_infos
-
-
 def get_last_frame_stand_by(drone_user: DroneUser) -> int:
     return (
         drone_user.position_events[0].frame
@@ -38,10 +23,13 @@ def get_last_frame_stand_by(drone_user: DroneUser) -> int:
     )
 
 
-def get_in_air_flight_simulation(
+def get_flight_simulation(
     drone_user: DroneUser,
-    last_frame: int,
+    last_frame: int = -1,
 ) -> List[SimulationInfo]:
+    if len(drone_user.position_events) < 2:
+        msg = "Drone user must have at least 2 position events"
+        raise ValueError(msg)
     simulation_infos: List[SimulationInfo] = []
     last_frame_stand_by = get_last_frame_stand_by(drone_user)
     if last_frame_stand_by != 0:
@@ -73,12 +61,3 @@ def get_in_air_flight_simulation(
         stand_by_position=(last_position[0], last_position[1], 0),
     )
     return simulation_infos
-
-
-def get_flight_simulation(
-    drone_user: DroneUser,
-    last_frame: int = -1,
-) -> List[SimulationInfo]:
-    if len(drone_user.position_events) == 1:
-        return get_on_ground_flight_simulation(drone_user, last_frame)
-    return get_in_air_flight_simulation(drone_user, last_frame)

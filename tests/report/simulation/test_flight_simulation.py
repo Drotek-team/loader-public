@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from loader.report.simulation.flight_simulation import (
     SimulationInfo,
     get_flight_simulation,
@@ -102,26 +103,15 @@ def test_flight_simulation_last_frame_delayed() -> None:
 
 def test_flight_simulation_non_takeoff() -> None:
     drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    with pytest.raises(
+        ValueError,
+        match="Drone user must have at least 2 position events",
+    ):
+        get_flight_simulation(drone_user)
+
     drone_user.add_position_event(240, (0.0, 0.0, 0.0))
-    flight_simulation = get_flight_simulation(drone_user)
-
-    assert len(flight_simulation) == 241
-    assert flight_simulation[:241] == stand_by_simulation(
-        0,
-        drone_user.position_events[0].frame + 1,
-        drone_user.position_events[0].xyz,
-    )
-
-
-def test_flight_simulation_non_takeoff_last_frame_delayed() -> None:
-    last_frame_delayed = 1000
-    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
-    drone_user.add_position_event(240, (0.0, 0.0, 0.0))
-    flight_simulation = get_flight_simulation(drone_user, last_frame_delayed)
-
-    assert len(flight_simulation) == last_frame_delayed + 1
-    assert flight_simulation[:last_frame_delayed] == stand_by_simulation(
-        0,
-        last_frame_delayed,
-        drone_user.position_events[0].xyz,
-    )
+    with pytest.raises(
+        ValueError,
+        match="Drone user must have at least 2 position events",
+    ):
+        get_flight_simulation(drone_user)
