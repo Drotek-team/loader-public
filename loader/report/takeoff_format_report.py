@@ -9,71 +9,7 @@ from loader.report.base import BaseInfraction, BaseReport
 from loader.show_env.show_user import DroneUser, ShowUser
 
 
-class OneEventTakeoffDurationInfraction(BaseInfraction):
-    frame: int
-
-    @classmethod
-    def generate(
-        cls,
-        drone_user: DroneUser,
-    ) -> Optional["OneEventTakeoffDurationInfraction"]:
-        if drone_user.position_events[0].frame != 0:
-            return OneEventTakeoffDurationInfraction(
-                frame=drone_user.position_events[0].frame,
-            )
-        return None
-
-
-class OneEventTakeoffPositionInfraction(BaseInfraction):
-    altitude: float
-
-    @classmethod
-    def generate(
-        cls,
-        drone_user: DroneUser,
-    ) -> Optional["OneEventTakeoffPositionInfraction"]:
-        first_position = drone_user.position_events[0].xyz
-        if first_position[2] == 0.0:
-            return OneEventTakeoffPositionInfraction(altitude=first_position[2])
-        return None
-
-
-class TakeoffReport(BaseReport):
-    pass
-
-    @classmethod
-    def generate(
-        cls,
-        drone_user: DroneUser,
-    ) -> Optional["TakeoffReport"]:
-        if not (drone_user.position_events):
-            msg = "This check can not operate on a drone without position events"
-            raise ValueError(msg)
-        if len(drone_user.position_events) == 1:
-            return OneEventTakeoffReport.generate(drone_user)
-        return MultipleEventsTakeoffReport.generate(drone_user)
-
-
-class OneEventTakeoffReport(TakeoffReport, BaseReport):
-    duration_infraction: Optional[OneEventTakeoffDurationInfraction] = None
-    position_infraction: Optional[OneEventTakeoffPositionInfraction] = None
-
-    @classmethod
-    def generate(
-        cls,
-        drone_user: DroneUser,
-    ) -> Optional["OneEventTakeoffReport"]:
-        duration_infraction = OneEventTakeoffDurationInfraction.generate(drone_user)
-        position_infraction = OneEventTakeoffPositionInfraction.generate(drone_user)
-        if duration_infraction is not None or position_infraction is not None:
-            return OneEventTakeoffReport(
-                duration_infraction=duration_infraction,
-                position_infraction=position_infraction,
-            )
-        return None
-
-
-class MultipleEventTakeoffDurationInfraction(BaseInfraction):
+class TakeoffDurationInfraction(BaseInfraction):
     first_time: float
     second_time: float
     takeoff_duration: float
@@ -83,7 +19,7 @@ class MultipleEventTakeoffDurationInfraction(BaseInfraction):
     def generate(
         cls,
         drone_user: DroneUser,
-    ) -> Optional["MultipleEventTakeoffDurationInfraction"]:
+    ) -> Optional["TakeoffDurationInfraction"]:
         first_time = drone_user.position_events[0].absolute_time
         second_time = drone_user.position_events[1].absolute_time
         if (
@@ -92,7 +28,7 @@ class MultipleEventTakeoffDurationInfraction(BaseInfraction):
             )
             > TAKEOFF_PARAMETER.takeoff_total_duration_tolerance
         ):
-            return MultipleEventTakeoffDurationInfraction(
+            return TakeoffDurationInfraction(
                 first_time=first_time,
                 second_time=second_time,
                 takeoff_duration=TAKEOFF_PARAMETER.takeoff_duration_second,
@@ -101,7 +37,7 @@ class MultipleEventTakeoffDurationInfraction(BaseInfraction):
         return None
 
 
-class MultipleEventTakeoffPositionInfraction(BaseInfraction):
+class TakeoffPositionInfraction(BaseInfraction):
     first_position: Tuple[float, float, float]
     second_position: Tuple[float, float, float]
 
@@ -109,7 +45,7 @@ class MultipleEventTakeoffPositionInfraction(BaseInfraction):
     def generate(
         cls,
         drone_user: DroneUser,
-    ) -> Optional["MultipleEventTakeoffPositionInfraction"]:
+    ) -> Optional["TakeoffPositionInfraction"]:
         first_position = drone_user.position_events[0].xyz
         second_position = drone_user.position_events[1].xyz
         if (
@@ -120,30 +56,30 @@ class MultipleEventTakeoffPositionInfraction(BaseInfraction):
             or second_position[2]
             > first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
         ):
-            return MultipleEventTakeoffPositionInfraction(
+            return TakeoffPositionInfraction(
                 first_position=first_position,
                 second_position=second_position,
             )
         return None
 
 
-class MultipleEventsTakeoffReport(TakeoffReport, BaseReport):
-    duration_infraction: Optional[MultipleEventTakeoffDurationInfraction] = None
-    position_infraction: Optional[MultipleEventTakeoffPositionInfraction] = None
+class TakeoffReport(BaseReport):
+    duration_infraction: Optional[TakeoffDurationInfraction] = None
+    position_infraction: Optional[TakeoffPositionInfraction] = None
 
     @classmethod
     def generate(
         cls,
         drone_user: DroneUser,
-    ) -> Optional["MultipleEventsTakeoffReport"]:
-        duration_infraction = MultipleEventTakeoffDurationInfraction.generate(
+    ) -> Optional["TakeoffReport"]:
+        duration_infraction = TakeoffDurationInfraction.generate(
             drone_user,
         )
-        position_infraction = MultipleEventTakeoffPositionInfraction.generate(
+        position_infraction = TakeoffPositionInfraction.generate(
             drone_user,
         )
         if duration_infraction is not None or position_infraction is not None:
-            return MultipleEventsTakeoffReport(
+            return TakeoffReport(
                 duration_infraction=duration_infraction,
                 position_infraction=position_infraction,
             )
@@ -158,8 +94,7 @@ class MinimalPositionEventsNumber(BaseReport):
         cls,
         drone_user: DroneUser,
     ) -> Optional["MinimalPositionEventsNumber"]:
-        # Improve: finir la discussion convention 1 position event
-        if len(drone_user.position_events) == 1 or len(drone_user.position_events) >= 3:
+        if len(drone_user.position_events) >= 2:
             return None
         return MinimalPositionEventsNumber(
             events_number=len(drone_user.position_events),
