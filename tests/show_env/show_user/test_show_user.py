@@ -137,3 +137,45 @@ def test_show_user_convex_hull_standard_case() -> None:
 def test_show_user_altitude_range_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.altitude_range == (0.0, 1.0)
+
+
+@pytest.mark.parametrize(
+    "show_duration_absolute_time",
+    [0, -1, -2, -3],
+)
+def test_show_user_configuration_show_duration_absolute_time_must_be_strictly_positive(
+    show_duration_absolute_time: int,
+) -> None:
+    with pytest.raises(
+        ValueError,
+        match=f"Show duration must be stricly positive, not {show_duration_absolute_time}",
+    ):
+        ShowUserConfiguration(show_duration_absolute_time=show_duration_absolute_time)
+
+
+@pytest.mark.parametrize(
+    "takeoff_altitude",
+    [-1, 0, 9, 10],
+)
+def test_show_user_configuration_takeoff_altitude_must_be_in_range(
+    takeoff_altitude: int,
+) -> None:
+    with pytest.raises(
+        ValueError,
+        match="Takeoff altitude must be between",
+    ):
+        ShowUserConfiguration(takeoff_altitude=takeoff_altitude)
+
+
+@pytest.mark.parametrize(
+    "duration_before_takeoff",
+    [-1, -2, -3],
+)
+def test_show_user_configuration_duration_before_takeoff_must_be_positive(
+    duration_before_takeoff: int,
+) -> None:
+    with pytest.raises(
+        ValueError,
+        match="Duration before takeoff must be positive",
+    ):
+        ShowUserConfiguration(duration_before_takeoff=duration_before_takeoff)

@@ -1,10 +1,15 @@
+import re
 from dataclasses import dataclass
 from typing import List, Tuple
 
 import numpy as np
+import pytest
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.show_env.show_user.convex_hull import calculate_convex_hull
+from loader.show_env.show_user.convex_hull import (
+    calculate_convex_hull,
+    get_relative_angle,
+)
 
 
 @dataclass(frozen=True)
@@ -83,3 +88,11 @@ def test_calculate_convex_hull(nb_points: int) -> None:
         is_point_inside_convex_polygon(position_point, convex_hull_points)
         for position_point in position_points
     )
+
+
+def test_get_relative_angle_origin_equal_coordinate() -> None:
+    with pytest.raises(
+        ValueError,
+        match=re.escape("get_relative_angle(): origin is equal to coordinate"),
+    ):
+        get_relative_angle(np.zeros(3), np.zeros(3))

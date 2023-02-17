@@ -31,9 +31,9 @@ class Coordinate:
         return (self.x, self.y)
 
     def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, Coordinate):
-            return bool(np.linalg.norm(self.xy_array - __o.xy_array) < 1e-6)
-        return False
+        if not isinstance(__o, Coordinate):
+            return False
+        return bool(np.linalg.norm(self.xy_array - __o.xy_array) < 1e-6)
 
 
 @dataclass(unsafe_hash=True)

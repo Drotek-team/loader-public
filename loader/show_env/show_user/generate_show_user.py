@@ -29,7 +29,19 @@ class ShowUserConfiguration(GridConfiguration):
 
     def __post_init__(self) -> None:
         if self.show_duration_absolute_time <= 0.0:
-            msg = f"Show duration must be stricly positif, not {self.show_duration_absolute_time}"
+            msg = f"Show duration must be stricly positive, not {self.show_duration_absolute_time}"
+            raise ValueError(msg)
+        if (
+            self.takeoff_altitude < TAKEOFF_PARAMETER.takeoff_altitude_meter_min
+            or self.takeoff_altitude > TAKEOFF_PARAMETER.takeoff_altitude_meter_max
+        ):
+            msg = (
+                f"Takeoff altitude must be between {TAKEOFF_PARAMETER.takeoff_altitude_meter_min} "
+                f"and {TAKEOFF_PARAMETER.takeoff_altitude_meter_max}, not {self.takeoff_altitude}"
+            )
+            raise ValueError(msg)
+        if self.duration_before_takeoff < 0.0:
+            msg = f"Duration before takeoff must be positive, not {self.duration_before_takeoff}"
             raise ValueError(msg)
 
 

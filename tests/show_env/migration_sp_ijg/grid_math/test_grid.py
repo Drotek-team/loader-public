@@ -80,3 +80,18 @@ def test_get_grid_from_show_configuration() -> None:
     assert grid[1].coordinate == Coordinate(1.0, -1.0)
     assert grid[2].coordinate == Coordinate(-1.0, 1.0)
     assert grid[3].coordinate == Coordinate(1.0, 1.0)
+
+
+def test_coordinate___eq___standard_case() -> None:
+    assert Coordinate(1.0, 2.0) == Coordinate(1.0, 2.0)
+    assert Coordinate(1.0, 2.0) != Coordinate(1.0, 3.0)
+    assert Coordinate(1.0, 2.0) != Coordinate(2.0, 2.0)
+
+
+def test_coordinate___eq___with_other_type() -> None:
+    assert Coordinate(1.0, 2.0) != 1
+    assert Coordinate(1.0, 2.0) != "test"
+    assert Coordinate(1.0, 2.0) != [1, 2]
+    assert Coordinate(1.0, 2.0) != (1, 2)
+    assert Coordinate(1.0, 2.0) != np.array([1, 2])
+    assert Coordinate(1.0, 2.0) != np.array([1.0, 2.0])

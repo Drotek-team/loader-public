@@ -14,13 +14,16 @@ from loader.parameter.iostar_flight_parameter.iostar_land_parameter import (
 from .convex_hull import calculate_convex_hull
 
 
-class PositionEventUser(BaseModel):
+class EventUserBase(BaseModel):
     frame: StrictInt  # 24 fps
-    xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]  # ENU and meter
 
     @property
     def absolute_time(self) -> float:
         return FRAME_PARAMETER.from_frame_to_second(self.frame)
+
+
+class PositionEventUser(EventUserBase):
+    xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]  # ENU and meter
 
     def apply_horizontal_rotation(self, angle_degree: int) -> None:
         c, s = math.cos(math.radians(angle_degree)), math.sin(
@@ -33,23 +36,13 @@ class PositionEventUser(BaseModel):
         )
 
 
-class ColorEventUser(BaseModel):
-    frame: StrictInt  # 24 fps
+class ColorEventUser(EventUserBase):
     rgbw: Tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]  # between 0 and 1
 
-    @property
-    def absolute_time(self) -> float:
-        return FRAME_PARAMETER.from_frame_to_second(self.frame)
 
-
-class FireEventUser(BaseModel):
-    frame: StrictInt  # 24 fps
+class FireEventUser(EventUserBase):
     chanel: StrictInt  # Chanel of the drone between 0 and 2
     duration_frame: StrictInt  # Duration of the event in frame
-
-    @property
-    def absolute_time(self) -> float:
-        return FRAME_PARAMETER.from_frame_to_second(self.frame)
 
 
 class DroneUser(BaseModel):
@@ -114,10 +107,6 @@ class ShowUser(BaseModel):
     @property
     def nb_drones(self) -> int:
         return len(self.drones_user)
-
-    @property
-    def drones_user_indices(self) -> List[int]:
-        return [drone_user.index for drone_user in self.drones_user]
 
     def update_drones_user_indices(self, indices: List[int]) -> None:
         if len(indices) != len(self.drones_user):
