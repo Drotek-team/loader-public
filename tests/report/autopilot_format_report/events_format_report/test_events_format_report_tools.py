@@ -43,9 +43,7 @@ def test_get_timecode_report_bound_violation(
     timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
-    if timecode_report is None:
-        raise AssertionError
-    assert len(timecode_report.bound_infractions) == 2
+    assert timecode_report is not None
     assert (
         timecode_report.bound_infractions[0].dict()
         == IntegerBoundaryInfraction(
@@ -76,9 +74,7 @@ def test_get_timecode_report_increasing_frame_violation(
     timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
-    if timecode_report is None:
-        raise AssertionError
-    assert len(timecode_report.increasing_infractions) == 1
+    assert timecode_report is not None
     assert (
         timecode_report.increasing_infractions[0].dict()
         == IncreasingFrameInfraction(

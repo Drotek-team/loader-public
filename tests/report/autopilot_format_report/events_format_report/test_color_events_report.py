@@ -54,9 +54,7 @@ def test_invalid_color_events_rgbw_value_report(
     color_events_report = ColorEventsReport.generate(
         valid_color_events,
     )
-    if color_events_report is None:
-        msg = "color_events_report is None"
-        raise ValueError(msg)
+    assert color_events_report is not None
     assert len(color_events_report.chrome_infractions) == 1
     assert (
         color_events_report.chrome_infractions[0].dict()

@@ -68,9 +68,7 @@ def test_invalid_simulation_in_air() -> None:
         invalid_show_user_on_ground,
     )
     assert not (get_report_validation(collision_report))
-    if collision_report is None:
-        msg = "Collision report is None"
-        raise ValueError(msg)
+    assert collision_report is not None
     collision_infractions = collision_report.collision_infractions
     assert len(collision_infractions) == 6120
     for collision_infraction in collision_infractions:

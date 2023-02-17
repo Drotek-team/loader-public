@@ -57,9 +57,7 @@ def test_invalid_fire_events_chanel_value_report(
     fire_events_report = FireEventsReport.generate(
         valid_fire_events,
     )
-    if fire_events_report is None:
-        msg = "Fire events report is None"
-        raise ValueError(msg)
+    assert fire_events_report is not None
     assert len(fire_events_report.duration_chanel_infractions) == 1
     assert (
         fire_events_report.duration_chanel_infractions[0].dict()
@@ -83,9 +81,7 @@ def test_invalid_fire_events_duration_value_report(
     fire_events_report = FireEventsReport.generate(
         valid_fire_events,
     )
-    if fire_events_report is None:
-        msg = "Fire events report is None"
-        raise ValueError(msg)
+    assert fire_events_report is not None
     assert len(fire_events_report.duration_chanel_infractions) == 1
     assert (
         fire_events_report.duration_chanel_infractions[0].dict()

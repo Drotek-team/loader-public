@@ -34,9 +34,7 @@ def test_valid_show_user_horizontal_velocity() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
@@ -68,9 +66,7 @@ def test_invalid_show_user_horizontal_velocity() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 2
@@ -100,9 +96,7 @@ def test_valid_show_user_up_velocity() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
@@ -134,9 +128,7 @@ def test_invalid_show_user_up_velocity() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 2
     assert (
@@ -169,9 +161,7 @@ def test_valid_show_user_down_velocity() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
@@ -207,9 +197,7 @@ def test_invalid_show_user_down_velocity() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 2
     assert (
@@ -273,9 +261,7 @@ def test_invalid_show_user_acceleration() -> None:
     performance_report = PerformanceReport.generate(
         valid_show_user,
     )
-    if performance_report is None:
-        msg = "Performance report is None"
-        raise ValueError(msg)
+    assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
     assert (
