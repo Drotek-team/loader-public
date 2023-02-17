@@ -12,15 +12,11 @@ from .position_simulation import SimulationInfo, linear_interpolation
 
 def generate_takeoff_first_part(
     takeoff_start_position: Tuple[float, float, float],
+    takeoff_middle_position: Tuple[float, float, float],
 ) -> List[Any]:
-    takeoff_end_position = (
-        takeoff_start_position[0],
-        takeoff_start_position[1],
-        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-    )
     return linear_interpolation(
         takeoff_start_position,
-        takeoff_end_position,
+        takeoff_middle_position,
         FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_elevation_duration_second,
         ),
@@ -28,16 +24,11 @@ def generate_takeoff_first_part(
 
 
 def generate_takeoff_second_part(
-    takeoff_start_position: Tuple[float, float, float],
-    takeoff_altitude: float,
+    takeoff_middle_position: Tuple[float, float, float],
+    takeoff_end_position: Tuple[float, float, float],
 ) -> List[Any]:
-    takeoff_end_position = (
-        takeoff_start_position[0],
-        takeoff_start_position[1],
-        takeoff_start_position[2] + takeoff_altitude,
-    )
     return linear_interpolation(
-        takeoff_end_position,
+        takeoff_middle_position,
         takeoff_end_position,
         FRAME_PARAMETER.from_second_to_frame(
             TAKEOFF_PARAMETER.takeoff_stabilisation_duration_second,
@@ -47,12 +38,25 @@ def generate_takeoff_second_part(
 
 def takeoff_simulation(
     takeoff_start_position: Tuple[float, float, float],
-    takeoff_end_position: Tuple[float, float, float],
+    takeoff_end_altitude: float,
     frame_begin: int,
 ) -> List[SimulationInfo]:
+    takeoff_middle_position = (
+        takeoff_start_position[0],
+        takeoff_start_position[1],
+        takeoff_start_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
+    )
+
+    takeoff_end_position = (
+        takeoff_start_position[0],
+        takeoff_start_position[1],
+        takeoff_start_position[2] + takeoff_end_altitude,
+    )
+
     takeoff_positions = generate_takeoff_first_part(
         takeoff_start_position,
-    ) + generate_takeoff_second_part(takeoff_start_position, takeoff_end_position[2])
+        takeoff_middle_position,
+    ) + generate_takeoff_second_part(takeoff_middle_position, takeoff_end_position)
     return [
         SimulationInfo(
             frame=frame_begin + frame_index,
