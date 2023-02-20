@@ -28,24 +28,21 @@ def test_stand_by_simulation(
         first_position_event.xyz,
     )
 
-    theorical_stand_by_simulation_infos = [
-        SimulationInfo(
-            frame=0,
-            position=np.array((0.0, 0.0, 10.0), dtype=np.float64),
-            in_air=False,
-        ),
-        SimulationInfo(
-            frame=1,
-            position=np.array((0.0, 0.0, 10.0), dtype=np.float64),
-            in_air=False,
-        ),
-        SimulationInfo(
-            frame=2,
-            position=np.array((0.0, 0.0, 10.0), dtype=np.float64),
-            in_air=False,
-        ),
-    ]
-    assert real_stand_by_simulation_infos == theorical_stand_by_simulation_infos
+    assert real_stand_by_simulation_infos[0] == SimulationInfo(
+        frame=0,
+        position=np.array((0.0, 0.0, 10.0), dtype=np.float64),
+        in_air=False,
+    )
+    assert real_stand_by_simulation_infos[1] == SimulationInfo(
+        frame=1,
+        position=np.array((0.0, 0.0, 10.0), dtype=np.float64),
+        in_air=False,
+    )
+    assert real_stand_by_simulation_infos[2] == SimulationInfo(
+        frame=2,
+        position=np.array((0.0, 0.0, 10.0), dtype=np.float64),
+        in_air=False,
+    )
 
 
 def test_stand_by_simulation_frame_begin_superior_to_frame_end(
