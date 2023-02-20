@@ -31,6 +31,15 @@ class SimulationInfo:
         )
 
 
+def apply_decimal_number_tolerance(
+    position_array: NDArray[np.float64],
+) -> NDArray[np.float64]:
+    return np.round(  # pyright: ignore[reportUnknownMemberType]
+        position_array,
+        DECIMAL_NUMBER_TOLERANCE,
+    )
+
+
 def linear_interpolation(
     position_begin: tuple[float, float, float],
     position_end: tuple[float, float, float],
@@ -42,10 +51,9 @@ def linear_interpolation(
     if nb_points == 0:
         return []
     return [
-        np.round(  # pyright: ignore[reportUnknownMemberType]
+        apply_decimal_number_tolerance(
             np.array(position_begin, dtype=np.float64) * (1 - percentile)
             + np.array(position_end, dtype=np.float64) * percentile,
-            DECIMAL_NUMBER_TOLERANCE,
         )
         for percentile in np.linspace(
             0,

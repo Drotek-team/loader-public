@@ -4,7 +4,7 @@ import numpy as np
 
 from loader.show_env.show_user import PositionEventUser
 
-from .position_simulation import SimulationInfo
+from .position_simulation import SimulationInfo, apply_decimal_number_tolerance
 
 
 def in_dance_flight_simulation(
@@ -28,20 +28,26 @@ def in_dance_flight_simulation(
             position_events_user[-1].frame,
         ),
     )
-    flight_positions_x = np.interp(  # pyright: ignore[reportUnknownMemberType]
-        desired_frames,
-        position_events_user_frame,
-        position_events_user_x,
+    flight_positions_x = apply_decimal_number_tolerance(
+        np.interp(  # pyright: ignore[reportUnknownMemberType]
+            desired_frames,
+            position_events_user_frame,
+            position_events_user_x,
+        ),
     )
-    flight_positions_y = np.interp(  # pyright: ignore[reportUnknownMemberType]
-        desired_frames,
-        position_events_user_frame,
-        position_events_user_y,
+    flight_positions_y = apply_decimal_number_tolerance(
+        np.interp(  # pyright: ignore[reportUnknownMemberType]
+            desired_frames,
+            position_events_user_frame,
+            position_events_user_y,
+        ),
     )
-    flight_positions_z = np.interp(  # pyright: ignore[reportUnknownMemberType]
-        desired_frames,
-        position_events_user_frame,
-        position_events_user_z,
+    flight_positions_z = apply_decimal_number_tolerance(
+        np.interp(  # pyright: ignore[reportUnknownMemberType]
+            desired_frames,
+            position_events_user_frame,
+            position_events_user_z,
+        ),
     )
     return [
         SimulationInfo(
