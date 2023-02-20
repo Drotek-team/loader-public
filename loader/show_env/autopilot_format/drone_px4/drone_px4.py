@@ -3,7 +3,6 @@ from typing import List, Tuple
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
 
 
-# TODO: en reparler pour généraliser nouveau drone
 class DronePx4:
     def __init__(self, index: int) -> None:
         self.index = index
@@ -31,7 +30,6 @@ class DronePx4:
     def add_fire(self, timecode: int, chanel: int, duration_frame: int) -> None:
         self.fire_events.add_timecode_chanel_duration(timecode, chanel, duration_frame)
 
-    # TODO: Improve this method
     def get_events_by_index(self, event_type: EventsType) -> Events:
         events_enum = {events.id_: events for events in self.events_list}
         return events_enum[event_type]
