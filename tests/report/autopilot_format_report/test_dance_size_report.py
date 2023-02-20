@@ -33,4 +33,4 @@ def test_invalid_drone_dance_size_report(invalid_drone_dance_size: DronePx4) -> 
     dance_size_report = DanceSizeInfraction.generate(
         invalid_drone_dance_size,
     )
-    assert not (get_report_validation(dance_size_report))
+    assert not get_report_validation(dance_size_report)

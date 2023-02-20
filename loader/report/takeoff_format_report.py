@@ -136,6 +136,6 @@ class TakeoffFormatReport(BaseReport):
             for drone_user in show_user.drones_user
             if (drone_user_report := DroneUserReport.generate(drone_user)) is not None
         ]
-        if not (drone_user_reports):
+        if not drone_user_reports:
             return None
         return TakeoffFormatReport(drone_users=drone_user_reports)

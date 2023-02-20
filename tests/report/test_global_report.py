@@ -25,8 +25,7 @@ def test_global_report_summary_collision_report() -> None:
     assert global_report.summary().autopilot_format == 0
     assert global_report.summary().performance == 0
     assert global_report.summary().collision == 6120
-    # TODO: Find all useless parentheses
-    assert not (global_report.summary().is_valid())
+    assert not global_report.summary().is_valid()
 
 
 def test_generate_global_report_standard_case() -> None:

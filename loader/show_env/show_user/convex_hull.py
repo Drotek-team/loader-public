@@ -71,7 +71,7 @@ def calculate_convex_hull(
     positions_array = [
         position_array
         for position_array in positions_array
-        if not (np.array_equal(position_array, pivot))
+        if not np.array_equal(position_array, pivot)
     ]
     convex_hull = [pivot]
     sorted_array_positions = sorted_by_pivot(
