@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "loader"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Thomas PERRIN <thomas.perrin@drotek.com>"]
 readme = "README.md"
