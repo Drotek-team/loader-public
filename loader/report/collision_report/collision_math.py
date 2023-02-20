@@ -15,8 +15,6 @@ if TYPE_CHECKING:
 
 T = TypeVar("T")
 
-ARBITRARY_DICHOTOMY_THRESHOLD = 400_000
-
 
 def get_couple_distance_matrix(
     positions_numpy: NDArray[np.float64],
