@@ -33,7 +33,7 @@ class Coordinate:
     def __eq__(self, __o: object) -> bool:
         if not isinstance(__o, Coordinate):
             return False
-        return bool(np.linalg.norm(self.xy_array - __o.xy_array) < 1e-6)
+        return np.allclose(self.xy_array, __o.xy_array, 1e-6)
 
 
 @dataclass(unsafe_hash=True)

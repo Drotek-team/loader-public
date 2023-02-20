@@ -32,12 +32,9 @@ def test_horizontal_position_standard_case_and_method() -> None:
     assert first_horizontal_position.coordinate == Coordinate(-1.0, 1.0)
 
     first_horizontal_position.rotated_positions(np.pi)
-    assert (
-        np.linalg.norm(
-            first_horizontal_position.xy_array
-            - np.array([1.0, -1.0], dtype=np.float64),
-        )
-        < 1e-6
+    np.testing.assert_allclose(
+        first_horizontal_position.xy_array,
+        np.array([1.0, -1.0], dtype=np.float64),
     )
 
 

@@ -21,12 +21,9 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser) -> None:
     assert empty_drone_user.position_events[0].frame == 1
     assert empty_drone_user.position_events[0].xyz == (1.0, 2.0, 3.0)
     empty_drone_user.apply_horizontal_rotation(90)
-    assert (
-        np.linalg.norm(
-            np.array(empty_drone_user.position_events[0].xyz)
-            - np.array((-2.0, 1.0, 3.0)),
-        )
-        < 1e-6
+    np.testing.assert_allclose(
+        np.array(empty_drone_user.position_events[0].xyz),
+        np.array((-2.0, 1.0, 3.0)),
     )
 
 

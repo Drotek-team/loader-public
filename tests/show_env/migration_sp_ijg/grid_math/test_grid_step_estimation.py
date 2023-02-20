@@ -35,9 +35,7 @@ def test_get_nb_drone_per_family_from_grid_valid_grids(
     )
     if grid.is_grid_one_family():
         return
-    assert (
-        np.abs(
-            get_step_from_grid(grid) - step_takeoff,
-        )
-        < 1e-6
+    np.testing.assert_allclose(
+        get_step_from_grid(grid),
+        step_takeoff,
     )
