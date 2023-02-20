@@ -84,7 +84,7 @@ class ShowPositionFrames:
         )
         show_position_frames = ShowPositionFrames(
             frames=show_collision_trajectory.frames,
-            drone_indices=list(range(show_collision_trajectory.drone_number)),
+            drone_indices=list(range(len(show_collision_trajectory))),
         )
         for collision_trajectory in show_collision_trajectory:
             for show_slice, collision_position_infos in zip(

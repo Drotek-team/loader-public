@@ -28,22 +28,22 @@ from loader.show_env.show_user.generate_show_user import (
 
 
 def test_create_show_user_standard_case() -> None:
-    drone_number = 5
-    show_user = create_empty_show_user(drone_number)
-    assert len(show_user) == drone_number
-    for drone_index in range(drone_number):
+    nb_drones = 5
+    show_user = create_empty_show_user(nb_drones)
+    assert len(show_user) == nb_drones
+    for drone_index in range(nb_drones):
         assert len(show_user[drone_index].position_events) == 0
         assert len(show_user[drone_index].color_events) == 0
         assert len(show_user[drone_index].fire_events) == 0
 
 
-@pytest.mark.parametrize("drone_number", [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10])
-def test_create_show_user_invalid_drone_number(drone_number: int) -> None:
+@pytest.mark.parametrize("nb_drones", [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10])
+def test_create_show_user_invalid_nb_drones(nb_drones: int) -> None:
     with pytest.raises(
         ValueError,
-        match=f"drone_number must be positive, not {drone_number}",
+        match=f"nb_drones must be positive, not {nb_drones}",
     ):
-        create_empty_show_user(drone_number)
+        create_empty_show_user(nb_drones)
 
 
 def test_create_show_position_frames_standard_user_case() -> None:

@@ -24,7 +24,3 @@ class ShowCollisionTrajectory(List[CollisionTrajectory]):
                 ),
             ),
         )
-
-    @property
-    def drone_number(self) -> int:
-        return len(self)

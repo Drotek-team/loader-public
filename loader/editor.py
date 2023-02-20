@@ -42,10 +42,10 @@ class ReportError(Exception):
         super().__init__(message)
 
 
-def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
-    """Return an ShowUser object with 'drone_number' user drones. These drones contains no events."""
-    if drone_number <= 0:
-        msg = f"drone_number must be positive, not {drone_number}"
+def create_empty_show_user(nb_drones: NonNegativeInt) -> ShowUser:
+    """Return an ShowUser object with 'nb_drones' user drones. These drones contains no events."""
+    if nb_drones <= 0:
+        msg = f"nb_drones must be positive, not {nb_drones}"
         raise ValueError(msg)
     return ShowUser(
         drones_user=[
@@ -55,7 +55,7 @@ def create_empty_show_user(drone_number: NonNegativeInt) -> ShowUser:
                 color_events=[],
                 fire_events=[],
             )
-            for drone_index in range(drone_number)
+            for drone_index in range(nb_drones)
         ],
     )
 
