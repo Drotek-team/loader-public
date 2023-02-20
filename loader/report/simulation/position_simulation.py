@@ -8,6 +8,8 @@ import numpy as np
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
+DECIMAL_NUMBER_TOLERANCE = 3
+
 
 @dataclass(frozen=True)
 class SimulationInfo:
@@ -20,7 +22,11 @@ class SimulationInfo:
             return False
         return bool(
             self.frame == other_simulation_info.frame
-            and np.array_equal(self.position, other_simulation_info.position)
+            and np.allclose(
+                self.position,
+                other_simulation_info.position,
+                atol=10 ** (-DECIMAL_NUMBER_TOLERANCE),
+            )
             and self.in_air == other_simulation_info.in_air,
         )
 
@@ -39,7 +45,7 @@ def linear_interpolation(
         np.round(  # pyright: ignore[reportUnknownMemberType]
             np.array(position_begin, dtype=np.float64) * (1 - percentile)
             + np.array(position_end, dtype=np.float64) * percentile,
-            3,
+            DECIMAL_NUMBER_TOLERANCE,
         )
         for percentile in np.linspace(
             0,
