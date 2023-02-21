@@ -47,8 +47,7 @@ repos:
       - id: ruff
         name: ruff
         description: Run 'ruff' for extremely fast Python linting
-        entry: poetry run ruff --force-exclude
-        args: [--force-exclude, --fix, --exit-non-zero-on-fix]
+        entry: poetry run ruff --force-exclude --fix --exit-non-zero-on-fix
         language: system
         types_or: [python, pyi]
         require_serial: true
