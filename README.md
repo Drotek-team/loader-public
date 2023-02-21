@@ -6,9 +6,13 @@ This project provides standard tools for the creation and verification of Drotek
 
 ### Installation of the module in your project
 
-1. Copy the _loader_ in your project
+1. Copy the `loader` in your project
 1. Minimal python version: Python 3.8
-1. ```pip3 install numpy==1.24.2 pydantic==1.10.4```
+1. Run this command with the python interpreter of your project
+
+   ```console
+   python3 -m pip install path/to/loader
+   ```
 
 ## Use the loader in your project
 
