@@ -31,8 +31,7 @@ class DronePx4:
         self.fire_events.add_timecode_chanel_duration(timecode, chanel, duration_frame)
 
     def get_events_by_index(self, event_type: EventsType) -> Events:
-        events_enum = {events.id_: events for events in self.events_list}
-        return events_enum[event_type]
+        return next(events for events in self.events_list if events.id_ == event_type)
 
     @property
     def events_list(self) -> List[Events]:
