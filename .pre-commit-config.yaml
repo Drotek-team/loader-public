@@ -1,3 +1,4 @@
+fail_fast: true
 repos:
   - repo: https://github.com/python-poetry/poetry
     rev: 1.3.2
@@ -11,12 +12,22 @@ repos:
       # Format javascript, json, yaml, ...
       - id: prettier
 
-  - repo: https://github.com/markdownlint/markdownlint
-    rev: v0.12.0
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.16
     hooks:
-      # Lint markdown
-      - id: markdownlint
-        args: ["--rules", "~MD013"]
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-black
+          - black==23.1.0 # must conform to pyproject.toml
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.33.0
+    hooks:
+      - id: markdownlint-fix
+        args:
+          - --disable
+          - MD013 # line-length
+          - --
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -37,7 +48,7 @@ repos:
         name: ruff
         description: Run 'ruff' for extremely fast Python linting
         entry: poetry run ruff --force-exclude
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [--force-exclude, --fix, --exit-non-zero-on-fix]
         language: system
         types_or: [python, pyi]
         require_serial: true

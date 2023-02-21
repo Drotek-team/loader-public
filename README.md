@@ -7,7 +7,9 @@ This project provides standard tools for the creation and verification of Drotek
 ### Installation of the module in your project
 
 1. Copy the `loader` in your project
+
 1. Minimal python version: Python 3.8
+
 1. Run this command with the python interpreter of your project
 
    ```console
@@ -22,6 +24,7 @@ This project provides standard tools for the creation and verification of Drotek
 
   ```python
   from loader import create_empty_show_user
+
   nb_drones = 5
   show_user = create_empty_show_user(nb_drones)
   ```
@@ -67,8 +70,12 @@ This project provides standard tools for the creation and verification of Drotek
   performance_infractions = get_performance_infractions(show_user, {})
   print(performance_infractions[0])
 
-  new_performance_configuration = {PerformanceKind.HORIZONTAL_VELOCITY: PerformanceRange(3.0)}
-  performance_infractions = get_performance_infractions(show_user, new_performance_configuration)
+  new_performance_configuration = {
+      PerformanceKind.HORIZONTAL_VELOCITY: PerformanceRange(3.0)
+  }
+  performance_infractions = get_performance_infractions(
+      show_user, new_performance_configuration
+  )
   print(performance_infractions[0])
   ```
 
