@@ -77,13 +77,14 @@ parametrize-names-type = "csv"
 "tests/*.py" = ["SLF001"]
 
 [tool.pytest.ini_options]
-addopts = "--color=yes --exitfirst --failed-first --strict-config --strict-markers"
+addopts = "--color=yes --exitfirst --failed-first --strict-config --strict-markers --junitxml=reports/pytest.xml"
 filterwarnings = ["error"]
 pythonpath = ["loader"]
 xfail_strict = true
 
 [tool.coverage.run] # https://coverage.readthedocs.io/en/latest/config.html#run
 branch = true
+data_file = "reports/.coverage"
 
 [tool.coverage.report] # https://coverage.readthedocs.io/en/latest/config.html#report
 fail_under = 100
@@ -100,3 +101,6 @@ exclude_lines = [
     "if TYPE_CHECKING:",
     "@abstractmethod",
 ]
+
+[tool.coverage.xml] # https://coverage.readthedocs.io/en/latest/config.html#xml
+output = "reports/coverage.xml"

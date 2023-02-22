@@ -1,0 +1,67 @@
+stages:
+  - lint
+  - test
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PRE_COMMIT_HOME: "$CI_PROJECT_DIR/.cache/pre-commit"
+
+# TODO: create a docker image with all the dependencies installed
+default:
+  # Official language image. Look for the different tagged releases at:
+  # https://hub.docker.com/r/library/python/tags/
+  image: python:3.8.2-buster
+  before_script:
+    # Install git for pre-commit
+    - apt-get update && apt-get install -y --no-install-recommends git
+    # Set up Python virtual environment
+    - pip install poetry==1.3.2
+    - poetry install
+    - source $(poetry env info --path)/bin/activate
+  cache:
+    - key:
+        files:
+          - poetry.lock
+      paths:
+        - .venv
+    # Pip's cache doesn't store the python packages
+    # https://pip.pypa.io/en/stable/topics/caching/
+    #
+    # If you want to also cache the installed packages, you have to install
+    # them in a virtualenv and cache it as well.
+    - paths:
+        - .cache/pip
+        - .cache/pre-commit
+        - .hypothesis
+        - .pytest_cache
+        - .ruff_cache
+
+ruff:
+  stage: lint
+  script:
+    - mkdir reports
+    - ruff check . --format gitlab > reports/ruff.json
+  artifacts:
+    reports:
+      codequality: reports/ruff.json
+
+pre-commit:
+  stage: lint
+  script:
+    - SKIP=pytest,ruff pre-commit run --all-files
+
+test:
+  stage: test
+  script:
+    - pytest --cov=loader --cov=tests --cov-report=xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: reports/coverage.xml
+      junit:
+        - reports/pytest.xml
