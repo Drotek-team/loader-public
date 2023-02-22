@@ -38,11 +38,11 @@ def test_get_events_by_index_standard_case() -> None:
 
 def test_events_list_standard_case() -> None:
     drone = DronePx4(index=0)
-    assert drone.events_list == [
-        drone.position_events,
-        drone.color_events,
-        drone.fire_events,
-    ]
+    assert drone.events_dict == {
+        EventsType.position: drone.position_events,
+        EventsType.color: drone.color_events,
+        EventsType.fire: drone.fire_events,
+    }
 
 
 def test_non_empty_events_list_standard_case() -> None:
