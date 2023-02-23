@@ -1,5 +1,4 @@
 from hypothesis import given
-from hypothesis import strategies as st
 from loader.show_env.migration_sp_ijg.grid_math.grid import (
     GridConfiguration,
     get_grid_from_configuration,
@@ -8,11 +7,17 @@ from loader.show_env.migration_sp_ijg.grid_math.grid_nb_per_family_estimation im
     get_nb_drone_per_family_from_grid,
 )
 
+from tests.strategies import (
+    st_nb_drone_per_family,
+    st_nb_x,
+    st_nb_y,
+)
+
 
 @given(
-    nb_x=st.integers(1, 3),
-    nb_y=st.integers(1, 3),
-    nb_drone_per_family=st.integers(1, 3),
+    nb_x=st_nb_x,
+    nb_y=st_nb_y,
+    nb_drone_per_family=st_nb_drone_per_family,
 )
 def test_get_nb_drone_per_family_from_grid_valid_grid(
     nb_x: int,

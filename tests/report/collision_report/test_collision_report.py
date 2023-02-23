@@ -17,6 +17,7 @@ def test_valid_simulation_on_ground() -> None:
             nb_x=2,
             nb_y=2,
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
+            show_duration_absolute_time=3,
         ),
     )
 
@@ -62,6 +63,7 @@ def test_invalid_simulation_in_air() -> None:
             nb_y=1,
             nb_drone_per_family=2,
             step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
+            show_duration_absolute_time=3,
         ),
     )
     collision_report = CollisionReport.generate(
@@ -70,6 +72,6 @@ def test_invalid_simulation_in_air() -> None:
     assert not get_report_validation(collision_report)
     assert collision_report is not None
     collision_infractions = collision_report.collision_infractions
-    assert len(collision_infractions) == 6120
+    assert len(collision_infractions) == 2232
     for collision_infraction in collision_infractions:
         assert collision_infraction.in_air

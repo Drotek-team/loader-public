@@ -1,5 +1,4 @@
 from hypothesis import given
-from hypothesis import strategies as st
 from loader.show_env.autopilot_format.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
 from loader.show_env.migration_sp_su.su_to_sp import (
@@ -19,6 +18,8 @@ from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
+
+from tests.strategies import slow, st_nb_drone_per_family, st_nb_x, st_nb_y
 
 
 def test_add_position_events_user_standard_case() -> None:
@@ -124,10 +125,11 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
 
 
 @given(
-    nb_x=st.integers(1, 3),
-    nb_y=st.integers(1, 3),
-    nb_drone_per_family=st.integers(1, 3),
+    nb_x=st_nb_x,
+    nb_y=st_nb_y,
+    nb_drone_per_family=st_nb_drone_per_family,
 )
+@slow
 def test_su_to_sp_standard_case(nb_x: int, nb_y: int, nb_drone_per_family: int) -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(

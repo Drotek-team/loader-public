@@ -1,7 +1,7 @@
 from typing import Tuple
 
 import numpy as np
-from hypothesis import example, given, settings
+from hypothesis import example, given
 from hypothesis import strategies as st
 from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
     FRAME_PARAMETER,
@@ -14,6 +14,8 @@ from loader.report.simulation.position_simulation import (
 )
 from loader.report.simulation.takeoff_simulation import takeoff_simulation
 from loader.show_env.show_user import PositionEventUser
+
+from tests.strategies import slow
 
 FRAME_START = 0
 FRAME_END = FRAME_START + FRAME_PARAMETER.from_second_to_frame(
@@ -42,7 +44,7 @@ def get_valid_position_events_user(
     ),
 )
 @example(2.0)
-@settings(max_examples=50)
+@slow
 def test_takeoff_simulation_altitude_meter_min(takeoff_end_altitude: float) -> None:
     valid_position_events_user = get_valid_position_events_user(takeoff_end_altitude)
     first_position_event = valid_position_events_user[0]

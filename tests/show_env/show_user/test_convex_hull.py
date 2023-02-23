@@ -11,6 +11,8 @@ from loader.show_env.show_user.convex_hull import (
     get_relative_angle,
 )
 
+from tests.strategies import slow
+
 
 @dataclass(frozen=True)
 class Point:
@@ -34,6 +36,8 @@ def points_intersect(a: Point, b: Point, c: Point, d: Point) -> bool:
 
 
 def is_point_inside_convex_polygon(point: Point, polygon: List[Point]) -> bool:
+    if len(polygon) < 3:
+        return True
     mean_polygon_point = Point(
         float(np.mean([p.x for p in polygon])),
         float(np.mean([p.y for p in polygon])),
@@ -73,13 +77,21 @@ def from_tuple_list_to_point_list(
     return [from_tuple_to_point(tuple_input) for tuple_input in tuple_list_input]
 
 
-@given(nb_points=st.integers(2, 100))
-def test_calculate_convex_hull(nb_points: int) -> None:
-    positions_array = np.random.random((nb_points, 2))
-    positions_tuple = [
-        (float(position_array[0]), float(position_array[1]))
-        for position_array in positions_array
-    ]
+st_coordinate = st.floats(min_value=-100, max_value=100)
+st_position = st.tuples(st_coordinate, st_coordinate)
+
+
+@st.composite
+def st_positions_tuple(draw: st.DrawFn) -> List[Tuple[float, float]]:
+    positions_tuple = draw(st.lists(st_position, min_size=1, max_size=100))
+    return list(
+        {tuple(round(x, 3) for x in position) for position in positions_tuple},
+    )
+
+
+@given(positions_tuple=st_positions_tuple())
+@slow
+def test_calculate_convex_hull(positions_tuple: List[Tuple[float, float]]) -> None:
     convex_hull = calculate_convex_hull(positions_tuple)
 
     position_points = from_tuple_list_to_point_list(positions_tuple)

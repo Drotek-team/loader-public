@@ -4,6 +4,8 @@ from loader.show_env.autopilot_format.drone_px4 import DronePx4
 from loader.show_env.migration_dp_binary.drone_decoding import decode_drone
 from loader.show_env.migration_dp_binary.drone_encoding import encode_drone
 
+from tests.strategies import slow
+
 
 @given(
     first_timecode=st.integers(0, 3),
@@ -27,6 +29,7 @@ from loader.show_env.migration_dp_binary.drone_encoding import encode_drone
     second_chanel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
 )
+@slow
 def test_encode_decode_drone(
     first_timecode: int,
     first_x: int,

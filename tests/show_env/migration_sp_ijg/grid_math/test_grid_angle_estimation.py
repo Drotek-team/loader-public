@@ -2,7 +2,6 @@ import math
 
 import numpy as np
 from hypothesis import given
-from hypothesis import strategies as st
 from loader.show_env.migration_sp_ijg.grid_math.grid import (
     GridConfiguration,
     get_grid_from_configuration,
@@ -11,6 +10,14 @@ from loader.show_env.migration_sp_ijg.grid_math.grid_angle_estimation import (
     first_and_second_family_horizontal_positions,
     get_angle_degree_from_vector,
     get_angle_takeoff_from_grid,
+)
+
+from tests.strategies import (
+    slow,
+    st_angle_takeoff,
+    st_nb_drone_per_family,
+    st_nb_x,
+    st_nb_y,
 )
 
 
@@ -79,11 +86,12 @@ def angle_distance(first_angle_radian: float, second_angle_radian: float) -> flo
 
 
 @given(
-    nb_x=st.integers(1, 4),
-    nb_y=st.integers(1, 4),
-    nb_drone_per_family=st.integers(1, 3),
-    angle_takeoff=st.floats(0, 0.5 * np.pi),
+    nb_x=st_nb_x,
+    nb_y=st_nb_y,
+    nb_drone_per_family=st_nb_drone_per_family,
+    angle_takeoff=st_angle_takeoff,
 )
+@slow
 def test_get_angle_takeoff_from_grid(
     nb_x: int,
     nb_y: int,

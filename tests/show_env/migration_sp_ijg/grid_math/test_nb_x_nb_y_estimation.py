@@ -1,5 +1,4 @@
 from hypothesis import given
-from hypothesis import strategies as st
 from loader.show_env.migration_sp_ijg.grid_math.grid import (
     GridConfiguration,
     get_grid_from_configuration,
@@ -8,13 +7,22 @@ from loader.show_env.migration_sp_ijg.grid_math.grid_nb_x_nb_y_estimation import
     get_nb_x_nb_y_from_grid,
 )
 
+from tests.strategies import (
+    slow,
+    st_angle_takeoff,
+    st_nb_drone_per_family,
+    st_nb_x,
+    st_nb_y,
+)
+
 
 @given(
-    nb_x=st.integers(1, 4),
-    nb_y=st.integers(1, 2),
-    nb_drone_per_family=st.integers(1, 3),
-    angle_takeoff=st.integers(0, 360),
+    nb_x=st_nb_x,
+    nb_y=st_nb_y,
+    nb_drone_per_family=st_nb_drone_per_family,
+    angle_takeoff=st_angle_takeoff,
 )
+@slow
 def test_get_nb_drone_per_family_from_grid_standard_grids(
     nb_x: int,
     nb_y: int,

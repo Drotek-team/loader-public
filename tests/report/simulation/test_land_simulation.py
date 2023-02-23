@@ -1,5 +1,5 @@
 import numpy as np
-from hypothesis import example, given, settings
+from hypothesis import example, given
 from hypothesis import strategies as st
 from loader.parameter.iostar_flight_parameter.iostar_land_parameter import (
     LAND_PARAMETER,
@@ -8,6 +8,8 @@ from loader.report.simulation.land_simulation import land_simulation
 from loader.report.simulation.position_simulation import (
     SimulationInfo,
 )
+
+from tests.strategies import slow
 
 
 @given(
@@ -19,7 +21,7 @@ from loader.report.simulation.position_simulation import (
     y_position=st.floats(-10, 10),
 )
 @example(x_position=0, y_position=0.5625, frame_start=0)
-@settings(max_examples=50)
+@slow
 def test_land_simulation_above_land_safe_hgt(
     frame_start: int,
     x_position: float,
@@ -67,7 +69,7 @@ def test_land_simulation_above_land_safe_hgt(
     ),
     y_position=st.floats(-10, 10),
 )
-@settings(max_examples=50)
+@slow
 def test_land_simulation_under_land_safe_hgt(
     frame_start: int,
     x_position: float,
@@ -105,7 +107,7 @@ def test_land_simulation_under_land_safe_hgt(
     ),
     y_position=st.floats(-10, 10),
 )
-@settings(max_examples=50)
+@slow
 def test_land_simulation_in_land_safe_hgt(
     frame_start: int,
     x_position: float,

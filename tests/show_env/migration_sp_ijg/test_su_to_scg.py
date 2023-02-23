@@ -1,4 +1,3 @@
-import numpy as np
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.show_env.iostar_json.show_configuration import ShowConfiguration
@@ -8,15 +7,25 @@ from loader.show_env.show_user.generate_show_user import (
     get_valid_show_user,
 )
 
+from tests.strategies import (
+    slow,
+    st_angle_takeoff,
+    st_nb_drone_per_family,
+    st_nb_x,
+    st_nb_y,
+    st_step_takeoff,
+)
+
 
 @given(
-    nb_x=st.integers(1, 5),
-    nb_y=st.integers(1, 5),
-    nb_drone_per_family=st.integers(1, 5),
-    step_takeoff=st.floats(1, 10),
-    angle_takeoff=st.floats(0, 2 * np.pi),
+    nb_x=st_nb_x,
+    nb_y=st_nb_y,
+    nb_drone_per_family=st_nb_drone_per_family,
+    step_takeoff=st_step_takeoff,
+    angle_takeoff=st_angle_takeoff,
     show_duration_absolute_time=st.floats(1.0, 10),
 )
+@slow
 def test_su_to_sc_hypothesis(
     nb_x: int,
     nb_y: int,

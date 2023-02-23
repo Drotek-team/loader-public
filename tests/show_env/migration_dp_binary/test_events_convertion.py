@@ -10,6 +10,8 @@ from loader.show_env.migration_dp_binary.events_convertion import (
     encode_events,
 )
 
+from tests.strategies import slow
+
 
 @given(
     first_timecode=st.integers(0, 3),
@@ -21,6 +23,7 @@ from loader.show_env.migration_dp_binary.events_convertion import (
     second_y=st.integers(-3, 3),
     second_z=st.integers(-3, 3),
 )
+@slow
 def test_encode_decode_position_events(
     first_timecode: int,
     first_x: int,
@@ -57,6 +60,7 @@ def test_encode_decode_position_events(
     second_b=st.integers(0, 3),
     second_w=st.integers(0, 3),
 )
+@slow
 def test_encode_decode_color_events(
     first_timecode: int,
     first_r: int,
@@ -91,6 +95,7 @@ def test_encode_decode_color_events(
     second_chanel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
 )
+@slow
 def test_encode_decode_fire_events(
     first_timecode: int,
     first_chanel: int,

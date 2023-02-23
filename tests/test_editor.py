@@ -186,7 +186,9 @@ def test_get_dance_size_report() -> None:
 
 
 def test_generate_report_from_show_user_standard_case() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(nb_x=2, nb_y=2, show_duration_absolute_time=3),
+    )
     global_report = generate_report_from_show_user(show_user)
     assert global_report.dict() == {
         "takeoff_format": None,
@@ -265,7 +267,9 @@ def test_get_verified_iostar_json_gcs() -> None:
 
 
 def test_get_verified_iostar_json_gcs_invalid() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=0.3))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(nb_x=2, nb_y=2, step=0.3, show_duration_absolute_time=3),
+    )
     iostar_json_gcs = su_to_ijg(show_user)
     with pytest.raises(ReportError):
         get_verified_iostar_json_gcs(iostar_json_gcs.json())
