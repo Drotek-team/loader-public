@@ -1,4 +1,8 @@
-from typing import Any, List, Tuple
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+import numpy as np
 
 from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
     FRAME_PARAMETER,
@@ -9,10 +13,13 @@ from loader.parameter.iostar_flight_parameter.iostar_land_parameter import (
 
 from .position_simulation import SimulationInfo, linear_interpolation
 
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
 
 def generate_land_first_part(
-    land_start_position: Tuple[float, float, float],
-) -> List[Any]:
+    land_start_position: tuple[float, float, float],
+) -> list[NDArray[np.float64]]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
@@ -28,8 +35,8 @@ def generate_land_first_part(
 
 
 def generate_land_second_part(
-    land_start_position: Tuple[float, float, float],
-) -> List[Any]:
+    land_start_position: tuple[float, float, float],
+) -> list[NDArray[np.float64]]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
@@ -50,9 +57,9 @@ def generate_land_second_part(
 
 
 def land_simulation(
-    land_start_position: Tuple[float, float, float],
+    land_start_position: tuple[float, float, float],
     frame_begin: int,
-) -> List[SimulationInfo]:
+) -> list[SimulationInfo]:
     land_positions = generate_land_first_part(
         land_start_position,
     ) + generate_land_second_part(

@@ -1,4 +1,6 @@
-from typing import Any, List
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -14,8 +16,14 @@ from .show_trajectory_performance import (
     TrajectoryPerformanceInfo,
 )
 
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
-def get_velocities_from_positions(frames: List[int], positions: List[Any]) -> List[Any]:
+
+def get_velocities_from_positions(
+    frames: list[int],
+    positions: list[NDArray[np.float64]],
+) -> list[NDArray[np.float64]]:
     if len(positions) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
     extended_frames = [frames[0] - 1, *frames]
@@ -34,9 +42,9 @@ def get_velocities_from_positions(frames: List[int], positions: List[Any]) -> Li
 
 
 def get_accelerations_from_velocities(
-    frames: List[int],
-    velocities: List[Any],
-) -> List[Any]:
+    frames: list[int],
+    velocities: list[NDArray[np.float64]],
+) -> list[NDArray[np.float64]]:
     if len(velocities) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
     extended_frames = [frames[0] - 1, *frames]
@@ -55,8 +63,8 @@ def get_accelerations_from_velocities(
 
 
 def get_trajectory_performance_info_from_position_events(
-    position_events_user: List[PositionEventUser],
-) -> List[TrajectoryPerformanceInfo]:
+    position_events_user: list[PositionEventUser],
+) -> list[TrajectoryPerformanceInfo]:
     frames = [position_event.frame for position_event in position_events_user]
     positions = [
         np.array(position_event.xyz, dtype=np.float64)
