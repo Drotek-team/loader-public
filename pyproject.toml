@@ -8,20 +8,20 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 numpy = "^1.24.2"
-pydantic = "^1.10.4"
+pydantic = "^1.10.5"
 
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"
-hypothesis = "^6.67.1"
-pre-commit = "^3.0.4"
-pyright = "^1.1.294"
+hypothesis = "^6.68.2"
+pre-commit = "^3.1.0"
+pyright = "^1.1.295"
 pytest = "^7.2.1"
 pytest-clarity = "^1.0.1"
 pytest-cov = "^4.0.0"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"
-ruff = "^0.0.249"
+ruff = "0.0.252"          # Must match required-version in [tool.ruff]
 
 [build-system]
 requires = ["poetry-core"]
@@ -38,7 +38,7 @@ typeCheckingMode = "strict"
 venv = ".venv"
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
-required-version = "0.0.249"
+required-version = "0.0.252" # Must match ruff in [tool.poetry.group.dev.dependencies]
 target-version = "py38"
 src = ["loader"]
 select = ["ALL"]
