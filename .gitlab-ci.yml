@@ -1,6 +1,7 @@
 stages:
   - lint
   - test
+  - commit
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -70,3 +71,9 @@ test:
       junit:
         - reports/pytest.xml
     when: always
+
+commitizen:
+  stage: commit
+  script:
+    - git fetch origin $CI_DEFAULT_BRANCH
+    - cz check --rev-range origin/$CI_DEFAULT_BRANCH..$CI_COMMIT_SHA
