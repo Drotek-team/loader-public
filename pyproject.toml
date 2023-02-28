@@ -15,6 +15,7 @@ pydantic = "^1.10.5"
 black = "^23.1.0"
 commitizen = "^2.42.0"
 hypothesis = "^6.68.2"
+jira-conventional-commits-commitizen = { git = "https://gitlab.com/JonathanPVP/jira-conventional-commits-commitizen.git" }
 pre-commit = "^3.1.0"
 pyright = "^1.1.295"
 pytest = "^7.2.1"
@@ -22,7 +23,17 @@ pytest-clarity = "^1.0.1"
 pytest-cov = "^4.0.0"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"
-ruff = "0.0.252"          # Must match required-version in [tool.ruff]
+# Must match required-version in [tool.ruff]
+ruff = "0.0.252"
+
+[tool.commitizen]
+name = "cz_jira_conventional_commits"
+version = "0.1.2"
+version_files = ["pyproject.toml:version", "loader/__init__.py"]
+tag_format = "v$version"
+annotated_tag = true
+major_version_zero = true
+update_changelog_on_bump = true
 
 [build-system]
 requires = ["poetry-core"]

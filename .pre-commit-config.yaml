@@ -6,13 +6,6 @@ default_stages:
   - commit
   - manual
 repos:
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.42.0
-    hooks:
-      - id: commitizen
-      - id: commitizen-branch
-        stages: [push, manual]
-
   - repo: https://github.com/python-poetry/poetry
     rev: 1.3.2
     hooks:
@@ -40,6 +33,7 @@ repos:
         args:
           - --disable
           - MD013 # line-length
+          - MD024 # no-duplicate-heading
           - --
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -84,3 +78,26 @@ repos:
         language: system
         types_or: [python, pyi]
         require_serial: true
+      - id: commitizen
+        name: commitizen check commit
+        description: >
+          Check whether the current commit message follows commiting rules. Allow
+          empty commit messages by default, because they typically indicate to Git
+          that the commit should be aborted.
+        entry: poetry run cz check
+        args: [--allow-abort, --commit-msg-file]
+        stages: [commit-msg]
+        language: system
+      - id: commitizen-branch
+        name: commitizen check branch
+        description: >
+          Check all commit messages that are already on the current branch but not the
+          default branch on the origin repository. Useful for checking messages after
+          the fact (e.g., pre-push or in CI) without an expensive check of the entire
+          repository history.
+        entry: poetry run cz check
+        args: [--rev-range, origin/HEAD..HEAD]
+        stages: [push, manual]
+        always_run: true
+        pass_filenames: false
+        language: system
