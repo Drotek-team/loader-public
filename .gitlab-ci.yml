@@ -64,7 +64,7 @@ pre-commit:
 test:
   stage: test
   script:
-    - pytest --cov=loader --cov=tests --cov-report=xml
+    - HYPOTHESIS_SLOW=1 pytest --cov=loader --cov=tests --cov-report=xml
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:
