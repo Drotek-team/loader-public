@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import numpy as np
 import pytest
-from hypothesis import given
+from hypothesis import example, given
 from hypothesis import strategies as st
 from loader.show_env.show_user.convex_hull import (
     calculate_convex_hull,
@@ -90,6 +90,7 @@ def st_positions_tuple(draw: st.DrawFn) -> List[Tuple[float, float]]:
 
 
 @given(positions_tuple=st_positions_tuple())
+@example(positions_tuple=[(0.0, 0.0), (0.0, 1.0), (1.0, 0.0)])
 @slow
 def test_calculate_convex_hull(positions_tuple: List[Tuple[float, float]]) -> None:
     convex_hull = calculate_convex_hull(positions_tuple)
