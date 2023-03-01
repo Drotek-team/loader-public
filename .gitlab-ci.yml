@@ -52,6 +52,9 @@ ruff:
   artifacts:
     reports:
       codequality: reports/ruff.json
+    paths:
+      - reports/ruff.json
+    when: always
 
 pre-commit:
   stage: lint
@@ -70,6 +73,9 @@ test:
         path: reports/coverage.xml
       junit:
         - reports/pytest.xml
+    paths:
+      - reports/coverage.xml
+      - reports/pytest.xml
     when: always
 
 commitizen:
