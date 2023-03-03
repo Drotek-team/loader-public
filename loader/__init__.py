@@ -1,4 +1,6 @@
-try:
+from contextlib import suppress
+
+with suppress(ImportError):
     from .editor import (
         CollisionInfraction,
         DanceSizeInfraction,
@@ -26,8 +28,7 @@ try:
         get_verified_iostar_json_gcs,
     )
     from .report.global_report import GlobalReportSummary
-except (ImportError, ModuleNotFoundError):  # pragma: no cover
-    pass
+
 
 __all__ = (
     "CollisionInfraction",
