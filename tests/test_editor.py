@@ -19,7 +19,7 @@ from loader import (
     get_show_configuration_from_iostar_json_gcs_string,
     get_verified_iostar_json_gcs,
 )
-from loader.editor import ReportError
+from loader.editor import DanceSizeInformation, ReportError, get_dance_size_informations
 from loader.show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -183,6 +183,16 @@ def test_get_collisions() -> None:
 def test_get_dance_size_report() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     assert len(get_dance_size_infractions(show_user)) == 0
+
+
+def test_get_dance_size_informations() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    assert all(
+        dance_size_information == DanceSizeInformation(drone_index, 0, 0, 0)
+        for drone_index, dance_size_information in enumerate(
+            get_dance_size_informations(show_user),
+        )
+    )
 
 
 def test_generate_report_from_show_user_standard_case() -> None:

@@ -26,6 +26,10 @@ from .report.performance_report.show_trajectory_performance_report import (
     su_to_stp,
 )
 from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
+from .show_env.migration_dp_binary.drone_encoding import (
+    DanceSizeInformation,
+    get_dance_size_information,
+)
 from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from .show_env.migration_sp_ijg.su_to_scg import ShowConfigurationGcs, su_to_scg
@@ -110,6 +114,14 @@ def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]
         for drone_px4 in autopilot_format
         if (drone_px4_report := DronePx4Report.generate(drone_px4)) is not None
         if (dance_size_infraction := drone_px4_report.dance_size_infraction) is not None
+    ]
+
+
+def get_dance_size_informations(show_user: ShowUser) -> List[DanceSizeInformation]:
+    autopilot_format_drones = su_to_sp(show_user)
+    return [
+        get_dance_size_information(autopilot_format_drone)
+        for autopilot_format_drone in autopilot_format_drones
     ]
 
 
