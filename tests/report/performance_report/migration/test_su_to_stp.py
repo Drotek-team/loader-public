@@ -27,8 +27,11 @@ def test_get_trajectory_performance_info_from_position_events() -> None:
     position_events = [
         PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
         PositionEventUser(frame=24, xyz=(0.0, 0.0, 1.0)),
-        PositionEventUser(frame=48, xyz=(0.0, 0.0, 2.0)),
-        PositionEventUser(frame=96, xyz=(0.0, 0.0, 3.0)),
+        PositionEventUser(frame=48, xyz=(0.0, 0.0, 3.0)),
+        PositionEventUser(frame=72, xyz=(0.0, 0.0, 3.0)),
+        PositionEventUser(frame=120, xyz=(0.0, 0.0, 4.0)),
+        PositionEventUser(frame=144, xyz=(0.0, 0.0, 4.0)),
+        PositionEventUser(frame=168, xyz=(0.0, 0.0, 3.0)),
     ]
     trajectory_performance_infos = get_trajectory_performance_info_from_position_events(
         position_events,
@@ -42,10 +45,13 @@ def test_get_trajectory_performance_info_from_position_events() -> None:
             from_ca_to_ct(trajectory_performance_infos[position_index].position)
             == position_events[position_index].xyz
         )
-    assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 1.0)
     assert from_ca_to_ct(trajectory_performance_infos[1].velocity) == (0.0, 0.0, 1.0)
-    assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 1.0)
-    assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 0.5)
+    assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 2.0)
+    assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[4].velocity) == (0.0, 0.0, 0.5)
+    assert from_ca_to_ct(trajectory_performance_infos[5].velocity) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[6].velocity) == (0.0, 0.0, -1.0)
 
     assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (
         0.0,
@@ -55,17 +61,32 @@ def test_get_trajectory_performance_info_from_position_events() -> None:
     assert from_ca_to_ct(trajectory_performance_infos[1].acceleration) == (
         0.0,
         0.0,
-        1.0,
+        0.0,
     )
     assert from_ca_to_ct(trajectory_performance_infos[2].acceleration) == (
         0.0,
         0.0,
-        0.0,
+        1.0,
     )
     assert from_ca_to_ct(trajectory_performance_infos[3].acceleration) == (
         0.0,
         0.0,
-        -0.25,
+        -2.0,
+    )
+    assert from_ca_to_ct(trajectory_performance_infos[4].acceleration) == (
+        0.0,
+        0.0,
+        0.25,
+    )
+    assert from_ca_to_ct(trajectory_performance_infos[5].acceleration) == (
+        0.0,
+        0.0,
+        -0.5,
+    )
+    assert from_ca_to_ct(trajectory_performance_infos[6].acceleration) == (
+        0.0,
+        0.0,
+        -1.0,
     )
 
 

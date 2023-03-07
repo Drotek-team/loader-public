@@ -26,19 +26,15 @@ def get_velocities_from_positions(
 ) -> list[NDArray[np.float64]]:
     if len(positions) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
-    extended_frames = [frames[0] - 1, *frames]
-    extended_positions = [positions[0], *positions]
-    return [
+    velocities = [
         1
         / FRAME_PARAMETER.from_frame_to_second(
-            extended_frames[coordinate_index] - extended_frames[coordinate_index - 1],
+            frames[coordinate_index + 1] - frames[coordinate_index],
         )
-        * (
-            extended_positions[coordinate_index]
-            - extended_positions[coordinate_index - 1]
-        )
-        for coordinate_index in range(1, len(positions) + 1)
+        * (positions[coordinate_index + 1] - positions[coordinate_index])
+        for coordinate_index in range(len(positions) - 1)
     ]
+    return [velocities[0], *velocities]
 
 
 def get_accelerations_from_velocities(
@@ -47,19 +43,15 @@ def get_accelerations_from_velocities(
 ) -> list[NDArray[np.float64]]:
     if len(velocities) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
-    extended_frames = [frames[0] - 1, *frames]
-    extended_velocities = [velocities[0], *velocities]
-    return [
+    accelerations = [
         1
         / FRAME_PARAMETER.from_frame_to_second(
-            extended_frames[coordinate_index] - extended_frames[coordinate_index - 1],
+            frames[coordinate_index + 1] - frames[coordinate_index],
         )
-        * (
-            extended_velocities[coordinate_index]
-            - extended_velocities[coordinate_index - 1]
-        )
-        for coordinate_index in range(1, len(velocities) + 1)
+        * (velocities[coordinate_index + 1] - velocities[coordinate_index])
+        for coordinate_index in range(len(velocities) - 1)
     ]
+    return [accelerations[0], *accelerations]
 
 
 def get_trajectory_performance_info_from_position_events(
