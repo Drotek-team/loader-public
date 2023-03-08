@@ -35,11 +35,8 @@ class Events(ABC):
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Events) and len(self) == len(other):
             return all(
-                [
-                    self._events[event_index]
-                    == other._events[event_index]  # noqa: SLF001
-                    for event_index in range(len(self._events))
-                ],
+                self._events[event_index] == other._events[event_index]  # noqa: SLF001
+                for event_index in range(len(self._events))
             )
         return False
 
