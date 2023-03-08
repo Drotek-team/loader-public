@@ -188,7 +188,14 @@ def test_get_dance_size_report() -> None:
 def test_get_dance_size_informations() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     assert all(
-        dance_size_information == DanceSizeInformation(drone_index, 0, 0, 0)
+        dance_size_information
+        == DanceSizeInformation(
+            drone_index=drone_index,
+            dance_size=106,
+            position_events_size_pct=0,
+            color_events_size_pct=0,
+            fire_events_size_pct=0,
+        )
         for drone_index, dance_size_information in enumerate(
             get_dance_size_informations(show_user),
         )

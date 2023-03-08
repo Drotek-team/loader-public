@@ -5,23 +5,21 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 )
 from loader.report.base import BaseInfraction
 from loader.show_env.autopilot_format.drone_px4 import DronePx4
-from loader.show_env.migration_dp_binary.drone_encoding import get_dance_size
+from loader.show_env.migration_dp_binary.drone_encoding import (
+    DanceSizeInformation,
+    get_dance_size_information,
+)
 
 
-class DanceSizeInfraction(BaseInfraction):
-    drone_index: int
-    dance_size: int
-    dance_size_max: int
-
+class DanceSizeInfraction(BaseInfraction, DanceSizeInformation):
     @classmethod
     def generate(
         cls,
         drone_px4: DronePx4,
     ) -> Optional["DanceSizeInfraction"]:
-        if get_dance_size(drone_px4) >= JSON_BINARY_PARAMETER.dance_size_max:
+        dance_size_info = get_dance_size_information(drone_px4)
+        if dance_size_info.dance_size >= JSON_BINARY_PARAMETER.dance_size_max:
             return DanceSizeInfraction(
-                drone_index=drone_px4.index,
-                dance_size=get_dance_size(drone_px4),
-                dance_size_max=JSON_BINARY_PARAMETER.dance_size_max,
+                **dance_size_info.dict(),
             )
         return None

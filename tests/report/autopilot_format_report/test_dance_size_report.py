@@ -3,7 +3,7 @@ from loader.report.autopilot_format_report.dances_size_report import DanceSizeIn
 from loader.report.base import get_report_validation
 from loader.show_env.autopilot_format.drone_px4 import DronePx4
 
-MAGIC_BREAKER_NUMBER = 12495
+MAGIC_BREAKER_NUMBER = 12497
 
 
 @pytest.fixture
