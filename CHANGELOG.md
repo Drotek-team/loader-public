@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.1.3 (2023-03-09)
+
+### Feat
+
+- add get_dance_size_information function
+
+### Fix
+
+- velocity and acceleration evaluation
+
+### Refactor
+
+- fuse dance_size and dance_size_info
+- **\_\_init\_\_.py**: use contextlib.suppress
+
 ## v0.1.2 (2023-02-27)
 
 ### Feat
