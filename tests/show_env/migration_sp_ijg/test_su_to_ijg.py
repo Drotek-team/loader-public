@@ -1,3 +1,5 @@
+from math import radians
+
 from loader.show_env.migration_sp_ijg.su_to_ijg import (
     get_family_from_drones_px4,
     su_to_ijg,
@@ -21,6 +23,14 @@ def test_get_family_from_drones_px4_standard_case() -> None:
 
 def test_sp_to_ijg_standard_case() -> None:
     iostar_json_gcs = su_to_ijg(
-        get_valid_show_user(ShowUserConfiguration(nb_y=2, step=2.0)),
+        get_valid_show_user(
+            ShowUserConfiguration(
+                nb_x=2,
+                nb_y=2,
+                step=2.0,
+                angle_takeoff=radians(-113),
+            ),
+        ),
     )
-    assert len(iostar_json_gcs.show.families) == 2
+    assert len(iostar_json_gcs.show.families) == 4
+    assert iostar_json_gcs.show.angle_takeoff == 113
