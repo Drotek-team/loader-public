@@ -19,7 +19,5 @@ class DanceSizeInfraction(BaseInfraction, DanceSizeInformation):
     ) -> Optional["DanceSizeInfraction"]:
         dance_size_info = get_dance_size_information(drone_px4)
         if dance_size_info.dance_size >= JSON_BINARY_PARAMETER.dance_size_max:
-            return DanceSizeInfraction(
-                **dance_size_info.dict(),
-            )
+            return DanceSizeInfraction.parse_obj(dance_size_info)
         return None

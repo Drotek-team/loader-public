@@ -66,12 +66,9 @@ def test_invalid_position_events_xyz_value_report(
     coordinate_infractions = position_events_report.coordinate_infractions
     assert len(coordinate_infractions) == 3
     for coordinate_infraction in coordinate_infractions:
-        assert (
-            coordinate_infraction.dict()
-            == CoordinateInfraction(
-                event_index=2,
-                value=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
-                value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-                value_max=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
-            ).dict()
+        assert coordinate_infraction == CoordinateInfraction(
+            event_index=2,
+            value=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
+            value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
+            value_max=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
         )

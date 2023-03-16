@@ -38,15 +38,12 @@ def test_valid_show_user_horizontal_velocity() -> None:
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="acceleration",
-            drone_index=0,
-            frame=984,
-            value=5.0,
-            threshold=2.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="acceleration",
+        drone_index=0,
+        frame=984,
+        value=5.0,
+        threshold=2.0,
     )
 
 
@@ -70,15 +67,12 @@ def test_invalid_show_user_horizontal_velocity() -> None:
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 2
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="horizontal velocity",
-            drone_index=0,
-            frame=984,
-            value=5.01,
-            threshold=5.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="horizontal velocity",
+        drone_index=0,
+        frame=984,
+        value=5.01,
+        threshold=5.0,
     )
 
 
@@ -100,15 +94,12 @@ def test_valid_show_user_up_velocity() -> None:
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="acceleration",
-            drone_index=0,
-            frame=984,
-            value=4.0,
-            threshold=2.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="acceleration",
+        drone_index=0,
+        frame=984,
+        value=4.0,
+        threshold=2.0,
     )
 
 
@@ -131,15 +122,12 @@ def test_invalid_show_user_up_velocity() -> None:
     assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 2
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="up velocity",
-            drone_index=0,
-            frame=984,
-            value=4.01,
-            threshold=4.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="up velocity",
+        drone_index=0,
+        frame=984,
+        value=4.01,
+        threshold=4.0,
     )
 
 
@@ -165,15 +153,12 @@ def test_valid_show_user_down_velocity() -> None:
 
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="acceleration",
-            drone_index=0,
-            frame=984,
-            value=4.0,
-            threshold=2.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="acceleration",
+        drone_index=0,
+        frame=984,
+        value=4.0,
+        threshold=2.0,
     )
 
 
@@ -200,15 +185,12 @@ def test_invalid_show_user_down_velocity() -> None:
     assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 2
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="down velocity",
-            drone_index=0,
-            frame=984,
-            value=4.01,
-            threshold=4.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="down velocity",
+        drone_index=0,
+        frame=984,
+        value=4.01,
+        threshold=4.0,
     )
 
 
@@ -264,13 +246,10 @@ def test_invalid_show_user_acceleration() -> None:
     assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
     assert len(performance_infractions) == 1
-    assert (
-        performance_infractions[0].dict()
-        == PerformanceInfraction(
-            performance_name="acceleration",
-            drone_index=0,
-            frame=1008,
-            value=2.01,
-            threshold=2.0,
-        ).dict()
+    assert performance_infractions[0] == PerformanceInfraction(
+        performance_name="acceleration",
+        drone_index=0,
+        frame=1008,
+        value=2.01,
+        threshold=2.0,
     )

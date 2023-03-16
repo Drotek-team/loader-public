@@ -19,7 +19,7 @@ jira-conventional-commits-commitizen = { git = "https://gitlab.com/JonathanPVP/j
 pre-commit = "^3.1.0"
 pyright = "^1.1.295"
 pytest = "^7.2.1"
-pytest-clarity = "^1.0.1"
+pytest-clarity = {git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support"}
 pytest-cov = "^4.0.0"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"

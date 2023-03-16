@@ -56,12 +56,9 @@ def test_invalid_color_events_rgbw_value_report(
     )
     assert color_events_report is not None
     assert len(color_events_report.chrome_infractions) == 1
-    assert (
-        color_events_report.chrome_infractions[0].dict()
-        == ChromeInfraction(
-            event_index=2,
-            value=JSON_BINARY_PARAMETER.chrome_value_bound.maximal + 1,
-            value_min=JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
-        ).dict()
+    assert color_events_report.chrome_infractions[0] == ChromeInfraction(
+        event_index=2,
+        value=JSON_BINARY_PARAMETER.chrome_value_bound.maximal + 1,
+        value_min=JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
+        value_max=JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
     )

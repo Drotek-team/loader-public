@@ -44,23 +44,17 @@ def test_get_timecode_report_bound_violation(
         standard_position_events,
     )
     assert timecode_report is not None
-    assert (
-        timecode_report.bound_infractions[0].dict()
-        == IntegerBoundaryInfraction(
-            event_index=3,
-            value=JSON_BINARY_PARAMETER.timecode_value_bound.minimal - 1,
-            value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
-        ).dict()
+    assert timecode_report.bound_infractions[0] == IntegerBoundaryInfraction(
+        event_index=3,
+        value=JSON_BINARY_PARAMETER.timecode_value_bound.minimal - 1,
+        value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
+        value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
     )
-    assert (
-        timecode_report.bound_infractions[1].dict()
-        == IntegerBoundaryInfraction(
-            event_index=4,
-            value=JSON_BINARY_PARAMETER.timecode_value_bound.maximal + 1,
-            value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
-        ).dict()
+    assert timecode_report.bound_infractions[1] == IntegerBoundaryInfraction(
+        event_index=4,
+        value=JSON_BINARY_PARAMETER.timecode_value_bound.maximal + 1,
+        value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
+        value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
     )
 
 
@@ -75,11 +69,8 @@ def test_get_timecode_report_increasing_frame_violation(
         standard_position_events,
     )
     assert timecode_report is not None
-    assert (
-        timecode_report.increasing_infractions[0].dict()
-        == IncreasingFrameInfraction(
-            event_index=3,
-            previous_frame=2,
-            frame=1,
-        ).dict()
+    assert timecode_report.increasing_infractions[0] == IncreasingFrameInfraction(
+        event_index=3,
+        previous_frame=2,
+        frame=1,
     )

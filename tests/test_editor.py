@@ -207,13 +207,13 @@ def test_generate_report_from_show_user_standard_case() -> None:
         ShowUserConfiguration(nb_x=2, nb_y=2, show_duration_absolute_time=3),
     )
     global_report = generate_report_from_show_user(show_user)
-    assert global_report.dict() == {
+    assert global_report == {
         "takeoff_format": None,
         "autopilot_format": None,
         "performance": None,
         "collision": None,
     }
-    assert global_report.summary().dict() == {
+    assert global_report.summary() == {
         "takeoff_format": 0,
         "autopilot_format": 0,
         "performance": 0,
@@ -228,13 +228,13 @@ def test_generate_report_from_iostar_json_gcs_string() -> None:
     global_report = generate_report_from_iostar_json_gcs_string(
         iostar_json_gcs_string,
     )
-    assert global_report.dict() == {
+    assert global_report == {
         "takeoff_format": None,
         "autopilot_format": None,
         "performance": None,
         "collision": None,
     }
-    assert global_report.summary().dict() == {
+    assert global_report.summary() == {
         "takeoff_format": 0,
         "autopilot_format": 0,
         "performance": 0,
@@ -248,7 +248,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
     ).json()
     assert get_show_configuration_from_iostar_json_gcs_string(
         iostar_json_gcs_string,
-    ).dict() == {
+    ) == {
         "nb_x": 2,
         "nb_y": 3,
         "nb_drone_per_family": 1,
