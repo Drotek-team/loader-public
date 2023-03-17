@@ -1,95 +1,48 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-import numpy as np
-
-if TYPE_CHECKING:
-    from numpy.typing import NDArray
+from typing import Iterable, List, Tuple
 
 
-def get_relative_angle(
-    origin: NDArray[np.float64],
-    coordinate: NDArray[np.float64],
+class AngleOutOfBoundsError(Exception):
+    pass
+
+
+def get_p0(positions: Iterable[Tuple[float, float]]) -> Tuple[float, float]:
+    return min(positions, key=lambda p: (p[1], p[0]))
+
+
+def calculate_angle(
+    position0: Tuple[float, float],
+    position: Tuple[float, float],
+) -> Tuple[float, float]:
+    x = position[0] - position0[0]
+    y = position[1] - position0[1]
+    if y > 0:
+        return (-x / y, y)
+    if x >= 0 and y == 0:
+        return (float("-inf"), x)
+    raise AngleOutOfBoundsError
+
+
+def sort_positions(positions: List[Tuple[float, float]]) -> List[Tuple[float, float]]:
+    p0 = get_p0(positions)
+    return sorted(positions, key=lambda p: calculate_angle(p0, p))
+
+
+def cross_product(
+    p0: Tuple[float, float],
+    p1: Tuple[float, float],
+    p2: Tuple[float, float],
 ) -> float:
-    if np.array_equal(origin, coordinate):
-        msg = "get_relative_angle(): origin is equal to coordinate"
-        raise ValueError(msg)
-    vector = coordinate - origin
-    u_vector = vector / np.linalg.norm(vector)
-    return u_vector[0]
-
-
-def sorted_by_pivot(
-    positions: NDArray[np.float64],
-    pivot: NDArray[np.float64],
-) -> list[NDArray[np.float64]]:
-    argsort = np.argsort(
-        [get_relative_angle(pivot, position) for position in positions],
-    )
-    return list(positions[argsort])
-
-
-def evaluate_pivot(positions: list[NDArray[np.float64]]) -> NDArray[np.float64]:
-    return max(positions, key=lambda u: u[1])
-
-
-def two_dimensionnal_cross_product(
-    position_0: NDArray[np.float64],
-    position_1: NDArray[np.float64],
-    position_2: NDArray[np.float64],
-) -> float:
-    return (position_1[0] - position_0[0]) * (position_2[1] - position_0[1]) - (
-        position_1[1] - position_0[1]
-    ) * (position_2[0] - position_0[0])
-
-
-def tuple_list_to_array_list(
-    tuple_list: list[tuple[float, float]],
-) -> list[NDArray[np.float64]]:
-    return [np.array(tuple_element, dtype=np.float64) for tuple_element in tuple_list]
-
-
-def array_list_to_tuple_list(
-    array_list: list[NDArray[np.float64]],
-) -> list[tuple[float, float]]:
-    return [
-        (float(array_element[0]), float(array_element[1]))
-        for array_element in array_list
-    ]
+    return (p1[0] - p0[0]) * (p2[1] - p0[1]) - (p1[1] - p0[1]) * (p2[0] - p0[0])
 
 
 def calculate_convex_hull(
-    positions_tuple: list[tuple[float, float]],
-) -> list[tuple[float, float]]:
-    """Graham scan implementation."""
-    positions_array = tuple_list_to_array_list(positions_tuple)
+    positions: List[Tuple[float, float]],
+) -> List[Tuple[float, float]]:
+    sorted_positions = sort_positions(positions)
+    stack: List[Tuple[float, float]] = []
 
-    # Begin Algorithm #
-    pivot = evaluate_pivot(positions_array)
-    # remove() does not work with list of array
-    positions_array = [
-        position_array
-        for position_array in positions_array
-        if not np.array_equal(position_array, pivot)
-    ]
-    convex_hull = [pivot]
-    sorted_array_positions = sorted_by_pivot(
-        np.array(positions_array, dtype=np.float64),
-        np.array(pivot, dtype=np.float64),
-    )
-    for sorted_array_position in sorted_array_positions:
-        while (
-            len(convex_hull) > 1
-            and two_dimensionnal_cross_product(
-                convex_hull[-1],
-                convex_hull[-2],
-                sorted_array_position,
-            )
-            >= 0
-        ):
-            convex_hull.pop()
-        convex_hull.append(sorted_array_position)
-    # End algorithm ##
-
-    return array_list_to_tuple_list(convex_hull)
+    for p in sorted_positions:
+        while len(stack) > 1 and cross_product(stack[-1], stack[-2], p) >= 0:
+            stack.pop()
+        stack.append(p)
+    return stack

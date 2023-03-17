@@ -128,7 +128,7 @@ def test_show_user_convex_hull_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.convex_hull == [(0.0, 0.0)]
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
-    assert show_user.convex_hull == [(-1.0, 1.0), (-1.0, -1.0), (1.0, -1.0), (1.0, 1.0)]
+    assert show_user.convex_hull == [(-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)]
 
 
 def test_show_user_altitude_range_standard_case() -> None:

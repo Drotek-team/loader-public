@@ -255,18 +255,18 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
         "step": 100,
         "angle_takeoff": 0,
         "duration": 42541,
-        "hull": [(100, -50), (0, -50), (-100, 50), (100, 50)],
+        "hull": [(-100, -50), (-100, 50), (100, 50), (100, -50)],
         "altitude_range": (-100, 0),
     }
 
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
-    iostar_json_gcs_string = convert_show_user_to_iostar_json_gcs(
+    iostar_json_gcs = convert_show_user_to_iostar_json_gcs(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0)),
     )
     with (Path() / "iostar_json_gcs_reference.json").open() as f:
-        assert iostar_json_gcs_string == IostarJsonGcs.parse_raw(f.read())
+        assert iostar_json_gcs == IostarJsonGcs.parse_raw(f.read())
 
 
 def test_convert_iostar_json_gcs_string_to_show_user() -> None:
