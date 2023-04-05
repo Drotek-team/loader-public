@@ -10,6 +10,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 from loader.show_env.iostar_json.show_configuration import ShowConfiguration
 from loader.show_env.iostar_json.show_configuration_gcs import ShowConfigurationGcs
 from loader.show_env.show_user import ShowUser
+from loader.show_env.show_user.convex_hull import calculate_convex_hull
 
 from .grid_math.grid import get_grid_from_show_user
 from .grid_math.grid_angle_estimation import get_angle_takeoff_from_grid
@@ -52,7 +53,13 @@ def from_user_hull_to_px4_hull(
         for user_coordinate in user_coordinates
     ]
     return [
-        (px4_coordinate[0], px4_coordinate[1]) for px4_coordinate in px4_coordinates
+        (x, y)
+        for y, x in calculate_convex_hull(
+            [
+                (px4_coordinate[1], px4_coordinate[0])
+                for px4_coordinate in px4_coordinates
+            ],
+        )
     ]
 
 
