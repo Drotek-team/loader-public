@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.6 (2023-04-05)
+
+### Fix
+
+- use all positions to calculate the hull
+
 ## v0.1.5 (2023-03-17)
 
 ### Fix
