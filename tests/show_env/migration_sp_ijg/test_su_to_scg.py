@@ -43,6 +43,8 @@ def test_su_to_sc_hypothesis(
         show_duration_absolute_time=show_duration_absolute_time,
     )
     show_user = get_valid_show_user(show_user_configuration)
+    position = (100.0, 100.0, 100.0)
+    show_user.drones_user[0].add_position_event(10000, position)
     show_configuration = ShowConfiguration(
         nb_x=nb_x,
         nb_y=nb_y,
@@ -53,4 +55,5 @@ def test_su_to_sc_hypothesis(
         hull=show_user.convex_hull,
         altitude_range=show_user.altitude_range,
     )
-    assert show_configuration == su_to_sc(get_valid_show_user(show_user_configuration))
+    assert position[:2] in show_configuration.hull
+    assert show_configuration == su_to_sc(show_user)

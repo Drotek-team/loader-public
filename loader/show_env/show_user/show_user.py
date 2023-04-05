@@ -138,7 +138,13 @@ class ShowUser(BaseModel):
     @property
     def convex_hull(self) -> List[Tuple[float, float]]:
         return calculate_convex_hull(
-            [drone_user.first_horizontal_position for drone_user in self.drones_user],
+            list(
+                {
+                    position_event.xyz[:2]
+                    for drone_user in self.drones_user
+                    for position_event in drone_user.position_events
+                },
+            ),
         )
 
     @property
