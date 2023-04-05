@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.7 (2023-04-05)
+
+### Fix
+
+- recalculate convex-hull after rounding
+
 ## v0.1.6 (2023-04-05)
 
 ### Fix
