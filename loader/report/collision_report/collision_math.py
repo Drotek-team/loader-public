@@ -83,6 +83,7 @@ class CollisionInfraction(BaseInfraction):
     def _get_on_ground_and_in_air_collision_infractions(
         cls,
         show_position_frame: ShowPositionFrame,
+        collision_distance: float,
     ) -> list[CollisionInfraction]:
         on_ground_collision_infractions = cls._get_collision_infractions(
             show_position_frame.frame,
@@ -95,7 +96,7 @@ class CollisionInfraction(BaseInfraction):
             show_position_frame.frame,
             show_position_frame.in_air_indices,
             show_position_frame.in_air_positions,
-            IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
+            collision_distance,
             in_air=True,
         )
         return on_ground_collision_infractions + in_air_collision_infractions
@@ -104,12 +105,22 @@ class CollisionInfraction(BaseInfraction):
     def generate(
         cls,
         show_position_frames: ShowPositionFrames,
+        collision_distance: float | None = None,
     ) -> list[CollisionInfraction]:
+        if collision_distance is None:
+            collision_distance = IOSTAR_PHYSIC_PARAMETER.security_distance_in_air
+        if collision_distance < IOSTAR_PHYSIC_PARAMETER.security_distance_in_air:
+            msg = (
+                f"collision_distance ({collision_distance}) should be greater than or equal to "
+                f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETER.security_distance_in_air})",
+            )
+            raise ValueError(msg)
         return list(
             itertools.chain.from_iterable(
                 [
                     cls._get_on_ground_and_in_air_collision_infractions(
                         show_position_frame,
+                        collision_distance,
                     )
                     for show_position_frame in show_position_frames.show_position_frames
                 ],

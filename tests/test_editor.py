@@ -180,6 +180,31 @@ def test_get_collisions() -> None:
     assert get_collision_infractions(show_position_frames) == []
 
 
+def test_get_collisions_with_collision_distance_with_collisions() -> None:
+    show_position_frames = create_show_position_frames_from_show_user(
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2)),
+    )
+    assert len(get_collision_infractions(show_position_frames, 2)) == 6120
+
+
+def test_get_collisions_with_collision_distance_without_collision() -> None:
+    show_position_frames = create_show_position_frames_from_show_user(
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2)),
+    )
+    assert get_collision_infractions(show_position_frames, 2) == []
+
+
+def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -> None:
+    show_position_frames = create_show_position_frames_from_show_user(
+        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2)),
+    )
+    with pytest.raises(
+        ValueError,
+        match="collision_distance .* should be greater than or equal to security_distance_in_air .*",
+    ):
+        get_collision_infractions(show_position_frames, 0.5)
+
+
 def test_get_dance_size_report() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     assert len(get_dance_size_infractions(show_user)) == 0

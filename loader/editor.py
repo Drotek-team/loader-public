@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import NonNegativeInt
 
@@ -101,9 +101,10 @@ def get_performance_infractions(
 
 def get_collision_infractions(
     show_position_frames: ShowPositionFrames,
+    collision_distance: Optional[float] = None,
 ) -> List[CollisionInfraction]:
     """Return all the collision infractions from show_position_frames ordered by slice."""
-    return CollisionInfraction.generate(show_position_frames)
+    return CollisionInfraction.generate(show_position_frames, collision_distance)
 
 
 def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]:
