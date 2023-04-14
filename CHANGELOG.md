@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.0 (2023-04-14)
+
+### Feat
+
+- add collision_distance as parameter
+
 ## v0.1.7 (2023-04-05)
 
 ### Fix
