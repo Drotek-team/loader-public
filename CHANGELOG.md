@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1 (2023-04-17)
+
+### Fix
+
+- ignore takeoff in PerformanceInfraction
+
 ## v0.2.0 (2023-04-14)
 
 ### Feat

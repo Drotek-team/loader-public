@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "loader"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = ["Thomas PERRIN <thomas.perrin@drotek.com>"]
 readme = "README.md"
@@ -28,7 +28,7 @@ shapely = "^2.0.1"
 
 [tool.commitizen]
 name = "cz_jira_conventional_commits"
-version = "0.2.0"
+version = "0.2.1"
 version_files = ["pyproject.toml:version", "loader/__init__.py"]
 tag_format = "v$version"
 annotated_tag = true
