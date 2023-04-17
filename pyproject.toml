@@ -16,7 +16,7 @@ commitizen = "^2.42.0"
 hypothesis = "^6.68.2"
 jira-conventional-commits-commitizen = { git = "https://gitlab.com/JonathanPVP/jira-conventional-commits-commitizen.git" }
 pre-commit = "^3.1.0"
-pyright = "^1.1.295"
+pyright = "^1.1.303"
 pytest = "^7.2.1"
 pytest-clarity = {git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support"}
 pytest-cov = "^4.0.0"
