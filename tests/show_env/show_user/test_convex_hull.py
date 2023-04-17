@@ -25,7 +25,7 @@ def st_positions_tuple(draw: st.DrawFn) -> List[Tuple[float, float]]:
     # assume that all points are not collinear
     if len(positions_tuple) >= 3:
         assume(
-            all(
+            all(  # pragma: no cover
                 cross_product(p1, p2, p3) != 0
                 for i, p1 in enumerate(positions_tuple)
                 for j, p2 in enumerate(positions_tuple)
