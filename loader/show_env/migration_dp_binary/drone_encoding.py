@@ -43,8 +43,7 @@ def dance_size(
 ) -> int:
     return (
         struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
-        + len(section_headers)
-        * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
+        + len(section_headers) * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
         + sum(len(encoded_events) for encoded_events in encoded_events_list)
     )
 
@@ -91,9 +90,7 @@ class DanceSizeInformation(BaseModel):
     @property
     def total_events_size_pct(self) -> int:
         return (
-            self.position_events_size_pct
-            + self.color_events_size_pct
-            + self.fire_events_size_pct
+            self.position_events_size_pct + self.color_events_size_pct + self.fire_events_size_pct
         )
 
 
@@ -113,11 +110,7 @@ def get_dance_size_information(drone_px4: DronePx4) -> DanceSizeInformation:
     )
     return DanceSizeInformation(
         drone_index=drone_px4.index,
-        dance_size=header_size
-        + header_section_size
-        + position_size
-        + color_size
-        + fire_size,
+        dance_size=header_size + header_section_size + position_size + color_size + fire_size,
         position_events_size_pct=int(
             100 * position_size / JSON_BINARY_PARAMETER.dance_size_max,
         ),

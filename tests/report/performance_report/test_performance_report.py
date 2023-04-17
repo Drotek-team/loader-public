@@ -25,8 +25,7 @@ def test_valid_show_user_horizontal_velocity() -> None:
     valid_show_user.drones_user[0].add_position_event(
         frame=last_position_event.frame + 24,
         xyz=(
-            last_position_event.xyz[0]
-            + IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max,
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max,
             last_position_event.xyz[1],
             last_position_event.xyz[2],
         ),
@@ -111,9 +110,7 @@ def test_invalid_show_user_up_velocity() -> None:
         xyz=(
             last_position_event.xyz[0],
             last_position_event.xyz[1],
-            last_position_event.xyz[2]
-            + IOSTAR_PHYSIC_PARAMETER.velocity_up_max
-            + EPSILON_DELTA,
+            last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETER.velocity_up_max + EPSILON_DELTA,
         ),
     )
     performance_report = PerformanceReport.generate(
@@ -174,9 +171,7 @@ def test_invalid_show_user_down_velocity() -> None:
         xyz=(
             last_position_event.xyz[0],
             last_position_event.xyz[1],
-            last_position_event.xyz[2]
-            - IOSTAR_PHYSIC_PARAMETER.velocity_down_max
-            - EPSILON_DELTA,
+            last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETER.velocity_down_max - EPSILON_DELTA,
         ),
     )
     performance_report = PerformanceReport.generate(
@@ -233,9 +228,7 @@ def test_invalid_show_user_acceleration() -> None:
     valid_show_user.drones_user[0].add_position_event(
         frame=last_position_event.frame + 48,
         xyz=(
-            last_position_event.xyz[0]
-            + IOSTAR_PHYSIC_PARAMETER.acceleration_max
-            + EPSILON_DELTA,
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETER.acceleration_max + EPSILON_DELTA,
             last_position_event.xyz[1],
             last_position_event.xyz[2],
         ),

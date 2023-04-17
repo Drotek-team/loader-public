@@ -75,9 +75,7 @@ def test_drone_px4_to_drone_user_position_events(
     ].frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
         ARBITRARY_POSITION_EVENT_FRAME,
     )
-    assert drone_users[0].position_events[
-        0
-    ].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
+    assert drone_users[0].position_events[0].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
         ARBITRARY_POSITION_EVENT_XYZ,
     )
 
@@ -87,9 +85,7 @@ def test_drone_px4_to_drone_user_position_events(
     ].frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
         ARBITRARY_POSITION_EVENT_FRAME_BIS,
     )
-    assert drone_users[1].position_events[
-        0
-    ].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
+    assert drone_users[1].position_events[0].xyz == JSON_BINARY_PARAMETER.from_px4_xyz_to_user_xyz(
         ARBITRARY_POSITION_EVENT_XYZ_BIS,
     )
 
@@ -101,15 +97,11 @@ def test_drone_px4_to_drone_user_color_events(
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
-    assert drone_users[0].color_events[
-        0
-    ].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
+    assert drone_users[0].color_events[0].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW,
     )
     assert len(drone_users[1].color_events) == 1
-    assert drone_users[1].color_events[
-        0
-    ].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
+    assert drone_users[1].color_events[0].rgbw == JSON_BINARY_PARAMETER.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW_BIS,
     )
 

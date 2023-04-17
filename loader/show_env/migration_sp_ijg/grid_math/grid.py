@@ -43,10 +43,8 @@ class HorizontalPosition:
 
     def rotated_positions(self, angle_radian: float) -> None:
         self.coordinate = Coordinate(
-            self.coordinate.x * math.cos(angle_radian)
-            - self.coordinate.y * math.sin(angle_radian),
-            self.coordinate.x * math.sin(angle_radian)
-            + self.coordinate.y * math.cos(angle_radian),
+            self.coordinate.x * math.cos(angle_radian) - self.coordinate.y * math.sin(angle_radian),
+            self.coordinate.x * math.sin(angle_radian) + self.coordinate.y * math.cos(angle_radian),
         )
 
     @property
@@ -72,8 +70,7 @@ class Grid(List[HorizontalPosition]):
 
     def is_grid_one_family(self) -> bool:
         return all(
-            self[0].xy_tuple == horizontal_position.xy_tuple
-            for horizontal_position in self[1:]
+            self[0].xy_tuple == horizontal_position.xy_tuple for horizontal_position in self[1:]
         )
 
     def rotate_horizontal_positions(self, angle_radian: float) -> None:

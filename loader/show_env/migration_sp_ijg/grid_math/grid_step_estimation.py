@@ -13,8 +13,7 @@ def get_step_from_grid(
         if first_horizontal_position.xy_tuple != second_horizontal_position.xy_tuple:
             return float(
                 np.linalg.norm(
-                    first_horizontal_position.xy_array
-                    - second_horizontal_position.xy_array,
+                    first_horizontal_position.xy_array - second_horizontal_position.xy_array,
                 ),
             )
     return 0.0

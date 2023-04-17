@@ -59,8 +59,7 @@ def get_trajectory_performance_info_from_position_events(
 ) -> list[TrajectoryPerformanceInfo]:
     frames = [position_event.frame for position_event in position_events_user]
     positions = [
-        np.array(position_event.xyz, dtype=np.float64)
-        for position_event in position_events_user
+        np.array(position_event.xyz, dtype=np.float64) for position_event in position_events_user
     ]
     velocities = get_velocities_from_positions(frames, positions)
     accelerations = get_accelerations_from_velocities(frames, velocities)

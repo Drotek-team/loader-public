@@ -28,10 +28,7 @@ def test_add_fire_standard_case() -> None:
 
 def test_get_events_by_index_standard_case() -> None:
     drone = DronePx4(index=0)
-    assert (
-        drone.get_events_by_index(event_type=EventsType.position)
-        == drone.position_events
-    )
+    assert drone.get_events_by_index(event_type=EventsType.position) == drone.position_events
     assert drone.get_events_by_index(event_type=EventsType.color) == drone.color_events
     assert drone.get_events_by_index(event_type=EventsType.fire) == drone.fire_events
 

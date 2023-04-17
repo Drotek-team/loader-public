@@ -62,9 +62,10 @@ def test_flight_simulation_takeoff_delayed() -> None:
     assert flight_simulation[
         takeoff_delay + 240 : takeoff_delay + 360
     ] == in_dance_flight_simulation(drone_user.flight_positions)
-    assert flight_simulation[
-        takeoff_delay + 360 : takeoff_delay + 420
-    ] == land_simulation(drone_user.position_events[-1].xyz, takeoff_delay + 360)
+    assert flight_simulation[takeoff_delay + 360 : takeoff_delay + 420] == land_simulation(
+        drone_user.position_events[-1].xyz,
+        takeoff_delay + 360,
+    )
     assert flight_simulation[takeoff_delay + 420] == SimulationInfo(
         frame=520,
         position=np.array([2.0, 0.0, 0.0], dtype=np.float64),

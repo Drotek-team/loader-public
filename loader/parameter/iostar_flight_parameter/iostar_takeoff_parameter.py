@@ -11,10 +11,7 @@ class TakeoffParameter:
 
     @property
     def takeoff_duration_second(self) -> float:
-        return (
-            self.takeoff_elevation_duration_second
-            + self.takeoff_stabilisation_duration_second
-        )
+        return self.takeoff_elevation_duration_second + self.takeoff_stabilisation_duration_second
 
 
 TAKEOFF_PARAMETER = TakeoffParameter()

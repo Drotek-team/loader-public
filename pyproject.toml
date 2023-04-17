@@ -41,13 +41,10 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 target-version = ['py38']
-
-[tool.isort]
-profile = "black"
+line-length = 100
 
 [tool.pyright]
 typeCheckingMode = "strict"
-venv = ".venv"
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
 required-version = "0.0.254" # Must match ruff in [tool.poetry.group.dev.dependencies]

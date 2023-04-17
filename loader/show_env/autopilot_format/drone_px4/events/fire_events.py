@@ -58,6 +58,5 @@ class FireEvents(Events):
     @property
     def specific_events(self) -> List[FireEvent]:
         return [
-            self.get_fire_event_by_index(event_index)
-            for event_index in range(len(self._events))
+            self.get_fire_event_by_index(event_index) for event_index in range(len(self._events))
         ]

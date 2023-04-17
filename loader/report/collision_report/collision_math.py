@@ -65,9 +65,7 @@ class CollisionInfraction(BaseInfraction):
                     ],
                 ),
                 drone_index_2=int(
-                    local_drone_indices[
-                        endangered_couples_distance_matrix_index % nb_drones_local
-                    ],
+                    local_drone_indices[endangered_couples_distance_matrix_index % nb_drones_local],
                 ),
                 distance=float(
                     couple_distance_matrix[endangered_couples_distance_matrix_index],

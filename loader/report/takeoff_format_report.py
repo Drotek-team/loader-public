@@ -51,10 +51,8 @@ class TakeoffPositionInfraction(BaseInfraction):
         if (
             first_position[0] != second_position[0]
             or first_position[1] != second_position[1]
-            or first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min
-            > second_position[2]
-            or second_position[2]
-            > first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
+            or first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min > second_position[2]
+            or second_position[2] > first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
         ):
             return TakeoffPositionInfraction(
                 first_position=first_position,

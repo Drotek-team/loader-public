@@ -59,9 +59,7 @@ def test_invalid_fire_events_chanel_value_report(
     )
     assert fire_events_report is not None
     assert len(fire_events_report.duration_chanel_infractions) == 1
-    assert fire_events_report.duration_chanel_infractions[
-        0
-    ] == DurationChanelInfraction(
+    assert fire_events_report.duration_chanel_infractions[0] == DurationChanelInfraction(
         event_index=3,
         value=3,
         value_min=0,
@@ -82,9 +80,7 @@ def test_invalid_fire_events_duration_value_report(
     )
     assert fire_events_report is not None
     assert len(fire_events_report.duration_chanel_infractions) == 1
-    assert fire_events_report.duration_chanel_infractions[
-        0
-    ] == DurationChanelInfraction(
+    assert fire_events_report.duration_chanel_infractions[0] == DurationChanelInfraction(
         event_index=3,
         value=256,
         value_min=0,

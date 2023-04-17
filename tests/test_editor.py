@@ -82,9 +82,7 @@ def test_create_show_position_frames_standard_user_case() -> None:
     assert tuple(third_show_position_frame.in_air_positions[1]) == (7.0, 7.0, 7.0)
 
 
-def test_create_show_position_frames_frame_start_superior_or_equal_to_frame_end() -> (
-    None
-):
+def test_create_show_position_frames_frame_start_superior_or_equal_to_frame_end() -> None:
     frame_start = 0
     frame_end = 0
     with pytest.raises(
@@ -99,9 +97,7 @@ def test_create_show_position_frames_frame_start_superior_or_equal_to_frame_end(
         )
 
 
-def test_create_show_position_frames_incoherence_frame_start_end_and_frame_positions() -> (
-    None
-):
+def test_create_show_position_frames_incoherence_frame_start_end_and_frame_positions() -> None:
     frame_start = 0
     frame_end = 2
     frames_positions = [[(1.0, 1.0, 1.0)]]
@@ -118,9 +114,7 @@ def test_create_show_position_frames_incoherence_frame_start_end_and_frame_posit
         )
 
 
-def test_create_show_position_frames_incoherence_frame_indices_and_frame_positions() -> (
-    None
-):
+def test_create_show_position_frames_incoherence_frame_indices_and_frame_positions() -> None:
     frame_start = 0
     frame_end = 1
     frame_indices = [0, 1]
@@ -297,9 +291,7 @@ def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
 def test_convert_iostar_json_gcs_string_to_show_user() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     iostar_json_gcs_string = su_to_ijg(show_user).json()
-    assert (
-        convert_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string) == show_user
-    )
+    assert convert_iostar_json_gcs_string_to_show_user(iostar_json_gcs_string) == show_user
 
 
 def test_get_verified_iostar_json_gcs() -> None:

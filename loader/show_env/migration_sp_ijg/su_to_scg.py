@@ -55,10 +55,7 @@ def from_user_hull_to_px4_hull(
     return [
         (x, y)
         for y, x in calculate_convex_hull(
-            [
-                (px4_coordinate[1], px4_coordinate[0])
-                for px4_coordinate in px4_coordinates
-            ],
+            [(px4_coordinate[1], px4_coordinate[0]) for px4_coordinate in px4_coordinates],
         )
     ]
 

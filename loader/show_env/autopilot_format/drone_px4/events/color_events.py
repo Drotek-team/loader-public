@@ -57,6 +57,5 @@ class ColorEvents(Events):
     @property
     def specific_events(self) -> List[ColorEvent]:
         return [
-            self.get_color_event_by_index(event_index)
-            for event_index in range(len(self._events))
+            self.get_color_event_by_index(event_index) for event_index in range(len(self._events))
         ]

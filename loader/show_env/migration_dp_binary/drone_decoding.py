@@ -58,8 +58,7 @@ def decode_drone(
         decode_events(
             drone_px4.get_events_by_index(section_header.event_id),
             byte_array[
-                section_header.byte_array_start_index : section_header.byte_array_end_index
-                + 1
+                section_header.byte_array_start_index : section_header.byte_array_end_index + 1
             ],
         )
     return drone_px4

@@ -179,12 +179,8 @@ def get_drone_user_index_by_parameter(
 def get_valid_show_user(
     show_user_configuration: ShowUserConfiguration,
 ) -> ShowUser:
-    index_bias_x = (
-        0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
-    )
-    index_bias_y = (
-        0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
-    )
+    index_bias_x = 0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
+    index_bias_y = 0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
     valid_drones_user = [
         DroneUser(
             index=get_drone_user_index_by_parameter(

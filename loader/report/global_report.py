@@ -33,12 +33,8 @@ class GlobalReport(BaseReport):
 
     def summary(self) -> GlobalReportSummary:
         return GlobalReportSummary(
-            takeoff_format=self.takeoff_format.get_nb_errors()
-            if self.takeoff_format
-            else 0,
-            autopilot_format=self.autopilot_format.get_nb_errors()
-            if self.autopilot_format
-            else 0,
+            takeoff_format=self.takeoff_format.get_nb_errors() if self.takeoff_format else 0,
+            autopilot_format=self.autopilot_format.get_nb_errors() if self.autopilot_format else 0,
             performance=self.performance.get_nb_errors() if self.performance else 0,
             collision=self.collision.get_nb_errors() if self.collision else 0,
         )

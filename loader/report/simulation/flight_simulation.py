@@ -16,11 +16,7 @@ from .takeoff_simulation import takeoff_simulation
 
 
 def get_last_frame_stand_by(drone_user: DroneUser) -> int:
-    return (
-        drone_user.position_events[0].frame
-        if drone_user.position_events[0].frame != 0
-        else 0
-    )
+    return drone_user.position_events[0].frame if drone_user.position_events[0].frame != 0 else 0
 
 
 def get_flight_simulation(

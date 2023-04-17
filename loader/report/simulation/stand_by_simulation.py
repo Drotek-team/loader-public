@@ -11,9 +11,7 @@ def stand_by_simulation(
     stand_by_position: Tuple[float, float, float],
 ) -> List[SimulationInfo]:
     if frame_begin > frame_end:
-        msg = (
-            f"frame end {frame_end} must be at least equal to frame begin {frame_begin}"
-        )
+        msg = f"frame end {frame_end} must be at least equal to frame begin {frame_begin}"
         raise ValueError(msg)
     return [
         SimulationInfo(

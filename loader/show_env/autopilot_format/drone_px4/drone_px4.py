@@ -17,9 +17,7 @@ class DronePx4:
     def __eq__(self, other_drone_px4: object) -> bool:
         if not isinstance(other_drone_px4, DronePx4):
             return False
-        return (
-            self.index == self.index and self.events_dict == other_drone_px4.events_dict
-        )
+        return self.index == self.index and self.events_dict == other_drone_px4.events_dict
 
     def add_position(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
         self.position_events.add_timecode_xyz(timecode, xyz)

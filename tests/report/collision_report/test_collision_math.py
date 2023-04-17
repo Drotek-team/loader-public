@@ -47,19 +47,13 @@ def test_get_border_indices() -> None:
 def test_get_unique_list_from_list_unique() -> None:
     collision_infraction_1 = 0
     collision_infraction_2 = 1
-    assert (
-        len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2]))
-        == 2
-    )
+    assert len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2])) == 2
 
 
 def test_get_unique_list_from_list_non_unique() -> None:
     collision_infraction_1 = 1
     collision_infraction_2 = 1
-    assert (
-        len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2]))
-        == 1
-    )
+    assert len(get_unique_list_from_list([collision_infraction_1, collision_infraction_2])) == 1
 
 
 def test_get_optimized_collision_infractions() -> None:
