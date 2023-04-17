@@ -39,77 +39,39 @@ def test_get_trajectory_performance_info_from_position_events() -> None:
     for position_index in range(4):
         assert (
             trajectory_performance_infos[position_index].frame
-            == position_events[position_index].frame
+            == position_events[position_index + 1].frame
         )
         assert (
             from_ca_to_ct(trajectory_performance_infos[position_index].position)
-            == position_events[position_index].xyz
+            == position_events[position_index + 1].xyz
         )
-    assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 1.0)
-    assert from_ca_to_ct(trajectory_performance_infos[1].velocity) == (0.0, 0.0, 1.0)
-    assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 2.0)
-    assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 0.0)
-    assert from_ca_to_ct(trajectory_performance_infos[4].velocity) == (0.0, 0.0, 0.5)
-    assert from_ca_to_ct(trajectory_performance_infos[5].velocity) == (0.0, 0.0, 0.0)
-    assert from_ca_to_ct(trajectory_performance_infos[6].velocity) == (0.0, 0.0, -1.0)
+    assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 2.0)
+    assert from_ca_to_ct(trajectory_performance_infos[1].velocity) == (0.0, 0.0, 2.0)
+    assert from_ca_to_ct(trajectory_performance_infos[2].velocity) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[3].velocity) == (0.0, 0.0, 0.5)
+    assert from_ca_to_ct(trajectory_performance_infos[4].velocity) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[5].velocity) == (0.0, 0.0, -1.0)
 
-    assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (
-        0.0,
-        0.0,
-        0.0,
-    )
-    assert from_ca_to_ct(trajectory_performance_infos[1].acceleration) == (
-        0.0,
-        0.0,
-        0.0,
-    )
-    assert from_ca_to_ct(trajectory_performance_infos[2].acceleration) == (
-        0.0,
-        0.0,
-        1.0,
-    )
-    assert from_ca_to_ct(trajectory_performance_infos[3].acceleration) == (
-        0.0,
-        0.0,
-        -2.0,
-    )
-    assert from_ca_to_ct(trajectory_performance_infos[4].acceleration) == (
-        0.0,
-        0.0,
-        0.25,
-    )
-    assert from_ca_to_ct(trajectory_performance_infos[5].acceleration) == (
-        0.0,
-        0.0,
-        -0.5,
-    )
-    assert from_ca_to_ct(trajectory_performance_infos[6].acceleration) == (
-        0.0,
-        0.0,
-        -1.0,
-    )
+    assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[1].acceleration) == (0.0, 0.0, 0.0)
+    assert from_ca_to_ct(trajectory_performance_infos[2].acceleration) == (0.0, 0.0, -2.0)
+    assert from_ca_to_ct(trajectory_performance_infos[3].acceleration) == (0.0, 0.0, 0.25)
+    assert from_ca_to_ct(trajectory_performance_infos[4].acceleration) == (0.0, 0.0, -0.5)
+    assert from_ca_to_ct(trajectory_performance_infos[5].acceleration) == (0.0, 0.0, -1.0)
 
 
 def test_get_trajectory_performance_info_from_position_events_one_position_event() -> None:
-    position_events = [
-        PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.0)),
-    ]
+    position_events = [PositionEventUser(frame=0, xyz=(0.0, 0.0, 0.1))]
     trajectory_performance_infos = get_trajectory_performance_info_from_position_events(
         position_events,
     )
     assert trajectory_performance_infos[0].frame == position_events[0].frame
     assert from_ca_to_ct(trajectory_performance_infos[0].position) == position_events[0].xyz
     assert from_ca_to_ct(trajectory_performance_infos[0].velocity) == (0.0, 0.0, 0.0)
-    assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (
-        0.0,
-        0.0,
-        0.0,
-    )
+    assert from_ca_to_ct(trajectory_performance_infos[0].acceleration) == (0.0, 0.0, 0.0)
 
 
 def test_su_to_stp() -> None:
-    show_trajectory_performance = su_to_stp(
-        get_valid_show_user(ShowUserConfiguration()),
-    )
+    show_trajectory_performance = su_to_stp(get_valid_show_user(ShowUserConfiguration()))
     drone_trajectory_performance = show_trajectory_performance.drones_trajectory_performance[0]
-    assert len(drone_trajectory_performance.trajectory_performance_infos) == 3
+    assert len(drone_trajectory_performance.trajectory_performance_infos) == 2

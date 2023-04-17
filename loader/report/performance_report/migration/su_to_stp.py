@@ -61,6 +61,10 @@ def get_trajectory_performance_info_from_position_events(
     positions = [
         np.array(position_event.xyz, dtype=np.float64) for position_event in position_events_user
     ]
+    # Remove the first position if the first position is on the ground
+    if len(positions) >= 1 and positions[0][2] == 0:
+        frames = frames[1:]
+        positions = positions[1:]
     velocities = get_velocities_from_positions(frames, positions)
     accelerations = get_accelerations_from_velocities(frames, velocities)
 
