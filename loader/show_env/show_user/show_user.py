@@ -159,4 +159,3 @@ class ShowUser(BaseModel):
     def apply_horizontal_rotation(self, angle_degree: int) -> None:
         for drone_user in self.drones_user:
             drone_user.apply_horizontal_rotation(angle_degree)
-        return

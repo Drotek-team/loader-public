@@ -23,7 +23,7 @@ pytest-cov = "^4.0.0"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"
 # Must match required-version in [tool.ruff]
-ruff = "0.0.254"
+ruff = "0.0.261"
 shapely = "^2.0.1"
 
 [tool.commitizen]
@@ -47,7 +47,7 @@ line-length = 100
 typeCheckingMode = "strict"
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
-required-version = "0.0.254" # Must match ruff in [tool.poetry.group.dev.dependencies]
+required-version = "0.0.261" # Must match ruff in [tool.poetry.group.dev.dependencies]
 target-version = "py38"
 src = ["loader"]
 select = ["ALL"]
