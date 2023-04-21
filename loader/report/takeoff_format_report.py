@@ -22,11 +22,10 @@ class TakeoffDurationInfraction(BaseInfraction):
     ) -> Optional["TakeoffDurationInfraction"]:
         first_time = drone_user.position_events[0].absolute_time
         second_time = drone_user.position_events[1].absolute_time
-        if (
-            np.abs(
-                (second_time - first_time) - TAKEOFF_PARAMETER.takeoff_duration_second,
-            )
-            > TAKEOFF_PARAMETER.takeoff_total_duration_tolerance
+        if not np.allclose(
+            second_time - first_time,
+            TAKEOFF_PARAMETER.takeoff_duration_second,
+            atol=TAKEOFF_PARAMETER.takeoff_total_duration_tolerance,
         ):
             return TakeoffDurationInfraction(
                 first_time=first_time,

@@ -17,9 +17,10 @@ def get_nb_x_nb_y_from_grid(
         grid[:-1],
         grid[1:],
     ):
-        if (
-            np.abs(first_horizontal_position.y - second_horizontal_position.y)
-            > ARBITRARY_ROUNDING_TOLERANCE
+        if not np.allclose(
+            first_horizontal_position.y,
+            second_horizontal_position.y,
+            rtol=ARBITRARY_ROUNDING_TOLERANCE,
         ):
             return (
                 second_horizontal_position.drone_index // nb_drone_per_family,

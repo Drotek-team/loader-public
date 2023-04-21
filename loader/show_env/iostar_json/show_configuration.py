@@ -35,7 +35,7 @@ class ShowConfiguration(GridConfiguration):
             self.nb_x == __o.nb_x
             and self.nb_y == __o.nb_y
             and self.nb_drone_per_family == __o.nb_drone_per_family
-            and np.abs(self.step - __o.step) < 1e-6
+            and np.allclose(self.step, __o.step, rtol=1e-6)
             and angle_distance(self.angle_takeoff, __o.angle_takeoff) < 1e-6
             and self.duration == __o.duration
             and self.hull == __o.hull
