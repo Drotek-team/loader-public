@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.2 (2023-04-21)
+
+### Fix
+
+- nb_x and nb_y from get_nb_x_nb_y_from_grid()
+
 ## v0.2.1 (2023-04-17)
 
 ### Fix
