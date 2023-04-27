@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.3 (2023-04-27)
+
+### Fix
+
+- round second to frame conversion
+
 ## v0.2.2 (2023-04-21)
 
 ### Fix
