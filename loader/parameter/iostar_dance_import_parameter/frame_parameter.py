@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class FrameParameter:
-    _fps = 24
+    _fps: float = 24
 
     def from_second_to_frame(self, time: float) -> int:
         return round(time * self._fps)

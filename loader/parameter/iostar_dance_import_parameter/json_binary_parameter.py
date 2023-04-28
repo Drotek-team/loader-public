@@ -13,22 +13,16 @@ class Bound:
 
 @dataclass(frozen=True)
 class JsonBinaryParameter:
-    magic_number = 43605  # A signature add in the header of the binary
-    fmt_header = ">HIB"  # Size in bits of the header
-    fmt_section_header = ">BII"  # Size in bits of the section header
-    timecode_format = "I"
-    coordinate_format = "h"
-    chrome_format = "B"
-    fire_chanel_format = "B"
-    fire_duration_format = "B"
-    dance_size_max = 100_000  # Maximal size of the binary send to the drone in octect
-    frame_reformat_factor = (
-        1  # Factor apply to the frame before the import to compress the dance size
-    )
-    position_reformat_factor = (
-        1  # Factor apply to the position before the import to compress the dance size
-    )
-    fire_chanel_number = 3
+    magic_number: int = 43605  # A signature add in the header of the binary
+    fmt_header: str = ">HIB"  # Size in bits of the header
+    fmt_section_header: str = ">BII"  # Size in bits of the section header
+    timecode_format: str = "I"
+    coordinate_format: str = "h"
+    chrome_format: str = "B"
+    fire_chanel_format: str = "B"
+    fire_duration_format: str = "B"
+    dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octect
+    fire_chanel_number: int = 3
 
     @property
     def position_event_format(self) -> str:
@@ -120,7 +114,7 @@ class JsonBinaryParameter:
         )
 
     def from_user_position_to_px4_position(self, user_position: float) -> int:
-        return self._meter_to_centimeter(user_position / self.position_reformat_factor)
+        return self._meter_to_centimeter(user_position)
 
     def from_user_xyz_to_px4_xyz(
         self,
@@ -133,7 +127,7 @@ class JsonBinaryParameter:
         )
 
     def from_px4_position_to_user_position(self, px4_position: int) -> float:
-        return self._centimer_to_meter(self.position_reformat_factor * px4_position)
+        return self._centimer_to_meter(px4_position)
 
     def from_px4_xyz_to_user_xyz(
         self,

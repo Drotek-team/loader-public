@@ -7,9 +7,9 @@ from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
 
 @dataclass(frozen=True)
 class LandParameter:
-    land_fast_speed = 3.0
-    land_low_speed = 0.4
-    land_safe_hgt = 3.0
+    land_fast_speed: float = 3.0
+    land_low_speed: float = 0.4
+    land_safe_hgt: float = 3.0
 
     def get_first_land_second_delta(self, drone_hgt_meter: float) -> float:
         if drone_hgt_meter < self.land_safe_hgt:
