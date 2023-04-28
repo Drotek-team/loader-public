@@ -43,8 +43,13 @@ class GlobalReport(BaseReport):
     def generate(
         cls,
         show_user: ShowUser,
+        *,
+        without_takeoff_format: bool = False,
     ) -> "GlobalReport":
-        takeoff_format_report = TakeoffFormatReport.generate(show_user)
+        if without_takeoff_format:
+            takeoff_format_report = None
+        else:
+            takeoff_format_report = TakeoffFormatReport.generate(show_user)
         autopilot_format_report = AutopilotFormatReport.generate(show_user)
         if takeoff_format_report is not None or autopilot_format_report is not None:
             return GlobalReport(

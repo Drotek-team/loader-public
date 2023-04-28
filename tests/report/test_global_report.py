@@ -51,6 +51,9 @@ def test_generate_global_report_incorrect_takeoff_format_report() -> None:
     global_report = GlobalReport.generate(valid_show_user)
     assert not get_report_validation(global_report)
 
+    global_report = GlobalReport.generate(valid_show_user, without_takeoff_format=True)
+    assert get_report_validation(global_report)
+
 
 def test_generate_global_report_incorrect_autopilot_format() -> None:
     valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))

@@ -126,18 +126,24 @@ def get_dance_size_informations(show_user: ShowUser) -> List[DanceSizeInformatio
     ]
 
 
-def generate_report_from_show_user(show_user: ShowUser) -> GlobalReport:
+def generate_report_from_show_user(
+    show_user: ShowUser,
+    *,
+    without_takeoff_format: bool = False,
+) -> GlobalReport:
     """Return a global report from show_user."""
-    return GlobalReport.generate(show_user)
+    return GlobalReport.generate(show_user, without_takeoff_format=without_takeoff_format)
 
 
 def generate_report_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
+    *,
+    without_takeoff_format: bool = False,
 ) -> GlobalReport:
     """Return a global report from iostar_json_gcs_string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    return GlobalReport.generate(show_user)
+    return GlobalReport.generate(show_user, without_takeoff_format=without_takeoff_format)
 
 
 def get_show_configuration_from_iostar_json_gcs_string(
