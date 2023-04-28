@@ -83,5 +83,6 @@ commitizen:
   script:
     - git fetch origin $CI_DEFAULT_BRANCH
     - cz check --rev-range origin/$CI_DEFAULT_BRANCH..$CI_COMMIT_SHA
-  only:
-    - merge_requests
+  except:
+    - master
+    - dev-master
