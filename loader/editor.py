@@ -1,7 +1,8 @@
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 from pydantic import NonNegativeInt
 
+from loader.parameter.iostar_physic_parameter import IostarPhysicParameter
 from loader.report.autopilot_format_report.autopilot_format_report import DronePx4Report
 
 from .report.autopilot_format_report import DanceSizeInfraction
@@ -15,11 +16,6 @@ from .report.collision_report.show_position_frames_collision_report import (
 )
 from .report.global_report import (
     GlobalReport,
-)
-from .report.performance_report.performance_evaluation import (
-    PERFORMANCES_RANGE,
-    PerformanceKind,
-    PerformanceRange,
 )
 from .report.performance_report.show_trajectory_performance_report import (
     PerformanceInfraction,
@@ -88,15 +84,11 @@ def create_show_position_frames_from_show_user(
 
 def get_performance_infractions(
     show_user: ShowUser,
-    update_performances_range: Dict[PerformanceKind, PerformanceRange],
+    *,
+    physic_parameter: Optional[IostarPhysicParameter] = None,
 ) -> List[PerformanceInfraction]:
     """Return all the performance infractions from show_user ordered by drone and by slice. The performances range is updated with 'update_performances_range' before the generation."""
-    PERFORMANCES_RANGE.update(update_performances_range)
-    performance_infractions = PerformanceInfraction.generate(
-        su_to_stp(show_user),
-    )
-    PERFORMANCES_RANGE.reset()
-    return performance_infractions
+    return PerformanceInfraction.generate(su_to_stp(show_user), physic_parameter=physic_parameter)
 
 
 def get_collision_infractions(

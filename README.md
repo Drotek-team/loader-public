@@ -63,8 +63,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
   from pathlib import Path
 
   from loader import (
-      PerformanceKind,
-      PerformanceRange,
+      IostarPhysicParameter,
       convert_iostar_json_gcs_string_to_show_user,
       get_performance_infractions,
   )
@@ -73,16 +72,14 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
       Path("iostar_json_gcs_reference.json").read_text(),
   )
 
-  performance_infractions = get_performance_infractions(show_user, {})
+  performance_infractions = get_performance_infractions(show_user)
   print(performance_infractions)
   #> []
 
-  new_performance_configuration = {
-      PerformanceKind.HORIZONTAL_VELOCITY: PerformanceRange(3.0),
-  }
+  physic_parameter = IostarPhysicParameter(horizontal_velocity_max=3.0)
   performance_infractions = get_performance_infractions(
       show_user,
-      new_performance_configuration,
+      physic_parameter=physic_parameter,
   )
   print(performance_infractions)
   #> []

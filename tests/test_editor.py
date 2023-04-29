@@ -4,8 +4,6 @@ from typing import List, Tuple
 import pytest
 from loader import (
     IostarJsonGcs,
-    PerformanceKind,
-    PerformanceRange,
     convert_iostar_json_gcs_string_to_show_user,
     convert_show_user_to_iostar_json_gcs,
     create_empty_show_user,
@@ -20,6 +18,7 @@ from loader import (
     get_verified_iostar_json_gcs,
 )
 from loader.editor import DanceSizeInformation, ReportError, get_dance_size_informations
+from loader.parameter.iostar_physic_parameter import IostarPhysicParameter
 from loader.show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -151,20 +150,18 @@ def test_create_show_position_frames_0_drones() -> None:
 def test_get_performance_infractions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     show_user.drones_user[0].add_position_event(frame=1000, xyz=(0.0, 0.0, 0.0))
-    assert len(get_performance_infractions(show_user, {})) == 0
+    assert len(get_performance_infractions(show_user)) == 0
     assert (
         len(
             get_performance_infractions(
                 show_user,
-                {
-                    PerformanceKind.ACCELERATION: PerformanceRange(threshold=0.0001),
-                },
+                physic_parameter=IostarPhysicParameter(acceleration_max=0.0001),
             ),
         )
         != 0
     )
 
-    assert len(get_performance_infractions(show_user, {})) == 0
+    assert len(get_performance_infractions(show_user)) == 0
 
 
 def test_get_collisions() -> None:

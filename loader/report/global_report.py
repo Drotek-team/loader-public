@@ -2,6 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Extra
 
+from loader.parameter.iostar_physic_parameter import IostarPhysicParameter
 from loader.show_env.show_user import ShowUser
 
 from .autopilot_format_report import AutopilotFormatReport
@@ -45,6 +46,7 @@ class GlobalReport(BaseReport):
         show_user: ShowUser,
         *,
         without_takeoff_format: bool = False,
+        physic_parameter: Optional["IostarPhysicParameter"] = None,
     ) -> "GlobalReport":
         if without_takeoff_format:
             takeoff_format_report = None
@@ -58,6 +60,7 @@ class GlobalReport(BaseReport):
             )
         performance_report = PerformanceReport.generate(
             show_user,
+            physic_parameter=physic_parameter,
         )
         collision_report = CollisionReport.generate(
             show_user,

@@ -1,12 +1,13 @@
-import copy
 import itertools
-from dataclasses import dataclass
 from enum import Enum
-from typing import Callable, Dict, List
+from typing import List, Optional, Tuple
 
 import numpy as np
 
-from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+from loader.parameter.iostar_physic_parameter import (
+    IOSTAR_PHYSIC_PARAMETER,
+    IostarPhysicParameter,
+)
 from loader.report.base import BaseInfraction
 from loader.report.performance_report.migration.show_trajectory_performance import (
     Performance,
@@ -18,80 +19,35 @@ from .migration.show_trajectory_performance import (
 )
 
 
-@dataclass(frozen=True)
-class PerformanceRange:
-    threshold: float
-
-    def validation(self, value: float) -> bool:
-        return value <= self.threshold
-
-
 class PerformanceKind(Enum):
     HORIZONTAL_VELOCITY = "horizontal velocity"
     UP_VELOCITY = "up velocity"
     DOWN_VELOCITY = "down velocity"
     ACCELERATION = "acceleration"
 
-    @property
-    def evaluation(self) -> Callable[[Performance], float]:
-        return PERFORMANCES_EVALUATION[self]
+    def check(
+        self,
+        physic_parameter: IostarPhysicParameter,
+        performance: Performance,
+    ) -> Tuple[bool, float, float]:
+        """Check if the performance is above the threshold."""
+        if self == PerformanceKind.HORIZONTAL_VELOCITY:
+            threshold = physic_parameter.horizontal_velocity_max
+            value = float(np.linalg.norm(performance.velocity[0:2]))
+        elif self == PerformanceKind.UP_VELOCITY:
+            threshold = physic_parameter.velocity_up_max
+            value = float(performance.velocity[2])
+        elif self == PerformanceKind.DOWN_VELOCITY:
+            threshold = physic_parameter.velocity_down_max
+            value = float(-performance.velocity[2])
+        elif self == PerformanceKind.ACCELERATION:
+            threshold = physic_parameter.acceleration_max
+            value = float(np.linalg.norm(performance.acceleration))
+        else:  # pragma: no cover
+            msg = f"PerformanceKind {self} not implemented in check_performance()."
+            raise NotImplementedError(msg)
 
-    @property
-    def range_(self) -> PerformanceRange:
-        return PERFORMANCES_RANGE[self]
-
-    def validation(self, performance: Performance) -> bool:
-        return self.range_.validation(self.evaluation(performance))
-
-
-def horizontal_velocity_evaluation(performance: Performance) -> float:
-    return float(np.linalg.norm(performance.velocity[0:2]))
-
-
-def up_velocity_evaluation(performance: Performance) -> float:
-    return float(performance.velocity[2])
-
-
-def down_velocity_evaluation(performance: Performance) -> float:
-    return float(-performance.velocity[2])
-
-
-def acceleration_evaluation(performance: Performance) -> float:
-    return float(np.linalg.norm(performance.acceleration))
-
-
-PERFORMANCES_EVALUATION: Dict[PerformanceKind, Callable[[Performance], float]] = {
-    PerformanceKind.HORIZONTAL_VELOCITY: horizontal_velocity_evaluation,
-    PerformanceKind.UP_VELOCITY: up_velocity_evaluation,
-    PerformanceKind.DOWN_VELOCITY: down_velocity_evaluation,
-    PerformanceKind.ACCELERATION: acceleration_evaluation,
-}
-
-
-class PerformancesRange(Dict[PerformanceKind, PerformanceRange]):
-    def reset(self) -> None:
-        for performance in self:
-            self[performance] = PERFORMANCES_RANGE_COPY[performance]
-
-
-PERFORMANCES_RANGE = PerformancesRange(
-    {
-        PerformanceKind.HORIZONTAL_VELOCITY: PerformanceRange(
-            IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max,
-        ),
-        PerformanceKind.UP_VELOCITY: PerformanceRange(
-            IOSTAR_PHYSIC_PARAMETER.velocity_up_max,
-        ),
-        PerformanceKind.DOWN_VELOCITY: PerformanceRange(
-            IOSTAR_PHYSIC_PARAMETER.velocity_down_max,
-        ),
-        PerformanceKind.ACCELERATION: PerformanceRange(
-            IOSTAR_PHYSIC_PARAMETER.acceleration_max,
-        ),
-    },
-)
-
-PERFORMANCES_RANGE_COPY = copy.copy(PERFORMANCES_RANGE)
+        return value > threshold, threshold, value
 
 
 class PerformanceInfraction(BaseInfraction):
@@ -107,23 +63,31 @@ class PerformanceInfraction(BaseInfraction):
         drone_index: int,
         frame: int,
         performance: Performance,
+        physic_parameter: IostarPhysicParameter,
     ) -> List["PerformanceInfraction"]:
-        return [
-            PerformanceInfraction(
-                performance_name=performance_kind.value,
-                drone_index=drone_index,
-                frame=frame,
-                value=performance_kind.evaluation(performance),
-                threshold=performance_kind.range_.threshold,
+        performance_infractions: List["PerformanceInfraction"] = []
+        for performance_kind in PerformanceKind:
+            is_infraction, threshold, value = performance_kind.check(
+                physic_parameter,
+                performance,
             )
-            for performance_kind in PerformanceKind
-            if not performance_kind.validation(performance)
-        ]
+            if is_infraction:
+                performance_infractions.append(
+                    PerformanceInfraction(
+                        performance_name=performance_kind.value,
+                        drone_index=drone_index,
+                        frame=frame,
+                        value=value,
+                        threshold=threshold,
+                    ),
+                )
+        return performance_infractions
 
     @classmethod
     def _get_performance_infractions_from_drone_performance(
         cls,
         drone_trajectory_performance: DroneTrajectoryPerformance,
+        physic_parameter: IostarPhysicParameter,
     ) -> List["PerformanceInfraction"]:
         return list(
             itertools.chain.from_iterable(
@@ -131,6 +95,7 @@ class PerformanceInfraction(BaseInfraction):
                     drone_trajectory_performance.index,
                     trajectory_performance_info.frame,
                     trajectory_performance_info.performance,
+                    physic_parameter,
                 )
                 for (
                     trajectory_performance_info
@@ -142,11 +107,33 @@ class PerformanceInfraction(BaseInfraction):
     def generate(
         cls,
         show_trajectory_performance: ShowTrajectoryPerformance,
+        *,
+        physic_parameter: Optional[IostarPhysicParameter] = None,
     ) -> List["PerformanceInfraction"]:
+        if physic_parameter is None:
+            physic_parameter = IOSTAR_PHYSIC_PARAMETER
+        else:
+            if (
+                physic_parameter.horizontal_velocity_max
+                > IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
+            ):
+                msg = f"Horizontal velocity max {physic_parameter.horizontal_velocity_max} is greater than {IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max}"
+                raise ValueError(msg)
+            if physic_parameter.velocity_up_max > IOSTAR_PHYSIC_PARAMETER.velocity_up_max:
+                msg = f"Up velocity max {physic_parameter.velocity_up_max} is greater than {IOSTAR_PHYSIC_PARAMETER.velocity_up_max}"
+                raise ValueError(msg)
+            if physic_parameter.velocity_down_max > IOSTAR_PHYSIC_PARAMETER.velocity_down_max:
+                msg = f"Down velocity max {physic_parameter.velocity_down_max} is greater than {IOSTAR_PHYSIC_PARAMETER.velocity_down_max}"
+                raise ValueError(msg)
+            if physic_parameter.acceleration_max > IOSTAR_PHYSIC_PARAMETER.acceleration_max:
+                msg = f"Acceleration max {physic_parameter.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETER.acceleration_max}"
+                raise ValueError(msg)
+
         return list(
             itertools.chain.from_iterable(
                 cls._get_performance_infractions_from_drone_performance(
                     drone_trajectory_performance,
+                    physic_parameter,
                 )
                 for (
                     drone_trajectory_performance
