@@ -7,6 +7,7 @@ from loader.show_env.show_user.generate_show_user import (
 )
 
 
+# TODO(jonathan): Generate show with performance infractions and another with collisions to use in README.md
 def main() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
     iostar_json_gcs = convert_show_user_to_iostar_json_gcs(show_user)

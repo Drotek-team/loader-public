@@ -20,6 +20,7 @@ pyright = "^1.1.303"
 pytest = "^7.2.1"
 pytest-clarity = {git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support"}
 pytest-cov = "^4.0.0"
+pytest-examples = "^0.0.8"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"
 # Must match required-version in [tool.ruff]
@@ -45,6 +46,7 @@ line-length = 100
 
 [tool.pyright]
 typeCheckingMode = "strict"
+exclude = ["**/__pycache__", "**/.*", "tests/test_readme.py"]
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
 required-version = "0.0.261" # Must match ruff in [tool.poetry.group.dev.dependencies]
