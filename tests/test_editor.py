@@ -344,7 +344,7 @@ def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
     iostar_json_gcs = convert_show_user_to_iostar_json_gcs(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0)),
     )
-    with (Path() / "iostar_json_gcs_reference.json").open() as f:
+    with (Path() / "iostar_json_gcs_valid.json").open() as f:
         assert iostar_json_gcs == IostarJsonGcs.parse_raw(f.read())
 
 

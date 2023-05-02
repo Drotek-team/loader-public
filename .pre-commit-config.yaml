@@ -17,6 +17,7 @@ repos:
     hooks:
       # Format javascript, json, yaml, ...
       - id: prettier
+        exclude: '^iostar_json_gcs_.*\.json$'
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16

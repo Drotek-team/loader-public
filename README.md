@@ -50,16 +50,33 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
   from loader import generate_report_from_iostar_json_gcs_string
 
   report = generate_report_from_iostar_json_gcs_string(
-      Path("iostar_json_gcs_reference.json").read_text(),
+      Path("iostar_json_gcs_valid.json").read_text(),
   )
   print(report.summary())
   #> takeoff_format=0 autopilot_format=0 performance=0 collision=0
+
+  report = generate_report_from_iostar_json_gcs_string(
+      Path("iostar_json_gcs_collision.json").read_text(),
+  )
+  print(report.summary())
+  #> takeoff_format=0 autopilot_format=0 performance=0 collision=4080
+
+  report = generate_report_from_iostar_json_gcs_string(
+      Path("iostar_json_gcs_performance.json").read_text(),
+  )
+  print(report.summary())
+  #> takeoff_format=0 autopilot_format=0 performance=4 collision=0
+
+  report = generate_report_from_iostar_json_gcs_string(
+      Path("iostar_json_gcs_dance_size.json").read_text(),
+  )
+  print(report.summary())
+  #> takeoff_format=0 autopilot_format=1 performance=0 collision=0
   ```
 
 - Generate the performance report of the show with `get_performance_infractions` function
 
   ```python
-  # TODO(jonathan): use iostar_json_gcs_reference_performance.json
   from pathlib import Path
 
   from loader import (
@@ -69,14 +86,45 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
   )
 
   show_user = convert_iostar_json_gcs_string_to_show_user(
-      Path("iostar_json_gcs_reference.json").read_text(),
+      Path("iostar_json_gcs_performance.json").read_text(),
   )
 
   performance_infractions = get_performance_infractions(show_user)
   print(performance_infractions)
-  #> []
+  """
+  [
+      PerformanceInfraction(
+          performance_name="acceleration",
+          drone_index=0,
+          frame=1000,
+          value=1.7999999999999998,
+          threshold=1.5,
+      ),
+      PerformanceInfraction(
+          performance_name="acceleration",
+          drone_index=1,
+          frame=1000,
+          value=1.7999999999999998,
+          threshold=1.5,
+      ),
+      PerformanceInfraction(
+          performance_name="acceleration",
+          drone_index=2,
+          frame=1000,
+          value=1.7999999999999998,
+          threshold=1.5,
+      ),
+      PerformanceInfraction(
+          performance_name="acceleration",
+          drone_index=3,
+          frame=1000,
+          value=1.7999999999999998,
+          threshold=1.5,
+      ),
+  ]
+  """
 
-  physic_parameter = IostarPhysicParameter(horizontal_velocity_max=3.0)
+  physic_parameter = IostarPhysicParameter(acceleration_max=2)
   performance_infractions = get_performance_infractions(
       show_user,
       physic_parameter=physic_parameter,
@@ -88,7 +136,6 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
 - Generate the collisions report of the show with the `get_collision_infractions` function
 
   ```python
-  # TODO(jonathan): use iostar_json_gcs_reference_collision.json
   from pathlib import Path
 
   from loader import (
@@ -98,11 +145,51 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
   )
 
   show_user = convert_iostar_json_gcs_string_to_show_user(
-      Path("iostar_json_gcs_reference.json").read_text(),
+      Path("iostar_json_gcs_collision.json").read_text(),
   )
 
   show_position_frames = create_show_position_frames_from_show_user(show_user)
   collision_infractions = get_collision_infractions(show_position_frames)
+  print(collision_infractions[:10])
+  """
+  [
+      CollisionInfraction(
+          frame=0, drone_index_1=0, drone_index_2=1, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=0, drone_index_1=0, drone_index_2=2, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=0, drone_index_1=1, drone_index_2=3, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=0, drone_index_1=2, drone_index_2=3, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=1, drone_index_1=0, drone_index_2=1, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=1, drone_index_1=0, drone_index_2=2, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=1, drone_index_1=1, drone_index_2=3, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=1, drone_index_1=2, drone_index_2=3, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=2, drone_index_1=0, drone_index_2=1, distance=1.24, in_air=True
+      ),
+      CollisionInfraction(
+          frame=2, drone_index_1=0, drone_index_2=2, distance=1.24, in_air=True
+      ),
+  ]
+  """
+
+  collision_infractions = get_collision_infractions(
+      show_position_frames,
+      collision_distance=1.0,
+  )
   print(collision_infractions)
   #> []
   ```
@@ -111,7 +198,6 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
   function
 
   ```python
-  # TODO(jonathan): use iostar_json_gcs_reference_size.json
   from pathlib import Path
 
   from loader import (
@@ -120,12 +206,22 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration_frame=0)
   )
 
   show_user = convert_iostar_json_gcs_string_to_show_user(
-      Path("iostar_json_gcs_reference.json").read_text(),
+      Path("iostar_json_gcs_dance_size.json").read_text(),
   )
 
   dance_size_infractions = get_dance_size_infractions(show_user)
   print(dance_size_infractions)
-  #> []
+  """
+  [
+      DanceSizeInfraction(
+          drone_index=0,
+          dance_size=100106,
+          position_events_size_pct=100,
+          color_events_size_pct=0,
+          fire_events_size_pct=0,
+      )
+  ]
+  """
   ```
 
 ### Import & Export
@@ -140,7 +236,7 @@ from loader import (
 
 # Import an iostar json gcs string with `convert_iostar_json_gcs_string_to_show_user`
 show_user = convert_iostar_json_gcs_string_to_show_user(
-    Path("iostar_json_gcs_reference.json").read_text(),
+    Path("iostar_json_gcs_valid.json").read_text(),
 )
 
 # Export the show user with `convert_show_user_to_iostar_json_gcs`
