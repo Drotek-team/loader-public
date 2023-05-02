@@ -11,7 +11,9 @@ from loader.show_env.show_user.convex_hull import (
     get_p0,
     sort_positions,
 )
-from shapely.geometry.polygon import Polygon  # pyright: ignore
+from shapely.geometry.polygon import (
+    Polygon,  # pyright: ignore[reportUnknownVariableType]
+)
 
 from tests.strategies import slow
 
@@ -78,8 +80,10 @@ def test_calculate_convex_hull(positions_tuple: List[Tuple[float, float]]) -> No
     if len(positions_tuple) < 3:
         assert set(calculated_convex_hull) == set(positions_tuple)
         return
-    assert Polygon(calculated_convex_hull).equals(  # pyright: ignore
-        Polygon(positions_tuple).convex_hull,  # pyright: ignore
+    assert Polygon(calculated_convex_hull).equals(  # pyright: ignore[reportUnknownMemberType]
+        Polygon(
+            positions_tuple,
+        ).convex_hull,  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
     )
 
 
