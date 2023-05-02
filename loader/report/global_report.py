@@ -62,9 +62,7 @@ class GlobalReport(BaseReport):
             show_user,
             physic_parameter=physic_parameter,
         )
-        collision_report = CollisionReport.generate(
-            show_user,
-        )
+        collision_report = CollisionReport.generate(show_user, physic_parameter=physic_parameter)
         return GlobalReport(
             performance=performance_report,
             collision=collision_report,

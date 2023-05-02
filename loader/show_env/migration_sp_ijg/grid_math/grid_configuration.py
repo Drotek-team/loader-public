@@ -8,7 +8,7 @@ class GridConfiguration:
     nb_x: int = 1  # Number of families on the x-axis (west/east) during the takeoff
     nb_y: int = 1  # Number of families on the y-axis (south/north) during the takeoff
     nb_drone_per_family: int = 1  # Number of drones in each families
-    step: float = 1.0  # Distance separating the families during the takeoff in meter
+    step: float = 1.5  # Distance separating the families during the takeoff in meter
     angle_takeoff: float = 0.0  # Angle of the takeoff grid in radian
 
     @staticmethod

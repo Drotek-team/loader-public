@@ -87,16 +87,17 @@ def get_performance_infractions(
     *,
     physic_parameter: Optional[IostarPhysicParameter] = None,
 ) -> List[PerformanceInfraction]:
-    """Return all the performance infractions from show_user ordered by drone and by slice. The performances range is updated with 'update_performances_range' before the generation."""
+    """Return all the performance infractions from show_user ordered by drone and by slice."""
     return PerformanceInfraction.generate(su_to_stp(show_user), physic_parameter=physic_parameter)
 
 
 def get_collision_infractions(
     show_position_frames: ShowPositionFrames,
+    *,
     collision_distance: Optional[float] = None,
 ) -> List[CollisionInfraction]:
     """Return all the collision infractions from show_position_frames ordered by slice."""
-    return CollisionInfraction.generate(show_position_frames, collision_distance)
+    return CollisionInfraction.generate(show_position_frames, collision_distance=collision_distance)
 
 
 def get_dance_size_infractions(show_user: ShowUser) -> List[DanceSizeInfraction]:
@@ -122,20 +123,30 @@ def generate_report_from_show_user(
     show_user: ShowUser,
     *,
     without_takeoff_format: bool = False,
+    physic_parameter: Optional[IostarPhysicParameter] = None,
 ) -> GlobalReport:
     """Return a global report from show_user."""
-    return GlobalReport.generate(show_user, without_takeoff_format=without_takeoff_format)
+    return GlobalReport.generate(
+        show_user,
+        without_takeoff_format=without_takeoff_format,
+        physic_parameter=physic_parameter,
+    )
 
 
 def generate_report_from_iostar_json_gcs_string(
     iostar_json_gcs_string: str,
     *,
     without_takeoff_format: bool = False,
+    physic_parameter: Optional[IostarPhysicParameter] = None,
 ) -> GlobalReport:
     """Return a global report from iostar_json_gcs_string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
     show_user = ijg_to_su(iostar_json_gcs)
-    return GlobalReport.generate(show_user, without_takeoff_format=without_takeoff_format)
+    return GlobalReport.generate(
+        show_user,
+        without_takeoff_format=without_takeoff_format,
+        physic_parameter=physic_parameter,
+    )
 
 
 def get_show_configuration_from_iostar_json_gcs_string(

@@ -24,6 +24,7 @@ from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
+from loader.show_env.show_user.show_user import PositionEventUser
 
 
 def test_create_show_user_standard_case() -> None:
@@ -175,14 +176,14 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
     show_position_frames = create_show_position_frames_from_show_user(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2)),
     )
-    assert len(get_collision_infractions(show_position_frames, 2)) == 6120
+    assert len(get_collision_infractions(show_position_frames, collision_distance=2)) == 4080
 
 
 def test_get_collisions_with_collision_distance_without_collision() -> None:
     show_position_frames = create_show_position_frames_from_show_user(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2)),
     )
-    assert get_collision_infractions(show_position_frames, 2) == []
+    assert get_collision_infractions(show_position_frames, collision_distance=2) == []
 
 
 def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -> None:
@@ -193,7 +194,7 @@ def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -
         ValueError,
         match="collision_distance .* should be greater than or equal to security_distance_in_air .*",
     ):
-        get_collision_infractions(show_position_frames, 0.5)
+        get_collision_infractions(show_position_frames, collision_distance=0.5)
 
 
 def test_get_dance_size_report() -> None:
@@ -219,9 +220,7 @@ def test_get_dance_size_informations() -> None:
 
 
 def test_generate_report_from_show_user_standard_case() -> None:
-    show_user = get_valid_show_user(
-        ShowUserConfiguration(nb_x=2, nb_y=2, show_duration_absolute_time=3),
-    )
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     global_report = generate_report_from_show_user(show_user)
     assert global_report == {
         "takeoff_format": None,
@@ -229,6 +228,70 @@ def test_generate_report_from_show_user_standard_case() -> None:
         "performance": None,
         "collision": None,
     }
+    assert global_report.summary() == {
+        "takeoff_format": 0,
+        "autopilot_format": 0,
+        "performance": 0,
+        "collision": 0,
+    }
+
+
+def test_generate_report_from_show_user_with_collision() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    global_report = generate_report_from_show_user(
+        show_user,
+        physic_parameter=IostarPhysicParameter(security_distance_in_air=2),
+    )
+    assert global_report.summary() == {
+        "takeoff_format": 0,
+        "autopilot_format": 0,
+        "performance": 0,
+        "collision": 4080,
+    }
+
+
+def test_generate_report_from_show_user_with_performance() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user.drones_user[0].add_position_event(
+        frame=1000,
+        xyz=(*show_user.drones_user[0].position_events[-1].xyz[0:2], 5.0),
+    )
+    global_report = generate_report_from_show_user(
+        show_user,
+        physic_parameter=IostarPhysicParameter(velocity_up_max=2.0),
+    )
+    assert global_report.summary() == {
+        "takeoff_format": 0,
+        "autopilot_format": 0,
+        "performance": 1,
+        "collision": 0,
+    }
+    global_report = generate_report_from_show_user(show_user)
+    assert global_report.summary() == {
+        "takeoff_format": 0,
+        "autopilot_format": 0,
+        "performance": 0,
+        "collision": 0,
+    }
+
+
+def test_generate_report_from_show_user_without_takeoff_format() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user.drones_user[0].position_events.insert(
+        1,
+        PositionEventUser(
+            frame=100,
+            xyz=show_user.drones_user[0].position_events[-1].xyz,
+        ),
+    )
+    global_report = generate_report_from_show_user(show_user)
+    assert global_report.summary() == {
+        "takeoff_format": 1,
+        "autopilot_format": 0,
+        "performance": 0,
+        "collision": 0,
+    }
+    global_report = generate_report_from_show_user(show_user, without_takeoff_format=True)
     assert global_report.summary() == {
         "takeoff_format": 0,
         "autopilot_format": 0,
@@ -268,10 +331,10 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
         "nb_x": 2,
         "nb_y": 3,
         "nb_drone_per_family": 1,
-        "step": 100,
+        "step": 150,
         "angle_takeoff": 0,
         "duration": 42541,
-        "hull": [(-100, -50), (-100, 50), (100, 50), (100, -50)],
+        "hull": [(-150, -75), (-150, 75), (150, 75), (150, -75)],
         "altitude_range": (-100, 0),
     }
 

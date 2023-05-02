@@ -18,12 +18,12 @@ def test_valid_show_flags() -> None:
     assert len(show_position_frames.show_position_frames) == 1022
     assert np.array_equal(
         show_position_frames.show_position_frames[0].in_air_positions[0],
-        np.array([-0.5, 0.0, 0.0], dtype=np.float64),
+        np.array([-0.75, 0.0, 0.0], dtype=np.float64),
     )
     assert np.array_equal(
         show_position_frames.show_position_frames[240].in_air_positions[0],
         np.array(
-            [-0.5, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min],
+            [-0.75, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min],
             dtype=np.float64,
         ),
     )

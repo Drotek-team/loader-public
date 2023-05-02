@@ -106,6 +106,7 @@ class CollisionInfraction(BaseInfraction):
     def generate(
         cls,
         show_position_frames: ShowPositionFrames,
+        *,
         collision_distance: float | None = None,
     ) -> list[CollisionInfraction]:
         if collision_distance is None:
