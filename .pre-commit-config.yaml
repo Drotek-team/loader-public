@@ -65,10 +65,16 @@ repos:
         require_serial: true
       - id: pytest
         name: pytest
-        entry: poetry run pytest --cov=loader --cov=tests
+        entry: poetry run pytest --cov=loader --cov=tests --ignore=tests/test_readme.py
         language: system
         pass_filenames: false
         always_run: true
+      - id: pytest-examples
+        name: pytest-examples
+        entry: poetry run pytest -k test_readme
+        language: system
+        pass_filenames: false
+        files: ^README\.md$
       - id: pyright
         name: pyright
         description: Python command line wrapper for pyright, a static type checker

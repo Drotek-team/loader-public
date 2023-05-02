@@ -12,7 +12,7 @@ def test_readme(example: CodeExample, eval_example: EvalExample) -> None:
         ruff_select=["ALL"],
         ruff_ignore=["D10", "T20"],
     )
-    if eval_example.update_examples:  # pragma: no cover
+    if eval_example.update_examples:
         eval_example.format(example)
         eval_example.run_print_update(example)
     else:
