@@ -5,7 +5,8 @@ from typing import List, Optional, Tuple
 import numpy as np
 
 from loader.parameter.iostar_physic_parameter import (
-    IOSTAR_PHYSIC_PARAMETER,
+    IOSTAR_PHYSIC_PARAMETER_MAX,
+    IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION,
     IostarPhysicParameter,
 )
 from loader.report.base import BaseInfraction
@@ -111,22 +112,22 @@ class PerformanceInfraction(BaseInfraction):
         physic_parameter: Optional[IostarPhysicParameter] = None,
     ) -> List["PerformanceInfraction"]:
         if physic_parameter is None:
-            physic_parameter = IOSTAR_PHYSIC_PARAMETER
+            physic_parameter = IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION
         else:
             if (
                 physic_parameter.horizontal_velocity_max
-                > IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max
+                > IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max
             ):
-                msg = f"Horizontal velocity max {physic_parameter.horizontal_velocity_max} is greater than {IOSTAR_PHYSIC_PARAMETER.horizontal_velocity_max}"
+                msg = f"Horizontal velocity max {physic_parameter.horizontal_velocity_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max}"
                 raise ValueError(msg)
-            if physic_parameter.velocity_up_max > IOSTAR_PHYSIC_PARAMETER.velocity_up_max:
-                msg = f"Up velocity max {physic_parameter.velocity_up_max} is greater than {IOSTAR_PHYSIC_PARAMETER.velocity_up_max}"
+            if physic_parameter.velocity_up_max > IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max:
+                msg = f"Up velocity max {physic_parameter.velocity_up_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max}"
                 raise ValueError(msg)
-            if physic_parameter.velocity_down_max > IOSTAR_PHYSIC_PARAMETER.velocity_down_max:
-                msg = f"Down velocity max {physic_parameter.velocity_down_max} is greater than {IOSTAR_PHYSIC_PARAMETER.velocity_down_max}"
+            if physic_parameter.velocity_down_max > IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max:
+                msg = f"Down velocity max {physic_parameter.velocity_down_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max}"
                 raise ValueError(msg)
-            if physic_parameter.acceleration_max > IOSTAR_PHYSIC_PARAMETER.acceleration_max:
-                msg = f"Acceleration max {physic_parameter.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETER.acceleration_max}"
+            if physic_parameter.acceleration_max > IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max:
+                msg = f"Acceleration max {physic_parameter.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max}"
                 raise ValueError(msg)
 
         return list(

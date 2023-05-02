@@ -1,4 +1,4 @@
-from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER_MAX
 from loader.report.base import get_report_validation
 from loader.report.collision_report.show_position_frames_collision_report import (
     CollisionReport,
@@ -16,7 +16,7 @@ def test_valid_simulation_on_ground() -> None:
         ShowUserConfiguration(
             nb_x=2,
             nb_y=2,
-            step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
+            step=IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_on_ground,
             show_duration_absolute_time=3,
         ),
     )
@@ -33,7 +33,7 @@ def test_invalid_simulation_on_ground() -> None:
         ShowUserConfiguration(
             nb_x=2,
             nb_y=2,
-            step=IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground - EPSILON_DELTA,
+            step=IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_on_ground - EPSILON_DELTA,
         ),
     )
     collision_report = CollisionReport.generate(
@@ -47,7 +47,7 @@ def test_valid_simulation_in_air() -> None:
         ShowUserConfiguration(
             nb_x=2,
             nb_y=2,
-            step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air,
+            step=IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_in_air,
         ),
     )
     collision_report = CollisionReport.generate(
@@ -62,7 +62,7 @@ def test_invalid_simulation_in_air() -> None:
             nb_x=2,
             nb_y=1,
             nb_drone_per_family=2,
-            step=IOSTAR_PHYSIC_PARAMETER.security_distance_in_air - EPSILON_DELTA,
+            step=IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_in_air - EPSILON_DELTA,
             show_duration_absolute_time=3,
         ),
     )

@@ -5,7 +5,10 @@ from typing import TYPE_CHECKING, TypeVar
 
 import numpy as np
 
-from loader.parameter.iostar_physic_parameter import IOSTAR_PHYSIC_PARAMETER
+from loader.parameter.iostar_physic_parameter import (
+    IOSTAR_PHYSIC_PARAMETER_MAX,
+    IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION,
+)
 from loader.report.base import BaseInfraction
 
 from .migration.show_position_frames import ShowPositionFrame, ShowPositionFrames
@@ -87,7 +90,7 @@ class CollisionInfraction(BaseInfraction):
             show_position_frame.frame,
             show_position_frame.on_ground_indices,
             show_position_frame.on_ground_positions,
-            IOSTAR_PHYSIC_PARAMETER.security_distance_on_ground,
+            IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_on_ground,
             in_air=False,
         )
         in_air_collision_infractions = cls._get_collision_infractions(
@@ -106,11 +109,11 @@ class CollisionInfraction(BaseInfraction):
         collision_distance: float | None = None,
     ) -> list[CollisionInfraction]:
         if collision_distance is None:
-            collision_distance = IOSTAR_PHYSIC_PARAMETER.security_distance_in_air
-        if collision_distance < IOSTAR_PHYSIC_PARAMETER.security_distance_in_air:
+            collision_distance = IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION.security_distance_in_air
+        elif collision_distance < IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_in_air:
             msg = (
                 f"collision_distance ({collision_distance}) should be greater than or equal to "
-                f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETER.security_distance_in_air})",
+                f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETER_MAX.security_distance_in_air})",
             )
             raise ValueError(msg)
         return list(
