@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.3.0 (2023-05-03)
+
+### Feat
+
+- add configuration to generate a report
+- add recommended physic parameters
+- **report**: add conf for physic_parameter
+- generate report without TakeoffFormatReport
+
+### Fix
+
+- add types to dataclasses attributes
+- remove try except ImportError, ModuleNotFoundError
+
 ## v0.2.3 (2023-04-27)
 
 ### Fix
