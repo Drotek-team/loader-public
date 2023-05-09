@@ -18,17 +18,17 @@ class LandParameter:
 
     def get_first_land_altitude(self, drone_hgt_meter: float) -> float:
         if drone_hgt_meter < self.land_safe_hgt:
-            return 0
+            return 0.0
         return self.land_safe_hgt
 
     def get_second_land_second_delta(self, drone_hgt_meter: float) -> float:
         if drone_hgt_meter < self.land_safe_hgt:
-            return 0
+            return 0.0
         return self.land_safe_hgt / self.land_low_speed
 
     def get_second_land_altitude_start(self, drone_hgt_meter: float) -> float:
         if drone_hgt_meter < self.land_safe_hgt:
-            return 0
+            return 0.0
         return self.land_safe_hgt
 
     def get_land_second_delta(self, drone_hgt_meter: float) -> float:
