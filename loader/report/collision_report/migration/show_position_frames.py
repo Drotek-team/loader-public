@@ -4,7 +4,10 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from loader.report.simulation.flight_simulation import get_flight_simulation
+from loader.report.simulation.flight_simulation import (
+    get_flight_simulation,
+    get_partial_flight_simulation,
+)
 from loader.show_env.show_user.show_user import ShowUser
 
 from .show_trajectory_collision import (
@@ -69,12 +72,19 @@ class ShowPositionFrames:
         ]
 
     @classmethod
-    def create_from_show_user(cls, show_user: ShowUser) -> ShowPositionFrames:
+    def create_from_show_user(
+        cls,
+        show_user: ShowUser,
+        *,
+        is_partial: bool,
+    ) -> ShowPositionFrames:
         show_collision_trajectory = ShowCollisionTrajectory(
             [
                 CollisionTrajectory(
                     drone_user.index,
-                    get_flight_simulation(
+                    get_partial_flight_simulation(drone_user)
+                    if is_partial
+                    else get_flight_simulation(
                         drone_user,
                         show_user.last_frame,
                     ),

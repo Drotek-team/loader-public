@@ -57,3 +57,7 @@ def get_flight_simulation(
         stand_by_position=(last_position[0], last_position[1], 0),
     )
     return simulation_infos
+
+
+def get_partial_flight_simulation(drone_user: DroneUser) -> List[SimulationInfo]:
+    return in_dance_flight_simulation(drone_user.position_events)

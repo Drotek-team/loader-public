@@ -77,9 +77,11 @@ def create_show_position_frames_from_frames_positions(
 
 def create_show_position_frames_from_show_user(
     show_user: ShowUser,
+    *,
+    is_partial: bool = False,
 ) -> ShowPositionFrames:
     """Return a ShowPositionFrame from a ShowUser."""
-    return su_to_spf(show_user)
+    return su_to_spf(show_user, is_partial=is_partial)
 
 
 def get_performance_infractions(
@@ -124,12 +126,14 @@ def generate_report_from_show_user(
     *,
     without_takeoff_format: bool = False,
     physic_parameter: Optional[IostarPhysicParameter] = None,
+    is_partial: bool = False,
 ) -> GlobalReport:
     """Return a global report from show_user."""
     return GlobalReport.generate(
         show_user,
         without_takeoff_format=without_takeoff_format,
         physic_parameter=physic_parameter,
+        is_partial=is_partial,
     )
 
 
@@ -138,6 +142,7 @@ def generate_report_from_iostar_json_gcs_string(
     *,
     without_takeoff_format: bool = False,
     physic_parameter: Optional[IostarPhysicParameter] = None,
+    is_partial: bool = False,
 ) -> GlobalReport:
     """Return a global report from iostar_json_gcs_string."""
     iostar_json_gcs = IostarJsonGcs.parse_raw(iostar_json_gcs_string)
@@ -146,6 +151,7 @@ def generate_report_from_iostar_json_gcs_string(
         show_user,
         without_takeoff_format=without_takeoff_format,
         physic_parameter=physic_parameter,
+        is_partial=is_partial,
     )
 
 

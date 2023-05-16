@@ -47,6 +47,7 @@ class GlobalReport(BaseReport):
         *,
         without_takeoff_format: bool = False,
         physic_parameter: Optional["IostarPhysicParameter"] = None,
+        is_partial: bool = False,
     ) -> "GlobalReport":
         if without_takeoff_format:
             takeoff_format_report = None
@@ -62,7 +63,11 @@ class GlobalReport(BaseReport):
             show_user,
             physic_parameter=physic_parameter,
         )
-        collision_report = CollisionReport.generate(show_user, physic_parameter=physic_parameter)
+        collision_report = CollisionReport.generate(
+            show_user,
+            physic_parameter=physic_parameter,
+            is_partial=is_partial,
+        )
         return GlobalReport(
             performance=performance_report,
             collision=collision_report,

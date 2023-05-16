@@ -3,6 +3,7 @@ import pytest
 from loader.report.simulation.flight_simulation import (
     SimulationInfo,
     get_flight_simulation,
+    get_partial_flight_simulation,
 )
 from loader.report.simulation.in_dance_flight_simulation import (
     in_dance_flight_simulation,
@@ -116,3 +117,27 @@ def test_flight_simulation_non_takeoff() -> None:
         match="Drone user must have at least 2 position events",
     ):
         get_flight_simulation(drone_user)
+
+
+def test_partial_flight_simulation_standard_case() -> None:
+    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    drone_user.add_position_event(0, (0.0, 0.0, 1.0))
+    drone_user.add_position_event(120, (2.0, 0.0, 1.0))
+
+    partial_flight_simulation = get_partial_flight_simulation(drone_user)
+    assert len(partial_flight_simulation) == 120
+    assert partial_flight_simulation[0] == SimulationInfo(
+        frame=0,
+        position=np.array([0.0, 0.0, 1.0], dtype=np.float64),
+        in_air=True,
+    )
+    assert partial_flight_simulation[60] == SimulationInfo(
+        frame=60,
+        position=np.array([1.0, 0.0, 1.0], dtype=np.float64),
+        in_air=True,
+    )
+    assert partial_flight_simulation[119] == SimulationInfo(
+        frame=119,
+        position=np.array([1.983, 0.0, 1.0], dtype=np.float64),
+        in_air=True,
+    )
