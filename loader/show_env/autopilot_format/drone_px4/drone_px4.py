@@ -25,8 +25,8 @@ class DronePx4:
     def add_color(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
         self.color_events.add_timecode_rgbw(timecode, rgbw)
 
-    def add_fire(self, timecode: int, chanel: int, duration_frame: int) -> None:
-        self.fire_events.add_timecode_chanel_duration(timecode, chanel, duration_frame)
+    def add_fire(self, timecode: int, chanel: int, duration: int) -> None:
+        self.fire_events.add_timecode_chanel_duration(timecode, chanel, duration)
 
     def get_events_by_index(self, event_type: EventsType) -> Events:
         return self.events_dict[event_type]

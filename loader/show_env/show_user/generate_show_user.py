@@ -144,7 +144,7 @@ def get_valid_fire_events(
                 show_user_configuration.duration_before_takeoff,
             ),
             chanel=0,
-            duration_frame=0,
+            duration=0,
         ),
         FireEventUser(
             frame=FRAME_PARAMETER.from_second_to_frame(
@@ -152,7 +152,7 @@ def get_valid_fire_events(
                 + TAKEOFF_PARAMETER.takeoff_duration_second,
             ),
             chanel=1,
-            duration_frame=0,
+            duration=0,
         ),
         FireEventUser(
             frame=FRAME_PARAMETER.from_second_to_frame(
@@ -161,7 +161,7 @@ def get_valid_fire_events(
                 + show_user_configuration.show_duration_absolute_time,
             ),
             chanel=0,
-            duration_frame=0,
+            duration=0,
         ),
     ]
 

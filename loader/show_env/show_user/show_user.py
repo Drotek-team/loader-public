@@ -42,7 +42,7 @@ class ColorEventUser(EventUserBase):
 
 class FireEventUser(EventUserBase):
     chanel: StrictInt  # Chanel of the drone between 0 and 2
-    duration_frame: StrictInt  # Duration of the event in frame
+    duration: StrictInt  # Duration of the event in millisecond
 
 
 class DroneUser(BaseModel):
@@ -65,10 +65,10 @@ class DroneUser(BaseModel):
         self,
         frame: int,
         chanel: int,
-        duration_frame: int,
+        duration: int,
     ) -> None:
         self.fire_events.append(
-            FireEventUser(frame=frame, chanel=chanel, duration_frame=duration_frame),
+            FireEventUser(frame=frame, chanel=chanel, duration=duration),
         )
 
     @property

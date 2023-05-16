@@ -114,16 +114,8 @@ def test_drone_px4_to_drone_user_fire_events(
 
     assert len(drone_users[0].fire_events) == 1
     assert drone_users[0].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL
-    assert drone_users[0].fire_events[
-        0
-    ].duration_frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
-        ARBITRARY_FIRE_EVENT_DURATION,
-    )
+    assert drone_users[0].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION
 
     assert len(drone_users[1].fire_events) == 1
     assert drone_users[1].fire_events[0].chanel == ARBITRARY_FIRE_EVENT_CHANEL_BIS
-    assert drone_users[1].fire_events[
-        0
-    ].duration_frame == JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
-        ARBITRARY_FIRE_EVENT_DURATION_BIS,
-    )
+    assert drone_users[1].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION_BIS

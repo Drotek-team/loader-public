@@ -67,16 +67,8 @@ def test_add_color_events_user_standard_case() -> None:
 def test_add_fire_events_user_standard_case() -> None:
     drone_px4 = DronePx4(0)
     fire_events_user = [
-        FireEventUser(
-            frame=0,
-            chanel=0,
-            duration_frame=1,
-        ),
-        FireEventUser(
-            frame=1,
-            chanel=1,
-            duration_frame=2,
-        ),
+        FireEventUser(frame=0, chanel=0, duration=41),
+        FireEventUser(frame=1, chanel=1, duration=83),
     ]
     add_fire_events_user(drone_px4, fire_events_user)
     first_fire_event = drone_px4.fire_events.get_fire_event_by_index(0)
@@ -90,34 +82,14 @@ def test_add_fire_events_user_standard_case() -> None:
 def test_drone_user_to_drone_px4_standard_case() -> None:
     drone_user = DroneUser(
         index=0,
-        position_events=[
-            PositionEventUser(
-                frame=0,
-                xyz=(0.0, 1.0, 2.0),
-            ),
-        ],
-        color_events=[
-            ColorEventUser(
-                frame=0,
-                rgbw=(0.0, 1.0, 0.0, 1.0),
-            ),
-        ],
-        fire_events=[
-            FireEventUser(
-                frame=0,
-                chanel=0,
-                duration_frame=1,
-            ),
-        ],
+        position_events=[PositionEventUser(frame=0, xyz=(0.0, 1.0, 2.0))],
+        color_events=[ColorEventUser(frame=0, rgbw=(0.0, 1.0, 0.0, 1.0))],
+        fire_events=[FireEventUser(frame=0, chanel=0, duration=41)],
     )
     drone_px4 = drone_user_to_drone_px4(drone_user)
     assert drone_px4.index == 0
     assert drone_px4.position_events.get_position_event_by_index(0).timecode == 0
-    assert drone_px4.position_events.get_position_event_by_index(0).xyz == (
-        100,
-        0,
-        -200,
-    )
+    assert drone_px4.position_events.get_position_event_by_index(0).xyz == (100, 0, -200)
     assert drone_px4.color_events.get_color_event_by_index(0).timecode == 0
     assert drone_px4.color_events.get_color_event_by_index(0).rgbw == (0, 255, 0, 255)
     assert drone_px4.fire_events.get_fire_event_by_index(0).timecode == 0

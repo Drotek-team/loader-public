@@ -13,7 +13,7 @@ from .events_order import EventsType
 class FireEvent(Event):
     timecode: int  # time frame associate to the "fps_px4" parameter
     chanel: int  # chanel of the fire event
-    duration: int  # duration of the fire event in timecode
+    duration: int  # duration of the fire event in milliseconds
 
     @property
     def chanel_duration(self) -> Tuple[int, int]:

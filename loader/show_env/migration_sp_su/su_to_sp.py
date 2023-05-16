@@ -53,9 +53,7 @@ def add_fire_events_user(
                 fire_event_user.frame,
             ),
             fire_event_user.chanel,
-            JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-                fire_event_user.duration_frame,
-            ),
+            fire_event_user.duration,
         )
 
 

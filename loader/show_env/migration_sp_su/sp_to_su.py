@@ -41,9 +41,7 @@ def drone_px4_to_drone_user(
                 fire_event_px4.timecode,
             ),
             chanel=fire_event_px4.chanel,
-            duration_frame=JSON_BINARY_PARAMETER.from_px4_timecode_to_user_frame(
-                fire_event_px4.duration,
-            ),
+            duration=fire_event_px4.duration,
         )
         for fire_event_px4 in drone_px4.fire_events.specific_events
     ]
