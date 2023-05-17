@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from loader import convert_show_user_to_iostar_json_gcs
+from loader import su_to_ijg
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -30,7 +30,7 @@ def main() -> None:
         ("performance", performance_show_user),
         ("dance_size", dance_size_show_user),
     ]:
-        iostar_json_gcs = convert_show_user_to_iostar_json_gcs(show_user)
+        iostar_json_gcs = su_to_ijg(show_user)
         Path(f"iostar_json_gcs_{name}.json").write_text(iostar_json_gcs.json() + "\n")
 
 

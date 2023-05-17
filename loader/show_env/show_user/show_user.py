@@ -98,6 +98,23 @@ class DroneUser(BaseModel):
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
 
+    @classmethod
+    def create(cls, nb_drones: int) -> "ShowUser":
+        if nb_drones <= 0:
+            msg = f"nb_drones must be positive, not {nb_drones}"
+            raise ValueError(msg)
+        return ShowUser(
+            drones_user=[
+                DroneUser(
+                    index=drone_index,
+                    position_events=[],
+                    color_events=[],
+                    fire_events=[],
+                )
+                for drone_index in range(nb_drones)
+            ],
+        )
+
     def __getitem__(self, drone_user_index: int) -> DroneUser:
         return self.drones_user[drone_user_index]
 

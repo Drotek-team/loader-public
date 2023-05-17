@@ -56,12 +56,6 @@ class ShowPositionFrame:
 
 class ShowPositionFrames:
     def __init__(self, frames: list[int], drone_indices: list[int]) -> None:
-        nb_drones = len(drone_indices)
-
-        if nb_drones < 1:
-            msg = "nb_drones must be at least 1"
-            raise ValueError(msg)
-
         self.show_position_frames: list[ShowPositionFrame] = [
             ShowPositionFrame(frame, drone_indices) for frame in frames
         ]
@@ -99,49 +93,5 @@ class ShowPositionFrames:
                     drone_index,
                     simulation_info.position,
                     in_air_flag=simulation_info.in_air,
-                )
-        return show_position_frames
-
-    @classmethod
-    def create_from_frames_positions(
-        cls,
-        frame_start: int,
-        frame_end: int,
-        drone_indices: list[int],
-        frames_positions: list[list[tuple[float, float, float]]],
-    ) -> ShowPositionFrames:
-        if frame_start >= frame_end:
-            msg = f"frame_start must be strictly smaller than frame_end, not {frame_start} and {frame_end}"
-            raise ValueError(msg)
-
-        if frame_end - frame_start != len(frames_positions):
-            msg = (
-                f"frame_end - frame_start must be equal to the length of frames_positions, "
-                f"not {frame_end - frame_start} and {len(frames_positions)}"
-            )
-            raise ValueError(msg)
-
-        if any(len(drone_indices) != len(positions) for positions in frames_positions):
-            msg = "drone_indices and frames_positions items must have the same length"
-            raise ValueError(msg)
-
-        show_position_frames = ShowPositionFrames(
-            frames=list(
-                range(
-                    frame_start,
-                    frame_end,
-                ),
-            ),
-            drone_indices=drone_indices,
-        )
-        for show_slice, positions in zip(
-            show_position_frames.show_position_frames,
-            frames_positions,
-        ):
-            for index, position in zip(drone_indices, positions):
-                show_slice.update_position_air_flag(
-                    index,
-                    np.array(position),
-                    in_air_flag=position[2] != 0,
                 )
         return show_position_frames

@@ -52,6 +52,7 @@ exclude = ["**/__pycache__", "**/.*", "tests/test_readme.py"]
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
 required-version = "0.0.264" # Must match ruff in [tool.poetry.group.dev.dependencies]
 target-version = "py38"
+line-length = 100
 src = ["loader"]
 select = ["ALL"]
 ignore = [
