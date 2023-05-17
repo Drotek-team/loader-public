@@ -24,7 +24,7 @@ pytest-examples = "^0.0.8"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"
 # Must match required-version in [tool.ruff]
-ruff = "0.0.264"
+ruff = "0.0.267"
 shapely = "^2.0.1"
 
 [tool.commitizen]
@@ -50,7 +50,7 @@ reportMissingTypeStubs = false
 exclude = ["**/__pycache__", "**/.*", "tests/test_readme.py"]
 
 [tool.ruff] # https://github.com/charliermarsh/ruff#reference
-required-version = "0.0.264" # Must match ruff in [tool.poetry.group.dev.dependencies]
+required-version = "0.0.267" # Must match ruff in [tool.poetry.group.dev.dependencies]
 target-version = "py38"
 line-length = 100
 src = ["loader"]
