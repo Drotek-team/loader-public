@@ -10,11 +10,6 @@ from loader.report.simulation.flight_simulation import (
 )
 from loader.show_env.show_user.show_user import ShowUser
 
-from .show_trajectory_collision import (
-    CollisionTrajectory,
-    ShowCollisionTrajectory,
-)
-
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
@@ -78,36 +73,32 @@ class ShowPositionFrames:
         *,
         is_partial: bool,
     ) -> ShowPositionFrames:
-        show_collision_trajectory = ShowCollisionTrajectory(
-            [
-                CollisionTrajectory(
-                    drone_user.index,
-                    get_partial_flight_simulation(drone_user)
-                    if is_partial
-                    else get_flight_simulation(
-                        drone_user,
-                        show_user.last_frame,
-                    ),
-                )
-                for drone_user in show_user.drones_user
-            ],
-        )
+        drone_indices = [drone_user.index for drone_user in show_user.drones_user]
+        flight_simulations = [
+            get_partial_flight_simulation(drone_user)
+            if is_partial
+            else get_flight_simulation(drone_user, show_user.last_frame)
+            for drone_user in show_user.drones_user
+        ]
         show_position_frames = ShowPositionFrames(
-            frames=show_collision_trajectory.frames,
-            drone_indices=[
-                collision_trajectory.drone_index
-                for collision_trajectory in show_collision_trajectory
-            ],
+            frames=list(
+                range(
+                    min(flight_simulation[0].frame for flight_simulation in flight_simulations),
+                    max(flight_simulation[-1].frame for flight_simulation in flight_simulations)
+                    + 1,
+                ),
+            ),
+            drone_indices=drone_indices,
         )
-        for collision_trajectory in show_collision_trajectory:
-            for show_slice, collision_position_infos in zip(
+        for drone_index, flight_simulation in zip(drone_indices, flight_simulations):
+            for show_slice, simulation_info in zip(
                 show_position_frames.show_position_frames,
-                collision_trajectory.collision_position_infos,
+                flight_simulation,
             ):
                 show_slice.update_position_air_flag(
-                    collision_trajectory.drone_index,
-                    collision_position_infos.position,
-                    in_air_flag=collision_position_infos.in_air,
+                    drone_index,
+                    simulation_info.position,
+                    in_air_flag=simulation_info.in_air,
                 )
         return show_position_frames
 
