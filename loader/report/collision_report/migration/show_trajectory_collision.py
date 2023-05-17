@@ -18,9 +18,14 @@ class ShowCollisionTrajectory(List[CollisionTrajectory]):
     def frames(self) -> List[int]:
         return list(
             range(
-                max(
-                    collision_trajectory.collision_position_infos[-1].frame + 1
+                min(
+                    collision_trajectory.collision_position_infos[0].frame
                     for collision_trajectory in self
                 ),
+                max(
+                    collision_trajectory.collision_position_infos[-1].frame
+                    for collision_trajectory in self
+                )
+                + 1,
             ),
         )
