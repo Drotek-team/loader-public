@@ -5,10 +5,8 @@ from loader.show_env.drone_px4.events import (
     FireEvents,
     PositionEvents,
 )
-from loader.show_env.migration_dp_binary.events_convertion import (
-    decode_events,
-    encode_events,
-)
+from loader.show_env.migration_dp_binary.binary_to_dp import decode_events
+from loader.show_env.migration_dp_binary.dp_to_binary import encode_events
 
 from tests.strategies import slow
 

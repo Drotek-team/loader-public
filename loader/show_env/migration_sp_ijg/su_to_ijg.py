@@ -7,7 +7,7 @@ from loader.show_env.iostar_json_gcs.iostar_json_gcs import (
     IostarJsonGcs,
     Show,
 )
-from loader.show_env.migration_dp_binary.drone_encoding import encode_drone
+from loader.show_env.migration_dp_binary.dp_to_binary import encode_drone
 from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
 from loader.show_env.show_user import ShowUser
 

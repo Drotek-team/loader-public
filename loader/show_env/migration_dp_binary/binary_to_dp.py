@@ -6,8 +6,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
 )
 from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.drone_px4.binary import Header, SectionHeader
-
-from .events_convertion import decode_events
+from loader.show_env.drone_px4.events.events import Events
 
 
 def get_header_section_header(
@@ -45,6 +44,18 @@ def get_header_section_header(
             ),
         )
     return header, section_headers
+
+
+def decode_events(events: Events, byte_array: bytearray) -> None:
+    for event_index in range(0, len(byte_array), events.event_size):
+        events.add_data(
+            list(
+                struct.unpack(
+                    events.format_,
+                    byte_array[event_index : event_index + events.event_size],
+                ),
+            ),
+        )
 
 
 def decode_drone(
