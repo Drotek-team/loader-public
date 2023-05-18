@@ -11,7 +11,7 @@ from loader.parameter.iostar_physic_parameter import (
 )
 from loader.report.base import BaseInfraction
 
-from .migration.show_position_frames import ShowPositionFrame, ShowPositionFrames
+from .migration.show_position_frames import ShowPositionFrame
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -105,7 +105,7 @@ class CollisionInfraction(BaseInfraction):
     @classmethod
     def generate(
         cls,
-        show_position_frames: ShowPositionFrames,
+        show_position_frames: list[ShowPositionFrame],
         *,
         collision_distance: float | None = None,
     ) -> list[CollisionInfraction]:
@@ -124,7 +124,7 @@ class CollisionInfraction(BaseInfraction):
                         show_position_frame,
                         collision_distance,
                     )
-                    for show_position_frame in show_position_frames.show_position_frames
+                    for show_position_frame in show_position_frames
                 ],
             ),
         )

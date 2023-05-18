@@ -53,20 +53,13 @@ class ShowPositionFrame:
     def __len__(self) -> int:
         return len(self._indices)
 
-
-class ShowPositionFrames:
-    def __init__(self, frames: list[int], drone_indices: list[int]) -> None:
-        self.show_position_frames: list[ShowPositionFrame] = [
-            ShowPositionFrame(frame, drone_indices) for frame in frames
-        ]
-
     @classmethod
     def create_from_show_user(
         cls,
         show_user: ShowUser,
         *,
         is_partial: bool,
-    ) -> ShowPositionFrames:
+    ) -> list[ShowPositionFrame]:
         drone_indices = [drone_user.index for drone_user in show_user.drones_user]
         flight_simulations = [
             get_partial_flight_simulation(drone_user)
@@ -74,21 +67,15 @@ class ShowPositionFrames:
             else get_flight_simulation(drone_user, show_user.last_frame)
             for drone_user in show_user.drones_user
         ]
-        show_position_frames = ShowPositionFrames(
-            frames=list(
-                range(
-                    min(flight_simulation[0].frame for flight_simulation in flight_simulations),
-                    max(flight_simulation[-1].frame for flight_simulation in flight_simulations)
-                    + 1,
-                ),
-            ),
-            drone_indices=drone_indices,
-        )
+        show_position_frames = [
+            ShowPositionFrame(frame, drone_indices)
+            for frame in range(
+                min(flight_simulation[0].frame for flight_simulation in flight_simulations),
+                max(flight_simulation[-1].frame for flight_simulation in flight_simulations) + 1,
+            )
+        ]
         for drone_index, flight_simulation in zip(drone_indices, flight_simulations):
-            for show_slice, simulation_info in zip(
-                show_position_frames.show_position_frames,
-                flight_simulation,
-            ):
+            for show_slice, simulation_info in zip(show_position_frames, flight_simulation):
                 show_slice.update_position_air_flag(
                     drone_index,
                     simulation_info.position,
