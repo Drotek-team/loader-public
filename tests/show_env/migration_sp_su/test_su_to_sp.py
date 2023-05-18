@@ -1,5 +1,5 @@
 from hypothesis import given
-from loader.show_env.autopilot_format.drone_px4 import DronePx4
+from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
 from loader.show_env.migration_sp_su.su_to_sp import (
     add_color_events_user,

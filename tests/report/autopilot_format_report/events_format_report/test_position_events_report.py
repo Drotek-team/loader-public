@@ -13,7 +13,7 @@ from loader.report.autopilot_format_report.events_format_report import (
     PositionEventsReport,
 )
 from loader.report.base import get_report_validation
-from loader.show_env.autopilot_format.drone_px4.events import PositionEvents
+from loader.show_env.drone_px4.events import PositionEvents
 
 
 @pytest.fixture

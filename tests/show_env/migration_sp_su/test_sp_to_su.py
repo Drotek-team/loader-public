@@ -4,7 +4,7 @@ import pytest
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.show_env.autopilot_format.drone_px4 import DronePx4
+from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
 
 ARBITRARY_POSITION_EVENT_FRAME = 360

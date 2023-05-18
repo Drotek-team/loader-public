@@ -4,7 +4,7 @@ from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import
     JSON_BINARY_PARAMETER,
 )
 from loader.report.base import BaseInfraction
-from loader.show_env.autopilot_format.drone_px4 import DronePx4
+from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.migration_dp_binary.drone_encoding import (
     DanceSizeInformation,
     get_dance_size_information,

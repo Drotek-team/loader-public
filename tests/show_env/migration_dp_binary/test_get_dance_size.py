@@ -1,9 +1,9 @@
 import struct
 
-from loader.show_env.autopilot_format.drone_px4 import (
+from loader.show_env.drone_px4 import (
     DronePx4,
 )
-from loader.show_env.autopilot_format.drone_px4.events import (
+from loader.show_env.drone_px4.events import (
     ColorEvents,
     FireEvents,
     PositionEvents,

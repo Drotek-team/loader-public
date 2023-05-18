@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
 from loader.report.base import BaseReport
-from loader.show_env.autopilot_format.drone_px4 import DronePx4
+from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
 from loader.show_env.show_user import ShowUser
 
