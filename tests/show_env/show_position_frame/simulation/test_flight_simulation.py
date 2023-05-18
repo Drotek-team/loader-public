@@ -1,16 +1,16 @@
 import numpy as np
 import pytest
-from loader.report.simulation.flight_simulation import (
+from loader.show_env.show_position_frame.simulation.flight_simulation import (
     SimulationInfo,
     get_flight_simulation,
     get_partial_flight_simulation,
 )
-from loader.report.simulation.in_dance_flight_simulation import (
+from loader.show_env.show_position_frame.simulation.in_dance_flight_simulation import (
     in_dance_flight_simulation,
 )
-from loader.report.simulation.land_simulation import land_simulation
-from loader.report.simulation.stand_by_simulation import stand_by_simulation
-from loader.report.simulation.takeoff_simulation import takeoff_simulation
+from loader.show_env.show_position_frame.simulation.land_simulation import land_simulation
+from loader.show_env.show_position_frame.simulation.stand_by_simulation import stand_by_simulation
+from loader.show_env.show_position_frame.simulation.takeoff_simulation import takeoff_simulation
 from loader.show_env.show_user import DroneUser
 
 

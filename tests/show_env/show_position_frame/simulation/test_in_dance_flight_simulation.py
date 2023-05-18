@@ -1,8 +1,8 @@
 import numpy as np
-from loader.report.simulation.in_dance_flight_simulation import (
+from loader.show_env.show_position_frame.simulation.in_dance_flight_simulation import (
     in_dance_flight_simulation,
 )
-from loader.report.simulation.position_simulation import SimulationInfo
+from loader.show_env.show_position_frame.simulation.position_simulation import SimulationInfo
 from loader.show_env.show_user import PositionEventUser
 
 

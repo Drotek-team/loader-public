@@ -4,12 +4,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
-    FRAME_PARAMETER,
-)
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
+from loader.parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
+from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
 
 from .position_simulation import SimulationInfo, linear_interpolation
 
