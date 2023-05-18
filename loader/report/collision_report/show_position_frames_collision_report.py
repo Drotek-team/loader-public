@@ -2,10 +2,10 @@ from typing import List, Optional
 
 from loader.parameter.iostar_physic_parameter import IostarPhysicParameter
 from loader.report.base import BaseReport
+from loader.show_env.migration_su_spf.su_to_spf import su_to_spf
 from loader.show_env.show_user import ShowUser
 
 from .collision_math import CollisionInfraction
-from .migration.su_to_spf import su_to_spf
 
 
 class CollisionReport(BaseReport):

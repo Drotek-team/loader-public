@@ -10,8 +10,7 @@ from loader.parameter.iostar_physic_parameter import (
     IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION,
 )
 from loader.report.base import BaseInfraction
-
-from .migration.show_position_frames import ShowPositionFrame
+from loader.show_env.migration_su_spf.show_position_frames import ShowPositionFrame
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

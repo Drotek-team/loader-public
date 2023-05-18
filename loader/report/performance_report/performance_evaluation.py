@@ -10,9 +10,10 @@ from loader.parameter.iostar_physic_parameter import (
     IostarPhysicParameter,
 )
 from loader.report.base import BaseInfraction
-from loader.report.performance_report.migration.show_trajectory_performance import Performance
-
-from .migration.show_trajectory_performance import DroneTrajectoryPerformance
+from loader.show_env.migration_su_to_stp.show_trajectory_performance import (
+    DroneTrajectoryPerformance,
+    Performance,
+)
 
 
 class PerformanceKind(Enum):
