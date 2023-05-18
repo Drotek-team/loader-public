@@ -1,12 +1,7 @@
 from math import degrees
 from typing import List, Tuple
 
-from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
-    FRAME_PARAMETER,
-)
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS
 from loader.show_env.iostar_json_gcs.show_configuration import ShowConfiguration
 from loader.show_env.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
 from loader.show_env.show_user import ShowUser
@@ -30,17 +25,17 @@ def from_user_altitude_range_to_px4_altitude_range(
     (
         px4_minimal_coordinate,
         px4_maximal_coordinate,
-    ) = JSON_BINARY_PARAMETER.from_user_xyz_to_px4_xyz(
+    ) = JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
         user_minimal_coordinate,
-    ), JSON_BINARY_PARAMETER.from_user_xyz_to_px4_xyz(
+    ), JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
         user_maximal_coordinate,
     )
     return (px4_maximal_coordinate[2], px4_minimal_coordinate[2])
 
 
 def from_user_duration_to_px4_duration(duration: float) -> int:
-    return JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-        FRAME_PARAMETER.from_second_to_frame(duration),
+    return JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+        FRAME_PARAMETERS.from_second_to_frame(duration),
     )
 
 
@@ -49,7 +44,7 @@ def from_user_hull_to_px4_hull(
 ) -> List[Tuple[int, int]]:
     user_coordinates = [(user_point[0], user_point[1], 0.0) for user_point in user_hull]
     px4_coordinates = [
-        (JSON_BINARY_PARAMETER.from_user_xyz_to_px4_xyz(user_coordinate))
+        (JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(user_coordinate))
         for user_coordinate in user_coordinates
     ]
     return [
@@ -65,7 +60,7 @@ def sc_to_scg(show_configuration: ShowConfiguration) -> ShowConfigurationGcs:
         nb_x=show_configuration.nb_x,
         nb_y=show_configuration.nb_y,
         nb_drone_per_family=show_configuration.nb_drone_per_family,
-        step=JSON_BINARY_PARAMETER.from_user_position_to_px4_position(
+        step=JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(
             show_configuration.step,
         ),
         angle_takeoff=int(degrees(show_configuration.angle_takeoff)),

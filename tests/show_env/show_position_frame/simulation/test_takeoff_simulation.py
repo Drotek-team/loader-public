@@ -3,8 +3,7 @@ from typing import Tuple
 import numpy as np
 from hypothesis import example, given
 from hypothesis import strategies as st
-from loader.parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
+from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.show_env.show_position_frame.simulation.position_simulation import SimulationInfo
 from loader.show_env.show_position_frame.simulation.takeoff_simulation import takeoff_simulation
 from loader.show_env.show_user import PositionEventUser
@@ -12,8 +11,8 @@ from loader.show_env.show_user import PositionEventUser
 from tests.strategies import slow
 
 FRAME_START = 0
-FRAME_END = FRAME_START + FRAME_PARAMETER.from_second_to_frame(
-    TAKEOFF_PARAMETER.takeoff_duration_second,
+FRAME_END = FRAME_START + FRAME_PARAMETERS.from_second_to_frame(
+    TAKEOFF_PARAMETERS.takeoff_duration_second,
 )
 POSITION_START = (0.0, 0.0, 0.0)
 
@@ -33,8 +32,8 @@ def get_valid_position_events_user(
 
 @given(
     takeoff_end_altitude=st.floats(
-        TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
-        TAKEOFF_PARAMETER.takeoff_altitude_meter_max,
+        TAKEOFF_PARAMETERS.takeoff_altitude_meter_min,
+        TAKEOFF_PARAMETERS.takeoff_altitude_meter_max,
     ),
 )
 @example(2.0)
@@ -51,7 +50,7 @@ def test_takeoff_simulation_altitude_meter_min(takeoff_end_altitude: float) -> N
     position_middle = (
         POSITION_START[0],
         POSITION_START[1],
-        POSITION_START[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min,
+        POSITION_START[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_min,
     )
     position_end = (
         POSITION_START[0],

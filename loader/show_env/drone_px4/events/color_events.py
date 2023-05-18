@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import JSON_BINARY_PARAMETERS
 
 from .events import Event, Events
 from .events_order import EventsType
@@ -29,7 +27,7 @@ class ColorEvent(Event):
 class ColorEvents(Events):
     def __init__(self) -> None:
         self.id_ = EventsType.color
-        self.format_ = JSON_BINARY_PARAMETER.color_event_format
+        self.format_ = JSON_BINARY_PARAMETERS.color_event_format
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []

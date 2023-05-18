@@ -1,13 +1,5 @@
 import pytest
-from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
-    FRAME_PARAMETER,
-)
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
+from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.report.autopilot_format_report.events_format_report import (
     CoordinateInfraction,
     PositionEventsReport,
@@ -20,20 +12,20 @@ from loader.show_env.drone_px4.events import PositionEvents
 def valid_position_events() -> PositionEvents:
     position_events = PositionEvents()
     position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETER.show_start_frame,
+        JSON_BINARY_PARAMETERS.show_start_frame,
         (0, 0, 0),
     )
     position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETER.show_start_frame
-            + FRAME_PARAMETER.from_second_to_frame(
-                TAKEOFF_PARAMETER.takeoff_duration_second,
+        JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.show_start_frame
+            + FRAME_PARAMETERS.from_second_to_frame(
+                TAKEOFF_PARAMETERS.takeoff_duration_second,
             ),
         ),
         (
             0,
             0,
-            -int(TAKEOFF_PARAMETER.takeoff_altitude_meter_min),
+            -int(TAKEOFF_PARAMETERS.takeoff_altitude_meter_min),
         ),
     )
     return position_events
@@ -52,11 +44,11 @@ def test_invalid_position_events_xyz_value_report(
     valid_position_events: PositionEvents,
 ) -> None:
     valid_position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
         (
-            JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
-            JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
-            JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
+            JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
+            JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
+            JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
         ),
     )
     position_events_report = PositionEventsReport.generate(
@@ -68,7 +60,7 @@ def test_invalid_position_events_xyz_value_report(
     for coordinate_infraction in coordinate_infractions:
         assert coordinate_infraction == CoordinateInfraction(
             event_index=2,
-            value=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal + 1,
-            value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+            value=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
+            value_min=JSON_BINARY_PARAMETERS.coordinate_value_bound.minimal,
+            value_max=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal,
         )

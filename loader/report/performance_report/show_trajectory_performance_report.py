@@ -1,13 +1,11 @@
 from typing import List, Optional
 
-from loader.parameter.iostar_physic_parameter import IostarPhysicParameter
+from loader.parameters import IostarPhysicParameters
 from loader.report.base import BaseReport
 from loader.show_env.migration_su_to_stp.su_to_stp import su_to_stp
 from loader.show_env.show_user import ShowUser
 
-from .performance_evaluation import (
-    PerformanceInfraction,
-)
+from .performance_evaluation import PerformanceInfraction
 
 
 class PerformanceReport(BaseReport):
@@ -18,11 +16,11 @@ class PerformanceReport(BaseReport):
         cls,
         show_user: ShowUser,
         *,
-        physic_parameter: Optional[IostarPhysicParameter] = None,
+        physic_parameters: Optional[IostarPhysicParameters] = None,
     ) -> Optional["PerformanceReport"]:
         performance_infracions = PerformanceInfraction.generate(
             su_to_stp(show_user),
-            physic_parameter=physic_parameter,
+            physic_parameters=physic_parameters,
         )
         if performance_infracions:
             return PerformanceReport(performance_infractions=performance_infracions)

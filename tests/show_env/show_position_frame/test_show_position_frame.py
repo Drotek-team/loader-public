@@ -1,5 +1,5 @@
 import numpy as np
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import TAKEOFF_PARAMETER
+from loader.parameters import TAKEOFF_PARAMETERS
 from loader.show_env.show_position_frame import ShowPositionFrame
 from loader.show_env.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
@@ -16,7 +16,7 @@ def test_valid_show_flags() -> None:
     )
     assert np.array_equal(
         show_position_frames[240].in_air_positions[0],
-        np.array([-0.75, 0.0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min], dtype=np.float64),
+        np.array([-0.75, 0.0, TAKEOFF_PARAMETERS.takeoff_altitude_meter_min], dtype=np.float64),
     )
     assert len(show_position_frames[-1].in_air_positions) == 0
 

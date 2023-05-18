@@ -1,8 +1,6 @@
 from typing import List
 
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import JSON_BINARY_PARAMETERS
 from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.show_user import (
     ColorEventUser,
@@ -19,10 +17,10 @@ def add_position_events_user(
 ) -> None:
     for position_event_user in position_events_user:
         drone_px4.add_position(
-            JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
                 position_event_user.frame,
             ),
-            JSON_BINARY_PARAMETER.from_user_xyz_to_px4_xyz(
+            JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
                 position_event_user.xyz,
             ),
         )
@@ -34,10 +32,10 @@ def add_color_events_user(
 ) -> None:
     for color_event_user in color_events_user:
         drone_px4.add_color(
-            JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
                 color_event_user.frame,
             ),
-            JSON_BINARY_PARAMETER.from_user_rgbw_to_px4_rgbw(
+            JSON_BINARY_PARAMETERS.from_user_rgbw_to_px4_rgbw(
                 color_event_user.rgbw,
             ),
         )
@@ -49,7 +47,7 @@ def add_fire_events_user(
 ) -> None:
     for fire_event_user in fire_events_user:
         drone_px4.add_fire(
-            JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
                 fire_event_user.frame,
             ),
             fire_event_user.chanel,

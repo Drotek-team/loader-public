@@ -1,7 +1,5 @@
 import pytest
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import JSON_BINARY_PARAMETERS
 from loader.report.autopilot_format_report.events_format_report import (
     DurationChanelInfraction,
     FireEventsReport,
@@ -14,22 +12,22 @@ from loader.show_env.drone_px4.events import FireEvents
 def valid_fire_events() -> FireEvents:
     fire_events = FireEvents()
     fire_events.add_timecode_chanel_duration(
-        timecode=JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETER.show_start_frame,
+        timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.show_start_frame,
         ),
         chanel=0,
         duration=0,
     )
     fire_events.add_timecode_chanel_duration(
-        timecode=JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETER.show_start_frame + 1,
+        timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.show_start_frame + 1,
         ),
         chanel=1,
         duration=0,
     )
     fire_events.add_timecode_chanel_duration(
-        timecode=JSON_BINARY_PARAMETER.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETER.show_start_frame + 2,
+        timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+            JSON_BINARY_PARAMETERS.show_start_frame + 2,
         ),
         chanel=2,
         duration=0,
@@ -50,8 +48,8 @@ def test_invalid_fire_events_chanel_value_report(
     valid_fire_events: FireEvents,
 ) -> None:
     valid_fire_events.add_timecode_chanel_duration(
-        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
-        JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal + 1,
+        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETERS.fire_chanel_value_bound.maximal + 1,
         0,
     )
     fire_events_report = FireEventsReport.generate(
@@ -71,9 +69,9 @@ def test_invalid_fire_events_duration_value_report(
     valid_fire_events: FireEvents,
 ) -> None:
     valid_fire_events.add_timecode_chanel_duration(
-        JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
         0,
-        JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal + 1,
+        JSON_BINARY_PARAMETERS.fire_duration_value_bound.maximal + 1,
     )
     fire_events_report = FireEventsReport.generate(
         valid_fire_events,

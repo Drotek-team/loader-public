@@ -79,7 +79,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ```python
   from pathlib import Path
 
-  from loader import IostarJsonGcs, IostarPhysicParameter, PerformanceReport, ijg_to_su
+  from loader import IostarJsonGcs, IostarPhysicParameters, PerformanceReport, ijg_to_su
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
   show_user = ijg_to_su(iostar_json_gcs)
@@ -119,10 +119,10 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ]
   """
 
-  physic_parameter = IostarPhysicParameter(acceleration_max=2)
+  physic_parameters = IostarPhysicParameters(acceleration_max=2)
   performance_report = PerformanceReport.generate(
       show_user,
-      physic_parameter=physic_parameter,
+      physic_parameters=physic_parameters,
   )
   print(performance_report)
   #> None
@@ -133,7 +133,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ```python
   from pathlib import Path
 
-  from loader import CollisionReport, IostarJsonGcs, IostarPhysicParameter, ijg_to_su
+  from loader import CollisionReport, IostarJsonGcs, IostarPhysicParameters, ijg_to_su
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
   show_user = ijg_to_su(iostar_json_gcs)
@@ -177,7 +177,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 
   collision_report = CollisionReport.generate(
       show_user,
-      physic_parameter=IostarPhysicParameter(security_distance_in_air=1.0),
+      physic_parameters=IostarPhysicParameters(security_distance_in_air=1.0),
   )
   print(collision_report)
   #> None

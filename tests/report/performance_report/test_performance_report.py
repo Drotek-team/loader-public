@@ -1,18 +1,12 @@
 import pytest
-from loader.parameter.iostar_physic_parameter import (
-    IOSTAR_PHYSIC_PARAMETER_MAX,
-    IostarPhysicParameter,
-)
+from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IostarPhysicParameters
 from loader.report.base import get_report_validation
 from loader.report.performance_report.performance_evaluation import PerformanceKind
 from loader.report.performance_report.show_trajectory_performance_report import (
     PerformanceInfraction,
     PerformanceReport,
 )
-from loader.show_env.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.show_env.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2
 
@@ -30,14 +24,14 @@ def test_valid_show_user_horizontal_velocity() -> None:
     valid_show_user.drones_user[0].add_position_event(
         frame=last_position_event.frame + 24,
         xyz=(
-            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max,
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max,
             last_position_event.xyz[1],
             last_position_event.xyz[2],
         ),
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
 
@@ -59,7 +53,7 @@ def test_invalid_show_user_horizontal_velocity() -> None:
         frame=last_position_event.frame + 24,
         xyz=(
             last_position_event.xyz[0]
-            + IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max
+            + IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max
             + EPSILON_DELTA,
             last_position_event.xyz[1],
             last_position_event.xyz[2],
@@ -67,7 +61,7 @@ def test_invalid_show_user_horizontal_velocity() -> None:
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
 
@@ -90,12 +84,12 @@ def test_valid_show_user_up_velocity() -> None:
         xyz=(
             last_position_event.xyz[0],
             last_position_event.xyz[1],
-            last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max,
+            last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max,
         ),
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
 
@@ -119,13 +113,13 @@ def test_invalid_show_user_up_velocity() -> None:
             last_position_event.xyz[0],
             last_position_event.xyz[1],
             last_position_event.xyz[2]
-            + IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max
+            + IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max
             + EPSILON_DELTA,
         ),
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
@@ -142,7 +136,7 @@ def test_invalid_show_user_up_velocity() -> None:
 def test_valid_show_user_down_velocity() -> None:
     valid_show_user = get_valid_show_user(
         ShowUserConfiguration(
-            takeoff_altitude=IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max + 1,
+            takeoff_altitude=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max + 1,
         ),
     )
     last_position_event = valid_show_user.drones_user[0].position_events[-1]
@@ -151,12 +145,12 @@ def test_valid_show_user_down_velocity() -> None:
         xyz=(
             last_position_event.xyz[0],
             last_position_event.xyz[1],
-            last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max,
+            last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max,
         ),
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
 
@@ -174,7 +168,7 @@ def test_valid_show_user_down_velocity() -> None:
 def test_invalid_show_user_down_velocity() -> None:
     valid_show_user = get_valid_show_user(
         ShowUserConfiguration(
-            takeoff_altitude=IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max,
+            takeoff_altitude=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max,
         ),
     )
     last_position_event = valid_show_user.drones_user[0].position_events[-1]
@@ -184,13 +178,13 @@ def test_invalid_show_user_down_velocity() -> None:
             last_position_event.xyz[0],
             last_position_event.xyz[1],
             last_position_event.xyz[2]
-            - IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max
+            - IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max
             - EPSILON_DELTA,
         ),
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
@@ -218,14 +212,14 @@ def test_valid_show_user_acceleration() -> None:
     valid_show_user.drones_user[0].add_position_event(
         frame=last_position_event.frame + 48,
         xyz=(
-            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max,
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max,
             last_position_event.xyz[1],
             last_position_event.xyz[2],
         ),
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert get_report_validation(performance_report)
 
@@ -245,7 +239,7 @@ def test_invalid_show_user_acceleration() -> None:
         frame=last_position_event.frame + 48,
         xyz=(
             last_position_event.xyz[0]
-            + IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max
+            + IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max
             + EPSILON_DELTA,
             last_position_event.xyz[1],
             last_position_event.xyz[2],
@@ -253,7 +247,7 @@ def test_invalid_show_user_acceleration() -> None:
     )
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IOSTAR_PHYSIC_PARAMETER_MAX,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
     assert performance_report is not None
     performance_infractions = performance_report.performance_infractions
@@ -273,32 +267,32 @@ def test_invalid_physic_parameters() -> None:
     with pytest.raises(ValueError, match=" is greater than "):
         PerformanceReport.generate(
             valid_show_user,
-            physic_parameter=IostarPhysicParameter(
-                horizontal_velocity_max=IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max + 0.5,
+            physic_parameters=IostarPhysicParameters(
+                horizontal_velocity_max=IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max + 0.5,
             ),
         )
 
     with pytest.raises(ValueError, match=" is greater than "):
         PerformanceReport.generate(
             valid_show_user,
-            physic_parameter=IostarPhysicParameter(
-                velocity_up_max=IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max + 0.5,
+            physic_parameters=IostarPhysicParameters(
+                velocity_up_max=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max + 0.5,
             ),
         )
 
     with pytest.raises(ValueError, match=" is greater than "):
         PerformanceReport.generate(
             valid_show_user,
-            physic_parameter=IostarPhysicParameter(
-                velocity_down_max=IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max + 0.5,
+            physic_parameters=IostarPhysicParameters(
+                velocity_down_max=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max + 0.5,
             ),
         )
 
     with pytest.raises(ValueError, match=" is greater than "):
         PerformanceReport.generate(
             valid_show_user,
-            physic_parameter=IostarPhysicParameter(
-                acceleration_max=IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max + 0.5,
+            physic_parameters=IostarPhysicParameters(
+                acceleration_max=IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max + 0.5,
             ),
         )
 
@@ -327,7 +321,7 @@ def test_valid_physic_parameters() -> None:
 
     performance_report = PerformanceReport.generate(
         valid_show_user,
-        physic_parameter=IostarPhysicParameter(
+        physic_parameters=IostarPhysicParameters(
             velocity_up_max=0.4,
             velocity_down_max=0.4,
             acceleration_max=0.5,

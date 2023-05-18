@@ -8,7 +8,7 @@ from loader import (
     GlobalReport,
     GlobalReportSummary,
     IostarJsonGcs,
-    IostarPhysicParameter,
+    IostarPhysicParameters,
     PerformanceReport,
     ShowConfigurationGcs,
     ShowUser,
@@ -48,7 +48,7 @@ def test_get_performance_infractions() -> None:
     assert (
         PerformanceReport.generate(
             show_user,
-            physic_parameter=IostarPhysicParameter(acceleration_max=0.0001),
+            physic_parameters=IostarPhysicParameters(acceleration_max=0.0001),
         )
         is not None
     )
@@ -64,7 +64,7 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     collision_report = CollisionReport.generate(
         show_user,
-        physic_parameter=IostarPhysicParameter(security_distance_in_air=2),
+        physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
     )
     assert collision_report is not None
     assert len(collision_report.collision_infractions) == 4080
@@ -74,7 +74,7 @@ def test_get_collisions_with_collision_distance_without_collision() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
     collision_report = CollisionReport.generate(
         show_user,
-        physic_parameter=IostarPhysicParameter(security_distance_in_air=2),
+        physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
     )
     assert collision_report is None
 
@@ -87,7 +87,7 @@ def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -
     ):
         CollisionReport.generate(
             show_user,
-            physic_parameter=IostarPhysicParameter(security_distance_in_air=0.5),
+            physic_parameters=IostarPhysicParameters(security_distance_in_air=0.5),
         )
 
 
@@ -133,7 +133,7 @@ def test_generate_report_from_show_user_with_collision() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     global_report = GlobalReport.generate(
         show_user,
-        physic_parameter=IostarPhysicParameter(security_distance_in_air=2),
+        physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
     )
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
@@ -151,7 +151,7 @@ def test_generate_report_from_show_user_with_performance() -> None:
     )
     global_report = GlobalReport.generate(
         show_user,
-        physic_parameter=IostarPhysicParameter(velocity_up_max=2.0),
+        physic_parameters=IostarPhysicParameters(velocity_up_max=2.0),
     )
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,

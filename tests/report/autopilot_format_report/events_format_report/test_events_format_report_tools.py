@@ -1,7 +1,5 @@
 import pytest
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import JSON_BINARY_PARAMETERS
 from loader.report.autopilot_format_report.events_format_report.events_format_report_tools import (
     IncreasingFrameInfraction,
     IntegerBoundaryInfraction,
@@ -33,11 +31,11 @@ def test_get_timecode_report_bound_violation(
     standard_position_events: PositionEvents,
 ) -> None:
     standard_position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETER.timecode_value_bound.minimal - 1,
+        JSON_BINARY_PARAMETERS.timecode_value_bound.minimal - 1,
         (0, 0, 0),
     )
     standard_position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETER.timecode_value_bound.maximal + 1,
+        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal + 1,
         (0, 0, 0),
     )
     timecode_report = TimecodeReport.generate(
@@ -46,15 +44,15 @@ def test_get_timecode_report_bound_violation(
     assert timecode_report is not None
     assert timecode_report.bound_infractions[0] == IntegerBoundaryInfraction(
         event_index=3,
-        value=JSON_BINARY_PARAMETER.timecode_value_bound.minimal - 1,
-        value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-        value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+        value=JSON_BINARY_PARAMETERS.timecode_value_bound.minimal - 1,
+        value_min=JSON_BINARY_PARAMETERS.timecode_value_bound.minimal,
+        value_max=JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
     )
     assert timecode_report.bound_infractions[1] == IntegerBoundaryInfraction(
         event_index=4,
-        value=JSON_BINARY_PARAMETER.timecode_value_bound.maximal + 1,
-        value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-        value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+        value=JSON_BINARY_PARAMETERS.timecode_value_bound.maximal + 1,
+        value_min=JSON_BINARY_PARAMETERS.timecode_value_bound.minimal,
+        value_max=JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
     )
 
 

@@ -2,7 +2,7 @@ import struct
 from dataclasses import dataclass
 from typing import Tuple
 
-from .frame_parameter import FRAME_PARAMETER
+from loader.parameters import FRAME_PARAMETERS
 
 
 @dataclass(frozen=True)
@@ -12,7 +12,7 @@ class Bound:
 
 
 @dataclass(frozen=True)
-class JsonBinaryParameter:
+class JsonBinaryParameters:
     magic_number: int = 43605  # A signature add in the header of the binary
     fmt_header: str = ">HIB"  # Size in bits of the header
     fmt_section_header: str = ">BII"  # Size in bits of the section header
@@ -105,11 +105,11 @@ class JsonBinaryParameter:
 
     def from_user_frame_to_px4_timecode(self, user_frame: int) -> int:
         return self._second_to_millisecond(
-            FRAME_PARAMETER.from_frame_to_second(user_frame),
+            FRAME_PARAMETERS.from_frame_to_second(user_frame),
         )
 
     def from_px4_timecode_to_user_frame(self, px4_timecode: int) -> int:
-        return FRAME_PARAMETER.from_second_to_frame(
+        return FRAME_PARAMETERS.from_second_to_frame(
             self._millisecond_to_second(px4_timecode),
         )
 
@@ -162,4 +162,4 @@ class JsonBinaryParameter:
         )
 
 
-JSON_BINARY_PARAMETER = JsonBinaryParameter()
+JSON_BINARY_PARAMETERS = JsonBinaryParameters()

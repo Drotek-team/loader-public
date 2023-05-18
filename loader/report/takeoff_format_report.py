@@ -2,9 +2,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
+from loader.parameters import TAKEOFF_PARAMETERS
 from loader.report.base import BaseInfraction, BaseReport
 from loader.show_env.show_user import DroneUser, ShowUser
 
@@ -24,14 +22,14 @@ class TakeoffDurationInfraction(BaseInfraction):
         second_time = drone_user.position_events[1].absolute_time
         if not np.allclose(
             second_time - first_time,
-            TAKEOFF_PARAMETER.takeoff_duration_second,
-            atol=TAKEOFF_PARAMETER.takeoff_total_duration_tolerance,
+            TAKEOFF_PARAMETERS.takeoff_duration_second,
+            atol=TAKEOFF_PARAMETERS.takeoff_total_duration_tolerance,
         ):
             return TakeoffDurationInfraction(
                 first_time=first_time,
                 second_time=second_time,
-                takeoff_duration=TAKEOFF_PARAMETER.takeoff_duration_second,
-                tolerance=TAKEOFF_PARAMETER.takeoff_total_duration_tolerance,
+                takeoff_duration=TAKEOFF_PARAMETERS.takeoff_duration_second,
+                tolerance=TAKEOFF_PARAMETERS.takeoff_total_duration_tolerance,
             )
         return None
 
@@ -50,8 +48,10 @@ class TakeoffPositionInfraction(BaseInfraction):
         if (
             first_position[0] != second_position[0]
             or first_position[1] != second_position[1]
-            or first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_min > second_position[2]
-            or second_position[2] > first_position[2] + TAKEOFF_PARAMETER.takeoff_altitude_meter_max
+            or first_position[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
+            > second_position[2]
+            or second_position[2]
+            > first_position[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_max
         ):
             return TakeoffPositionInfraction(
                 first_position=first_position,

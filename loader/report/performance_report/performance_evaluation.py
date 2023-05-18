@@ -4,10 +4,10 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
-from loader.parameter.iostar_physic_parameter import (
-    IOSTAR_PHYSIC_PARAMETER_MAX,
-    IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION,
-    IostarPhysicParameter,
+from loader.parameters import (
+    IOSTAR_PHYSIC_PARAMETERS_MAX,
+    IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
+    IostarPhysicParameters,
 )
 from loader.report.base import BaseInfraction
 from loader.show_env.migration_su_to_stp.show_trajectory_performance import (
@@ -24,21 +24,21 @@ class PerformanceKind(Enum):
 
     def check(
         self,
-        physic_parameter: IostarPhysicParameter,
+        physic_parameters: IostarPhysicParameters,
         performance: Performance,
     ) -> Tuple[bool, float, float]:
         """Check if the performance is above the threshold."""
         if self == PerformanceKind.HORIZONTAL_VELOCITY:
-            threshold = physic_parameter.horizontal_velocity_max
+            threshold = physic_parameters.horizontal_velocity_max
             value = float(np.linalg.norm(performance.velocity[0:2]))
         elif self == PerformanceKind.UP_VELOCITY:
-            threshold = physic_parameter.velocity_up_max
+            threshold = physic_parameters.velocity_up_max
             value = float(performance.velocity[2])
         elif self == PerformanceKind.DOWN_VELOCITY:
-            threshold = physic_parameter.velocity_down_max
+            threshold = physic_parameters.velocity_down_max
             value = float(-performance.velocity[2])
         elif self == PerformanceKind.ACCELERATION:
-            threshold = physic_parameter.acceleration_max
+            threshold = physic_parameters.acceleration_max
             value = float(np.linalg.norm(performance.acceleration))
         else:  # pragma: no cover
             msg = f"PerformanceKind {self} not implemented in check_performance()."
@@ -60,12 +60,12 @@ class PerformanceInfraction(BaseInfraction):
         drone_index: int,
         frame: int,
         performance: Performance,
-        physic_parameter: IostarPhysicParameter,
+        physic_parameters: IostarPhysicParameters,
     ) -> List["PerformanceInfraction"]:
         performance_infractions: List["PerformanceInfraction"] = []
         for performance_kind in PerformanceKind:
             is_infraction, threshold, value = performance_kind.check(
-                physic_parameter,
+                physic_parameters,
                 performance,
             )
             if is_infraction:
@@ -84,7 +84,7 @@ class PerformanceInfraction(BaseInfraction):
     def _get_performance_infractions_from_drone_performance(
         cls,
         drone_trajectory_performance: DroneTrajectoryPerformance,
-        physic_parameter: IostarPhysicParameter,
+        physic_parameters: IostarPhysicParameters,
     ) -> List["PerformanceInfraction"]:
         return list(
             itertools.chain.from_iterable(
@@ -92,7 +92,7 @@ class PerformanceInfraction(BaseInfraction):
                     drone_trajectory_performance.index,
                     trajectory_performance_info.frame,
                     trajectory_performance_info.performance,
-                    physic_parameter,
+                    physic_parameters,
                 )
                 for (
                     trajectory_performance_info
@@ -105,32 +105,32 @@ class PerformanceInfraction(BaseInfraction):
         cls,
         show_trajectory_performance: List[DroneTrajectoryPerformance],
         *,
-        physic_parameter: Optional[IostarPhysicParameter] = None,
+        physic_parameters: Optional[IostarPhysicParameters] = None,
     ) -> List["PerformanceInfraction"]:
-        if physic_parameter is None:
-            physic_parameter = IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION
+        if physic_parameters is None:
+            physic_parameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
         else:
             if (
-                physic_parameter.horizontal_velocity_max
-                > IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max
+                physic_parameters.horizontal_velocity_max
+                > IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max
             ):
-                msg = f"Horizontal velocity max {physic_parameter.horizontal_velocity_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.horizontal_velocity_max}"
+                msg = f"Horizontal velocity max {physic_parameters.horizontal_velocity_max} is greater than {IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max}"
                 raise ValueError(msg)
-            if physic_parameter.velocity_up_max > IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max:
-                msg = f"Up velocity max {physic_parameter.velocity_up_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.velocity_up_max}"
+            if physic_parameters.velocity_up_max > IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max:
+                msg = f"Up velocity max {physic_parameters.velocity_up_max} is greater than {IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max}"
                 raise ValueError(msg)
-            if physic_parameter.velocity_down_max > IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max:
-                msg = f"Down velocity max {physic_parameter.velocity_down_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.velocity_down_max}"
+            if physic_parameters.velocity_down_max > IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max:
+                msg = f"Down velocity max {physic_parameters.velocity_down_max} is greater than {IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max}"
                 raise ValueError(msg)
-            if physic_parameter.acceleration_max > IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max:
-                msg = f"Acceleration max {physic_parameter.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETER_MAX.acceleration_max}"
+            if physic_parameters.acceleration_max > IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max:
+                msg = f"Acceleration max {physic_parameters.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max}"
                 raise ValueError(msg)
 
         return list(
             itertools.chain.from_iterable(
                 cls._get_performance_infractions_from_drone_performance(
                     drone_trajectory_performance,
-                    physic_parameter,
+                    physic_parameters,
                 )
                 for drone_trajectory_performance in show_trajectory_performance
             ),

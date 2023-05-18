@@ -1,7 +1,7 @@
 import numpy as np
 from hypothesis import example, given
 from hypothesis import strategies as st
-from loader.parameter.iostar_flight_parameter.iostar_land_parameter import LAND_PARAMETER
+from loader.parameters import LAND_PARAMETERS
 from loader.show_env.show_position_frame.simulation.land_simulation import land_simulation
 from loader.show_env.show_position_frame.simulation.position_simulation import SimulationInfo
 
@@ -23,11 +23,11 @@ def test_land_simulation_above_land_safe_hgt(
     x_position: float,
     y_position: float,
 ) -> None:
-    land_first_position = (x_position, y_position, LAND_PARAMETER.land_safe_hgt + 3)
+    land_first_position = (x_position, y_position, LAND_PARAMETERS.land_safe_hgt + 3)
     land_middle_position = (
         x_position,
         y_position,
-        LAND_PARAMETER.land_safe_hgt,
+        LAND_PARAMETERS.land_safe_hgt,
     )
     land_end_position = (
         x_position,
@@ -71,7 +71,7 @@ def test_land_simulation_under_land_safe_hgt(
     x_position: float,
     y_position: float,
 ) -> None:
-    land_first_position = (x_position, y_position, LAND_PARAMETER.land_safe_hgt - 1)
+    land_first_position = (x_position, y_position, LAND_PARAMETERS.land_safe_hgt - 1)
     land_end_position = (
         x_position,
         y_position,
@@ -109,7 +109,7 @@ def test_land_simulation_in_land_safe_hgt(
     x_position: float,
     y_position: float,
 ) -> None:
-    land_first_position = (x_position, y_position, LAND_PARAMETER.land_safe_hgt)
+    land_first_position = (x_position, y_position, LAND_PARAMETERS.land_safe_hgt)
     land_end_position = (
         x_position,
         y_position,

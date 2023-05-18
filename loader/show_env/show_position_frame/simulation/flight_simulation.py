@@ -1,9 +1,6 @@
 from typing import List
 
-from loader.parameter.iostar_dance_import_parameter.frame_parameter import FRAME_PARAMETER
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS
 from loader.show_env.show_user import DroneUser
 
 from .in_dance_flight_simulation import in_dance_flight_simulation
@@ -28,8 +25,8 @@ def get_flight_simulation(
     last_frame_stand_by = get_last_frame_stand_by(drone_user)
     if last_frame_stand_by != 0:
         simulation_infos += stand_by_simulation(
-            FRAME_PARAMETER.from_second_to_frame(
-                JSON_BINARY_PARAMETER.show_start_frame,
+            FRAME_PARAMETERS.from_second_to_frame(
+                JSON_BINARY_PARAMETERS.show_start_frame,
             ),
             drone_user.position_events[0].frame,
             drone_user.position_events[0].xyz,

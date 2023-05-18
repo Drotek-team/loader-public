@@ -4,9 +4,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
-    FRAME_PARAMETER,
-)
+from loader.parameters import FRAME_PARAMETERS
 from loader.show_env.show_user import PositionEventUser, ShowUser
 
 from .show_trajectory_performance import (
@@ -27,7 +25,7 @@ def get_velocities_from_positions(
         return [np.array([0, 0, 0], dtype=np.float64)]
     velocities = [
         1
-        / FRAME_PARAMETER.from_frame_to_second(
+        / FRAME_PARAMETERS.from_frame_to_second(
             frames[coordinate_index + 1] - frames[coordinate_index],
         )
         * (positions[coordinate_index + 1] - positions[coordinate_index])
@@ -44,7 +42,7 @@ def get_accelerations_from_velocities(
         return [np.array([0, 0, 0], dtype=np.float64)]
     accelerations = [
         1
-        / FRAME_PARAMETER.from_frame_to_second(
+        / FRAME_PARAMETERS.from_frame_to_second(
             frames[coordinate_index + 1] - frames[coordinate_index],
         )
         * (velocities[coordinate_index + 1] - velocities[coordinate_index])

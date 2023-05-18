@@ -1,8 +1,6 @@
 from typing import List, Optional
 
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import JSON_BINARY_PARAMETERS
 from loader.report.base import BaseInfraction, BaseReport
 from loader.show_env.drone_px4.events import (
     ColorEvents,
@@ -55,15 +53,15 @@ class TimeCodeValueInfraction(IntegerBoundaryInfraction):
             TimeCodeValueInfraction(
                 event_index=event_index,
                 value=frame,
-                value_min=JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-                value_max=JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+                value_min=JSON_BINARY_PARAMETERS.timecode_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
             )
             for event_index, frame in enumerate([event.timecode for event in events])
             if not (
                 check_integer_bound(
                     frame,
-                    JSON_BINARY_PARAMETER.timecode_value_bound.minimal,
-                    JSON_BINARY_PARAMETER.timecode_value_bound.maximal,
+                    JSON_BINARY_PARAMETERS.timecode_value_bound.minimal,
+                    JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
                 )
             )
         ]
@@ -98,8 +96,8 @@ class CoordinateInfraction(IntegerBoundaryInfraction):
             CoordinateInfraction(
                 event_index=event_index,
                 value=position_event.xyz[coordinate_index],
-                value_min=JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-                value_max=JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+                value_min=JSON_BINARY_PARAMETERS.coordinate_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal,
             )
             for event_index, position_event in enumerate(
                 position_events.specific_events,
@@ -108,8 +106,8 @@ class CoordinateInfraction(IntegerBoundaryInfraction):
             if not (
                 check_integer_bound(
                     position_event.xyz[coordinate_index],
-                    JSON_BINARY_PARAMETER.coordinate_value_bound.minimal,
-                    JSON_BINARY_PARAMETER.coordinate_value_bound.maximal,
+                    JSON_BINARY_PARAMETERS.coordinate_value_bound.minimal,
+                    JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal,
                 )
             )
         ]
@@ -125,8 +123,8 @@ class ChromeInfraction(IntegerBoundaryInfraction):
             ChromeInfraction(
                 event_index=event_index,
                 value=color_event.rgbw[chrome_index],
-                value_min=JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
-                value_max=JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
+                value_min=JSON_BINARY_PARAMETERS.chrome_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETERS.chrome_value_bound.maximal,
             )
             for event_index, color_event in enumerate(
                 color_events.specific_events,
@@ -135,8 +133,8 @@ class ChromeInfraction(IntegerBoundaryInfraction):
             if not (
                 check_integer_bound(
                     color_event.rgbw[chrome_index],
-                    JSON_BINARY_PARAMETER.chrome_value_bound.minimal,
-                    JSON_BINARY_PARAMETER.chrome_value_bound.maximal,
+                    JSON_BINARY_PARAMETERS.chrome_value_bound.minimal,
+                    JSON_BINARY_PARAMETERS.chrome_value_bound.maximal,
                 )
             )
         ]
@@ -152,8 +150,8 @@ class DurationChanelInfraction(IntegerBoundaryInfraction):
             DurationChanelInfraction(
                 event_index=event_index,
                 value=fire_event.duration,
-                value_min=JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
-                value_max=JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
+                value_min=JSON_BINARY_PARAMETERS.fire_duration_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETERS.fire_duration_value_bound.maximal,
             )
             for event_index, fire_event in enumerate(
                 fire_events.specific_events,
@@ -161,8 +159,8 @@ class DurationChanelInfraction(IntegerBoundaryInfraction):
             if not (
                 check_integer_bound(
                     fire_event.duration,
-                    JSON_BINARY_PARAMETER.fire_duration_value_bound.minimal,
-                    JSON_BINARY_PARAMETER.fire_duration_value_bound.maximal,
+                    JSON_BINARY_PARAMETERS.fire_duration_value_bound.minimal,
+                    JSON_BINARY_PARAMETERS.fire_duration_value_bound.maximal,
                 )
             )
         ]
@@ -170,8 +168,8 @@ class DurationChanelInfraction(IntegerBoundaryInfraction):
             DurationChanelInfraction(
                 event_index=event_index,
                 value=fire_event.chanel,
-                value_min=JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
-                value_max=JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
+                value_min=JSON_BINARY_PARAMETERS.fire_chanel_value_bound.minimal,
+                value_max=JSON_BINARY_PARAMETERS.fire_chanel_value_bound.maximal,
             )
             for event_index, fire_event in enumerate(
                 fire_events.specific_events,
@@ -179,8 +177,8 @@ class DurationChanelInfraction(IntegerBoundaryInfraction):
             if not (
                 check_integer_bound(
                     fire_event.chanel,
-                    JSON_BINARY_PARAMETER.fire_chanel_value_bound.minimal,
-                    JSON_BINARY_PARAMETER.fire_chanel_value_bound.maximal,
+                    JSON_BINARY_PARAMETERS.fire_chanel_value_bound.minimal,
+                    JSON_BINARY_PARAMETERS.fire_chanel_value_bound.maximal,
                 )
             )
         ]

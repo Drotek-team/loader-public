@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
-class IostarPhysicParameter:
+class IostarPhysicParameters:
     iostar_mass: float = 0.3  # kilogram
     horizontal_velocity_max: float = 3.5  # meter per second
     acceleration_max: float = 1.5  # meter per second square
@@ -13,8 +13,8 @@ class IostarPhysicParameter:
     security_distance_on_ground: float = -1  # meter
 
 
-IOSTAR_PHYSIC_PARAMETER_RECOMMENDATION = IostarPhysicParameter()
-IOSTAR_PHYSIC_PARAMETER_MAX = IostarPhysicParameter(
+IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION = IostarPhysicParameters()
+IOSTAR_PHYSIC_PARAMETERS_MAX = IostarPhysicParameters(
     horizontal_velocity_max=5.0,
     acceleration_max=2.0,
     velocity_up_max=4.0,

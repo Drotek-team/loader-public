@@ -2,9 +2,7 @@ import copy
 import struct
 from typing import List
 
-from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
-    JSON_BINARY_PARAMETER,
-)
+from loader.parameters import JSON_BINARY_PARAMETERS
 from loader.show_env.drone_px4 import DronePx4
 from loader.show_env.drone_px4.binary import Header, SectionHeader
 from loader.show_env.drone_px4.events import Events
@@ -14,16 +12,16 @@ def get_section_headers(
     encoded_events_list: List[bytearray],
     non_empty_events_list: List[Events],
 ) -> List[SectionHeader]:
-    byte_array_start_index = struct.calcsize(JSON_BINARY_PARAMETER.fmt_header) + len(
+    byte_array_start_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header) + len(
         non_empty_events_list,
-    ) * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
+    ) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
     section_headers: List[SectionHeader] = []
     for non_empty_events, encoded_events in zip(
         non_empty_events_list,
         encoded_events_list,
     ):
         section_header = SectionHeader(
-            fmt_section_header=JSON_BINARY_PARAMETER.fmt_section_header,
+            fmt_section_header=JSON_BINARY_PARAMETERS.fmt_section_header,
             event_id=non_empty_events.id_,
             byte_array_start_index=byte_array_start_index,
             byte_array_end_index=byte_array_start_index + len(encoded_events) - 1,
@@ -38,8 +36,8 @@ def dance_size(
     encoded_events_list: List[bytearray],
 ) -> int:
     return (
-        struct.calcsize(JSON_BINARY_PARAMETER.fmt_header)
-        + len(section_headers) * struct.calcsize(JSON_BINARY_PARAMETER.fmt_section_header)
+        struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
+        + len(section_headers) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
         + sum(len(encoded_events) for encoded_events in encoded_events_list)
     )
 
@@ -79,8 +77,8 @@ def encode_drone(
     ]
     section_headers = get_section_headers(encoded_events_list, non_empty_events_list)
     header = Header(
-        fmt_header=JSON_BINARY_PARAMETER.fmt_header,
-        magic_number=JSON_BINARY_PARAMETER.magic_number,
+        fmt_header=JSON_BINARY_PARAMETERS.fmt_header,
+        magic_number=JSON_BINARY_PARAMETERS.magic_number,
         dance_size=dance_size(section_headers, encoded_events_list),
         number_non_empty_events=len(non_empty_events_list),
     )

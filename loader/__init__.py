@@ -1,4 +1,4 @@
-from .parameter.iostar_physic_parameter import IostarPhysicParameter
+from .parameters import IostarPhysicParameters
 from .report.autopilot_format_report.autopilot_format_report import AutopilotFormatReport
 from .report.autopilot_format_report.dances_size_report import (
     DanceSizeInformation,
@@ -21,7 +21,7 @@ __all__ = (
     "GlobalReport",
     "GlobalReportSummary",
     "IostarJsonGcs",
-    "IostarPhysicParameter",
+    "IostarPhysicParameters",
     "PerformanceReport",
     "ShowConfigurationGcs",
     "ShowUser",

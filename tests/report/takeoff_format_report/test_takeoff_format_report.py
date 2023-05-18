@@ -1,9 +1,7 @@
 from typing import Tuple
 
 import pytest
-from loader.parameter.iostar_flight_parameter.iostar_takeoff_parameter import (
-    TAKEOFF_PARAMETER,
-)
+from loader.parameters import TAKEOFF_PARAMETERS
 from loader.report.base import get_report_validation
 from loader.report.takeoff_format_report import (
     DroneUserReport,
@@ -42,10 +40,10 @@ def test_drone_user_report_generate_minimal_position_event_report() -> None:
 @pytest.mark.parametrize(
     "first_position, second_position",
     [
-        ((1, 0, 0), (0, 0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min)),
-        ((0, 1, 0), (0, 0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min)),
-        ((0, 0, 0), (1, 0, TAKEOFF_PARAMETER.takeoff_altitude_meter_min)),
-        ((0, 0, 0), (0, 1, TAKEOFF_PARAMETER.takeoff_altitude_meter_min)),
+        ((1, 0, 0), (0, 0, TAKEOFF_PARAMETERS.takeoff_altitude_meter_min)),
+        ((0, 1, 0), (0, 0, TAKEOFF_PARAMETERS.takeoff_altitude_meter_min)),
+        ((0, 0, 0), (1, 0, TAKEOFF_PARAMETERS.takeoff_altitude_meter_min)),
+        ((0, 0, 0), (0, 1, TAKEOFF_PARAMETERS.takeoff_altitude_meter_min)),
     ],
 )
 def test_takeoff_position_infraction_generate_horizontal(
@@ -68,8 +66,8 @@ def test_takeoff_position_infraction_generate_horizontal(
 @pytest.mark.parametrize(
     "altitude",
     [
-        TAKEOFF_PARAMETER.takeoff_altitude_meter_min - 1,
-        TAKEOFF_PARAMETER.takeoff_altitude_meter_max + 1,
+        TAKEOFF_PARAMETERS.takeoff_altitude_meter_min - 1,
+        TAKEOFF_PARAMETERS.takeoff_altitude_meter_max + 1,
     ],
 )
 def test_takeoff_position_infraction_generate_vertical(
