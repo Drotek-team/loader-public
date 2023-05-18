@@ -12,7 +12,6 @@ from loader.show_env.show_user import PositionEventUser, ShowUser
 from .show_trajectory_performance import (
     DroneTrajectoryPerformance,
     Performance,
-    ShowTrajectoryPerformance,
     TrajectoryPerformanceInfo,
 )
 
@@ -81,15 +80,13 @@ def get_trajectory_performance_info_from_position_events(
 
 def su_to_stp(
     show_user: ShowUser,
-) -> ShowTrajectoryPerformance:
-    return ShowTrajectoryPerformance(
-        [
-            DroneTrajectoryPerformance(
-                drone_user.index,
-                get_trajectory_performance_info_from_position_events(
-                    drone_user.position_events,
-                ),
-            )
-            for drone_user in show_user.drones_user
-        ],
-    )
+) -> list[DroneTrajectoryPerformance]:
+    return [
+        DroneTrajectoryPerformance(
+            drone_user.index,
+            get_trajectory_performance_info_from_position_events(
+                drone_user.position_events,
+            ),
+        )
+        for drone_user in show_user.drones_user
+    ]

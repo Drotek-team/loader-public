@@ -42,11 +42,3 @@ class DroneTrajectoryPerformance:
     ) -> None:
         self.index = index
         self.trajectory_performance_infos = trajectory_performance_infos
-
-
-class ShowTrajectoryPerformance:
-    def __init__(
-        self,
-        drones_trajectory_performance: list[DroneTrajectoryPerformance],
-    ) -> None:
-        self.drones_trajectory_performance = drones_trajectory_performance

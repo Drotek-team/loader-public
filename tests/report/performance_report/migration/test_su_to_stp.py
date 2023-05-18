@@ -73,5 +73,5 @@ def test_get_trajectory_performance_info_from_position_events_one_position_event
 
 def test_su_to_stp() -> None:
     show_trajectory_performance = su_to_stp(get_valid_show_user(ShowUserConfiguration()))
-    drone_trajectory_performance = show_trajectory_performance.drones_trajectory_performance[0]
+    drone_trajectory_performance = show_trajectory_performance[0]
     assert len(drone_trajectory_performance.trajectory_performance_infos) == 2

@@ -10,14 +10,9 @@ from loader.parameter.iostar_physic_parameter import (
     IostarPhysicParameter,
 )
 from loader.report.base import BaseInfraction
-from loader.report.performance_report.migration.show_trajectory_performance import (
-    Performance,
-)
+from loader.report.performance_report.migration.show_trajectory_performance import Performance
 
-from .migration.show_trajectory_performance import (
-    DroneTrajectoryPerformance,
-    ShowTrajectoryPerformance,
-)
+from .migration.show_trajectory_performance import DroneTrajectoryPerformance
 
 
 class PerformanceKind(Enum):
@@ -107,7 +102,7 @@ class PerformanceInfraction(BaseInfraction):
     @classmethod
     def generate(
         cls,
-        show_trajectory_performance: ShowTrajectoryPerformance,
+        show_trajectory_performance: List[DroneTrajectoryPerformance],
         *,
         physic_parameter: Optional[IostarPhysicParameter] = None,
     ) -> List["PerformanceInfraction"]:
@@ -136,8 +131,6 @@ class PerformanceInfraction(BaseInfraction):
                     drone_trajectory_performance,
                     physic_parameter,
                 )
-                for (
-                    drone_trajectory_performance
-                ) in show_trajectory_performance.drones_trajectory_performance
+                for drone_trajectory_performance in show_trajectory_performance
             ),
         )
