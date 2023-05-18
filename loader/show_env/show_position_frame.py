@@ -54,7 +54,7 @@ class ShowPositionFrame:
         return len(self._indices)
 
     @classmethod
-    def create_from_show_user(
+    def from_show_user(
         cls,
         show_user: ShowUser,
         *,
