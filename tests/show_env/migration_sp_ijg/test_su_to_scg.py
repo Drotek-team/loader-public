@@ -1,6 +1,6 @@
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.show_env.iostar_json.show_configuration import ShowConfiguration
+from loader.show_env.iostar_json_gcs.show_configuration import ShowConfiguration
 from loader.show_env.migration_sp_ijg.su_to_scg import su_to_sc
 from loader.show_env.show_user.generate_show_user import (
     ShowUserConfiguration,

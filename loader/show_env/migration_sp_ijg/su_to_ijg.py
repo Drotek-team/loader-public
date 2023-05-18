@@ -1,7 +1,7 @@
 from typing import List
 
 from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.iostar_json.iostar_json_gcs import (
+from loader.show_env.iostar_json_gcs.iostar_json_gcs import (
     Dance,
     Family,
     IostarJsonGcs,

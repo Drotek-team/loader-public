@@ -7,8 +7,8 @@ from .report.autopilot_format_report.dances_size_report import (
 from .report.collision_report.show_position_frames_collision_report import CollisionReport
 from .report.global_report import GlobalReport, GlobalReportSummary
 from .report.performance_report.show_trajectory_performance_report import PerformanceReport
-from .show_env.iostar_json.iostar_json_gcs import IostarJsonGcs
-from .show_env.iostar_json.show_configuration_gcs import ShowConfigurationGcs
+from .show_env.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
+from .show_env.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
 from .show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
 from .show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
 from .show_env.show_user.show_user import DroneUser, ShowUser

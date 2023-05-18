@@ -7,8 +7,8 @@ from loader.parameter.iostar_dance_import_parameter.frame_parameter import (
 from loader.parameter.iostar_dance_import_parameter.json_binary_parameter import (
     JSON_BINARY_PARAMETER,
 )
-from loader.show_env.iostar_json.show_configuration import ShowConfiguration
-from loader.show_env.iostar_json.show_configuration_gcs import ShowConfigurationGcs
+from loader.show_env.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.show_env.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
 from loader.show_env.show_user import ShowUser
 from loader.show_env.show_user.convex_hull import calculate_convex_hull
 

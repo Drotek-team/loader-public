@@ -1,4 +1,4 @@
-from loader.show_env.iostar_json.show_configuration import ShowConfiguration
+from loader.show_env.iostar_json_gcs.show_configuration import ShowConfiguration
 
 
 def test_show_configuration___eq___standard_case() -> None:
