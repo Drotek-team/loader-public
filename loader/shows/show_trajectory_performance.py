@@ -1,17 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import numpy as np
 
 from loader.parameters import FRAME_PARAMETERS
 from loader.shows.show_user import PositionEventUser, ShowUser
-
-from .show_trajectory_performance import (
-    DroneTrajectoryPerformance,
-    Performance,
-    TrajectoryPerformanceInfo,
-)
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -76,15 +71,51 @@ def get_trajectory_performance_info_from_position_events(
     ]
 
 
-def su_to_stp(
-    show_user: ShowUser,
-) -> list[DroneTrajectoryPerformance]:
-    return [
-        DroneTrajectoryPerformance(
-            drone_user.index,
-            get_trajectory_performance_info_from_position_events(
-                drone_user.position_events,
-            ),
-        )
-        for drone_user in show_user.drones_user
-    ]
+@dataclass(frozen=True)
+class Performance:
+    position: NDArray[np.float64]
+    velocity: NDArray[np.float64]
+    acceleration: NDArray[np.float64]
+
+
+@dataclass(frozen=True)
+class TrajectoryPerformanceInfo:
+    frame: int
+    performance: Performance
+
+    @property
+    def position(self) -> NDArray[np.float64]:
+        return self.performance.position
+
+    @property
+    def velocity(self) -> NDArray[np.float64]:
+        return self.performance.velocity
+
+    @property
+    def acceleration(self) -> NDArray[np.float64]:
+        return self.performance.acceleration
+
+
+class DroneTrajectoryPerformance:
+    def __init__(
+        self,
+        index: int,
+        trajectory_performance_infos: list[TrajectoryPerformanceInfo],
+    ) -> None:
+        self.index = index
+        self.trajectory_performance_infos = trajectory_performance_infos
+
+    @classmethod
+    def from_show_user(
+        cls,
+        show_user: ShowUser,
+    ) -> list[DroneTrajectoryPerformance]:
+        return [
+            cls(
+                drone_user.index,
+                get_trajectory_performance_info_from_position_events(
+                    drone_user.position_events,
+                ),
+            )
+            for drone_user in show_user.drones_user
+        ]

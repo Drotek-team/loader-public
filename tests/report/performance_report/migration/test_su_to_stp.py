@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-from loader.shows.migration_su_to_stp.su_to_stp import (
+from loader.shows.show_trajectory_performance import (
+    DroneTrajectoryPerformance,
     get_trajectory_performance_info_from_position_events,
-    su_to_stp,
 )
 from loader.shows.show_user import PositionEventUser
 from loader.shows.show_user.generate_show_user import (
@@ -72,6 +72,8 @@ def test_get_trajectory_performance_info_from_position_events_one_position_event
 
 
 def test_su_to_stp() -> None:
-    show_trajectory_performance = su_to_stp(get_valid_show_user(ShowUserConfiguration()))
+    show_trajectory_performance = DroneTrajectoryPerformance.from_show_user(
+        get_valid_show_user(ShowUserConfiguration()),
+    )
     drone_trajectory_performance = show_trajectory_performance[0]
     assert len(drone_trajectory_performance.trajectory_performance_infos) == 2

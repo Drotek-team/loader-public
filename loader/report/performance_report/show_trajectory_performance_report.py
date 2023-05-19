@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from loader.parameters import IostarPhysicParameters
 from loader.report.base import BaseReport
-from loader.shows.migration_su_to_stp.su_to_stp import su_to_stp
+from loader.shows.show_trajectory_performance import DroneTrajectoryPerformance
 from loader.shows.show_user import ShowUser
 
 from .performance_evaluation import PerformanceInfraction
@@ -19,7 +19,7 @@ class PerformanceReport(BaseReport):
         physic_parameters: Optional[IostarPhysicParameters] = None,
     ) -> Optional["PerformanceReport"]:
         performance_infracions = PerformanceInfraction.generate(
-            su_to_stp(show_user),
+            DroneTrajectoryPerformance.from_show_user(show_user),
             physic_parameters=physic_parameters,
         )
         if performance_infracions:
