@@ -5,7 +5,7 @@ from loader.report.base import BaseReport
 from loader.shows.show_position_frame import ShowPositionFrame
 from loader.shows.show_user import ShowUser
 
-from .collision_math import CollisionInfraction
+from .collision_infraction import CollisionInfraction
 
 
 class CollisionReport(BaseReport):

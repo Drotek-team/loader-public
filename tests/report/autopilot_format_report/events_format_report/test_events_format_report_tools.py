@@ -1,6 +1,6 @@
 import pytest
 from loader.parameters import JSON_BINARY_PARAMETERS
-from loader.report.autopilot_format_report.events_format_report.events_format_report_tools import (
+from loader.report.autopilot_format_report.events_format_report.events_format_infractions import (
     IncreasingFrameInfraction,
     IntegerBoundaryInfraction,
     TimecodeReport,

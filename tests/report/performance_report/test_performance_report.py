@@ -1,8 +1,8 @@
 import pytest
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IostarPhysicParameters
 from loader.report.base import get_report_validation
-from loader.report.performance_report.performance_evaluation import PerformanceKind
-from loader.report.performance_report.show_trajectory_performance_report import (
+from loader.report.performance_report.performance_infraction import PerformanceKind
+from loader.report.performance_report.performance_report import (
     PerformanceInfraction,
     PerformanceReport,
 )

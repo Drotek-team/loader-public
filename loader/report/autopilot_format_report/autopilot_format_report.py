@@ -5,7 +5,7 @@ from loader.shows.drone_px4 import DronePx4
 from loader.shows.migration_sp_su.su_to_sp import su_to_sp
 from loader.shows.show_user import ShowUser
 
-from .dances_size_report import DanceSizeInfraction
+from .dances_size_infraction import DanceSizeInfraction
 from .events_format_report import EventsFormatReport
 
 

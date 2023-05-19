@@ -7,10 +7,10 @@ from loader.shows.show_user import ShowUser
 
 from .autopilot_format_report import AutopilotFormatReport
 from .base import BaseReport
-from .collision_report.show_position_frames_collision_report import (
+from .collision_report.collision_report import (
     CollisionReport,
 )
-from .performance_report.show_trajectory_performance_report import (
+from .performance_report.performance_report import (
     PerformanceReport,
 )
 from .takeoff_format_report import TakeoffFormatReport
