@@ -3,7 +3,7 @@ from typing import List
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migrations.sp_to_su import sp_to_su
+from loader.shows.show_user.show_user import ShowUser
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)
@@ -62,10 +62,8 @@ def valid_autopilot_format() -> List[DronePx4]:
     return [drone_px4, drone_px4_bis]
 
 
-def test_drone_px4_to_drone_user_position_events(
-    valid_autopilot_format: List[DronePx4],
-) -> None:
-    show_user = sp_to_su(valid_autopilot_format)
+def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[DronePx4]) -> None:
+    show_user = ShowUser.from_autopilot_format(valid_autopilot_format)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[
@@ -91,7 +89,7 @@ def test_drone_px4_to_drone_user_position_events(
 def test_drone_px4_to_drone_user_color_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = sp_to_su(valid_autopilot_format)
+    show_user = ShowUser.from_autopilot_format(valid_autopilot_format)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
@@ -107,7 +105,7 @@ def test_drone_px4_to_drone_user_color_events(
 def test_drone_px4_to_drone_user_fire_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = sp_to_su(valid_autopilot_format)
+    show_user = ShowUser.from_autopilot_format(valid_autopilot_format)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1

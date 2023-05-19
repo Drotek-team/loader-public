@@ -2,7 +2,6 @@ from typing import List
 
 from loader.shows.drone_px4 import DronePx4
 from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
-from loader.shows.migrations.sp_to_su import sp_to_su
 from loader.shows.show_user import ShowUser
 
 
@@ -18,4 +17,4 @@ def ijg_to_sp(iostar_json_gcs: IostarJsonGcs) -> List[DronePx4]:
 
 
 def ijg_to_su(iostar_json_gcs: IostarJsonGcs) -> ShowUser:
-    return sp_to_su(ijg_to_sp(iostar_json_gcs))
+    return ShowUser.from_autopilot_format(ijg_to_sp(iostar_json_gcs))

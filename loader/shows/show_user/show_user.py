@@ -1,12 +1,16 @@
 import math
-from typing import List, Tuple
+from typing import TYPE_CHECKING, List, Tuple
 
 from pydantic import BaseModel
 from pydantic.types import StrictFloat, StrictInt
 
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 
 from .convex_hull import calculate_convex_hull
+
+if TYPE_CHECKING:
+    from loader.shows.drone_px4.drone_px4 import DronePx4
 
 
 class EventUserBase(BaseModel):
@@ -171,3 +175,48 @@ class ShowUser(BaseModel):
     def apply_horizontal_rotation(self, angle_degree: int) -> None:
         for drone_user in self.drones_user:
             drone_user.apply_horizontal_rotation(angle_degree)
+
+    @classmethod
+    def from_autopilot_format(cls, autopilot_format: List["DronePx4"]) -> "ShowUser":
+        return ShowUser(
+            drones_user=[drone_px4_to_drone_user(drone_px4) for drone_px4 in autopilot_format],
+        )
+
+
+def drone_px4_to_drone_user(drone_px4: "DronePx4") -> DroneUser:
+    position_events_user = [
+        PositionEventUser(
+            frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+                position_event_px4.timecode,
+            ),
+            xyz=JSON_BINARY_PARAMETERS.from_px4_xyz_to_user_xyz(position_event_px4.xyz),
+        )
+        for position_event_px4 in drone_px4.position_events.specific_events
+    ]
+    color_events_user = [
+        ColorEventUser(
+            frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+                color_event_px4.timecode,
+            ),
+            rgbw=JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
+        )
+        for color_event_px4 in drone_px4.color_events.specific_events
+    ]
+
+    fire_events_user = [
+        FireEventUser(
+            frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+                fire_event_px4.timecode,
+            ),
+            chanel=fire_event_px4.chanel,
+            duration=fire_event_px4.duration,
+        )
+        for fire_event_px4 in drone_px4.fire_events.specific_events
+    ]
+
+    return DroneUser(
+        index=drone_px4.index,
+        position_events=position_events_user,
+        color_events=color_events_user,
+        fire_events=fire_events_user,
+    )
