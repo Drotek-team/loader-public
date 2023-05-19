@@ -4,14 +4,8 @@ from typing import List, Tuple
 
 import numpy as np
 
-from loader.shows.migrations.grid_math.grid import get_grid_from_show_user
-from loader.shows.migrations.grid_math.grid_angle_estimation import get_angle_takeoff_from_grid
+from loader.shows.migrations.grid_math.grid import Grid
 from loader.shows.migrations.grid_math.grid_configuration import GridConfiguration
-from loader.shows.migrations.grid_math.grid_nb_per_family_estimation import (
-    get_nb_drone_per_family_from_grid,
-)
-from loader.shows.migrations.grid_math.grid_nb_x_nb_y_estimation import get_nb_x_nb_y_from_grid
-from loader.shows.migrations.grid_math.grid_step_estimation import get_step_from_grid
 from loader.shows.show_user import ShowUser
 
 
@@ -50,11 +44,11 @@ class ShowConfiguration(GridConfiguration):
 
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "ShowConfiguration":
-        grid = get_grid_from_show_user(show_user)
-        nb_drone_per_family = get_nb_drone_per_family_from_grid(grid)
-        step = get_step_from_grid(grid)
-        angle_takeoff = get_angle_takeoff_from_grid(grid, nb_drone_per_family)
-        nb_x, nb_y = get_nb_x_nb_y_from_grid(grid, nb_drone_per_family, angle_takeoff)
+        grid = Grid.from_show_user(show_user)
+        nb_drone_per_family = grid.get_nb_drone_per_family()
+        step = grid.get_step()
+        angle_takeoff = grid.get_angle_takeoff(nb_drone_per_family)
+        nb_x, nb_y = grid.get_nb_x_nb_y(nb_drone_per_family, angle_takeoff)
         return ShowConfiguration(
             nb_x=nb_x,
             nb_y=nb_y,

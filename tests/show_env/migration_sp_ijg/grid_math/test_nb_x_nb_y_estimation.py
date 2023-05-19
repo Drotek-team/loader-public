@@ -1,11 +1,5 @@
 from hypothesis import given
-from loader.shows.migrations.grid_math.grid import (
-    GridConfiguration,
-    get_grid_from_configuration,
-)
-from loader.shows.migrations.grid_math.grid_nb_x_nb_y_estimation import (
-    get_nb_x_nb_y_from_grid,
-)
+from loader.shows.migrations.grid_math.grid import Grid, GridConfiguration
 
 from tests.strategies import (
     slow,
@@ -35,9 +29,8 @@ def test_get_nb_drone_per_family_from_grid_standard_grids(
         nb_drone_per_family=nb_drone_per_family,
         angle_takeoff=angle_takeoff,
     )
-    grid = get_grid_from_configuration(grid_configuration)
-    assert get_nb_x_nb_y_from_grid(
-        grid,
+    grid = Grid.from_grid_configuration(grid_configuration)
+    assert grid.get_nb_x_nb_y(
         grid_configuration.nb_drone_per_family,
         grid_configuration.angle_takeoff,
     ) == (

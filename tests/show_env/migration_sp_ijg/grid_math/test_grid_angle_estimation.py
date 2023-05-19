@@ -2,15 +2,7 @@ import math
 
 import numpy as np
 from hypothesis import given
-from loader.shows.migrations.grid_math.grid import (
-    GridConfiguration,
-    get_grid_from_configuration,
-)
-from loader.shows.migrations.grid_math.grid_angle_estimation import (
-    first_and_second_family_horizontal_positions,
-    get_angle_degree_from_vector,
-    get_angle_takeoff_from_grid,
-)
+from loader.shows.migrations.grid_math.grid import Grid, GridConfiguration
 
 from tests.strategies import (
     slow,
@@ -22,56 +14,52 @@ from tests.strategies import (
 
 
 def test_get_angle_from_vector() -> None:
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([1.0, 0], dtype=np.float64),
     ) == math.radians(0)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([0, 1.0], dtype=np.float64),
     ) == math.radians(90)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([-1.0, 0], dtype=np.float64),
     ) == math.radians(180)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([0, -1.0], dtype=np.float64),
     ) == math.radians(-90)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([1.0, 1.0], dtype=np.float64),
     ) == math.radians(45)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([-1.0, 1.0], dtype=np.float64),
     ) == math.radians(135)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([-1.0, -1.0], dtype=np.float64),
     ) == math.radians(-135)
-    assert get_angle_degree_from_vector(
+    assert Grid.get_angle_degree_from_vector(
         np.array([1.0, -1.0], dtype=np.float64),
     ) == math.radians(-45)
 
 
 def test_first_and_second_family_horizontal_positions() -> None:
     nb_drone_per_family = 5
-    one_drone_grid = get_grid_from_configuration(GridConfiguration())
-    one_family_grid = get_grid_from_configuration(
+    one_drone_grid = Grid.from_grid_configuration(GridConfiguration())
+    one_family_grid = Grid.from_grid_configuration(
         GridConfiguration(nb_drone_per_family=nb_drone_per_family),
     )
-    standard_grid = get_grid_from_configuration(
+    standard_grid = Grid.from_grid_configuration(
         GridConfiguration(nb_x=2, nb_y=2, nb_drone_per_family=nb_drone_per_family),
     )
-    assert first_and_second_family_horizontal_positions(one_drone_grid, 1) == (
+    assert one_drone_grid.get_first_and_second_family_horizontal_positions(1) == (
         one_drone_grid[0],
         one_drone_grid[0],
     )
-    assert first_and_second_family_horizontal_positions(
-        one_family_grid,
+    assert one_family_grid.get_first_and_second_family_horizontal_positions(
         nb_drone_per_family,
     ) == (
         one_family_grid[0],
         one_family_grid[0],
     )
-    assert first_and_second_family_horizontal_positions(
-        standard_grid,
-        nb_drone_per_family,
-    ) == (
+    assert standard_grid.get_first_and_second_family_horizontal_positions(nb_drone_per_family) == (
         standard_grid[0],
         standard_grid[nb_drone_per_family],
     )
@@ -105,10 +93,10 @@ def test_get_angle_takeoff_from_grid(
         step=1.5,
         angle_takeoff=angle_takeoff,
     )
-    grid = get_grid_from_configuration(grid_configuration)
+    grid = Grid.from_grid_configuration(grid_configuration)
     assert (
         angle_distance(
-            get_angle_takeoff_from_grid(grid, grid_configuration.nb_drone_per_family),
+            grid.get_angle_takeoff(grid_configuration.nb_drone_per_family),
             grid_configuration.angle_takeoff,
         )
         < 1e-6

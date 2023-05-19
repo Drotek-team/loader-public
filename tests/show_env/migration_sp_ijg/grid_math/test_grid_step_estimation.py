@@ -1,11 +1,8 @@
 import numpy as np
 from hypothesis import given
 from loader.shows.migrations.grid_math.grid import (
+    Grid,
     GridConfiguration,
-    get_grid_from_configuration,
-)
-from loader.shows.migrations.grid_math.grid_step_estimation import (
-    get_step_from_grid,
 )
 
 from tests.strategies import (
@@ -33,7 +30,7 @@ def test_get_step_from_grid_hypothesis(
     step_takeoff: int,
     angle_takeoff: int,
 ) -> None:
-    grid = get_grid_from_configuration(
+    grid = Grid.from_grid_configuration(
         GridConfiguration(
             nb_x=nb_x,
             nb_y=nb_y,
@@ -44,7 +41,4 @@ def test_get_step_from_grid_hypothesis(
     )
     if grid.is_grid_one_family():
         return
-    np.testing.assert_allclose(
-        get_step_from_grid(grid),
-        step_takeoff,
-    )
+    np.testing.assert_allclose(grid.get_step(), step_takeoff)
