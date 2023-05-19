@@ -1,6 +1,6 @@
 import struct
 
-from loader.report import (
+from loader.reports import (
     DanceSizeInformation,
     get_dance_size_information,
 )

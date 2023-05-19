@@ -9,7 +9,7 @@ from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
     IostarPhysicParameters,
 )
-from loader.report.base import BaseInfraction
+from loader.reports.base import BaseInfraction
 from loader.shows.show_trajectory_performance import DroneTrajectoryPerformance, Performance
 
 

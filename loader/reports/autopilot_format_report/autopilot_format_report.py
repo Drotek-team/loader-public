@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from loader.report.base import BaseReport
+from loader.reports.base import BaseReport
 from loader.shows.drone_px4 import DronePx4
 from loader.shows.migration_sp_su.su_to_sp import su_to_sp
 from loader.shows.show_user import ShowUser

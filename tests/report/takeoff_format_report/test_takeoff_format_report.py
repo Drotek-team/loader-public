@@ -2,7 +2,7 @@ from typing import Tuple
 
 import pytest
 from loader.parameters import TAKEOFF_PARAMETERS
-from loader.report import (
+from loader.reports import (
     DroneUserReport,
     MinimalPositionEventsNumber,
     TakeoffFormatReport,

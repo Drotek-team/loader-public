@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from loader.report.base import BaseReport
+from loader.reports.base import BaseReport
 from loader.shows.drone_px4 import DronePx4
 from loader.shows.drone_px4.events import (
     ColorEvents,

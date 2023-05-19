@@ -7,7 +7,7 @@ from loader import (
     ShowUser,
 )
 from loader.parameters import IostarPhysicParameters
-from loader.report import (
+from loader.reports import (
     AutopilotFormatReport,
     CollisionReport,
     DanceSizeInformation,

@@ -1,6 +1,6 @@
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.report import (
+from loader.reports import (
     ChromeInfraction,
     ColorEventsReport,
     get_report_validation,

@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple
 import numpy as np
 
 from loader.parameters import TAKEOFF_PARAMETERS
-from loader.report.base import BaseInfraction, BaseReport
+from loader.reports.base import BaseInfraction, BaseReport
 from loader.shows.show_user import DroneUser, ShowUser
 
 

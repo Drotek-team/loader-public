@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-from loader.report.collision_report.collision_infraction import (
+from loader.reports.collision_report.collision_infraction import (
     CollisionInfraction,
     get_border_indices,
     get_principal_axis,

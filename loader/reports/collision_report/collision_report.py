@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from loader.parameters import IostarPhysicParameters
-from loader.report.base import BaseReport
+from loader.reports.base import BaseReport
 from loader.shows.show_position_frame import ShowPositionFrame
 from loader.shows.show_user import ShowUser
 

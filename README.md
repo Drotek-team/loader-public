@@ -48,7 +48,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   from pathlib import Path
 
   from loader import IostarJsonGcs, ijg_to_su
-  from loader.report import GlobalReport
+  from loader.reports import GlobalReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json"))
   show_user = ijg_to_su(iostar_json_gcs)
@@ -82,7 +82,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 
   from loader import IostarJsonGcs, ijg_to_su
   from loader.parameters import IostarPhysicParameters
-  from loader.report import PerformanceReport
+  from loader.reports import PerformanceReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
   show_user = ijg_to_su(iostar_json_gcs)
@@ -138,7 +138,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 
   from loader import IostarJsonGcs, ijg_to_su
   from loader.parameters import IostarPhysicParameters
-  from loader.report import CollisionReport
+  from loader.reports import CollisionReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
   show_user = ijg_to_su(iostar_json_gcs)
@@ -196,7 +196,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 
   # TODO(jonathan): improve API
   from loader import IostarJsonGcs, ijg_to_su
-  from loader.report import AutopilotFormatReport
+  from loader.reports import AutopilotFormatReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
   show_user = ijg_to_su(iostar_json_gcs)
