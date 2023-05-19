@@ -2,7 +2,6 @@ from typing import Dict, Optional
 
 from loader.reports.base import BaseReport
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user import ShowUser
 
 from .dances_size_infraction import DanceSizeInfraction
@@ -34,7 +33,7 @@ class AutopilotFormatReport(BaseReport):
 
     @classmethod
     def generate(cls, show_user: ShowUser) -> Optional["AutopilotFormatReport"]:
-        show_px4 = su_to_sp(
+        show_px4 = DronePx4.from_show_user(
             show_user,
         )
         drone_px4_reports = {

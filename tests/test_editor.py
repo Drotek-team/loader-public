@@ -16,9 +16,9 @@ from loader.reports import (
     PerformanceReport,
     get_dance_size_information,
 )
+from loader.shows.drone_px4 import DronePx4
 from loader.shows.migrations.ijg_to_su import ijg_to_su
 from loader.shows.migrations.su_to_ijg import su_to_ijg
-from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.shows.show_user.show_user import PositionEventUser
 
@@ -99,7 +99,7 @@ def test_get_autopilot_format_report() -> None:
 
 def test_get_dance_size_informations() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    show_px4 = su_to_sp(show_user)
+    show_px4 = DronePx4.from_show_user(show_user)
     assert all(
         get_dance_size_information(drone_px4)
         == DanceSizeInformation(
