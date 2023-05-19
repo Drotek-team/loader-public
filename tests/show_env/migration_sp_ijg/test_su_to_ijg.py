@@ -1,14 +1,9 @@
 from math import radians
 
+from loader import IostarJsonGcs
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migrations.su_to_ijg import (
-    get_family_from_drones_px4,
-    su_to_ijg,
-)
-from loader.shows.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.shows.iostar_json_gcs.iostar_json_gcs import get_family_from_drones_px4
+from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_get_family_from_drones_px4_standard_case() -> None:
@@ -22,7 +17,7 @@ def test_get_family_from_drones_px4_standard_case() -> None:
 
 
 def test_sp_to_ijg_standard_case() -> None:
-    iostar_json_gcs = su_to_ijg(
+    iostar_json_gcs = IostarJsonGcs.from_show_user(
         get_valid_show_user(
             ShowUserConfiguration(
                 nb_x=2,

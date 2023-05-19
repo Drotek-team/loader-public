@@ -1,7 +1,5 @@
 from .shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
 from .shows.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
-from .shows.migrations.ijg_to_su import ijg_to_su
-from .shows.migrations.su_to_ijg import su_to_ijg
 from .shows.show_user.show_user import DroneUser, ShowUser
 
 __all__ = (
@@ -9,8 +7,6 @@ __all__ = (
     "IostarJsonGcs",
     "ShowConfigurationGcs",
     "ShowUser",
-    "ijg_to_su",
-    "su_to_ijg",
     "__version__",
 )
 

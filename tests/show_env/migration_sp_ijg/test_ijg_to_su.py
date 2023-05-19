@@ -1,5 +1,4 @@
-from loader.shows.migrations.ijg_to_su import ijg_to_su
-from loader.shows.migrations.su_to_ijg import su_to_ijg
+from loader import IostarJsonGcs, ShowUser
 from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -8,5 +7,7 @@ from loader.shows.show_user.generate_show_user import (
 
 def test_ijg_to_su() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, step=2.0))
-    export_import_autopilot_format = ijg_to_su(su_to_ijg(show_user))
+    export_import_autopilot_format = ShowUser.from_iostar_json_gcs(
+        IostarJsonGcs.from_show_user(show_user),
+    )
     assert show_user == export_import_autopilot_format

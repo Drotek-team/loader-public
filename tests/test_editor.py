@@ -17,8 +17,6 @@ from loader.reports import (
     get_dance_size_information,
 )
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migrations.ijg_to_su import ijg_to_su
-from loader.shows.migrations.su_to_ijg import su_to_ijg
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.shows.show_user.show_user import PositionEventUser
 
@@ -195,10 +193,10 @@ def test_generate_report_from_show_user_without_takeoff_format() -> None:
 
 
 def test_generate_report_from_iostar_json_gcs_string() -> None:
-    iostar_json_gcs = su_to_ijg(
+    iostar_json_gcs = IostarJsonGcs.from_show_user(
         get_valid_show_user(ShowUserConfiguration()),
     )
-    show_user = ijg_to_su(iostar_json_gcs)
+    show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
     global_report = GlobalReport.generate(show_user)
     assert global_report == GlobalReport(
         takeoff_format=None,
@@ -215,10 +213,10 @@ def test_generate_report_from_iostar_json_gcs_string() -> None:
 
 
 def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
-    iostar_json_gcs = su_to_ijg(
+    iostar_json_gcs = IostarJsonGcs.from_show_user(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=3)),
     )
-    show_user = ijg_to_su(iostar_json_gcs)
+    show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
     assert ShowConfigurationGcs.from_show_user(show_user) == ShowConfigurationGcs(
         nb_x=2,
         nb_y=3,
@@ -233,7 +231,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
-    iostar_json_gcs = su_to_ijg(
+    iostar_json_gcs = IostarJsonGcs.from_show_user(
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0)),
     )
     assert iostar_json_gcs == IostarJsonGcs.parse_file(Path() / "iostar_json_gcs_valid.json")
@@ -241,14 +239,16 @@ def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
 
 def test_convert_iostar_json_gcs_string_to_show_user() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
-    iostar_json_gcs_string = su_to_ijg(show_user).json()
-    assert ijg_to_su(IostarJsonGcs.parse_raw(iostar_json_gcs_string)) == show_user
+    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
+    assert (
+        ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string)) == show_user
+    )
 
 
 def test_get_verified_iostar_json_gcs() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
-    iostar_json_gcs_string = su_to_ijg(show_user).json()
-    show_user = ijg_to_su(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
+    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
+    show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
     assert GlobalReport.generate(show_user).get_nb_errors() == 0
 
 
@@ -256,6 +256,6 @@ def test_get_verified_iostar_json_gcs_invalid() -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(nb_x=2, nb_y=2, step=0.3, show_duration_absolute_time=3),
     )
-    iostar_json_gcs_string = su_to_ijg(show_user).json()
-    show_user = ijg_to_su(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
+    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
+    show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
     assert GlobalReport.generate(show_user).get_nb_errors() > 0

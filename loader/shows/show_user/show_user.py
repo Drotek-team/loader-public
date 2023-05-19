@@ -6,11 +6,12 @@ from pydantic.types import StrictFloat, StrictInt
 
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.shows.drone_px4.drone_px4 import DronePx4
 
 from .convex_hull import calculate_convex_hull
 
 if TYPE_CHECKING:
-    from loader.shows.drone_px4.drone_px4 import DronePx4
+    from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
 
 
 class EventUserBase(BaseModel):
@@ -177,13 +178,17 @@ class ShowUser(BaseModel):
             drone_user.apply_horizontal_rotation(angle_degree)
 
     @classmethod
-    def from_autopilot_format(cls, autopilot_format: List["DronePx4"]) -> "ShowUser":
+    def from_autopilot_format(cls, autopilot_format: List[DronePx4]) -> "ShowUser":
         return ShowUser(
             drones_user=[drone_px4_to_drone_user(drone_px4) for drone_px4 in autopilot_format],
         )
 
+    @classmethod
+    def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> "ShowUser":
+        return ShowUser.from_autopilot_format(DronePx4.from_iostar_json_gcs(iostar_json_gcs))
 
-def drone_px4_to_drone_user(drone_px4: "DronePx4") -> DroneUser:
+
+def drone_px4_to_drone_user(drone_px4: DronePx4) -> DroneUser:
     position_events_user = [
         PositionEventUser(
             frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(

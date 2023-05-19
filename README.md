@@ -47,29 +47,29 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ```python
   from pathlib import Path
 
-  from loader import IostarJsonGcs, ijg_to_su
+  from loader import IostarJsonGcs, ShowUser
   from loader.reports import GlobalReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
   #> takeoff_format=0 autopilot_format=0 performance=0 collision=0
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
   #> takeoff_format=0 autopilot_format=0 performance=0 collision=4080
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
   #> takeoff_format=0 autopilot_format=0 performance=4 collision=0
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
   #> takeoff_format=0 autopilot_format=1 performance=0 collision=0
@@ -80,12 +80,12 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ```python
   from pathlib import Path
 
-  from loader import IostarJsonGcs, ijg_to_su
+  from loader import IostarJsonGcs, ShowUser
   from loader.parameters import IostarPhysicParameters
   from loader.reports import PerformanceReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
   performance_report = PerformanceReport.generate(show_user)
   print(performance_report)
@@ -136,12 +136,12 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ```python
   from pathlib import Path
 
-  from loader import IostarJsonGcs, ijg_to_su
+  from loader import IostarJsonGcs, ShowUser
   from loader.parameters import IostarPhysicParameters
   from loader.reports import CollisionReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
   collision_report = CollisionReport.generate(show_user)
   print(collision_report.collision_infractions[:10])
@@ -195,11 +195,11 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   from pathlib import Path
 
   # TODO(jonathan): improve API
-  from loader import IostarJsonGcs, ijg_to_su
+  from loader import IostarJsonGcs, ShowUser
   from loader.reports import AutopilotFormatReport
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
-  show_user = ijg_to_su(iostar_json_gcs)
+  show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
   autopilot_format_report = AutopilotFormatReport.generate(show_user)
   print(autopilot_format_report)
@@ -224,11 +224,13 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 ```python
 from pathlib import Path
 
-from loader import IostarJsonGcs, ijg_to_su, su_to_ijg
+from loader import IostarJsonGcs, ShowUser
 
 # Import an iostar json gcs file to a show user
-show_user = ijg_to_su(IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json")))
+show_user = ShowUser.from_iostar_json_gcs(
+    IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json")),
+)
 
 # Export the show user to an iostar json gcs string
-iostart_json_gcs_string = su_to_ijg(show_user).json()
+iostart_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
 ```

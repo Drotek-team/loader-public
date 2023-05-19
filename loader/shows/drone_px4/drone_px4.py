@@ -7,6 +7,7 @@ from .binary import Header, SectionHeader
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
 
 if TYPE_CHECKING:
+    from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
     from loader.shows.show_user import (
         ColorEventUser,
         DroneUser,
@@ -80,6 +81,17 @@ class DronePx4:
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> List["DronePx4"]:
         return [drone_user_to_drone_px4(drone_user) for drone_user in show_user.drones_user]
+
+    @classmethod
+    def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> List["DronePx4"]:
+        return [
+            DronePx4.from_binary(
+                family_index * iostar_json_gcs.nb_drones_per_family + drone_index,
+                binary_dance.dance,
+            )
+            for family_index, family in enumerate(iostar_json_gcs.show.families)
+            for drone_index, binary_dance in enumerate(family.drones)
+        ]
 
 
 def get_header_section_header(
