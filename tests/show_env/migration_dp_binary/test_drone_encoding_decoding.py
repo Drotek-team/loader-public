@@ -1,8 +1,8 @@
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migration_dp_binary.binary_to_dp import decode_drone
-from loader.shows.migration_dp_binary.dp_to_binary import encode_drone
+from loader.shows.migrations.binary_to_dp import decode_drone
+from loader.shows.migrations.dp_to_binary import encode_drone
 
 from tests.strategies import slow
 

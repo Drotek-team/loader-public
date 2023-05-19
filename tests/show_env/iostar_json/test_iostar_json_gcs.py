@@ -1,4 +1,4 @@
-from loader.shows.migration_sp_ijg.su_to_ijg import su_to_ijg
+from loader.shows.migrations.su_to_ijg import su_to_ijg
 from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,

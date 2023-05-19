@@ -7,8 +7,8 @@ from loader.shows.iostar_json_gcs.iostar_json_gcs import (
     IostarJsonGcs,
     Show,
 )
-from loader.shows.migration_dp_binary.dp_to_binary import encode_drone
-from loader.shows.migration_sp_su.su_to_sp import su_to_sp
+from loader.shows.migrations.dp_to_binary import encode_drone
+from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user import ShowUser
 
 from .su_to_scg import su_to_scg

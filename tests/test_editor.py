@@ -16,10 +16,10 @@ from loader.reports import (
     PerformanceReport,
     get_dance_size_information,
 )
-from loader.shows.migration_sp_ijg.ijg_to_su import ijg_to_su
-from loader.shows.migration_sp_ijg.su_to_ijg import su_to_ijg
-from loader.shows.migration_sp_ijg.su_to_scg import su_to_scg
-from loader.shows.migration_sp_su.su_to_sp import su_to_sp
+from loader.shows.migrations.ijg_to_su import ijg_to_su
+from loader.shows.migrations.su_to_ijg import su_to_ijg
+from loader.shows.migrations.su_to_scg import su_to_scg
+from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.shows.show_user.show_user import PositionEventUser
 

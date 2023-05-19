@@ -1,9 +1,9 @@
 from hypothesis import given
-from loader.shows.migration_sp_ijg.grid_math.grid import (
+from loader.shows.migrations.grid_math.grid import (
     GridConfiguration,
     get_grid_from_configuration,
 )
-from loader.shows.migration_sp_ijg.grid_math.grid_nb_x_nb_y_estimation import (
+from loader.shows.migrations.grid_math.grid_nb_x_nb_y_estimation import (
     get_nb_x_nb_y_from_grid,
 )
 

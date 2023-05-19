@@ -1,5 +1,5 @@
 import numpy as np
-from loader.shows.migration_sp_ijg.grid_math.grid import (
+from loader.shows.migrations.grid_math.grid import (
     Coordinate,
     HorizontalPosition,
     get_grid_from_configuration,

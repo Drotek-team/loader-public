@@ -1,7 +1,7 @@
 from hypothesis import given
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migration_sp_su.sp_to_su import sp_to_su
-from loader.shows.migration_sp_su.su_to_sp import (
+from loader.shows.migrations.sp_to_su import sp_to_su
+from loader.shows.migrations.su_to_sp import (
     add_color_events_user,
     add_fire_events_user,
     add_position_events_user,

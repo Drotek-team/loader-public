@@ -2,8 +2,8 @@ from typing import List
 
 from loader.shows.drone_px4 import DronePx4
 from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
-from loader.shows.migration_dp_binary.binary_to_dp import decode_drone
-from loader.shows.migration_sp_su.sp_to_su import sp_to_su
+from loader.shows.migrations.binary_to_dp import decode_drone
+from loader.shows.migrations.sp_to_su import sp_to_su
 from loader.shows.show_user import ShowUser
 
 
