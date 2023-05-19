@@ -14,12 +14,12 @@ from loader import (
     ShowUser,
     get_dance_size_information,
 )
-from loader.show_env.migration_sp_ijg.ijg_to_su import ijg_to_su
-from loader.show_env.migration_sp_ijg.su_to_ijg import su_to_ijg
-from loader.show_env.migration_sp_ijg.su_to_scg import su_to_scg
-from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
-from loader.show_env.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.show_env.show_user.show_user import PositionEventUser
+from loader.shows.migration_sp_ijg.ijg_to_su import ijg_to_su
+from loader.shows.migration_sp_ijg.su_to_ijg import su_to_ijg
+from loader.shows.migration_sp_ijg.su_to_scg import su_to_scg
+from loader.shows.migration_sp_su.su_to_sp import su_to_sp
+from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.shows.show_user.show_user import PositionEventUser
 
 
 def test_create_show_user_standard_case() -> None:

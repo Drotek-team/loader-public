@@ -2,8 +2,8 @@ import numpy as np
 from hypothesis import example, given
 from hypothesis import strategies as st
 from loader.parameters import LAND_PARAMETERS
-from loader.show_env.show_position_frame.simulation.land_simulation import land_simulation
-from loader.show_env.show_position_frame.simulation.position_simulation import SimulationInfo
+from loader.shows.show_position_frame.simulation.land_simulation import land_simulation
+from loader.shows.show_position_frame.simulation.position_simulation import SimulationInfo
 
 from tests.strategies import slow
 

@@ -4,10 +4,10 @@ from loader.report.autopilot_format_report.dances_size_report import (
     DanceSizeInformation,
     get_dance_size_information,
 )
-from loader.show_env.drone_px4 import (
+from loader.shows.drone_px4 import (
     DronePx4,
 )
-from loader.show_env.drone_px4.events import (
+from loader.shows.drone_px4.events import (
     ColorEvents,
     FireEvents,
     PositionEvents,

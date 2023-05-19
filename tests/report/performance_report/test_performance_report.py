@@ -6,7 +6,7 @@ from loader.report.performance_report.show_trajectory_performance_report import 
     PerformanceInfraction,
     PerformanceReport,
 )
-from loader.show_env.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2
 

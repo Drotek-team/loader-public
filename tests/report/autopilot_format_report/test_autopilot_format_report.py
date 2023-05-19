@@ -1,6 +1,6 @@
 from loader.report.autopilot_format_report import AutopilotFormatReport
 from loader.report.base import get_report_validation
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

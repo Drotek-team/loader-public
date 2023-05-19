@@ -1,9 +1,9 @@
 from typing import Dict, Optional
 
 from loader.report.base import BaseReport
-from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
-from loader.show_env.show_user import ShowUser
+from loader.shows.drone_px4 import DronePx4
+from loader.shows.migration_sp_su.su_to_sp import su_to_sp
+from loader.shows.show_user import ShowUser
 
 from .dances_size_report import DanceSizeInfraction
 from .events_format_report import EventsFormatReport

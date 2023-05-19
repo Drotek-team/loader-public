@@ -1,15 +1,15 @@
 from typing import List
 
-from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.iostar_json_gcs.iostar_json_gcs import (
+from loader.shows.drone_px4 import DronePx4
+from loader.shows.iostar_json_gcs.iostar_json_gcs import (
     Dance,
     Family,
     IostarJsonGcs,
     Show,
 )
-from loader.show_env.migration_dp_binary.dp_to_binary import encode_drone
-from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
-from loader.show_env.show_user import ShowUser
+from loader.shows.migration_dp_binary.dp_to_binary import encode_drone
+from loader.shows.migration_sp_su.su_to_sp import su_to_sp
+from loader.shows.show_user import ShowUser
 
 from .su_to_scg import su_to_scg
 

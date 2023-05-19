@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from loader.parameters import JSON_BINARY_PARAMETERS
 from loader.report.base import BaseInfraction
-from loader.show_env.drone_px4 import DronePx4
+from loader.shows.drone_px4 import DronePx4
 
 
 class DanceSizeInformation(BaseModel):

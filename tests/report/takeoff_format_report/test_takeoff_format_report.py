@@ -9,7 +9,7 @@ from loader.report.takeoff_format_report import (
     TakeoffFormatReport,
     TakeoffPositionInfraction,
 )
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

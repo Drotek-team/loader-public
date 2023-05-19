@@ -1,20 +1,20 @@
 from hypothesis import given
-from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
-from loader.show_env.migration_sp_su.su_to_sp import (
+from loader.shows.drone_px4 import DronePx4
+from loader.shows.migration_sp_su.sp_to_su import sp_to_su
+from loader.shows.migration_sp_su.su_to_sp import (
     add_color_events_user,
     add_fire_events_user,
     add_position_events_user,
     drone_user_to_drone_px4,
     su_to_sp,
 )
-from loader.show_env.show_user import (
+from loader.shows.show_user import (
     ColorEventUser,
     DroneUser,
     FireEventUser,
     PositionEventUser,
 )
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING, List
 
 import numpy as np
 
-from loader.show_env.show_user import ShowUser
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user import ShowUser
+from loader.shows.show_user.generate_show_user import (
     GridConfiguration,
     ShowUserConfiguration,
     get_valid_show_user,

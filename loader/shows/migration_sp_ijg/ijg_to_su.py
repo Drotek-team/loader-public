@@ -1,10 +1,10 @@
 from typing import List
 
-from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
-from loader.show_env.migration_dp_binary.binary_to_dp import decode_drone
-from loader.show_env.migration_sp_su.sp_to_su import sp_to_su
-from loader.show_env.show_user import ShowUser
+from loader.shows.drone_px4 import DronePx4
+from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
+from loader.shows.migration_dp_binary.binary_to_dp import decode_drone
+from loader.shows.migration_sp_su.sp_to_su import sp_to_su
+from loader.shows.show_user import ShowUser
 
 
 def ijg_to_sp(iostar_json_gcs: IostarJsonGcs) -> List[DronePx4]:

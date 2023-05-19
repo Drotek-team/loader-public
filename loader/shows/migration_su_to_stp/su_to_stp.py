@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from loader.parameters import FRAME_PARAMETERS
-from loader.show_env.show_user import PositionEventUser, ShowUser
+from loader.shows.show_user import PositionEventUser, ShowUser
 
 from .show_trajectory_performance import (
     DroneTrajectoryPerformance,

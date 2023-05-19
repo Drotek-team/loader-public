@@ -1,4 +1,4 @@
-from loader.show_env.drone_px4.events import (
+from loader.shows.drone_px4.events import (
     ColorEvent,
     ColorEvents,
 )

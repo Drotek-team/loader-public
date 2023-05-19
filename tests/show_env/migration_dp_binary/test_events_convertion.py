@@ -1,12 +1,12 @@
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.show_env.drone_px4.events import (
+from loader.shows.drone_px4.events import (
     ColorEvents,
     FireEvents,
     PositionEvents,
 )
-from loader.show_env.migration_dp_binary.binary_to_dp import decode_events
-from loader.show_env.migration_dp_binary.dp_to_binary import encode_events
+from loader.shows.migration_dp_binary.binary_to_dp import decode_events
+from loader.shows.migration_dp_binary.dp_to_binary import encode_events
 
 from tests.strategies import slow
 

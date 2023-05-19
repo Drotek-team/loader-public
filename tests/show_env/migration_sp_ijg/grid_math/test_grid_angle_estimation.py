@@ -2,11 +2,11 @@ import math
 
 import numpy as np
 from hypothesis import given
-from loader.show_env.migration_sp_ijg.grid_math.grid import (
+from loader.shows.migration_sp_ijg.grid_math.grid import (
     GridConfiguration,
     get_grid_from_configuration,
 )
-from loader.show_env.migration_sp_ijg.grid_math.grid_angle_estimation import (
+from loader.shows.migration_sp_ijg.grid_math.grid_angle_estimation import (
     first_and_second_family_horizontal_positions,
     get_angle_degree_from_vector,
     get_angle_takeoff_from_grid,

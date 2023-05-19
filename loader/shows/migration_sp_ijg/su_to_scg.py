@@ -2,10 +2,10 @@ from math import degrees
 from typing import List, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS
-from loader.show_env.iostar_json_gcs.show_configuration import ShowConfiguration
-from loader.show_env.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
-from loader.show_env.show_user import ShowUser
-from loader.show_env.show_user.convex_hull import calculate_convex_hull
+from loader.shows.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.shows.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
+from loader.shows.show_user import ShowUser
+from loader.shows.show_user.convex_hull import calculate_convex_hull
 
 from .grid_math.grid import get_grid_from_show_user
 from .grid_math.grid_angle_estimation import get_angle_takeoff_from_grid

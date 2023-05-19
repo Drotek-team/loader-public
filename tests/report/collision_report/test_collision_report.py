@@ -4,7 +4,7 @@ from loader.parameters import (
 )
 from loader.report.base import get_report_validation
 from loader.report.collision_report.show_position_frames_collision_report import CollisionReport
-from loader.show_env.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2
 

@@ -4,9 +4,9 @@ import numpy as np
 from hypothesis import example, given
 from hypothesis import strategies as st
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.show_env.show_position_frame.simulation.position_simulation import SimulationInfo
-from loader.show_env.show_position_frame.simulation.takeoff_simulation import takeoff_simulation
-from loader.show_env.show_user import PositionEventUser
+from loader.shows.show_position_frame.simulation.position_simulation import SimulationInfo
+from loader.shows.show_position_frame.simulation.takeoff_simulation import takeoff_simulation
+from loader.shows.show_user import PositionEventUser
 
 from tests.strategies import slow
 

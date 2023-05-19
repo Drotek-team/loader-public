@@ -3,12 +3,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-from loader.show_env.migration_su_to_stp.su_to_stp import (
+from loader.shows.migration_su_to_stp.su_to_stp import (
     get_trajectory_performance_info_from_position_events,
     su_to_stp,
 )
-from loader.show_env.show_user import PositionEventUser
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user import PositionEventUser
+from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

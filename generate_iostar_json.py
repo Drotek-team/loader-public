@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from loader import su_to_ijg
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

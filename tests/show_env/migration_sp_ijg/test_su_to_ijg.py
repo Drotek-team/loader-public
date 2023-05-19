@@ -1,11 +1,11 @@
 from math import radians
 
-from loader.show_env.migration_sp_ijg.su_to_ijg import (
+from loader.shows.migration_sp_ijg.su_to_ijg import (
     get_family_from_drones_px4,
     su_to_ijg,
 )
-from loader.show_env.migration_sp_su.su_to_sp import su_to_sp
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.migration_sp_su.su_to_sp import su_to_sp
+from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

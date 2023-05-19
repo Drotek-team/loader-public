@@ -1,9 +1,9 @@
 import numpy as np
-from loader.show_env.show_position_frame.simulation.in_dance_flight_simulation import (
+from loader.shows.show_position_frame.simulation.in_dance_flight_simulation import (
     in_dance_flight_simulation,
 )
-from loader.show_env.show_position_frame.simulation.position_simulation import SimulationInfo
-from loader.show_env.show_user import PositionEventUser
+from loader.shows.show_position_frame.simulation.position_simulation import SimulationInfo
+from loader.shows.show_user import PositionEventUser
 
 
 def test_in_air_flight_simulation_explanation() -> None:

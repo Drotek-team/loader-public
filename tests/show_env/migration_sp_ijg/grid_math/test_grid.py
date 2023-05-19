@@ -1,11 +1,11 @@
 import numpy as np
-from loader.show_env.migration_sp_ijg.grid_math.grid import (
+from loader.shows.migration_sp_ijg.grid_math.grid import (
     Coordinate,
     HorizontalPosition,
     get_grid_from_configuration,
     get_grid_from_show_user,
 )
-from loader.show_env.show_user.generate_show_user import (
+from loader.shows.show_user.generate_show_user import (
     GridConfiguration,
     ShowUserConfiguration,
     get_valid_show_user,

@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import numpy as np
 
-from loader.show_env.migration_sp_ijg.grid_math.grid_configuration import (
+from loader.shows.migration_sp_ijg.grid_math.grid_configuration import (
     GridConfiguration,
 )
 

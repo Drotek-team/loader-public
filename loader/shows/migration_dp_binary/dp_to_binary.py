@@ -3,9 +3,9 @@ import struct
 from typing import List
 
 from loader.parameters import JSON_BINARY_PARAMETERS
-from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.drone_px4.binary import Header, SectionHeader
-from loader.show_env.drone_px4.events import Events
+from loader.shows.drone_px4 import DronePx4
+from loader.shows.drone_px4.binary import Header, SectionHeader
+from loader.shows.drone_px4.events import Events
 
 
 def get_section_headers(

@@ -2,7 +2,7 @@ from typing import List
 
 import numpy as np
 
-from loader.show_env.show_user import PositionEventUser
+from loader.shows.show_user import PositionEventUser
 
 from .position_simulation import SimulationInfo, apply_decimal_number_tolerance
 

@@ -1,8 +1,8 @@
 from typing import List
 
 from loader.parameters import JSON_BINARY_PARAMETERS
-from loader.show_env.drone_px4 import DronePx4
-from loader.show_env.show_user import (
+from loader.shows.drone_px4 import DronePx4
+from loader.shows.show_user import (
     ColorEventUser,
     DroneUser,
     FireEventUser,

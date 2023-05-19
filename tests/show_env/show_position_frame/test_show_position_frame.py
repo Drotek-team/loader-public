@@ -1,7 +1,7 @@
 import numpy as np
 from loader.parameters import TAKEOFF_PARAMETERS
-from loader.show_env.show_position_frame import ShowPositionFrame
-from loader.show_env.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.shows.show_position_frame import ShowPositionFrame
+from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_valid_show_flags() -> None:
