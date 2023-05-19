@@ -1,5 +1,5 @@
 import pytest
-from loader.parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.report import (
     IncreasingFrameInfraction,
     IntegerBoundaryInfraction,

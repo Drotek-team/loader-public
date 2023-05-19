@@ -1,7 +1,8 @@
 from math import degrees
 from typing import List, Tuple
 
-from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS
+from loader.parameters import FRAME_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.shows.iostar_json_gcs.show_configuration import ShowConfiguration
 from loader.shows.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
 from loader.shows.show_user import ShowUser

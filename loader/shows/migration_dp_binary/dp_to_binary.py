@@ -2,7 +2,7 @@ import copy
 import struct
 from typing import List
 
-from loader.parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.shows.drone_px4 import DronePx4
 from loader.shows.drone_px4.binary import Header, SectionHeader
 from loader.shows.drone_px4.events import Events

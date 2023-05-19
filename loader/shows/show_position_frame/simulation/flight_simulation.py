@@ -1,6 +1,7 @@
 from typing import List
 
-from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS
+from loader.parameters import FRAME_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.shows.show_user import DroneUser
 
 from .in_dance_flight_simulation import in_dance_flight_simulation

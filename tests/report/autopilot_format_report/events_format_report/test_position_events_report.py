@@ -1,5 +1,6 @@
 import pytest
-from loader.parameters import FRAME_PARAMETERS, JSON_BINARY_PARAMETERS, TAKEOFF_PARAMETERS
+from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.report import (
     CoordinateInfraction,
     PositionEventsReport,

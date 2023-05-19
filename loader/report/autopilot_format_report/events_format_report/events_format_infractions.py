@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from loader.parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.report.base import BaseInfraction, BaseReport
 from loader.shows.drone_px4.events import (
     ColorEvents,

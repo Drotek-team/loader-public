@@ -6,7 +6,6 @@ from .iostar_physic_parameters import (
     IostarPhysicParameters,
 )
 from .iostar_takeoff_parameters import TAKEOFF_PARAMETERS
-from .json_binary_parameters import JSON_BINARY_PARAMETERS, Bound
 
 __all__ = (
     "FRAME_PARAMETERS",
@@ -15,6 +14,4 @@ __all__ = (
     "IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION",
     "IostarPhysicParameters",
     "TAKEOFF_PARAMETERS",
-    "JSON_BINARY_PARAMETERS",
-    "Bound",
 )

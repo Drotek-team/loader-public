@@ -3,10 +3,10 @@ from pathlib import Path
 import pytest
 from loader import (
     IostarJsonGcs,
-    IostarPhysicParameters,
     ShowConfigurationGcs,
     ShowUser,
 )
+from loader.parameters import IostarPhysicParameters
 from loader.report import (
     AutopilotFormatReport,
     CollisionReport,
