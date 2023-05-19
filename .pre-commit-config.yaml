@@ -81,7 +81,7 @@ repos:
         entry: poetry run pyright
         language: system
         types_or: [python, pyi]
-        require_serial: true
+        pass_filenames: false
       - id: commitizen
         name: commitizen check commit
         description: >
