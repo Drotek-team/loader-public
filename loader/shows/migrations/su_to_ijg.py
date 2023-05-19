@@ -8,7 +8,6 @@ from loader.shows.iostar_json_gcs.iostar_json_gcs import (
     Show,
 )
 from loader.shows.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
-from loader.shows.migrations.dp_to_binary import encode_drone
 from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user import ShowUser
 
@@ -18,11 +17,7 @@ def get_family_from_drones_px4(
 ) -> Family:
     return Family(
         drones=[
-            Dance(
-                dance=encode_drone(
-                    drone_px4_family,
-                ),
-            )
+            Dance(dance=DronePx4.to_binary(drone_px4_family))
             for drone_px4_family in autopilot_format_family
         ],
         x=autopilot_format_family[0].position_events.specific_events[0].xyz[0],

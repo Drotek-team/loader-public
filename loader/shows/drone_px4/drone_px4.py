@@ -1,5 +1,9 @@
+import struct
 from typing import List, Tuple
 
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+
+from .binary import Header, SectionHeader
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
 
 
@@ -34,3 +38,140 @@ class DronePx4:
     @property
     def non_empty_events_list(self) -> List[Events]:
         return [events for events in self.events_dict.values() if len(events) != 0]
+
+    @classmethod
+    def from_binary(cls, index: int, binary: List[int]) -> "DronePx4":
+        drone_px4 = DronePx4(index)
+        byte_array = bytearray(binary)
+        _, section_headers = get_header_section_header(byte_array)
+        for section_header in section_headers:
+            decode_events(
+                drone_px4.get_events_by_index(section_header.event_id),
+                byte_array[
+                    section_header.byte_array_start_index : section_header.byte_array_end_index + 1
+                ],
+            )
+        return drone_px4
+
+    @classmethod
+    def to_binary(cls, drone_px4: "DronePx4") -> List[int]:
+        non_empty_events_list = drone_px4.non_empty_events_list
+        encoded_events_list = [
+            encode_events(non_empty_events) for non_empty_events in non_empty_events_list
+        ]
+        section_headers = get_section_headers(encoded_events_list, non_empty_events_list)
+        header = Header(
+            fmt_header=JSON_BINARY_PARAMETERS.fmt_header,
+            magic_number=JSON_BINARY_PARAMETERS.magic_number,
+            dance_size=dance_size(section_headers, encoded_events_list),
+            number_non_empty_events=len(non_empty_events_list),
+        )
+        return assemble_dance(header, section_headers, encoded_events_list)
+
+
+def get_header_section_header(
+    byte_array: bytearray,
+) -> Tuple[Header, List[SectionHeader]]:
+    header_data = struct.unpack(
+        JSON_BINARY_PARAMETERS.fmt_header,
+        byte_array[: struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)],
+    )
+    header = Header(
+        fmt_header=JSON_BINARY_PARAMETERS.fmt_header,
+        magic_number=header_data[0],
+        dance_size=header_data[1],
+        number_non_empty_events=header_data[2],
+    )
+
+    section_headers: List[SectionHeader] = []
+    byte_begin_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
+    byte_step_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
+    for event_index in range(header.number_non_empty_events):
+        section_header_data = struct.unpack(
+            JSON_BINARY_PARAMETERS.fmt_section_header,
+            byte_array[
+                byte_begin_index
+                + byte_step_index * event_index : byte_begin_index
+                + byte_step_index * (event_index + 1)
+            ],
+        )
+        section_headers.append(
+            SectionHeader(
+                fmt_section_header=JSON_BINARY_PARAMETERS.fmt_section_header,
+                event_id=section_header_data[0],
+                byte_array_start_index=section_header_data[1],
+                byte_array_end_index=section_header_data[2],
+            ),
+        )
+    return header, section_headers
+
+
+def decode_events(events: Events, byte_array: bytearray) -> None:
+    for event_index in range(0, len(byte_array), events.event_size):
+        events.add_data(
+            list(
+                struct.unpack(
+                    events.format_,
+                    byte_array[event_index : event_index + events.event_size],
+                ),
+            ),
+        )
+
+
+def get_section_headers(
+    encoded_events_list: List[bytearray],
+    non_empty_events_list: List[Events],
+) -> List[SectionHeader]:
+    byte_array_start_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header) + len(
+        non_empty_events_list,
+    ) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
+    section_headers: List[SectionHeader] = []
+    for non_empty_events, encoded_events in zip(
+        non_empty_events_list,
+        encoded_events_list,
+    ):
+        section_header = SectionHeader(
+            fmt_section_header=JSON_BINARY_PARAMETERS.fmt_section_header,
+            event_id=non_empty_events.id_,
+            byte_array_start_index=byte_array_start_index,
+            byte_array_end_index=byte_array_start_index + len(encoded_events) - 1,
+        )
+        byte_array_start_index += len(encoded_events)
+        section_headers.append(section_header)
+    return section_headers
+
+
+def dance_size(
+    section_headers: List[SectionHeader],
+    encoded_events_list: List[bytearray],
+) -> int:
+    return (
+        struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
+        + len(section_headers) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
+        + sum(len(encoded_events) for encoded_events in encoded_events_list)
+    )
+
+
+def assemble_dance(
+    header: Header,
+    section_headers: List[SectionHeader],
+    encoded_events_list: List[bytearray],
+) -> List[int]:
+    dance_binary = bytearray()
+    dance_binary.extend(header.bytes_data)
+    for section_header in section_headers:
+        dance_binary.extend(section_header.bytes_data)
+    for encoded_events in encoded_events_list:
+        dance_binary.extend(encoded_events)
+    return list(map(int, dance_binary))
+
+
+def encode_events(events: Events) -> bytearray:
+    event_size = events.event_size
+    binary = bytearray(event_size * len(events))
+    for cpt_event, event_data in enumerate(events):
+        binary[cpt_event * event_size : (cpt_event + 1) * event_size] = struct.pack(
+            events.format_,
+            *event_data.get_data,
+        )
+    return binary

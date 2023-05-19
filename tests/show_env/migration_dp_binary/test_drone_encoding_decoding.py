@@ -1,8 +1,6 @@
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.shows.drone_px4 import DronePx4
-from loader.shows.migrations.binary_to_dp import decode_drone
-from loader.shows.migrations.dp_to_binary import encode_drone
 
 from tests.strategies import slow
 
@@ -62,4 +60,4 @@ def test_encode_decode_drone(
     drone_px4.add_color(second_timecode, (second_r, second_g, second_b, second_w))
     drone_px4.add_fire(second_timecode, second_chanel, second_duration)
 
-    assert drone_px4 == decode_drone(drone_px4.index, encode_drone(drone_px4))
+    assert drone_px4 == DronePx4.from_binary(drone_px4.index, DronePx4.to_binary(drone_px4))
