@@ -18,7 +18,6 @@ from loader.reports import (
 )
 from loader.shows.migrations.ijg_to_su import ijg_to_su
 from loader.shows.migrations.su_to_ijg import su_to_ijg
-from loader.shows.migrations.su_to_scg import su_to_scg
 from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.shows.show_user.show_user import PositionEventUser
@@ -220,7 +219,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
         get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=3)),
     )
     show_user = ijg_to_su(iostar_json_gcs)
-    assert su_to_scg(show_user) == ShowConfigurationGcs(
+    assert ShowConfigurationGcs.from_show_user(show_user) == ShowConfigurationGcs(
         nb_x=2,
         nb_y=3,
         nb_drone_per_family=1,

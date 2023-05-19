@@ -7,11 +7,10 @@ from loader.shows.iostar_json_gcs.iostar_json_gcs import (
     IostarJsonGcs,
     Show,
 )
+from loader.shows.iostar_json_gcs.show_configuration_gcs import ShowConfigurationGcs
 from loader.shows.migrations.dp_to_binary import encode_drone
 from loader.shows.migrations.su_to_sp import su_to_sp
 from loader.shows.show_user import ShowUser
-
-from .su_to_scg import su_to_scg
 
 
 def get_family_from_drones_px4(
@@ -33,7 +32,7 @@ def get_family_from_drones_px4(
 
 
 def su_to_ijg(show_user: ShowUser) -> IostarJsonGcs:
-    show_configuration = su_to_scg(show_user)
+    show_configuration = ShowConfigurationGcs.from_show_user(show_user)
     autopilot_format = su_to_sp(show_user)
     return IostarJsonGcs(
         show=Show(
