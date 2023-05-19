@@ -2,12 +2,12 @@ from typing import Tuple
 
 import pytest
 from loader.parameters import TAKEOFF_PARAMETERS
-from loader.report.base import get_report_validation
-from loader.report.takeoff_format_report import (
+from loader.report import (
     DroneUserReport,
     MinimalPositionEventsNumber,
     TakeoffFormatReport,
     TakeoffPositionInfraction,
+    get_report_validation,
 )
 from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,

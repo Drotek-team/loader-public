@@ -1,11 +1,7 @@
 import pytest
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IostarPhysicParameters
-from loader.report.base import get_report_validation
+from loader.report import PerformanceInfraction, PerformanceReport, get_report_validation
 from loader.report.performance_report.performance_infraction import PerformanceKind
-from loader.report.performance_report.performance_report import (
-    PerformanceInfraction,
-    PerformanceReport,
-)
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2

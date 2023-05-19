@@ -1,10 +1,10 @@
 import pytest
 from loader.parameters import JSON_BINARY_PARAMETERS
-from loader.report.autopilot_format_report.events_format_report import (
+from loader.report import (
     ChromeInfraction,
     ColorEventsReport,
+    get_report_validation,
 )
-from loader.report.base import get_report_validation
 from loader.shows.drone_px4.events import ColorEvents
 
 

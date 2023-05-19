@@ -1,5 +1,4 @@
-from loader.report.autopilot_format_report import AutopilotFormatReport
-from loader.report.base import get_report_validation
+from loader.report import AutopilotFormatReport, get_report_validation
 from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,

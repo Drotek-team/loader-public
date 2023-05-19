@@ -1,6 +1,6 @@
 import struct
 
-from loader.report.autopilot_format_report.dances_size_infraction import (
+from loader.report import (
     DanceSizeInformation,
     get_dance_size_information,
 )

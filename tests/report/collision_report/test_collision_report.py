@@ -2,8 +2,7 @@ from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_MAX,
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
 )
-from loader.report.base import get_report_validation
-from loader.report.collision_report.collision_report import CollisionReport
+from loader.report import CollisionReport, get_report_validation
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2

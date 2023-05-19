@@ -2,16 +2,18 @@ from pathlib import Path
 
 import pytest
 from loader import (
+    IostarJsonGcs,
+    IostarPhysicParameters,
+    ShowConfigurationGcs,
+    ShowUser,
+)
+from loader.report import (
     AutopilotFormatReport,
     CollisionReport,
     DanceSizeInformation,
     GlobalReport,
     GlobalReportSummary,
-    IostarJsonGcs,
-    IostarPhysicParameters,
     PerformanceReport,
-    ShowConfigurationGcs,
-    ShowUser,
     get_dance_size_information,
 )
 from loader.shows.migration_sp_ijg.ijg_to_su import ijg_to_su
