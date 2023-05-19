@@ -4,8 +4,7 @@ from typing import List, Tuple
 
 import numpy as np
 
-from loader.shows.migrations.grid_math.grid import Grid
-from loader.shows.migrations.grid_math.grid_configuration import GridConfiguration
+from loader.shows.grid_configuration.grid import Grid, GridConfiguration
 from loader.shows.show_user import ShowUser
 
 

@@ -1,10 +1,11 @@
 import numpy as np
-from loader.shows.migrations.grid_math.grid import Coordinate, Grid, HorizontalPosition
-from loader.shows.show_user.generate_show_user import (
+from loader.shows.grid_configuration.grid import (
+    Coordinate,
+    Grid,
     GridConfiguration,
-    ShowUserConfiguration,
-    get_valid_show_user,
+    HorizontalPosition,
 )
+from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_coordinate_standard_case_and_method() -> None:

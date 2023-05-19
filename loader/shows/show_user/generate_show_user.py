@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.shows.migrations.grid_math.grid_configuration import GridConfiguration
+from loader.shows.grid_configuration.grid_configuration import GridConfiguration
 
 from .show_user import (
     ColorEventUser,
@@ -169,9 +169,18 @@ def get_drone_user_index_from_family_indices(
     return nb_drone_per_family * (index_y * nb_x + index_x) + family_index
 
 
-def get_valid_show_user(
-    show_user_configuration: ShowUserConfiguration,
-) -> ShowUser:
+def get_valid_show_user(grid_configuration: GridConfiguration) -> ShowUser:
+    if not isinstance(grid_configuration, ShowUserConfiguration):
+        show_user_configuration = ShowUserConfiguration(
+            nb_x=grid_configuration.nb_x,
+            nb_y=grid_configuration.nb_y,
+            nb_drone_per_family=grid_configuration.nb_drone_per_family,
+            step=grid_configuration.step,
+            angle_takeoff=grid_configuration.angle_takeoff,
+        )
+    else:
+        show_user_configuration = grid_configuration
+
     index_bias_x = 0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
     index_bias_y = 0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
     valid_drones_user = [

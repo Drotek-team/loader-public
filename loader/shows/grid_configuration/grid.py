@@ -7,11 +7,9 @@ from typing import TYPE_CHECKING, List
 import numpy as np
 
 from loader.shows.show_user import ShowUser
-from loader.shows.show_user.generate_show_user import (
-    GridConfiguration,
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.shows.show_user.generate_show_user import get_valid_show_user
+
+from .grid_configuration import GridConfiguration
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -97,17 +95,7 @@ class Grid(List[HorizontalPosition]):
 
     @classmethod
     def from_grid_configuration(cls, grid_configuration: GridConfiguration) -> Grid:
-        return Grid.from_show_user(
-            get_valid_show_user(
-                ShowUserConfiguration(
-                    nb_x=grid_configuration.nb_x,
-                    nb_y=grid_configuration.nb_y,
-                    nb_drone_per_family=grid_configuration.nb_drone_per_family,
-                    step=grid_configuration.step,
-                    angle_takeoff=grid_configuration.angle_takeoff,
-                ),
-            ),
-        )
+        return Grid.from_show_user(get_valid_show_user(grid_configuration))
 
     def get_first_and_second_family_horizontal_positions(
         self,
