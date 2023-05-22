@@ -7,7 +7,7 @@ import numpy as np
 
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
 from loader.reports.base import BaseInfraction
-from loader.shows.show_position_frame import ShowPositionFrame
+from loader.shows.show_user.show_position_frame import ShowPositionFrame
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

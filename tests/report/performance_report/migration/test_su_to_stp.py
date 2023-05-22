@@ -3,14 +3,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
-from loader.shows.show_trajectory_performance import (
-    DroneTrajectoryPerformance,
-    get_trajectory_performance_info_from_position_events,
-)
 from loader.shows.show_user import PositionEventUser
 from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
+)
+from loader.shows.show_user.show_trajectory_performance import (
+    DroneTrajectoryPerformance,
+    get_trajectory_performance_info_from_position_events,
 )
 
 if TYPE_CHECKING:

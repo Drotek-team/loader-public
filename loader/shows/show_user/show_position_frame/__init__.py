@@ -4,9 +4,11 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from loader.shows.show_user.show_position_frame.simulation.flight_simulation import (
+    get_flight_simulation,
+    get_partial_flight_simulation,
+)
 from loader.shows.show_user.show_user import ShowUser
-
-from .simulation.flight_simulation import get_flight_simulation, get_partial_flight_simulation
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
