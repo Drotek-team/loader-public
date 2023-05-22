@@ -7,6 +7,7 @@ import numpy as np
 
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
 from loader.reports.base import BaseInfraction
+from loader.shows import ShowUser
 from loader.shows.show_user.show_position_frame import ShowPositionFrame
 
 if TYPE_CHECKING:
@@ -101,10 +102,12 @@ class CollisionInfraction(BaseInfraction):
     @classmethod
     def generate(
         cls,
-        show_position_frames: list[ShowPositionFrame],
+        show_user: ShowUser,
         *,
         collision_distance: float | None = None,
+        is_partial: bool = False,
     ) -> list[CollisionInfraction]:
+        show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
         if collision_distance is None:
             collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.security_distance_in_air
         elif collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.security_distance_in_air:

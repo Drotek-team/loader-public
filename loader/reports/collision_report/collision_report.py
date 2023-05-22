@@ -3,7 +3,6 @@ from typing import List, Optional
 from loader.parameters import IostarPhysicParameters
 from loader.reports.base import BaseReport
 from loader.shows.show_user import ShowUser
-from loader.shows.show_user.show_position_frame import ShowPositionFrame
 
 from .collision_infraction import CollisionInfraction
 
@@ -20,10 +19,11 @@ class CollisionReport(BaseReport):
         is_partial: bool = False,
     ) -> Optional["CollisionReport"]:
         collision_infractions = CollisionInfraction.generate(
-            ShowPositionFrame.from_show_user(show_user, is_partial=is_partial),
+            show_user,
             collision_distance=(
                 physic_parameters.security_distance_in_air if physic_parameters else None
             ),
+            is_partial=is_partial,
         )
         if collision_infractions:
             return CollisionReport(collision_infractions=collision_infractions)

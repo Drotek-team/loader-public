@@ -10,6 +10,7 @@ from loader.parameters import (
     IostarPhysicParameters,
 )
 from loader.reports.base import BaseInfraction
+from loader.shows import ShowUser
 from loader.shows.show_user.show_trajectory_performance import (
     DroneTrajectoryPerformance,
     Performance,
@@ -103,10 +104,11 @@ class PerformanceInfraction(BaseInfraction):
     @classmethod
     def generate(
         cls,
-        show_trajectory_performance: List[DroneTrajectoryPerformance],
+        show_user: ShowUser,
         *,
         physic_parameters: Optional[IostarPhysicParameters] = None,
     ) -> List["PerformanceInfraction"]:
+        show_trajectory_performance = DroneTrajectoryPerformance.from_show_user(show_user)
         if physic_parameters is None:
             physic_parameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
         else:
