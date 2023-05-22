@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleMethodOverride=false
 from typing import List
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS

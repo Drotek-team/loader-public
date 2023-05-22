@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleMethodOverride=false
 import itertools
 from enum import Enum
 from typing import List, Optional, Tuple

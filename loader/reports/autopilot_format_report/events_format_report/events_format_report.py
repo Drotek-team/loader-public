@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleMethodOverride=false
 from typing import List, Optional
 
 from loader.reports.base import BaseReport

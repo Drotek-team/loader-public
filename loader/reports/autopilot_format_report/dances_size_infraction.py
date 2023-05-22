@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleMethodOverride=false
 import struct
 from typing import Optional
 

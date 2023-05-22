@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleMethodOverride=false
 from typing import List, Optional
 
 from loader.parameters import IostarPhysicParameters
