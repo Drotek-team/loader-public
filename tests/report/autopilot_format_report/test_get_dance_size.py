@@ -1,9 +1,6 @@
 import struct
 
-from loader.reports import (
-    DanceSizeInformation,
-    get_dance_size_information,
-)
+from loader.reports import DanceSizeReport
 from loader.schemas.drone_px4 import (
     DronePx4,
 )
@@ -20,7 +17,7 @@ FIRE_EVENT_SIZE = struct.calcsize(FireEvents().format_)
 
 
 def test_dance_size_information_standard_case() -> None:
-    dance_size_information = DanceSizeInformation(
+    dance_size_information = DanceSizeReport(
         drone_index=0,
         dance_size=50,
         position_events_size_pct=12,
@@ -33,7 +30,7 @@ def test_dance_size_information_standard_case() -> None:
 def test_get_dance_size_information_standard_case() -> None:
     empty_drone_px4 = DronePx4(0)
 
-    assert get_dance_size_information(empty_drone_px4) == DanceSizeInformation(
+    assert DanceSizeReport.generate(empty_drone_px4) == DanceSizeReport(
         drone_index=0,
         dance_size=7,
         position_events_size_pct=0,
@@ -43,7 +40,7 @@ def test_get_dance_size_information_standard_case() -> None:
 
     for _ in range(1_000):
         empty_drone_px4.add_position(0, (0, 0, 0))
-    assert get_dance_size_information(empty_drone_px4) == DanceSizeInformation(
+    assert DanceSizeReport.generate(empty_drone_px4) == DanceSizeReport(
         drone_index=0,
         dance_size=10_016,
         position_events_size_pct=10,
@@ -53,7 +50,7 @@ def test_get_dance_size_information_standard_case() -> None:
 
     for _ in range(1_000):
         empty_drone_px4.add_color(0, (0, 0, 0, 0))
-    assert get_dance_size_information(empty_drone_px4) == DanceSizeInformation(
+    assert DanceSizeReport.generate(empty_drone_px4) == DanceSizeReport(
         drone_index=0,
         dance_size=18_025,
         position_events_size_pct=10,
@@ -63,7 +60,7 @@ def test_get_dance_size_information_standard_case() -> None:
 
     for _ in range(1_000):
         empty_drone_px4.add_fire(0, 0, 0)
-    assert get_dance_size_information(empty_drone_px4) == DanceSizeInformation(
+    assert DanceSizeReport.generate(empty_drone_px4) == DanceSizeReport(
         drone_index=0,
         dance_size=24_034,
         position_events_size_pct=10,

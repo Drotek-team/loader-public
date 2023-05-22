@@ -5,11 +5,10 @@ from loader.parameters import IostarPhysicParameters
 from loader.reports import (
     AutopilotFormatReport,
     CollisionReport,
-    DanceSizeInformation,
+    DanceSizeReport,
     GlobalReport,
     GlobalReportSummary,
     PerformanceReport,
-    get_dance_size_information,
 )
 from loader.schemas import (
     DronePx4,
@@ -97,8 +96,8 @@ def test_get_dance_size_informations() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     show_px4 = DronePx4.from_show_user(show_user)
     assert all(
-        get_dance_size_information(drone_px4)
-        == DanceSizeInformation(
+        DanceSizeReport.generate(drone_px4)
+        == DanceSizeReport(
             drone_index=drone_px4.index,
             dance_size=106,
             position_events_size_pct=0,

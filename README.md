@@ -206,7 +206,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   drone_px4_reports = {
       0: DronePx4Report(
           events_format_report=None,
-          dance_size_infraction=DanceSizeInfraction(
+          dance_size_infraction=DanceSizeReport(
               drone_index=0,
               dance_size=100106,
               position_events_size_pct=100,

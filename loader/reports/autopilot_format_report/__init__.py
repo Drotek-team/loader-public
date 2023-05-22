@@ -1,8 +1,6 @@
 from .autopilot_format_report import AutopilotFormatReport
-from .dances_size_infraction import (
-    DanceSizeInformation,
-    DanceSizeInfraction,
-    get_dance_size_information,
+from .dances_size_report import (
+    DanceSizeReport,
 )
 from .events_format_report import (
     ChromeInfraction,
@@ -20,9 +18,7 @@ from .events_format_report import (
 
 __all__ = (
     "AutopilotFormatReport",
-    "DanceSizeInformation",
-    "DanceSizeInfraction",
-    "get_dance_size_information",
+    "DanceSizeReport",
     "ChromeInfraction",
     "ColorEventsReport",
     "CoordinateInfraction",
