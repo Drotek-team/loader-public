@@ -1,7 +1,10 @@
-from typing import Any, Dict, List, Union, cast
+from typing import Any, Dict, List, Optional, Type, TypeVar, cast
 
 from pydantic import BaseModel
 from pydantic.fields import ModelField
+
+TBaseInfraction = TypeVar("TBaseInfraction", bound="BaseInfraction")
+TBaseReport = TypeVar("TBaseReport", bound="BaseReport")
 
 
 class BaseMessage(BaseModel):
@@ -12,6 +15,14 @@ class BaseMessage(BaseModel):
 class BaseInfraction(BaseMessage):
     def get_nb_errors(self) -> int:
         return 1
+
+    @classmethod
+    def generate(
+        cls: Type[TBaseInfraction],
+        *args: Any,  # noqa: ANN401
+        **kwargs: Any,  # noqa: ANN401
+    ) -> Optional[TBaseInfraction]:
+        raise NotImplementedError
 
 
 class BaseReport(BaseMessage):
@@ -70,9 +81,24 @@ class BaseReport(BaseMessage):
 
         return nb_errors
 
+    @classmethod
+    def generate(cls: Type[TBaseReport], *args: Any, **kwargs: Any) -> TBaseReport:  # noqa: ANN401
+        raise NotImplementedError
+
+    @classmethod
+    def generate_or_none(
+        cls: Type[TBaseReport],
+        *args: Any,  # noqa: ANN401
+        **kwargs: Any,  # noqa: ANN401
+    ) -> Optional[TBaseReport]:
+        report = cls.generate(*args, **kwargs)
+        if report.get_nb_errors() == 0:
+            return None
+        return report
+
 
 def get_report_validation(
-    base_report: Union[BaseMessage, None],
+    base_report: Optional[BaseMessage],
 ) -> bool:
     if base_report is None:
         return True

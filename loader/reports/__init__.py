@@ -34,7 +34,7 @@ from .performance_report import (
 )
 from .takeoff_format_report import (
     DroneUserReport,
-    MinimalPositionEventsNumber,
+    MinimumPositionEventsInfraction,
     TakeoffDurationInfraction,
     TakeoffFormatReport,
     TakeoffPositionInfraction,
@@ -67,7 +67,7 @@ __all__ = (
     "PerformanceInfraction",
     "PerformanceReport",
     "DroneUserReport",
-    "MinimalPositionEventsNumber",
+    "MinimumPositionEventsInfraction",
     "TakeoffDurationInfraction",
     "TakeoffFormatReport",
     "TakeoffPositionInfraction",

@@ -313,7 +313,7 @@ def test_valid_physic_parameters() -> None:
         ),
     )
 
-    assert PerformanceReport.generate(valid_show_user) is None
+    assert PerformanceReport.generate_or_none(valid_show_user) is None
 
     performance_report = PerformanceReport.generate(
         valid_show_user,
@@ -324,7 +324,6 @@ def test_valid_physic_parameters() -> None:
             horizontal_velocity_max=0.4,
         ),
     )
-    assert performance_report is not None
     assert all(
         kind.value
         in [

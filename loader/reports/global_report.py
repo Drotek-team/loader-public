@@ -48,18 +48,18 @@ class GlobalReport(BaseReport):
         if without_takeoff_format:
             takeoff_format_report = None
         else:
-            takeoff_format_report = TakeoffFormatReport.generate(show_user)
-        autopilot_format_report = AutopilotFormatReport.generate(show_user)
+            takeoff_format_report = TakeoffFormatReport.generate_or_none(show_user)
+        autopilot_format_report = AutopilotFormatReport.generate_or_none(show_user)
         if takeoff_format_report is not None or autopilot_format_report is not None:
             return GlobalReport(
                 takeoff_format=takeoff_format_report,
                 autopilot_format=autopilot_format_report,
             )
-        performance_report = PerformanceReport.generate(
+        performance_report = PerformanceReport.generate_or_none(
             show_user,
             physic_parameters=physic_parameters,
         )
-        collision_report = CollisionReport.generate(
+        collision_report = CollisionReport.generate_or_none(
             show_user,
             physic_parameters=physic_parameters,
             is_partial=is_partial,

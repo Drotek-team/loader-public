@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports.base import BaseInfraction, BaseReport
@@ -75,15 +75,13 @@ class TimecodeReport(BaseReport):
     def generate(
         cls,
         events: Events,
-    ) -> Optional["TimecodeReport"]:
+    ) -> "TimecodeReport":
         bound_infractions = TimeCodeValueInfraction.generate(events)
         increasing_infractions = IncreasingFrameInfraction.generate(events)
-        if bound_infractions or increasing_infractions:
-            return TimecodeReport(
-                bound_infractions=bound_infractions,
-                increasing_infractions=increasing_infractions,
-            )
-        return None
+        return TimecodeReport(
+            bound_infractions=bound_infractions,
+            increasing_infractions=increasing_infractions,
+        )
 
 
 class CoordinateInfraction(IntegerBoundaryInfraction):

@@ -128,7 +128,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
       physic_parameters=physic_parameters,
   )
   print(performance_report)
-  #> None
+  #> performance_infractions=[]
   ```
 
 - Generate the collisions report of the show
@@ -185,7 +185,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
       physic_parameters=IostarPhysicParameters(security_distance_in_air=1.0),
   )
   print(collision_report)
-  #> None
+  #> collision_infractions=[]
   ```
 
 - Generate the dance size report of the show

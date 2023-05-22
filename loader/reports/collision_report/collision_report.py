@@ -17,7 +17,7 @@ class CollisionReport(BaseReport):
         *,
         physic_parameters: Optional[IostarPhysicParameters] = None,
         is_partial: bool = False,
-    ) -> Optional["CollisionReport"]:
+    ) -> "CollisionReport":
         collision_infractions = CollisionInfraction.generate(
             show_user,
             collision_distance=(
@@ -25,6 +25,4 @@ class CollisionReport(BaseReport):
             ),
             is_partial=is_partial,
         )
-        if collision_infractions:
-            return CollisionReport(collision_infractions=collision_infractions)
-        return None
+        return CollisionReport(collision_infractions=collision_infractions)

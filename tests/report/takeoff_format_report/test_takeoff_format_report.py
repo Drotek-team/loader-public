@@ -4,7 +4,7 @@ import pytest
 from loader.parameters import TAKEOFF_PARAMETERS
 from loader.reports import (
     DroneUserReport,
-    MinimalPositionEventsNumber,
+    MinimumPositionEventsInfraction,
     TakeoffFormatReport,
     TakeoffPositionInfraction,
     get_report_validation,
@@ -27,13 +27,13 @@ def test_drone_user_report_generate_minimal_position_event_report() -> None:
     show_user.drones_user[0].position_events[1:] = []
     drone_user_report = DroneUserReport.generate(show_user.drones_user[0])
     assert drone_user_report == DroneUserReport(
-        minimal_position_event=MinimalPositionEventsNumber(events_number=1),
+        minimal_position_event=MinimumPositionEventsInfraction(events_number=1),
     )
 
     show_user.drones_user[0].position_events = []
     drone_user_report = DroneUserReport.generate(show_user.drones_user[0])
     assert drone_user_report == DroneUserReport(
-        minimal_position_event=MinimalPositionEventsNumber(events_number=0),
+        minimal_position_event=MinimumPositionEventsInfraction(events_number=0),
     )
 
 

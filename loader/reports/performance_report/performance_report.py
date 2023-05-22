@@ -16,11 +16,9 @@ class PerformanceReport(BaseReport):
         show_user: ShowUser,
         *,
         physic_parameters: Optional[IostarPhysicParameters] = None,
-    ) -> Optional["PerformanceReport"]:
+    ) -> "PerformanceReport":
         performance_infracions = PerformanceInfraction.generate(
             show_user,
             physic_parameters=physic_parameters,
         )
-        if performance_infracions:
-            return PerformanceReport(performance_infractions=performance_infracions)
-        return None
+        return PerformanceReport(performance_infractions=performance_infracions)

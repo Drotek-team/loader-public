@@ -68,56 +68,52 @@ class TakeoffReport(BaseReport):
     def generate(
         cls,
         drone_user: DroneUser,
-    ) -> Optional["TakeoffReport"]:
+    ) -> "TakeoffReport":
         duration_infraction = TakeoffDurationInfraction.generate(
             drone_user,
         )
         position_infraction = TakeoffPositionInfraction.generate(
             drone_user,
         )
-        if duration_infraction is not None or position_infraction is not None:
-            return TakeoffReport(
-                duration_infraction=duration_infraction,
-                position_infraction=position_infraction,
-            )
-        return None
+        return TakeoffReport(
+            duration_infraction=duration_infraction,
+            position_infraction=position_infraction,
+        )
 
 
-class MinimalPositionEventsNumber(BaseReport):
+class MinimumPositionEventsInfraction(BaseInfraction):
     events_number: int
 
     @classmethod
     def generate(
         cls,
         drone_user: DroneUser,
-    ) -> Optional["MinimalPositionEventsNumber"]:
+    ) -> Optional["MinimumPositionEventsInfraction"]:
         if len(drone_user.position_events) >= 2:
             return None
-        return MinimalPositionEventsNumber(
+        return MinimumPositionEventsInfraction(
             events_number=len(drone_user.position_events),
         )
 
 
 class DroneUserReport(BaseReport):
-    minimal_position_event: Optional[MinimalPositionEventsNumber] = None
+    minimal_position_event: Optional[MinimumPositionEventsInfraction] = None
     takeoff: Optional[TakeoffReport] = None
 
     @classmethod
     def generate(
         cls,
         drone_user: DroneUser,
-    ) -> Optional["DroneUserReport"]:
-        minimal_position_event_report = MinimalPositionEventsNumber.generate(
+    ) -> "DroneUserReport":
+        minimal_position_event_report = MinimumPositionEventsInfraction.generate(
             drone_user,
         )
         if minimal_position_event_report is not None:
             return DroneUserReport(
                 minimal_position_event=minimal_position_event_report,
             )
-        takeoff_report = TakeoffReport.generate(drone_user)
-        if takeoff_report is not None:
-            return DroneUserReport(takeoff=takeoff_report)
-        return None
+        takeoff_report = TakeoffReport.generate_or_none(drone_user)
+        return DroneUserReport(takeoff=takeoff_report)
 
 
 class TakeoffFormatReport(BaseReport):
@@ -127,12 +123,10 @@ class TakeoffFormatReport(BaseReport):
     def generate(
         cls,
         show_user: ShowUser,
-    ) -> Optional["TakeoffFormatReport"]:
+    ) -> "TakeoffFormatReport":
         drone_user_reports = [
             drone_user_report
             for drone_user in show_user.drones_user
-            if (drone_user_report := DroneUserReport.generate(drone_user)) is not None
+            if (drone_user_report := DroneUserReport.generate_or_none(drone_user)) is not None
         ]
-        if not drone_user_reports:
-            return None
         return TakeoffFormatReport(drone_users=drone_user_reports)
