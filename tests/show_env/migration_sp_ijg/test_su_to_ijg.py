@@ -1,6 +1,6 @@
 from math import radians
 
-from loader import IostarJsonGcs
+from loader.shows import IostarJsonGcs
 from loader.shows.drone_px4 import DronePx4
 from loader.shows.iostar_json_gcs.iostar_json_gcs import get_family_from_drones_px4
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user

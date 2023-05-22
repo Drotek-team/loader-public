@@ -1,11 +1,6 @@
 from pathlib import Path
 
 import pytest
-from loader import (
-    IostarJsonGcs,
-    ShowConfigurationGcs,
-    ShowUser,
-)
 from loader.parameters import IostarPhysicParameters
 from loader.reports import (
     AutopilotFormatReport,
@@ -16,9 +11,14 @@ from loader.reports import (
     PerformanceReport,
     get_dance_size_information,
 )
-from loader.shows.drone_px4 import DronePx4
+from loader.shows import (
+    DronePx4,
+    IostarJsonGcs,
+    PositionEventUser,
+    ShowConfigurationGcs,
+    ShowUser,
+)
 from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.shows.show_user.show_user import PositionEventUser
 
 
 def test_create_show_user_standard_case() -> None:

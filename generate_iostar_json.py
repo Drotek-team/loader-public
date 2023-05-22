@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from loader import IostarJsonGcs
+from loader.shows import IostarJsonGcs
 from loader.shows.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
