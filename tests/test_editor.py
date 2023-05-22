@@ -43,17 +43,19 @@ def test_create_show_user_invalid_nb_drones(nb_drones: int) -> None:
 def test_get_performance_infractions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     show_user.drones_user[0].add_position_event(frame=1000, xyz=(0.0, 0.0, 0.0))
-    assert PerformanceReport.generate(show_user).get_nb_errors() == 0
-    assert PerformanceReport.generate(
-        show_user,
-        physic_parameters=IostarPhysicParameters(acceleration_max=0.0001),
-    ).get_nb_errors()
-    assert PerformanceReport.generate(show_user).get_nb_errors() == 0
+    assert len(PerformanceReport.generate(show_user)) == 0
+    assert len(
+        PerformanceReport.generate(
+            show_user,
+            physic_parameters=IostarPhysicParameters(acceleration_max=0.0001),
+        ),
+    )
+    assert len(PerformanceReport.generate(show_user)) == 0
 
 
 def test_get_collisions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    assert CollisionReport.generate(show_user).get_nb_errors() == 0
+    assert len(CollisionReport.generate(show_user)) == 0
 
 
 def test_get_collisions_with_collision_distance_with_collisions() -> None:
@@ -71,7 +73,7 @@ def test_get_collisions_with_collision_distance_without_collision() -> None:
         show_user,
         physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
     )
-    assert collision_report.get_nb_errors() == 0
+    assert len(collision_report) == 0
 
 
 def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -> None:
@@ -88,7 +90,7 @@ def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -
 
 def test_get_autopilot_format_report() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    assert AutopilotFormatReport.generate(show_user).get_nb_errors() == 0
+    assert len(AutopilotFormatReport.generate(show_user)) == 0
 
 
 def test_get_dance_size_informations() -> None:
@@ -245,7 +247,7 @@ def test_get_verified_iostar_json_gcs() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
     show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
-    assert GlobalReport.generate(show_user).get_nb_errors() == 0
+    assert len(GlobalReport.generate(show_user)) == 0
 
 
 def test_get_verified_iostar_json_gcs_invalid() -> None:
@@ -254,4 +256,4 @@ def test_get_verified_iostar_json_gcs_invalid() -> None:
     )
     iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
     show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
-    assert GlobalReport.generate(show_user).get_nb_errors() > 0
+    assert len(GlobalReport.generate(show_user)) > 0

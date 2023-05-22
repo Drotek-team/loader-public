@@ -50,31 +50,37 @@ DUMMEST_BASE_REPORT = DummestBaseReport(
 
 
 def test_base_report_get_nb_errors_standard_case() -> None:
-    assert DUMMEST_BASE_REPORT.get_nb_errors() == 5
+    assert len(DUMMEST_BASE_REPORT) == 5
 
 
 def test_base_report_get_nb_errors_no_fields() -> None:
     class DummyBaseReportWithNoFields(BaseReport):
         pass
 
-    with pytest.raises(TypeError):
-        DummyBaseReportWithNoFields().get_nb_errors()
+    with pytest.raises(TypeError, match="^Report has no fields: DummyBaseReportWithNoFields$"):
+        len(DummyBaseReportWithNoFields())
 
 
 def test_base_report_get_nb_errors_list_unsupported_type() -> None:
     class DummyListUnsuportedType(BaseReport):
         dummy_list: List[int]
 
-    with pytest.raises(TypeError):
-        DummyListUnsuportedType(dummy_list=[1, 2, 3]).get_nb_errors()
+    with pytest.raises(
+        TypeError,
+        match=r"^Report type not supported: typing.List\[int\] for DummyListUnsuportedType.dummy_list$",
+    ):
+        len(DummyListUnsuportedType(dummy_list=[1, 2, 3]))
 
 
 def test_base_report_get_nb_errors_report_unsupported_type() -> None:
     class DummyReportUnsuportedType(BaseReport):
         dummy_report: int
 
-    with pytest.raises(TypeError):
-        DummyReportUnsuportedType(dummy_report=1).get_nb_errors()
+    with pytest.raises(
+        TypeError,
+        match="^Report type not supported: <class 'int'> for DummyReportUnsuportedType.dummy_report$",
+    ):
+        len(DummyReportUnsuportedType(dummy_report=1))
 
 
 class CleverBaseReport(BaseReport):
