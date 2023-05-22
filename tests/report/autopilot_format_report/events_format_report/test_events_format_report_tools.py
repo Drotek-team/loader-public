@@ -40,7 +40,7 @@ def test_get_timecode_report_bound_violation(
     timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
-    assert timecode_report is not None
+    assert len(timecode_report)
     assert timecode_report.bound_infractions[0] == IntegerBoundaryInfraction(
         event_index=3,
         value=JSON_BINARY_PARAMETERS.timecode_value_bound.minimal - 1,
@@ -65,7 +65,7 @@ def test_get_timecode_report_increasing_frame_violation(
     timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
-    assert timecode_report is not None
+    assert len(timecode_report)
     assert timecode_report.increasing_infractions[0] == IncreasingFrameInfraction(
         event_index=3,
         previous_frame=2,

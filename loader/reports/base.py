@@ -85,4 +85,4 @@ class BaseReport(BaseMessage):
         **kwargs: Any,  # noqa: ANN401
     ) -> Optional[TBaseReport]:
         report = cls.generate(*args, **kwargs)
-        return report if len(report) > 0 else None
+        return report if len(report) else None

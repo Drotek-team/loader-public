@@ -54,7 +54,7 @@ def test_invalid_position_events_xyz_value_report(
     position_events_report = PositionEventsReport.generate(
         valid_position_events,
     )
-    assert position_events_report is not None
+    assert len(position_events_report)
     coordinate_infractions = position_events_report.coordinate_infractions
     assert len(coordinate_infractions) == 3
     for coordinate_infraction in coordinate_infractions:

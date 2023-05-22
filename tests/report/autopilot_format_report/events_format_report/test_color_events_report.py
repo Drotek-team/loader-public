@@ -51,7 +51,7 @@ def test_invalid_color_events_rgbw_value_report(
     color_events_report = ColorEventsReport.generate(
         valid_color_events,
     )
-    assert color_events_report is not None
+    assert len(color_events_report)
     assert len(color_events_report.chrome_infractions) == 1
     assert color_events_report.chrome_infractions[0] == ChromeInfraction(
         event_index=2,

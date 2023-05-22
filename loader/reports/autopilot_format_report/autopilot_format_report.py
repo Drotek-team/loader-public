@@ -32,6 +32,6 @@ class AutopilotFormatReport(BaseReport):
         drone_px4_reports = {
             drone_px4.index: drone_px4_report
             for drone_px4 in show_px4
-            if (drone_px4_report := DronePx4Report.generate_or_none(drone_px4)) is not None
+            if len(drone_px4_report := DronePx4Report.generate(drone_px4))
         }
         return AutopilotFormatReport(drone_px4_reports=drone_px4_reports)
