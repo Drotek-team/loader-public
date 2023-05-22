@@ -1,6 +1,6 @@
 import pytest
 from loader.reports import DanceSizeInfraction, get_report_validation
-from loader.shows.drone_px4 import DronePx4
+from loader.schemas.drone_px4 import DronePx4
 
 MAGIC_BREAKER_NUMBER = 12497
 

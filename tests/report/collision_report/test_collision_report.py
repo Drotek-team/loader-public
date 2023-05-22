@@ -3,7 +3,7 @@ from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
 )
 from loader.reports import CollisionReport, get_report_validation
-from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2
 

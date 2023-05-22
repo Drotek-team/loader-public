@@ -4,10 +4,10 @@ from loader.reports import (
     DanceSizeInformation,
     get_dance_size_information,
 )
-from loader.shows.drone_px4 import (
+from loader.schemas.drone_px4 import (
     DronePx4,
 )
-from loader.shows.drone_px4.events import (
+from loader.schemas.drone_px4.events import (
     ColorEvents,
     FireEvents,
     PositionEvents,

@@ -2,8 +2,8 @@ from typing import List
 
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.shows.drone_px4 import DronePx4
-from loader.shows.show_user.show_user import ShowUser
+from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.show_user.show_user import ShowUser
 
 ARBITRARY_POSITION_EVENT_FRAME = 360
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)

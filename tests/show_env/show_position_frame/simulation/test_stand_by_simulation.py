@@ -2,9 +2,11 @@ from typing import Tuple
 
 import numpy as np
 import pytest
-from loader.shows.show_user import PositionEventUser
-from loader.shows.show_user.show_position_frame.simulation.position_simulation import SimulationInfo
-from loader.shows.show_user.show_position_frame.simulation.stand_by_simulation import (
+from loader.schemas.show_user import PositionEventUser
+from loader.schemas.show_user.show_position_frame.simulation.position_simulation import (
+    SimulationInfo,
+)
+from loader.schemas.show_user.show_position_frame.simulation.stand_by_simulation import (
     stand_by_simulation,
 )
 

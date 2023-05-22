@@ -1,5 +1,5 @@
-from loader.shows import IostarJsonGcs, ShowUser
-from loader.shows.show_user.generate_show_user import (
+from loader.schemas import IostarJsonGcs, ShowUser
+from loader.schemas.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

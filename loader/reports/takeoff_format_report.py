@@ -4,7 +4,7 @@ import numpy as np
 
 from loader.parameters import TAKEOFF_PARAMETERS
 from loader.reports.base import BaseInfraction, BaseReport
-from loader.shows.show_user import DroneUser, ShowUser
+from loader.schemas.show_user import DroneUser, ShowUser
 
 
 class TakeoffDurationInfraction(BaseInfraction):

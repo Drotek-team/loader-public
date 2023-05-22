@@ -4,8 +4,8 @@ from typing import List, Tuple
 
 import numpy as np
 
-from loader.shows.grid_configuration.grid import Grid, GridConfiguration
-from loader.shows.show_user import ShowUser
+from loader.schemas.grid_configuration.grid import Grid, GridConfiguration
+from loader.schemas.show_user import ShowUser
 
 
 # https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point

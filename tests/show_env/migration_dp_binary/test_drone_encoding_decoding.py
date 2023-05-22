@@ -1,6 +1,6 @@
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.shows.drone_px4 import DronePx4
+from loader.schemas.drone_px4 import DronePx4
 
 from tests.strategies import slow
 

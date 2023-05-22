@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 from hypothesis import given
-from loader.shows.grid_configuration.grid import Grid, GridConfiguration
+from loader.schemas.grid_configuration.grid import Grid, GridConfiguration
 
 from tests.strategies import (
     slow,

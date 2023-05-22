@@ -1,22 +1,22 @@
 from hypothesis import given
-from loader.shows.drone_px4 import DronePx4
-from loader.shows.drone_px4.drone_px4 import (
+from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.drone_px4.drone_px4 import (
     add_color_events_user,
     add_fire_events_user,
     add_position_events_user,
     drone_user_to_drone_px4,
 )
-from loader.shows.show_user import (
+from loader.schemas.show_user import (
     ColorEventUser,
     DroneUser,
     FireEventUser,
     PositionEventUser,
 )
-from loader.shows.show_user.generate_show_user import (
+from loader.schemas.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )
-from loader.shows.show_user.show_user import ShowUser
+from loader.schemas.show_user.show_user import ShowUser
 
 from tests.strategies import slow, st_nb_drone_per_family, st_nb_x, st_nb_y
 

@@ -1,8 +1,8 @@
 from typing import Dict, Optional
 
 from loader.reports.base import BaseReport
-from loader.shows.drone_px4 import DronePx4
-from loader.shows.show_user import ShowUser
+from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.show_user import ShowUser
 
 from .dances_size_infraction import DanceSizeInfraction
 from .events_format_report import EventsFormatReport

@@ -6,7 +6,7 @@ from loader.reports import (
     PositionEventsReport,
     get_report_validation,
 )
-from loader.shows.drone_px4.events import PositionEvents
+from loader.schemas.drone_px4.events import PositionEvents
 
 
 @pytest.fixture

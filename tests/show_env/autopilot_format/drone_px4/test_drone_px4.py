@@ -1,5 +1,5 @@
-from loader.shows.drone_px4 import DronePx4
-from loader.shows.drone_px4.events.events_order import EventsType
+from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.drone_px4.events.events_order import EventsType
 
 
 def test_add_position_standard_case() -> None:

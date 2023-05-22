@@ -7,8 +7,8 @@ from .binary import Header, SectionHeader
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
 
 if TYPE_CHECKING:
-    from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
-    from loader.shows.show_user import (
+    from loader.schemas.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
+    from loader.schemas.show_user import (
         ColorEventUser,
         DroneUser,
         FireEventUser,

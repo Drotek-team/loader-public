@@ -5,7 +5,7 @@ from loader.reports import (
     ColorEventsReport,
     get_report_validation,
 )
-from loader.shows.drone_px4.events import ColorEvents
+from loader.schemas.drone_px4.events import ColorEvents
 
 
 @pytest.fixture

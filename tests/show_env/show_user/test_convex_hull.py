@@ -3,7 +3,7 @@ from typing import List, Tuple
 import pytest
 from hypothesis import assume, example, given
 from hypothesis import strategies as st
-from loader.shows.show_user.convex_hull import (
+from loader.schemas.show_user.convex_hull import (
     AngleOutOfBoundsError,
     calculate_angle,
     calculate_convex_hull,

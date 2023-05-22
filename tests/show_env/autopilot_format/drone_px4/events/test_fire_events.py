@@ -1,4 +1,4 @@
-from loader.shows.drone_px4.events import FireEvent, FireEvents
+from loader.schemas.drone_px4.events import FireEvent, FireEvents
 
 
 def test_fire_event_standard_case_and_method() -> None:

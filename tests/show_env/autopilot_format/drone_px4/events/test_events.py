@@ -1,7 +1,7 @@
 from typing import Any, List
 
-from loader.shows.drone_px4.events import Event, Events
-from loader.shows.drone_px4.events.events_order import EventsType
+from loader.schemas.drone_px4.events import Event, Events
+from loader.schemas.drone_px4.events.events_order import EventsType
 
 
 class DummyEvent(Event):  # pragma: no cover

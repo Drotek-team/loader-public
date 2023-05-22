@@ -6,12 +6,12 @@ from pydantic.types import StrictFloat, StrictInt
 
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.shows.drone_px4.drone_px4 import DronePx4
+from loader.schemas.drone_px4.drone_px4 import DronePx4
 
 from .convex_hull import calculate_convex_hull
 
 if TYPE_CHECKING:
-    from loader.shows.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
+    from loader.schemas.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
 
 
 class EventUserBase(BaseModel):

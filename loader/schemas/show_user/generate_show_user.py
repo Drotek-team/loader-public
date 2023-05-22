@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.shows.grid_configuration.grid_configuration import GridConfiguration
+from loader.schemas.grid_configuration.grid_configuration import GridConfiguration
 
 from .show_user import (
     ColorEventUser,

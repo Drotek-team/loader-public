@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from loader.parameters import IostarPhysicParameters
 from loader.reports.base import BaseReport
-from loader.shows.show_user import ShowUser
+from loader.schemas.show_user import ShowUser
 
 from .performance_infraction import PerformanceInfraction
 

@@ -1,7 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.shows.iostar_json_gcs.show_configuration import ShowConfiguration
-from loader.shows.show_user.generate_show_user import (
+from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.schemas.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
 )

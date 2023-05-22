@@ -11,14 +11,14 @@ from loader.reports import (
     PerformanceReport,
     get_dance_size_information,
 )
-from loader.shows import (
+from loader.schemas import (
     DronePx4,
     IostarJsonGcs,
     PositionEventUser,
     ShowConfigurationGcs,
     ShowUser,
 )
-from loader.shows.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_create_show_user_standard_case() -> None:

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from loader.parameters import FRAME_PARAMETERS
-from loader.shows.show_user import PositionEventUser, ShowUser
+from loader.schemas.show_user import PositionEventUser, ShowUser
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

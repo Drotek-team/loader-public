@@ -21,7 +21,7 @@ This project provides standard tools for the creation and verification of Drotek
 ### Show Creation
 
 ```python
-from loader.shows import ShowUser
+from loader.schemas import ShowUser
 
 # Create an empty show user
 show_user = ShowUser.create(nb_drones=5)
@@ -48,7 +48,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   from pathlib import Path
 
   from loader.reports import GlobalReport
-  from loader.shows import IostarJsonGcs, ShowUser
+  from loader.schemas import IostarJsonGcs, ShowUser
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
@@ -82,7 +82,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 
   from loader.parameters import IostarPhysicParameters
   from loader.reports import PerformanceReport
-  from loader.shows import IostarJsonGcs, ShowUser
+  from loader.schemas import IostarJsonGcs, ShowUser
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
@@ -138,7 +138,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 
   from loader.parameters import IostarPhysicParameters
   from loader.reports import CollisionReport
-  from loader.shows import IostarJsonGcs, ShowUser
+  from loader.schemas import IostarJsonGcs, ShowUser
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
@@ -195,7 +195,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   from pathlib import Path
 
   from loader.reports import AutopilotFormatReport
-  from loader.shows import IostarJsonGcs, ShowUser
+  from loader.schemas import IostarJsonGcs, ShowUser
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
@@ -223,7 +223,7 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
 ```python
 from pathlib import Path
 
-from loader.shows import IostarJsonGcs, ShowUser
+from loader.schemas import IostarJsonGcs, ShowUser
 
 # Import an iostar json gcs file to a show user
 show_user = ShowUser.from_iostar_json_gcs(

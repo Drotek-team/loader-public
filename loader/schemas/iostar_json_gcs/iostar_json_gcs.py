@@ -2,12 +2,12 @@ from typing import TYPE_CHECKING, List, Tuple
 
 from pydantic import BaseModel
 
-from loader.shows.drone_px4 import DronePx4
+from loader.schemas.drone_px4 import DronePx4
 
 from .show_configuration_gcs import ShowConfigurationGcs
 
 if TYPE_CHECKING:
-    from loader.shows.show_user import ShowUser
+    from loader.schemas.show_user import ShowUser
 
 
 class Dance(BaseModel):

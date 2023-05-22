@@ -5,9 +5,9 @@ from pydantic import BaseModel
 
 from loader.parameters.frame_parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.shows.iostar_json_gcs.show_configuration import ShowConfiguration
-from loader.shows.show_user.convex_hull import calculate_convex_hull
-from loader.shows.show_user.show_user import ShowUser
+from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.schemas.show_user.convex_hull import calculate_convex_hull
+from loader.schemas.show_user.show_user import ShowUser
 
 
 def from_user_altitude_range_to_px4_altitude_range(

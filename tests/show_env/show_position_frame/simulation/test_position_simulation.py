@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from loader.shows.show_user.show_position_frame.simulation.position_simulation import (
+from loader.schemas.show_user.show_position_frame.simulation.position_simulation import (
     SimulationInfo,
     linear_interpolation,
 )

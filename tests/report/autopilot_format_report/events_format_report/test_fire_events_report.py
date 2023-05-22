@@ -5,7 +5,7 @@ from loader.reports import (
     FireEventsReport,
     get_report_validation,
 )
-from loader.shows.drone_px4.events import FireEvents
+from loader.schemas.drone_px4.events import FireEvents
 
 
 @pytest.fixture
