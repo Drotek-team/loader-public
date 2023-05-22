@@ -16,7 +16,6 @@ from .autopilot_format_report import (
 from .base import (
     BaseInfraction,
     BaseReport,
-    get_report_validation,
 )
 from .collision_report import (
     CollisionInfraction,
@@ -55,7 +54,6 @@ __all__ = (
     "TimeCodeValueInfraction",
     "BaseInfraction",
     "BaseReport",
-    "get_report_validation",
     "CollisionInfraction",
     "CollisionReport",
     "GlobalReport",

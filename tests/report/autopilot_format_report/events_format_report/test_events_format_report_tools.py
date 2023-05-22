@@ -4,7 +4,6 @@ from loader.reports import (
     IncreasingFrameInfraction,
     IntegerBoundaryInfraction,
     TimecodeReport,
-    get_report_validation,
 )
 from loader.schemas.drone_px4.events import PositionEvents
 
@@ -24,7 +23,7 @@ def test_get_timecode_report_standard_case(
     timecode_report = TimecodeReport.generate(
         standard_position_events,
     )
-    assert get_report_validation(timecode_report)
+    assert not len(timecode_report)
 
 
 def test_get_timecode_report_bound_violation(

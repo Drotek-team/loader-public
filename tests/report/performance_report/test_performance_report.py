@@ -1,6 +1,6 @@
 import pytest
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IostarPhysicParameters
-from loader.reports import PerformanceInfraction, PerformanceReport, get_report_validation
+from loader.reports import PerformanceInfraction, PerformanceReport
 from loader.reports.performance_report.performance_infraction import PerformanceKind
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
@@ -11,7 +11,7 @@ def test_valid_show_trajectory_performance() -> None:
     performance_report = PerformanceReport.generate(
         get_valid_show_user(ShowUserConfiguration()),
     )
-    assert get_report_validation(performance_report)
+    assert not len(performance_report)
 
 
 def test_valid_show_user_horizontal_velocity() -> None:
@@ -217,7 +217,7 @@ def test_valid_show_user_acceleration() -> None:
         valid_show_user,
         physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
-    assert get_report_validation(performance_report)
+    assert not len(performance_report)
 
 
 def test_invalid_show_user_acceleration() -> None:

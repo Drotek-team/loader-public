@@ -7,7 +7,6 @@ from loader.reports import (
     MinimumPositionEventsInfraction,
     TakeoffFormatReport,
     TakeoffPositionInfraction,
-    get_report_validation,
 )
 from loader.schemas.show_user.generate_show_user import (
     ShowUserConfiguration,
@@ -18,7 +17,7 @@ from loader.schemas.show_user.generate_show_user import (
 def test_takeoff_format_report_generate_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     takeoff_format_report_report = TakeoffFormatReport.generate(show_user)
-    assert get_report_validation(takeoff_format_report_report)
+    assert not len(takeoff_format_report_report)
 
 
 def test_drone_user_report_generate_minimal_position_event_report() -> None:

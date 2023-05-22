@@ -1,5 +1,5 @@
 import pytest
-from loader.reports import DanceSizeReport, get_report_validation
+from loader.reports import DanceSizeReport
 from loader.schemas.drone_px4 import DronePx4
 
 MAGIC_BREAKER_NUMBER = 12497
@@ -25,11 +25,11 @@ def test_valid_drone_dance_size_report(valid_drone_dance_size: DronePx4) -> None
     dance_size_report = DanceSizeReport.generate(
         valid_drone_dance_size,
     )
-    assert get_report_validation(dance_size_report)
+    assert not len(dance_size_report)
 
 
 def test_invalid_drone_dance_size_report(invalid_drone_dance_size: DronePx4) -> None:
     dance_size_report = DanceSizeReport.generate(
         invalid_drone_dance_size,
     )
-    assert not get_report_validation(dance_size_report)
+    assert len(dance_size_report)

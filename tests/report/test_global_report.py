@@ -1,4 +1,4 @@
-from loader.reports import GlobalReport, get_report_validation
+from loader.reports import GlobalReport
 from loader.schemas.show_user.generate_show_user import (
     ShowUserConfiguration,
     get_valid_show_user,
@@ -32,7 +32,7 @@ def test_global_report_summary_collision_report() -> None:
 def test_generate_global_report_standard_case() -> None:
     valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     global_report = GlobalReport.generate(valid_show_user)
-    assert get_report_validation(global_report)
+    assert not len(global_report)
 
 
 def test_generate_global_report_takeoff_format_report_four_frame_tolerance() -> None:
@@ -41,24 +41,24 @@ def test_generate_global_report_takeoff_format_report_four_frame_tolerance() -> 
     )
     valid_show_user[0].position_events[0].frame = 4
     global_report = GlobalReport.generate(valid_show_user)
-    assert get_report_validation(global_report)
+    assert not len(global_report)
 
 
 def test_generate_global_report_incorrect_takeoff_format_report() -> None:
     valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     valid_show_user[0].position_events[0].frame = 5
     global_report = GlobalReport.generate(valid_show_user)
-    assert not get_report_validation(global_report)
+    assert len(global_report)
 
     global_report = GlobalReport.generate(valid_show_user, without_takeoff_format=True)
-    assert get_report_validation(global_report)
+    assert not len(global_report)
 
 
 def test_generate_global_report_incorrect_autopilot_format() -> None:
     valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     valid_show_user[0].add_position_event(-1, (0.0, 0.0, 0.0))
     global_report = GlobalReport.generate(valid_show_user)
-    assert not get_report_validation(global_report)
+    assert len(global_report)
     valid_show_user[0].add_position_event(-1, (0.0, 0.0, 0.0))
     global_report = GlobalReport.generate(valid_show_user)
-    assert not get_report_validation(global_report)
+    assert len(global_report)

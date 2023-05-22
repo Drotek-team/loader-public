@@ -4,7 +4,6 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports import (
     CoordinateInfraction,
     PositionEventsReport,
-    get_report_validation,
 )
 from loader.schemas.drone_px4.events import PositionEvents
 
@@ -38,7 +37,7 @@ def test_valid_position_events_report(
     position_events_report = PositionEventsReport.generate(
         valid_position_events,
     )
-    assert get_report_validation(position_events_report)
+    assert not len(position_events_report)
 
 
 def test_invalid_position_events_xyz_value_report(

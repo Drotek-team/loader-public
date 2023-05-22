@@ -86,9 +86,3 @@ class BaseReport(BaseMessage):
     ) -> Optional[TBaseReport]:
         report = cls.generate(*args, **kwargs)
         return report if len(report) > 0 else None
-
-
-def get_report_validation(
-    base_report: Optional[BaseMessage],
-) -> bool:
-    return True if base_report is None else len(base_report) == 0

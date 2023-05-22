@@ -3,7 +3,6 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports import (
     ChromeInfraction,
     ColorEventsReport,
-    get_report_validation,
 )
 from loader.schemas.drone_px4.events import ColorEvents
 
@@ -37,7 +36,7 @@ def test_valid_color_events_report(
     color_events_report = ColorEventsReport.generate(
         valid_color_events,
     )
-    assert get_report_validation(color_events_report)
+    assert not len(color_events_report)
 
 
 def test_invalid_color_events_rgbw_value_report(

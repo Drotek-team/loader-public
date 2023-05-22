@@ -3,7 +3,6 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports import (
     DurationChanelInfraction,
     FireEventsReport,
-    get_report_validation,
 )
 from loader.schemas.drone_px4.events import FireEvents
 
@@ -41,7 +40,7 @@ def test_valid_fire_events_report(
     fire_events_report = FireEventsReport.generate(
         valid_fire_events,
     )
-    assert get_report_validation(fire_events_report)
+    assert not len(fire_events_report)
 
 
 def test_invalid_fire_events_chanel_value_report(

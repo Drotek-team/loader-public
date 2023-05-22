@@ -2,7 +2,7 @@ from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_MAX,
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
 )
-from loader.reports import CollisionReport, get_report_validation
+from loader.reports import CollisionReport
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2
@@ -16,7 +16,7 @@ def test_collision_report_valid() -> None:
         ),
     )
     collision_report = CollisionReport.generate(invalid_show_user_on_ground)
-    assert get_report_validation(collision_report)
+    assert not len(collision_report)
 
 
 def test_collision_report_invalid() -> None:
@@ -29,7 +29,7 @@ def test_collision_report_invalid() -> None:
         ),
     )
     collision_report = CollisionReport.generate(invalid_show_user_on_ground)
-    assert not get_report_validation(collision_report)
+    assert len(collision_report)
     assert collision_report is not None
     collision_infractions = collision_report.collision_infractions
     assert len(collision_infractions) == 1488
@@ -40,4 +40,4 @@ def test_collision_report_invalid() -> None:
         invalid_show_user_on_ground,
         physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     )
-    assert get_report_validation(collision_report)
+    assert not len(collision_report)
