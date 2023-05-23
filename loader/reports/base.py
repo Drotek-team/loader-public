@@ -34,7 +34,9 @@ class BaseReport(BaseMessage):
             raise TypeError(msg)
 
         for field in self.__fields__.values():
-            if getattr(self, field.name) is None:
+            if getattr(self, field.name) is None or (
+                isinstance(getattr(self, field.name), int) and field.name == "drone_index"
+            ):
                 pass
             elif isinstance(getattr(self, field.name), BaseMessage):
                 nb_errors += len(cast(BaseMessage, getattr(self, field.name)))

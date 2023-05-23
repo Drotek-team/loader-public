@@ -82,6 +82,13 @@ def test_base_report_get_nb_errors_report_unsupported_type() -> None:
         len(DummyReportUnsuportedType(dummy_report=1))
 
 
+def test_base_report_get_nb_errors_report_width_drone_index() -> None:
+    class DummyReportWidthDroneIndex(BaseReport):
+        drone_index: int
+
+    assert not len(DummyReportWidthDroneIndex(drone_index=1))
+
+
 class CleverBaseReport(BaseReport):
     clever_base_infractions: List[DummierBaseInfraction]
 
