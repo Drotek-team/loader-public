@@ -194,27 +194,25 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   ```python
   from pathlib import Path
 
-  from loader.reports import AutopilotFormatReport
-  from loader.schemas import IostarJsonGcs, ShowUser
+  from loader.reports import DanceSizeReport
+  from loader.schemas import DronePx4, IostarJsonGcs, ShowUser
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
+  autopilot_format = DronePx4.from_show_user(show_user)
 
-  autopilot_format_report = AutopilotFormatReport.generate(show_user)
-  print(autopilot_format_report)
+  dance_size_report = DanceSizeReport.generate(autopilot_format)
+  print(dance_size_report)
   """
-  drone_px4_reports = {
-      0: DronePx4Report(
-          events_format_report=None,
-          dance_size_infraction=DanceSizeReport(
-              drone_index=0,
-              dance_size=100106,
-              position_events_size_pct=100,
-              color_events_size_pct=0,
-              fire_events_size_pct=0,
-          ),
+  dance_size_infractions = [
+      DanceSizeInfraction(
+          drone_index=0,
+          dance_size=100106,
+          position_events_size_pct=100,
+          color_events_size_pct=0,
+          fire_events_size_pct=0,
       )
-  }
+  ]
   """
   ```
 

@@ -77,6 +77,7 @@ class FireEventsReport(BaseReport):
 
 
 class EventsFormatReport(BaseReport):
+    drone_index: int
     position_events_report: Optional[PositionEventsReport] = None
     color_events_report: Optional[ColorEventsReport] = None
     fire_events_report: Optional[FireEventsReport] = None
@@ -96,6 +97,7 @@ class EventsFormatReport(BaseReport):
             drone_px4.fire_events,
         )
         return EventsFormatReport(
+            drone_index=drone_px4.index,
             position_events_report=position_events_report,
             color_events_report=color_events_report,
             fire_events_report=fire_events_report,

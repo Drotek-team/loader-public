@@ -10,6 +10,7 @@ from loader.reports import (
     GlobalReportSummary,
     PerformanceReport,
 )
+from loader.reports.autopilot_format_report.dance_size_report import DanceSizeInfraction
 from loader.schemas import (
     DronePx4,
     IostarJsonGcs,
@@ -95,17 +96,15 @@ def test_get_autopilot_format_report() -> None:
 def test_get_dance_size_informations() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     show_px4 = DronePx4.from_show_user(show_user)
-    assert all(
-        DanceSizeReport.generate(drone_px4)
-        == DanceSizeReport(
+    dance_size_report = DanceSizeReport.generate(show_px4)
+    for drone_px4, dance_size_infraction in zip(show_px4, dance_size_report.dance_size_infractions):
+        assert dance_size_infraction == DanceSizeInfraction(
             drone_index=drone_px4.index,
             dance_size=106,
             position_events_size_pct=0,
             color_events_size_pct=0,
             fire_events_size_pct=0,
         )
-        for drone_px4 in show_px4
-    )
 
 
 def test_generate_report_from_show_user_standard_case() -> None:

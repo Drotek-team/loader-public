@@ -1,12 +1,13 @@
 # pyright: reportIncompatibleMethodOverride=false
 import struct
+from typing import List
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports.base import BaseReport
+from loader.reports.base import BaseInfraction, BaseReport
 from loader.schemas.drone_px4 import DronePx4
 
 
-class DanceSizeReport(BaseReport):
+class DanceSizeInfraction(BaseInfraction):
     drone_index: int
     dance_size: int
     position_events_size_pct: int
@@ -23,7 +24,7 @@ class DanceSizeReport(BaseReport):
     def generate(
         cls,
         drone_px4: DronePx4,
-    ) -> "DanceSizeReport":
+    ) -> "DanceSizeInfraction":
         header_size = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
         header_section_size = len(drone_px4.non_empty_events_list) * struct.calcsize(
             JSON_BINARY_PARAMETERS.fmt_section_header,
@@ -39,7 +40,7 @@ class DanceSizeReport(BaseReport):
         )
         dance_size = header_size + header_section_size + position_size + color_size + fire_size
 
-        return DanceSizeReport(
+        return DanceSizeInfraction(
             drone_index=drone_px4.index,
             dance_size=dance_size,
             position_events_size_pct=int(
@@ -55,3 +56,17 @@ class DanceSizeReport(BaseReport):
 
     def __len__(self) -> int:
         return int(self.dance_size >= JSON_BINARY_PARAMETERS.dance_size_max)
+
+
+class DanceSizeReport(BaseReport):
+    dance_size_infractions: List[DanceSizeInfraction] = []
+
+    @classmethod
+    def generate(
+        cls,
+        autopilot_format: List[DronePx4],
+    ) -> "DanceSizeReport":
+        dance_size_infractions = [
+            DanceSizeInfraction.generate(drone_px4) for drone_px4 in autopilot_format
+        ]
+        return DanceSizeReport(dance_size_infractions=dance_size_infractions)
