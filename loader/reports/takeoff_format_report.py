@@ -98,6 +98,7 @@ class MinimumPositionEventsInfraction(BaseInfraction):
 
 
 class DroneUserReport(BaseReport):
+    drone_index: int
     minimal_position_event: Optional[MinimumPositionEventsInfraction] = None
     takeoff: Optional[TakeoffReport] = None
 
@@ -111,10 +112,11 @@ class DroneUserReport(BaseReport):
         )
         if minimal_position_event_report is not None:
             return DroneUserReport(
+                drone_index=drone_user.index,
                 minimal_position_event=minimal_position_event_report,
             )
         takeoff_report = TakeoffReport.generate_or_none(drone_user)
-        return DroneUserReport(takeoff=takeoff_report)
+        return DroneUserReport(drone_index=drone_user.index, takeoff=takeoff_report)
 
 
 class TakeoffFormatReport(BaseReport):
