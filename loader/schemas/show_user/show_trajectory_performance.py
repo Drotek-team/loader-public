@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 import numpy as np
 
@@ -13,9 +11,9 @@ if TYPE_CHECKING:
 
 
 def get_velocities_from_positions(
-    frames: list[int],
-    positions: list[NDArray[np.float64]],
-) -> list[NDArray[np.float64]]:
+    frames: List["int"],
+    positions: List["NDArray[np.float64]"],
+) -> List["NDArray[np.float64]"]:
     if len(positions) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
     velocities = [
@@ -30,9 +28,9 @@ def get_velocities_from_positions(
 
 
 def get_accelerations_from_velocities(
-    frames: list[int],
-    velocities: list[NDArray[np.float64]],
-) -> list[NDArray[np.float64]]:
+    frames: List["int"],
+    velocities: List["NDArray[np.float64]"],
+) -> List["NDArray[np.float64]"]:
     if len(velocities) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
     accelerations = [
@@ -47,8 +45,8 @@ def get_accelerations_from_velocities(
 
 
 def get_trajectory_performance_info_from_position_events(
-    position_events_user: list[PositionEventUser],
-) -> list[TrajectoryPerformanceInfo]:
+    position_events_user: List["PositionEventUser"],
+) -> List["TrajectoryPerformanceInfo"]:
     frames = [position_event.frame for position_event in position_events_user]
     positions = [
         np.array(position_event.xyz, dtype=np.float64) for position_event in position_events_user
@@ -73,9 +71,9 @@ def get_trajectory_performance_info_from_position_events(
 
 @dataclass(frozen=True)
 class Performance:
-    position: NDArray[np.float64]
-    velocity: NDArray[np.float64]
-    acceleration: NDArray[np.float64]
+    position: "NDArray[np.float64]"
+    velocity: "NDArray[np.float64]"
+    acceleration: "NDArray[np.float64]"
 
 
 @dataclass(frozen=True)
@@ -84,15 +82,15 @@ class TrajectoryPerformanceInfo:
     performance: Performance
 
     @property
-    def position(self) -> NDArray[np.float64]:
+    def position(self) -> "NDArray[np.float64]":
         return self.performance.position
 
     @property
-    def velocity(self) -> NDArray[np.float64]:
+    def velocity(self) -> "NDArray[np.float64]":
         return self.performance.velocity
 
     @property
-    def acceleration(self) -> NDArray[np.float64]:
+    def acceleration(self) -> "NDArray[np.float64]":
         return self.performance.acceleration
 
 
@@ -100,7 +98,7 @@ class DroneTrajectoryPerformance:
     def __init__(
         self,
         index: int,
-        trajectory_performance_infos: list[TrajectoryPerformanceInfo],
+        trajectory_performance_infos: List["TrajectoryPerformanceInfo"],
     ) -> None:
         self.index = index
         self.trajectory_performance_infos = trajectory_performance_infos
@@ -109,7 +107,7 @@ class DroneTrajectoryPerformance:
     def from_show_user(
         cls,
         show_user: ShowUser,
-    ) -> list[DroneTrajectoryPerformance]:
+    ) -> List["DroneTrajectoryPerformance"]:
         return [
             cls(
                 drone_user.index,

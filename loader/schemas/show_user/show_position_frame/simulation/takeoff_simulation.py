@@ -1,21 +1,18 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-import numpy as np
+from typing import TYPE_CHECKING, List, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 
 from .position_simulation import SimulationInfo, linear_interpolation
 
 if TYPE_CHECKING:
+    import numpy as np
     from numpy.typing import NDArray
 
 
 def generate_takeoff_first_part(
-    takeoff_start_position: tuple[float, float, float],
-    takeoff_middle_position: tuple[float, float, float],
-) -> list[NDArray[np.float64]]:
+    takeoff_start_position: Tuple[float, float, float],
+    takeoff_middle_position: Tuple[float, float, float],
+) -> List["NDArray[np.float64]"]:
     return linear_interpolation(
         takeoff_start_position,
         takeoff_middle_position,
@@ -26,9 +23,9 @@ def generate_takeoff_first_part(
 
 
 def generate_takeoff_second_part(
-    takeoff_middle_position: tuple[float, float, float],
-    takeoff_end_position: tuple[float, float, float],
-) -> list[NDArray[np.float64]]:
+    takeoff_middle_position: Tuple[float, float, float],
+    takeoff_end_position: Tuple[float, float, float],
+) -> List["NDArray[np.float64]"]:
     return linear_interpolation(
         takeoff_middle_position,
         takeoff_end_position,
@@ -39,10 +36,10 @@ def generate_takeoff_second_part(
 
 
 def takeoff_simulation(
-    takeoff_start_position: tuple[float, float, float],
+    takeoff_start_position: Tuple[float, float, float],
     takeoff_end_altitude: float,
     frame_begin: int,
-) -> list[SimulationInfo]:
+) -> List["SimulationInfo"]:
     takeoff_middle_position = (
         takeoff_start_position[0],
         takeoff_start_position[1],

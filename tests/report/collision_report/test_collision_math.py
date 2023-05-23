@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -14,7 +12,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-def get_numpy_grid(nb_x: int, nb_y: int) -> NDArray[np.float64]:
+def get_numpy_grid(nb_x: int, nb_y: int) -> "NDArray[np.float64]":
     return np.array(
         [(x, y, 0) for x in range(nb_x) for y in range(nb_y)],
         dtype=np.float64,

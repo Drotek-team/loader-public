@@ -1,20 +1,17 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-import numpy as np
+from typing import TYPE_CHECKING, List, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 
 from .position_simulation import SimulationInfo, linear_interpolation
 
 if TYPE_CHECKING:
+    import numpy as np
     from numpy.typing import NDArray
 
 
 def generate_land_first_part(
-    land_start_position: tuple[float, float, float],
-) -> list[NDArray[np.float64]]:
+    land_start_position: Tuple[float, float, float],
+) -> List["NDArray[np.float64]"]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
@@ -30,8 +27,8 @@ def generate_land_first_part(
 
 
 def generate_land_second_part(
-    land_start_position: tuple[float, float, float],
-) -> list[NDArray[np.float64]]:
+    land_start_position: Tuple[float, float, float],
+) -> List["NDArray[np.float64]"]:
     land_middle_position = (
         land_start_position[0],
         land_start_position[1],
@@ -52,9 +49,9 @@ def generate_land_second_part(
 
 
 def land_simulation(
-    land_start_position: tuple[float, float, float],
+    land_start_position: Tuple[float, float, float],
     frame_begin: int,
-) -> list[SimulationInfo]:
+) -> List["SimulationInfo"]:
     land_positions = generate_land_first_part(
         land_start_position,
     ) + generate_land_second_part(

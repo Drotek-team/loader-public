@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
 
@@ -14,7 +12,7 @@ DECIMAL_NUMBER_TOLERANCE = 3
 @dataclass(frozen=True)
 class SimulationInfo:
     frame: int
-    position: NDArray[np.float64]
+    position: "NDArray[np.float64]"
     in_air: bool
 
     def __eq__(self, other_simulation_info: object) -> bool:
@@ -32,8 +30,8 @@ class SimulationInfo:
 
 
 def apply_decimal_number_tolerance(
-    position_array: NDArray[np.float64],
-) -> NDArray[np.float64]:
+    position_array: "NDArray[np.float64]",
+) -> "NDArray[np.float64]":
     return np.round(  # pyright: ignore[reportUnknownMemberType]
         position_array,
         DECIMAL_NUMBER_TOLERANCE,
@@ -41,10 +39,10 @@ def apply_decimal_number_tolerance(
 
 
 def linear_interpolation(
-    position_begin: tuple[float, float, float],
-    position_end: tuple[float, float, float],
+    position_begin: Tuple[float, float, float],
+    position_end: Tuple[float, float, float],
     nb_points: int,
-) -> list[NDArray[np.float64]]:
+) -> List["NDArray[np.float64]"]:
     if nb_points < 0:
         msg = f"nb_points must be positive: nb_points = {nb_points}"
         raise ValueError(msg)

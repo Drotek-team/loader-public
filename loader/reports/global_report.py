@@ -43,7 +43,7 @@ class GlobalReport(BaseReport):
         show_user: ShowUser,
         *,
         without_takeoff_format: bool = False,
-        physic_parameters: Optional["IostarPhysicParameters"] = None,
+        physic_parameters: Optional[IostarPhysicParameters] = None,
         is_partial: bool = False,
     ) -> "GlobalReport":
         if without_takeoff_format:

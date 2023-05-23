@@ -1,8 +1,5 @@
-from __future__ import annotations
+from typing import TYPE_CHECKING, Tuple
 
-from typing import TYPE_CHECKING
-
-import numpy as np
 from loader.schemas.show_user import PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_trajectory_performance import (
@@ -11,12 +8,13 @@ from loader.schemas.show_user.show_trajectory_performance import (
 )
 
 if TYPE_CHECKING:
+    import numpy as np
     from numpy.typing import NDArray
 
 
 def from_ca_to_ct(
-    coordinate_array: NDArray[np.float64],
-) -> tuple[float, float, float]:
+    coordinate_array: "NDArray[np.float64]",
+) -> Tuple[float, float, float]:
     return (coordinate_array[0], coordinate_array[1], coordinate_array[2])
 
 

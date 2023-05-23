@@ -1,8 +1,6 @@
-from __future__ import annotations
-
 import math
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
 
@@ -21,11 +19,11 @@ class Coordinate:
     y: float  # ENU in meter
 
     @property
-    def xy_array(self) -> NDArray[np.float64]:
+    def xy_array(self) -> "NDArray[np.float64]":
         return np.array((self.x, self.y), dtype=np.float64)
 
     @property
-    def xy_tuple(self) -> tuple[float, float]:
+    def xy_tuple(self) -> Tuple[float, float]:
         return (self.x, self.y)
 
     def __eq__(self, __o: object) -> bool:
@@ -54,11 +52,11 @@ class HorizontalPosition:
         return self.coordinate.y
 
     @property
-    def xy_array(self) -> NDArray[np.float64]:
+    def xy_array(self) -> "NDArray[np.float64]":
         return self.coordinate.xy_array
 
     @property
-    def xy_tuple(self) -> tuple[float, float]:
+    def xy_tuple(self) -> Tuple[float, float]:
         return self.coordinate.xy_tuple
 
 
@@ -79,7 +77,7 @@ class Grid(List[HorizontalPosition]):
             horizontal_position.rotated_positions(angle_radian)
 
     @classmethod
-    def from_show_user(cls, show_user: ShowUser) -> Grid:
+    def from_show_user(cls, show_user: ShowUser) -> "Grid":
         return Grid(
             [
                 HorizontalPosition(
@@ -94,19 +92,19 @@ class Grid(List[HorizontalPosition]):
         )
 
     @classmethod
-    def from_grid_configuration(cls, grid_configuration: GridConfiguration) -> Grid:
+    def from_grid_configuration(cls, grid_configuration: GridConfiguration) -> "Grid":
         return Grid.from_show_user(get_valid_show_user(grid_configuration))
 
     def get_first_and_second_family_horizontal_positions(
         self,
         nb_drone_per_family: int,
-    ) -> tuple[HorizontalPosition, HorizontalPosition]:
+    ) -> Tuple[HorizontalPosition, HorizontalPosition]:
         if self.is_grid_one_drone() or self.is_grid_one_family():
             return (self[0], self[0])
         return (self[0], self[nb_drone_per_family])
 
     @staticmethod
-    def get_angle_degree_from_vector(u_x: NDArray[np.float64]) -> float:
+    def get_angle_degree_from_vector(u_x: "NDArray[np.float64]") -> float:
         u_x_unit = u_x / np.linalg.norm(u_x)
         return np.arctan2(u_x_unit[1], u_x_unit[0])
 
@@ -136,7 +134,7 @@ class Grid(List[HorizontalPosition]):
         self,
         nb_drone_per_family: int,
         angle_radian: float,
-    ) -> tuple[int, int]:
+    ) -> Tuple[int, int]:
         self.rotate_horizontal_positions(-angle_radian)
         for first_horizontal_position, second_horizontal_position in zip(self[:-1], self[1:]):
             if not np.allclose(

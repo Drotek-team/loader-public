@@ -1,8 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
-from __future__ import annotations
 
 import itertools
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, List, Optional, TypeVar
 
 import numpy as np
 
@@ -18,8 +17,8 @@ T = TypeVar("T")
 
 
 def get_couple_distance_matrix(
-    positions_numpy: NDArray[np.float64],
-) -> NDArray[np.float64]:
+    positions_numpy: "NDArray[np.float64]",
+) -> "NDArray[np.float64]":
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
     return config_matrix + np.linalg.norm(
         positions_numpy[:, None, :] - positions_numpy[None, :, :],
@@ -38,12 +37,12 @@ class CollisionInfraction(BaseInfraction):
     def _get_collision_infractions(
         cls,
         frame: int,
-        local_drone_indices: NDArray[np.intp],
-        local_drone_positions: NDArray[np.float64],
+        local_drone_indices: "NDArray[np.intp]",
+        local_drone_positions: "NDArray[np.float64]",
         endangered_distance: float,
         *,
         in_air: bool,
-    ) -> list[CollisionInfraction]:
+    ) -> List["CollisionInfraction"]:
         nb_drones_local = len(local_drone_indices)
         couples_distance_matrix_indices = np.array(
             list(range(nb_drones_local * nb_drones_local)),
@@ -83,7 +82,7 @@ class CollisionInfraction(BaseInfraction):
         cls,
         show_position_frame: ShowPositionFrame,
         collision_distance: float,
-    ) -> list[CollisionInfraction]:
+    ) -> List["CollisionInfraction"]:
         on_ground_collision_infractions = cls._get_collision_infractions(
             show_position_frame.frame,
             show_position_frame.on_ground_indices,
@@ -105,9 +104,9 @@ class CollisionInfraction(BaseInfraction):
         cls,
         show_user: ShowUser,
         *,
-        collision_distance: float | None = None,
+        collision_distance: Optional[float] = None,
         is_partial: bool = False,
-    ) -> list[CollisionInfraction]:
+    ) -> List["CollisionInfraction"]:
         show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
         if collision_distance is None:
             collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.security_distance_in_air
@@ -131,19 +130,19 @@ class CollisionInfraction(BaseInfraction):
 
 
 def get_principal_axis(
-    positions_numpy: NDArray[np.float64],
-) -> NDArray[np.float64]:
-    x_meaned: NDArray[np.float64] = positions_numpy - np.mean(positions_numpy, axis=0)
+    positions_numpy: "NDArray[np.float64]",
+) -> "NDArray[np.float64]":
+    x_meaned: "NDArray[np.float64]" = positions_numpy - np.mean(positions_numpy, axis=0)
     cov_mat = np.cov(x_meaned, rowvar=False)
     eigen_values, eigen_vectors = np.linalg.eigh(cov_mat)
     return eigen_vectors[:, np.argmax(eigen_values)]
 
 
 def get_border_indices(
-    sorted_positions_numpy: NDArray[np.float64],
+    sorted_positions_numpy: "NDArray[np.float64]",
     endangered_distance: float,
-) -> NDArray[np.intp]:
-    middle_position_numpy: NDArray[np.float64] = sorted_positions_numpy[
+) -> "NDArray[np.intp]":
+    middle_position_numpy: "NDArray[np.float64]" = sorted_positions_numpy[
         len(sorted_positions_numpy) // 2
     ]
     return np.arange(  # pyright: ignore[reportUnknownMemberType]
@@ -161,6 +160,6 @@ def get_border_indices(
 
 
 def get_unique_list_from_list(
-    non_unique_list: list[T],
-) -> list[T]:
+    non_unique_list: List[T],
+) -> List[T]:
     return list(set(non_unique_list))

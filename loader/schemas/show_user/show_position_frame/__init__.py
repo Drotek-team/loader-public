@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 import numpy as np
 
@@ -15,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class ShowPositionFrame:
-    def __init__(self, frame: int, drone_indices: list[int]) -> None:
+    def __init__(self, frame: int, drone_indices: List["int"]) -> None:
         nb_drones = len(drone_indices)
 
         self.frame = frame
@@ -26,7 +24,7 @@ class ShowPositionFrame:
     def update_position_air_flag(
         self,
         index: int,
-        position: NDArray[np.float64],
+        position: "NDArray[np.float64]",
         *,
         in_air_flag: bool,
     ) -> None:
@@ -35,19 +33,19 @@ class ShowPositionFrame:
         self._in_air_flags[index] = in_air_flag
 
     @property
-    def in_air_indices(self) -> NDArray[np.intp]:
+    def in_air_indices(self) -> "NDArray[np.intp]":
         return self._indices[self._in_air_flags]
 
     @property
-    def on_ground_indices(self) -> NDArray[np.intp]:
+    def on_ground_indices(self) -> "NDArray[np.intp]":
         return self._indices[np.invert(self._in_air_flags)]
 
     @property
-    def in_air_positions(self) -> NDArray[np.float64]:
+    def in_air_positions(self) -> "NDArray[np.float64]":
         return self._positions[self._in_air_flags]
 
     @property
-    def on_ground_positions(self) -> NDArray[np.float64]:
+    def on_ground_positions(self) -> "NDArray[np.float64]":
         return self._positions[np.invert(self._in_air_flags)]
 
     def __len__(self) -> int:
@@ -59,7 +57,7 @@ class ShowPositionFrame:
         show_user: ShowUser,
         *,
         is_partial: bool,
-    ) -> list[ShowPositionFrame]:
+    ) -> List["ShowPositionFrame"]:
         drone_indices = [drone_user.index for drone_user in show_user.drones_user]
         flight_simulations = [
             get_partial_flight_simulation(drone_user)
