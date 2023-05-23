@@ -1,11 +1,12 @@
 from math import degrees
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple
 
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator  # pyright: ignore[reportUnknownVariableType]
 
 from loader.parameters.frame_parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.grid_configuration import GridConfiguration
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
 from loader.schemas.show_user.show_user import ShowUser
 
@@ -52,6 +53,7 @@ def from_user_hull_to_px4_hull(
 
 
 class ShowConfigurationGcs(BaseModel):
+    matrix: List[List[int]] = []  # Matrix of the show
     nb_x: int  # Number of families on the x-axis during the takeoff
     nb_y: int  # Number of families on the y-axis during the takeoff
     nb_drone_per_family: int  # Number of drones in each families
@@ -65,6 +67,15 @@ class ShowConfigurationGcs(BaseModel):
         int,
         int,
     ]  # Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis
+
+    @root_validator(pre=True)
+    def init_matrix(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        values["matrix"] = get_matrix(
+            values["nb_x"],
+            values["nb_y"],
+            values["nb_drone_per_family"],
+        ).tolist()
+        return values
 
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "ShowConfigurationGcs":

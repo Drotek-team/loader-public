@@ -4,8 +4,11 @@ from typing import TYPE_CHECKING, List, Tuple
 import numpy as np
 
 from loader.schemas.grid_configuration.grid import Grid
+from loader.schemas.matrix import get_matrix
 
 if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
     from loader.schemas.show_user.show_user import ShowUser
 
 
@@ -17,6 +20,7 @@ def is_angles_equal(first_angle_radian: float, second_angle_radian: float) -> bo
 
 @dataclass()
 class GridConfiguration:
+    matrix: "NDArray[np.intp]" = field(default_factory=get_matrix)  # Matrix of the show
     nb_x: int = 1  # Number of families on the x-axis (west/east) during the takeoff
     nb_y: int = 1  # Number of families on the y-axis (south/north) during the takeoff
     nb_drone_per_family: int = 1  # Number of drones in each families
@@ -62,3 +66,6 @@ class GridConfiguration:
             hull=show_user.convex_hull,
             altitude_range=show_user.altitude_range,
         )
+
+    def __post_init__(self) -> None:
+        self.matrix = get_matrix(self.nb_x, self.nb_y, self.nb_drone_per_family)
