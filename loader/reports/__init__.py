@@ -14,22 +14,10 @@ from .autopilot_format_report import (
     TimecodeReport,
     TimeCodeValueInfraction,
 )
-from .base import (
-    BaseInfraction,
-    BaseReport,
-)
-from .collision_report import (
-    CollisionInfraction,
-    CollisionReport,
-)
-from .global_report import (
-    GlobalReport,
-    GlobalReportSummary,
-)
-from .performance_report import (
-    PerformanceInfraction,
-    PerformanceReport,
-)
+from .base import BaseInfraction, BaseReport
+from .collision_report import CollisionInfraction, CollisionReport
+from .global_report import GlobalReport, GlobalReportSummary
+from .performance_report import PerformanceInfraction, PerformanceReport
 from .takeoff_format_report import (
     DroneUserReport,
     MinimumPositionEventsInfraction,

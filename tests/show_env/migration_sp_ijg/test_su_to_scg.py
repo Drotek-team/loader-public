@@ -1,10 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 from tests.strategies import (
     slow,

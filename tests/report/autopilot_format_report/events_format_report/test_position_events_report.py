@@ -1,10 +1,7 @@
 import pytest
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import (
-    CoordinateInfraction,
-    PositionEventsReport,
-)
+from loader.reports import CoordinateInfraction, PositionEventsReport
 from loader.schemas.drone_px4.events import PositionEvents
 
 

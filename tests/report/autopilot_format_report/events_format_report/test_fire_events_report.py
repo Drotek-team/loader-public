@@ -1,9 +1,6 @@
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import (
-    DurationChanelInfraction,
-    FireEventsReport,
-)
+from loader.reports import DurationChanelInfraction, FireEventsReport
 from loader.schemas.drone_px4.events import FireEvents
 
 

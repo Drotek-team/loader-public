@@ -6,16 +6,8 @@ from loader.schemas.drone_px4.drone_px4 import (
     add_position_events_user,
     drone_user_to_drone_px4,
 )
-from loader.schemas.show_user import (
-    ColorEventUser,
-    DroneUser,
-    FireEventUser,
-    PositionEventUser,
-)
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import ShowUser
 
 from tests.strategies import slow, st_nb_drone_per_family, st_nb_x, st_nb_y

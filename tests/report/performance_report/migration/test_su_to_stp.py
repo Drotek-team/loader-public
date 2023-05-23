@@ -4,10 +4,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 from loader.schemas.show_user import PositionEventUser
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_trajectory_performance import (
     DroneTrajectoryPerformance,
     get_trajectory_performance_info_from_position_events,

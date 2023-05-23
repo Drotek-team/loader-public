@@ -1,10 +1,6 @@
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import (
-    IncreasingFrameInfraction,
-    IntegerBoundaryInfraction,
-    TimecodeReport,
-)
+from loader.reports import IncreasingFrameInfraction, IntegerBoundaryInfraction, TimecodeReport
 from loader.schemas.drone_px4.events import PositionEvents
 
 

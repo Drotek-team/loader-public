@@ -1,8 +1,5 @@
 from loader.reports import AutopilotFormatReport
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_generate_autopilot_format_report_standard_case() -> None:

@@ -5,13 +5,7 @@ from typing import List, Tuple
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.schemas.grid_configuration.grid_configuration import GridConfiguration
 
-from .show_user import (
-    ColorEventUser,
-    DroneUser,
-    FireEventUser,
-    PositionEventUser,
-    ShowUser,
-)
+from .show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser, ShowUser
 
 
 @dataclass()

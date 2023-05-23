@@ -8,10 +8,7 @@ from loader.reports import (
     TakeoffFormatReport,
     TakeoffPositionInfraction,
 )
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_takeoff_format_report_generate_standard_case() -> None:

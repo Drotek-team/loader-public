@@ -1,11 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.schemas.drone_px4.drone_px4 import decode_events, encode_events
-from loader.schemas.drone_px4.events import (
-    ColorEvents,
-    FireEvents,
-    PositionEvents,
-)
+from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
 
 from tests.strategies import slow
 

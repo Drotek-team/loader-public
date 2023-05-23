@@ -1,7 +1,4 @@
-from loader.schemas.drone_px4.events import (
-    ColorEvent,
-    ColorEvents,
-)
+from loader.schemas.drone_px4.events import ColorEvent, ColorEvents
 
 
 def test_color_event_standard_case_and_method() -> None:

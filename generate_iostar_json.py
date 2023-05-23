@@ -1,10 +1,7 @@
 from pathlib import Path
 
 from loader.schemas import IostarJsonGcs
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 # TODO(jonathan): Generate show with performance infractions and another with collisions to use in README.md

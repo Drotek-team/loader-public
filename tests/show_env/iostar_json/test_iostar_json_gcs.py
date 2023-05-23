@@ -1,8 +1,5 @@
 from loader.schemas import IostarJsonGcs
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_iostar_json_gcs_standard_case_and_method() -> None:

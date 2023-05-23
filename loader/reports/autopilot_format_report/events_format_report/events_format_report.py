@@ -3,11 +3,7 @@ from typing import List, Optional
 
 from loader.reports.base import BaseReport
 from loader.schemas.drone_px4 import DronePx4
-from loader.schemas.drone_px4.events import (
-    ColorEvents,
-    FireEvents,
-    PositionEvents,
-)
+from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
 
 from .events_format_infractions import (
     ChromeInfraction,

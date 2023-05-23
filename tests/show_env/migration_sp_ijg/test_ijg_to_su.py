@@ -1,8 +1,5 @@
 from loader.schemas import IostarJsonGcs, ShowUser
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_ijg_to_su() -> None:

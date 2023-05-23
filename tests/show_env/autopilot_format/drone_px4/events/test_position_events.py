@@ -1,7 +1,4 @@
-from loader.schemas.drone_px4.events import (
-    PositionEvent,
-    PositionEvents,
-)
+from loader.schemas.drone_px4.events import PositionEvent, PositionEvents
 
 
 def test_position_event_standard_case_and_method() -> None:

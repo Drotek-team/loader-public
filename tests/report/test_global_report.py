@@ -1,8 +1,5 @@
 from loader.reports import GlobalReport
-from loader.schemas.show_user.generate_show_user import (
-    ShowUserConfiguration,
-    get_valid_show_user,
-)
+from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_global_report_summary_standard_case() -> None:

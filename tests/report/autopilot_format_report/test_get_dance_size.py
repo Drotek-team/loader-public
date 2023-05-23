@@ -1,14 +1,8 @@
 import struct
 
 from loader.reports import DanceSizeInfraction
-from loader.schemas.drone_px4 import (
-    DronePx4,
-)
-from loader.schemas.drone_px4.events import (
-    ColorEvents,
-    FireEvents,
-    PositionEvents,
-)
+from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
 
 DANCE_BASIC_SIZE = 34
 POSITION_EVENT_SIZE = struct.calcsize(PositionEvents().format_)

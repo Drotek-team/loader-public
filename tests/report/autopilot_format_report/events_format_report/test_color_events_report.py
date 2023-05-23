@@ -1,9 +1,6 @@
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import (
-    ChromeInfraction,
-    ColorEventsReport,
-)
+from loader.reports import ChromeInfraction, ColorEventsReport
 from loader.schemas.drone_px4.events import ColorEvents
 
 

@@ -1,10 +1,7 @@
 from typing import List, Optional
 
 import pytest
-from loader.reports.base import (
-    BaseInfraction,
-    BaseReport,
-)
+from loader.reports.base import BaseInfraction, BaseReport
 
 
 class DummyBaseInfraction(BaseInfraction):

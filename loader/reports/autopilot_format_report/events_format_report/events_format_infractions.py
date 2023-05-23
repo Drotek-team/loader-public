@@ -3,12 +3,7 @@ from typing import List
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports.base import BaseInfraction, BaseReport
-from loader.schemas.drone_px4.events import (
-    ColorEvents,
-    Events,
-    FireEvents,
-    PositionEvents,
-)
+from loader.schemas.drone_px4.events import ColorEvents, Events, FireEvents, PositionEvents
 
 
 class IntegerBoundaryInfraction(BaseInfraction):

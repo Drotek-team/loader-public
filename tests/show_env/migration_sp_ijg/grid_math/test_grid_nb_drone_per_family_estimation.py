@@ -1,11 +1,7 @@
 from hypothesis import given
 from loader.schemas.grid_configuration.grid import Grid, GridConfiguration
 
-from tests.strategies import (
-    st_nb_drone_per_family,
-    st_nb_x,
-    st_nb_y,
-)
+from tests.strategies import st_nb_drone_per_family, st_nb_x, st_nb_y
 
 
 @given(

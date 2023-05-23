@@ -1,7 +1,4 @@
-from loader.parameters import (
-    IOSTAR_PHYSIC_PARAMETERS_MAX,
-    IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
-)
+from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
 from loader.reports import CollisionReport
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
