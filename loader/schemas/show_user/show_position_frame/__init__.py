@@ -79,6 +79,8 @@ class ShowPositionFrame:
                 show_slice.update_position_air_flag(
                     drone_index,
                     simulation_info.position,
-                    in_air_flag=simulation_info.in_air,
+                    in_air_flag=(
+                        simulation_info.position[2] != 0 if is_partial else simulation_info.in_air
+                    ),
                 )
         return show_position_frames
