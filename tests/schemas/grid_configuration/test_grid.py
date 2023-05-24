@@ -1,10 +1,6 @@
 import numpy as np
-from loader.schemas.grid_configuration.grid import (
-    Coordinate,
-    Grid,
-    GridConfiguration,
-    HorizontalPosition,
-)
+from loader.schemas.grid_configuration import GridConfiguration
+from loader.schemas.grid_configuration.grid import Coordinate, Grid, HorizontalPosition
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.schemas.grid_configuration.grid_configuration import GridConfiguration
+from loader.schemas.grid_configuration import GridConfiguration
 
 from .show_user import DroneUser, ShowUser
 

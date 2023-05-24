@@ -2,7 +2,8 @@ import math
 
 import numpy as np
 from hypothesis import given
-from loader.schemas.grid_configuration.grid import Grid, GridConfiguration
+from loader.schemas.grid_configuration import GridConfiguration
+from loader.schemas.grid_configuration.grid import Grid
 
 from tests.strategies import slow, st_angle_takeoff, st_nb_drone_per_family, st_nb_x, st_nb_y
 

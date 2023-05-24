@@ -7,10 +7,10 @@ import numpy as np
 from loader.schemas.show_user import ShowUser
 from loader.schemas.show_user.generate_show_user import get_valid_show_user
 
-from .grid_configuration import GridConfiguration
-
 if TYPE_CHECKING:
     from numpy.typing import NDArray
+
+    from .grid_configuration import GridConfiguration
 
 
 @dataclass(frozen=True)
@@ -92,7 +92,7 @@ class Grid(List[HorizontalPosition]):
         )
 
     @classmethod
-    def from_grid_configuration(cls, grid_configuration: GridConfiguration) -> "Grid":
+    def from_grid_configuration(cls, grid_configuration: "GridConfiguration") -> "Grid":
         return Grid.from_show_user(get_valid_show_user(grid_configuration))
 
     def get_first_and_second_family_horizontal_positions(

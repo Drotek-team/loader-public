@@ -1,6 +1,7 @@
 import numpy as np
 from hypothesis import given
-from loader.schemas.grid_configuration.grid import Grid, GridConfiguration
+from loader.schemas.grid_configuration import GridConfiguration
+from loader.schemas.grid_configuration.grid import Grid
 
 from tests.strategies import (
     slow,
