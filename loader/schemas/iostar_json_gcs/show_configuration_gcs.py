@@ -67,11 +67,9 @@ class ShowConfigurationGcs(BaseModel):
     ]  # Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis
 
     @classmethod
-    def from_show_configuration(
-        cls,
-        show_configuration: GridConfiguration,
-    ) -> "ShowConfigurationGcs":
-        return cls(
+    def from_show_user(cls, show_user: ShowUser) -> "ShowConfigurationGcs":
+        show_configuration = GridConfiguration.from_show_user(show_user)
+        return ShowConfigurationGcs(
             nb_x=show_configuration.nb_x,
             nb_y=show_configuration.nb_y,
             nb_drone_per_family=show_configuration.nb_drone_per_family,
@@ -85,7 +83,3 @@ class ShowConfigurationGcs(BaseModel):
                 show_configuration.altitude_range,
             ),
         )
-
-    @classmethod
-    def from_show_user(cls, show_user: ShowUser) -> "ShowConfigurationGcs":
-        return cls.from_show_configuration(GridConfiguration.from_show_user(show_user))
