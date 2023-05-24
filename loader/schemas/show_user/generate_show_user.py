@@ -1,11 +1,11 @@
 import math
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.schemas.grid_configuration.grid_configuration import GridConfiguration
 
-from .show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser, ShowUser
+from .show_user import DroneUser, ShowUser
 
 
 @dataclass()
@@ -47,120 +47,107 @@ def get_valid_position_events_user(
     index_y: int,
     index_bias_y: float,
     show_user_configuration: ShowUserConfiguration,
-) -> List[PositionEventUser]:
-    return [
-        PositionEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff,
-            ),
-            xyz=rotated_horizontal_coordinates(
-                (
-                    show_user_configuration.step * index_x - index_bias_x,
-                    show_user_configuration.step * index_y - index_bias_y,
-                    0.0,
-                ),
-                show_user_configuration.angle_takeoff,
-            ),
+    drone_user: DroneUser,
+) -> None:
+    drone_user.add_position_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff,
         ),
-        PositionEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff
-                + TAKEOFF_PARAMETERS.takeoff_duration_second,
+        xyz=rotated_horizontal_coordinates(
+            (
+                show_user_configuration.step * index_x - index_bias_x,
+                show_user_configuration.step * index_y - index_bias_y,
+                0.0,
             ),
-            xyz=rotated_horizontal_coordinates(
-                (
-                    show_user_configuration.step * index_x - index_bias_x,
-                    show_user_configuration.step * index_y - index_bias_y,
-                    show_user_configuration.takeoff_altitude,
-                ),
-                show_user_configuration.angle_takeoff,
-            ),
+            show_user_configuration.angle_takeoff,
         ),
-        PositionEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff
-                + TAKEOFF_PARAMETERS.takeoff_duration_second
-                + show_user_configuration.show_duration_absolute_time,
-            ),
-            xyz=rotated_horizontal_coordinates(
-                (
-                    show_user_configuration.step * index_x - index_bias_x,
-                    show_user_configuration.step * index_y - index_bias_y,
-                    show_user_configuration.takeoff_altitude,
-                ),
-                show_user_configuration.angle_takeoff,
-            ),
+    )
+    drone_user.add_position_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second,
         ),
-    ]
+        xyz=rotated_horizontal_coordinates(
+            (
+                show_user_configuration.step * index_x - index_bias_x,
+                show_user_configuration.step * index_y - index_bias_y,
+                show_user_configuration.takeoff_altitude,
+            ),
+            show_user_configuration.angle_takeoff,
+        ),
+    )
+    drone_user.add_position_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second
+            + show_user_configuration.show_duration_absolute_time,
+        ),
+        xyz=rotated_horizontal_coordinates(
+            (
+                show_user_configuration.step * index_x - index_bias_x,
+                show_user_configuration.step * index_y - index_bias_y,
+                show_user_configuration.takeoff_altitude,
+            ),
+            show_user_configuration.angle_takeoff,
+        ),
+    )
 
 
 def get_valid_color_events_user(
     show_user_configuration: ShowUserConfiguration,
-) -> List[ColorEventUser]:
-    return [
-        ColorEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff,
-            ),
-            rgbw=(1.0, 0.0, 0.0, 0.0),
+    drone_user: DroneUser,
+) -> None:
+    drone_user.add_color_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff,
         ),
-        ColorEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff
-                + TAKEOFF_PARAMETERS.takeoff_duration_second,
-            ),
-            rgbw=(0.0, 1.0, 0.0, 0.0),
+        rgbw=(1.0, 0.0, 0.0, 0.0),
+    )
+    drone_user.add_color_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second,
         ),
-        ColorEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff
-                + TAKEOFF_PARAMETERS.takeoff_duration_second
-                + show_user_configuration.show_duration_absolute_time,
-            ),
-            rgbw=(0.0, 0.0, 1.0, 0.0),
+        rgbw=(0.0, 1.0, 0.0, 0.0),
+    )
+    drone_user.add_color_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second
+            + show_user_configuration.show_duration_absolute_time,
         ),
-    ]
+        rgbw=(0.0, 0.0, 1.0, 0.0),
+    )
 
 
 def get_valid_fire_events(
     show_user_configuration: ShowUserConfiguration,
-) -> List[FireEventUser]:
-    return [
-        FireEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff,
-            ),
-            chanel=0,
-            duration=0,
+    drone_user: DroneUser,
+) -> None:
+    drone_user.add_fire_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff,
         ),
-        FireEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff
-                + TAKEOFF_PARAMETERS.takeoff_duration_second,
-            ),
-            chanel=1,
-            duration=0,
+        chanel=0,
+        duration=0,
+    )
+    drone_user.add_fire_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second,
         ),
-        FireEventUser(
-            frame=FRAME_PARAMETERS.from_second_to_frame(
-                show_user_configuration.duration_before_takeoff
-                + TAKEOFF_PARAMETERS.takeoff_duration_second
-                + show_user_configuration.show_duration_absolute_time,
-            ),
-            chanel=0,
-            duration=0,
+        chanel=1,
+        duration=0,
+    )
+    drone_user.add_fire_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second
+            + show_user_configuration.show_duration_absolute_time,
         ),
-    ]
-
-
-def get_drone_user_index_from_family_indices(
-    index_x: int,
-    index_y: int,
-    nb_x: int,
-    family_index: int,
-    nb_drone_per_family: int,
-) -> int:
-    return nb_drone_per_family * (index_y * nb_x + index_x) + family_index
+        chanel=0,
+        duration=0,
+    )
 
 
 def get_valid_show_user(grid_configuration: GridConfiguration) -> ShowUser:
@@ -177,27 +164,24 @@ def get_valid_show_user(grid_configuration: GridConfiguration) -> ShowUser:
 
     index_bias_x = 0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
     index_bias_y = 0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
-    valid_drones_user = [
-        DroneUser(
-            index=get_drone_user_index_from_family_indices(
-                index_x,
-                index_y,
-                show_user_configuration.nb_x,
-                family_index,
-                show_user_configuration.nb_drone_per_family,
-            ),
-            position_events=get_valid_position_events_user(
-                index_x,
-                index_bias_x,
-                index_y,
-                index_bias_y,
-                show_user_configuration,
-            ),
-            color_events=get_valid_color_events_user(show_user_configuration),
-            fire_events=get_valid_fire_events(show_user_configuration),
-        )
-        for index_y in range(show_user_configuration.nb_y)
-        for index_x in range(show_user_configuration.nb_x)
-        for family_index in range(show_user_configuration.nb_drone_per_family)
-    ]
-    return ShowUser(drones_user=valid_drones_user)
+    nb_x = show_user_configuration.nb_x
+    nb_y = show_user_configuration.nb_y
+    nb_drone_per_family = show_user_configuration.nb_drone_per_family
+    show_user = ShowUser.create(nb_x * nb_y * nb_drone_per_family)
+    drone_index = 0
+    for index_y in range(nb_y):
+        for index_x in range(nb_x):
+            for _ in range(nb_drone_per_family):
+                drone_user = show_user[drone_index]
+                get_valid_position_events_user(
+                    index_x,
+                    index_bias_x,
+                    index_y,
+                    index_bias_y,
+                    show_user_configuration,
+                    drone_user,
+                )
+                get_valid_color_events_user(show_user_configuration, drone_user)
+                get_valid_fire_events(show_user_configuration, drone_user)
+                drone_index += 1
+    return show_user
