@@ -4,13 +4,10 @@ from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
 
-from loader.schemas.show_user import ShowUser
-from loader.schemas.show_user.generate_show_user import get_valid_show_user
-
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
-    from .grid_configuration import GridConfiguration
+    from loader.schemas.show_user import ShowUser
 
 
 @dataclass(frozen=True)
@@ -77,7 +74,7 @@ class Grid(List[HorizontalPosition]):
             horizontal_position.rotated_positions(angle_radian)
 
     @classmethod
-    def from_show_user(cls, show_user: ShowUser) -> "Grid":
+    def from_show_user(cls, show_user: "ShowUser") -> "Grid":
         return Grid(
             [
                 HorizontalPosition(
@@ -90,10 +87,6 @@ class Grid(List[HorizontalPosition]):
                 for drone_user in show_user.drones_user
             ],
         )
-
-    @classmethod
-    def from_grid_configuration(cls, grid_configuration: "GridConfiguration") -> "Grid":
-        return Grid.from_show_user(get_valid_show_user(grid_configuration))
 
     def get_nb_drone_per_family(self) -> int:
         for first_horizontal_position, second_horizontal_position in zip(self[:-1], self[1:]):

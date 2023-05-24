@@ -8,7 +8,7 @@ from pydantic.types import StrictFloat, StrictInt
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4.drone_px4 import DronePx4
-from loader.schemas.grid_configuration import is_angles_equal
+from loader.schemas.grid_configuration.grid_configuration import is_angles_equal
 
 from .convex_hull import calculate_convex_hull
 

@@ -1,8 +1,8 @@
-from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.schemas.grid_configuration import GridConfiguration
 
 
 def test_show_configuration___eq___standard_case() -> None:
-    show_configuration = ShowConfiguration(
+    show_configuration = GridConfiguration(
         nb_x=1,
         nb_y=1,
         nb_drone_per_family=1,
@@ -16,7 +16,7 @@ def test_show_configuration___eq___standard_case() -> None:
 
 
 def test_show_configuration___eq___different_nb_x() -> None:
-    show_configuration = ShowConfiguration(
+    show_configuration = GridConfiguration(
         nb_x=1,
         nb_y=1,
         nb_drone_per_family=1,
@@ -26,7 +26,7 @@ def test_show_configuration___eq___different_nb_x() -> None:
         hull=[],
         altitude_range=(1, 2),
     )
-    assert show_configuration != ShowConfiguration(
+    assert show_configuration != GridConfiguration(
         nb_x=2,
         nb_y=1,
         nb_drone_per_family=1,
@@ -36,7 +36,7 @@ def test_show_configuration___eq___different_nb_x() -> None:
         hull=[],
         altitude_range=(1, 2),
     )
-    assert show_configuration != ShowConfiguration(
+    assert show_configuration != GridConfiguration(
         nb_x=1,
         nb_y=2,
         nb_drone_per_family=1,
@@ -49,7 +49,7 @@ def test_show_configuration___eq___different_nb_x() -> None:
 
 
 def test_show_configuration___eq___with_other_type() -> None:
-    show_configuration = ShowConfiguration(
+    show_configuration = GridConfiguration(
         nb_x=1,
         nb_y=1,
         nb_drone_per_family=1,

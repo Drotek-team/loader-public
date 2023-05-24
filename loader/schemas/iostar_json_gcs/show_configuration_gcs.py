@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from loader.parameters.frame_parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.schemas.grid_configuration import GridConfiguration
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
 from loader.schemas.show_user.show_user import ShowUser
 
@@ -69,7 +69,7 @@ class ShowConfigurationGcs(BaseModel):
     @classmethod
     def from_show_configuration(
         cls,
-        show_configuration: ShowConfiguration,
+        show_configuration: GridConfiguration,
     ) -> "ShowConfigurationGcs":
         return cls(
             nb_x=show_configuration.nb_x,
@@ -88,4 +88,4 @@ class ShowConfigurationGcs(BaseModel):
 
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "ShowConfigurationGcs":
-        return cls.from_show_configuration(ShowConfiguration.from_show_user(show_user))
+        return cls.from_show_configuration(GridConfiguration.from_show_user(show_user))

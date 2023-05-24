@@ -31,21 +31,21 @@ def test_horizontal_position_standard_case_and_method() -> None:
 
 
 def test_grid_is_grid_one_drone() -> None:
-    grid = Grid.from_grid_configuration(GridConfiguration())
+    grid = Grid.from_show_user(get_valid_show_user(GridConfiguration()))
     assert grid.is_grid_one_drone()
-    grid = Grid.from_grid_configuration(GridConfiguration(nb_x=2))
+    grid = Grid.from_show_user(get_valid_show_user(GridConfiguration(nb_x=2)))
     assert not grid.is_grid_one_drone()
 
 
 def test_grid_is_grid_one_family() -> None:
-    grid = Grid.from_grid_configuration(GridConfiguration(nb_drone_per_family=2))
+    grid = Grid.from_show_user(get_valid_show_user(GridConfiguration(nb_drone_per_family=2)))
     assert grid.is_grid_one_family()
-    grid = Grid.from_grid_configuration(GridConfiguration(nb_x=2))
+    grid = Grid.from_show_user(get_valid_show_user(GridConfiguration(nb_x=2)))
     assert not grid.is_grid_one_family()
 
 
 def test_grid_rotate_horizontal_positions() -> None:
-    grid = Grid.from_grid_configuration(GridConfiguration(nb_x=2, nb_y=2, step=2.0))
+    grid = Grid.from_show_user(get_valid_show_user(GridConfiguration(nb_x=2, nb_y=2, step=2.0)))
     grid.rotate_horizontal_positions(0.0)
     assert grid[0].coordinate == Coordinate(-1.0, -1.0)
     grid.rotate_horizontal_positions(np.pi)
@@ -64,7 +64,7 @@ def test_get_grid_from_show_user() -> None:
 
 
 def test_get_grid_from_show_configuration() -> None:
-    grid = Grid.from_grid_configuration(GridConfiguration(nb_x=2, nb_y=2, step=2.0))
+    grid = Grid.from_show_user(get_valid_show_user(GridConfiguration(nb_x=2, nb_y=2, step=2.0)))
     assert grid[0].coordinate == Coordinate(-1.0, -1.0)
     assert grid[1].coordinate == Coordinate(1.0, -1.0)
     assert grid[2].coordinate == Coordinate(-1.0, 1.0)

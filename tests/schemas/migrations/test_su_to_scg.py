@@ -1,6 +1,6 @@
 from hypothesis import given
 from hypothesis import strategies as st
-from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
+from loader.schemas.grid_configuration import GridConfiguration
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 from tests.strategies import (
@@ -41,7 +41,7 @@ def test_su_to_sc_hypothesis(
     show_user = get_valid_show_user(show_user_configuration)
     position = (100.0, 100.0, 100.0)
     show_user.drones_user[0].add_position_event(10000, position)
-    show_configuration = ShowConfiguration(
+    show_configuration = GridConfiguration(
         nb_x=nb_x,
         nb_y=nb_y,
         nb_drone_per_family=nb_drone_per_family,
@@ -52,4 +52,4 @@ def test_su_to_sc_hypothesis(
         altitude_range=show_user.altitude_range,
     )
     assert position[:2] in show_configuration.hull
-    assert show_configuration == ShowConfiguration.from_show_user(show_user)
+    assert show_configuration == GridConfiguration.from_show_user(show_user)

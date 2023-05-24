@@ -1,6 +1,7 @@
 from hypothesis import given
 from loader.schemas.grid_configuration import GridConfiguration
 from loader.schemas.grid_configuration.grid import Grid
+from loader.schemas.show_user.generate_show_user import get_valid_show_user
 
 from tests.strategies import slow, st_angle_takeoff, st_nb_drone_per_family, st_nb_x, st_nb_y
 
@@ -24,7 +25,7 @@ def test_get_nb_drone_per_family_from_grid_standard_grids(
         nb_drone_per_family=nb_drone_per_family,
         angle_takeoff=angle_takeoff,
     )
-    grid = Grid.from_grid_configuration(grid_configuration)
+    grid = Grid.from_show_user(get_valid_show_user(grid_configuration))
     assert grid.get_nb_x_nb_y(
         grid_configuration.nb_drone_per_family,
         grid_configuration.angle_takeoff,
