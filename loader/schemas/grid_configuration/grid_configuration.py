@@ -1,5 +1,13 @@
 from dataclasses import dataclass
 
+import numpy as np
+
+
+# https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point
+def is_angles_equal(first_angle_radian: float, second_angle_radian: float) -> bool:
+    first_angle, second_angle = np.degrees(first_angle_radian), np.degrees(second_angle_radian)
+    return abs((second_angle - first_angle + 180) % 360 - 180) < 1e-6
+
 
 @dataclass()
 class GridConfiguration:

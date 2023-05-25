@@ -8,6 +8,7 @@ from pydantic.types import StrictFloat, StrictInt
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4.drone_px4 import DronePx4
+from loader.schemas.grid_configuration import is_angles_equal
 
 from .convex_hull import calculate_convex_hull
 
@@ -227,6 +228,9 @@ class ShowUser(BaseModel):
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911
         if not isinstance(other, ShowUser):
+            return False
+
+        if not is_angles_equal(self.angle_takeoff, other.angle_takeoff):
             return False
 
         if len(self.drones_user) != len(other.drones_user):
