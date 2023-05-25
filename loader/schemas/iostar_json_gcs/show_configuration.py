@@ -47,7 +47,7 @@ class ShowConfiguration(GridConfiguration):
         grid = Grid.from_show_user(show_user)
         nb_drone_per_family = grid.get_nb_drone_per_family()
         step = grid.get_step()
-        angle_takeoff = grid.get_angle_takeoff(nb_drone_per_family)
+        angle_takeoff = show_user.angle_takeoff
         nb_x, nb_y = grid.get_nb_x_nb_y(nb_drone_per_family, angle_takeoff)
         return ShowConfiguration(
             nb_x=nb_x,

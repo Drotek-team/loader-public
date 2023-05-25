@@ -124,9 +124,10 @@ class DroneUser(BaseModel):
 
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
+    angle_takeoff: float
 
     @classmethod
-    def create(cls, nb_drones: int) -> "ShowUser":
+    def create(cls, *, nb_drones: int, angle_takeoff: float) -> "ShowUser":
         if nb_drones <= 0:
             msg = f"nb_drones must be positive, not {nb_drones}"
             raise ValueError(msg)
@@ -140,6 +141,7 @@ class ShowUser(BaseModel):
                 )
                 for drone_index in range(nb_drones)
             ],
+            angle_takeoff=angle_takeoff,
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
@@ -201,6 +203,7 @@ class ShowUser(BaseModel):
         return (min(z_positions), max(z_positions))
 
     def apply_horizontal_rotation(self, angle_degree: int) -> None:
+        self.angle_takeoff += np.deg2rad(angle_degree)
         for drone_user in self.drones_user:
             drone_user.apply_horizontal_rotation(angle_degree)
 
@@ -208,8 +211,9 @@ class ShowUser(BaseModel):
     def from_autopilot_format(
         cls,
         autopilot_format: List[DronePx4],
+        angle_takeoff: float,
     ) -> "ShowUser":
-        show_user = ShowUser.create(nb_drones=len(autopilot_format))
+        show_user = ShowUser.create(nb_drones=len(autopilot_format), angle_takeoff=angle_takeoff)
         for drone_user, drone_px4 in zip(show_user.drones_user, autopilot_format):
             drone_user.from_drone_px4(drone_px4)
         return show_user
@@ -218,6 +222,7 @@ class ShowUser(BaseModel):
     def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> "ShowUser":
         return ShowUser.from_autopilot_format(
             DronePx4.from_iostar_json_gcs(iostar_json_gcs),
+            angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
         )
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911

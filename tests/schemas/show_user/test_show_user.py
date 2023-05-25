@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from loader.schemas.iostar_json_gcs.show_configuration import ShowConfiguration
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from pydantic import ValidationError
@@ -173,12 +174,17 @@ def test_show_user_configuration_duration_before_takeoff_must_be_positive(
 
 def test_show_user_configuration_apply_horizontal_rotation() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    show_configuration = ShowConfiguration.from_show_user(show_user)
+
     assert show_user.drones_user[0].position_events[0].xyz == (-1.0, -1.0, 0.0)
     assert show_user.drones_user[1].position_events[0].xyz == (1.0, -1.0, 0.0)
     assert show_user.drones_user[2].position_events[0].xyz == (-1.0, 1.0, 0.0)
     assert show_user.drones_user[3].position_events[0].xyz == (1.0, 1.0, 0.0)
 
-    show_user.apply_horizontal_rotation(90)
+    angle_degree = 90
+    show_user.apply_horizontal_rotation(angle_degree)
+    new_show_configuration = ShowConfiguration.from_show_user(show_user)
+
     np.testing.assert_allclose(
         show_user.drones_user[2].position_events[0].xyz,
         (-1.0, -1.0, 0.0),
@@ -194,6 +200,16 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
     np.testing.assert_allclose(
         show_user.drones_user[1].position_events[0].xyz,
         (1.0, 1.0, 0.0),
+    )
+
+    np.testing.assert_allclose(
+        np.array(show_configuration.hull),
+        np.array(new_show_configuration.hull[-1:] + new_show_configuration.hull[:-1]),
+    )
+
+    assert (
+        show_configuration.angle_takeoff + np.deg2rad(angle_degree)
+        == new_show_configuration.angle_takeoff
     )
 
 

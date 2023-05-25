@@ -69,7 +69,7 @@ class IostarJsonGcs(BaseModel):
                 step=show_configuration.step,
                 nb_x=show_configuration.nb_x,
                 nb_y=show_configuration.nb_y,
-                angle_takeoff=-show_configuration.angle_takeoff,
+                angle_takeoff=show_configuration.angle_takeoff,
             ),
         )
 

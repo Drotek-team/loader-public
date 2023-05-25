@@ -95,33 +95,6 @@ class Grid(List[HorizontalPosition]):
     def from_grid_configuration(cls, grid_configuration: "GridConfiguration") -> "Grid":
         return Grid.from_show_user(get_valid_show_user(grid_configuration))
 
-    def get_first_and_second_family_horizontal_positions(
-        self,
-        nb_drone_per_family: int,
-    ) -> Tuple[HorizontalPosition, HorizontalPosition]:
-        if self.is_grid_one_drone() or self.is_grid_one_family():
-            return (self[0], self[0])
-        return (self[0], self[nb_drone_per_family])
-
-    @staticmethod
-    def get_angle_degree_from_vector(u_x: "NDArray[np.float64]") -> float:
-        u_x_unit = u_x / np.linalg.norm(u_x)
-        return np.arctan2(u_x_unit[1], u_x_unit[0])
-
-    def get_angle_takeoff(
-        self,
-        nb_drone_per_family: int,
-    ) -> float:
-        if self.is_grid_one_drone() or self.is_grid_one_family():
-            return 0.0
-        (
-            first_row_first_position,
-            first_row_last_position,
-        ) = self.get_first_and_second_family_horizontal_positions(nb_drone_per_family)
-        return self.get_angle_degree_from_vector(
-            first_row_last_position.xy_array - first_row_first_position.xy_array,
-        )
-
     def get_nb_drone_per_family(self) -> int:
         for first_horizontal_position, second_horizontal_position in zip(self[:-1], self[1:]):
             if first_horizontal_position.xy_tuple != second_horizontal_position.xy_tuple:

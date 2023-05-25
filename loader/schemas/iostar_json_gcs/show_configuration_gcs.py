@@ -78,7 +78,7 @@ class ShowConfigurationGcs(BaseModel):
             step=JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(
                 show_configuration.step,
             ),
-            angle_takeoff=int(degrees(show_configuration.angle_takeoff)),
+            angle_takeoff=-int(degrees(show_configuration.angle_takeoff)),
             duration=from_user_duration_to_px4_duration(show_configuration.duration),
             hull=from_user_hull_to_px4_hull(show_configuration.hull),
             altitude_range=from_user_altitude_range_to_px4_altitude_range(
