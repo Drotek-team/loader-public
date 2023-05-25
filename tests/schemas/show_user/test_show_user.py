@@ -225,3 +225,47 @@ def test_update_drones_user_indices_not_unique() -> None:
         match=" are not unique",
     ):
         show_user.update_drones_user_indices(new_indices)
+
+
+def test_show_user___eq__() -> None:
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = 1
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=1))
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user.drones_user = other_show_user.drones_user[::-1]
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user.drones_user[0].add_position_event(frame=1, xyz=(1.0, 1.0, 1.0))
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user.drones_user[0].add_position_event(frame=1, xyz=(1.0, 1.0, 1.0))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user.drones_user[0].add_position_event(frame=2, xyz=(1.0, 1.0, 1.0))
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user.drones_user[0].add_position_event(frame=1, xyz=(1.0, 1.0, 1.0))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user.drones_user[0].add_position_event(frame=1, xyz=(0.0, 1.0, 1.0))
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user.drones_user[0].add_color_event(frame=1, rgbw=(1.0, 1.0, 1.0, 1.0))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user.drones_user[0].add_fire_event(frame=1, chanel=1, duration=1)
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    assert show_user != other_show_user
+
+    assert show_user == show_user

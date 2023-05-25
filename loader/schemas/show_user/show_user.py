@@ -1,6 +1,7 @@
 import math
 from typing import TYPE_CHECKING, List, Tuple
 
+import numpy as np
 from pydantic import BaseModel
 from pydantic.types import StrictFloat, StrictInt
 
@@ -186,6 +187,32 @@ class ShowUser(BaseModel):
     @classmethod
     def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> "ShowUser":
         return ShowUser.from_autopilot_format(DronePx4.from_iostar_json_gcs(iostar_json_gcs))
+
+    def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911
+        if not isinstance(other, ShowUser):
+            return False
+
+        if len(self.drones_user) != len(other.drones_user):
+            return False
+
+        for drone_user, new_drone_user in zip(self.drones_user, other.drones_user):
+            if drone_user.index != new_drone_user.index:
+                return False
+            if len(drone_user.position_events) != len(new_drone_user.position_events):
+                return False
+            for position_event, new_position_event in zip(
+                drone_user.position_events,
+                new_drone_user.position_events,
+            ):
+                if position_event.frame != new_position_event.frame:
+                    return False
+                if not np.allclose(position_event.xyz, new_position_event.xyz, atol=1e-2):
+                    return False
+            if drone_user.color_events != new_drone_user.color_events:
+                return False
+            if drone_user.fire_events != new_drone_user.fire_events:
+                return False
+        return True
 
 
 def drone_px4_to_drone_user(drone_px4: DronePx4) -> DroneUser:
