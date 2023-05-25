@@ -95,6 +95,32 @@ class DroneUser(BaseModel):
             self.position_events[0].xyz[1],
         )
 
+    def from_drone_px4(self, drone_px4: DronePx4) -> None:
+        for position_event_px4 in drone_px4.position_events.specific_events:
+            self.add_position_event(
+                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+                    position_event_px4.timecode,
+                ),
+                xyz=JSON_BINARY_PARAMETERS.from_px4_xyz_to_user_xyz(position_event_px4.xyz),
+            )
+
+        for color_event_px4 in drone_px4.color_events.specific_events:
+            self.add_color_event(
+                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+                    color_event_px4.timecode,
+                ),
+                rgbw=JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
+            )
+
+        for fire_event_px4 in drone_px4.fire_events.specific_events:
+            self.add_fire_event(
+                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+                    fire_event_px4.timecode,
+                ),
+                chanel=fire_event_px4.chanel,
+                duration=fire_event_px4.duration,
+            )
+
 
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
@@ -179,14 +205,20 @@ class ShowUser(BaseModel):
             drone_user.apply_horizontal_rotation(angle_degree)
 
     @classmethod
-    def from_autopilot_format(cls, autopilot_format: List[DronePx4]) -> "ShowUser":
-        return ShowUser(
-            drones_user=[drone_px4_to_drone_user(drone_px4) for drone_px4 in autopilot_format],
-        )
+    def from_autopilot_format(
+        cls,
+        autopilot_format: List[DronePx4],
+    ) -> "ShowUser":
+        show_user = ShowUser.create(nb_drones=len(autopilot_format))
+        for drone_user, drone_px4 in zip(show_user.drones_user, autopilot_format):
+            drone_user.from_drone_px4(drone_px4)
+        return show_user
 
     @classmethod
     def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> "ShowUser":
-        return ShowUser.from_autopilot_format(DronePx4.from_iostar_json_gcs(iostar_json_gcs))
+        return ShowUser.from_autopilot_format(
+            DronePx4.from_iostar_json_gcs(iostar_json_gcs),
+        )
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911
         if not isinstance(other, ShowUser):
@@ -213,42 +245,3 @@ class ShowUser(BaseModel):
             if drone_user.fire_events != new_drone_user.fire_events:
                 return False
         return True
-
-
-def drone_px4_to_drone_user(drone_px4: DronePx4) -> DroneUser:
-    position_events_user = [
-        PositionEventUser(
-            frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                position_event_px4.timecode,
-            ),
-            xyz=JSON_BINARY_PARAMETERS.from_px4_xyz_to_user_xyz(position_event_px4.xyz),
-        )
-        for position_event_px4 in drone_px4.position_events.specific_events
-    ]
-    color_events_user = [
-        ColorEventUser(
-            frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                color_event_px4.timecode,
-            ),
-            rgbw=JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
-        )
-        for color_event_px4 in drone_px4.color_events.specific_events
-    ]
-
-    fire_events_user = [
-        FireEventUser(
-            frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                fire_event_px4.timecode,
-            ),
-            chanel=fire_event_px4.chanel,
-            duration=fire_event_px4.duration,
-        )
-        for fire_event_px4 in drone_px4.fire_events.specific_events
-    ]
-
-    return DroneUser(
-        index=drone_px4.index,
-        position_events=position_events_user,
-        color_events=color_events_user,
-        fire_events=fire_events_user,
-    )
