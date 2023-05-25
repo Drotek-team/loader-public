@@ -170,6 +170,7 @@ def get_valid_show_user(grid_configuration: GridConfiguration) -> ShowUser:
     show_user = ShowUser.create(
         nb_drones=nb_x * nb_y * nb_drone_per_family,
         angle_takeoff=show_user_configuration.angle_takeoff,
+        step=show_user_configuration.step,
     )
     drone_index = 0
     for index_y in range(nb_y):

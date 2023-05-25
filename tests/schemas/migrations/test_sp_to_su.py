@@ -63,7 +63,7 @@ def valid_autopilot_format() -> List[DronePx4]:
 
 
 def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[DronePx4]) -> None:
-    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0)
+    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[
@@ -89,7 +89,7 @@ def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[Dr
 def test_drone_px4_to_drone_user_color_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0)
+    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
@@ -105,7 +105,7 @@ def test_drone_px4_to_drone_user_color_events(
 def test_drone_px4_to_drone_user_fire_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0)
+    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1

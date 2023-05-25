@@ -23,7 +23,7 @@ from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, g
 
 def test_create_show_user_standard_case() -> None:
     nb_drones = 5
-    show_user = ShowUser.create(nb_drones=nb_drones, angle_takeoff=0)
+    show_user = ShowUser.create(nb_drones=nb_drones, angle_takeoff=0, step=1)
     assert len(show_user) == nb_drones
     for drone_index in range(nb_drones):
         assert len(show_user[drone_index].position_events) == 0
@@ -37,7 +37,7 @@ def test_create_show_user_invalid_nb_drones(nb_drones: int) -> None:
         ValueError,
         match=f"nb_drones must be positive, not {nb_drones}",
     ):
-        ShowUser.create(nb_drones=nb_drones, angle_takeoff=0)
+        ShowUser.create(nb_drones=nb_drones, angle_takeoff=0, step=1)
 
 
 def test_get_performance_infractions() -> None:

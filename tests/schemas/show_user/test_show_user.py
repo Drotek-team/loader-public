@@ -254,6 +254,10 @@ def test_show_user___eq__() -> None:
     )
     assert show_user != other_show_user
 
+    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=1))
+    assert show_user != other_show_user
+
     show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
     other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=1))
     assert show_user != other_show_user

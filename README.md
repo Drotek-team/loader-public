@@ -24,7 +24,7 @@ This project provides standard tools for the creation and verification of Drotek
 from loader.schemas import ShowUser
 
 # Create an empty show user
-show_user = ShowUser.create(nb_drones=5, angle_takeoff=0.0)
+show_user = ShowUser.create(nb_drones=5, angle_takeoff=0.0, step=2)
 
 # Add position events
 show_user.drones_user[0].add_position_event(frame=0, xyz=(0.0, 0.0, 0.0))

@@ -121,13 +121,3 @@ class Grid(List[HorizontalPosition]):
                 )
         self.rotate_horizontal_positions(angle_radian)
         return (len(self) // nb_drone_per_family, 1)
-
-    def get_step(self) -> float:
-        for first_horizontal_position, second_horizontal_position in zip(self[:-1], self[1:]):
-            if first_horizontal_position.xy_tuple != second_horizontal_position.xy_tuple:
-                return float(
-                    np.linalg.norm(
-                        first_horizontal_position.xy_array - second_horizontal_position.xy_array,
-                    ),
-                )
-        return 0.0

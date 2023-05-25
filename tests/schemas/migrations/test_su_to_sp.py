@@ -111,5 +111,6 @@ def test_su_to_sp_standard_case(
     new_show_user = ShowUser.from_autopilot_format(
         DronePx4.from_show_user(show_user),
         angle_takeoff=show_user.angle_takeoff,
+        step=show_user.step,
     )
     assert show_user == new_show_user

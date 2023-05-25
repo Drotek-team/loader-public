@@ -126,9 +126,10 @@ class DroneUser(BaseModel):
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
     angle_takeoff: float
+    step: float
 
     @classmethod
-    def create(cls, *, nb_drones: int, angle_takeoff: float) -> "ShowUser":
+    def create(cls, *, nb_drones: int, angle_takeoff: float, step: float) -> "ShowUser":
         if nb_drones <= 0:
             msg = f"nb_drones must be positive, not {nb_drones}"
             raise ValueError(msg)
@@ -143,6 +144,7 @@ class ShowUser(BaseModel):
                 for drone_index in range(nb_drones)
             ],
             angle_takeoff=angle_takeoff,
+            step=step,
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
@@ -213,8 +215,13 @@ class ShowUser(BaseModel):
         cls,
         autopilot_format: List[DronePx4],
         angle_takeoff: float,
+        step: float,
     ) -> "ShowUser":
-        show_user = ShowUser.create(nb_drones=len(autopilot_format), angle_takeoff=angle_takeoff)
+        show_user = ShowUser.create(
+            nb_drones=len(autopilot_format),
+            angle_takeoff=angle_takeoff,
+            step=step,
+        )
         for drone_user, drone_px4 in zip(show_user.drones_user, autopilot_format):
             drone_user.from_drone_px4(drone_px4)
         return show_user
@@ -224,6 +231,7 @@ class ShowUser(BaseModel):
         return ShowUser.from_autopilot_format(
             DronePx4.from_iostar_json_gcs(iostar_json_gcs),
             angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
+            step=iostar_json_gcs.show.step / 100,
         )
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911
@@ -231,6 +239,9 @@ class ShowUser(BaseModel):
             return False
 
         if not is_angles_equal(self.angle_takeoff, other.angle_takeoff):
+            return False
+
+        if not np.allclose(self.step, other.step):
             return False
 
         if len(self.drones_user) != len(other.drones_user):
