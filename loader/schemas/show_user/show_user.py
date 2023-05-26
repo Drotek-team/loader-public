@@ -132,7 +132,7 @@ class ShowUser(BaseModel):
                 for drone_index in range(nb_drones)
             ],
             angle_takeoff=angle_takeoff,
-            step=step,
+            step=round(step, 2),
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
@@ -252,7 +252,7 @@ class ShowUser(BaseModel):
         if not is_angles_equal(self.angle_takeoff, other.angle_takeoff):
             return False
 
-        if not np.allclose(self.step, other.step):
+        if not np.allclose(self.step, other.step, atol=1e-2):
             return False
 
         if len(self.drones_user) != len(other.drones_user):

@@ -12,9 +12,9 @@ if TYPE_CHECKING:
 
 
 # https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point
-def is_angles_equal(first_angle_radian: float, second_angle_radian: float) -> bool:
-    first_angle, second_angle = np.degrees(first_angle_radian), np.degrees(second_angle_radian)
-    return abs((second_angle - first_angle + 180) % 360 - 180) < 1e-6
+def is_angles_equal(first_angle: float, second_angle: float) -> bool:
+    distance = abs((second_angle - first_angle + np.pi) % (2 * np.pi) - np.pi)
+    return distance < 2e-2
 
 
 @dataclass()
@@ -63,3 +63,6 @@ class GridConfiguration:
             hull=show_user.convex_hull,
             altitude_range=show_user.altitude_range,
         )
+
+    def __post_init__(self) -> None:
+        self.step = round(self.step, 2)
