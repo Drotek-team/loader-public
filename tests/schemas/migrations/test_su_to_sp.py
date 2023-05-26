@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from hypothesis import given
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.drone_px4.drone_px4 import (
@@ -6,12 +8,15 @@ from loader.schemas.drone_px4.drone_px4 import (
     add_position_events_user,
     drone_user_to_drone_px4,
 )
-from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import ShowUser
 
-from tests.strategies import slow, st_angle_takeoff, st_nb_drone_per_family, st_nb_x, st_nb_y
+from tests.strategies import slow, st_angle_takeoff, st_matrix
+
+if TYPE_CHECKING:
+    import numpy as np
+    from numpy.typing import NDArray
 
 
 def test_add_position_events_user_standard_case() -> None:
@@ -89,23 +94,16 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
 
 
 @given(
-    nb_x=st_nb_x,
-    nb_y=st_nb_y,
-    nb_drone_per_family=st_nb_drone_per_family,
+    matrix=st_matrix,
     angle_takeoff=st_angle_takeoff,
 )
 @slow
 def test_su_to_sp_standard_case(
-    nb_x: int,
-    nb_y: int,
-    nb_drone_per_family: int,
+    matrix: "NDArray[np.intp]",
     angle_takeoff: float,
 ) -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(
-            matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
-            angle_takeoff=angle_takeoff,
-        ),
+        ShowUserConfiguration(matrix=matrix, angle_takeoff=angle_takeoff),
     )
     new_show_user = ShowUser.from_autopilot_format(
         DronePx4.from_show_user(show_user),

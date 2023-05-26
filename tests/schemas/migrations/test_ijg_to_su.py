@@ -1,38 +1,31 @@
+from typing import TYPE_CHECKING
+
 import numpy as np
 from hypothesis import given
 from loader.schemas import IostarJsonGcs, ShowUser
-from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import is_angles_equal
 
-from tests.strategies import (
-    slow,
-    st_angle_takeoff,
-    st_nb_drone_per_family,
-    st_nb_x,
-    st_nb_y,
-    st_step_takeoff,
-)
+from tests.strategies import slow, st_angle_takeoff, st_matrix, st_step_takeoff
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 @given(
-    nb_x=st_nb_x,
-    nb_y=st_nb_y,
-    nb_drone_per_family=st_nb_drone_per_family,
+    matrix=st_matrix,
     step_takeoff=st_step_takeoff,
     angle_takeoff=st_angle_takeoff,
 )
 @slow
 def test_ijg_to_su(
-    nb_x: int,
-    nb_y: int,
-    nb_drone_per_family: int,
+    matrix: "NDArray[np.intp]",
     step_takeoff: float,
     angle_takeoff: float,
 ) -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(
-            matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
+            matrix=matrix,
             step=step_takeoff,
             angle_takeoff=angle_takeoff,
         ),

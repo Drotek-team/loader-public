@@ -64,25 +64,18 @@ class IostarJsonGcs(BaseModel):
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
         (nb_x, nb_y) = show_user.matrix.shape
-        nb_drones_per_family = show_user.matrix.max()  # pyright: ignore[reportUnknownMemberType]
         step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
         angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))
         duration = from_user_duration_to_px4_duration(show_user.duration)
         hull = from_user_hull_to_px4_hull(show_user.convex_hull)
         altitude_range = from_user_altitude_range_to_px4_altitude_range(show_user.altitude_range)
-        autopilot_format = DronePx4.from_show_user(show_user)
+        autopilot_format = DronePx4.from_show_user_in_matrix(show_user)
         return IostarJsonGcs(
             show=Show(
                 families=[
-                    Family.from_drone_px4(
-                        autopilot_format[
-                            nb_drones_per_family
-                            * family_index : nb_drones_per_family
-                            * family_index
-                            + nb_drones_per_family
-                        ],
-                    )
-                    for family_index in range(nb_x * nb_y)
+                    Family.from_drone_px4(family_drones_px4)
+                    for row in autopilot_format
+                    for family_drones_px4 in row
                 ],
                 duration=duration,
                 hull=hull,

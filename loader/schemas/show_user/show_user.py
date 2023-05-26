@@ -202,6 +202,12 @@ class ShowUser(BaseModel):
         grid_infos = MatrixInfos.from_show_user(self)
         return grid_infos.matrix
 
+    @property
+    def drones_user_in_matrix(self) -> List[List[List[DroneUser]]]:
+        """Get the drones_user in the matrix."""
+        grid_infos = MatrixInfos.from_show_user(self)
+        return grid_infos.drones_user_in_matrix
+
     def apply_horizontal_rotation(self, angle: float) -> None:
         self.angle_takeoff += angle
         for drone_user in self.drones_user:
@@ -273,6 +279,7 @@ def is_angles_equal(first_angle: float, second_angle: float) -> bool:
 @dataclass
 class MatrixInfos:
     matrix: "NDArray[np.intp]"
+    drones_user_in_matrix: List[List[List[DroneUser]]]
     nb_x: int
     nb_y: int
     x_min: float
@@ -296,13 +303,18 @@ class MatrixInfos:
         nb_y = round((y_max - y_min) / show_user.step) + 1
 
         matrix = np.zeros((nb_y, nb_x), dtype=np.intp)
-        for position_event in first_position_events:
+        drones_user_in_matrix: List[List[List[DroneUser]]] = [
+            [[] for _ in range(nb_x)] for _ in range(nb_y)
+        ]
+        for position_event, drone_user in zip(first_position_events, show_user.drones_user):
             x_index = round((position_event.xyz[0] - x_min) / show_user.step)
             y_index = round((position_event.xyz[1] - y_min) / show_user.step)
             matrix[y_index, x_index] += 1
+            drones_user_in_matrix[y_index][x_index].append(drone_user)
 
         return MatrixInfos(
             matrix=matrix,
+            drones_user_in_matrix=drones_user_in_matrix,
             nb_x=nb_x,
             nb_y=nb_y,
             x_min=x_min,

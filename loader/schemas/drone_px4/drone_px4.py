@@ -83,6 +83,16 @@ class DronePx4:
         return [drone_user_to_drone_px4(drone_user) for drone_user in show_user.drones_user]
 
     @classmethod
+    def from_show_user_in_matrix(cls, show_user: "ShowUser") -> List[List[List["DronePx4"]]]:
+        return [
+            [
+                [drone_user_to_drone_px4(drone_user) for drone_user in family_drones_user]
+                for family_drones_user in row
+            ]
+            for row in show_user.drones_user_in_matrix
+        ]
+
+    @classmethod
     def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> List["DronePx4"]:
         return [
             DronePx4.from_binary(
