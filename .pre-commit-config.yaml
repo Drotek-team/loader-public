@@ -84,6 +84,13 @@ repos:
         language: system
         types_or: [python, pyi]
         pass_filenames: false
+      - id: generate-iostar-json
+        name: generate-iostar-json
+        description: Generate iostar_json_gcs_*.json files
+        entry: poetry run python generate_iostar_json.py
+        language: system
+        pass_filenames: false
+        always_run: true
       - id: commitizen
         name: commitizen check commit
         description: >
