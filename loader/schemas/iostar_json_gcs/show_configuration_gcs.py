@@ -68,12 +68,12 @@ class ShowConfigurationGcs(BaseModel):
     @property
     def nb_x(self) -> int:
         """Number of families on the x-axis during the takeoff."""
-        return len(self.matrix)
+        return len(self.matrix[0])
 
     @property
     def nb_y(self) -> int:
         """Number of families on the y-axis during the takeoff."""
-        return len(self.matrix[0])
+        return len(self.matrix)
 
     @property
     def nb_drone_per_family(self) -> int:
