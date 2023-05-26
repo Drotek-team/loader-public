@@ -7,7 +7,6 @@ from pydantic.types import StrictFloat, StrictInt
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4.drone_px4 import DronePx4
-from loader.schemas.grid_configuration.grid_configuration import is_angles_equal
 
 from .convex_hull import calculate_convex_hull
 
@@ -113,8 +112,8 @@ class DroneUser(BaseModel):
 
 class ShowUser(BaseModel):
     drones_user: List[DroneUser]
-    angle_takeoff: float
-    step: float
+    angle_takeoff: float  # Angle of the takeoff grid in radian
+    step: float  # Distance separating the families during the takeoff in meter
 
     @classmethod
     def create(cls, *, nb_drones: int, angle_takeoff: float, step: float) -> "ShowUser":
@@ -170,10 +169,12 @@ class ShowUser(BaseModel):
 
     @property
     def duration(self) -> float:
+        """Duration of the show in second."""
         return FRAME_PARAMETERS.from_frame_to_second(self.last_frame)
 
     @property
     def convex_hull(self) -> List[Tuple[float, float]]:
+        """List of the relative coordinate (ENU and meter) symbolysing a convex hull of a show."""
         return calculate_convex_hull(
             list(
                 {
@@ -186,6 +187,7 @@ class ShowUser(BaseModel):
 
     @property
     def altitude_range(self) -> Tuple[float, float]:
+        """Relative coordinate (ENU and meter) symbolising the range of the z-axis."""
         z_positions = [
             position_event.xyz[2]
             for drone in self.drones_user
@@ -195,6 +197,7 @@ class ShowUser(BaseModel):
 
     @property
     def matrix(self) -> "NDArray[np.intp]":
+        """Matrix of the show."""
         first_position_events = [
             drone_user.position_events[0].copy() for drone_user in self.drones_user
         ]
@@ -276,3 +279,9 @@ class ShowUser(BaseModel):
             if drone_user.fire_events != new_drone_user.fire_events:
                 return False
         return True
+
+
+# https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point
+def is_angles_equal(first_angle: float, second_angle: float) -> bool:
+    distance = abs((second_angle - first_angle + np.pi) % (2 * np.pi) - np.pi)
+    return distance < 1e-2

@@ -1,15 +1,22 @@
 import math
-from dataclasses import dataclass
-from typing import Tuple
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.schemas.grid_configuration import GridConfiguration
+from loader.schemas.matrix import get_matrix
 
 from .show_user import DroneUser, ShowUser
 
+if TYPE_CHECKING:
+    import numpy as np
+    from numpy.typing import NDArray
+
 
 @dataclass()
-class ShowUserConfiguration(GridConfiguration):
+class ShowUserConfiguration:
+    matrix: "NDArray[np.intp]" = field(default_factory=get_matrix)
+    step: float = 1.5
+    angle_takeoff: float = 0.0
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
     duration_before_takeoff: float = 0.0
@@ -30,6 +37,14 @@ class ShowUserConfiguration(GridConfiguration):
         if self.duration_before_takeoff < 0.0:
             msg = f"Duration before takeoff must be positive, not {self.duration_before_takeoff}"
             raise ValueError(msg)
+
+    @property
+    def nb_x(self) -> int:
+        return self.matrix.shape[0]
+
+    @property
+    def nb_y(self) -> int:
+        return self.matrix.shape[1]
 
 
 def rotated_horizontal_coordinates(

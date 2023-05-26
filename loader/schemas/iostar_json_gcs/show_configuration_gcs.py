@@ -6,7 +6,6 @@ from pydantic import BaseModel  # pyright: ignore[reportUnknownVariableType]
 
 from loader.parameters.frame_parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.schemas.grid_configuration import GridConfiguration
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
 from loader.schemas.show_user.show_user import ShowUser
 
@@ -82,16 +81,15 @@ class ShowConfigurationGcs(BaseModel):
 
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "ShowConfigurationGcs":
-        show_configuration = GridConfiguration.from_show_user(show_user)
         return ShowConfigurationGcs(
-            matrix=show_configuration.matrix.tolist(),
+            matrix=show_user.matrix.tolist(),
             step=JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(
-                show_configuration.step,
+                show_user.step,
             ),
-            angle_takeoff=-round(degrees(show_configuration.angle_takeoff)),
-            duration=from_user_duration_to_px4_duration(show_configuration.duration),
-            hull=from_user_hull_to_px4_hull(show_configuration.hull),
+            angle_takeoff=-round(degrees(show_user.angle_takeoff)),
+            duration=from_user_duration_to_px4_duration(show_user.duration),
+            hull=from_user_hull_to_px4_hull(show_user.convex_hull),
             altitude_range=from_user_altitude_range_to_px4_altitude_range(
-                show_configuration.altitude_range,
+                show_user.altitude_range,
             ),
         )

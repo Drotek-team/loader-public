@@ -1,9 +1,9 @@
 import numpy as np
 from hypothesis import given
 from loader.schemas import IostarJsonGcs, ShowUser
-from loader.schemas.grid_configuration.grid_configuration import is_angles_equal
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.schemas.show_user.show_user import is_angles_equal
 
 from tests.strategies import (
     slow,

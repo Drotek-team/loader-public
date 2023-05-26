@@ -1,6 +1,5 @@
 import numpy as np
 import pytest
-from loader.schemas.grid_configuration.grid_configuration import GridConfiguration
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
@@ -181,7 +180,6 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
     )
-    show_configuration = GridConfiguration.from_show_user(show_user)
 
     assert show_user.drones_user[0].position_events[0].xyz == (-1.0, -1.0, 0.0)
     assert show_user.drones_user[1].position_events[0].xyz == (1.0, -1.0, 0.0)
@@ -189,32 +187,32 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
     assert show_user.drones_user[3].position_events[0].xyz == (1.0, 1.0, 0.0)
 
     angle = np.pi / 2
-    show_user.apply_horizontal_rotation(angle)
-    new_show_configuration = GridConfiguration.from_show_user(show_user)
+    new_show_user = show_user.copy(deep=True)
+    new_show_user.apply_horizontal_rotation(angle)
 
     np.testing.assert_allclose(
-        show_user.drones_user[2].position_events[0].xyz,
+        new_show_user.drones_user[2].position_events[0].xyz,
         (-1.0, -1.0, 0.0),
     )
     np.testing.assert_allclose(
-        show_user.drones_user[0].position_events[0].xyz,
+        new_show_user.drones_user[0].position_events[0].xyz,
         (1.0, -1.0, 0.0),
     )
     np.testing.assert_allclose(
-        show_user.drones_user[3].position_events[0].xyz,
+        new_show_user.drones_user[3].position_events[0].xyz,
         (-1.0, 1.0, 0.0),
     )
     np.testing.assert_allclose(
-        show_user.drones_user[1].position_events[0].xyz,
+        new_show_user.drones_user[1].position_events[0].xyz,
         (1.0, 1.0, 0.0),
     )
 
     np.testing.assert_allclose(
-        np.array(show_configuration.hull),
-        np.array(new_show_configuration.hull[-1:] + new_show_configuration.hull[:-1]),
+        np.array(show_user.convex_hull),
+        np.array(new_show_user.convex_hull[-1:] + new_show_user.convex_hull[:-1]),
     )
 
-    assert show_configuration.angle_takeoff + angle == new_show_configuration.angle_takeoff
+    assert show_user.angle_takeoff + angle == new_show_user.angle_takeoff
 
 
 def test_update_drones_user_indices_standard_case() -> None:
