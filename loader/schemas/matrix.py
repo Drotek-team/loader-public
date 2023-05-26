@@ -6,5 +6,5 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-def get_matrix(nb_x: int = 1, nb_y: int = 1, nb_drone_per_family: int = 1) -> "NDArray[np.intp]":
+def get_matrix(*, nb_x: int = 1, nb_y: int = 1, nb_drone_per_family: int = 1) -> "NDArray[np.intp]":
     return np.full((nb_x, nb_y), nb_drone_per_family, dtype=np.intp)

@@ -153,9 +153,7 @@ def get_valid_fire_events(
 def get_valid_show_user(grid_configuration: GridConfiguration) -> ShowUser:
     if not isinstance(grid_configuration, ShowUserConfiguration):
         show_user_configuration = ShowUserConfiguration(
-            nb_x=grid_configuration.nb_x,
-            nb_y=grid_configuration.nb_y,
-            nb_drone_per_family=grid_configuration.nb_drone_per_family,
+            matrix=grid_configuration.matrix,
             step=grid_configuration.step,
             angle_takeoff=grid_configuration.angle_takeoff,
         )

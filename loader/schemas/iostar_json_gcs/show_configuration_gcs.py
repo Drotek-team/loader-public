@@ -1,12 +1,12 @@
 from math import degrees
-from typing import Any, Dict, List, Tuple
+from typing import List, Tuple
 
-from pydantic import BaseModel, root_validator  # pyright: ignore[reportUnknownVariableType]
+import numpy as np
+from pydantic import BaseModel  # pyright: ignore[reportUnknownVariableType]
 
 from loader.parameters.frame_parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.grid_configuration import GridConfiguration
-from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
 from loader.schemas.show_user.show_user import ShowUser
 
@@ -53,10 +53,7 @@ def from_user_hull_to_px4_hull(
 
 
 class ShowConfigurationGcs(BaseModel):
-    matrix: List[List[int]] = []  # Matrix of the show
-    nb_x: int  # Number of families on the x-axis during the takeoff
-    nb_y: int  # Number of families on the y-axis during the takeoff
-    nb_drone_per_family: int  # Number of drones in each families
+    matrix: List[List[int]]  # Matrix of the show
     step: int  # Distance separating the families during the takeoff in centimeter
     angle_takeoff: int  # Angle of the takeoff grid in degree
     duration: int  # Duration of the show in microsecond
@@ -68,22 +65,26 @@ class ShowConfigurationGcs(BaseModel):
         int,
     ]  # Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis
 
-    @root_validator(pre=True)
-    def init_matrix(cls, values: Dict[str, Any]) -> Dict[str, Any]:
-        values["matrix"] = get_matrix(
-            values["nb_x"],
-            values["nb_y"],
-            values["nb_drone_per_family"],
-        ).tolist()
-        return values
+    @property
+    def nb_x(self) -> int:
+        """Number of families on the x-axis during the takeoff."""
+        return len(self.matrix)
+
+    @property
+    def nb_y(self) -> int:
+        """Number of families on the y-axis during the takeoff."""
+        return len(self.matrix[0])
+
+    @property
+    def nb_drone_per_family(self) -> int:
+        """Number of drones in each families."""
+        return np.max(self.matrix)  # pyright: ignore[reportUnknownMemberType]
 
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "ShowConfigurationGcs":
         show_configuration = GridConfiguration.from_show_user(show_user)
         return ShowConfigurationGcs(
-            nb_x=show_configuration.nb_x,
-            nb_y=show_configuration.nb_y,
-            nb_drone_per_family=show_configuration.nb_drone_per_family,
+            matrix=show_configuration.matrix.tolist(),
             step=JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(
                 show_configuration.step,
             ),

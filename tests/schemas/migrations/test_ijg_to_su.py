@@ -1,11 +1,12 @@
 import numpy as np
 from loader.schemas import IostarJsonGcs, ShowUser
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 def test_ijg_to_su() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(nb_x=2, step=2.0, angle_takeoff=np.pi / 2),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2), step=2.0, angle_takeoff=np.pi / 2),
     )
     iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
     iostar_json_gcs_angle_takeoff_rad = -np.deg2rad(iostar_json_gcs.show.angle_takeoff)

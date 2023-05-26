@@ -1,21 +1,30 @@
 from pathlib import Path
 
 from loader.schemas import IostarJsonGcs
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
 # TODO(jonathan): Generate show with performance infractions and another with collisions to use in README.md
 def main() -> None:
-    valid_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
+    valid_show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+    )
 
-    collision_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=1.25))
+    collision_show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=1.25),
+    )
 
-    performance_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
+    performance_show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+    )
     for drone_user in performance_show_user.drones_user:
         x, y, _ = drone_user.position_events[-1].xyz
         drone_user.add_position_event(1000, (x, y, 6.0))
 
-    dance_size_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=1, nb_y=1, step=2))
+    dance_size_show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=1, nb_y=1), step=2),
+    )
     for drone_user in dance_size_show_user.drones_user:
         xyz = drone_user.position_events[-1].xyz
         for i in range(10000):

@@ -1,6 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.schemas.grid_configuration import GridConfiguration
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 from tests.strategies import (
@@ -31,9 +32,7 @@ def test_su_to_sc_hypothesis(
     show_duration_absolute_time: float,
 ) -> None:
     show_user_configuration = ShowUserConfiguration(
-        nb_x=nb_x,
-        nb_y=nb_y,
-        nb_drone_per_family=nb_drone_per_family,
+        matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
         step=step_takeoff,
         angle_takeoff=angle_takeoff,
         show_duration_absolute_time=show_duration_absolute_time,
@@ -42,9 +41,7 @@ def test_su_to_sc_hypothesis(
     position = (100.0, 100.0, 100.0)
     show_user.drones_user[0].add_position_event(10000, position)
     show_configuration = GridConfiguration(
-        nb_x=nb_x,
-        nb_y=nb_y,
-        nb_drone_per_family=nb_drone_per_family,
+        matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
         step=step_takeoff,
         angle_takeoff=angle_takeoff,
         duration=show_user.duration,

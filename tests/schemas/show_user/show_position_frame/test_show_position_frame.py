@@ -1,12 +1,13 @@
 import numpy as np
 from loader.parameters import TAKEOFF_PARAMETERS
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_position_frame import ShowPositionFrame
 
 
 def test_valid_show_flags() -> None:
     show_position_frames = ShowPositionFrame.from_show_user(
-        get_valid_show_user(ShowUserConfiguration(nb_x=2)),
+        get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2))),
         is_partial=False,
     )
     assert len(show_position_frames) == 1022
@@ -34,7 +35,7 @@ def test_su_to_spf() -> None:
 
 
 def test_show_position_frame_partial_show_user_in_air() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2)))
     show_position_frames = ShowPositionFrame.from_show_user(
         show_user,
         is_partial=True,

@@ -6,6 +6,7 @@ from loader.schemas.drone_px4.drone_px4 import (
     add_position_events_user,
     drone_user_to_drone_px4,
 )
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import ShowUser
@@ -102,9 +103,7 @@ def test_su_to_sp_standard_case(
 ) -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(
-            nb_x=nb_x,
-            nb_y=nb_y,
-            nb_drone_per_family=nb_drone_per_family,
+            matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
             angle_takeoff=angle_takeoff,
         ),
     )

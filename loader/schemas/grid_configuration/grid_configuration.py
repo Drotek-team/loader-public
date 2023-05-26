@@ -21,9 +21,6 @@ def is_angles_equal(first_angle_radian: float, second_angle_radian: float) -> bo
 @dataclass()
 class GridConfiguration:
     matrix: "NDArray[np.intp]" = field(default_factory=get_matrix)  # Matrix of the show
-    nb_x: int = 1  # Number of families on the x-axis (west/east) during the takeoff
-    nb_y: int = 1  # Number of families on the y-axis (south/north) during the takeoff
-    nb_drone_per_family: int = 1  # Number of drones in each families
     step: float = 1.5  # Distance separating the families during the takeoff in meter
     angle_takeoff: float = 0.0  # Angle of the takeoff grid in radian
     duration: float = 0.0  # Duration of the show in second
@@ -35,13 +32,26 @@ class GridConfiguration:
         0.0,
     )  # Relative coordinate (ENU and meter) symbolising the range of the z-axis
 
+    @property
+    def nb_x(self) -> int:
+        """Number of families on the x-axis (west/east) during the takeoff."""
+        return self.matrix.shape[0]
+
+    @property
+    def nb_y(self) -> int:
+        """Number of families on the y-axis (south/north) during the takeoff."""
+        return self.matrix.shape[1]
+
+    @property
+    def nb_drone_per_family(self) -> int:
+        """Number of drones in each families."""
+        return self.matrix.max()  # pyright: ignore[reportUnknownMemberType]
+
     def __eq__(self, __o: object) -> bool:
         if not isinstance(__o, GridConfiguration):
             return False
         return (
-            self.nb_x == __o.nb_x
-            and self.nb_y == __o.nb_y
-            and self.nb_drone_per_family == __o.nb_drone_per_family
+            np.array_equal(self.matrix, __o.matrix)
             and np.allclose(self.step, __o.step, rtol=1e-6)
             and is_angles_equal(self.angle_takeoff, __o.angle_takeoff)
             and self.duration == __o.duration
@@ -57,15 +67,10 @@ class GridConfiguration:
         angle_takeoff = show_user.angle_takeoff
         nb_x, nb_y = grid.get_nb_x_nb_y(nb_drone_per_family, angle_takeoff)
         return GridConfiguration(
-            nb_x=nb_x,
-            nb_y=nb_y,
-            nb_drone_per_family=nb_drone_per_family,
+            matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
             step=step,
             angle_takeoff=angle_takeoff,
             duration=show_user.duration,
             hull=show_user.convex_hull,
             altitude_range=show_user.altitude_range,
         )
-
-    def __post_init__(self) -> None:
-        self.matrix = get_matrix(self.nb_x, self.nb_y, self.nb_drone_per_family)

@@ -18,6 +18,7 @@ from loader.schemas import (
     ShowConfigurationGcs,
     ShowUser,
 )
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 
@@ -54,12 +55,12 @@ def test_get_performance_infractions() -> None:
 
 
 def test_get_collisions() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     assert len(CollisionReport.generate(show_user)) == 0
 
 
 def test_get_collisions_with_collision_distance_with_collisions() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     collision_report = CollisionReport.generate(
         show_user,
         physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
@@ -68,7 +69,9 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
 
 
 def test_get_collisions_with_collision_distance_without_collision() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+    )
     collision_report = CollisionReport.generate(
         show_user,
         physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
@@ -77,7 +80,7 @@ def test_get_collisions_with_collision_distance_without_collision() -> None:
 
 
 def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     with pytest.raises(
         ValueError,
         match="collision_distance .* should be greater than or equal to security_distance_in_air .*",
@@ -89,12 +92,12 @@ def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -
 
 
 def test_get_autopilot_format_report() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     assert len(AutopilotFormatReport.generate(show_user)) == 0
 
 
 def test_get_dance_size_informations() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_px4 = DronePx4.from_show_user(show_user)
     dance_size_report = DanceSizeReport.generate(show_px4)
     for drone_px4, dance_size_infraction in zip(show_px4, dance_size_report.dance_size_infractions):
@@ -108,7 +111,7 @@ def test_get_dance_size_informations() -> None:
 
 
 def test_generate_report_from_show_user_standard_case() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     global_report = GlobalReport.generate(show_user)
     assert global_report == GlobalReport(
         takeoff_format=None,
@@ -125,7 +128,7 @@ def test_generate_report_from_show_user_standard_case() -> None:
 
 
 def test_generate_report_from_show_user_with_collision() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     global_report = GlobalReport.generate(
         show_user,
         physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
@@ -139,7 +142,7 @@ def test_generate_report_from_show_user_with_collision() -> None:
 
 
 def test_generate_report_from_show_user_with_performance() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].add_position_event(
         frame=1000,
         xyz=(*show_user.drones_user[0].position_events[-1].xyz[0:2], 5.0),
@@ -164,7 +167,7 @@ def test_generate_report_from_show_user_with_performance() -> None:
 
 
 def test_generate_report_from_show_user_without_takeoff_format() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].position_events.insert(
         1,
         PositionEventUser(
@@ -210,13 +213,11 @@ def test_generate_report_from_iostar_json_gcs_string() -> None:
 
 def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
     iostar_json_gcs = IostarJsonGcs.from_show_user(
-        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=3)),
+        get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=3))),
     )
     show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
     assert ShowConfigurationGcs.from_show_user(show_user) == ShowConfigurationGcs(
-        nb_x=2,
-        nb_y=3,
-        nb_drone_per_family=1,
+        matrix=get_matrix(nb_x=2, nb_y=3).tolist(),
         step=150,
         angle_takeoff=0,
         duration=42541,
@@ -228,7 +229,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
     iostar_json_gcs = IostarJsonGcs.from_show_user(
-        get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0)),
+        get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0)),
     )
     assert iostar_json_gcs == IostarJsonGcs.parse_file(Path() / "iostar_json_gcs_valid.json")
 
@@ -250,7 +251,11 @@ def test_get_verified_iostar_json_gcs() -> None:
 
 def test_get_verified_iostar_json_gcs_invalid() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(nb_x=2, nb_y=2, step=0.3, show_duration_absolute_time=3),
+        ShowUserConfiguration(
+            matrix=get_matrix(nb_x=2, nb_y=2),
+            step=0.3,
+            show_duration_absolute_time=3,
+        ),
     )
     iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
     show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))

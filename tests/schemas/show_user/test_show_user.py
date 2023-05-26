@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 from loader.schemas.grid_configuration.grid_configuration import GridConfiguration
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from pydantic import ValidationError
@@ -92,7 +93,7 @@ def test_show_user_nb_drones_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.nb_drones == 1
     show_user = get_valid_show_user(
-        ShowUserConfiguration(nb_x=2, nb_y=3, nb_drone_per_family=4),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=3, nb_drone_per_family=4)),
     )
     assert show_user.nb_drones == 2 * 3 * 4
     assert [drone_user.index for drone_user in show_user.drones_user] == list(
@@ -121,7 +122,9 @@ def test_show_user_duration_standard_case() -> None:
 def test_show_user_convex_hull_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.convex_hull == [(0.0, 0.0)]
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+    )
     assert show_user.convex_hull == [(-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)]
 
 
@@ -141,7 +144,9 @@ def test_show_user_configuration_show_duration_absolute_time_must_be_strictly_po
         ValueError,
         match=f"Show duration must be stricly positive, not {show_duration_absolute_time}",
     ):
-        ShowUserConfiguration(show_duration_absolute_time=show_duration_absolute_time)
+        ShowUserConfiguration(
+            show_duration_absolute_time=show_duration_absolute_time,
+        )
 
 
 @pytest.mark.parametrize(
@@ -173,7 +178,9 @@ def test_show_user_configuration_duration_before_takeoff_must_be_positive(
 
 
 def test_show_user_configuration_apply_horizontal_rotation() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+    )
     show_configuration = GridConfiguration.from_show_user(show_user)
 
     assert show_user.drones_user[0].position_events[0].xyz == (-1.0, -1.0, 0.0)
@@ -211,7 +218,9 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
 
 
 def test_update_drones_user_indices_standard_case() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+    )
     assert [drone_user.index for drone_user in show_user.drones_user] == list(
         range(show_user.nb_drones),
     )
@@ -221,7 +230,9 @@ def test_update_drones_user_indices_standard_case() -> None:
 
 
 def test_update_drones_user_indices_wrong_length() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+    )
     new_indices = [3, 2, 1]
     with pytest.raises(
         ValueError,
@@ -231,7 +242,9 @@ def test_update_drones_user_indices_wrong_length() -> None:
 
 
 def test_update_drones_user_indices_not_unique() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2.0))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+    )
     new_indices = [3, 2, 1, 1]
     with pytest.raises(
         ValueError,
@@ -241,54 +254,60 @@ def test_update_drones_user_indices_not_unique() -> None:
 
 
 def test_show_user___eq__() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user = 1
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, angle_takeoff=-np.pi / 2))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), angle_takeoff=-np.pi / 2),
+    )
     other_show_user = get_valid_show_user(
-        ShowUserConfiguration(nb_x=2, nb_y=2, angle_takeoff=np.pi / 4),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), angle_takeoff=np.pi / 4),
     )
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=2))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2, step=1))
+    show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+    )
+    other_show_user = get_valid_show_user(
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=1),
+    )
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=1))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=1)))
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user.drones_user = other_show_user.drones_user[::-1]
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user.drones_user[0].add_position_event(frame=1, xyz=(1.0, 1.0, 1.0))
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].add_position_event(frame=1, xyz=(1.0, 1.0, 1.0))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user.drones_user[0].add_position_event(frame=2, xyz=(1.0, 1.0, 1.0))
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].add_position_event(frame=1, xyz=(1.0, 1.0, 1.0))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user.drones_user[0].add_position_event(frame=1, xyz=(0.0, 1.0, 1.0))
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].add_color_event(frame=1, rgbw=(1.0, 1.0, 1.0, 1.0))
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     assert show_user != other_show_user
 
-    show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].add_fire_event(frame=1, chanel=1, duration=1)
-    other_show_user = get_valid_show_user(ShowUserConfiguration(nb_x=2, nb_y=2))
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     assert show_user != other_show_user
 
     assert show_user == show_user
