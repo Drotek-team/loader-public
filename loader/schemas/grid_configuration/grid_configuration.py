@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 # https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point
 def is_angles_equal(first_angle: float, second_angle: float) -> bool:
     distance = abs((second_angle - first_angle + np.pi) % (2 * np.pi) - np.pi)
-    return distance < 2e-2
+    return distance < 1e-2
 
 
 @dataclass()

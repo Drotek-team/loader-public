@@ -220,7 +220,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
         matrix=get_matrix(nb_x=2, nb_y=3).tolist(),
         step=150,
         angle_takeoff=0,
-        duration=42541,
+        duration=42542,
         hull=[(-150, -75), (-150, 75), (150, 75), (150, -75)],
         altitude_range=(-100, 0),
     )

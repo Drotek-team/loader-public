@@ -81,7 +81,7 @@ class JsonBinaryParameters:
 
     @staticmethod
     def _second_to_millisecond(second: float) -> int:
-        return int(1e3 * second)
+        return round(1e3 * second)
 
     @staticmethod
     def _millisecond_to_second(millisecond: int) -> float:
@@ -93,11 +93,11 @@ class JsonBinaryParameters:
 
     @staticmethod
     def _meter_to_centimeter(meter: float) -> int:
-        return int(1e2 * meter)
+        return round(1e2 * meter)
 
     @staticmethod
     def _unit_to_octect(unit: float) -> int:
-        return int(255 * unit)
+        return round(255 * unit)
 
     @staticmethod
     def _octect_to_unit(octect: int) -> float:

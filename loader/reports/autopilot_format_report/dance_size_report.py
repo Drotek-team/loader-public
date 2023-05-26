@@ -43,13 +43,13 @@ class DanceSizeInfraction(BaseInfraction):
         return DanceSizeInfraction(
             drone_index=drone_px4.index,
             dance_size=dance_size,
-            position_events_size_pct=int(
+            position_events_size_pct=round(
                 100 * position_size / JSON_BINARY_PARAMETERS.dance_size_max,
             ),
-            color_events_size_pct=int(
+            color_events_size_pct=round(
                 100 * color_size / JSON_BINARY_PARAMETERS.dance_size_max,
             ),
-            fire_events_size_pct=int(
+            fire_events_size_pct=round(
                 100 * fire_size / JSON_BINARY_PARAMETERS.dance_size_max,
             ),
         )
