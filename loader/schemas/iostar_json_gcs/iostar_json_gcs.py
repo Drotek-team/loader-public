@@ -63,7 +63,7 @@ class IostarJsonGcs(BaseModel):
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
-        (nb_y, nb_x) = show_user.matrix.shape
+        (nb_x, nb_y) = show_user.matrix.shape
         nb_drones_per_family = show_user.matrix.max()  # pyright: ignore[reportUnknownMemberType]
         step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
         angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))

@@ -295,11 +295,11 @@ class MatrixInfos:
         nb_x = round((x_max - x_min) / show_user.step) + 1
         nb_y = round((y_max - y_min) / show_user.step) + 1
 
-        matrix = np.zeros((nb_x, nb_y), dtype=np.intp)
+        matrix = np.zeros((nb_y, nb_x), dtype=np.intp)
         for position_event in first_position_events:
             x_index = round((position_event.xyz[0] - x_min) / show_user.step)
             y_index = round((position_event.xyz[1] - y_min) / show_user.step)
-            matrix[x_index, y_index] += 1
+            matrix[y_index, x_index] += 1
 
         return MatrixInfos(
             matrix=matrix,

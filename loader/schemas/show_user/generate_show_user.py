@@ -40,11 +40,11 @@ class ShowUserConfiguration:
 
     @property
     def nb_x(self) -> int:
-        return self.matrix.shape[0]
+        return self.matrix.shape[1]
 
     @property
     def nb_y(self) -> int:
-        return self.matrix.shape[1]
+        return self.matrix.shape[0]
 
 
 def rotated_horizontal_coordinates(
@@ -177,7 +177,7 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
         step=show_user_configuration.step,
     )
     drone_index = 0
-    for index_y, column in enumerate(show_user_configuration.matrix.transpose()):
+    for index_y, column in enumerate(show_user_configuration.matrix):
         for index_x, nb_drone_per_family in enumerate(column):
             for _ in range(nb_drone_per_family):
                 drone_user = show_user[drone_index]
