@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
@@ -198,26 +199,8 @@ class ShowUser(BaseModel):
     @property
     def matrix(self) -> "NDArray[np.intp]":
         """Matrix of the show."""
-        first_position_events = [
-            drone_user.position_events[0].copy() for drone_user in self.drones_user
-        ]
-        for position_event in first_position_events:
-            position_event.apply_horizontal_rotation(-self.angle_takeoff)
-
-        x_min = min(position.xyz[0] for position in first_position_events)
-        x_max = max(position.xyz[0] for position in first_position_events)
-        y_min = min(position.xyz[1] for position in first_position_events)
-        y_max = max(position.xyz[1] for position in first_position_events)
-
-        nb_x = round((x_max - x_min) / self.step) + 1
-        nb_y = round((y_max - y_min) / self.step) + 1
-        matrix = np.zeros((nb_x, nb_y), dtype=np.intp)
-        for position_event in first_position_events:
-            matrix[
-                round((position_event.xyz[0] - x_min) / self.step),
-                round((position_event.xyz[1] - y_min) / self.step),
-            ] += 1
-        return matrix
+        grid_infos = MatrixInfos.from_show_user(self)
+        return grid_infos.matrix
 
     def apply_horizontal_rotation(self, angle: float) -> None:
         self.angle_takeoff += angle
@@ -285,3 +268,45 @@ class ShowUser(BaseModel):
 def is_angles_equal(first_angle: float, second_angle: float) -> bool:
     distance = abs((second_angle - first_angle + np.pi) % (2 * np.pi) - np.pi)
     return distance < 1e-2
+
+
+@dataclass
+class MatrixInfos:
+    matrix: "NDArray[np.intp]"
+    nb_x: int
+    nb_y: int
+    x_min: float
+    x_max: float
+    y_min: float
+    y_max: float
+
+    @classmethod
+    def from_show_user(cls, show_user: ShowUser) -> "MatrixInfos":
+        first_position_events = [
+            drone_user.position_events[0].copy() for drone_user in show_user.drones_user
+        ]
+        for position_event in first_position_events:
+            position_event.apply_horizontal_rotation(-show_user.angle_takeoff)
+
+        x_min = min(position.xyz[0] for position in first_position_events)
+        x_max = max(position.xyz[0] for position in first_position_events)
+        y_min = min(position.xyz[1] for position in first_position_events)
+        y_max = max(position.xyz[1] for position in first_position_events)
+        nb_x = round((x_max - x_min) / show_user.step) + 1
+        nb_y = round((y_max - y_min) / show_user.step) + 1
+
+        matrix = np.zeros((nb_x, nb_y), dtype=np.intp)
+        for position_event in first_position_events:
+            x_index = round((position_event.xyz[0] - x_min) / show_user.step)
+            y_index = round((position_event.xyz[1] - y_min) / show_user.step)
+            matrix[x_index, y_index] += 1
+
+        return MatrixInfos(
+            matrix=matrix,
+            nb_x=nb_x,
+            nb_y=nb_y,
+            x_min=x_min,
+            x_max=x_max,
+            y_min=y_min,
+            y_max=y_max,
+        )
