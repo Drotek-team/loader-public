@@ -12,6 +12,8 @@ from loader.schemas.grid_configuration.grid_configuration import is_angles_equal
 from .convex_hull import calculate_convex_hull
 
 if TYPE_CHECKING:
+    from numpy.typing import NDArray
+
     from loader.schemas.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
 
 
@@ -81,13 +83,6 @@ class DroneUser(BaseModel):
     def apply_horizontal_rotation(self, angle: float) -> None:
         for position in self.position_events:
             position.apply_horizontal_rotation(angle)
-
-    @property
-    def first_horizontal_position(self) -> Tuple[float, float]:
-        return (
-            self.position_events[0].xyz[0],
-            self.position_events[0].xyz[1],
-        )
 
     def from_drone_px4(self, drone_px4: DronePx4) -> None:
         for position_event_px4 in drone_px4.position_events.specific_events:
@@ -197,6 +192,29 @@ class ShowUser(BaseModel):
             for position_event in drone.position_events
         ]
         return (min(z_positions), max(z_positions))
+
+    @property
+    def matrix(self) -> "NDArray[np.intp]":
+        first_position_events = [
+            drone_user.position_events[0].copy() for drone_user in self.drones_user
+        ]
+        for position_event in first_position_events:
+            position_event.apply_horizontal_rotation(-self.angle_takeoff)
+
+        x_min = min(position.xyz[0] for position in first_position_events)
+        x_max = max(position.xyz[0] for position in first_position_events)
+        y_min = min(position.xyz[1] for position in first_position_events)
+        y_max = max(position.xyz[1] for position in first_position_events)
+
+        nb_x = round((x_max - x_min) / self.step) + 1
+        nb_y = round((y_max - y_min) / self.step) + 1
+        matrix = np.zeros((nb_x, nb_y), dtype=np.intp)
+        for position_event in first_position_events:
+            matrix[
+                round((position_event.xyz[0] - x_min) / self.step),
+                round((position_event.xyz[1] - y_min) / self.step),
+            ] += 1
+        return matrix
 
     def apply_horizontal_rotation(self, angle: float) -> None:
         self.angle_takeoff += angle

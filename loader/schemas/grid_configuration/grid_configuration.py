@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
 
-from loader.schemas.grid_configuration.grid import Grid
 from loader.schemas.matrix import get_matrix
 
 if TYPE_CHECKING:
@@ -61,15 +60,10 @@ class GridConfiguration:
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "GridConfiguration":
-        grid = Grid.from_show_user(show_user)
-        nb_drone_per_family = grid.get_nb_drone_per_family()
-        step = show_user.step
-        angle_takeoff = show_user.angle_takeoff
-        nb_x, nb_y = grid.get_nb_x_nb_y(nb_drone_per_family, angle_takeoff)
         return GridConfiguration(
-            matrix=get_matrix(nb_x=nb_x, nb_y=nb_y, nb_drone_per_family=nb_drone_per_family),
-            step=step,
-            angle_takeoff=angle_takeoff,
+            matrix=show_user.matrix,
+            step=show_user.step,
+            angle_takeoff=show_user.angle_takeoff,
             duration=show_user.duration,
             hull=show_user.convex_hull,
             altitude_range=show_user.altitude_range,

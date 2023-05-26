@@ -150,16 +150,7 @@ def get_valid_fire_events(
     )
 
 
-def get_valid_show_user(grid_configuration: GridConfiguration) -> ShowUser:
-    if not isinstance(grid_configuration, ShowUserConfiguration):
-        show_user_configuration = ShowUserConfiguration(
-            matrix=grid_configuration.matrix,
-            step=grid_configuration.step,
-            angle_takeoff=grid_configuration.angle_takeoff,
-        )
-    else:
-        show_user_configuration = grid_configuration
-
+def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowUser:
     index_bias_x = 0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
     index_bias_y = 0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
     nb_x = show_user_configuration.nb_x
