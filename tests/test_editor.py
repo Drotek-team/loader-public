@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 import pytest
 from loader.parameters import IostarPhysicParameters
 from loader.reports import (
@@ -20,6 +21,12 @@ from loader.schemas import (
 )
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+
+VALID_SHOW_CONFIGURATION = ShowUserConfiguration(
+    matrix=get_matrix(nb_x=3, nb_y=2),
+    angle_takeoff=np.pi / 3,
+    step=2.0,
+)
 
 
 def test_create_show_user_standard_case() -> None:
@@ -228,9 +235,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
-    iostar_json_gcs = IostarJsonGcs.from_show_user(
-        get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0)),
-    )
+    iostar_json_gcs = IostarJsonGcs.from_show_user(get_valid_show_user(VALID_SHOW_CONFIGURATION))
     assert iostar_json_gcs == IostarJsonGcs.parse_file(Path() / "iostar_json_gcs_valid.json")
 
 
