@@ -41,11 +41,6 @@ class GridConfiguration:
         """Number of families on the y-axis (south/north) during the takeoff."""
         return self.matrix.shape[1]
 
-    @property
-    def nb_drone_per_family(self) -> int:
-        """Number of drones in each families."""
-        return self.matrix.max()  # pyright: ignore[reportUnknownMemberType]
-
     def __eq__(self, __o: object) -> bool:
         if not isinstance(__o, GridConfiguration):
             return False

@@ -43,12 +43,16 @@ def rotated_horizontal_coordinates(
 
 def get_valid_position_events_user(
     index_x: int,
-    index_bias_x: float,
     index_y: int,
-    index_bias_y: float,
     show_user_configuration: ShowUserConfiguration,
     drone_user: DroneUser,
 ) -> None:
+    nb_x = show_user_configuration.nb_x
+    nb_y = show_user_configuration.nb_y
+    step = show_user_configuration.step
+    index_bias_x = 0.5 * (nb_x - 1) * step
+    index_bias_y = 0.5 * (nb_y - 1) * step
+
     drone_user.add_position_event(
         frame=FRAME_PARAMETERS.from_second_to_frame(
             show_user_configuration.duration_before_takeoff,
@@ -151,26 +155,20 @@ def get_valid_fire_events(
 
 
 def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowUser:
-    index_bias_x = 0.5 * (show_user_configuration.nb_x - 1) * show_user_configuration.step
-    index_bias_y = 0.5 * (show_user_configuration.nb_y - 1) * show_user_configuration.step
-    nb_x = show_user_configuration.nb_x
-    nb_y = show_user_configuration.nb_y
-    nb_drone_per_family = show_user_configuration.nb_drone_per_family
+    matrix = show_user_configuration.matrix
     show_user = ShowUser.create(
-        nb_drones=nb_x * nb_y * nb_drone_per_family,
+        nb_drones=matrix.sum(),  # pyright: ignore[reportUnknownMemberType]
         angle_takeoff=show_user_configuration.angle_takeoff,
         step=show_user_configuration.step,
     )
     drone_index = 0
-    for index_y in range(nb_y):
-        for index_x in range(nb_x):
+    for index_y, column in enumerate(show_user_configuration.matrix.transpose()):
+        for index_x, nb_drone_per_family in enumerate(column):
             for _ in range(nb_drone_per_family):
                 drone_user = show_user[drone_index]
                 get_valid_position_events_user(
                     index_x,
-                    index_bias_x,
                     index_y,
-                    index_bias_y,
                     show_user_configuration,
                     drone_user,
                 )
