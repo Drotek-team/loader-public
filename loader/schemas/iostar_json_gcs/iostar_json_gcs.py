@@ -22,6 +22,21 @@ class Family(BaseModel):
     y: int  # Y relative position (NED) of the family in centimeter
     z: int  # Z relative position (NED) of the family in centimeter
 
+    @classmethod
+    def from_drone_px4(
+        cls,
+        autopilot_format_family: List[DronePx4],
+    ) -> "Family":
+        return Family(
+            drones=[
+                Dance(dance=DronePx4.to_binary(drone_px4_family))
+                for drone_px4_family in autopilot_format_family
+            ],
+            x=autopilot_format_family[0].position_events.specific_events[0].xyz[0],
+            y=autopilot_format_family[0].position_events.specific_events[0].xyz[1],
+            z=autopilot_format_family[0].position_events.specific_events[0].xyz[2],
+        )
+
 
 class Show(BaseModel):
     families: List[Family]  # List of the families composing the show
@@ -59,7 +74,7 @@ class IostarJsonGcs(BaseModel):
         return IostarJsonGcs(
             show=Show(
                 families=[
-                    get_family_from_drones_px4(
+                    Family.from_drone_px4(
                         autopilot_format[
                             nb_drones_per_family
                             * family_index : nb_drones_per_family
@@ -78,20 +93,6 @@ class IostarJsonGcs(BaseModel):
                 angle_takeoff=angle_takeoff,
             ),
         )
-
-
-def get_family_from_drones_px4(
-    autopilot_format_family: List[DronePx4],
-) -> Family:
-    return Family(
-        drones=[
-            Dance(dance=DronePx4.to_binary(drone_px4_family))
-            for drone_px4_family in autopilot_format_family
-        ],
-        x=autopilot_format_family[0].position_events.specific_events[0].xyz[0],
-        y=autopilot_format_family[0].position_events.specific_events[0].xyz[1],
-        z=autopilot_format_family[0].position_events.specific_events[0].xyz[2],
-    )
 
 
 def from_user_altitude_range_to_px4_altitude_range(
