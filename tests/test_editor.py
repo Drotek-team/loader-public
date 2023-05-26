@@ -12,13 +12,7 @@ from loader.reports import (
     PerformanceReport,
 )
 from loader.reports.autopilot_format_report.dance_size_report import DanceSizeInfraction
-from loader.schemas import (
-    DronePx4,
-    IostarJsonGcs,
-    PositionEventUser,
-    ShowConfigurationGcs,
-    ShowUser,
-)
+from loader.schemas import DronePx4, IostarJsonGcs, PositionEventUser, ShowUser
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
@@ -223,14 +217,15 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
         get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=3))),
     )
     show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
-    assert ShowConfigurationGcs.from_show_user(show_user) == ShowConfigurationGcs(
-        matrix=get_matrix(nb_x=2, nb_y=3).tolist(),
-        step=150,
-        angle_takeoff=0,
-        duration=42542,
-        hull=[(-150, -75), (-150, 75), (150, 75), (150, -75)],
-        altitude_range=(-100, 0),
-    )
+    iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
+    assert iostar_json_gcs.show.nb_x == 3
+    assert iostar_json_gcs.show.nb_y == 2
+    assert iostar_json_gcs.nb_drones_per_family == 1
+    assert iostar_json_gcs.show.step == 150
+    assert iostar_json_gcs.show.angle_takeoff == 0
+    assert iostar_json_gcs.show.duration == 42542
+    assert iostar_json_gcs.show.hull == [(-150, -75), (-150, 75), (150, 75), (150, -75)]
+    assert iostar_json_gcs.show.altitude_range == (-100, 0)
 
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs

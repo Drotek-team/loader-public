@@ -1,10 +1,12 @@
 from typing import TYPE_CHECKING, List, Tuple
 
+import numpy as np
 from pydantic import BaseModel
 
+from loader.parameters.frame_parameters import FRAME_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4 import DronePx4
-
-from .show_configuration_gcs import ShowConfigurationGcs
+from loader.schemas.show_user.convex_hull import calculate_convex_hull
 
 if TYPE_CHECKING:
     from loader.schemas.show_user import ShowUser
@@ -46,30 +48,34 @@ class IostarJsonGcs(BaseModel):
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
-        show_configuration = ShowConfigurationGcs.from_show_user(show_user)
+        (nb_y, nb_x) = show_user.matrix.shape
+        nb_drones_per_family = show_user.matrix.max()  # pyright: ignore[reportUnknownMemberType]
+        step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
+        angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))
+        duration = from_user_duration_to_px4_duration(show_user.duration)
+        hull = from_user_hull_to_px4_hull(show_user.convex_hull)
+        altitude_range = from_user_altitude_range_to_px4_altitude_range(show_user.altitude_range)
         autopilot_format = DronePx4.from_show_user(show_user)
         return IostarJsonGcs(
             show=Show(
                 families=[
                     get_family_from_drones_px4(
                         autopilot_format[
-                            show_configuration.nb_drone_per_family
-                            * family_index : show_configuration.nb_drone_per_family
+                            nb_drones_per_family
+                            * family_index : nb_drones_per_family
                             * family_index
-                            + show_configuration.nb_drone_per_family
+                            + nb_drones_per_family
                         ],
                     )
-                    for family_index in range(
-                        show_configuration.nb_x * show_configuration.nb_y,
-                    )
+                    for family_index in range(nb_x * nb_y)
                 ],
-                duration=show_configuration.duration,
-                hull=show_configuration.hull,
-                altitude_range=show_configuration.altitude_range,
-                step=show_configuration.step,
-                nb_x=show_configuration.nb_x,
-                nb_y=show_configuration.nb_y,
-                angle_takeoff=show_configuration.angle_takeoff,
+                duration=duration,
+                hull=hull,
+                altitude_range=altitude_range,
+                step=step,
+                nb_x=nb_x,
+                nb_y=nb_y,
+                angle_takeoff=angle_takeoff,
             ),
         )
 
@@ -86,3 +92,44 @@ def get_family_from_drones_px4(
         y=autopilot_format_family[0].position_events.specific_events[0].xyz[1],
         z=autopilot_format_family[0].position_events.specific_events[0].xyz[2],
     )
+
+
+def from_user_altitude_range_to_px4_altitude_range(
+    altitude_range: Tuple[float, float],
+) -> Tuple[int, int]:
+    user_minimal_coordinate, user_maximal_coordinate = (0.0, 0.0, altitude_range[0]), (
+        0.0,
+        0.0,
+        altitude_range[1],
+    )
+    (
+        px4_minimal_coordinate,
+        px4_maximal_coordinate,
+    ) = JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
+        user_minimal_coordinate,
+    ), JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
+        user_maximal_coordinate,
+    )
+    return (px4_maximal_coordinate[2], px4_minimal_coordinate[2])
+
+
+def from_user_duration_to_px4_duration(duration: float) -> int:
+    return JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+        FRAME_PARAMETERS.from_second_to_frame(duration),
+    )
+
+
+def from_user_hull_to_px4_hull(
+    user_hull: List[Tuple[float, float]],
+) -> List[Tuple[int, int]]:
+    user_coordinates = [(user_point[0], user_point[1], 0.0) for user_point in user_hull]
+    px4_coordinates = [
+        (JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(user_coordinate))
+        for user_coordinate in user_coordinates
+    ]
+    return [
+        (x, y)
+        for y, x in calculate_convex_hull(
+            [(px4_coordinate[1], px4_coordinate[0]) for px4_coordinate in px4_coordinates],
+        )
+    ]
