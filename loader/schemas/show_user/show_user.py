@@ -1,4 +1,3 @@
-import math
 from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
@@ -27,15 +26,9 @@ class EventUserBase(BaseModel):
 class PositionEventUser(EventUserBase):
     xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]  # ENU and meter
 
-    def apply_horizontal_rotation(self, angle_degree: int) -> None:
-        c, s = math.cos(math.radians(angle_degree)), math.sin(
-            math.radians(angle_degree),
-        )
-        self.xyz = (
-            c * self.xyz[0] - s * self.xyz[1],
-            s * self.xyz[0] + c * self.xyz[1],
-            self.xyz[2],
-        )
+    def apply_horizontal_rotation(self, angle: float) -> None:
+        c, s = np.cos(angle), np.sin(angle)
+        self.xyz = tuple(np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]]) @ np.array(self.xyz))
 
 
 class ColorEventUser(EventUserBase):
@@ -85,9 +78,9 @@ class DroneUser(BaseModel):
     def last_height(self) -> float:
         return self.position_events[-1].xyz[2]
 
-    def apply_horizontal_rotation(self, angle_degree: int) -> None:
+    def apply_horizontal_rotation(self, angle: float) -> None:
         for position in self.position_events:
-            position.apply_horizontal_rotation(angle_degree)
+            position.apply_horizontal_rotation(angle)
 
     @property
     def first_horizontal_position(self) -> Tuple[float, float]:
@@ -205,10 +198,10 @@ class ShowUser(BaseModel):
         ]
         return (min(z_positions), max(z_positions))
 
-    def apply_horizontal_rotation(self, angle_degree: int) -> None:
-        self.angle_takeoff += np.deg2rad(angle_degree)
+    def apply_horizontal_rotation(self, angle: float) -> None:
+        self.angle_takeoff += angle
         for drone_user in self.drones_user:
-            drone_user.apply_horizontal_rotation(angle_degree)
+            drone_user.apply_horizontal_rotation(angle)
 
     @classmethod
     def from_autopilot_format(

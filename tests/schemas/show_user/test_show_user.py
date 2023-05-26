@@ -18,7 +18,7 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser) -> None:
     )
     assert empty_drone_user.position_events[0].frame == 1
     assert empty_drone_user.position_events[0].xyz == (1.0, 2.0, 3.0)
-    empty_drone_user.apply_horizontal_rotation(90)
+    empty_drone_user.apply_horizontal_rotation(np.pi / 2)
     np.testing.assert_allclose(
         np.array(empty_drone_user.position_events[0].xyz),
         np.array((-2.0, 1.0, 3.0)),
@@ -181,8 +181,8 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
     assert show_user.drones_user[2].position_events[0].xyz == (-1.0, 1.0, 0.0)
     assert show_user.drones_user[3].position_events[0].xyz == (1.0, 1.0, 0.0)
 
-    angle_degree = 90
-    show_user.apply_horizontal_rotation(angle_degree)
+    angle = np.pi / 2
+    show_user.apply_horizontal_rotation(angle)
     new_show_configuration = GridConfiguration.from_show_user(show_user)
 
     np.testing.assert_allclose(
@@ -207,10 +207,7 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
         np.array(new_show_configuration.hull[-1:] + new_show_configuration.hull[:-1]),
     )
 
-    assert (
-        show_configuration.angle_takeoff + np.deg2rad(angle_degree)
-        == new_show_configuration.angle_takeoff
-    )
+    assert show_configuration.angle_takeoff + angle == new_show_configuration.angle_takeoff
 
 
 def test_update_drones_user_indices_standard_case() -> None:
