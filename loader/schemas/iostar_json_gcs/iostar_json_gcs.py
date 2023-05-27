@@ -76,6 +76,7 @@ class IostarJsonGcs(BaseModel):
                     Family.from_drone_px4(family_drones_px4)
                     for row in autopilot_format
                     for family_drones_px4 in row
+                    if len(family_drones_px4)
                 ],
                 duration=duration,
                 hull=hull,

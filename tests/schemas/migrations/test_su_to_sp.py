@@ -94,7 +94,7 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
 
 
 @given(
-    matrix=st_matrix,
+    matrix=st_matrix(),
     angle_takeoff=st_angle_takeoff,
 )
 @slow

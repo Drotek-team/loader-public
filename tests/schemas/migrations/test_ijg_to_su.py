@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @given(
-    matrix=st_matrix,
+    matrix=st_matrix(),
     step_takeoff=st_step_takeoff,
     angle_takeoff=st_angle_takeoff,
 )
