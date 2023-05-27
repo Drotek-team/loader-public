@@ -17,7 +17,7 @@ from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 VALID_SHOW_CONFIGURATION = ShowUserConfiguration(
-    matrix=get_matrix(nb_x=3, nb_y=2),
+    matrix=get_matrix(matrix=[[1, 0, 1], [1, 1, 1]]),
     angle_takeoff=np.pi / 3,
     step=2.0,
 )
