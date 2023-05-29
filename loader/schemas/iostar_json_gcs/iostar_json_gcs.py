@@ -59,7 +59,7 @@ class IostarJsonGcs(BaseModel):
 
     @property
     def nb_drones_per_family(self) -> int:
-        return len(self.show.families[0].drones)
+        return max(len(family.drones) for family in self.show.families)
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
