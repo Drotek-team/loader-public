@@ -92,7 +92,7 @@ def test_show_user_nb_drones_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.nb_drones == 1
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=3, nb_drone_per_family=4)),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=3, nb_drones_per_family=4)),
     )
     assert show_user.nb_drones == 2 * 3 * 4
     assert [drone_user.index for drone_user in show_user.drones_user] == list(

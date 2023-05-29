@@ -203,6 +203,18 @@ class ShowUser(BaseModel):
         return grid_infos.matrix
 
     @property
+    def nb_x(self) -> int:
+        return self.matrix.shape[1]
+
+    @property
+    def nb_y(self) -> int:
+        return self.matrix.shape[0]
+
+    @property
+    def nb_drones_per_family(self) -> int:
+        return self.matrix.max()  # pyright: ignore[reportUnknownMemberType]
+
+    @property
     def drones_user_in_matrix(self) -> List[List[List[DroneUser]]]:
         """Get the drones_user in the matrix."""
         grid_infos = MatrixInfos.from_show_user(self)

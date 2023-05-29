@@ -178,8 +178,8 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
     )
     drone_index = 0
     for index_y, column in enumerate(show_user_configuration.matrix):
-        for index_x, nb_drone_per_family in enumerate(column):
-            for _ in range(nb_drone_per_family):
+        for index_x, nb_drones_per_family in enumerate(column):
+            for _ in range(nb_drones_per_family):
                 drone_user = show_user[drone_index]
                 get_valid_position_events_user(
                     index_x,

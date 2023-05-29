@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import TYPE_CHECKING, Callable, TypeVar, cast
+from typing import TYPE_CHECKING, Callable, Tuple, TypeVar, cast
 
 import numpy as np
 from hypothesis import assume, settings
@@ -33,21 +33,29 @@ def slow(func: Callable[P, T]) -> Callable[P, T]:  # pragma: no cover
 
 @st.composite
 def st_matrix(draw: st.DrawFn) -> "NDArray[np.intp]":
-    st_nb_x = st.integers(1, 3)
-    st_nb_y = st.integers(1, 3)
-    st_nb_drone_per_family = st.integers(0, 3)
+    return draw(st_matrix_with_shape())[0]
+
+
+@st.composite
+def st_matrix_with_shape(draw: st.DrawFn) -> Tuple["NDArray[np.intp]", int, int, int]:
+    nb_x = draw(st.integers(1, 3))
+    nb_y = draw(st.integers(1, 3))
+    st_nb_drones_per_family = st.integers(0, 3)
     matrix = draw(
         cast(
             st.SearchStrategy["NDArray[np.intp]"],
             arrays(
                 np.intp,
-                st.tuples(st_nb_x, st_nb_y),
-                elements=st_nb_drone_per_family,
+                (nb_y, nb_x),
+                elements=st_nb_drones_per_family,
             ),
         ),
     )
-    assume(matrix.sum() > 0)  # pyright: ignore[reportUnknownMemberType]
-    return matrix
+    assume(matrix[0, :].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
+    assume(matrix[-1, :].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
+    assume(matrix[:, 0].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
+    assume(matrix[:, -1].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
+    return matrix, nb_x, nb_y, matrix.max()  # pyright: ignore[reportUnknownMemberType]
 
 
 st_step_takeoff = st.floats(1, 10)
