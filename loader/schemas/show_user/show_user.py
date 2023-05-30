@@ -311,16 +311,16 @@ class MatrixInfos:
         x_max = max(position.xyz[0] for position in first_position_events)
         y_min = min(position.xyz[1] for position in first_position_events)
         y_max = max(position.xyz[1] for position in first_position_events)
-        nb_x = round((x_max - x_min) / show_user.step) + 1
-        nb_y = round((y_max - y_min) / show_user.step) + 1
+        nb_x = int(round((x_max - x_min) / show_user.step) + 1)
+        nb_y = int(round((y_max - y_min) / show_user.step) + 1)
 
         matrix = np.zeros((nb_y, nb_x), dtype=np.intp)
         drones_user_in_matrix: List[List[List[DroneUser]]] = [
             [[] for _ in range(nb_x)] for _ in range(nb_y)
         ]
         for position_event, drone_user in zip(first_position_events, show_user.drones_user):
-            x_index = round((position_event.xyz[0] - x_min) / show_user.step)
-            y_index = round((position_event.xyz[1] - y_min) / show_user.step)
+            x_index = int(round((position_event.xyz[0] - x_min) / show_user.step))
+            y_index = int(round((position_event.xyz[1] - y_min) / show_user.step))
             matrix[y_index, x_index] += 1
             drones_user_in_matrix[y_index][x_index].append(drone_user)
 
