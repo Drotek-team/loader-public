@@ -1,5 +1,87 @@
 # Changelog
 
+## v0.4.0 (2023-05-31)
+
+### Feat
+
+- allow empty families
+- allow different number of drones in families
+- support is_partial for collision check
+
+### Fix
+
+- compatibility with numpy 1.17
+- IostarJsonGcs.nb_drones_per_family
+- inverse nb_x and nb_y in IostarJsonGcs
+- include angle_takeoff in ShowUser.\_\_eq\_\_()
+- **ShowPositionFrame**: set in_air to false on ground
+- use len() instead of comparing to None
+- ShowPositionFrames.create_from_show_user()
+- **land_parameter**: always return floats
+
+### Refactor
+
+- add nb_x, nb_y, nb_drones_per_family to ShowUser
+- invert matrix indices
+- add GridInfos
+- add Family.from_drone_px4()
+- remove ShowConfigurationGcs
+- remove GridConfiguration
+- round instead of troncating
+- use matrix in get_valid_show_user()
+- calculate matrix directly in GridConfiguration
+- use matrix to init the grid configuration
+- add matrix to grid configurations
+- remove ShowConfigurationGcs.from_show_configuration
+- **show_user**: use radians
+- merge ShowConfiguration
+- require step in ShowUser.create()
+- require takeoff_angle in ShowUser.create()
+- add DroneUser.from_drone_px4
+- add \_\_eq\_\_ to ShowUser
+- remove possible GridConfiguration cycle
+- get_valid_show_user() to use API
+- remove \_\_future\_\_ annotations
+- add drone_index to TakeoffFormatReport
+- drop dict support in reports
+- rework AutopilotFormatReport
+- allow drone_index field in reports
+- remove get_report_validation()
+- change DanceSizeInfraction to a report
+- use \_\_len\_\_() instead of get_nb_errors()
+- rework report generation
+- rename shows to schemas
+- remove performance/collision types from API
+- move ShowPositionFrame/DroneTrajectoryPerformance
+- rework shows access
+- rework grid configurations
+- rework Grid
+- rework IostarJsonGcs migrations
+- rework DronePx4 to ShowUser migration
+- rework ShowUser to DronePx4 migration
+- rework DronePx4 migrations
+- rework show configurations migrations
+- regroup migrations
+- rename report to reports
+- rework parameters access
+- rework report access
+- rename report files
+- remove su_to_stp
+- rename show_env to shows
+- add s to parameter
+- move simulation
+- use ShowPositionFrame.from_show_user
+- reorganize migration_dp_binary
+- rename iostar_json(\_gcs)
+- remove autopilot_format folder
+- move all migrations in show_env
+- remove ShowPositionFrames
+- remove ShowTrajectoryPerformance
+- remove IostarJson
+- rework public API
+- remove ShowCollisionTrajectory use
+- use milliseconds for fire duration
+
 ## v0.3.0 (2023-05-03)
 
 ### Feat
