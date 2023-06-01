@@ -40,8 +40,8 @@ class Family(BaseModel):
 
 class Show(BaseModel):
     families: List[Family]  # List of the families composing the show
-    nb_x: int  # Number of families on the x-axis during the takeoff
-    nb_y: int  # Number of families on the y-axis during the takeoff
+    nb_x: int  # Number of families on the y-axis during the takeoff
+    nb_y: int  # Number of families on the x-axis during the takeoff
     step: int  # Distance separating the families during the takeoff in centimeter
     angle_takeoff: int  # Angle of the takeoff grid
     duration: int  # Duration of the show in millisecond
@@ -63,7 +63,6 @@ class IostarJsonGcs(BaseModel):
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
-        (nb_x, nb_y) = show_user.matrix.shape
         step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
         angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))
         duration = from_user_duration_to_px4_duration(show_user.duration)
@@ -82,8 +81,8 @@ class IostarJsonGcs(BaseModel):
                 hull=hull,
                 altitude_range=altitude_range,
                 step=step,
-                nb_x=nb_x,
-                nb_y=nb_y,
+                nb_x=show_user.nb_x,
+                nb_y=show_user.nb_y,
                 angle_takeoff=angle_takeoff,
             ),
         )

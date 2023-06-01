@@ -34,8 +34,8 @@ def test_ijg_to_su(
     iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
     iostar_json_gcs_angle_takeoff_rad = -np.deg2rad(iostar_json_gcs.show.angle_takeoff)
     assert is_angles_equal(show_user.angle_takeoff, iostar_json_gcs_angle_takeoff_rad)
-    assert show_user.nb_x == iostar_json_gcs.show.nb_y
-    assert show_user.nb_y == iostar_json_gcs.show.nb_x
+    assert show_user.nb_x == iostar_json_gcs.show.nb_x
+    assert show_user.nb_y == iostar_json_gcs.show.nb_y
     assert show_user.nb_drones_per_family == iostar_json_gcs.nb_drones_per_family
 
     export_import_autopilot_format = ShowUser.from_iostar_json_gcs(iostar_json_gcs)

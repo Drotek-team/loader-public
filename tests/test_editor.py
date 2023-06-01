@@ -218,8 +218,8 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
     )
     show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
     iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
-    assert iostar_json_gcs.show.nb_x == 3
-    assert iostar_json_gcs.show.nb_y == 2
+    assert iostar_json_gcs.show.nb_x == 2
+    assert iostar_json_gcs.show.nb_y == 3
     assert iostar_json_gcs.nb_drones_per_family == 1
     assert iostar_json_gcs.show.step == 150
     assert iostar_json_gcs.show.angle_takeoff == 0
