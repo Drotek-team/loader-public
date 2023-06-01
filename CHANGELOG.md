@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.1 (2023-06-01)
+
+### Fix
+
+- invert nb_x and nb_y in IostarJsonGcs
+
 ## v0.4.0 (2023-05-31)
 
 ### Feat
