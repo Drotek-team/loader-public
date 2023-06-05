@@ -59,6 +59,7 @@ class GlobalReport(BaseReport):
         performance_report = PerformanceReport.generate_or_none(
             show_user,
             physic_parameters=physic_parameters,
+            is_partial=is_partial,
         )
         collision_report = CollisionReport.generate_or_none(
             show_user,

@@ -28,6 +28,7 @@ class PerformanceKind(Enum):
         self,
         physic_parameters: IostarPhysicParameters,
         performance: Performance,
+        tolerance_percentage: float,
     ) -> Tuple[bool, float, float]:
         """Check if the performance is above the threshold."""
         if self == PerformanceKind.HORIZONTAL_VELOCITY:
@@ -46,7 +47,7 @@ class PerformanceKind(Enum):
             msg = f"PerformanceKind {self} not implemented in check_performance()."
             raise NotImplementedError(msg)
 
-        return value > threshold, threshold, value
+        return value > threshold * tolerance_percentage, threshold, value
 
 
 class PerformanceInfraction(BaseInfraction):
@@ -63,12 +64,14 @@ class PerformanceInfraction(BaseInfraction):
         frame: int,
         performance: Performance,
         physic_parameters: IostarPhysicParameters,
+        tolerance_percentage: float,
     ) -> List["PerformanceInfraction"]:
         performance_infractions: List["PerformanceInfraction"] = []
         for performance_kind in PerformanceKind:
             is_infraction, threshold, value = performance_kind.check(
                 physic_parameters,
                 performance,
+                tolerance_percentage=tolerance_percentage,
             )
             if is_infraction:
                 performance_infractions.append(
@@ -87,6 +90,7 @@ class PerformanceInfraction(BaseInfraction):
         cls,
         drone_trajectory_performance: DroneTrajectoryPerformance,
         physic_parameters: IostarPhysicParameters,
+        tolerance_percentage: float,
     ) -> List["PerformanceInfraction"]:
         return list(
             itertools.chain.from_iterable(
@@ -95,6 +99,7 @@ class PerformanceInfraction(BaseInfraction):
                     trajectory_performance_info.frame,
                     trajectory_performance_info.performance,
                     physic_parameters,
+                    tolerance_percentage,
                 )
                 for (
                     trajectory_performance_info
@@ -108,6 +113,7 @@ class PerformanceInfraction(BaseInfraction):
         show_user: ShowUser,
         *,
         physic_parameters: Optional[IostarPhysicParameters] = None,
+        is_partial: bool,
     ) -> List["PerformanceInfraction"]:
         show_trajectory_performance = DroneTrajectoryPerformance.from_show_user(show_user)
         if physic_parameters is None:
@@ -129,11 +135,14 @@ class PerformanceInfraction(BaseInfraction):
                 msg = f"Acceleration max {physic_parameters.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max}"
                 raise ValueError(msg)
 
+        tolerance_percentage = 1.0 if is_partial else 1.05
+
         return list(
             itertools.chain.from_iterable(
                 cls._get_performance_infractions_from_drone_performance(
                     drone_trajectory_performance,
                     physic_parameters,
+                    tolerance_percentage,
                 )
                 for drone_trajectory_performance in show_trajectory_performance
             ),

@@ -116,6 +116,8 @@ class CollisionInfraction(BaseInfraction):
                 f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETERS_MAX.security_distance_in_air})",
             )
             raise ValueError(msg)
+        if not is_partial:
+            collision_distance *= 0.95
         return list(
             itertools.chain.from_iterable(
                 [

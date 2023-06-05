@@ -25,10 +25,11 @@ def test_collision_report_invalid() -> None:
         ),
     )
     collision_report = CollisionReport.generate(invalid_show_user_on_ground)
-    assert len(collision_report)
+    assert not len(collision_report)
+    collision_report = CollisionReport.generate(invalid_show_user_on_ground, is_partial=True)
     assert len(collision_report)
     collision_infractions = collision_report.collision_infractions
-    assert len(collision_infractions) == 1488
+    assert len(collision_infractions) == 1244
     for collision_infraction in collision_infractions:
         assert collision_infraction.in_air
 
