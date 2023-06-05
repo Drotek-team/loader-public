@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.2 (2023-06-05)
+
+### Fix
+
+- add tolerance for import and export checks
+
 ## v0.4.1 (2023-06-01)
 
 ### Fix
