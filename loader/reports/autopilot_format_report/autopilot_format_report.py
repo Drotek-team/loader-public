@@ -1,6 +1,8 @@
 # pyright: reportIncompatibleMethodOverride=false
 from typing import List, Optional
 
+from tqdm import tqdm
+
 from loader.reports.base import BaseReport
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.show_user import ShowUser
@@ -18,7 +20,7 @@ class AutopilotFormatReport(BaseReport):
         show_px4 = DronePx4.from_show_user(show_user)
         events_format_reports = [
             events_format_report
-            for drone_px4 in show_px4
+            for drone_px4 in tqdm(show_px4, desc="Checking autopilot format", unit="drone")
             if len(events_format_report := EventsFormatReport.generate(drone_px4))
         ]
         dance_size_report = DanceSizeReport.generate_or_none(show_px4)

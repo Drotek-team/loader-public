@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, List
 
 import numpy as np
+from tqdm import tqdm
 
 from loader.parameters import FRAME_PARAMETERS
 from loader.schemas.show_user import PositionEventUser, ShowUser
@@ -115,5 +116,9 @@ class DroneTrajectoryPerformance:
                     drone_user.position_events,
                 ),
             )
-            for drone_user in show_user.drones_user
+            for drone_user in tqdm(
+                show_user.drones_user,
+                desc="Computing trajectory performances",
+                unit="drone",
+            )
         ]

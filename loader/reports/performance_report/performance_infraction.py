@@ -4,6 +4,7 @@ from enum import Enum
 from typing import List, Optional, Tuple
 
 import numpy as np
+from tqdm import tqdm
 
 from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_MAX,
@@ -144,6 +145,10 @@ class PerformanceInfraction(BaseInfraction):
                     physic_parameters,
                     tolerance_percentage,
                 )
-                for drone_trajectory_performance in show_trajectory_performance
+                for drone_trajectory_performance in tqdm(
+                    show_trajectory_performance,
+                    desc="Checking speed profiles",
+                    unit="drone",
+                )
             ),
         )

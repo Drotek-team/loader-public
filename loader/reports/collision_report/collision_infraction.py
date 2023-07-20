@@ -4,6 +4,7 @@ import itertools
 from typing import TYPE_CHECKING, List, Optional, TypeVar
 
 import numpy as np
+from tqdm import tqdm
 
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
 from loader.reports.base import BaseInfraction
@@ -125,7 +126,11 @@ class CollisionInfraction(BaseInfraction):
                         show_position_frame,
                         collision_distance,
                     )
-                    for show_position_frame in show_position_frames
+                    for show_position_frame in tqdm(
+                        show_position_frames,
+                        desc="Checking collisions",
+                        unit="frame",
+                    )
                 ],
             ),
         )

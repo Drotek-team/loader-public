@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, List
 
 import numpy as np
+from tqdm import tqdm
 
 from loader.schemas.show_user.show_position_frame.simulation.flight_simulation import (
     get_flight_simulation,
@@ -63,7 +64,11 @@ class ShowPositionFrame:
             get_partial_flight_simulation(drone_user)
             if is_partial
             else get_flight_simulation(drone_user, show_user.last_frame)
-            for drone_user in show_user.drones_user
+            for drone_user in tqdm(
+                show_user.drones_user,
+                desc="Computing flight simulations",
+                unit="drone",
+            )
         ]
         show_position_frames = [
             ShowPositionFrame(frame, drone_indices)
@@ -72,7 +77,12 @@ class ShowPositionFrame:
                 max(flight_simulation[-1].frame for flight_simulation in flight_simulations) + 1,
             )
         ]
-        for drone_index, flight_simulation in zip(drone_indices, flight_simulations):
+        for drone_index, flight_simulation in tqdm(
+            zip(drone_indices, flight_simulations),
+            desc="Computing show position frames",
+            total=len(drone_indices),
+            unit="drone",
+        ):
             for show_slice, simulation_info in zip(show_position_frames, flight_simulation):
                 show_slice.update_position_air_flag(
                     drone_index,

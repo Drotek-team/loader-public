@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
 from pydantic import BaseModel
+from tqdm import tqdm
 
 from loader.parameters.frame_parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
@@ -73,7 +74,11 @@ class IostarJsonGcs(BaseModel):
             show=Show(
                 families=[
                     Family.from_drone_px4(family_drones_px4)
-                    for row in autopilot_format
+                    for row in tqdm(
+                        autopilot_format,
+                        desc="Converting show user to iostar json gcs",
+                        unit="row",
+                    )
                     for family_drones_px4 in row
                     if len(family_drones_px4)
                 ],

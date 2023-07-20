@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List, Tuple
 import numpy as np
 from pydantic import BaseModel
 from pydantic.types import StrictFloat, StrictInt
+from tqdm import tqdm
 
 from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
@@ -222,7 +223,7 @@ class ShowUser(BaseModel):
 
     def apply_horizontal_rotation(self, angle: float) -> None:
         self.angle_takeoff += angle
-        for drone_user in self.drones_user:
+        for drone_user in tqdm(self.drones_user, desc="Applying horizontal rotation", unit="drone"):
             drone_user.apply_horizontal_rotation(angle)
 
     @classmethod
@@ -237,7 +238,12 @@ class ShowUser(BaseModel):
             angle_takeoff=angle_takeoff,
             step=step,
         )
-        for drone_user, drone_px4 in zip(show_user.drones_user, autopilot_format):
+        for drone_user, drone_px4 in tqdm(
+            zip(show_user.drones_user, autopilot_format),
+            desc="Converting autopilot format to show user",
+            total=len(autopilot_format),
+            unit="drone",
+        ):
             drone_user.from_drone_px4(drone_px4)
         return show_user
 

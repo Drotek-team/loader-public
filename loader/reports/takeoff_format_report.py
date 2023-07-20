@@ -2,6 +2,7 @@
 from typing import List, Optional, Tuple
 
 import numpy as np
+from tqdm import tqdm
 
 from loader.parameters import TAKEOFF_PARAMETERS
 from loader.reports.base import BaseInfraction, BaseReport
@@ -129,7 +130,7 @@ class TakeoffFormatReport(BaseReport):
     ) -> "TakeoffFormatReport":
         drone_user_reports = [
             drone_user_report
-            for drone_user in show_user.drones_user
+            for drone_user in tqdm(show_user.drones_user, desc="Checking takeoffs", unit="drone")
             if len(drone_user_report := DroneUserReport.generate(drone_user))
         ]
         return TakeoffFormatReport(drone_users=drone_user_reports)

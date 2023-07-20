@@ -22,7 +22,7 @@ default:
     - apt-get update && apt-get install -y --no-install-recommends git
     # Set up Python virtual environment
     - export PATH="$PYTHONUSERBASE/bin:$PATH"
-    - python -m pip install poetry==1.3.2 --user
+    - python -m pip install poetry==1.5.1 --user
     - poetry install
     - source $(poetry env info --path)/bin/activate
   cache:

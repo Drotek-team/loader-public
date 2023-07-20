@@ -1,6 +1,8 @@
 import struct
 from typing import TYPE_CHECKING, List, Tuple
 
+from tqdm import tqdm
+
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 
 from .binary import Header, SectionHeader
@@ -80,7 +82,14 @@ class DronePx4:
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> List["DronePx4"]:
-        return [drone_user_to_drone_px4(drone_user) for drone_user in show_user.drones_user]
+        return [
+            drone_user_to_drone_px4(drone_user)
+            for drone_user in tqdm(
+                show_user.drones_user,
+                desc="Converting show user to autopilot format",
+                unit="drone",
+            )
+        ]
 
     @classmethod
     def from_show_user_in_matrix(cls, show_user: "ShowUser") -> List[List[List["DronePx4"]]]:
@@ -89,7 +98,11 @@ class DronePx4:
                 [drone_user_to_drone_px4(drone_user) for drone_user in family_drones_user]
                 for family_drones_user in row
             ]
-            for row in show_user.drones_user_in_matrix
+            for row in tqdm(
+                show_user.drones_user_in_matrix,
+                desc="Converting show user to autopilot format",
+                unit="row",
+            )
         ]
 
     @classmethod
@@ -99,7 +112,12 @@ class DronePx4:
                 family_index * iostar_json_gcs.nb_drones_per_family + drone_index,
                 binary_dance.dance,
             )
-            for family_index, family in enumerate(iostar_json_gcs.show.families)
+            for family_index, family in tqdm(
+                enumerate(iostar_json_gcs.show.families),
+                total=len(iostar_json_gcs.show.families),
+                desc="Converting iostar json gcs to autopilot format",
+                unit="family",
+            )
             for drone_index, binary_dance in enumerate(family.drones)
         ]
 
