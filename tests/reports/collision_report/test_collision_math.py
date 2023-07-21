@@ -61,12 +61,13 @@ def test_get_optimized_collision_infractions() -> None:
         nb_x * nb_y,
     )
     assert len(
-        CollisionInfraction._get_collision_infractions(  # pyright: ignore[reportPrivateUsage]
-            0,
-            local_indices,
-            get_numpy_grid(nb_x, nb_y),
-            endangered_distance=1.2,
-            in_air=True,
+        list(
+            CollisionInfraction._get_collision_infractions(  # pyright: ignore[reportPrivateUsage]
+                0,
+                local_indices,
+                get_numpy_grid(nb_x, nb_y),
+                endangered_distance=1.2,
+            ),
         ),
     ) == (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
 
@@ -82,12 +83,13 @@ def test_get_optimized_collision_infractions_big_number() -> None:
     normal_value = (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
     assert (
         len(
-            CollisionInfraction._get_collision_infractions(  # pyright: ignore[reportPrivateUsage]
-                0,
-                local_indices,
-                get_numpy_grid(nb_x, nb_y),
-                endangered_distance=1.2,
-                in_air=True,
+            list(
+                CollisionInfraction._get_collision_infractions(  # pyright: ignore[reportPrivateUsage]
+                    0,
+                    local_indices,
+                    get_numpy_grid(nb_x, nb_y),
+                    endangered_distance=1.2,
+                ),
             ),
         )
         == normal_value

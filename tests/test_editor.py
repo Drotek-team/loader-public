@@ -64,7 +64,7 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     collision_report = CollisionReport.generate(
         show_user,
-        physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
+        physic_parameters=IostarPhysicParameters(minimal_distance=2),
     )
     assert len(collision_report.collision_infractions) == 4080
 
@@ -75,7 +75,7 @@ def test_get_collisions_with_collision_distance_without_collision() -> None:
     )
     collision_report = CollisionReport.generate(
         show_user,
-        physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
+        physic_parameters=IostarPhysicParameters(minimal_distance=2),
     )
     assert len(collision_report) == 0
 
@@ -88,7 +88,7 @@ def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -
     ):
         CollisionReport.generate(
             show_user,
-            physic_parameters=IostarPhysicParameters(security_distance_in_air=0.5),
+            physic_parameters=IostarPhysicParameters(minimal_distance=0.5),
         )
 
 
@@ -107,9 +107,9 @@ def test_get_dance_size_informations() -> None:
         assert dance_size_infraction == DanceSizeInfraction(
             drone_index=drone_user.index,
             dance_size=106,
-            position_events_size_pct=0,
-            color_events_size_pct=0,
-            fire_events_size_pct=0,
+            position_percent=0.03,
+            color_percent=0.02,
+            fire_percent=0.02,
         )
 
 
@@ -135,7 +135,7 @@ def test_generate_report_from_show_user_with_collision() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     global_report = GlobalReport.generate(
         show_user,
-        physic_parameters=IostarPhysicParameters(security_distance_in_air=2),
+        physic_parameters=IostarPhysicParameters(minimal_distance=2),
     )
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,

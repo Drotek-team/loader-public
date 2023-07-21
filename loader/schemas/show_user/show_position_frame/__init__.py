@@ -38,16 +38,8 @@ class ShowPositionFrame:
         return self._indices[self._in_air_flags]
 
     @property
-    def on_ground_indices(self) -> "NDArray[np.intp]":
-        return self._indices[np.invert(self._in_air_flags)]
-
-    @property
     def in_air_positions(self) -> "NDArray[np.float64]":
         return self._positions[self._in_air_flags]
-
-    @property
-    def on_ground_positions(self) -> "NDArray[np.float64]":
-        return self._positions[np.invert(self._in_air_flags)]
 
     def __len__(self) -> int:
         return len(self._indices)

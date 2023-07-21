@@ -14,11 +14,11 @@ def test_dance_size_information_standard_case() -> None:
     dance_size_information = DanceSizeInfraction(
         drone_index=0,
         dance_size=50,
-        position_events_size_pct=12,
-        color_events_size_pct=24,
-        fire_events_size_pct=36,
+        position_percent=12,
+        color_percent=24,
+        fire_percent=36,
     )
-    assert dance_size_information.total_events_size_pct == 72
+    assert dance_size_information.total_percent == 72
 
 
 def test_get_dance_size_information_standard_case() -> None:
@@ -27,9 +27,9 @@ def test_get_dance_size_information_standard_case() -> None:
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
         dance_size=7,
-        position_events_size_pct=0,
-        color_events_size_pct=0,
-        fire_events_size_pct=0,
+        position_percent=0,
+        color_percent=0,
+        fire_percent=0,
     )
 
     for _ in range(1_000):
@@ -37,9 +37,9 @@ def test_get_dance_size_information_standard_case() -> None:
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
         dance_size=10_016,
-        position_events_size_pct=10,
-        color_events_size_pct=0,
-        fire_events_size_pct=0,
+        position_percent=10,
+        color_percent=0,
+        fire_percent=0,
     )
 
     for _ in range(1_000):
@@ -47,9 +47,9 @@ def test_get_dance_size_information_standard_case() -> None:
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
         dance_size=18_025,
-        position_events_size_pct=10,
-        color_events_size_pct=8,
-        fire_events_size_pct=0,
+        position_percent=10,
+        color_percent=8,
+        fire_percent=0,
     )
 
     for _ in range(1_000):
@@ -57,7 +57,7 @@ def test_get_dance_size_information_standard_case() -> None:
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
         dance_size=24_034,
-        position_events_size_pct=10,
-        color_events_size_pct=8,
-        fire_events_size_pct=6,
+        position_percent=10,
+        color_percent=8,
+        fire_percent=6,
     )

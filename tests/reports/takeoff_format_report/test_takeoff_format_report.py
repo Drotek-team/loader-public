@@ -56,8 +56,8 @@ def test_takeoff_position_infraction_generate_horizontal(
         show_user.drones_user[0],
     )
     assert takeoff_position_infraction == TakeoffPositionInfraction(
-        first_position=first_position,
-        second_position=second_position,
+        start_position=first_position,
+        end_position=second_position,
     )
 
 
@@ -77,6 +77,6 @@ def test_takeoff_position_infraction_generate_vertical(
         show_user.drones_user[0],
     )
     assert takeoff_position_infraction == TakeoffPositionInfraction(
-        first_position=(0, 0, 0),
-        second_position=(0, 0, altitude),
+        start_position=(0, 0, 0),
+        end_position=(0, 0, altitude),
     )

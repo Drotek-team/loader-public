@@ -20,7 +20,7 @@ def test_collision_report_invalid() -> None:
     invalid_show_user_on_ground = get_valid_show_user(
         ShowUserConfiguration(
             matrix=get_matrix(nb_x=2, nb_y=2),
-            step=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.security_distance_in_air - EPSILON_DELTA,
+            step=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimal_distance - EPSILON_DELTA,
             show_duration_absolute_time=3,
         ),
     )
@@ -30,8 +30,6 @@ def test_collision_report_invalid() -> None:
     assert len(collision_report)
     collision_infractions = collision_report.collision_infractions
     assert len(collision_infractions) == 1244
-    for collision_infraction in collision_infractions:
-        assert collision_infraction.in_air
 
     collision_report = CollisionReport.generate(
         invalid_show_user_on_ground,

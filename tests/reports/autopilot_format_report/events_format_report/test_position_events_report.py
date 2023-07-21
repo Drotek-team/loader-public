@@ -1,7 +1,7 @@
 import pytest
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import CoordinateInfraction, PositionEventsReport
+from loader.reports import PositionBoundaryInfraction, PositionEventsReport
 from loader.schemas.drone_px4.events import PositionEvents
 
 
@@ -52,12 +52,11 @@ def test_invalid_position_events_xyz_value_report(
         valid_position_events,
     )
     assert len(position_events_report)
-    coordinate_infractions = position_events_report.coordinate_infractions
+    coordinate_infractions = position_events_report.position_infractions
     assert len(coordinate_infractions) == 3
-    for coordinate_infraction in coordinate_infractions:
-        assert coordinate_infraction == CoordinateInfraction(
+    for coordinate_infraction, axis in zip(coordinate_infractions, ["north", "east", "down"]):
+        assert coordinate_infraction == PositionBoundaryInfraction(
             event_index=2,
+            axis=axis,
             value=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
-            value_min=JSON_BINARY_PARAMETERS.coordinate_value_bound.minimal,
-            value_max=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal,
         )

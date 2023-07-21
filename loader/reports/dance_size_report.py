@@ -13,15 +13,13 @@ from loader.schemas.show_user.show_user import ShowUser
 class DanceSizeInfraction(BaseInfraction):
     drone_index: int
     dance_size: int
-    position_events_size_pct: int
-    color_events_size_pct: int
-    fire_events_size_pct: int
+    position_percent: float
+    color_percent: float
+    fire_percent: float
 
     @property
-    def total_events_size_pct(self) -> int:
-        return (
-            self.position_events_size_pct + self.color_events_size_pct + self.fire_events_size_pct
-        )
+    def total_percent(self) -> float:
+        return self.position_percent + self.color_percent + self.fire_percent
 
     @classmethod
     def generate(
@@ -46,15 +44,9 @@ class DanceSizeInfraction(BaseInfraction):
         return DanceSizeInfraction(
             drone_index=drone_px4.index,
             dance_size=dance_size,
-            position_events_size_pct=round(
-                100 * position_size / JSON_BINARY_PARAMETERS.dance_size_max,
-            ),
-            color_events_size_pct=round(
-                100 * color_size / JSON_BINARY_PARAMETERS.dance_size_max,
-            ),
-            fire_events_size_pct=round(
-                100 * fire_size / JSON_BINARY_PARAMETERS.dance_size_max,
-            ),
+            position_percent=round(100 * position_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
+            color_percent=round(100 * color_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
+            fire_percent=round(100 * fire_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
         )
 
     def __len__(self) -> int:

@@ -30,7 +30,7 @@ class PerformanceKind(Enum):
         physic_parameters: IostarPhysicParameters,
         performance: Performance,
         tolerance_percentage: float,
-    ) -> Tuple[bool, float, float]:
+    ) -> Tuple[bool, float]:
         """Check if the performance is above the threshold."""
         if self == PerformanceKind.HORIZONTAL_VELOCITY:
             threshold = physic_parameters.horizontal_velocity_max
@@ -48,7 +48,7 @@ class PerformanceKind(Enum):
             msg = f"PerformanceKind {self} not implemented in check_performance()."
             raise NotImplementedError(msg)
 
-        return value > threshold * tolerance_percentage, threshold, value
+        return value > threshold * tolerance_percentage, value
 
 
 class PerformanceInfraction(BaseInfraction):
@@ -56,7 +56,6 @@ class PerformanceInfraction(BaseInfraction):
     drone_index: int
     frame: int
     value: float
-    threshold: float
 
     @classmethod
     def _get_performance_infractions_from_performance(
@@ -69,7 +68,7 @@ class PerformanceInfraction(BaseInfraction):
     ) -> List["PerformanceInfraction"]:
         performance_infractions: List["PerformanceInfraction"] = []
         for performance_kind in PerformanceKind:
-            is_infraction, threshold, value = performance_kind.check(
+            is_infraction, value = performance_kind.check(
                 physic_parameters,
                 performance,
                 tolerance_percentage=tolerance_percentage,
@@ -81,7 +80,6 @@ class PerformanceInfraction(BaseInfraction):
                         drone_index=drone_index,
                         frame=frame,
                         value=value,
-                        threshold=threshold,
                     ),
                 )
         return performance_infractions

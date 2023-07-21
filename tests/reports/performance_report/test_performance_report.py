@@ -35,7 +35,6 @@ def test_valid_show_user_horizontal_velocity() -> None:
         drone_index=0,
         frame=984,
         value=5.0,
-        threshold=2.0,
     )
 
 
@@ -68,7 +67,6 @@ def test_invalid_show_user_horizontal_velocity() -> None:
         drone_index=0,
         frame=984,
         value=5.01,
-        threshold=5.0,
     )
 
 
@@ -93,7 +91,6 @@ def test_valid_show_user_up_velocity() -> None:
         drone_index=0,
         frame=984,
         value=4.0,
-        threshold=2.0,
     )
 
 
@@ -126,7 +123,6 @@ def test_invalid_show_user_up_velocity() -> None:
         drone_index=0,
         frame=984,
         value=4.01,
-        threshold=4.0,
     )
 
 
@@ -155,7 +151,6 @@ def test_valid_show_user_down_velocity() -> None:
         drone_index=0,
         frame=984,
         value=4.0,
-        threshold=2.0,
     )
 
 
@@ -192,7 +187,6 @@ def test_invalid_show_user_down_velocity() -> None:
         drone_index=0,
         frame=984,
         value=4.01,
-        threshold=4.0,
     )
 
 
@@ -259,7 +253,6 @@ def test_invalid_show_user_acceleration() -> None:
         drone_index=0,
         frame=1008,
         value=2.01,
-        threshold=2.0,
     )
 
 

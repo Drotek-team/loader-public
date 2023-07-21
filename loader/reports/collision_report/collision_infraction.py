@@ -1,7 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 
 import itertools
-from typing import TYPE_CHECKING, List, Optional, TypeVar
+from typing import TYPE_CHECKING, Generator, List, Optional, TypeVar
 
 import numpy as np
 from tqdm import tqdm
@@ -32,7 +32,6 @@ class CollisionInfraction(BaseInfraction):
     drone_index_1: int
     drone_index_2: int
     distance: float
-    in_air: bool
 
     @classmethod
     def _get_collision_infractions(
@@ -41,9 +40,7 @@ class CollisionInfraction(BaseInfraction):
         local_drone_indices: "NDArray[np.intp]",
         local_drone_positions: "NDArray[np.float64]",
         endangered_distance: float,
-        *,
-        in_air: bool,
-    ) -> List["CollisionInfraction"]:
+    ) -> Generator["CollisionInfraction", None, None]:
         nb_drones_local = len(local_drone_indices)
         couples_distance_matrix_indices = np.array(
             list(range(nb_drones_local * nb_drones_local)),
@@ -57,7 +54,7 @@ class CollisionInfraction(BaseInfraction):
         endangered_couples_distance_matrix_indices = couples_distance_matrix_indices[
             (couple_distance_matrix < endangered_distance)
         ]
-        return [
+        return (
             CollisionInfraction(
                 frame=frame,
                 drone_index_1=int(
@@ -71,34 +68,11 @@ class CollisionInfraction(BaseInfraction):
                 distance=float(
                     couple_distance_matrix[endangered_couples_distance_matrix_index],
                 ),
-                in_air=in_air,
             )
             for (
                 endangered_couples_distance_matrix_index
             ) in endangered_couples_distance_matrix_indices
-        ]
-
-    @classmethod
-    def _get_on_ground_and_in_air_collision_infractions(
-        cls,
-        show_position_frame: ShowPositionFrame,
-        collision_distance: float,
-    ) -> List["CollisionInfraction"]:
-        on_ground_collision_infractions = cls._get_collision_infractions(
-            show_position_frame.frame,
-            show_position_frame.on_ground_indices,
-            show_position_frame.on_ground_positions,
-            IOSTAR_PHYSIC_PARAMETERS_MAX.security_distance_on_ground,
-            in_air=False,
         )
-        in_air_collision_infractions = cls._get_collision_infractions(
-            show_position_frame.frame,
-            show_position_frame.in_air_indices,
-            show_position_frame.in_air_positions,
-            collision_distance,
-            in_air=True,
-        )
-        return on_ground_collision_infractions + in_air_collision_infractions
 
     @classmethod
     def generate(
@@ -110,28 +84,28 @@ class CollisionInfraction(BaseInfraction):
     ) -> List["CollisionInfraction"]:
         show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
         if collision_distance is None:
-            collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.security_distance_in_air
-        elif collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.security_distance_in_air:
+            collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimal_distance
+        elif collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimal_distance:
             msg = (
                 f"collision_distance ({collision_distance}) should be greater than or equal to "
-                f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETERS_MAX.security_distance_in_air})",
+                f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETERS_MAX.minimal_distance})",
             )
             raise ValueError(msg)
         if not is_partial:
             collision_distance *= 0.95
         return list(
             itertools.chain.from_iterable(
-                [
-                    cls._get_on_ground_and_in_air_collision_infractions(
-                        show_position_frame,
-                        collision_distance,
-                    )
-                    for show_position_frame in tqdm(
-                        show_position_frames,
-                        desc="Checking collisions",
-                        unit="frame",
-                    )
-                ],
+                cls._get_collision_infractions(
+                    show_position_frame.frame,
+                    show_position_frame.in_air_indices,
+                    show_position_frame.in_air_positions,
+                    collision_distance,
+                )
+                for show_position_frame in tqdm(
+                    show_position_frames,
+                    desc="Checking collisions",
+                    unit="frame",
+                )
             ),
         )
 

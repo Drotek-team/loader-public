@@ -96,28 +96,24 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
           drone_index=0,
           frame=1000,
           value=1.7999999999999998,
-          threshold=1.5,
       ),
       PerformanceInfraction(
           performance_name="acceleration",
           drone_index=1,
           frame=1000,
           value=1.7999999999999998,
-          threshold=1.5,
       ),
       PerformanceInfraction(
           performance_name="acceleration",
           drone_index=2,
           frame=1000,
           value=1.7999999999999998,
-          threshold=1.5,
       ),
       PerformanceInfraction(
           performance_name="acceleration",
           drone_index=3,
           frame=1000,
           value=1.7999999999999998,
-          threshold=1.5,
       ),
   ]
   """
@@ -147,42 +143,22 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   print(collision_report.collision_infractions[:10])
   """
   [
-      CollisionInfraction(
-          frame=0, drone_index_1=0, drone_index_2=1, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=0, drone_index_1=0, drone_index_2=2, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=0, drone_index_1=1, drone_index_2=3, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=0, drone_index_1=2, drone_index_2=3, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=1, drone_index_1=0, drone_index_2=1, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=1, drone_index_1=0, drone_index_2=2, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=1, drone_index_1=1, drone_index_2=3, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=1, drone_index_1=2, drone_index_2=3, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=2, drone_index_1=0, drone_index_2=1, distance=1.24, in_air=True
-      ),
-      CollisionInfraction(
-          frame=2, drone_index_1=0, drone_index_2=2, distance=1.24, in_air=True
-      ),
+      CollisionInfraction(frame=0, drone_index_1=0, drone_index_2=1, distance=1.24),
+      CollisionInfraction(frame=0, drone_index_1=0, drone_index_2=2, distance=1.24),
+      CollisionInfraction(frame=0, drone_index_1=1, drone_index_2=3, distance=1.24),
+      CollisionInfraction(frame=0, drone_index_1=2, drone_index_2=3, distance=1.24),
+      CollisionInfraction(frame=1, drone_index_1=0, drone_index_2=1, distance=1.24),
+      CollisionInfraction(frame=1, drone_index_1=0, drone_index_2=2, distance=1.24),
+      CollisionInfraction(frame=1, drone_index_1=1, drone_index_2=3, distance=1.24),
+      CollisionInfraction(frame=1, drone_index_1=2, drone_index_2=3, distance=1.24),
+      CollisionInfraction(frame=2, drone_index_1=0, drone_index_2=1, distance=1.24),
+      CollisionInfraction(frame=2, drone_index_1=0, drone_index_2=2, distance=1.24),
   ]
   """
 
   collision_report = CollisionReport.generate(
       show_user,
-      physic_parameters=IostarPhysicParameters(security_distance_in_air=1.0),
+      physic_parameters=IostarPhysicParameters(minimal_distance=1.0),
   )
   print(collision_report)
   #> collision_infractions=[]
@@ -208,9 +184,9 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
       DanceSizeInfraction(
           drone_index=0,
           dance_size=100106,
-          position_events_size_pct=100,
-          color_events_size_pct=0,
-          fire_events_size_pct=0,
+          position_percent=100.03,
+          color_percent=0.02,
+          fire_percent=0.02,
       )
   ]
   """

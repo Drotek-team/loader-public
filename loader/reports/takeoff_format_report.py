@@ -10,35 +10,34 @@ from loader.schemas.show_user import DroneUser, ShowUser
 
 
 class TakeoffDurationInfraction(BaseInfraction):
-    first_time: float
-    second_time: float
-    takeoff_duration: float
-    tolerance: float
+    start_frame: float  # frame
+    end_frame: float  # frame
+    duration: float  # second
 
     @classmethod
     def generate(
         cls,
         drone_user: DroneUser,
     ) -> Optional["TakeoffDurationInfraction"]:
-        first_time = drone_user.position_events[0].absolute_time
-        second_time = drone_user.position_events[1].absolute_time
+        first_event = drone_user.position_events[0]
+        second_event = drone_user.position_events[1]
+        duration = second_event.absolute_time - first_event.absolute_time
         if not np.allclose(
-            second_time - first_time,
+            duration,
             TAKEOFF_PARAMETERS.takeoff_duration_second,
             atol=TAKEOFF_PARAMETERS.takeoff_total_duration_tolerance,
         ):
             return TakeoffDurationInfraction(
-                first_time=first_time,
-                second_time=second_time,
-                takeoff_duration=TAKEOFF_PARAMETERS.takeoff_duration_second,
-                tolerance=TAKEOFF_PARAMETERS.takeoff_total_duration_tolerance,
+                start_frame=first_event.frame,
+                end_frame=second_event.frame,
+                duration=duration,
             )
         return None
 
 
 class TakeoffPositionInfraction(BaseInfraction):
-    first_position: Tuple[float, float, float]
-    second_position: Tuple[float, float, float]
+    start_position: Tuple[float, float, float]
+    end_position: Tuple[float, float, float]
 
     @classmethod
     def generate(
@@ -56,8 +55,8 @@ class TakeoffPositionInfraction(BaseInfraction):
             > first_position[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_max
         ):
             return TakeoffPositionInfraction(
-                first_position=first_position,
-                second_position=second_position,
+                start_position=first_position,
+                end_position=second_position,
             )
         return None
 

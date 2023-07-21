@@ -6,16 +6,17 @@ from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
 
 from .events_format_infractions import (
-    ChromeInfraction,
-    CoordinateInfraction,
-    DurationChanelInfraction,
+    ColorBoundaryInfraction,
+    FireChannelInfraction,
+    FireDurationInfraction,
+    PositionBoundaryInfraction,
     TimecodeReport,
 )
 
 
 class PositionEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    coordinate_infractions: List[CoordinateInfraction] = []
+    position_infractions: List[PositionBoundaryInfraction] = []
 
     @classmethod
     def generate(
@@ -23,18 +24,18 @@ class PositionEventsReport(BaseReport):
         position_events: PositionEvents,
     ) -> "PositionEventsReport":
         timecode_report = TimecodeReport.generate_or_none(position_events)
-        coordinate_infractions = CoordinateInfraction.generate(
+        coordinate_infractions = PositionBoundaryInfraction.generate(
             position_events,
         )
         return PositionEventsReport(
             timecode_report=timecode_report,
-            coordinate_infractions=coordinate_infractions,
+            position_infractions=coordinate_infractions,
         )
 
 
 class ColorEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    chrome_infractions: List[ChromeInfraction] = []
+    color_infractions: List[ColorBoundaryInfraction] = []
 
     @classmethod
     def generate(
@@ -44,18 +45,19 @@ class ColorEventsReport(BaseReport):
         timecode_report = TimecodeReport.generate_or_none(
             color_events,
         )
-        chrome_infractions = ChromeInfraction.generate(
+        chrome_infractions = ColorBoundaryInfraction.generate(
             color_events,
         )
         return ColorEventsReport(
             timecode_report=timecode_report,
-            chrome_infractions=chrome_infractions,
+            color_infractions=chrome_infractions,
         )
 
 
 class FireEventsReport(BaseReport):
     timecode_report: Optional[TimecodeReport] = None
-    duration_chanel_infractions: List[DurationChanelInfraction] = []
+    duration_infractions: List[FireDurationInfraction] = []
+    channel_infractions: List[FireChannelInfraction] = []
 
     @classmethod
     def generate(
@@ -65,10 +67,12 @@ class FireEventsReport(BaseReport):
         timecode_report = TimecodeReport.generate_or_none(
             fire_events,
         )
-        duration_chanel_infractions = DurationChanelInfraction.generate(fire_events)
+        duration_infractions = FireDurationInfraction.generate(fire_events)
+        channel_infractions = FireChannelInfraction.generate(fire_events)
         return FireEventsReport(
             timecode_report=timecode_report,
-            duration_chanel_infractions=duration_chanel_infractions,
+            duration_infractions=duration_infractions,
+            channel_infractions=channel_infractions,
         )
 
 

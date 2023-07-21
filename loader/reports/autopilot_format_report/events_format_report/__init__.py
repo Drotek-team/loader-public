@@ -1,11 +1,12 @@
 from .events_format_infractions import (
-    ChromeInfraction,
-    CoordinateInfraction,
-    DurationChanelInfraction,
+    ColorBoundaryInfraction,
+    FireChannelInfraction,
+    FireDurationInfraction,
     IncreasingFrameInfraction,
     IntegerBoundaryInfraction,
+    PositionBoundaryInfraction,
+    TimecodeBoundaryInfraction,
     TimecodeReport,
-    TimeCodeValueInfraction,
 )
 from .events_format_report import (
     ColorEventsReport,
@@ -15,13 +16,14 @@ from .events_format_report import (
 )
 
 __all__ = (
-    "ChromeInfraction",
-    "CoordinateInfraction",
-    "DurationChanelInfraction",
+    "ColorBoundaryInfraction",
+    "PositionBoundaryInfraction",
+    "FireChannelInfraction",
+    "FireDurationInfraction",
     "IncreasingFrameInfraction",
     "IntegerBoundaryInfraction",
     "TimecodeReport",
-    "TimeCodeValueInfraction",
+    "TimecodeBoundaryInfraction",
     "ColorEventsReport",
     "EventsFormatReport",
     "FireEventsReport",
