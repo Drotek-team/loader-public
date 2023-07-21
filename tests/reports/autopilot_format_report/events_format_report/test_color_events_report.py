@@ -1,6 +1,6 @@
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import ColorBoundaryInfraction, ColorEventsReport
+from loader.reports import BoundaryInfraction, EventsReport
 from loader.schemas.drone_px4.events import ColorEvents
 
 
@@ -30,7 +30,7 @@ def valid_color_events() -> ColorEvents:
 def test_valid_color_events_report(
     valid_color_events: ColorEvents,
 ) -> None:
-    color_events_report = ColorEventsReport.generate(
+    color_events_report = EventsReport.generate(
         valid_color_events,
     )
     assert not len(color_events_report)
@@ -45,13 +45,12 @@ def test_invalid_color_events_rgbw_value_report(
         ),
         (JSON_BINARY_PARAMETERS.chrome_value_bound.maximal + 1, 0, 0, 0),
     )
-    color_events_report = ColorEventsReport.generate(
+    color_events_report = EventsReport.generate(
         valid_color_events,
     )
     assert len(color_events_report)
-    assert len(color_events_report.color_infractions) == 1
-    assert color_events_report.color_infractions[0] == ColorBoundaryInfraction(
+    assert len(color_events_report.boundary_infractions) == 1
+    assert color_events_report.boundary_infractions["red"][0] == BoundaryInfraction(
         event_index=2,
-        kind="red",
         value=JSON_BINARY_PARAMETERS.chrome_value_bound.maximal + 1,
     )

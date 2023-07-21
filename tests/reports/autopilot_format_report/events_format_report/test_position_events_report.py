@@ -1,7 +1,7 @@
 import pytest
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports import PositionBoundaryInfraction, PositionEventsReport
+from loader.reports import BoundaryInfraction, EventsReport
 from loader.schemas.drone_px4.events import PositionEvents
 
 
@@ -31,7 +31,7 @@ def valid_position_events() -> PositionEvents:
 def test_valid_position_events_report(
     valid_position_events: PositionEvents,
 ) -> None:
-    position_events_report = PositionEventsReport.generate(
+    position_events_report = BoundaryInfraction.generate(
         valid_position_events,
     )
     assert not len(position_events_report)
@@ -48,15 +48,20 @@ def test_invalid_position_events_xyz_value_report(
             JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
         ),
     )
-    position_events_report = PositionEventsReport.generate(
+    position_events_report = EventsReport.generate(
         valid_position_events,
     )
     assert len(position_events_report)
-    coordinate_infractions = position_events_report.position_infractions
+    coordinate_infractions = position_events_report.boundary_infractions
     assert len(coordinate_infractions) == 3
-    for coordinate_infraction, axis in zip(coordinate_infractions, ["north", "east", "down"]):
-        assert coordinate_infraction == PositionBoundaryInfraction(
-            kind=axis,
-            event_index=2,
-            value=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
-        )
+    for (axis, coordinate_infraction), expected_axis in zip(
+        coordinate_infractions.items(),
+        ["north", "east", "down"],
+    ):
+        assert axis == expected_axis
+        assert coordinate_infraction == [
+            BoundaryInfraction(
+                event_index=2,
+                value=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
+            ),
+        ]

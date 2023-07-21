@@ -1,15 +1,11 @@
 # pyright: reportIncompatibleMethodOverride=false
+from collections import defaultdict
 from enum import Enum
-from typing import List, Type, TypeVar
+from typing import DefaultDict, Dict, List
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound
-from loader.reports.base import BaseInfraction, BaseReport
+from loader.reports.base import BaseInfraction
 from loader.schemas.drone_px4.events import ColorEvents, Events, FireEvents, PositionEvents
-
-TIntegerBoundaryInfraction = TypeVar(
-    "TIntegerBoundaryInfraction",
-    bound="IntegerBoundaryInfraction",
-)
 
 
 class BoundaryKind(Enum):
@@ -64,94 +60,45 @@ def check_integer_bound(integer: int, lower_bound: int, upper_bound: int) -> boo
     return lower_bound <= integer and integer <= upper_bound
 
 
-class IntegerBoundaryInfraction(BaseInfraction):
-    kind: str
+class BoundaryInfraction(BaseInfraction):
     event_index: int
     value: int
 
     @classmethod
     def generate(
-        cls: Type[TIntegerBoundaryInfraction],
-        kinds: List[BoundaryKind],
-        indices: List[int],
-        events: Events,
-    ) -> List["TIntegerBoundaryInfraction"]:
-        bound = kinds[0].get_bound()
-        return [
-            cls(event_index=event_index, value=value, kind=kind.value)
-            for event_index, event in enumerate(events)
-            for index, kind in zip(indices, kinds)
-            if not (
-                check_integer_bound((value := event.get_data[index]), bound.minimal, bound.maximal)
-            )
-        ]
-
-
-class TimecodeBoundaryInfraction(IntegerBoundaryInfraction):
-    @classmethod
-    def generate(
-        cls: Type[TIntegerBoundaryInfraction],
-        events: Events,
-    ) -> List["TIntegerBoundaryInfraction"]:
-        return super().generate([BoundaryKind.TIMECODE], [0], events)
-
-
-class TimecodeReport(BaseReport):
-    boundary_infractions: List[TimecodeBoundaryInfraction] = []
-    increasing_infractions: List[IncreasingFrameInfraction] = []
-
-    @classmethod
-    def generate(
         cls,
         events: Events,
-    ) -> "TimecodeReport":
-        bound_infractions = TimecodeBoundaryInfraction.generate(events)
-        increasing_infractions = IncreasingFrameInfraction.generate(events)
-        return TimecodeReport(
-            boundary_infractions=bound_infractions,
-            increasing_infractions=increasing_infractions,
-        )
+    ) -> Dict[str, List["BoundaryInfraction"]]:
+        if isinstance(events, PositionEvents):
+            boundary_kinds = [
+                BoundaryKind.TIMECODE,
+                BoundaryKind.NORTH,
+                BoundaryKind.EAST,
+                BoundaryKind.DOWN,
+            ]
+        elif isinstance(events, ColorEvents):
+            boundary_kinds = [
+                BoundaryKind.TIMECODE,
+                BoundaryKind.RED,
+                BoundaryKind.GREEN,
+                BoundaryKind.BLUE,
+                BoundaryKind.WHITE,
+            ]
+        elif isinstance(events, FireEvents):
+            boundary_kinds = [BoundaryKind.TIMECODE, BoundaryKind.CHANNEL, BoundaryKind.DURATION]
+        else:
+            raise NotImplementedError
 
-
-class PositionBoundaryInfraction(IntegerBoundaryInfraction):
-    @classmethod
-    def generate(
-        cls: Type[TIntegerBoundaryInfraction],
-        events: PositionEvents,
-    ) -> List["TIntegerBoundaryInfraction"]:
-        return super().generate(
-            [BoundaryKind.NORTH, BoundaryKind.EAST, BoundaryKind.DOWN],
-            [1, 2, 3],
-            events,
-        )
-
-
-class ColorBoundaryInfraction(IntegerBoundaryInfraction):
-    @classmethod
-    def generate(
-        cls: Type[TIntegerBoundaryInfraction],
-        events: ColorEvents,
-    ) -> List["TIntegerBoundaryInfraction"]:
-        return super().generate(
-            [BoundaryKind.RED, BoundaryKind.GREEN, BoundaryKind.BLUE, BoundaryKind.WHITE],
-            [1, 2, 3, 4],
-            events,
-        )
-
-
-class FireDurationInfraction(IntegerBoundaryInfraction):
-    @classmethod
-    def generate(
-        cls: Type[TIntegerBoundaryInfraction],
-        events: FireEvents,
-    ) -> List["TIntegerBoundaryInfraction"]:
-        return super().generate([BoundaryKind.DURATION], [2], events)
-
-
-class FireChannelInfraction(IntegerBoundaryInfraction):
-    @classmethod
-    def generate(
-        cls: Type[TIntegerBoundaryInfraction],
-        events: FireEvents,
-    ) -> List["TIntegerBoundaryInfraction"]:
-        return super().generate([BoundaryKind.CHANNEL], [1], events)
+        bounds = [kind.get_bound() for kind in boundary_kinds]
+        infractions: DefaultDict[str, List[BoundaryInfraction]] = defaultdict(list)
+        for event_index, event in enumerate(events):
+            for kind, bound, value in zip(boundary_kinds, bounds, event.get_data):
+                if not (
+                    check_integer_bound(
+                        value,
+                        bound.minimal,
+                        bound.maximal,
+                    )
+                ):
+                    infractions[kind.value].append(cls(event_index=event_index, value=value))
+        return infractions
