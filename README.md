@@ -54,25 +54,25 @@ show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 performance=0 collision=0
+  #> takeoff_format=0 autopilot_format=0 dance_size=0 performance=0 collision=0
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 performance=0 collision=4080
+  #> takeoff_format=0 autopilot_format=0 dance_size=0 performance=0 collision=4080
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 performance=4 collision=0
+  #> takeoff_format=0 autopilot_format=0 dance_size=0 performance=4 collision=0
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
   print(report.summary())
-  #> takeoff_format=0 autopilot_format=1 performance=0 collision=0
+  #> takeoff_format=0 autopilot_format=0 dance_size=1 performance=0 collision=0
   ```
 
 - Generate the performance report of the show

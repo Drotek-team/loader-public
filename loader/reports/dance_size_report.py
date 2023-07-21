@@ -1,10 +1,13 @@
 # pyright: reportIncompatibleMethodOverride=false
 import struct
-from typing import List
+from typing import List, Union
+
+from tqdm import tqdm
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports.base import BaseInfraction, BaseReport
 from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.show_user.show_user import ShowUser
 
 
 class DanceSizeInfraction(BaseInfraction):
@@ -64,9 +67,15 @@ class DanceSizeReport(BaseReport):
     @classmethod
     def generate(
         cls,
-        autopilot_format: List[DronePx4],
+        show_user_or_autopilot_format: Union[ShowUser, List[DronePx4]],
     ) -> "DanceSizeReport":
+        if isinstance(show_user_or_autopilot_format, ShowUser):
+            autopilot_format = DronePx4.from_show_user(show_user_or_autopilot_format)
+        else:
+            autopilot_format = show_user_or_autopilot_format
+
         dance_size_infractions = [
-            DanceSizeInfraction.generate(drone_px4) for drone_px4 in autopilot_format
+            DanceSizeInfraction.generate(drone_px4)
+            for drone_px4 in tqdm(autopilot_format, desc="Checking dance size", unit="drone")
         ]
         return DanceSizeReport(dance_size_infractions=dance_size_infractions)

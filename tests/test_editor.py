@@ -11,8 +11,8 @@ from loader.reports import (
     GlobalReportSummary,
     PerformanceReport,
 )
-from loader.reports.autopilot_format_report.dance_size_report import DanceSizeInfraction
-from loader.schemas import DronePx4, IostarJsonGcs, PositionEventUser, ShowUser
+from loader.reports.dance_size_report import DanceSizeInfraction
+from loader.schemas import IostarJsonGcs, PositionEventUser, ShowUser
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
@@ -99,11 +99,13 @@ def test_get_autopilot_format_report() -> None:
 
 def test_get_dance_size_informations() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
-    show_px4 = DronePx4.from_show_user(show_user)
-    dance_size_report = DanceSizeReport.generate(show_px4)
-    for drone_px4, dance_size_infraction in zip(show_px4, dance_size_report.dance_size_infractions):
+    dance_size_report = DanceSizeReport.generate(show_user)
+    for drone_user, dance_size_infraction in zip(
+        show_user.drones_user,
+        dance_size_report.dance_size_infractions,
+    ):
         assert dance_size_infraction == DanceSizeInfraction(
-            drone_index=drone_px4.index,
+            drone_index=drone_user.index,
             dance_size=106,
             position_events_size_pct=0,
             color_events_size_pct=0,
@@ -123,6 +125,7 @@ def test_generate_report_from_show_user_standard_case() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
         autopilot_format=0,
+        dance_size=0,
         performance=0,
         collision=0,
     )
@@ -137,6 +140,7 @@ def test_generate_report_from_show_user_with_collision() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
         autopilot_format=0,
+        dance_size=0,
         performance=0,
         collision=4080,
     )
@@ -155,6 +159,7 @@ def test_generate_report_from_show_user_with_performance() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
         autopilot_format=0,
+        dance_size=0,
         performance=1,
         collision=0,
     )
@@ -162,6 +167,7 @@ def test_generate_report_from_show_user_with_performance() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
         autopilot_format=0,
+        dance_size=0,
         performance=0,
         collision=0,
     )
@@ -180,6 +186,7 @@ def test_generate_report_from_show_user_without_takeoff_format() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=1,
         autopilot_format=0,
+        dance_size=0,
         performance=0,
         collision=0,
     )
@@ -187,6 +194,7 @@ def test_generate_report_from_show_user_without_takeoff_format() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
         autopilot_format=0,
+        dance_size=0,
         performance=0,
         collision=0,
     )
@@ -207,6 +215,7 @@ def test_generate_report_from_iostar_json_gcs_string() -> None:
     assert global_report.summary() == GlobalReportSummary(
         takeoff_format=0,
         autopilot_format=0,
+        dance_size=0,
         performance=0,
         collision=0,
     )

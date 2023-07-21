@@ -3,8 +3,6 @@ from .autopilot_format_report import (
     ChromeInfraction,
     ColorEventsReport,
     CoordinateInfraction,
-    DanceSizeInfraction,
-    DanceSizeReport,
     DurationChanelInfraction,
     EventsFormatReport,
     FireEventsReport,
@@ -16,6 +14,7 @@ from .autopilot_format_report import (
 )
 from .base import BaseInfraction, BaseReport
 from .collision_report import CollisionInfraction, CollisionReport
+from .dance_size_report import DanceSizeInfraction, DanceSizeReport
 from .global_report import GlobalReport, GlobalReportSummary
 from .performance_report import PerformanceInfraction, PerformanceReport
 from .takeoff_format_report import (
