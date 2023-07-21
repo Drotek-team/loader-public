@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Type, TypeVar, cast
+from typing import Any, Dict, List, Optional, Type, TypeVar, cast
 
 from pydantic import BaseModel
 from pydantic.fields import ModelField
@@ -40,18 +40,27 @@ class BaseReport(BaseMessage):
                 pass
             elif isinstance(getattr(self, field.name), BaseMessage):
                 nb_errors += len(cast(BaseMessage, getattr(self, field.name)))
-            elif isinstance(getattr(self, field.name), list):
-                nb_errors += self._get_nb_errors_list(field)
+            elif isinstance(getattr(self, field.name), (list, dict)):
+                nb_errors += self._get_nb_errors_list_or_dict(field)
             else:
                 msg = f"Report type not supported: {field.type_} for {self.__class__.__name__}.{field.name}"
                 raise TypeError(msg)
 
         return nb_errors
 
-    def _get_nb_errors_list(self, field: ModelField) -> int:
+    def _get_nb_errors_list_or_dict(
+        self,
+        field: ModelField,
+    ) -> int:
         nb_errors = 0
-        type_ = List[field.type_]
-        reports_or_infractions = cast(List[BaseMessage], getattr(self, field.name))
+        if isinstance(getattr(self, field.name), dict):
+            type_ = Dict[Any, field.type_]
+            reports_or_infractions = list(
+                cast(Dict[Any, BaseMessage], getattr(self, field.name)).values(),
+            )
+        else:
+            type_ = List[field.type_]
+            reports_or_infractions = cast(List[BaseMessage], getattr(self, field.name))
 
         if len(reports_or_infractions) == 0:
             pass
