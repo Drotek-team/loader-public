@@ -57,6 +57,7 @@ def test_invalid_fire_events_channel_value_report(
     assert len(fire_events_report)
     assert len(fire_events_report.channel_infractions) == 1
     assert fire_events_report.channel_infractions[0] == FireChannelInfraction(
+        kind="channel",
         event_index=3,
         value=3,
     )
@@ -76,6 +77,7 @@ def test_invalid_fire_events_duration_value_report(
     assert len(fire_events_report)
     assert len(fire_events_report.duration_infractions) == 1
     assert fire_events_report.duration_infractions[0] == FireDurationInfraction(
+        kind="duration",
         event_index=3,
         value=256,
     )

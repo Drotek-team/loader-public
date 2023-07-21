@@ -1,14 +1,41 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import List
+from enum import Enum
+from typing import List, Type, TypeVar
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound
 from loader.reports.base import BaseInfraction, BaseReport
 from loader.schemas.drone_px4.events import ColorEvents, Events, FireEvents, PositionEvents
 
+TIntegerBoundaryInfraction = TypeVar(
+    "TIntegerBoundaryInfraction",
+    bound="IntegerBoundaryInfraction",
+)
 
-class IntegerBoundaryInfraction(BaseInfraction):
-    event_index: int
-    value: int
+
+class BoundaryKind(Enum):
+    TIMECODE = "timecode"
+    NORTH = "north"
+    EAST = "east"
+    DOWN = "down"
+    RED = "red"
+    GREEN = "green"
+    BLUE = "blue"
+    WHITE = "white"
+    CHANNEL = "channel"
+    DURATION = "duration"
+
+    def get_bound(self) -> Bound:
+        if self == self.TIMECODE:
+            return JSON_BINARY_PARAMETERS.timecode_value_bound
+        if self in [self.NORTH, self.EAST, self.DOWN]:
+            return JSON_BINARY_PARAMETERS.coordinate_value_bound
+        if self in [self.RED, self.GREEN, self.BLUE, self.WHITE]:
+            return JSON_BINARY_PARAMETERS.chrome_value_bound
+        if self == self.CHANNEL:
+            return JSON_BINARY_PARAMETERS.fire_channel_value_bound
+        if self == self.DURATION:
+            return JSON_BINARY_PARAMETERS.fire_duration_value_bound
+        raise NotImplementedError
 
 
 class IncreasingFrameInfraction(BaseInfraction):
@@ -37,26 +64,36 @@ def check_integer_bound(integer: int, lower_bound: int, upper_bound: int) -> boo
     return lower_bound <= integer and integer <= upper_bound
 
 
+class IntegerBoundaryInfraction(BaseInfraction):
+    kind: str
+    event_index: int
+    value: int
+
+    @classmethod
+    def generate(
+        cls: Type[TIntegerBoundaryInfraction],
+        kinds: List[BoundaryKind],
+        indices: List[int],
+        events: Events,
+    ) -> List["TIntegerBoundaryInfraction"]:
+        bound = kinds[0].get_bound()
+        return [
+            cls(event_index=event_index, value=value, kind=kind.value)
+            for event_index, event in enumerate(events)
+            for index, kind in zip(indices, kinds)
+            if not (
+                check_integer_bound((value := event.get_data[index]), bound.minimal, bound.maximal)
+            )
+        ]
+
+
 class TimecodeBoundaryInfraction(IntegerBoundaryInfraction):
     @classmethod
     def generate(
-        cls,
+        cls: Type[TIntegerBoundaryInfraction],
         events: Events,
-    ) -> List["TimecodeBoundaryInfraction"]:
-        return [
-            TimecodeBoundaryInfraction(
-                event_index=event_index,
-                value=frame,
-            )
-            for event_index, frame in enumerate([event.timecode for event in events])
-            if not (
-                check_integer_bound(
-                    frame,
-                    JSON_BINARY_PARAMETERS.timecode_value_bound.minimal,
-                    JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
-                )
-            )
-        ]
+    ) -> List["TIntegerBoundaryInfraction"]:
+        return super().generate([BoundaryKind.TIMECODE], [0], events)
 
 
 class TimecodeReport(BaseReport):
@@ -77,104 +114,44 @@ class TimecodeReport(BaseReport):
 
 
 class PositionBoundaryInfraction(IntegerBoundaryInfraction):
-    axis: str
-
     @classmethod
     def generate(
-        cls,
-        position_events: PositionEvents,
-    ) -> List["PositionBoundaryInfraction"]:
-        return [
-            PositionBoundaryInfraction(
-                event_index=event_index,
-                axis=axis,
-                value=position_event.xyz[coordinate_index],
-            )
-            for event_index, position_event in enumerate(
-                position_events.specific_events,
-            )
-            for coordinate_index, axis in enumerate(["north", "east", "down"])
-            if not (
-                check_integer_bound(
-                    position_event.xyz[coordinate_index],
-                    JSON_BINARY_PARAMETERS.coordinate_value_bound.minimal,
-                    JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal,
-                )
-            )
-        ]
+        cls: Type[TIntegerBoundaryInfraction],
+        events: PositionEvents,
+    ) -> List["TIntegerBoundaryInfraction"]:
+        return super().generate(
+            [BoundaryKind.NORTH, BoundaryKind.EAST, BoundaryKind.DOWN],
+            [1, 2, 3],
+            events,
+        )
 
 
 class ColorBoundaryInfraction(IntegerBoundaryInfraction):
-    channel: str
-
     @classmethod
     def generate(
-        cls,
-        color_events: ColorEvents,
-    ) -> List["ColorBoundaryInfraction"]:
-        return [
-            ColorBoundaryInfraction(
-                event_index=event_index,
-                channel=channel,
-                value=color_event.rgbw[chrome_index],
-            )
-            for event_index, color_event in enumerate(
-                color_events.specific_events,
-            )
-            for chrome_index, channel in enumerate(["red", "green", "blue", "white"])
-            if not (
-                check_integer_bound(
-                    color_event.rgbw[chrome_index],
-                    JSON_BINARY_PARAMETERS.chrome_value_bound.minimal,
-                    JSON_BINARY_PARAMETERS.chrome_value_bound.maximal,
-                )
-            )
-        ]
+        cls: Type[TIntegerBoundaryInfraction],
+        events: ColorEvents,
+    ) -> List["TIntegerBoundaryInfraction"]:
+        return super().generate(
+            [BoundaryKind.RED, BoundaryKind.GREEN, BoundaryKind.BLUE, BoundaryKind.WHITE],
+            [1, 2, 3, 4],
+            events,
+        )
 
 
 class FireDurationInfraction(IntegerBoundaryInfraction):
     @classmethod
     def generate(
-        cls,
-        fire_events: FireEvents,
-    ) -> List["FireDurationInfraction"]:
-        return [
-            FireDurationInfraction(
-                event_index=event_index,
-                value=fire_event.duration,
-            )
-            for event_index, fire_event in enumerate(
-                fire_events.specific_events,
-            )
-            if not (
-                check_integer_bound(
-                    fire_event.duration,
-                    JSON_BINARY_PARAMETERS.fire_duration_value_bound.minimal,
-                    JSON_BINARY_PARAMETERS.fire_duration_value_bound.maximal,
-                )
-            )
-        ]
+        cls: Type[TIntegerBoundaryInfraction],
+        events: FireEvents,
+    ) -> List["TIntegerBoundaryInfraction"]:
+        return super().generate([BoundaryKind.DURATION], [2], events)
 
 
 class FireChannelInfraction(IntegerBoundaryInfraction):
     @classmethod
     def generate(
-        cls,
-        fire_events: FireEvents,
-    ) -> List["FireChannelInfraction"]:
-        return [
-            FireChannelInfraction(
-                event_index=event_index,
-                value=fire_event.channel,
-            )
-            for event_index, fire_event in enumerate(
-                fire_events.specific_events,
-            )
-            if not (
-                check_integer_bound(
-                    fire_event.channel,
-                    JSON_BINARY_PARAMETERS.fire_channel_value_bound.minimal,
-                    JSON_BINARY_PARAMETERS.fire_channel_value_bound.maximal,
-                )
-            )
-        ]
+        cls: Type[TIntegerBoundaryInfraction],
+        events: FireEvents,
+    ) -> List["TIntegerBoundaryInfraction"]:
+        return super().generate([BoundaryKind.CHANNEL], [1], events)

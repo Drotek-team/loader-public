@@ -52,6 +52,6 @@ def test_invalid_color_events_rgbw_value_report(
     assert len(color_events_report.color_infractions) == 1
     assert color_events_report.color_infractions[0] == ColorBoundaryInfraction(
         event_index=2,
-        channel="red",
+        kind="red",
         value=JSON_BINARY_PARAMETERS.chrome_value_bound.maximal + 1,
     )

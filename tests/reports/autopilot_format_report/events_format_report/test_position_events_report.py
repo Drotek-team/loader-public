@@ -56,7 +56,7 @@ def test_invalid_position_events_xyz_value_report(
     assert len(coordinate_infractions) == 3
     for coordinate_infraction, axis in zip(coordinate_infractions, ["north", "east", "down"]):
         assert coordinate_infraction == PositionBoundaryInfraction(
+            kind=axis,
             event_index=2,
-            axis=axis,
             value=JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
         )

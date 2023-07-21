@@ -38,10 +38,12 @@ def test_get_timecode_report_bound_violation(
     )
     assert len(timecode_report)
     assert timecode_report.boundary_infractions[0] == IntegerBoundaryInfraction(
+        kind="timecode",
         event_index=3,
         value=JSON_BINARY_PARAMETERS.timecode_value_bound.minimal - 1,
     )
     assert timecode_report.boundary_infractions[1] == IntegerBoundaryInfraction(
+        kind="timecode",
         event_index=4,
         value=JSON_BINARY_PARAMETERS.timecode_value_bound.maximal + 1,
     )
