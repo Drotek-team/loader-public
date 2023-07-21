@@ -39,7 +39,7 @@ class ColorEventUser(EventUserBase):
 
 
 class FireEventUser(EventUserBase):
-    chanel: StrictInt  # Chanel of the drone between 0 and 2
+    channel: StrictInt  # Chanel of the drone between 0 and 2
     duration: StrictInt  # Duration of the event in millisecond
 
 
@@ -62,11 +62,11 @@ class DroneUser(BaseModel):
     def add_fire_event(
         self,
         frame: int,
-        chanel: int,
+        channel: int,
         duration: int,
     ) -> None:
         self.fire_events.append(
-            FireEventUser(frame=frame, chanel=chanel, duration=duration),
+            FireEventUser(frame=frame, channel=channel, duration=duration),
         )
 
     @property
@@ -107,7 +107,7 @@ class DroneUser(BaseModel):
                 frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
                     fire_event_px4.timecode,
                 ),
-                chanel=fire_event_px4.chanel,
+                channel=fire_event_px4.channel,
                 duration=fire_event_px4.duration,
             )
 

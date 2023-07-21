@@ -82,31 +82,31 @@ def test_encode_decode_color_events(
 
 @given(
     first_timecode=st.integers(0, 3),
-    first_chanel=st.integers(0, 3),
+    first_channel=st.integers(0, 3),
     first_duration=st.integers(0, 3),
     second_timecode=st.integers(0, 3),
-    second_chanel=st.integers(0, 3),
+    second_channel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
 )
 @slow
 def test_encode_decode_fire_events(
     first_timecode: int,
-    first_chanel: int,
+    first_channel: int,
     first_duration: int,
     second_timecode: int,
-    second_chanel: int,
+    second_channel: int,
     second_duration: int,
 ) -> None:
     fire_events = FireEvents()
-    fire_events.add_timecode_chanel_duration(
+    fire_events.add_timecode_channel_duration(
         timecode=first_timecode,
-        chanel=first_chanel,
+        channel=first_channel,
         duration=first_duration,
     )
 
-    fire_events.add_timecode_chanel_duration(
+    fire_events.add_timecode_channel_duration(
         timecode=second_timecode,
-        chanel=second_chanel,
+        channel=second_channel,
         duration=second_duration,
     )
     new_fire_events = FireEvents()

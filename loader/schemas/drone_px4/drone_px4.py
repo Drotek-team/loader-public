@@ -41,8 +41,8 @@ class DronePx4:
     def add_color(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
         self.color_events.add_timecode_rgbw(timecode, rgbw)
 
-    def add_fire(self, timecode: int, chanel: int, duration: int) -> None:
-        self.fire_events.add_timecode_chanel_duration(timecode, chanel, duration)
+    def add_fire(self, timecode: int, channel: int, duration: int) -> None:
+        self.fire_events.add_timecode_channel_duration(timecode, channel, duration)
 
     def get_events_by_index(self, event_type: EventsType) -> Events:
         return self.events_dict[event_type]
@@ -269,7 +269,7 @@ def add_fire_events_user(
             JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
                 fire_event_user.frame,
             ),
-            fire_event_user.chanel,
+            fire_event_user.channel,
             fire_event_user.duration,
         )
 

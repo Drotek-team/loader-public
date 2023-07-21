@@ -36,8 +36,8 @@ show_user.drones_user[0].add_color_event(frame=250, rgbw=(1.0, 0.0, 0.0, 0.0))
 show_user.drones_user[0].add_color_event(frame=300, rgbw=(0.0, 0.0, 1.0, 0.0))
 
 # Add fire events
-show_user.drones_user[0].add_fire_event(frame=210, chanel=0, duration=0)
-show_user.drones_user[0].add_fire_event(frame=280, chanel=1, duration=0)
+show_user.drones_user[0].add_fire_event(frame=210, channel=0, duration=0)
+show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
 ```
 
 ### Show Reports

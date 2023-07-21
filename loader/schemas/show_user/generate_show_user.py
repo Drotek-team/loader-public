@@ -147,7 +147,7 @@ def get_valid_fire_events(
         frame=FRAME_PARAMETERS.from_second_to_frame(
             show_user_configuration.duration_before_takeoff,
         ),
-        chanel=0,
+        channel=0,
         duration=0,
     )
     drone_user.add_fire_event(
@@ -155,7 +155,7 @@ def get_valid_fire_events(
             show_user_configuration.duration_before_takeoff
             + TAKEOFF_PARAMETERS.takeoff_duration_second,
         ),
-        chanel=1,
+        channel=1,
         duration=0,
     )
     drone_user.add_fire_event(
@@ -164,7 +164,7 @@ def get_valid_fire_events(
             + TAKEOFF_PARAMETERS.takeoff_duration_second
             + show_user_configuration.show_duration_absolute_time,
         ),
-        chanel=0,
+        channel=0,
         duration=0,
     )
 

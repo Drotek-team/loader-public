@@ -19,10 +19,10 @@ class JsonBinaryParameters:
     timecode_format: str = "I"
     coordinate_format: str = "h"
     chrome_format: str = "B"
-    fire_chanel_format: str = "B"
+    fire_channel_format: str = "B"
     fire_duration_format: str = "B"
     dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octect
-    fire_chanel_number: int = 3
+    fire_channel_number: int = 3
 
     @property
     def position_event_format(self) -> str:
@@ -34,7 +34,7 @@ class JsonBinaryParameters:
 
     @property
     def fire_event_format(self) -> str:
-        return f">{self.timecode_format}{self.fire_chanel_format}{self.fire_duration_format}"
+        return f">{self.timecode_format}{self.fire_channel_format}{self.fire_duration_format}"
 
     @staticmethod
     def _binary_format_size(binary_format: str) -> int:
@@ -62,10 +62,10 @@ class JsonBinaryParameters:
         )
 
     @property
-    def fire_chanel_value_bound(self) -> Bound:
+    def fire_channel_value_bound(self) -> Bound:
         return Bound(
             0,
-            self.fire_chanel_number - 1,
+            self.fire_channel_number - 1,
         )
 
     @property

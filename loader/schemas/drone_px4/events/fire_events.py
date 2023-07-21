@@ -10,16 +10,16 @@ from .events_order import EventsType
 @dataclass(frozen=True)
 class FireEvent(Event):
     timecode: int  # time frame associate to the "fps_px4" parameter
-    chanel: int  # chanel of the fire event
+    channel: int  # channel of the fire event
     duration: int  # duration of the fire event in milliseconds
 
     @property
-    def chanel_duration(self) -> Tuple[int, int]:
-        return (self.chanel, self.duration)
+    def channel_duration(self) -> Tuple[int, int]:
+        return (self.channel, self.duration)
 
     @property
     def get_data(self) -> List[Any]:
-        return [self.timecode, self.chanel, self.duration]
+        return [self.timecode, self.channel, self.duration]
 
 
 class FireEvents(Events):
@@ -30,26 +30,26 @@ class FireEvents(Events):
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []
 
-    def add_timecode_chanel_duration(
+    def add_timecode_channel_duration(
         self,
         timecode: int,
-        chanel: int,
+        channel: int,
         duration: int,
     ) -> None:
         self._events.append(
-            FireEvent(timecode=timecode, chanel=chanel, duration=duration),
+            FireEvent(timecode=timecode, channel=channel, duration=duration),
         )
 
     def add_data(self, data: List[Any]) -> None:
         self._events.append(
-            FireEvent(timecode=data[0], chanel=data[1], duration=data[2]),
+            FireEvent(timecode=data[0], channel=data[1], duration=data[2]),
         )
 
     def get_fire_event_by_index(self, index: int) -> FireEvent:
         fire_event_data = self._events[index].get_data
         return FireEvent(
             timecode=fire_event_data[0],
-            chanel=fire_event_data[1],
+            channel=fire_event_data[1],
             duration=fire_event_data[2],
         )
 

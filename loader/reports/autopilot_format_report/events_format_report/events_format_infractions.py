@@ -165,16 +165,16 @@ class FireChannelInfraction(IntegerBoundaryInfraction):
         return [
             FireChannelInfraction(
                 event_index=event_index,
-                value=fire_event.chanel,
+                value=fire_event.channel,
             )
             for event_index, fire_event in enumerate(
                 fire_events.specific_events,
             )
             if not (
                 check_integer_bound(
-                    fire_event.chanel,
-                    JSON_BINARY_PARAMETERS.fire_chanel_value_bound.minimal,
-                    JSON_BINARY_PARAMETERS.fire_chanel_value_bound.maximal,
+                    fire_event.channel,
+                    JSON_BINARY_PARAMETERS.fire_channel_value_bound.minimal,
+                    JSON_BINARY_PARAMETERS.fire_channel_value_bound.maximal,
                 )
             )
         ]

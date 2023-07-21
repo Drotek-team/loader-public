@@ -20,9 +20,9 @@ def test_add_color_standard_case() -> None:
 
 def test_add_fire_standard_case() -> None:
     drone = DronePx4(index=0)
-    drone.add_fire(timecode=0, chanel=1, duration=2)
+    drone.add_fire(timecode=0, channel=1, duration=2)
     assert drone.fire_events[0].get_data == [0, 1, 2]
-    drone.add_fire(timecode=1, chanel=3, duration=4)
+    drone.add_fire(timecode=1, channel=3, duration=4)
     assert drone.fire_events[1].get_data == [1, 3, 4]
 
 
@@ -49,7 +49,7 @@ def test_non_empty_events_list_standard_case() -> None:
     assert drone.non_empty_events_list == [drone.position_events]
     drone.add_color(timecode=0, rgbw=(0, 0, 0, 0))
     assert drone.non_empty_events_list == [drone.position_events, drone.color_events]
-    drone.add_fire(timecode=0, chanel=0, duration=0)
+    drone.add_fire(timecode=0, channel=0, duration=0)
     assert drone.non_empty_events_list == [
         drone.position_events,
         drone.color_events,
@@ -70,9 +70,9 @@ def test___eq___standard_case() -> None:
     assert drone != other_drone
     other_drone.add_color(timecode=0, rgbw=(0, 0, 0, 0))
     assert drone == other_drone
-    drone.add_fire(timecode=0, chanel=0, duration=0)
+    drone.add_fire(timecode=0, channel=0, duration=0)
     assert drone != other_drone
-    other_drone.add_fire(timecode=0, chanel=0, duration=0)
+    other_drone.add_fire(timecode=0, channel=0, duration=0)
     assert drone == other_drone
 
 

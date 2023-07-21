@@ -14,7 +14,7 @@ from tests.strategies import slow
     first_g=st.integers(0, 3),
     first_b=st.integers(0, 3),
     first_w=st.integers(0, 3),
-    first_chanel=st.integers(0, 3),
+    first_channel=st.integers(0, 3),
     first_duration=st.integers(0, 3),
     second_timecode=st.integers(0, 3),
     second_x=st.integers(-3, 3),
@@ -24,7 +24,7 @@ from tests.strategies import slow
     second_g=st.integers(0, 3),
     second_b=st.integers(0, 3),
     second_w=st.integers(0, 3),
-    second_chanel=st.integers(0, 3),
+    second_channel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
 )
 @slow
@@ -37,7 +37,7 @@ def test_encode_decode_drone(
     first_g: int,
     first_b: int,
     first_w: int,
-    first_chanel: int,
+    first_channel: int,
     first_duration: int,
     second_timecode: int,
     second_x: int,
@@ -47,17 +47,17 @@ def test_encode_decode_drone(
     second_g: int,
     second_b: int,
     second_w: int,
-    second_chanel: int,
+    second_channel: int,
     second_duration: int,
 ) -> None:
     drone_px4 = DronePx4(0)
 
     drone_px4.add_position(first_timecode, (first_x, first_y, first_z))
     drone_px4.add_color(first_timecode, (first_r, first_g, first_b, first_w))
-    drone_px4.add_fire(first_timecode, first_chanel, first_duration)
+    drone_px4.add_fire(first_timecode, first_channel, first_duration)
 
     drone_px4.add_position(second_timecode, (second_x, second_y, second_z))
     drone_px4.add_color(second_timecode, (second_r, second_g, second_b, second_w))
-    drone_px4.add_fire(second_timecode, second_chanel, second_duration)
+    drone_px4.add_fire(second_timecode, second_channel, second_duration)
 
     assert drone_px4 == DronePx4.from_binary(drone_px4.index, DronePx4.to_binary(drone_px4))

@@ -12,7 +12,7 @@ def test_json_binary_parameters_standard_case() -> None:
         2**15 - 1,
     )
     assert JSON_BINARY_PARAMETERS.chrome_value_bound == Bound(0, 2**8 - 1)
-    assert JSON_BINARY_PARAMETERS.fire_chanel_value_bound == Bound(0, 2)
+    assert JSON_BINARY_PARAMETERS.fire_channel_value_bound == Bound(0, 2)
     assert JSON_BINARY_PARAMETERS.fire_duration_value_bound == Bound(0, 2**8 - 1)
 
     assert JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(1_000) == 24
