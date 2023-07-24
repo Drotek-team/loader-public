@@ -1,29 +1,24 @@
 # pyright: reportIncompatibleMethodOverride=false
 from typing import Optional
 
-from pydantic import BaseModel, Extra
-
 from loader.parameters import IostarPhysicParameters
 from loader.schemas.drone_px4.drone_px4 import DronePx4
 from loader.schemas.show_user import ShowUser
 
-from .autopilot_format_report import AutopilotFormatReport
-from .base import BaseReport
-from .collision_report import CollisionReport
-from .dance_size_report import DanceSizeReport
-from .performance_report import PerformanceReport
-from .takeoff_format_report import TakeoffFormatReport
+from .autopilot_format_report import AutopilotFormatReport, AutopilotFormatReportSummary
+from .base import BaseReport, BaseReportSummary
+from .collision_report import CollisionReport, CollisionReportSummary
+from .dance_size_report import DanceSizeReport, DanceSizeReportSummary
+from .performance_report import PerformanceReport, PerformanceReportSummary
+from .takeoff_format_report import TakeoffFormatReport, TakeoffFormatReportSummary
 
 
-class GlobalReportSummary(BaseModel, extra=Extra.forbid):
-    takeoff_format: int
-    autopilot_format: int
-    dance_size: int
-    performance: int
-    collision: int
-
-    def is_valid(self) -> bool:
-        return sum(getattr(self, field.name) for field in self.__fields__.values()) == 0
+class GlobalReportSummary(BaseReportSummary):
+    takeoff_format_summary: Optional[TakeoffFormatReportSummary] = None
+    autopilot_format_summary: Optional[AutopilotFormatReportSummary] = None
+    dance_size_summary: Optional[DanceSizeReportSummary] = None
+    performance_summary: Optional[PerformanceReportSummary] = None
+    collision_summary: Optional[CollisionReportSummary] = None
 
 
 class GlobalReport(BaseReport):
@@ -33,13 +28,19 @@ class GlobalReport(BaseReport):
     performance: Optional[PerformanceReport] = None
     collision: Optional[CollisionReport] = None
 
-    def summary(self) -> GlobalReportSummary:
+    def summarize(self) -> GlobalReportSummary:
         return GlobalReportSummary(
-            takeoff_format=len(self.takeoff_format) if self.takeoff_format else 0,
-            autopilot_format=len(self.autopilot_format) if self.autopilot_format else 0,
-            dance_size=len(self.dance_size) if self.dance_size else 0,
-            performance=len(self.performance) if self.performance else 0,
-            collision=len(self.collision) if self.collision else 0,
+            takeoff_format_summary=self.takeoff_format.summarize()
+            if self.takeoff_format is not None
+            else None,
+            autopilot_format_summary=self.autopilot_format.summarize()
+            if self.autopilot_format is not None
+            else None,
+            dance_size_summary=self.dance_size.summarize() if self.dance_size is not None else None,
+            performance_summary=self.performance.summarize()
+            if self.performance is not None
+            else None,
+            collision_summary=self.collision.summarize() if self.collision is not None else None,
         )
 
     @classmethod

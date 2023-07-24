@@ -1,11 +1,38 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import List, Optional
+import itertools
+from collections import defaultdict
+from typing import DefaultDict, List, Optional
+
+from tqdm import tqdm
 
 from loader.parameters import IostarPhysicParameters
-from loader.reports.base import BaseReport
+from loader.reports.base import BaseReport, BaseReportSummary
 from loader.schemas.show_user import ShowUser
 
-from .performance_infraction import PerformanceInfraction
+from .performance_infraction import PerformanceInfraction, PerformanceInfractionsSummary
+
+
+class PerformanceReportSummary(BaseReportSummary):
+    performance_infractions_summary: DefaultDict[str, PerformanceInfractionsSummary] = defaultdict(
+        PerformanceInfractionsSummary,
+    )
+
+    def __add__(self, other: "PerformanceReportSummary") -> "PerformanceReportSummary":
+        return PerformanceReportSummary(
+            performance_infractions_summary=defaultdict(
+                PerformanceInfractionsSummary,
+                {
+                    key: self.performance_infractions_summary[key]
+                    + other.performance_infractions_summary[key]
+                    for key in set(
+                        itertools.chain(
+                            self.performance_infractions_summary.keys(),
+                            other.performance_infractions_summary.keys(),
+                        ),
+                    )
+                },
+            ),
+        )
 
 
 class PerformanceReport(BaseReport):
@@ -25,3 +52,23 @@ class PerformanceReport(BaseReport):
             is_partial=is_partial,
         )
         return PerformanceReport(performance_infractions=performance_infracions)
+
+    def summarize(self) -> PerformanceReportSummary:
+        return sum(
+            (
+                PerformanceReportSummary(
+                    performance_infractions_summary=defaultdict(
+                        PerformanceInfractionsSummary,
+                        {
+                            performance_infraction.performance_name: performance_infraction.summarize(),
+                        },
+                    ),
+                )
+                for performance_infraction in tqdm(
+                    self.performance_infractions,
+                    desc="Summarizing performance report",
+                    unit="performance infraction",
+                )
+            ),
+            PerformanceReportSummary(),
+        )

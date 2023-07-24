@@ -11,7 +11,7 @@ from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
     IostarPhysicParameters,
 )
-from loader.reports.base import BaseInfraction
+from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
 from loader.schemas import ShowUser
 from loader.schemas.show_user.show_trajectory_performance import (
     DroneTrajectoryPerformance,
@@ -148,5 +148,46 @@ class PerformanceInfraction(BaseInfraction):
                     desc="Checking speed profiles",
                     unit="drone",
                 )
+            ),
+        )
+
+    def summarize(self) -> "PerformanceInfractionsSummary":
+        return PerformanceInfractionsSummary(
+            nb_infractions=len(self),
+            min_performance_infraction=self,
+            max_performance_infraction=self,
+            first_performance_infraction=self,
+            last_performance_infraction=self,
+        )
+
+
+class PerformanceInfractionsSummary(BaseInfractionsSummary):
+    min_performance_infraction: Optional[PerformanceInfraction] = None
+    max_performance_infraction: Optional[PerformanceInfraction] = None
+    first_performance_infraction: Optional[PerformanceInfraction] = None
+    last_performance_infraction: Optional[PerformanceInfraction] = None
+
+    def __add__(self, other: "PerformanceInfractionsSummary") -> "PerformanceInfractionsSummary":
+        return PerformanceInfractionsSummary(
+            nb_infractions=self.nb_infractions + other.nb_infractions,
+            min_performance_infraction=apply_func_on_optional_pair(
+                self.min_performance_infraction,
+                other.min_performance_infraction,
+                lambda x, y: x if x.value < y.value else y,
+            ),
+            max_performance_infraction=apply_func_on_optional_pair(
+                self.max_performance_infraction,
+                other.max_performance_infraction,
+                lambda x, y: x if x.value > y.value else y,
+            ),
+            first_performance_infraction=apply_func_on_optional_pair(
+                self.first_performance_infraction,
+                other.first_performance_infraction,
+                lambda x, y: x if x.frame < y.frame else y,
+            ),
+            last_performance_infraction=apply_func_on_optional_pair(
+                self.last_performance_infraction,
+                other.last_performance_infraction,
+                lambda x, y: x if x.frame > y.frame else y,
             ),
         )

@@ -8,11 +8,13 @@ def test_global_report_summary_standard_case() -> None:
         ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), show_duration_absolute_time=3),
     )
     global_report = GlobalReport.generate(valid_show_user)
-    assert global_report.summary().takeoff_format == 0
-    assert global_report.summary().autopilot_format == 0
-    assert global_report.summary().performance == 0
-    assert global_report.summary().collision == 0
-    assert global_report.summary().is_valid()
+    global_report_summary = global_report.summarize()
+    assert global_report_summary.takeoff_format_summary is None
+    assert global_report_summary.autopilot_format_summary is None
+    assert global_report_summary.dance_size_summary is None
+    assert global_report_summary.performance_summary is None
+    assert global_report_summary.collision_summary is None
+    assert not len(global_report_summary)
 
 
 def test_global_report_summary_collision_report() -> None:
@@ -24,11 +26,14 @@ def test_global_report_summary_collision_report() -> None:
         ),
     )
     global_report = GlobalReport.generate(valid_show_user)
-    assert global_report.summary().takeoff_format == 0
-    assert global_report.summary().autopilot_format == 0
-    assert global_report.summary().performance == 0
-    assert global_report.summary().collision == 2232
-    assert not global_report.summary().is_valid()
+    global_report_summary = global_report.summarize()
+    assert global_report_summary.takeoff_format_summary is None
+    assert global_report_summary.autopilot_format_summary is None
+    assert global_report_summary.dance_size_summary is None
+    assert global_report_summary.performance_summary is None
+    assert global_report_summary.collision_summary is not None
+    assert len(global_report_summary.collision_summary) == 2232
+    assert len(global_report_summary)
 
 
 def test_generate_global_report_standard_case() -> None:

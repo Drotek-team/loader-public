@@ -53,26 +53,140 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 dance_size=0 performance=0 collision=0
+  print(report.summarize().json(indent=4))
+  """
+  {
+      "takeoff_format_summary": null,
+      "autopilot_format_summary": null,
+      "dance_size_summary": null,
+      "performance_summary": null,
+      "collision_summary": null
+  }
+  """
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 dance_size=0 performance=0 collision=4080
+  print(report.summarize().json(indent=4))
+  """
+  {
+      "takeoff_format_summary": null,
+      "autopilot_format_summary": null,
+      "dance_size_summary": null,
+      "performance_summary": null,
+      "collision_summary": {
+          "collision_infractions_summary": {
+              "nb_infractions": 4080,
+              "collisionned_drone_indices": [
+                  0,
+                  1,
+                  2,
+                  3
+              ],
+              "min_collision_infraction": {
+                  "frame": 1019,
+                  "drone_index_1": 2,
+                  "drone_index_2": 3,
+                  "distance": 1.24
+              },
+              "max_collision_infraction": {
+                  "frame": 1019,
+                  "drone_index_1": 2,
+                  "drone_index_2": 3,
+                  "distance": 1.24
+              },
+              "first_collision_infraction": {
+                  "frame": 0,
+                  "drone_index_1": 2,
+                  "drone_index_2": 3,
+                  "distance": 1.24
+              },
+              "last_collision_infraction": {
+                  "frame": 1019,
+                  "drone_index_1": 2,
+                  "drone_index_2": 3,
+                  "distance": 1.24
+              }
+          }
+      }
+  }
+  """
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 dance_size=0 performance=4 collision=0
+  print(report.summarize().json(indent=4))
+  """
+  {
+      "takeoff_format_summary": null,
+      "autopilot_format_summary": null,
+      "dance_size_summary": null,
+      "performance_summary": {
+          "performance_infractions_summary": {
+              "acceleration": {
+                  "nb_infractions": 4,
+                  "min_performance_infraction": {
+                      "performance_name": "acceleration",
+                      "drone_index": 3,
+                      "frame": 1000,
+                      "value": 1.7999999999999998
+                  },
+                  "max_performance_infraction": {
+                      "performance_name": "acceleration",
+                      "drone_index": 3,
+                      "frame": 1000,
+                      "value": 1.7999999999999998
+                  },
+                  "first_performance_infraction": {
+                      "performance_name": "acceleration",
+                      "drone_index": 3,
+                      "frame": 1000,
+                      "value": 1.7999999999999998
+                  },
+                  "last_performance_infraction": {
+                      "performance_name": "acceleration",
+                      "drone_index": 3,
+                      "frame": 1000,
+                      "value": 1.7999999999999998
+                  }
+              }
+          }
+      },
+      "collision_summary": null
+  }
+  """
 
   iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summary())
-  #> takeoff_format=0 autopilot_format=0 dance_size=1 performance=0 collision=0
+  print(report.summarize().json(indent=4))
+  """
+  {
+      "takeoff_format_summary": null,
+      "autopilot_format_summary": null,
+      "dance_size_summary": {
+          "dance_size_infractions_summary": {
+              "nb_infractions": 1,
+              "min_dance_size_infraction": {
+                  "drone_index": 0,
+                  "dance_size": 100106,
+                  "position_percent": 100.03,
+                  "color_percent": 0.02,
+                  "fire_percent": 0.02
+              },
+              "max_dance_size_infraction": {
+                  "drone_index": 0,
+                  "dance_size": 100106,
+                  "position_percent": 100.03,
+                  "color_percent": 0.02,
+                  "fire_percent": 0.02
+              }
+          }
+      },
+      "performance_summary": null,
+      "collision_summary": null
+  }
+  """
   ```
 
 - Generate the performance report of the show

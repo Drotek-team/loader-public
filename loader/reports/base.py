@@ -1,15 +1,40 @@
-from typing import Any, Dict, List, Optional, Type, TypeVar, cast
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
 
 from pydantic import BaseModel
 from pydantic.fields import ModelField
 
+TBaseMessage = TypeVar("TBaseMessage", bound="BaseMessage")
+TBaseInfractionsSummary = TypeVar("TBaseInfractionsSummary", bound="BaseInfractionsSummary")
 TBaseInfraction = TypeVar("TBaseInfraction", bound="BaseInfraction")
 TBaseReport = TypeVar("TBaseReport", bound="BaseReport")
+T = TypeVar("T")
+
+
+def apply_func_on_optional_pair(
+    optional1: Optional[T],
+    optional2: Optional[T],
+    func: Callable[[T, T], T],
+) -> Optional[T]:
+    if optional1 is None:
+        return optional2
+    if optional2 is None:
+        return optional1
+    return func(optional1, optional2)
 
 
 class BaseMessage(BaseModel):
     def __len__(self) -> int:
         raise NotImplementedError
+
+    def __add__(self: TBaseMessage, other: TBaseMessage) -> TBaseMessage:
+        raise NotImplementedError
+
+
+class BaseInfractionsSummary(BaseMessage):
+    nb_infractions: int = 0
+
+    def __len__(self) -> int:
+        return self.nb_infractions
 
 
 class BaseInfraction(BaseMessage):
@@ -24,8 +49,11 @@ class BaseInfraction(BaseMessage):
     ) -> Optional[TBaseInfraction]:
         raise NotImplementedError
 
+    def summarize(self) -> BaseInfractionsSummary:
+        raise NotImplementedError
 
-class BaseReport(BaseMessage):
+
+class BaseReportSummary(BaseMessage):
     def __len__(self) -> int:
         nb_errors = 0
 
@@ -35,7 +63,8 @@ class BaseReport(BaseMessage):
 
         for field in self.__fields__.values():
             if getattr(self, field.name) is None or (
-                isinstance(getattr(self, field.name), int) and field.name == "drone_index"
+                isinstance(getattr(self, field.name), int)
+                and field.name in ["drone_index", "nb_invalid_drones"]
             ):
                 pass
             elif isinstance(getattr(self, field.name), BaseMessage):
@@ -76,6 +105,8 @@ class BaseReport(BaseMessage):
 
         return nb_errors
 
+
+class BaseReport(BaseReportSummary):
     @classmethod
     def generate(cls: Type[TBaseReport], *args: Any, **kwargs: Any) -> TBaseReport:  # noqa: ANN401
         raise NotImplementedError
@@ -88,3 +119,6 @@ class BaseReport(BaseMessage):
     ) -> Optional[TBaseReport]:
         report = cls.generate(*args, **kwargs)
         return report if len(report) else None
+
+    def summarize(self) -> BaseReportSummary:
+        raise NotImplementedError

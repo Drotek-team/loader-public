@@ -1,13 +1,13 @@
 # pyright: reportIncompatibleMethodOverride=false
 
 import itertools
-from typing import TYPE_CHECKING, Generator, List, Optional, TypeVar
+from typing import TYPE_CHECKING, Generator, List, Optional, Set, TypeVar
 
 import numpy as np
 from tqdm import tqdm
 
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
-from loader.reports.base import BaseInfraction
+from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
 from loader.schemas import ShowUser
 from loader.schemas.show_user.show_position_frame import ShowPositionFrame
 
@@ -106,6 +106,52 @@ class CollisionInfraction(BaseInfraction):
                     desc="Checking collisions",
                     unit="frame",
                 )
+            ),
+        )
+
+    def summarize(self) -> "CollisionInfractionsSummary":
+        return CollisionInfractionsSummary(
+            nb_infractions=len(self),
+            collisionned_drone_indices={self.drone_index_1, self.drone_index_2},
+            min_collision_infraction=self,
+            max_collision_infraction=self,
+            first_collision_infraction=self,
+            last_collision_infraction=self,
+        )
+
+
+class CollisionInfractionsSummary(BaseInfractionsSummary):
+    collisionned_drone_indices: Set[int] = set()
+    min_collision_infraction: Optional[CollisionInfraction] = None
+    max_collision_infraction: Optional[CollisionInfraction] = None
+    first_collision_infraction: Optional[CollisionInfraction] = None
+    last_collision_infraction: Optional[CollisionInfraction] = None
+
+    def __add__(self, other: "CollisionInfractionsSummary") -> "CollisionInfractionsSummary":
+        return CollisionInfractionsSummary(
+            nb_infractions=self.nb_infractions + other.nb_infractions,
+            collisionned_drone_indices=self.collisionned_drone_indices.union(
+                other.collisionned_drone_indices,
+            ),
+            min_collision_infraction=apply_func_on_optional_pair(
+                self.min_collision_infraction,
+                other.min_collision_infraction,
+                lambda x, y: x if x.distance < y.distance else y,
+            ),
+            max_collision_infraction=apply_func_on_optional_pair(
+                self.max_collision_infraction,
+                other.max_collision_infraction,
+                lambda x, y: x if x.distance > y.distance else y,
+            ),
+            first_collision_infraction=apply_func_on_optional_pair(
+                self.first_collision_infraction,
+                other.first_collision_infraction,
+                lambda x, y: x if x.frame < y.frame else y,
+            ),
+            last_collision_infraction=apply_func_on_optional_pair(
+                self.last_collision_infraction,
+                other.last_collision_infraction,
+                lambda x, y: x if x.frame > y.frame else y,
             ),
         )
 

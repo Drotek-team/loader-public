@@ -1,11 +1,17 @@
 # pyright: reportIncompatibleMethodOverride=false
 import struct
-from typing import List, Union
+from typing import List, Optional, Union
 
 from tqdm import tqdm
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
-from loader.reports.base import BaseInfraction, BaseReport
+from loader.reports.base import (
+    BaseInfraction,
+    BaseInfractionsSummary,
+    BaseReport,
+    BaseReportSummary,
+    apply_func_on_optional_pair,
+)
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.show_user.show_user import ShowUser
 
@@ -52,6 +58,37 @@ class DanceSizeInfraction(BaseInfraction):
     def __len__(self) -> int:
         return int(self.dance_size >= JSON_BINARY_PARAMETERS.dance_size_max)
 
+    def summarize(self) -> "DanceSizeInfractionsSummary":
+        return DanceSizeInfractionsSummary(
+            nb_infractions=len(self),
+            min_dance_size_infraction=self if len(self) else None,
+            max_dance_size_infraction=self if len(self) else None,
+        )
+
+
+class DanceSizeInfractionsSummary(BaseInfractionsSummary):
+    min_dance_size_infraction: Optional[DanceSizeInfraction] = None
+    max_dance_size_infraction: Optional[DanceSizeInfraction] = None
+
+    def __add__(self, other: "DanceSizeInfractionsSummary") -> "DanceSizeInfractionsSummary":
+        return DanceSizeInfractionsSummary(
+            nb_infractions=self.nb_infractions + other.nb_infractions,
+            min_dance_size_infraction=apply_func_on_optional_pair(
+                self.min_dance_size_infraction,
+                other.min_dance_size_infraction,
+                lambda x, y: x if x.dance_size < y.dance_size else y,
+            ),
+            max_dance_size_infraction=apply_func_on_optional_pair(
+                self.max_dance_size_infraction,
+                other.max_dance_size_infraction,
+                lambda x, y: x if x.dance_size > y.dance_size else y,
+            ),
+        )
+
+
+class DanceSizeReportSummary(BaseReportSummary):
+    dance_size_infractions_summary: Optional[DanceSizeInfractionsSummary]
+
 
 class DanceSizeReport(BaseReport):
     dance_size_infractions: List[DanceSizeInfraction] = []
@@ -71,3 +108,18 @@ class DanceSizeReport(BaseReport):
             for drone_px4 in tqdm(autopilot_format, desc="Checking dance size", unit="drone")
         ]
         return DanceSizeReport(dance_size_infractions=dance_size_infractions)
+
+    def summarize(self) -> DanceSizeReportSummary:
+        return DanceSizeReportSummary(
+            dance_size_infractions_summary=sum(
+                (
+                    dance_size_infraction.summarize()
+                    for dance_size_infraction in tqdm(
+                        self.dance_size_infractions,
+                        desc="Summarizing dance size report",
+                        unit="dance size infraction",
+                    )
+                ),
+                DanceSizeInfractionsSummary(),
+            ),
+        )

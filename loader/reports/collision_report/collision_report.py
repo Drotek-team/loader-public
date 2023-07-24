@@ -1,11 +1,17 @@
 # pyright: reportIncompatibleMethodOverride=false
 from typing import List, Optional
 
+from tqdm import tqdm
+
 from loader.parameters import IostarPhysicParameters
-from loader.reports.base import BaseReport
+from loader.reports.base import BaseReport, BaseReportSummary
 from loader.schemas.show_user import ShowUser
 
-from .collision_infraction import CollisionInfraction
+from .collision_infraction import CollisionInfraction, CollisionInfractionsSummary
+
+
+class CollisionReportSummary(BaseReportSummary):
+    collision_infractions_summary: Optional["CollisionInfractionsSummary"] = None
 
 
 class CollisionReport(BaseReport):
@@ -25,3 +31,18 @@ class CollisionReport(BaseReport):
             is_partial=is_partial,
         )
         return CollisionReport(collision_infractions=collision_infractions)
+
+    def summarize(self) -> CollisionReportSummary:
+        return CollisionReportSummary(
+            collision_infractions_summary=sum(
+                (
+                    collision_infraction.summarize()
+                    for collision_infraction in tqdm(
+                        self.collision_infractions,
+                        desc="Summarizing collision report",
+                        unit="collision",
+                    )
+                ),
+                CollisionInfractionsSummary(),
+            ),
+        )

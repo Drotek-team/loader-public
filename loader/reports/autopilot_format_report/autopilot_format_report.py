@@ -3,11 +3,15 @@ from typing import List, Union
 
 from tqdm import tqdm
 
-from loader.reports.base import BaseReport
+from loader.reports.base import BaseReport, BaseReportSummary
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.show_user import ShowUser
 
-from .events_format_report import EventsFormatReport
+from .events_format_report import EventsFormatReport, EventsFormatReportSummary
+
+
+class AutopilotFormatReportSummary(BaseReportSummary):
+    events_format_report_summary: EventsFormatReportSummary
 
 
 class AutopilotFormatReport(BaseReport):
@@ -30,4 +34,19 @@ class AutopilotFormatReport(BaseReport):
         ]
         return AutopilotFormatReport(
             events_format_reports=events_format_reports,
+        )
+
+    def summarize(self) -> AutopilotFormatReportSummary:
+        return AutopilotFormatReportSummary(
+            events_format_report_summary=sum(
+                (
+                    events_format_report.summarize()
+                    for events_format_report in tqdm(
+                        self.events_format_reports,
+                        desc="Summarizing autopilot format report",
+                        unit="events format report",
+                    )
+                ),
+                EventsFormatReportSummary(),
+            ),
         )

@@ -2,6 +2,7 @@ import pytest
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IostarPhysicParameters
 from loader.reports import PerformanceInfraction, PerformanceReport
 from loader.reports.performance_report.performance_infraction import PerformanceKind
+from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 
 EPSILON_DELTA = 1e-2
@@ -15,7 +16,7 @@ def test_valid_show_trajectory_performance() -> None:
 
 
 def test_valid_show_user_horizontal_velocity() -> None:
-    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    valid_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2)))
     last_position_event = valid_show_user.drones_user[0].position_events[-1]
     valid_show_user.drones_user[0].add_position_event(
         frame=last_position_event.frame + 24,
@@ -25,12 +26,21 @@ def test_valid_show_user_horizontal_velocity() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_infractions = PerformanceReport.generate(
+    last_position_event = valid_show_user.drones_user[1].position_events[-1]
+    valid_show_user.drones_user[1].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max,
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    performance_report = PerformanceReport.generate(
         valid_show_user,
         physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    ).performance_infractions
-    assert len(performance_infractions) == 1
-    assert performance_infractions[0] == PerformanceInfraction(
+    )
+    assert len(performance_report) == 2 == len(performance_report.summarize())
+    assert performance_report.performance_infractions[0] == PerformanceInfraction(
         performance_name="acceleration",
         drone_index=0,
         frame=984,
