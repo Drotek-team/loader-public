@@ -3,6 +3,8 @@ from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
 from pydantic import BaseModel
 from pydantic.fields import ModelField
 
+from .ranges import get_ranges_from_drone_indices
+
 TBaseMessage = TypeVar("TBaseMessage", bound="BaseMessage")
 TBaseSummary = TypeVar("TBaseSummary", bound="BaseSummary")
 TBaseInfraction = TypeVar("TBaseInfraction", bound="BaseInfraction")
@@ -79,6 +81,9 @@ class BaseMessage(BaseModel):
 class BaseSummary(BaseMessage):
     def __add__(self, other: TBaseSummary) -> TBaseSummary:
         raise NotImplementedError
+
+    class Config:
+        json_encoders: Dict[Any, Callable[[Any], Any]] = {set: get_ranges_from_drone_indices}
 
 
 class BaseInfractionsSummary(BaseSummary):

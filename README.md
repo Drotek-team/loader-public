@@ -77,12 +77,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       "collision_summary": {
           "collision_infractions_summary": {
               "nb_infractions": 4080,
-              "drone_indices": [
-                  0,
-                  1,
-                  2,
-                  3
-              ],
+              "drone_indices": "0-3",
               "min_collision_infraction": {
                   "frame": 1019,
                   "drone_index_1": 2,
@@ -122,12 +117,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       "autopilot_format_summary": null,
       "dance_size_summary": null,
       "performance_summary": {
-          "drone_indices": [
-              0,
-              1,
-              2,
-              3
-          ],
+          "drone_indices": "0-3",
           "performance_infractions_summary": {
               "acceleration": {
                   "nb_infractions": 4,
@@ -173,9 +163,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       "dance_size_summary": {
           "dance_size_infractions_summary": {
               "nb_infractions": 1,
-              "drone_indices": [
-                  0
-              ],
+              "drone_indices": "0",
               "min_dance_size_infraction": {
                   "drone_index": 0,
                   "dance_size": 100106,
