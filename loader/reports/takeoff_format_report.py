@@ -1,5 +1,5 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import List, Optional, Tuple
+from typing import List, Optional, Set, Tuple
 
 import numpy as np
 from tqdm import tqdm
@@ -271,7 +271,7 @@ class DroneUserReport(BaseReport):
 
     def summarize(self) -> "DroneUserReportSummary":
         return DroneUserReportSummary(
-            nb_invalid_drones=1,
+            drone_indices={self.drone_index},
             minimal_position_events_infractions_summary=self.minimal_position_event.summarize()
             if self.minimal_position_event
             else None,
@@ -280,7 +280,7 @@ class DroneUserReport(BaseReport):
 
 
 class DroneUserReportSummary(BaseReportSummary):
-    nb_invalid_drones: int = 0
+    drone_indices: Set[int] = set()
     minimal_position_events_infractions_summary: Optional[
         MinimumPositionEventsInfractionsSummary
     ] = None
@@ -291,7 +291,7 @@ class DroneUserReportSummary(BaseReportSummary):
         other: "DroneUserReportSummary",
     ) -> "DroneUserReportSummary":
         return DroneUserReportSummary(
-            nb_invalid_drones=self.nb_invalid_drones + other.nb_invalid_drones,
+            drone_indices=self.drone_indices.union(other.drone_indices),
             minimal_position_events_infractions_summary=apply_func_on_optional_pair(
                 self.minimal_position_events_infractions_summary,
                 other.minimal_position_events_infractions_summary,

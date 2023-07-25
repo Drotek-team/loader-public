@@ -1,7 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from collections import defaultdict
-from typing import DefaultDict, List, Optional
+from typing import DefaultDict, List, Optional, Set
 
 from tqdm import tqdm
 
@@ -13,12 +13,14 @@ from .performance_infraction import PerformanceInfraction, PerformanceInfraction
 
 
 class PerformanceReportSummary(BaseReportSummary):
+    drone_indices: Set[int] = set()
     performance_infractions_summary: DefaultDict[str, PerformanceInfractionsSummary] = defaultdict(
         PerformanceInfractionsSummary,
     )
 
     def __add__(self, other: "PerformanceReportSummary") -> "PerformanceReportSummary":
         return PerformanceReportSummary(
+            drone_indices=self.drone_indices.union(other.drone_indices),
             performance_infractions_summary=defaultdict(
                 PerformanceInfractionsSummary,
                 {
@@ -57,6 +59,7 @@ class PerformanceReport(BaseReport):
         return sum(
             (
                 PerformanceReportSummary(
+                    drone_indices={performance_infraction.drone_index},
                     performance_infractions_summary=defaultdict(
                         PerformanceInfractionsSummary,
                         {

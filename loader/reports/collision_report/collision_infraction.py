@@ -112,7 +112,7 @@ class CollisionInfraction(BaseInfraction):
     def summarize(self) -> "CollisionInfractionsSummary":
         return CollisionInfractionsSummary(
             nb_infractions=len(self),
-            collisionned_drone_indices={self.drone_index_1, self.drone_index_2},
+            drone_indices={self.drone_index_1, self.drone_index_2},
             min_collision_infraction=self,
             max_collision_infraction=self,
             first_collision_infraction=self,
@@ -121,7 +121,7 @@ class CollisionInfraction(BaseInfraction):
 
 
 class CollisionInfractionsSummary(BaseInfractionsSummary):
-    collisionned_drone_indices: Set[int] = set()
+    drone_indices: Set[int] = set()
     min_collision_infraction: Optional[CollisionInfraction] = None
     max_collision_infraction: Optional[CollisionInfraction] = None
     first_collision_infraction: Optional[CollisionInfraction] = None
@@ -130,8 +130,8 @@ class CollisionInfractionsSummary(BaseInfractionsSummary):
     def __add__(self, other: "CollisionInfractionsSummary") -> "CollisionInfractionsSummary":
         return CollisionInfractionsSummary(
             nb_infractions=self.nb_infractions + other.nb_infractions,
-            collisionned_drone_indices=self.collisionned_drone_indices.union(
-                other.collisionned_drone_indices,
+            drone_indices=self.drone_indices.union(
+                other.drone_indices,
             ),
             min_collision_infraction=apply_func_on_optional_pair(
                 self.min_collision_infraction,

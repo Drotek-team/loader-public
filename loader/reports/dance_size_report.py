@@ -1,6 +1,6 @@
 # pyright: reportIncompatibleMethodOverride=false
 import struct
-from typing import List, Optional, Union
+from typing import List, Optional, Set, Union
 
 from tqdm import tqdm
 
@@ -61,18 +61,21 @@ class DanceSizeInfraction(BaseInfraction):
     def summarize(self) -> "DanceSizeInfractionsSummary":
         return DanceSizeInfractionsSummary(
             nb_infractions=len(self),
+            drone_indices={self.drone_index} if len(self) else set(),
             min_dance_size_infraction=self if len(self) else None,
             max_dance_size_infraction=self if len(self) else None,
         )
 
 
 class DanceSizeInfractionsSummary(BaseInfractionsSummary):
+    drone_indices: Set[int] = set()
     min_dance_size_infraction: Optional[DanceSizeInfraction] = None
     max_dance_size_infraction: Optional[DanceSizeInfraction] = None
 
     def __add__(self, other: "DanceSizeInfractionsSummary") -> "DanceSizeInfractionsSummary":
         return DanceSizeInfractionsSummary(
             nb_infractions=self.nb_infractions + other.nb_infractions,
+            drone_indices=self.drone_indices.union(other.drone_indices),
             min_dance_size_infraction=apply_func_on_optional_pair(
                 self.min_dance_size_infraction,
                 other.min_dance_size_infraction,

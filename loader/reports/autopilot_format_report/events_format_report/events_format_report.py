@@ -1,7 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from collections import defaultdict
-from typing import DefaultDict, List, Optional
+from typing import DefaultDict, List, Optional, Set
 
 from loader.reports.base import BaseReport, BaseReportSummary, apply_func_on_optional_pair
 from loader.schemas.drone_px4 import DronePx4
@@ -85,14 +85,14 @@ class EventsReport(BaseReport):
 
 
 class EventsFormatReportSummary(BaseReportSummary):
-    nb_invalid_drones: int = 0
+    drone_indices: Set[int] = set()
     position_events_report_summary: Optional[EventsReportSummary] = None
     color_events_report_summary: Optional[EventsReportSummary] = None
     fire_events_report_summary: Optional[EventsReportSummary] = None
 
     def __add__(self, other: "EventsFormatReportSummary") -> "EventsFormatReportSummary":
         return EventsFormatReportSummary(
-            nb_invalid_drones=self.nb_invalid_drones + other.nb_invalid_drones,
+            drone_indices=self.drone_indices.union(other.drone_indices),
             position_events_report_summary=apply_func_on_optional_pair(
                 self.position_events_report_summary,
                 other.position_events_report_summary,
@@ -134,7 +134,7 @@ class EventsFormatReport(BaseReport):
 
     def summarize(self) -> EventsFormatReportSummary:
         return EventsFormatReportSummary(
-            nb_invalid_drones=1,
+            drone_indices={self.drone_index},
             position_events_report_summary=self.position_events_report.summarize()
             if self.position_events_report
             else None,

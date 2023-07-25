@@ -62,9 +62,10 @@ class BaseReportSummary(BaseMessage):
             raise TypeError(msg)
 
         for field in self.__fields__.values():
-            if getattr(self, field.name) is None or (
-                isinstance(getattr(self, field.name), int)
-                and field.name in ["drone_index", "nb_invalid_drones"]
+            if (
+                getattr(self, field.name) is None
+                or (isinstance(getattr(self, field.name), int) and field.name == "drone_index")
+                or (isinstance(getattr(self, field.name), set) and field.name == "drone_indices")
             ):
                 pass
             elif isinstance(getattr(self, field.name), BaseMessage):
