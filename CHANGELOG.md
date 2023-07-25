@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.5.0 (2023-07-25)
+
+### Feat
+
+- add .summarize() on infractions and reports
+- rework report structure
+- add progress bars
+
+### Refactor
+
+- display drone_indices with ranges
+- rework base reports, infractions, summaries inheritance
+- use drone_indices in all summaries
+- rework BoundaryInfraction.generate()
+- add IntegerBoundaryInfraction.generate()
+- extract DanceSizeReport from AutopilotFormatReport
+
 ## v0.4.2 (2023-06-05)
 
 ### Fix
