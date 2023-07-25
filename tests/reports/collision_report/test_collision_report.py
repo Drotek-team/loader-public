@@ -20,7 +20,7 @@ def test_collision_report_invalid() -> None:
     invalid_show_user_on_ground = get_valid_show_user(
         ShowUserConfiguration(
             matrix=get_matrix(nb_x=2, nb_y=2),
-            step=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimal_distance - EPSILON_DELTA,
+            step=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimum_distance - EPSILON_DELTA,
             show_duration_absolute_time=3,
         ),
     )

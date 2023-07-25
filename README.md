@@ -269,7 +269,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
 
   collision_report = CollisionReport.generate(
       show_user,
-      physic_parameters=IostarPhysicParameters(minimal_distance=1.0),
+      physic_parameters=IostarPhysicParameters(minimum_distance=1.0),
   )
   print(collision_report)
   #> collision_infractions=[]

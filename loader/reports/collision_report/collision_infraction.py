@@ -84,11 +84,11 @@ class CollisionInfraction(BaseInfraction):
     ) -> List["CollisionInfraction"]:
         show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
         if collision_distance is None:
-            collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimal_distance
-        elif collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimal_distance:
+            collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimum_distance
+        elif collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance:
             msg = (
                 f"collision_distance ({collision_distance}) should be greater than or equal to "
-                f"security_distance_in_air ({IOSTAR_PHYSIC_PARAMETERS_MAX.minimal_distance})",
+                f"minimum_distance ({IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance})",
             )
             raise ValueError(msg)
         if not is_partial:

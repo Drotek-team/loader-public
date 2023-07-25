@@ -27,7 +27,7 @@ class CollisionReport(BaseReport):
     ) -> "CollisionReport":
         collision_infractions = CollisionInfraction.generate(
             show_user,
-            collision_distance=(physic_parameters.minimal_distance if physic_parameters else None),
+            collision_distance=(physic_parameters.minimum_distance if physic_parameters else None),
             is_partial=is_partial,
         )
         return CollisionReport(collision_infractions=collision_infractions)

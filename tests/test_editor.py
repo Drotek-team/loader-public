@@ -65,7 +65,7 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     collision_report = CollisionReport.generate(
         show_user,
-        physic_parameters=IostarPhysicParameters(minimal_distance=2),
+        physic_parameters=IostarPhysicParameters(minimum_distance=2),
     )
     assert len(collision_report) == 4080 == len(collision_report.summarize())
 
@@ -76,20 +76,20 @@ def test_get_collisions_with_collision_distance_without_collision() -> None:
     )
     collision_report = CollisionReport.generate(
         show_user,
-        physic_parameters=IostarPhysicParameters(minimal_distance=2),
+        physic_parameters=IostarPhysicParameters(minimum_distance=2),
     )
     assert len(collision_report) == 0 == len(collision_report.summarize())
 
 
-def test_get_collisions_with_collision_distance_inferior_to_minimal_distance() -> None:
+def test_get_collisions_with_collision_distance_inferior_to_minimum_distance() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     with pytest.raises(
         ValueError,
-        match="collision_distance .* should be greater than or equal to security_distance_in_air .*",
+        match="collision_distance .* should be greater than or equal to minimum_distance .*",
     ):
         CollisionReport.generate(
             show_user,
-            physic_parameters=IostarPhysicParameters(minimal_distance=0.5),
+            physic_parameters=IostarPhysicParameters(minimum_distance=0.5),
         )
 
 
@@ -137,7 +137,7 @@ def test_generate_report_from_show_user_with_collision() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     global_report = GlobalReport.generate(
         show_user,
-        physic_parameters=IostarPhysicParameters(minimal_distance=2),
+        physic_parameters=IostarPhysicParameters(minimum_distance=2),
     )
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None
