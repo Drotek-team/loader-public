@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from pydantic.fields import ModelField
 
 TBaseMessage = TypeVar("TBaseMessage", bound="BaseMessage")
-TBaseInfractionsSummary = TypeVar("TBaseInfractionsSummary", bound="BaseInfractionsSummary")
+TBaseSummary = TypeVar("TBaseSummary", bound="BaseSummary")
 TBaseInfraction = TypeVar("TBaseInfraction", bound="BaseInfraction")
 TBaseReport = TypeVar("TBaseReport", bound="BaseReport")
 T = TypeVar("T")
@@ -23,37 +23,6 @@ def apply_func_on_optional_pair(
 
 
 class BaseMessage(BaseModel):
-    def __len__(self) -> int:
-        raise NotImplementedError
-
-    def __add__(self: TBaseMessage, other: TBaseMessage) -> TBaseMessage:
-        raise NotImplementedError
-
-
-class BaseInfractionsSummary(BaseMessage):
-    nb_infractions: int = 0
-
-    def __len__(self) -> int:
-        return self.nb_infractions
-
-
-class BaseInfraction(BaseMessage):
-    def __len__(self) -> int:
-        return 1
-
-    @classmethod
-    def generate(
-        cls: Type[TBaseInfraction],
-        *args: Any,  # noqa: ANN401
-        **kwargs: Any,  # noqa: ANN401
-    ) -> Optional[TBaseInfraction]:
-        raise NotImplementedError
-
-    def summarize(self) -> BaseInfractionsSummary:
-        raise NotImplementedError
-
-
-class BaseReportSummary(BaseMessage):
     def __len__(self) -> int:
         nb_errors = 0
 
@@ -107,7 +76,39 @@ class BaseReportSummary(BaseMessage):
         return nb_errors
 
 
-class BaseReport(BaseReportSummary):
+class BaseSummary(BaseMessage):
+    def __add__(self, other: TBaseSummary) -> TBaseSummary:
+        raise NotImplementedError
+
+
+class BaseInfractionsSummary(BaseSummary):
+    nb_infractions: int = 0
+
+    def __len__(self) -> int:
+        return self.nb_infractions
+
+
+class BaseReportSummary(BaseSummary):
+    pass
+
+
+class BaseInfraction(BaseMessage):
+    def __len__(self) -> int:
+        return 1
+
+    @classmethod
+    def generate(
+        cls: Type[TBaseInfraction],
+        *args: Any,  # noqa: ANN401
+        **kwargs: Any,  # noqa: ANN401
+    ) -> Optional[TBaseInfraction]:
+        raise NotImplementedError
+
+    def summarize(self) -> BaseInfractionsSummary:
+        raise NotImplementedError
+
+
+class BaseReport(BaseMessage):
     @classmethod
     def generate(cls: Type[TBaseReport], *args: Any, **kwargs: Any) -> TBaseReport:  # noqa: ANN401
         raise NotImplementedError
