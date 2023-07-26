@@ -66,7 +66,7 @@ class PerformanceInfraction(BaseInfraction):
         physic_parameters: IostarPhysicParameters,
         tolerance_percentage: float,
     ) -> List["PerformanceInfraction"]:
-        performance_infractions: List["PerformanceInfraction"] = []
+        performance_infractions: List[PerformanceInfraction] = []
         for performance_kind in PerformanceKind:
             is_infraction, value = performance_kind.check(
                 physic_parameters,

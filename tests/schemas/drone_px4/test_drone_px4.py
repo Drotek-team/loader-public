@@ -59,7 +59,7 @@ def test_non_empty_events_list_standard_case() -> None:
 
 def test___eq___standard_case() -> None:
     drone = DronePx4(index=0)
-    assert drone == drone
+    assert drone == drone  # noqa: PLR0124
     other_drone = DronePx4(index=0)
     assert drone == other_drone
     drone.add_position(timecode=0, xyz=(0, 0, 0))

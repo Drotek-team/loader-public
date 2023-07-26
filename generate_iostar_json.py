@@ -6,7 +6,6 @@ from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, g
 from tests.test_editor import VALID_SHOW_CONFIGURATION
 
 
-# TODO(jonathan): Generate show with performance infractions and another with collisions to use in README.md
 def main() -> None:
     valid_show_user = get_valid_show_user(VALID_SHOW_CONFIGURATION)
 

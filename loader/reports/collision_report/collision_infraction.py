@@ -159,7 +159,7 @@ class CollisionInfractionsSummary(BaseInfractionsSummary):
 def get_principal_axis(
     positions_numpy: "NDArray[np.float64]",
 ) -> "NDArray[np.float64]":
-    x_meaned: "NDArray[np.float64]" = positions_numpy - np.mean(positions_numpy, axis=0)
+    x_meaned: NDArray[np.float64] = positions_numpy - np.mean(positions_numpy, axis=0)
     cov_mat = np.cov(x_meaned, rowvar=False)
     eigen_values, eigen_vectors = np.linalg.eigh(cov_mat)
     return eigen_vectors[:, np.argmax(eigen_values)]
@@ -169,7 +169,7 @@ def get_border_indices(
     sorted_positions_numpy: "NDArray[np.float64]",
     endangered_distance: float,
 ) -> "NDArray[np.intp]":
-    middle_position_numpy: "NDArray[np.float64]" = sorted_positions_numpy[
+    middle_position_numpy: NDArray[np.float64] = sorted_positions_numpy[
         len(sorted_positions_numpy) // 2
     ]
     return np.arange(  # pyright: ignore[reportUnknownMemberType]

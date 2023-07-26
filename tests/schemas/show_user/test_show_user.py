@@ -308,4 +308,4 @@ def test_show_user___eq__() -> None:
     other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     assert show_user != other_show_user
 
-    assert show_user == show_user
+    assert show_user == show_user  # noqa: PLR0124

@@ -90,7 +90,6 @@ class CleverBaseReport(BaseReport):
     clever_base_infractions: List[DummierBaseInfraction]
 
 
-# TODO: change the name, they are funny but are to understand
 def test_get_base_report_validation() -> None:
     assert not len(DummyReport(dummy_infraction=None))
     assert len(
