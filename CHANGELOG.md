@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0a0 (2023-07-26)
+
+### Refactor
+
+- upgrade pydantic to v2
+
 ## v0.5.0 (2023-07-25)
 
 ### Feat
