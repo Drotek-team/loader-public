@@ -22,3 +22,7 @@ def test_generate_autopilot_format_report_invalid_case() -> None:
     invalid_show_user.drones_user[2].add_fire_event(-3, 4, 500)
     show_px4_report = AutopilotFormatReport.generate(invalid_show_user)
     assert len(show_px4_report) == len(show_px4_report.summarize()) == 20
+    assert (
+        show_px4_report.summarize().model_dump()["events_format_report_summary"]["drone_indices"]
+        == "0-2"
+    )

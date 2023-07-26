@@ -308,7 +308,7 @@ class MatrixInfos:
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "MatrixInfos":
         first_position_events = [
-            drone_user.position_events[0].copy() for drone_user in show_user.drones_user
+            drone_user.position_events[0].model_copy() for drone_user in show_user.drones_user
         ]
         for position_event in first_position_events:
             position_event.apply_horizontal_rotation(-show_user.angle_takeoff)

@@ -69,6 +69,11 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
     )
     assert len(collision_report) == 4080 == len(collision_report.summarize())
 
+    assert (
+        collision_report.summarize().model_dump()["collision_infractions_summary"]["drone_indices"]
+        == "0-3"
+    )
+
 
 def test_get_collisions_with_collision_distance_without_collision() -> None:
     show_user = get_valid_show_user(
@@ -246,21 +251,26 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
     iostar_json_gcs = IostarJsonGcs.from_show_user(get_valid_show_user(VALID_SHOW_CONFIGURATION))
-    assert iostar_json_gcs == IostarJsonGcs.parse_file(Path() / "iostar_json_gcs_valid.json")
+    assert iostar_json_gcs == IostarJsonGcs.model_validate_json(
+        Path("iostar_json_gcs_valid.json").read_text(),
+    )
 
 
 def test_convert_iostar_json_gcs_string_to_show_user() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
-    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
+    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).model_dump_json()
     assert (
-        ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string)) == show_user
+        ShowUser.from_iostar_json_gcs(IostarJsonGcs.model_validate_json(iostar_json_gcs_string))
+        == show_user
     )
 
 
 def test_get_verified_iostar_json_gcs() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
-    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
-    show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
+    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).model_dump_json()
+    show_user = ShowUser.from_iostar_json_gcs(
+        IostarJsonGcs.model_validate_json(iostar_json_gcs_string),
+    )
     global_report = GlobalReport.generate(show_user)
     assert len(global_report) == 0 == len(global_report.summarize())
 
@@ -273,7 +283,9 @@ def test_get_verified_iostar_json_gcs_invalid() -> None:
             show_duration_absolute_time=3,
         ),
     )
-    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
-    show_user = ShowUser.from_iostar_json_gcs(IostarJsonGcs.parse_raw(iostar_json_gcs_string))
+    iostar_json_gcs_string = IostarJsonGcs.from_show_user(show_user).model_dump_json()
+    show_user = ShowUser.from_iostar_json_gcs(
+        IostarJsonGcs.model_validate_json(iostar_json_gcs_string),
+    )
     global_report = GlobalReport.generate(show_user)
     assert len(global_report) == len(global_report.summarize()) > 0

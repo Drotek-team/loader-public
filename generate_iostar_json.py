@@ -35,7 +35,7 @@ def main() -> None:
         ("dance_size", dance_size_show_user),
     ]:
         iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
-        Path(f"iostar_json_gcs_{name}.json").write_text(iostar_json_gcs.json() + "\n")
+        Path(f"iostar_json_gcs_{name}.json").write_text(iostar_json_gcs.model_dump_json() + "\n")
 
 
 if __name__ == "__main__":

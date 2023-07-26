@@ -2,6 +2,7 @@
 import struct
 from typing import List, Optional, Set, Union
 
+from pydantic import field_serializer
 from tqdm import tqdm
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
@@ -12,6 +13,7 @@ from loader.reports.base import (
     BaseReportSummary,
     apply_func_on_optional_pair,
 )
+from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.show_user.show_user import ShowUser
 
@@ -87,6 +89,10 @@ class DanceSizeInfractionsSummary(BaseInfractionsSummary):
                 lambda x, y: x if x.dance_size > y.dance_size else y,
             ),
         )
+
+    @field_serializer("drone_indices")
+    def _serialize_drone_indices(self, value: Set[int]) -> str:
+        return get_ranges_from_drone_indices(value)
 
 
 class DanceSizeReportSummary(BaseReportSummary):

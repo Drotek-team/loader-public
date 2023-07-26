@@ -50,10 +50,11 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   from loader.reports import GlobalReport
   from loader.schemas import IostarJsonGcs, ShowUser
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json"))
+  dance_path = Path("iostar_json_gcs_valid.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summarize().json(indent=4))
+  print(report.summarize().model_dump_json(indent=4))
   """
   {
       "takeoff_format_summary": null,
@@ -64,10 +65,11 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   }
   """
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
+  dance_path = Path("iostar_json_gcs_collision.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summarize().json(indent=4))
+  print(report.summarize().model_dump_json(indent=4))
   """
   {
       "takeoff_format_summary": null,
@@ -107,10 +109,11 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   }
   """
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
+  dance_path = Path("iostar_json_gcs_performance.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summarize().json(indent=4))
+  print(report.summarize().model_dump_json(indent=4))
   """
   {
       "takeoff_format_summary": null,
@@ -152,10 +155,11 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   }
   """
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
+  dance_path = Path("iostar_json_gcs_dance_size.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   report = GlobalReport.generate(show_user)
-  print(report.summarize().json(indent=4))
+  print(report.summarize().model_dump_json(indent=4))
   """
   {
       "takeoff_format_summary": null,
@@ -195,7 +199,8 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   from loader.reports import PerformanceReport
   from loader.schemas import IostarJsonGcs, ShowUser
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_performance.json"))
+  dance_path = Path("iostar_json_gcs_performance.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
   performance_report = PerformanceReport.generate(show_user)
@@ -247,7 +252,8 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   from loader.reports import CollisionReport
   from loader.schemas import IostarJsonGcs, ShowUser
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_collision.json"))
+  dance_path = Path("iostar_json_gcs_collision.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
   collision_report = CollisionReport.generate(show_user)
@@ -284,7 +290,8 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   from loader.reports import DanceSizeReport
   from loader.schemas import DronePx4, IostarJsonGcs, ShowUser
 
-  iostar_json_gcs = IostarJsonGcs.parse_file(Path("iostar_json_gcs_dance_size.json"))
+  dance_path = Path("iostar_json_gcs_dance_size.json")
+  iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
   show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
   autopilot_format = DronePx4.from_show_user(show_user)
 
@@ -311,10 +318,11 @@ from pathlib import Path
 from loader.schemas import IostarJsonGcs, ShowUser
 
 # Import an iostar json gcs file to a show user
+dance_path = Path("iostar_json_gcs_valid.json")
 show_user = ShowUser.from_iostar_json_gcs(
-    IostarJsonGcs.parse_file(Path("iostar_json_gcs_valid.json")),
+    IostarJsonGcs.model_validate_json(dance_path.read_text()),
 )
 
 # Export the show user to an iostar json gcs string
-iostart_json_gcs_string = IostarJsonGcs.from_show_user(show_user).json()
+iostart_json_gcs_string = IostarJsonGcs.from_show_user(show_user).model_dump_json()
 ```

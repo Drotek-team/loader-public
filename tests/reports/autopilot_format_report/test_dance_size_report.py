@@ -33,3 +33,9 @@ def test_valid_drone_dance_size_report(valid_drone_dance_size: List[DronePx4]) -
 def test_invalid_drone_dance_size_report(invalid_drone_dance_size: List[DronePx4]) -> None:
     dance_size_report = DanceSizeReport.generate(invalid_drone_dance_size)
     assert len(dance_size_report) == len(dance_size_report.summarize())
+    assert (
+        dance_size_report.summarize().model_dump()["dance_size_infractions_summary"][
+            "drone_indices"
+        ]
+        == "0-1"
+    )

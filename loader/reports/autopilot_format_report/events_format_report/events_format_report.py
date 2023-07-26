@@ -3,7 +3,11 @@ import itertools
 from collections import defaultdict
 from typing import DefaultDict, List, Optional, Set
 
+from pydantic import Field, field_serializer
+from typing_extensions import Annotated
+
 from loader.reports.base import BaseReport, BaseReportSummary, apply_func_on_optional_pair
+from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.drone_px4.events import Events
 
@@ -19,9 +23,10 @@ class EventsReportSummary(BaseReportSummary):
     increasing_frame_infractions_summary: IncreasingFrameInfractionsSummary = (
         IncreasingFrameInfractionsSummary()
     )
-    boundary_infractions_summary: DefaultDict[str, BoundaryInfractionsSummary] = defaultdict(
-        BoundaryInfractionsSummary,
-    )
+    boundary_infractions_summary: DefaultDict[
+        str,
+        Annotated[BoundaryInfractionsSummary, Field(default_factory=BoundaryInfractionsSummary)],
+    ] = defaultdict(BoundaryInfractionsSummary)
 
     def __add__(self, other: "EventsReportSummary") -> "EventsReportSummary":
         return EventsReportSummary(
@@ -109,6 +114,10 @@ class EventsFormatReportSummary(BaseReportSummary):
                 lambda x, y: x + y,
             ),
         )
+
+    @field_serializer("drone_indices")
+    def _serialize_drone_indices(self, value: Set[int]) -> str:
+        return get_ranges_from_drone_indices(value)
 
 
 class EventsFormatReport(BaseReport):

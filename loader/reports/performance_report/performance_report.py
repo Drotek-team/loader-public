@@ -3,10 +3,13 @@ import itertools
 from collections import defaultdict
 from typing import DefaultDict, List, Optional, Set
 
+from pydantic import Field, field_serializer
 from tqdm import tqdm
+from typing_extensions import Annotated
 
 from loader.parameters import IostarPhysicParameters
 from loader.reports.base import BaseReport, BaseReportSummary
+from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas.show_user import ShowUser
 
 from .performance_infraction import PerformanceInfraction, PerformanceInfractionsSummary
@@ -14,7 +17,13 @@ from .performance_infraction import PerformanceInfraction, PerformanceInfraction
 
 class PerformanceReportSummary(BaseReportSummary):
     drone_indices: Set[int] = set()
-    performance_infractions_summary: DefaultDict[str, PerformanceInfractionsSummary] = defaultdict(
+    performance_infractions_summary: DefaultDict[
+        str,
+        Annotated[
+            PerformanceInfractionsSummary,
+            Field(default_factory=PerformanceInfractionsSummary),
+        ],
+    ] = defaultdict(
         PerformanceInfractionsSummary,
     )
 
@@ -35,6 +44,10 @@ class PerformanceReportSummary(BaseReportSummary):
                 },
             ),
         )
+
+    @field_serializer("drone_indices")
+    def _serialize_drone_indices(self, value: Set[int]) -> str:
+        return get_ranges_from_drone_indices(value)
 
 
 class PerformanceReport(BaseReport):
@@ -73,5 +86,7 @@ class PerformanceReport(BaseReport):
                     unit="performance infraction",
                 )
             ),
-            PerformanceReportSummary(),
+            PerformanceReportSummary(
+                performance_infractions_summary=defaultdict(PerformanceInfractionsSummary),
+            ),
         )

@@ -1,9 +1,7 @@
 from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
 
 from pydantic import BaseModel
-from pydantic.fields import ModelField
-
-from .ranges import get_ranges_from_drone_indices
+from pydantic.fields import FieldInfo
 
 TBaseMessage = TypeVar("TBaseMessage", bound="BaseMessage")
 TBaseSummary = TypeVar("TBaseSummary", bound="BaseSummary")
@@ -28,40 +26,42 @@ class BaseMessage(BaseModel):
     def __len__(self) -> int:
         nb_errors = 0
 
-        if len(self.__fields__) == 0:
+        if len(self.model_fields) == 0:
             msg = f"Report has no fields: {self.__class__.__name__}"
             raise TypeError(msg)
 
-        for field in self.__fields__.values():
+        for field_name, field in self.model_fields.items():
+            field_value = getattr(self, field_name)
             if (
-                getattr(self, field.name) is None
-                or (isinstance(getattr(self, field.name), int) and field.name == "drone_index")
-                or (isinstance(getattr(self, field.name), set) and field.name == "drone_indices")
+                field_value is None
+                or (isinstance(field_value, int) and field_name == "drone_index")
+                or (isinstance(field_value, set) and field_name == "drone_indices")
             ):
                 pass
-            elif isinstance(getattr(self, field.name), BaseMessage):
-                nb_errors += len(cast(BaseMessage, getattr(self, field.name)))
-            elif isinstance(getattr(self, field.name), (list, dict)):
-                nb_errors += self._get_nb_errors_list_or_dict(field)
+            elif isinstance(field_value, BaseMessage):
+                nb_errors += len(field_value)
+            elif isinstance(field_value, (list, dict)):
+                nb_errors += self._get_nb_errors_list_or_dict(field_name, field)
             else:
-                msg = f"Report type not supported: {field.type_} for {self.__class__.__name__}.{field.name}"
+                msg = f"Report type not supported: {field.annotation} for {self.__class__.__name__}.{field_name}"
                 raise TypeError(msg)
 
         return nb_errors
 
     def _get_nb_errors_list_or_dict(
         self,
-        field: ModelField,
+        field_name: str,
+        field: FieldInfo,
     ) -> int:
         nb_errors = 0
-        if isinstance(getattr(self, field.name), dict):
-            type_ = Dict[Any, field.type_]
+        field_value = getattr(self, field_name)
+        assert field.annotation is not None
+        if isinstance(field_value, dict):
             reports_or_infractions = list(
-                cast(Dict[Any, BaseMessage], getattr(self, field.name)).values(),
+                cast(Dict[Any, BaseMessage], field_value).values(),
             )
         else:
-            type_ = List[field.type_]
-            reports_or_infractions = cast(List[BaseMessage], getattr(self, field.name))
+            reports_or_infractions = cast(List[BaseMessage], field_value)
 
         if len(reports_or_infractions) == 0:
             pass
@@ -70,9 +70,7 @@ class BaseMessage(BaseModel):
                 for item in reports_or_infractions:
                     nb_errors += len(item)
             except TypeError:
-                msg = (
-                    f"Report type not supported: {type_} for {self.__class__.__name__}.{field.name}"
-                )
+                msg = f"Report type not supported: {field.annotation} for {self.__class__.__name__}.{field_name}"
                 raise TypeError(msg) from None
 
         return nb_errors
@@ -81,9 +79,6 @@ class BaseMessage(BaseModel):
 class BaseSummary(BaseMessage):
     def __add__(self, other: TBaseSummary) -> TBaseSummary:
         raise NotImplementedError
-
-    class Config:
-        json_encoders: Dict[Any, Callable[[Any], Any]] = {set: get_ranges_from_drone_indices}
 
 
 class BaseInfractionsSummary(BaseSummary):

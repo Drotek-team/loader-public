@@ -4,10 +4,12 @@ import itertools
 from typing import TYPE_CHECKING, Generator, List, Optional, Set, TypeVar
 
 import numpy as np
+from pydantic import field_serializer
 from tqdm import tqdm
 
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
 from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
+from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas import ShowUser
 from loader.schemas.show_user.show_position_frame import ShowPositionFrame
 
@@ -154,6 +156,10 @@ class CollisionInfractionsSummary(BaseInfractionsSummary):
                 lambda x, y: x if x.frame > y.frame else y,
             ),
         )
+
+    @field_serializer("drone_indices")
+    def _serialize_drone_indices(self, value: Set[int]) -> str:
+        return get_ranges_from_drone_indices(value)
 
 
 def get_principal_axis(

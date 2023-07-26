@@ -68,6 +68,10 @@ def test_takeoff_position_infraction_generate_horizontal(
         end_position=second_position,
     )
     assert len(takeoff_format_report) == len(takeoff_format_report.summarize()) == 2
+    assert (
+        takeoff_format_report.summarize().model_dump()["drone_user_report_summary"]["drone_indices"]
+        == "0-1"
+    )
 
 
 @pytest.mark.parametrize(

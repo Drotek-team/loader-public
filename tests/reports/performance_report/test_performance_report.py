@@ -46,6 +46,7 @@ def test_valid_show_user_horizontal_velocity() -> None:
         frame=984,
         value=5.0,
     )
+    assert performance_report.summarize().model_dump()["drone_indices"] == "0-1"
 
 
 def test_invalid_show_user_horizontal_velocity() -> None:

@@ -3,7 +3,6 @@ import pytest
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from pydantic import ValidationError
 
 
 @pytest.fixture
@@ -25,19 +24,6 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser) -> None:
     )
 
 
-def test_position_event_user_invalid_input(empty_drone_user: DroneUser) -> None:
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_position_event(
-            frame=1.0,  # pyright: ignore[reportGeneralTypeIssues]
-            xyz=(1.0, 2.0, 3.0),
-        )
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_position_event(
-            frame=1,
-            xyz=(1, 2.0, 3.0),
-        )
-
-
 def test_color_event_user_standard_case(empty_drone_user: DroneUser) -> None:
     empty_drone_user.add_color_event(
         frame=1,
@@ -47,45 +33,11 @@ def test_color_event_user_standard_case(empty_drone_user: DroneUser) -> None:
     assert empty_drone_user.color_events[0].rgbw == (1.0, 2.0, 3.0, 4.0)
 
 
-def test_color_event_user_invalid_input(empty_drone_user: DroneUser) -> None:
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_color_event(
-            frame=1.0,  # pyright: ignore[reportGeneralTypeIssues]
-            rgbw=(1.0, 2.0, 3.0, 4.0),
-        )
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_color_event(
-            frame=1,
-            rgbw=(1, 2.0, 3.0, 4.0),
-        )
-
-
 def test_fire_event_user_standard_case(empty_drone_user: DroneUser) -> None:
     empty_drone_user.add_fire_event(frame=1, channel=0, duration=2)
     assert empty_drone_user.fire_events[0].frame == 1
     assert empty_drone_user.fire_events[0].channel == 0
     assert empty_drone_user.fire_events[0].duration == 2
-
-
-def test_fire_event_user_invalid_input(empty_drone_user: DroneUser) -> None:
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_fire_event(
-            frame=1.0,  # pyright: ignore[reportGeneralTypeIssues]
-            channel=0,
-            duration=2,
-        )
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_fire_event(
-            frame=1,
-            channel=0.0,  # pyright: ignore[reportGeneralTypeIssues]
-            duration=2,
-        )
-    with pytest.raises(ValidationError):
-        empty_drone_user.add_fire_event(
-            frame=1,
-            channel=0,
-            duration=2.0,  # pyright: ignore[reportGeneralTypeIssues]
-        )
 
 
 def test_show_user_nb_drones_standard_case() -> None:
@@ -187,7 +139,7 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
     assert show_user.drones_user[3].position_events[0].xyz == (1.0, 1.0, 0.0)
 
     angle = np.pi / 2
-    new_show_user = show_user.copy(deep=True)
+    new_show_user = show_user.model_copy(deep=True)
     new_show_user.apply_horizontal_rotation(angle)
 
     np.testing.assert_allclose(

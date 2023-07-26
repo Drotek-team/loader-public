@@ -2,6 +2,7 @@
 from typing import List, Optional, Set, Tuple
 
 import numpy as np
+from pydantic import field_serializer
 from tqdm import tqdm
 
 from loader.parameters import TAKEOFF_PARAMETERS
@@ -12,6 +13,7 @@ from loader.reports.base import (
     BaseReportSummary,
     apply_func_on_optional_pair,
 )
+from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas.show_user import DroneUser, ShowUser
 
 
@@ -303,6 +305,10 @@ class DroneUserReportSummary(BaseReportSummary):
                 lambda x, y: x + y,
             ),
         )
+
+    @field_serializer("drone_indices")
+    def _serialize_drone_indices(self, value: Set[int]) -> str:
+        return get_ranges_from_drone_indices(value)
 
 
 class TakeoffFormatReport(BaseReport):
