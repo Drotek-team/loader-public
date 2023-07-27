@@ -1,13 +1,13 @@
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING, List, Tuple
 
 import numpy as np
 from pydantic import BaseModel
 from tqdm import tqdm
 
-from loader import __version__
 from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.metadata import Metadata
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
 
 if TYPE_CHECKING:
@@ -59,9 +59,7 @@ class Show(BaseModel):
 class IostarJsonGcs(BaseModel):
     show: Show
     physic_parameters: IostarPhysicParameters
-    loader_version: str = __version__
-    lightshow_creator_version: Optional[str] = None
-    blender_version: Optional[str] = None
+    metadata: Metadata = Metadata()
 
     @property
     def nb_drones_per_family(self) -> int:
@@ -96,8 +94,7 @@ class IostarJsonGcs(BaseModel):
                 angle_takeoff=angle_takeoff,
             ),
             physic_parameters=show_user.physic_parameters,
-            lightshow_creator_version=show_user.lightshow_creator_version,
-            blender_version=show_user.blender_version,
+            metadata=show_user.metadata,
         )
 
 

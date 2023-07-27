@@ -6,7 +6,6 @@ from pydantic import BaseModel
 from pydantic.types import StrictFloat, StrictInt
 from tqdm import tqdm
 
-from loader import __version__
 from loader.parameters import (
     FRAME_PARAMETERS,
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
@@ -15,6 +14,7 @@ from loader.parameters import (
 )
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4.drone_px4 import DronePx4
+from loader.schemas.metadata import Metadata
 
 from .convex_hull import calculate_convex_hull
 
@@ -123,9 +123,7 @@ class ShowUser(BaseModel):
     angle_takeoff: float  # Angle of the takeoff grid in radian
     step: float  # Distance separating the families during the takeoff in meter
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
-    loader_version: str = __version__
-    lightshow_creator_version: Optional[str] = None
-    blender_version: Optional[str] = None
+    metadata: Metadata = Metadata()
 
     @classmethod
     def create(
@@ -152,8 +150,10 @@ class ShowUser(BaseModel):
             ],
             angle_takeoff=angle_takeoff,
             step=round(step, 2),
-            lightshow_creator_version=lightshow_creator_version,
-            blender_version=blender_version,
+            metadata=Metadata(
+                lightshow_creator_version=lightshow_creator_version,
+                blender_version=blender_version,
+            ),
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
