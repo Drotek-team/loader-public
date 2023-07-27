@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0a1 (2023-07-27)
+
+### Perf
+
+- check collisions at 4 FPS instead of 24
+
 ## v0.6.0a0 (2023-07-26)
 
 ### Refactor
