@@ -15,7 +15,6 @@ tqdm = "^4.65.0"
 black = "^23.1.0"
 commitizen = "^2.42.0"
 hypothesis = "^6.68.2"
-jira-conventional-commits-commitizen = { git = "https://gitlab.com/JonathanPVP/jira-conventional-commits-commitizen.git" }
 pre-commit = "^3.1.0"
 pydantic-to-typescript = "^1.0.10"
 pyright = "^1.1.318"
@@ -29,7 +28,6 @@ ruff = "^0.0.280"
 shapely = "^2.0.1"
 
 [tool.commitizen]
-name = "cz_jira_conventional_commits"
 version = "0.6.0a1"
 version_files = ["pyproject.toml:version", "loader/__init__.py"]
 tag_format = "v$version"
