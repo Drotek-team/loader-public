@@ -2,7 +2,10 @@
 name = "loader"
 version = "0.6.0a1"
 description = ""
-authors = ["Thomas PERRIN <thomas.perrin@drotek.com>"]
+authors = [
+    "Thomas PERRIN <thomas.perrin@drotek.com>",
+    "Jonathan PLASSE <jonathan.plasse@drotek.com>",
+]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -19,7 +22,7 @@ pre-commit = "^3.1.0"
 pydantic-to-typescript = "^1.0.10"
 pyright = "^1.1.318"
 pytest = "^7.2.1"
-pytest-clarity = {git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support"}
+pytest-clarity = { git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support" }
 pytest-cov = "^4.0.0"
 pytest-examples = "^0.0.8"
 pytest-xdist = "^3.2.0"
@@ -77,7 +80,7 @@ ignore = [
     # New
     "RUF012",
     "TD003",
-    "FA100",   # future-rewritable-type-annotation
+    "FA100",  # future-rewritable-type-annotation
 ]
 
 [tool.ruff.isort]
