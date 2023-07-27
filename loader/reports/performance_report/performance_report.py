@@ -1,13 +1,12 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from collections import defaultdict
-from typing import DefaultDict, List, Optional, Set
+from typing import DefaultDict, List, Set
 
 from pydantic import Field, field_serializer
 from tqdm import tqdm
 from typing_extensions import Annotated
 
-from loader.parameters import IostarPhysicParameters
 from loader.reports.base import BaseReport, BaseReportSummary
 from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas.show_user import ShowUser
@@ -58,12 +57,10 @@ class PerformanceReport(BaseReport):
         cls,
         show_user: ShowUser,
         *,
-        physic_parameters: Optional[IostarPhysicParameters] = None,
         is_partial: bool = False,
     ) -> "PerformanceReport":
         performance_infracions = PerformanceInfraction.generate(
             show_user,
-            physic_parameters=physic_parameters,
             is_partial=is_partial,
         )
         return PerformanceReport(performance_infractions=performance_infracions)

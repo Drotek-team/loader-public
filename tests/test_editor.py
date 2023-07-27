@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 from loader.parameters import IostarPhysicParameters
+from loader.parameters.iostar_physic_parameters import IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
 from loader.reports import (
     AutopilotFormatReport,
     CollisionReport,
@@ -46,13 +47,9 @@ def test_get_performance_infractions() -> None:
     show_user.drones_user[0].add_position_event(frame=1000, xyz=(0.0, 0.0, 0.0))
     performance_report = PerformanceReport.generate(show_user)
     assert len(performance_report) == 0 == len(performance_report.summarize())
-    performance_report = PerformanceReport.generate(
-        show_user,
-        physic_parameters=IostarPhysicParameters(acceleration_max=0.0001),
-    )
-    assert len(performance_report) == len(performance_report.summarize())
+    show_user.physic_parameters = IostarPhysicParameters(acceleration_max=0.0001)
     performance_report = PerformanceReport.generate(show_user)
-    assert len(performance_report) == 0 == len(performance_report.summarize())
+    assert len(performance_report) == len(performance_report.summarize())
 
 
 def test_get_collisions() -> None:
@@ -63,12 +60,9 @@ def test_get_collisions() -> None:
 
 def test_get_collisions_with_collision_distance_with_collisions() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
-    collision_report = CollisionReport.generate(
-        show_user,
-        physic_parameters=IostarPhysicParameters(minimum_distance=2),
-    )
+    show_user.physic_parameters = IostarPhysicParameters(minimum_distance=2)
+    collision_report = CollisionReport.generate(show_user)
     assert len(collision_report) == 680 == len(collision_report.summarize())
-
     assert (
         collision_report.summarize().model_dump()["collision_infractions_summary"]["drone_indices"]
         == "0-3"
@@ -79,23 +73,19 @@ def test_get_collisions_with_collision_distance_without_collision() -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
     )
-    collision_report = CollisionReport.generate(
-        show_user,
-        physic_parameters=IostarPhysicParameters(minimum_distance=2),
-    )
+    show_user.physic_parameters = IostarPhysicParameters(minimum_distance=2)
+    collision_report = CollisionReport.generate(show_user)
     assert len(collision_report) == 0 == len(collision_report.summarize())
 
 
 def test_get_collisions_with_collision_distance_inferior_to_minimum_distance() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
+    show_user.physic_parameters = IostarPhysicParameters(minimum_distance=0.5)
     with pytest.raises(
         ValueError,
         match="collision_distance .* should be greater than or equal to minimum_distance .*",
     ):
-        CollisionReport.generate(
-            show_user,
-            physic_parameters=IostarPhysicParameters(minimum_distance=0.5),
-        )
+        CollisionReport.generate(show_user)
 
 
 def test_get_autopilot_format_report() -> None:
@@ -140,10 +130,8 @@ def test_generate_report_from_show_user_standard_case() -> None:
 
 def test_generate_report_from_show_user_with_collision() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
-    global_report = GlobalReport.generate(
-        show_user,
-        physic_parameters=IostarPhysicParameters(minimum_distance=2),
-    )
+    show_user.physic_parameters = IostarPhysicParameters(minimum_distance=2)
+    global_report = GlobalReport.generate(show_user)
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None
     assert global_report_summary.autopilot_format_summary is None
@@ -159,10 +147,8 @@ def test_generate_report_from_show_user_with_performance() -> None:
         frame=1000,
         xyz=(*show_user.drones_user[0].position_events[-1].xyz[0:2], 5.0),
     )
-    global_report = GlobalReport.generate(
-        show_user,
-        physic_parameters=IostarPhysicParameters(velocity_up_max=2.0),
-    )
+    show_user.physic_parameters = IostarPhysicParameters(velocity_up_max=2.0)
+    global_report = GlobalReport.generate(show_user)
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None
     assert global_report_summary.autopilot_format_summary is None
@@ -170,6 +156,7 @@ def test_generate_report_from_show_user_with_performance() -> None:
     assert global_report_summary.performance_summary is not None
     assert len(global_report_summary.performance_summary) == 1
     assert global_report_summary.collision_summary is None
+    show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
     global_report = GlobalReport.generate(show_user)
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None

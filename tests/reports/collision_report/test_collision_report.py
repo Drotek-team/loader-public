@@ -31,8 +31,6 @@ def test_collision_report_invalid() -> None:
     collision_infractions = collision_report.collision_infractions
     assert len(collision_infractions) == 204
 
-    collision_report = CollisionReport.generate(
-        invalid_show_user_on_ground,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    )
+    invalid_show_user_on_ground.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    collision_report = CollisionReport.generate(invalid_show_user_on_ground)
     assert not len(collision_report)

@@ -35,10 +35,8 @@ def test_valid_show_user_horizontal_velocity() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_report = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    )
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_report = PerformanceReport.generate(valid_show_user)
     assert len(performance_report) == 2 == len(performance_report.summarize())
     assert performance_report.performance_infractions[0] == PerformanceInfraction(
         performance_name="acceleration",
@@ -62,14 +60,11 @@ def test_invalid_show_user_horizontal_velocity() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_infractions = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    ).performance_infractions
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_infractions = PerformanceReport.generate(valid_show_user).performance_infractions
     assert len(performance_infractions) == 1
     performance_infractions = PerformanceReport.generate(
         valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
         is_partial=True,
     ).performance_infractions
     assert len(performance_infractions) == 2
@@ -92,10 +87,8 @@ def test_valid_show_user_up_velocity() -> None:
             last_position_event.xyz[2] + IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max,
         ),
     )
-    performance_infractions = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    ).performance_infractions
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_infractions = PerformanceReport.generate(valid_show_user).performance_infractions
     assert len(performance_infractions) == 1
     assert performance_infractions[0] == PerformanceInfraction(
         performance_name="acceleration",
@@ -118,14 +111,11 @@ def test_invalid_show_user_up_velocity() -> None:
             + EPSILON_DELTA,
         ),
     )
-    performance_infractions = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    ).performance_infractions
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_infractions = PerformanceReport.generate(valid_show_user).performance_infractions
     assert len(performance_infractions) == 1
     performance_infractions = PerformanceReport.generate(
         valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
         is_partial=True,
     ).performance_infractions
     assert len(performance_infractions) == 2
@@ -152,10 +142,8 @@ def test_valid_show_user_down_velocity() -> None:
             last_position_event.xyz[2] - IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max,
         ),
     )
-    performance_infractions = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    ).performance_infractions
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_infractions = PerformanceReport.generate(valid_show_user).performance_infractions
     assert len(performance_infractions) == 1
     assert performance_infractions[0] == PerformanceInfraction(
         performance_name="acceleration",
@@ -182,14 +170,11 @@ def test_invalid_show_user_down_velocity() -> None:
             - EPSILON_DELTA,
         ),
     )
-    performance_infractions = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    ).performance_infractions
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_infractions = PerformanceReport.generate(valid_show_user).performance_infractions
     assert len(performance_infractions) == 1
     performance_infractions = PerformanceReport.generate(
         valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
         is_partial=True,
     ).performance_infractions
     assert len(performance_infractions) == 2
@@ -220,10 +205,8 @@ def test_valid_show_user_acceleration() -> None:
             last_position_event.xyz[2],
         ),
     )
-    performance_report = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
-    )
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_report = PerformanceReport.generate(valid_show_user)
     assert not len(performance_report)
 
 
@@ -248,14 +231,13 @@ def test_invalid_show_user_acceleration() -> None:
             last_position_event.xyz[2],
         ),
     )
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
     performance_infractions = PerformanceReport.generate(
         valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
     ).performance_infractions
     assert len(performance_infractions) == 0
     performance_infractions = PerformanceReport.generate(
         valid_show_user,
-        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX,
         is_partial=True,
     ).performance_infractions
     assert len(performance_infractions) == 1
@@ -267,40 +249,28 @@ def test_invalid_show_user_acceleration() -> None:
     )
 
 
-def test_invalid_physic_parameters() -> None:
+@pytest.mark.parametrize(
+    "physic_parameters",
+    [
+        IostarPhysicParameters(
+            horizontal_velocity_max=IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max + 0.5,
+        ),
+        IostarPhysicParameters(
+            velocity_up_max=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max + 0.5,
+        ),
+        IostarPhysicParameters(
+            velocity_down_max=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max + 0.5,
+        ),
+        IostarPhysicParameters(
+            acceleration_max=IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max + 0.5,
+        ),
+    ],
+)
+def test_invalid_physic_parameters(physic_parameters: IostarPhysicParameters) -> None:
     valid_show_user = get_valid_show_user(ShowUserConfiguration())
-
+    valid_show_user.physic_parameters = physic_parameters
     with pytest.raises(ValueError, match=" is greater than "):
-        PerformanceReport.generate(
-            valid_show_user,
-            physic_parameters=IostarPhysicParameters(
-                horizontal_velocity_max=IOSTAR_PHYSIC_PARAMETERS_MAX.horizontal_velocity_max + 0.5,
-            ),
-        )
-
-    with pytest.raises(ValueError, match=" is greater than "):
-        PerformanceReport.generate(
-            valid_show_user,
-            physic_parameters=IostarPhysicParameters(
-                velocity_up_max=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_up_max + 0.5,
-            ),
-        )
-
-    with pytest.raises(ValueError, match=" is greater than "):
-        PerformanceReport.generate(
-            valid_show_user,
-            physic_parameters=IostarPhysicParameters(
-                velocity_down_max=IOSTAR_PHYSIC_PARAMETERS_MAX.velocity_down_max + 0.5,
-            ),
-        )
-
-    with pytest.raises(ValueError, match=" is greater than "):
-        PerformanceReport.generate(
-            valid_show_user,
-            physic_parameters=IostarPhysicParameters(
-                acceleration_max=IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max + 0.5,
-            ),
-        )
+        PerformanceReport.generate(valid_show_user)
 
 
 def test_valid_physic_parameters() -> None:
@@ -325,15 +295,13 @@ def test_valid_physic_parameters() -> None:
 
     assert not len(PerformanceReport.generate(valid_show_user))
 
-    performance_infractions = PerformanceReport.generate(
-        valid_show_user,
-        physic_parameters=IostarPhysicParameters(
-            velocity_up_max=0.4,
-            velocity_down_max=0.4,
-            acceleration_max=0.5,
-            horizontal_velocity_max=0.4,
-        ),
-    ).performance_infractions
+    valid_show_user.physic_parameters = IostarPhysicParameters(
+        velocity_up_max=0.4,
+        velocity_down_max=0.4,
+        acceleration_max=0.5,
+        horizontal_velocity_max=0.4,
+    )
+    performance_infractions = PerformanceReport.generate(valid_show_user).performance_infractions
     assert all(
         kind.value in [infractions.performance_name for infractions in performance_infractions]
         for kind in PerformanceKind

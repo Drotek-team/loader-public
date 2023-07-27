@@ -1,7 +1,6 @@
 # pyright: reportIncompatibleMethodOverride=false
 from typing import Optional
 
-from loader.parameters import IostarPhysicParameters
 from loader.schemas.drone_px4.drone_px4 import DronePx4
 from loader.schemas.show_user import ShowUser
 
@@ -49,7 +48,6 @@ class GlobalReport(BaseReport):
         show_user: ShowUser,
         *,
         without_takeoff_format: bool = False,
-        physic_parameters: Optional[IostarPhysicParameters] = None,
         is_partial: bool = False,
     ) -> "GlobalReport":
         if without_takeoff_format:
@@ -71,12 +69,10 @@ class GlobalReport(BaseReport):
             )
         performance_report = PerformanceReport.generate_or_none(
             show_user,
-            physic_parameters=physic_parameters,
             is_partial=is_partial,
         )
         collision_report = CollisionReport.generate_or_none(
             show_user,
-            physic_parameters=physic_parameters,
             is_partial=is_partial,
         )
         return GlobalReport(

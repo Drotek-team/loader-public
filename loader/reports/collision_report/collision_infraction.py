@@ -7,7 +7,7 @@ import numpy as np
 from pydantic import field_serializer
 from tqdm import tqdm
 
-from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX, IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
+from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX
 from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
 from loader.reports.ranges import get_ranges_from_drone_indices
 from loader.schemas import ShowUser
@@ -81,13 +81,11 @@ class CollisionInfraction(BaseInfraction):
         cls,
         show_user: ShowUser,
         *,
-        collision_distance: Optional[float] = None,
         is_partial: bool = False,
     ) -> List["CollisionInfraction"]:
         show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
-        if collision_distance is None:
-            collision_distance = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION.minimum_distance
-        elif collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance:
+        collision_distance = show_user.physic_parameters.minimum_distance
+        if collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance:
             msg = (
                 f"collision_distance ({collision_distance}) should be greater than or equal to "
                 f"minimum_distance ({IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance})",

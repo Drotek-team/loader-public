@@ -234,11 +234,8 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   ]
   """
 
-  physic_parameters = IostarPhysicParameters(acceleration_max=2)
-  performance_report = PerformanceReport.generate(
-      show_user,
-      physic_parameters=physic_parameters,
-  )
+  show_user.physic_parameters = IostarPhysicParameters(acceleration_max=2)
+  performance_report = PerformanceReport.generate(show_user)
   print(performance_report)
   #> performance_infractions=[]
   ```
@@ -273,10 +270,8 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   ]
   """
 
-  collision_report = CollisionReport.generate(
-      show_user,
-      physic_parameters=IostarPhysicParameters(minimum_distance=1.0),
-  )
+  show_user.physic_parameters = IostarPhysicParameters(minimum_distance=1.0)
+  collision_report = CollisionReport.generate(show_user)
   print(collision_report)
   #> collision_infractions=[]
   ```
