@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "loader"
-version = "0.6.0a1"
+version = "0.6.0a2"
 description = ""
 authors = [
     "Thomas PERRIN <thomas.perrin@drotek.com>",
@@ -31,12 +31,13 @@ ruff = "^0.0.280"
 shapely = "^2.0.1"
 
 [tool.commitizen]
-version = "0.6.0a1"
+version = "0.6.0a2"
 version_files = ["pyproject.toml:version", "loader/__init__.py"]
 tag_format = "v$version"
 annotated_tag = true
 major_version_zero = true
 update_changelog_on_bump = true
+pre_bump_hooks = ["python generate_iostar_json.py"]
 
 [build-system]
 requires = ["poetry-core"]

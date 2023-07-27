@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6.0a2 (2023-07-27)
+
+### Refactor
+
+- add blender and lightshow creator version to dance schemas
+- add loader version to dance schemas
+- add physic parameters to IostarJsonGcs
+- add physic parameters to show user
+
 ## v0.6.0a1 (2023-07-27)
 
 ### Perf
