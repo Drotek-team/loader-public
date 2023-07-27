@@ -32,7 +32,7 @@ def test_global_report_summary_collision_report() -> None:
     assert global_report_summary.dance_size_summary is None
     assert global_report_summary.performance_summary is None
     assert global_report_summary.collision_summary is not None
-    assert len(global_report_summary.collision_summary) == 2232
+    assert len(global_report_summary.collision_summary) == 372
     assert len(global_report_summary)
 
 

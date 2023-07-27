@@ -67,6 +67,7 @@ class ShowPositionFrame:
             for frame in range(
                 min(flight_simulation[0].frame for flight_simulation in flight_simulations),
                 max(flight_simulation[-1].frame for flight_simulation in flight_simulations) + 1,
+                6,
             )
         ]
         for drone_index, flight_simulation in tqdm(
@@ -75,7 +76,7 @@ class ShowPositionFrame:
             total=len(drone_indices),
             unit="drone",
         ):
-            for show_slice, simulation_info in zip(show_position_frames, flight_simulation):
+            for show_slice, simulation_info in zip(show_position_frames, flight_simulation[::6]):
                 show_slice.update_position_air_flag(
                     drone_index,
                     simulation_info.position,

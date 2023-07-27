@@ -78,16 +78,16 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       "performance_summary": null,
       "collision_summary": {
           "collision_infractions_summary": {
-              "nb_infractions": 4080,
+              "nb_infractions": 680,
               "drone_indices": "0-3",
               "min_collision_infraction": {
-                  "frame": 1019,
+                  "frame": 1014,
                   "drone_index_1": 2,
                   "drone_index_2": 3,
                   "distance": 1.24
               },
               "max_collision_infraction": {
-                  "frame": 1019,
+                  "frame": 1014,
                   "drone_index_1": 2,
                   "drone_index_2": 3,
                   "distance": 1.24
@@ -99,7 +99,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
                   "distance": 1.24
               },
               "last_collision_infraction": {
-                  "frame": 1019,
+                  "frame": 1014,
                   "drone_index_1": 2,
                   "drone_index_2": 3,
                   "distance": 1.24
@@ -264,12 +264,12 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       CollisionInfraction(frame=0, drone_index_1=0, drone_index_2=2, distance=1.24),
       CollisionInfraction(frame=0, drone_index_1=1, drone_index_2=3, distance=1.24),
       CollisionInfraction(frame=0, drone_index_1=2, drone_index_2=3, distance=1.24),
-      CollisionInfraction(frame=1, drone_index_1=0, drone_index_2=1, distance=1.24),
-      CollisionInfraction(frame=1, drone_index_1=0, drone_index_2=2, distance=1.24),
-      CollisionInfraction(frame=1, drone_index_1=1, drone_index_2=3, distance=1.24),
-      CollisionInfraction(frame=1, drone_index_1=2, drone_index_2=3, distance=1.24),
-      CollisionInfraction(frame=2, drone_index_1=0, drone_index_2=1, distance=1.24),
-      CollisionInfraction(frame=2, drone_index_1=0, drone_index_2=2, distance=1.24),
+      CollisionInfraction(frame=6, drone_index_1=0, drone_index_2=1, distance=1.24),
+      CollisionInfraction(frame=6, drone_index_1=0, drone_index_2=2, distance=1.24),
+      CollisionInfraction(frame=6, drone_index_1=1, drone_index_2=3, distance=1.24),
+      CollisionInfraction(frame=6, drone_index_1=2, drone_index_2=3, distance=1.24),
+      CollisionInfraction(frame=12, drone_index_1=0, drone_index_2=1, distance=1.24),
+      CollisionInfraction(frame=12, drone_index_1=0, drone_index_2=2, distance=1.24),
   ]
   """
 

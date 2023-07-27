@@ -67,7 +67,7 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
         show_user,
         physic_parameters=IostarPhysicParameters(minimum_distance=2),
     )
-    assert len(collision_report) == 4080 == len(collision_report.summarize())
+    assert len(collision_report) == 680 == len(collision_report.summarize())
 
     assert (
         collision_report.summarize().model_dump()["collision_infractions_summary"]["drone_indices"]
@@ -150,7 +150,7 @@ def test_generate_report_from_show_user_with_collision() -> None:
     assert global_report_summary.dance_size_summary is None
     assert global_report_summary.performance_summary is None
     assert global_report_summary.collision_summary is not None
-    assert len(global_report_summary.collision_summary) == 4080
+    assert len(global_report_summary.collision_summary) == 680
 
 
 def test_generate_report_from_show_user_with_performance() -> None:
