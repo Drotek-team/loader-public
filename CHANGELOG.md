@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.0a3 (2023-07-27)
+
+### Feat
+
+- add metadata to GlobalReport and summary
+
+### Refactor
+
+- use metadata in ShowUser.create()
+- group metadata
+
 ## v0.6.0a2 (2023-07-27)
 
 ### Refactor
