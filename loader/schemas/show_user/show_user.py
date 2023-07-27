@@ -132,8 +132,7 @@ class ShowUser(BaseModel):
         nb_drones: int,
         angle_takeoff: float,
         step: float,
-        lightshow_creator_version: Optional[str] = None,
-        blender_version: Optional[str] = None,
+        metadata: Optional[Metadata] = None,
     ) -> "ShowUser":
         if nb_drones <= 0:
             msg = f"nb_drones must be positive, not {nb_drones}"
@@ -150,10 +149,7 @@ class ShowUser(BaseModel):
             ],
             angle_takeoff=angle_takeoff,
             step=round(step, 2),
-            metadata=Metadata(
-                lightshow_creator_version=lightshow_creator_version,
-                blender_version=blender_version,
-            ),
+            metadata=metadata or Metadata(),
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
