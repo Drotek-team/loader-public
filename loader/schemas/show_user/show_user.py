@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from pydantic.types import StrictFloat, StrictInt
 from tqdm import tqdm
 
+from loader import __version__
 from loader.parameters import (
     FRAME_PARAMETERS,
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
@@ -122,6 +123,7 @@ class ShowUser(BaseModel):
     angle_takeoff: float  # Angle of the takeoff grid in radian
     step: float  # Distance separating the families during the takeoff in meter
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
+    loader_version: str = __version__
 
     @classmethod
     def create(cls, *, nb_drones: int, angle_takeoff: float, step: float) -> "ShowUser":

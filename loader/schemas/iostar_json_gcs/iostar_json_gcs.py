@@ -4,6 +4,7 @@ import numpy as np
 from pydantic import BaseModel
 from tqdm import tqdm
 
+from loader import __version__
 from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4 import DronePx4
@@ -58,6 +59,7 @@ class Show(BaseModel):
 class IostarJsonGcs(BaseModel):
     show: Show
     physic_parameters: IostarPhysicParameters
+    loader_version: str = __version__
 
     @property
     def nb_drones_per_family(self) -> int:
