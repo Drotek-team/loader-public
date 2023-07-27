@@ -6,8 +6,12 @@ from pydantic import BaseModel
 from pydantic.types import StrictFloat, StrictInt
 from tqdm import tqdm
 
-from loader.parameters import FRAME_PARAMETERS, LAND_PARAMETERS, IostarPhysicParameters
-from loader.parameters.iostar_physic_parameters import IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
+from loader.parameters import (
+    FRAME_PARAMETERS,
+    IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
+    LAND_PARAMETERS,
+    IostarPhysicParameters,
+)
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4.drone_px4 import DronePx4
 

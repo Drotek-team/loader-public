@@ -4,7 +4,7 @@ import numpy as np
 from pydantic import BaseModel
 from tqdm import tqdm
 
-from loader.parameters.frame_parameters import FRAME_PARAMETERS
+from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
@@ -57,6 +57,7 @@ class Show(BaseModel):
 
 class IostarJsonGcs(BaseModel):
     show: Show
+    physic_parameters: IostarPhysicParameters
 
     @property
     def nb_drones_per_family(self) -> int:
@@ -90,6 +91,7 @@ class IostarJsonGcs(BaseModel):
                 nb_y=show_user.nb_y,
                 angle_takeoff=angle_takeoff,
             ),
+            physic_parameters=show_user.physic_parameters,
         )
 
 
