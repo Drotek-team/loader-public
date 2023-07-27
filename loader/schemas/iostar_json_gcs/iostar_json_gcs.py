@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import numpy as np
 from pydantic import BaseModel
@@ -60,6 +60,8 @@ class IostarJsonGcs(BaseModel):
     show: Show
     physic_parameters: IostarPhysicParameters
     loader_version: str = __version__
+    lightshow_creator_version: Optional[str] = None
+    blender_version: Optional[str] = None
 
     @property
     def nb_drones_per_family(self) -> int:
@@ -94,6 +96,8 @@ class IostarJsonGcs(BaseModel):
                 angle_takeoff=angle_takeoff,
             ),
             physic_parameters=show_user.physic_parameters,
+            lightshow_creator_version=show_user.lightshow_creator_version,
+            blender_version=show_user.blender_version,
         )
 
 

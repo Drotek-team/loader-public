@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import numpy as np
 from pydantic import BaseModel
@@ -124,9 +124,19 @@ class ShowUser(BaseModel):
     step: float  # Distance separating the families during the takeoff in meter
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
     loader_version: str = __version__
+    lightshow_creator_version: Optional[str] = None
+    blender_version: Optional[str] = None
 
     @classmethod
-    def create(cls, *, nb_drones: int, angle_takeoff: float, step: float) -> "ShowUser":
+    def create(
+        cls,
+        *,
+        nb_drones: int,
+        angle_takeoff: float,
+        step: float,
+        lightshow_creator_version: Optional[str] = None,
+        blender_version: Optional[str] = None,
+    ) -> "ShowUser":
         if nb_drones <= 0:
             msg = f"nb_drones must be positive, not {nb_drones}"
             raise ValueError(msg)
@@ -142,6 +152,8 @@ class ShowUser(BaseModel):
             ],
             angle_takeoff=angle_takeoff,
             step=round(step, 2),
+            lightshow_creator_version=lightshow_creator_version,
+            blender_version=blender_version,
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
