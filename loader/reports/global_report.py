@@ -1,8 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 from typing import Optional
 
-from loader.schemas.drone_px4.drone_px4 import DronePx4
-from loader.schemas.show_user import ShowUser
+from loader.schemas import DronePx4, Metadata, ShowUser
 
 from .autopilot_format_report import AutopilotFormatReport, AutopilotFormatReportSummary
 from .base import BaseReport, BaseReportSummary
@@ -18,6 +17,7 @@ class GlobalReportSummary(BaseReportSummary):
     dance_size_summary: Optional[DanceSizeReportSummary] = None
     performance_summary: Optional[PerformanceReportSummary] = None
     collision_summary: Optional[CollisionReportSummary] = None
+    metadata: Metadata = Metadata()
 
 
 class GlobalReport(BaseReport):
@@ -26,6 +26,7 @@ class GlobalReport(BaseReport):
     dance_size: Optional[DanceSizeReport] = None
     performance: Optional[PerformanceReport] = None
     collision: Optional[CollisionReport] = None
+    metadata: Metadata = Metadata()
 
     def summarize(self) -> GlobalReportSummary:
         return GlobalReportSummary(
@@ -40,6 +41,7 @@ class GlobalReport(BaseReport):
             if self.performance is not None
             else None,
             collision_summary=self.collision.summarize() if self.collision is not None else None,
+            metadata=self.metadata,
         )
 
     @classmethod
@@ -66,6 +68,7 @@ class GlobalReport(BaseReport):
                 takeoff_format=takeoff_format_report,
                 autopilot_format=autopilot_format_report,
                 dance_size=dance_size_report,
+                metadata=show_user.metadata,
             )
         performance_report = PerformanceReport.generate_or_none(
             show_user,
@@ -78,4 +81,5 @@ class GlobalReport(BaseReport):
         return GlobalReport(
             performance=performance_report,
             collision=collision_report,
+            metadata=show_user.metadata,
         )

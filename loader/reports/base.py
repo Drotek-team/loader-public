@@ -3,6 +3,8 @@ from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
 from pydantic import BaseModel
 from pydantic.fields import FieldInfo
 
+from loader.schemas.metadata import Metadata
+
 TBaseMessage = TypeVar("TBaseMessage", bound="BaseMessage")
 TBaseSummary = TypeVar("TBaseSummary", bound="BaseSummary")
 TBaseInfraction = TypeVar("TBaseInfraction", bound="BaseInfraction")
@@ -36,6 +38,7 @@ class BaseMessage(BaseModel):
                 field_value is None
                 or (isinstance(field_value, int) and field_name == "drone_index")
                 or (isinstance(field_value, set) and field_name == "drone_indices")
+                or (isinstance(field_value, Metadata) and field_name == "metadata")
             ):
                 pass
             elif isinstance(field_value, BaseMessage):
