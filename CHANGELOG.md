@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0a5 (2023-07-28)
+
+### Feat
+
+- keep physic parameters when converting from IostarJsonGcs to ShowUser
+
 ## v0.6.0a4 (2023-07-28)
 
 ### Feat
