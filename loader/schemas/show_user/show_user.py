@@ -265,11 +265,14 @@ class ShowUser(BaseModel):
 
     @classmethod
     def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> "ShowUser":
-        return ShowUser.from_autopilot_format(
+        show_user = ShowUser.from_autopilot_format(
             DronePx4.from_iostar_json_gcs(iostar_json_gcs),
             angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
             step=iostar_json_gcs.show.step / 100,
         )
+        if iostar_json_gcs.physic_parameters is not None:
+            show_user.physic_parameters = iostar_json_gcs.physic_parameters
+        return show_user
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911
         if not isinstance(other, ShowUser):
