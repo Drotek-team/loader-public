@@ -62,6 +62,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       "dance_size_summary": null,
       "performance_summary": null,
       "collision_summary": null,
+      "physical_parameters": null,
       "metadata": {
           "loader_version": "0.6.0a3",
           "lightshow_creator_version": null,
@@ -111,6 +112,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
               }
           }
       },
+      "physical_parameters": null,
       "metadata": {
           "loader_version": "0.6.0a3",
           "lightshow_creator_version": null,
@@ -162,6 +164,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
           }
       },
       "collision_summary": null,
+      "physical_parameters": null,
       "metadata": {
           "loader_version": "0.6.0a3",
           "lightshow_creator_version": null,
@@ -201,6 +204,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
       },
       "performance_summary": null,
       "collision_summary": null,
+      "physical_parameters": null,
       "metadata": {
           "loader_version": "0.6.0a3",
           "lightshow_creator_version": null,

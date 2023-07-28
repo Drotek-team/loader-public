@@ -1,6 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 from typing import Optional
 
+from loader.parameters import IostarPhysicParameters
 from loader.schemas import DronePx4, Metadata, ShowUser
 
 from .autopilot_format_report import AutopilotFormatReport, AutopilotFormatReportSummary
@@ -17,6 +18,7 @@ class GlobalReportSummary(BaseReportSummary):
     dance_size_summary: Optional[DanceSizeReportSummary] = None
     performance_summary: Optional[PerformanceReportSummary] = None
     collision_summary: Optional[CollisionReportSummary] = None
+    physical_parameters: Optional[IostarPhysicParameters] = None
     metadata: Metadata = Metadata()
 
 
@@ -26,6 +28,7 @@ class GlobalReport(BaseReport):
     dance_size: Optional[DanceSizeReport] = None
     performance: Optional[PerformanceReport] = None
     collision: Optional[CollisionReport] = None
+    physical_parameters: Optional[IostarPhysicParameters] = None
     metadata: Metadata = Metadata()
 
     def summarize(self) -> GlobalReportSummary:
