@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import numpy as np
 from pydantic import BaseModel
@@ -58,7 +58,7 @@ class Show(BaseModel):
 
 class IostarJsonGcs(BaseModel):
     show: Show
-    physic_parameters: IostarPhysicParameters
+    physic_parameters: Optional[IostarPhysicParameters] = None
     metadata: Metadata = Metadata()
 
     @property
