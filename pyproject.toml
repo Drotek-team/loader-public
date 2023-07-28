@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "loader"
-version = "0.6.0a3"
+version = "0.6.0a4"
 description = ""
 authors = [
     "Thomas PERRIN <thomas.perrin@drotek.com>",
@@ -31,7 +31,7 @@ ruff = "^0.0.280"
 shapely = "^2.0.1"
 
 [tool.commitizen]
-version = "0.6.0a3"
+version = "0.6.0a4"
 version_files = ["pyproject.toml:version", "loader/__init__.py"]
 tag_format = "v$version"
 annotated_tag = true

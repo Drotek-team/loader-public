@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.6.0a4 (2023-07-28)
+
+### Feat
+
+- add physic_parameters to GlobalReport and summary
+
+### Fix
+
+- retro-compatibility with old dance
+
 ## v0.6.0a3 (2023-07-27)
 
 ### Feat
