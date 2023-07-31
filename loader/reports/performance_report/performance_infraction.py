@@ -108,6 +108,7 @@ class PerformanceInfraction(BaseInfraction):
         show_user: ShowUser,
         *,
         is_partial: bool,
+        is_import: bool,
     ) -> List["PerformanceInfraction"]:
         show_trajectory_performance = DroneTrajectoryPerformance.from_show_user(show_user)
         physic_parameters = show_user.physic_parameters
@@ -127,7 +128,12 @@ class PerformanceInfraction(BaseInfraction):
             msg = f"Acceleration max {physic_parameters.acceleration_max} is greater than {IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max}"
             raise ValueError(msg)
 
-        tolerance_percentage = 1.0 if is_partial else 1.05
+        if is_partial:
+            tolerance_percentage = 1.0
+        elif is_import:
+            tolerance_percentage = 1.10
+        else:
+            tolerance_percentage = 1.05
 
         return list(
             itertools.chain.from_iterable(

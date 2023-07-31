@@ -238,6 +238,11 @@ def test_invalid_show_user_acceleration() -> None:
     assert len(performance_infractions) == 0
     performance_infractions = PerformanceReport.generate(
         valid_show_user,
+        is_import=True,
+    ).performance_infractions
+    assert len(performance_infractions) == 0
+    performance_infractions = PerformanceReport.generate(
+        valid_show_user,
         is_partial=True,
     ).performance_infractions
     assert len(performance_infractions) == 1

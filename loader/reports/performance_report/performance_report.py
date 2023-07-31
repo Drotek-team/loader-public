@@ -58,10 +58,12 @@ class PerformanceReport(BaseReport):
         show_user: ShowUser,
         *,
         is_partial: bool = False,
+        is_import: bool = False,
     ) -> "PerformanceReport":
         performance_infracions = PerformanceInfraction.generate(
             show_user,
             is_partial=is_partial,
+            is_import=is_import,
         )
         return PerformanceReport(performance_infractions=performance_infracions)
 

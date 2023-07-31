@@ -54,6 +54,7 @@ class GlobalReport(BaseReport):
         *,
         without_takeoff_format: bool = False,
         is_partial: bool = False,
+        is_import: bool = False,
     ) -> "GlobalReport":
         if without_takeoff_format:
             takeoff_format_report = None
@@ -76,6 +77,7 @@ class GlobalReport(BaseReport):
         performance_report = PerformanceReport.generate_or_none(
             show_user,
             is_partial=is_partial,
+            is_import=is_import,
         )
         collision_report = CollisionReport.generate_or_none(
             show_user,
