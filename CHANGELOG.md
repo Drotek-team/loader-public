@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0a6 (2023-07-31)
+
+### Fix
+
+- increase performance tolerance for import checks
+
 ## v0.6.0a5 (2023-07-28)
 
 ### Feat
