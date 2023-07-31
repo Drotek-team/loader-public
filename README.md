@@ -70,7 +70,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
           "minimum_distance": 1.5
       },
       "metadata": {
-          "loader_version": "0.6.0a6",
+          "loader_version": "0.6.0a7",
           "lightshow_creator_version": null,
           "blender_version": null
       }
@@ -126,7 +126,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
           "minimum_distance": 1.5
       },
       "metadata": {
-          "loader_version": "0.6.0a6",
+          "loader_version": "0.6.0a7",
           "lightshow_creator_version": null,
           "blender_version": null
       }
@@ -184,7 +184,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
           "minimum_distance": 1.5
       },
       "metadata": {
-          "loader_version": "0.6.0a6",
+          "loader_version": "0.6.0a7",
           "lightshow_creator_version": null,
           "blender_version": null
       }
@@ -230,7 +230,7 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
           "minimum_distance": 1.5
       },
       "metadata": {
-          "loader_version": "0.6.0a6",
+          "loader_version": "0.6.0a7",
           "lightshow_creator_version": null,
           "blender_version": null
       }

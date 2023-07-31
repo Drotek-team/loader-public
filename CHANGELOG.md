@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0a7 (2023-07-31)
+
+### Fix
+
+- add physic_parameters to reports
+
 ## v0.6.0a6 (2023-07-31)
 
 ### Fix
