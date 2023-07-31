@@ -18,7 +18,7 @@ class GlobalReportSummary(BaseReportSummary):
     dance_size_summary: Optional[DanceSizeReportSummary] = None
     performance_summary: Optional[PerformanceReportSummary] = None
     collision_summary: Optional[CollisionReportSummary] = None
-    physical_parameters: Optional[IostarPhysicParameters] = None
+    physic_parameters: Optional[IostarPhysicParameters] = None
     metadata: Metadata = Metadata()
 
 
@@ -28,7 +28,7 @@ class GlobalReport(BaseReport):
     dance_size: Optional[DanceSizeReport] = None
     performance: Optional[PerformanceReport] = None
     collision: Optional[CollisionReport] = None
-    physical_parameters: Optional[IostarPhysicParameters] = None
+    physic_parameters: Optional[IostarPhysicParameters] = None
     metadata: Metadata = Metadata()
 
     def summarize(self) -> GlobalReportSummary:
@@ -44,6 +44,7 @@ class GlobalReport(BaseReport):
             if self.performance is not None
             else None,
             collision_summary=self.collision.summarize() if self.collision is not None else None,
+            physic_parameters=self.physic_parameters,
             metadata=self.metadata,
         )
 
@@ -72,6 +73,7 @@ class GlobalReport(BaseReport):
                 takeoff_format=takeoff_format_report,
                 autopilot_format=autopilot_format_report,
                 dance_size=dance_size_report,
+                physic_parameters=show_user.physic_parameters,
                 metadata=show_user.metadata,
             )
         performance_report = PerformanceReport.generate_or_none(
@@ -86,5 +88,6 @@ class GlobalReport(BaseReport):
         return GlobalReport(
             performance=performance_report,
             collision=collision_report,
+            physic_parameters=show_user.physic_parameters,
             metadata=show_user.metadata,
         )

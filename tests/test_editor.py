@@ -119,6 +119,7 @@ def test_generate_report_from_show_user_standard_case() -> None:
         autopilot_format=None,
         performance=None,
         collision=None,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
     )
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None
@@ -210,6 +211,7 @@ def test_generate_report_from_iostar_json_gcs_string() -> None:
         autopilot_format=None,
         performance=None,
         collision=None,
+        physic_parameters=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
     )
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None
