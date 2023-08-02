@@ -51,7 +51,8 @@ if __name__ == "__main__":
             position = np.array([x, y, z])
             drone.add_position_event(to_frame(time), tuple(position))
 
-    report = GlobalReport.generate(show_user, physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX)
+    show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    report = GlobalReport.generate(show_user)
     if len(report):
         print(report.summarize().model_dump_json(indent=4))  # noqa: T201
 

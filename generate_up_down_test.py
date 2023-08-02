@@ -5,7 +5,7 @@ from loader.parameters import FRAME_PARAMETERS, IOSTAR_PHYSIC_PARAMETERS_MAX
 from loader.reports import GlobalReport
 from loader.schemas import IostarJsonGcs, ShowUser
 
-DURATION = 0.33 * 60 * 60
+DURATION = 6 * 60 * 60
 TAKEOFF_ALTITUDE = 1
 TAKEOFF_DURATION = 10
 ACCELERATION = 1.0
@@ -60,7 +60,8 @@ if __name__ == "__main__":
         position[2] = calculate_altitude(time)
         drone.add_position_event(to_frame(time), tuple(position))
 
-    report = GlobalReport.generate(show_user, physic_parameters=IOSTAR_PHYSIC_PARAMETERS_MAX)
+    show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    report = GlobalReport.generate(show_user)
     if len(report):
         print(report.summarize().model_dump_json(indent=4))  # noqa: T201
 
