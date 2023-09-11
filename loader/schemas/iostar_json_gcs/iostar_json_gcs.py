@@ -29,14 +29,22 @@ class Family(BaseModel):
         cls,
         autopilot_format_family: List[DronePx4],
     ) -> "Family":
+        x, y, z = (
+            sum(
+                drone_px4_family.position_events.specific_events[0].xyz[i]
+                for drone_px4_family in autopilot_format_family
+            )
+            // len(autopilot_format_family)
+            for i in range(3)
+        )
         return Family(
             drones=[
                 Dance(dance=DronePx4.to_binary(drone_px4_family))
                 for drone_px4_family in autopilot_format_family
             ],
-            x=autopilot_format_family[0].position_events.specific_events[0].xyz[0],
-            y=autopilot_format_family[0].position_events.specific_events[0].xyz[1],
-            z=autopilot_format_family[0].position_events.specific_events[0].xyz[2],
+            x=x,
+            y=y,
+            z=z,
         )
 
 

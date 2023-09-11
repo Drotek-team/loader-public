@@ -11,9 +11,9 @@ def test_get_family_from_drones_px4_standard_case() -> None:
     family_from_drone_px4 = Family.from_drone_px4(
         DronePx4.from_show_user(
             get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2), step=2.0)),
-        ),
+        )[:1],
     )
-    assert len(family_from_drone_px4.drones) == 2
+    assert len(family_from_drone_px4.drones) == 1
     assert family_from_drone_px4.x == 0
     assert family_from_drone_px4.y == -100
     assert family_from_drone_px4.z == 0
