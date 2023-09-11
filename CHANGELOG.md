@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0 (2023-09-11)
+
+### Fix
+
+- use the barycenter of the family drones as family position
+
 ## v0.6.0a7 (2023-07-31)
 
 ### Fix
