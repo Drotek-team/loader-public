@@ -47,19 +47,3 @@ class ColorEvents(Events[ColorEvent]):
         self._events.append(
             ColorEvent(timecode=data[0], r=data[1], g=data[2], b=data[3], w=data[4]),
         )
-
-    def get_color_event_by_index(self, index: int) -> ColorEvent:
-        color_event_data = self._events[index].get_data
-        return ColorEvent(
-            timecode=color_event_data[0],
-            r=color_event_data[1],
-            g=color_event_data[2],
-            b=color_event_data[3],
-            w=color_event_data[4],
-        )
-
-    @property
-    def specific_events(self) -> List[ColorEvent]:
-        return [
-            self.get_color_event_by_index(event_index) for event_index in range(len(self._events))
-        ]

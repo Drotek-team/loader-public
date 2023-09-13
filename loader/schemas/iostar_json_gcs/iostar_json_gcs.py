@@ -31,7 +31,7 @@ class Family(BaseModel):
     ) -> "Family":
         x, y, z = (
             sum(
-                drone_px4_family.position_events.specific_events[0].xyz[i]
+                drone_px4_family.position_events[0].xyz[i]
                 for drone_px4_family in autopilot_format_family
             )
             // len(autopilot_format_family)

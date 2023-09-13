@@ -18,7 +18,7 @@ def test_color_events_standard_case_and_method() -> None:
     color_events.add_timecode_rgbw(1, (5, 6, 7, 8))
     assert color_events.format_ == ">IBBBB"
     assert color_events.id_ == 1
-    first_color_event = color_events.get_color_event_by_index(0)
+    first_color_event = color_events[0]
     assert first_color_event.timecode == 0
     assert first_color_event.r == 1
     assert first_color_event.g == 2
@@ -27,7 +27,7 @@ def test_color_events_standard_case_and_method() -> None:
     assert first_color_event.rgbw == (1, 2, 3, 4)
     assert first_color_event.get_data == [0, 1, 2, 3, 4]
 
-    second_color_event = color_events.get_color_event_by_index(1)
+    second_color_event = color_events[1]
     assert second_color_event.timecode == 42
     assert second_color_event.r == 5
     assert second_color_event.g == 6

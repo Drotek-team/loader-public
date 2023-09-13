@@ -45,19 +45,3 @@ class PositionEvents(Events[PositionEvent]):
         self._events.append(
             PositionEvent(timecode=data[0], x=data[1], y=data[2], z=data[3]),
         )
-
-    def get_position_event_by_index(self, index: int) -> PositionEvent:
-        position_event_data = self._events[index].get_data
-        return PositionEvent(
-            timecode=position_event_data[0],
-            x=position_event_data[1],
-            y=position_event_data[2],
-            z=position_event_data[3],
-        )
-
-    @property
-    def specific_events(self) -> List[PositionEvent]:
-        return [
-            self.get_position_event_by_index(event_index)
-            for event_index in range(len(self._events))
-        ]

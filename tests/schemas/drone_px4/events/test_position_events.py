@@ -17,7 +17,7 @@ def test_position_events_standard_case_and_method() -> None:
     position_events.add_timecode_xyz(1, (4, 5, 6))
     assert position_events.format_ == ">Ihhh"
     assert position_events.id_ == 0
-    first_position_event = position_events.get_position_event_by_index(0)
+    first_position_event = position_events[0]
     assert first_position_event.timecode == 0
     assert first_position_event.x == 1
     assert first_position_event.y == 2
@@ -25,7 +25,7 @@ def test_position_events_standard_case_and_method() -> None:
     assert first_position_event.xyz == (1, 2, 3)
     assert first_position_event.get_data == [0, 1, 2, 3]
 
-    second_position_event = position_events.get_position_event_by_index(1)
+    second_position_event = position_events[1]
     assert second_position_event.timecode == 42
     assert second_position_event.x == 4
     assert second_position_event.y == 5
