@@ -35,14 +35,14 @@ class DronePx4:
             return False
         return self.index == self.index and self.events_dict == other_drone_px4.events_dict
 
-    def add_position(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
-        self.position_events.add_timecode_xyz(timecode, xyz)
+    def add_position(self, frame: int, xyz: Tuple[int, int, int]) -> None:
+        self.position_events.add_timecode_xyz(frame, xyz)
 
-    def add_color(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self.color_events.add_timecode_rgbw(timecode, rgbw)
+    def add_color(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
+        self.color_events.add_timecode_rgbw(frame, rgbw)
 
-    def add_fire(self, timecode: int, channel: int, duration: int) -> None:
-        self.fire_events.add_timecode_channel_duration(timecode, channel, duration)
+    def add_fire(self, frame: int, channel: int, duration: int) -> None:
+        self.fire_events.add_timecode_channel_duration(frame, channel, duration)
 
     def get_events_by_index(self, event_type: EventsType) -> Events:
         return self.events_dict[event_type]
@@ -236,9 +236,7 @@ def add_position_events_user(
 ) -> None:
     for position_event_user in position_events_user:
         drone_px4.add_position(
-            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-                position_event_user.frame,
-            ),
+            position_event_user.frame,
             JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
                 position_event_user.xyz,
             ),
@@ -251,9 +249,7 @@ def add_color_events_user(
 ) -> None:
     for color_event_user in color_events_user:
         drone_px4.add_color(
-            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-                color_event_user.frame,
-            ),
+            color_event_user.frame,
             JSON_BINARY_PARAMETERS.from_user_rgbw_to_px4_rgbw(
                 color_event_user.rgbw,
             ),
@@ -266,9 +262,7 @@ def add_fire_events_user(
 ) -> None:
     for fire_event_user in fire_events_user:
         drone_px4.add_fire(
-            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-                fire_event_user.frame,
-            ),
+            fire_event_user.frame,
             fire_event_user.channel,
             fire_event_user.duration,
         )

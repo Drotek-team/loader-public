@@ -29,11 +29,11 @@ def test_encode_decode_position_events(
 ) -> None:
     position_events = PositionEvents()
     position_events.add_timecode_xyz(
-        timecode=first_timecode,
+        frame=first_timecode,
         xyz=(first_x, first_y, first_z),
     )
     position_events.add_timecode_xyz(
-        timecode=second_timecode,
+        frame=second_timecode,
         xyz=(second_x, second_y, second_z),
     )
     new_position_events = PositionEvents()
@@ -68,11 +68,11 @@ def test_encode_decode_color_events(
 ) -> None:
     color_events = ColorEvents()
     color_events.add_timecode_rgbw(
-        timecode=first_timecode,
+        frame=first_timecode,
         rgbw=(first_r, first_g, first_b, first_w),
     )
     color_events.add_timecode_rgbw(
-        timecode=second_timecode,
+        frame=second_timecode,
         rgbw=(second_r, second_g, second_b, second_w),
     )
     new_color_events = ColorEvents()
@@ -99,13 +99,13 @@ def test_encode_decode_fire_events(
 ) -> None:
     fire_events = FireEvents()
     fire_events.add_timecode_channel_duration(
-        timecode=first_timecode,
+        frame=first_timecode,
         channel=first_channel,
         duration=first_duration,
     )
 
     fire_events.add_timecode_channel_duration(
-        timecode=second_timecode,
+        frame=second_timecode,
         channel=second_channel,
         duration=second_duration,
     )

@@ -32,9 +32,15 @@ class ColorEvents(Events):
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []
 
-    def add_timecode_rgbw(self, timecode: int, rgbw: Tuple[int, int, int, int]) -> None:
+    def add_timecode_rgbw(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
         self._events.append(
-            ColorEvent(timecode=timecode, r=rgbw[0], g=rgbw[1], b=rgbw[2], w=rgbw[3]),
+            ColorEvent(
+                timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(frame),
+                r=rgbw[0],
+                g=rgbw[1],
+                b=rgbw[2],
+                w=rgbw[3],
+            ),
         )
 
     def add_data(self, data: List[Any]) -> None:

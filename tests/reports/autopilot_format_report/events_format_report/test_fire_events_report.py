@@ -11,21 +11,21 @@ from loader.schemas.drone_px4.events import FireEvents
 def valid_fire_events() -> FireEvents:
     fire_events = FireEvents()
     fire_events.add_timecode_channel_duration(
-        timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+        frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
             JSON_BINARY_PARAMETERS.show_start_frame,
         ),
         channel=0,
         duration=0,
     )
     fire_events.add_timecode_channel_duration(
-        timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+        frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
             JSON_BINARY_PARAMETERS.show_start_frame + 1,
         ),
         channel=1,
         duration=0,
     )
     fire_events.add_timecode_channel_duration(
-        timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
+        frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
             JSON_BINARY_PARAMETERS.show_start_frame + 2,
         ),
         channel=2,
@@ -47,7 +47,9 @@ def test_invalid_fire_events_channel_value_report(
     valid_fire_events: FireEvents,
 ) -> None:
     valid_fire_events.add_timecode_channel_duration(
-        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+            JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        ),
         JSON_BINARY_PARAMETERS.fire_channel_value_bound.maximal + 1,
         0,
     )
@@ -66,7 +68,9 @@ def test_invalid_fire_events_duration_value_report(
     valid_fire_events: FireEvents,
 ) -> None:
     valid_fire_events.add_timecode_channel_duration(
-        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+            JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        ),
         0,
         JSON_BINARY_PARAMETERS.fire_duration_value_bound.maximal + 1,
     )

@@ -24,8 +24,8 @@ def test_fire_events_standard_case_and_method() -> None:
     assert first_fire_event.get_data == [0, 1, 2]
 
     second_fire_event = fire_events.get_fire_event_by_index(1)
-    assert second_fire_event.timecode == 1
+    assert second_fire_event.timecode == 42
     assert second_fire_event.channel == 3
     assert second_fire_event.duration == 4
     assert second_fire_event.channel_duration == (3, 4)
-    assert second_fire_event.get_data == [1, 3, 4]
+    assert second_fire_event.get_data == [42, 3, 4]

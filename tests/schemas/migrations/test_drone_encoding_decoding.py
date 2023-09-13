@@ -6,7 +6,7 @@ from tests.strategies import slow
 
 
 @given(
-    first_timecode=st.integers(0, 3),
+    first_frame=st.integers(0, 3),
     first_x=st.integers(-3, 3),
     first_y=st.integers(-3, 3),
     first_z=st.integers(-3, 3),
@@ -16,7 +16,7 @@ from tests.strategies import slow
     first_w=st.integers(0, 3),
     first_channel=st.integers(0, 3),
     first_duration=st.integers(0, 3),
-    second_timecode=st.integers(0, 3),
+    second_frame=st.integers(0, 3),
     second_x=st.integers(-3, 3),
     second_y=st.integers(-3, 3),
     second_z=st.integers(-3, 3),
@@ -29,7 +29,7 @@ from tests.strategies import slow
 )
 @slow
 def test_encode_decode_drone(
-    first_timecode: int,
+    first_frame: int,
     first_x: int,
     first_y: int,
     first_z: int,
@@ -39,7 +39,7 @@ def test_encode_decode_drone(
     first_w: int,
     first_channel: int,
     first_duration: int,
-    second_timecode: int,
+    second_frame: int,
     second_x: int,
     second_y: int,
     second_z: int,
@@ -52,12 +52,12 @@ def test_encode_decode_drone(
 ) -> None:
     drone_px4 = DronePx4(0)
 
-    drone_px4.add_position(first_timecode, (first_x, first_y, first_z))
-    drone_px4.add_color(first_timecode, (first_r, first_g, first_b, first_w))
-    drone_px4.add_fire(first_timecode, first_channel, first_duration)
+    drone_px4.add_position(first_frame, (first_x, first_y, first_z))
+    drone_px4.add_color(first_frame, (first_r, first_g, first_b, first_w))
+    drone_px4.add_fire(first_frame, first_channel, first_duration)
 
-    drone_px4.add_position(second_timecode, (second_x, second_y, second_z))
-    drone_px4.add_color(second_timecode, (second_r, second_g, second_b, second_w))
-    drone_px4.add_fire(second_timecode, second_channel, second_duration)
+    drone_px4.add_position(second_frame, (second_x, second_y, second_z))
+    drone_px4.add_color(second_frame, (second_r, second_g, second_b, second_w))
+    drone_px4.add_fire(second_frame, second_channel, second_duration)
 
     assert drone_px4 == DronePx4.from_binary(drone_px4.index, DronePx4.to_binary(drone_px4))

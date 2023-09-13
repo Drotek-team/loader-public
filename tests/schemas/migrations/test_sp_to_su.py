@@ -5,7 +5,7 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.show_user.show_user import ShowUser
 
-ARBITRARY_POSITION_EVENT_FRAME = 360
+ARBITRARY_POSITION_EVENT_FRAME = 9
 ARBITRARY_POSITION_EVENT_XYZ = (100, 0, -25)
 
 ARBITRARY_COLOR_EVENT_FRAME = 253
@@ -16,7 +16,7 @@ ARBITRARY_FIRE_EVENT_FRAME = 394
 ARBITRARY_FIRE_EVENT_CHANEL = 1
 ARBITRARY_FIRE_EVENT_DURATION = 25365
 
-ARBITRARY_POSITION_EVENT_FRAME_BIS = 563
+ARBITRARY_POSITION_EVENT_FRAME_BIS = 14
 ARBITRARY_POSITION_EVENT_XYZ_BIS = (156, 0, -247)
 
 ARBITRARY_COLOR_EVENT_FRAME_BIS = 289
@@ -66,21 +66,13 @@ def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[Dr
     show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
-    assert drone_users[0].position_events[
-        0
-    ].frame == JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-        ARBITRARY_POSITION_EVENT_FRAME,
-    )
+    assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
     assert drone_users[0].position_events[0].xyz == JSON_BINARY_PARAMETERS.from_px4_xyz_to_user_xyz(
         ARBITRARY_POSITION_EVENT_XYZ,
     )
 
     assert len(drone_users[1].position_events) == 1
-    assert drone_users[1].position_events[
-        0
-    ].frame == JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-        ARBITRARY_POSITION_EVENT_FRAME_BIS,
-    )
+    assert drone_users[1].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME_BIS
     assert drone_users[1].position_events[0].xyz == JSON_BINARY_PARAMETERS.from_px4_xyz_to_user_xyz(
         ARBITRARY_POSITION_EVENT_XYZ_BIS,
     )

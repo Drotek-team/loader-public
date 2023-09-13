@@ -44,7 +44,10 @@ class IncreasingFrameInfraction(BaseInfraction):
         cls,
         events: Events,
     ) -> List["IncreasingFrameInfraction"]:
-        frames = [event.timecode for event in events]
+        frames = [
+            JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(event.timecode)
+            for event in events
+        ]
         return [
             IncreasingFrameInfraction(
                 event_index=event_index,

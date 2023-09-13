@@ -41,7 +41,9 @@ def test_invalid_position_events_xyz_value_report(
     valid_position_events: PositionEvents,
 ) -> None:
     valid_position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
+            JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
+        ),
         (
             JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
             JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,

@@ -31,9 +31,14 @@ class PositionEvents(Events):
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []
 
-    def add_timecode_xyz(self, timecode: int, xyz: Tuple[int, int, int]) -> None:
+    def add_timecode_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
         self._events.append(
-            PositionEvent(timecode=timecode, x=xyz[0], y=xyz[1], z=xyz[2]),
+            PositionEvent(
+                timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(frame),
+                x=xyz[0],
+                y=xyz[1],
+                z=xyz[2],
+            ),
         )
 
     def add_data(self, data: List[Any]) -> None:

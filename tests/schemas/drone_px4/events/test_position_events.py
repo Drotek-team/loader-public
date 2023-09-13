@@ -26,9 +26,9 @@ def test_position_events_standard_case_and_method() -> None:
     assert first_position_event.get_data == [0, 1, 2, 3]
 
     second_position_event = position_events.get_position_event_by_index(1)
-    assert second_position_event.timecode == 1
+    assert second_position_event.timecode == 42
     assert second_position_event.x == 4
     assert second_position_event.y == 5
     assert second_position_event.z == 6
     assert second_position_event.xyz == (4, 5, 6)
-    assert second_position_event.get_data == [1, 4, 5, 6]
+    assert second_position_event.get_data == [42, 4, 5, 6]

@@ -32,12 +32,16 @@ class FireEvents(Events):
 
     def add_timecode_channel_duration(
         self,
-        timecode: int,
+        frame: int,
         channel: int,
         duration: int,
     ) -> None:
         self._events.append(
-            FireEvent(timecode=timecode, channel=channel, duration=duration),
+            FireEvent(
+                timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(frame),
+                channel=channel,
+                duration=duration,
+            ),
         )
 
     def add_data(self, data: List[Any]) -> None:

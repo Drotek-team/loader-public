@@ -28,10 +28,10 @@ def test_color_events_standard_case_and_method() -> None:
     assert first_color_event.get_data == [0, 1, 2, 3, 4]
 
     second_color_event = color_events.get_color_event_by_index(1)
-    assert second_color_event.timecode == 1
+    assert second_color_event.timecode == 42
     assert second_color_event.r == 5
     assert second_color_event.g == 6
     assert second_color_event.b == 7
     assert second_color_event.w == 8
     assert second_color_event.rgbw == (5, 6, 7, 8)
-    assert second_color_event.get_data == [1, 5, 6, 7, 8]
+    assert second_color_event.get_data == [42, 5, 6, 7, 8]
