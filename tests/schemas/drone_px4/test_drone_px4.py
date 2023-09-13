@@ -23,13 +23,13 @@ def test_add_color_standard_case(magic_number: MagicNumber) -> None:
     drone = DronePx4(index=0, magic_number=magic_number)
     drone.add_color(frame=0, rgbw=(0, 0, 0, 0))
     assert drone.color_events[0].get_data(magic_number) == [0, 0, 0, 0, 0]
-    drone.add_color(frame=1, rgbw=(1, 1, 1, 1))
+    drone.add_color(frame=1, rgbw=(1, 1, 1, 1), interpolate=True)
     assert drone.color_events[1].get_data(magic_number) == [
         42 if magic_number == MagicNumber.old else 1,
         1,
         1,
         1,
-        1,
+        1 if magic_number == MagicNumber.old else 128,
     ]
 
 

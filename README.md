@@ -32,7 +32,11 @@ show_user.drones_user[0].add_position_event(frame=240, xyz=(0.0, 0.0, 10.0))
 show_user.drones_user[0].add_position_event(frame=360, xyz=(2.0, 0.0, 10.0))
 
 # Add color events
-show_user.drones_user[0].add_color_event(frame=250, rgbw=(1.0, 0.0, 0.0, 0.0))
+show_user.drones_user[0].add_color_event(
+    frame=250,
+    rgbw=(1.0, 0.0, 0.0, 0.0),
+    interpolate=True,
+)
 show_user.drones_user[0].add_color_event(frame=300, rgbw=(0.0, 0.0, 1.0, 0.0))
 
 # Add fire events

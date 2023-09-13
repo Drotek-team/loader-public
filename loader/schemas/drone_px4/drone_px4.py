@@ -39,8 +39,14 @@ class DronePx4:
     def add_position(self, frame: int, xyz: Tuple[int, int, int]) -> None:
         self.position_events.add_timecode_xyz(frame, xyz)
 
-    def add_color(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self.color_events.add_timecode_rgbw(frame, rgbw)
+    def add_color(
+        self,
+        frame: int,
+        rgbw: Tuple[int, int, int, int],
+        *,
+        interpolate: bool = False,
+    ) -> None:
+        self.color_events.add_timecode_rgbw(frame, rgbw, interpolate=interpolate)
 
     def add_fire(self, frame: int, channel: int, duration: int) -> None:
         self.fire_events.add_timecode_channel_duration(frame, channel, duration)
@@ -254,6 +260,7 @@ def add_color_events_user(
             JSON_BINARY_PARAMETERS.from_user_rgbw_to_px4_rgbw(
                 color_event_user.rgbw,
             ),
+            interpolate=color_event_user.interpolate,
         )
 
 

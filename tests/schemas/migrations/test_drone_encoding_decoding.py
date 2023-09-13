@@ -15,6 +15,7 @@ from tests.strategies import slow
     first_g=st.integers(0, 3),
     first_b=st.integers(0, 3),
     first_w=st.integers(0, 3),
+    first_interpolate=st.booleans(),
     first_channel=st.integers(0, 3),
     first_duration=st.integers(0, 3),
     second_frame=st.integers(0, 3),
@@ -25,6 +26,7 @@ from tests.strategies import slow
     second_g=st.integers(0, 3),
     second_b=st.integers(0, 3),
     second_w=st.integers(0, 3),
+    second_interpolate=st.booleans(),
     second_channel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
     magic_number=st.sampled_from(MagicNumber),
@@ -39,6 +41,7 @@ def test_encode_decode_drone(
     first_g: int,
     first_b: int,
     first_w: int,
+    first_interpolate: bool,  # noqa: FBT001
     first_channel: int,
     first_duration: int,
     second_frame: int,
@@ -49,6 +52,7 @@ def test_encode_decode_drone(
     second_g: int,
     second_b: int,
     second_w: int,
+    second_interpolate: bool,  # noqa: FBT001
     second_channel: int,
     second_duration: int,
     magic_number: MagicNumber,
@@ -56,11 +60,19 @@ def test_encode_decode_drone(
     drone_px4 = DronePx4(0, magic_number)
 
     drone_px4.add_position(first_frame, (first_x, first_y, first_z))
-    drone_px4.add_color(first_frame, (first_r, first_g, first_b, first_w))
+    drone_px4.add_color(
+        first_frame,
+        (first_r, first_g, first_b, first_w * 2),
+        interpolate=first_interpolate,
+    )
     drone_px4.add_fire(first_frame, first_channel, first_duration)
 
     drone_px4.add_position(second_frame, (second_x, second_y, second_z))
-    drone_px4.add_color(second_frame, (second_r, second_g, second_b, second_w))
+    drone_px4.add_color(
+        second_frame,
+        (second_r, second_g, second_b, second_w * 2),
+        interpolate=second_interpolate,
+    )
     drone_px4.add_fire(second_frame, second_channel, second_duration)
 
     assert drone_px4 == DronePx4.from_binary(drone_px4.index, DronePx4.to_binary(drone_px4))

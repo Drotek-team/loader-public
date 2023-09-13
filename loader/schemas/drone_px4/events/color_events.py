@@ -14,22 +14,27 @@ class ColorEvent(Event):
     g: int  # green color
     b: int  # blue color
     w: int  # white color
+    interpolate: bool = False  # if the event is interpolated
 
     @property
     def rgbw(self) -> Tuple[int, int, int, int]:
         return (self.r, self.g, self.b, self.w)
 
     def get_data(self, magic_number: MagicNumber) -> List[Any]:
+        if magic_number == MagicNumber.old:
+            time = JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
+            w = self.w
+        else:
+            time = self.frame
+            # The white color is stored in the 7 least significant bits of the byte
+            # and the interpolation flag is stored in the most significant bit
+            w = (self.w >> 1) | (self.interpolate << 7)
         return [
-            (
-                JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
-                if magic_number == MagicNumber.old
-                else self.frame
-            ),
+            time,
             self.r,
             self.g,
             self.b,
-            self.w,
+            w,
         ]
 
 
@@ -42,20 +47,44 @@ class ColorEvents(Events[ColorEvent]):
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []
 
-    def add_timecode_rgbw(self, frame: int, rgbw: Tuple[int, int, int, int]) -> None:
-        self._events.append(ColorEvent(frame=frame, r=rgbw[0], g=rgbw[1], b=rgbw[2], w=rgbw[3]))
-
-    def add_data(self, data: List[Any]) -> None:
+    def add_timecode_rgbw(
+        self,
+        frame: int,
+        rgbw: Tuple[int, int, int, int],
+        *,
+        interpolate: bool = False,
+    ) -> None:
         self._events.append(
             ColorEvent(
-                frame=(
-                    JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0])
-                    if self.magic_number == MagicNumber.old
-                    else data[0]
-                ),
+                frame=frame,
+                r=rgbw[0],
+                g=rgbw[1],
+                b=rgbw[2],
+                w=rgbw[3],
+                interpolate=False if self.magic_number == MagicNumber.old else interpolate,
+            ),
+        )
+
+    def add_data(self, data: List[Any]) -> None:
+        if self.magic_number == MagicNumber.old:
+            frame = JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0])
+            w = data[4]
+            # The interpolation flag is set to False because it is not stored in the old format
+            interpolate = False
+        else:
+            frame = data[0]
+            # The white color is stored in the 7 least significant bits of the byte
+            w = (data[4] & 0b01111111) << 1
+            # and the interpolation flag is stored in the most significant bit
+            interpolate = bool(data[4] >> 7)
+
+        self._events.append(
+            ColorEvent(
+                frame=frame,
                 r=data[1],
                 g=data[2],
                 b=data[3],
-                w=data[4],
+                w=w,
+                interpolate=interpolate,
             ),
         )

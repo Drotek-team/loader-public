@@ -45,6 +45,7 @@ class PositionEventUser(EventUserBase):
 
 class ColorEventUser(EventUserBase):
     rgbw: Tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]  # between 0 and 1
+    interpolate: bool = False  # If true, linearly interpolate between this color and the next one
 
 
 class FireEventUser(EventUserBase):
@@ -65,8 +66,10 @@ class DroneUser(BaseModel):
         self,
         frame: int,
         rgbw: Tuple[float, float, float, float],
+        *,
+        interpolate: bool = False,
     ) -> None:
-        self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw))
+        self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw, interpolate=interpolate))
 
     def add_fire_event(
         self,
@@ -105,6 +108,7 @@ class DroneUser(BaseModel):
             self.add_color_event(
                 frame=color_event_px4.frame,
                 rgbw=JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
+                interpolate=color_event_px4.interpolate,
             )
 
         for fire_event_px4 in drone_px4.fire_events:

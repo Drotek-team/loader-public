@@ -12,7 +12,13 @@ def test_color_event_standard_case_and_method(magic_number: MagicNumber) -> None
     assert color_event.b == 3
     assert color_event.w == 4
     assert color_event.rgbw == (1, 2, 3, 4)
-    assert color_event.get_data(magic_number) == [0, 1, 2, 3, 4]
+    assert color_event.get_data(magic_number) == [
+        0,
+        1,
+        2,
+        3,
+        4 if magic_number == MagicNumber.old else 2,
+    ]
 
 
 @pytest.mark.parametrize("magic_number", list(MagicNumber))
@@ -28,7 +34,13 @@ def test_color_events_standard_case_and_method(magic_number: MagicNumber) -> Non
     assert first_color_event.b == 3
     assert first_color_event.w == 4
     assert first_color_event.rgbw == (1, 2, 3, 4)
-    assert first_color_event.get_data(magic_number) == [0, 1, 2, 3, 4]
+    assert first_color_event.get_data(magic_number) == [
+        0,
+        1,
+        2,
+        3,
+        4 if magic_number == MagicNumber.old else 2,
+    ]
 
     second_color_event = color_events[1]
     assert second_color_event.frame == 1
@@ -42,5 +54,5 @@ def test_color_events_standard_case_and_method(magic_number: MagicNumber) -> Non
         5,
         6,
         7,
-        8,
+        8 if magic_number == MagicNumber.old else 4,
     ]

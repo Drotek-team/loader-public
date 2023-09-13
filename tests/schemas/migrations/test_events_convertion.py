@@ -50,11 +50,13 @@ def test_encode_decode_position_events(
     first_g=st.integers(0, 3),
     first_b=st.integers(0, 3),
     first_w=st.integers(0, 3),
+    first_interpolate=st.booleans(),
     second_timecode=st.integers(0, 3),
     second_r=st.integers(0, 3),
     second_g=st.integers(0, 3),
     second_b=st.integers(0, 3),
     second_w=st.integers(0, 3),
+    second_interpolate=st.booleans(),
     magic_number=st.sampled_from(MagicNumber),
 )
 @slow
@@ -64,21 +66,25 @@ def test_encode_decode_color_events(
     first_g: int,
     first_b: int,
     first_w: int,
+    first_interpolate: bool,  # noqa: FBT001
     second_timecode: int,
     second_r: int,
     second_g: int,
     second_b: int,
     second_w: int,
+    second_interpolate: bool,  # noqa: FBT001
     magic_number: MagicNumber,
 ) -> None:
     color_events = ColorEvents(magic_number)
     color_events.add_timecode_rgbw(
         frame=first_timecode,
-        rgbw=(first_r, first_g, first_b, first_w),
+        rgbw=(first_r, first_g, first_b, first_w * 2),
+        interpolate=first_interpolate,
     )
     color_events.add_timecode_rgbw(
         frame=second_timecode,
-        rgbw=(second_r, second_g, second_b, second_w),
+        rgbw=(second_r, second_g, second_b, second_w * 2),
+        interpolate=second_interpolate,
     )
     new_color_events = ColorEvents(magic_number)
     decode_events(new_color_events, encode_events(color_events))
