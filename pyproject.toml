@@ -20,14 +20,14 @@ commitizen = "^2.42.0"
 hypothesis = "^6.68.2"
 pre-commit = "^3.1.0"
 pydantic-to-typescript = "^1.0.10"
-pyright = "^1.1.318"
+pyright = "^1.1.326"
 pytest = "^7.2.1"
 pytest-clarity = { git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support" }
 pytest-cov = "^4.0.0"
 pytest-examples = "^0.0.8"
 pytest-xdist = "^3.2.0"
 rope = "^1.7.0"
-ruff = "^0.0.280"
+ruff = "^0.0.289"
 shapely = "^2.0.1"
 
 [tool.commitizen]

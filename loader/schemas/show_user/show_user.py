@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple, cast
 
 import numpy as np
 from pydantic import BaseModel
@@ -37,7 +37,10 @@ class PositionEventUser(EventUserBase):
 
     def apply_horizontal_rotation(self, angle: float) -> None:
         c, s = np.cos(angle), np.sin(angle)
-        self.xyz = tuple(np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]]) @ np.array(self.xyz))
+        self.xyz = cast(
+            Tuple[float, float, float],
+            tuple(np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]]) @ np.array(self.xyz)),
+        )
 
 
 class ColorEventUser(EventUserBase):
