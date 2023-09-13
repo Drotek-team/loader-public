@@ -26,12 +26,12 @@ if __name__ == "__main__":
 
     time = 0
     position = np.zeros(3)
-    drone.add_position_event(time, tuple(position))
+    drone.add_position_event(time, position)  # pyright: ignore[reportGeneralTypeIssues]
     drone.add_color_event(time, (0, 0, 0, 1))
 
     time = 10
     position[2] = 2
-    drone.add_position_event(to_frame(time), tuple(position))
+    drone.add_position_event(to_frame(time), position)  # pyright: ignore[reportGeneralTypeIssues]
 
     for _ in tqdm(
         range(round(DURATION / CIRCLE_REVOLUTION_TIME)),
@@ -49,7 +49,10 @@ if __name__ == "__main__":
             y = RADIUS * np.sin(angle)
             z = ALT_OSCILLATION * np.sin(angle) + ALTITUDE
             position = np.array([x, y, z])
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,  # pyright: ignore[reportGeneralTypeIssues]
+            )
 
     show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
     report = GlobalReport.generate(show_user)

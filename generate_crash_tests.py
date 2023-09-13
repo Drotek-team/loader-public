@@ -61,39 +61,57 @@ if __name__ == "__main__":
             # Start takeoff
             time = 0
             position = np.zeros(3)
-            drone.add_position_event(time, tuple(position))
+            drone.add_position_event(time, position)  # pyright: ignore[reportGeneralTypeIssues]
             drone.add_color_event(time, (0, 1, 0, 0))
 
             # End takeoff
             time += TAKEOFF_DURATION
             position[2] = TAKEOFF_ALTITUDE
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,  # pyright: ignore[reportGeneralTypeIssues]
+            )
 
             # Go to altitude
             time += get_time_to_altitude(altitude - TAKEOFF_ALTITUDE) + PAUSE_DURATION
             position[2] = altitude
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,  # pyright: ignore[reportGeneralTypeIssues]
+            )
 
             # Go to opposite direction
             time += to_second(1)
             position -= delta_position
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,
+            )
 
             # Wait to get to opposite direction
             time += get_time_to_horizontal_distance(DISTANCE) + PAUSE_DURATION
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,
+            )
 
             # Go to direction
             time += to_second(1)
             position += delta_position * 2
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,
+            )
 
             # Switch color to red to indicate when to kill the drone
             time += get_time_to_horizontal_distance(DISTANCE * 2) / 2
             drone.add_color_event(to_frame(time), (1, 0, 0, 0))
 
             time += get_time_to_horizontal_distance(DISTANCE * 2) / 2
-            drone.add_position_event(to_frame(time), tuple(position))
+            drone.add_position_event(
+                to_frame(time),
+                position,
+            )
 
             show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
             report = GlobalReport.generate(show_user)

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 from loader.parameters import FRAME_PARAMETERS, IOSTAR_PHYSIC_PARAMETERS_MAX
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 from loader.reports import GlobalReport
 from loader.schemas import IostarJsonGcs, ShowUser
 from tqdm import tqdm
@@ -23,11 +23,14 @@ NB_FRAMES = (
         MAX_SIZE
         - struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
         - struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header) * 2
-        - struct.calcsize(JSON_BINARY_PARAMETERS.position_event_format) * 2
+        - struct.calcsize(
+            JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.new),
+        )
+        * 2
     )
     // (
-        struct.calcsize(JSON_BINARY_PARAMETERS.position_event_format)
-        + struct.calcsize(JSON_BINARY_PARAMETERS.color_event_format) * 6
+        struct.calcsize(JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.new))
+        + struct.calcsize(JSON_BINARY_PARAMETERS.color_event_format(MagicNumber.new)) * 6
     )
     * 6
 )
@@ -54,17 +57,23 @@ if __name__ == "__main__":
         unit="drone",
     ):
         frame = 0
-        drone.add_position_event(frame, tuple(position))
+        drone.add_position_event(frame, position)
 
         frame += to_frame(TAKEOFF_DURATION)
         position[2] = TAKEOFF_ALTITUDE
-        drone.add_position_event(frame, tuple(position))
+        drone.add_position_event(frame, position)
 
         for _ in range(NB_FRAMES):
             frame += 1
             if frame % 6 == 0:
-                drone.add_position_event(frame, tuple(position))
-            drone.add_color_event(frame, tuple(np.random.random(4)))
+                drone.add_position_event(
+                    frame,
+                    position,
+                )
+            drone.add_color_event(
+                frame,
+                np.random.random(4),  # pyright: ignore[reportGeneralTypeIssues]
+            )
 
     show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
     report = GlobalReport.generate(show_user)

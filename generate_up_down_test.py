@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     time = 0
     position = np.zeros(3)
-    drone.add_position_event(time, tuple(position))
+    drone.add_position_event(time, position)  # pyright: ignore[reportGeneralTypeIssues]
     drone.add_color_event(time, (1, 1, 1, 1))
 
     for time in np.arange(  # pyright: ignore[reportUnknownMemberType]
@@ -58,7 +58,10 @@ if __name__ == "__main__":
         EVENT_TIME_STEP,
     ):
         position[2] = calculate_altitude(time)
-        drone.add_position_event(to_frame(time), tuple(position))
+        drone.add_position_event(
+            to_frame(time),
+            position,  # pyright: ignore[reportGeneralTypeIssues]
+        )
 
     show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
     report = GlobalReport.generate(show_user)
