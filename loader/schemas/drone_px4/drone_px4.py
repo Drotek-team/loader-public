@@ -7,6 +7,7 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 
 from .binary import Header, SectionHeader
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
+from .events.magic_number import MagicNumber
 
 if TYPE_CHECKING:
     from loader.schemas.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
@@ -20,15 +21,16 @@ if TYPE_CHECKING:
 
 
 class DronePx4:
-    def __init__(self, index: int) -> None:
+    def __init__(self, index: int, magic_number: MagicNumber) -> None:
         self.index = index
-        self.position_events = PositionEvents()
-        self.color_events = ColorEvents()
-        self.fire_events = FireEvents()
+        self.position_events = PositionEvents(magic_number)
+        self.color_events = ColorEvents(magic_number)
+        self.fire_events = FireEvents(magic_number)
         self.events_dict = {
             events.id_: events
             for events in [self.position_events, self.color_events, self.fire_events]
         }
+        self.magic_number = magic_number
 
     def __eq__(self, other_drone_px4: object) -> bool:
         if not isinstance(other_drone_px4, DronePx4):
@@ -53,9 +55,9 @@ class DronePx4:
 
     @classmethod
     def from_binary(cls, index: int, binary: List[int]) -> "DronePx4":
-        drone_px4 = DronePx4(index)
         byte_array = bytearray(binary)
-        _, section_headers = get_header_section_header(byte_array)
+        header, section_headers = get_header_section_header(byte_array)
+        drone_px4 = DronePx4(index, header.magic_number)
         for section_header in section_headers:
             decode_events(
                 drone_px4.get_events_by_index(section_header.event_id),
@@ -74,7 +76,7 @@ class DronePx4:
         section_headers = get_section_headers(encoded_events_list, non_empty_events_list)
         header = Header(
             fmt_header=JSON_BINARY_PARAMETERS.fmt_header,
-            magic_number=JSON_BINARY_PARAMETERS.magic_number,
+            magic_number=drone_px4.magic_number,
             dance_size=dance_size(section_headers, encoded_events_list),
             number_non_empty_events=len(non_empty_events_list),
         )
@@ -131,7 +133,7 @@ def get_header_section_header(
     )
     header = Header(
         fmt_header=JSON_BINARY_PARAMETERS.fmt_header,
-        magic_number=header_data[0],
+        magic_number=MagicNumber(header_data[0]),
         dance_size=header_data[1],
         number_non_empty_events=header_data[2],
     )
@@ -225,7 +227,7 @@ def encode_events(events: Events[Any]) -> bytearray:
     for cpt_event, event_data in enumerate(events):
         binary[cpt_event * event_size : (cpt_event + 1) * event_size] = struct.pack(
             events.format_,
-            *event_data.get_data,
+            *event_data.get_data(events.magic_number),
         )
     return binary
 
@@ -271,7 +273,8 @@ def add_fire_events_user(
 def drone_user_to_drone_px4(
     drone_user: "DroneUser",
 ) -> DronePx4:
-    drone_px4 = DronePx4(drone_user.index)
+    # TODO(jonathan): switch to new magic number by default # noqa: FIX002
+    drone_px4 = DronePx4(drone_user.index, MagicNumber.old)
     add_position_events_user(drone_px4, drone_user.position_events)
     add_color_events_user(
         drone_px4,

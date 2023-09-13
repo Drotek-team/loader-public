@@ -3,6 +3,7 @@ import struct
 from pydantic import BaseModel
 
 from .events.events_order import EventsType
+from .events.magic_number import MagicNumber
 
 
 class BytesManager(BaseModel):
@@ -13,7 +14,7 @@ class BytesManager(BaseModel):
 
 class Header(BytesManager):
     fmt_header: str  # binary format of the header
-    magic_number: int  # Magic number with no purpose for the moment
+    magic_number: MagicNumber  # Magic number with no purpose for the moment
     dance_size: int  # Dance size in bytes
     number_non_empty_events: int  # number of the events which contain at least one drone
 

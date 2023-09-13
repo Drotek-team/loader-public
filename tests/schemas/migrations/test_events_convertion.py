@@ -2,6 +2,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 from loader.schemas.drone_px4.drone_px4 import decode_events, encode_events
 from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 from tests.strategies import slow
 
@@ -27,7 +28,7 @@ def test_encode_decode_position_events(
     second_y: int,
     second_z: int,
 ) -> None:
-    position_events = PositionEvents()
+    position_events = PositionEvents(MagicNumber.old)
     position_events.add_timecode_xyz(
         frame=first_timecode,
         xyz=(first_x, first_y, first_z),
@@ -36,7 +37,7 @@ def test_encode_decode_position_events(
         frame=second_timecode,
         xyz=(second_x, second_y, second_z),
     )
-    new_position_events = PositionEvents()
+    new_position_events = PositionEvents(MagicNumber.old)
     decode_events(new_position_events, encode_events(position_events))
     assert position_events == new_position_events
 
@@ -66,7 +67,7 @@ def test_encode_decode_color_events(
     second_b: int,
     second_w: int,
 ) -> None:
-    color_events = ColorEvents()
+    color_events = ColorEvents(MagicNumber.old)
     color_events.add_timecode_rgbw(
         frame=first_timecode,
         rgbw=(first_r, first_g, first_b, first_w),
@@ -75,7 +76,7 @@ def test_encode_decode_color_events(
         frame=second_timecode,
         rgbw=(second_r, second_g, second_b, second_w),
     )
-    new_color_events = ColorEvents()
+    new_color_events = ColorEvents(MagicNumber.old)
     decode_events(new_color_events, encode_events(color_events))
     assert color_events == new_color_events
 
@@ -97,7 +98,7 @@ def test_encode_decode_fire_events(
     second_channel: int,
     second_duration: int,
 ) -> None:
-    fire_events = FireEvents()
+    fire_events = FireEvents(MagicNumber.old)
     fire_events.add_timecode_channel_duration(
         frame=first_timecode,
         channel=first_channel,
@@ -109,6 +110,6 @@ def test_encode_decode_fire_events(
         channel=second_channel,
         duration=second_duration,
     )
-    new_fire_events = FireEvents()
+    new_fire_events = FireEvents(MagicNumber.old)
     decode_events(new_fire_events, encode_events(fire_events))
     assert fire_events == new_fire_events

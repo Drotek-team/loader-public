@@ -1,4 +1,5 @@
 from loader.schemas.drone_px4.events import ColorEvent, ColorEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 def test_color_event_standard_case_and_method() -> None:
@@ -9,11 +10,11 @@ def test_color_event_standard_case_and_method() -> None:
     assert color_event.b == 3
     assert color_event.w == 4
     assert color_event.rgbw == (1, 2, 3, 4)
-    assert color_event.get_data == [0, 1, 2, 3, 4]
+    assert color_event.get_data(MagicNumber.old) == [0, 1, 2, 3, 4]
 
 
 def test_color_events_standard_case_and_method() -> None:
-    color_events = ColorEvents()
+    color_events = ColorEvents(MagicNumber.old)
     color_events.add_timecode_rgbw(0, (1, 2, 3, 4))
     color_events.add_timecode_rgbw(1, (5, 6, 7, 8))
     assert color_events.format_ == ">IBBBB"
@@ -25,7 +26,7 @@ def test_color_events_standard_case_and_method() -> None:
     assert first_color_event.b == 3
     assert first_color_event.w == 4
     assert first_color_event.rgbw == (1, 2, 3, 4)
-    assert first_color_event.get_data == [0, 1, 2, 3, 4]
+    assert first_color_event.get_data(MagicNumber.old) == [0, 1, 2, 3, 4]
 
     second_color_event = color_events[1]
     assert second_color_event.frame == 1
@@ -34,4 +35,4 @@ def test_color_events_standard_case_and_method() -> None:
     assert second_color_event.b == 7
     assert second_color_event.w == 8
     assert second_color_event.rgbw == (5, 6, 7, 8)
-    assert second_color_event.get_data == [42, 5, 6, 7, 8]
+    assert second_color_event.get_data(MagicNumber.old) == [42, 5, 6, 7, 8]

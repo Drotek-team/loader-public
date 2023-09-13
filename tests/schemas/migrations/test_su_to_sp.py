@@ -8,6 +8,7 @@ from loader.schemas.drone_px4.drone_px4 import (
     add_position_events_user,
     drone_user_to_drone_px4,
 )
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 from loader.schemas.show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import ShowUser
@@ -20,7 +21,7 @@ if TYPE_CHECKING:
 
 
 def test_add_position_events_user_standard_case() -> None:
-    drone_px4 = DronePx4(0)
+    drone_px4 = DronePx4(0, MagicNumber.old)
     position_events_user = [
         PositionEventUser(
             frame=0,
@@ -41,7 +42,7 @@ def test_add_position_events_user_standard_case() -> None:
 
 
 def test_add_color_events_user_standard_case() -> None:
-    drone_px4 = DronePx4(0)
+    drone_px4 = DronePx4(0, MagicNumber.old)
     color_events_user = [
         ColorEventUser(
             frame=0,
@@ -62,7 +63,7 @@ def test_add_color_events_user_standard_case() -> None:
 
 
 def test_add_fire_events_user_standard_case() -> None:
-    drone_px4 = DronePx4(0)
+    drone_px4 = DronePx4(0, MagicNumber.old)
     fire_events_user = [
         FireEventUser(frame=0, channel=0, duration=42),
         FireEventUser(frame=1, channel=1, duration=83),

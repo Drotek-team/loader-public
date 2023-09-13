@@ -2,11 +2,12 @@ import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports import BoundaryInfraction, EventsReport
 from loader.schemas.drone_px4.events import ColorEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 @pytest.fixture
 def valid_color_events() -> ColorEvents:
-    color_events = ColorEvents()
+    color_events = ColorEvents(MagicNumber.old)
     color_events.add_timecode_rgbw(
         JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
             JSON_BINARY_PARAMETERS.show_start_frame,

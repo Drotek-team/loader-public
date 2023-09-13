@@ -3,11 +3,12 @@ import struct
 from loader.reports import DanceSizeInfraction
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 DANCE_BASIC_SIZE = 34
-POSITION_EVENT_SIZE = struct.calcsize(PositionEvents().format_)
-COLOR_EVENT_SIZE = struct.calcsize(ColorEvents().format_)
-FIRE_EVENT_SIZE = struct.calcsize(FireEvents().format_)
+POSITION_EVENT_SIZE = struct.calcsize(PositionEvents(MagicNumber.old).format_)
+COLOR_EVENT_SIZE = struct.calcsize(ColorEvents(MagicNumber.old).format_)
+FIRE_EVENT_SIZE = struct.calcsize(FireEvents(MagicNumber.old).format_)
 
 
 def test_dance_size_information_standard_case() -> None:
@@ -22,7 +23,7 @@ def test_dance_size_information_standard_case() -> None:
 
 
 def test_get_dance_size_information_standard_case() -> None:
-    empty_drone_px4 = DronePx4(0)
+    empty_drone_px4 = DronePx4(0, MagicNumber.old)
 
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,

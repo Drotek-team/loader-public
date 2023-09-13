@@ -1,11 +1,12 @@
 import pytest
 from loader.reports import BoundaryInfraction, IncreasingFrameInfraction
 from loader.schemas.drone_px4.events import PositionEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 @pytest.fixture
 def standard_position_events() -> PositionEvents:
-    position_events = PositionEvents()
+    position_events = PositionEvents(MagicNumber.old)
     position_events.add_timecode_xyz(0, (0, 0, 0))
     position_events.add_timecode_xyz(1, (0, 0, 0))
     position_events.add_timecode_xyz(2, (0, 0, 0))

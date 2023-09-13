@@ -2,14 +2,14 @@ from typing import Any, List
 
 from loader.schemas.drone_px4.events import Event, Events
 from loader.schemas.drone_px4.events.events_order import EventsType
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 class DummyEvent(Event):  # pragma: no cover
     def __init__(self) -> None:
         self.frame = 5
 
-    @property
-    def get_data(self) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> List[Any]:  # noqa: ARG002
         return [self.frame]
 
 

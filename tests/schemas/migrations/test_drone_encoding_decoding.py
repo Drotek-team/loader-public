@@ -1,6 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 from tests.strategies import slow
 
@@ -50,7 +51,7 @@ def test_encode_decode_drone(
     second_channel: int,
     second_duration: int,
 ) -> None:
-    drone_px4 = DronePx4(0)
+    drone_px4 = DronePx4(0, MagicNumber.old)
 
     drone_px4.add_position(first_frame, (first_x, first_y, first_z))
     drone_px4.add_color(first_frame, (first_r, first_g, first_b, first_w))

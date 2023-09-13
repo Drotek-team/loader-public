@@ -125,7 +125,11 @@ class BoundaryInfraction(BaseInfraction):
         bounds = [kind.get_bound() for kind in boundary_kinds]
         infractions: DefaultDict[str, List[BoundaryInfraction]] = defaultdict(list)
         for event_index, event in enumerate(events):
-            for kind, bound, value in zip(boundary_kinds, bounds, event.get_data):
+            for kind, bound, value in zip(
+                boundary_kinds,
+                bounds,
+                event.get_data(events.magic_number),
+            ):
                 if not (
                     check_integer_bound(
                         value,

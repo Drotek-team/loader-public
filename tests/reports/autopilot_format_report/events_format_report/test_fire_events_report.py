@@ -5,11 +5,12 @@ from loader.reports.autopilot_format_report.events_format_report.events_format_i
     BoundaryInfraction,
 )
 from loader.schemas.drone_px4.events import FireEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 @pytest.fixture
 def valid_fire_events() -> FireEvents:
-    fire_events = FireEvents()
+    fire_events = FireEvents(MagicNumber.old)
     fire_events.add_timecode_channel_duration(
         frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
             JSON_BINARY_PARAMETERS.show_start_frame,

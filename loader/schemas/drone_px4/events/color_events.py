@@ -5,6 +5,7 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 
 from .events import Event, Events
 from .events_order import EventsType
+from .magic_number import MagicNumber
 
 
 @dataclass(frozen=True)
@@ -19,8 +20,7 @@ class ColorEvent(Event):
     def rgbw(self) -> Tuple[int, int, int, int]:
         return (self.r, self.g, self.b, self.w)
 
-    @property
-    def get_data(self) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> List[Any]:  # noqa: ARG002
         return [
             JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame),
             self.r,
@@ -31,9 +31,10 @@ class ColorEvent(Event):
 
 
 class ColorEvents(Events[ColorEvent]):
-    def __init__(self) -> None:
+    def __init__(self, magic_number: MagicNumber) -> None:
         self.id_ = EventsType.color
         self.format_ = JSON_BINARY_PARAMETERS.color_event_format
+        self.magic_number = magic_number
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []

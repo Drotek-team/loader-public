@@ -3,6 +3,7 @@ from typing import List
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.drone_px4 import DronePx4
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 from loader.schemas.show_user.show_user import ShowUser
 
 ARBITRARY_POSITION_EVENT_FRAME = 9
@@ -30,7 +31,7 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 @pytest.fixture
 def valid_autopilot_format() -> List[DronePx4]:
-    drone_px4 = DronePx4(0)
+    drone_px4 = DronePx4(0, MagicNumber.old)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
 
@@ -42,7 +43,7 @@ def valid_autopilot_format() -> List[DronePx4]:
         ARBITRARY_FIRE_EVENT_DURATION,
     )
 
-    drone_px4_bis = DronePx4(1)
+    drone_px4_bis = DronePx4(1, MagicNumber.old)
 
     drone_px4_bis.add_position(
         ARBITRARY_POSITION_EVENT_FRAME_BIS,

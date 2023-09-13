@@ -3,11 +3,12 @@ from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports import BoundaryInfraction, EventsReport
 from loader.schemas.drone_px4.events import PositionEvents
+from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 @pytest.fixture
 def valid_position_events() -> PositionEvents:
-    position_events = PositionEvents()
+    position_events = PositionEvents(MagicNumber.old)
     position_events.add_timecode_xyz(
         JSON_BINARY_PARAMETERS.show_start_frame,
         (0, 0, 0),

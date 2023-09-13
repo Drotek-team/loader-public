@@ -5,6 +5,7 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 
 from .events import Event, Events
 from .events_order import EventsType
+from .magic_number import MagicNumber
 
 
 @dataclass(frozen=True)
@@ -17,8 +18,7 @@ class FireEvent(Event):
     def channel_duration(self) -> Tuple[int, int]:
         return (self.channel, self.duration)
 
-    @property
-    def get_data(self) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> List[Any]:  # noqa: ARG002
         return [
             JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame),
             self.channel,
@@ -27,9 +27,10 @@ class FireEvent(Event):
 
 
 class FireEvents(Events[FireEvent]):
-    def __init__(self) -> None:
+    def __init__(self, magic_number: MagicNumber) -> None:
         self.format_ = JSON_BINARY_PARAMETERS.fire_event_format
         self.id_ = EventsType.fire
+        self.magic_number = magic_number
         # Had to pass with the init because python mutable defaults are the source of all evil
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []

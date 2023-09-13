@@ -13,7 +13,6 @@ class Bound:
 
 @dataclass(frozen=True)
 class JsonBinaryParameters:
-    magic_number: int = 43605  # A signature add in the header of the binary
     fmt_header: str = ">HIB"  # Size in bits of the header
     fmt_section_header: str = ">BII"  # Size in bits of the section header
     timecode_format: str = "I"

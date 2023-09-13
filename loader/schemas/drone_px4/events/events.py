@@ -3,14 +3,14 @@ from abc import ABC, abstractmethod
 from typing import Any, Generic, Iterator, List, TypeVar
 
 from .events_order import EventsType
+from .magic_number import MagicNumber
 
 
 class Event(ABC):
     frame: int
 
-    @property
     @abstractmethod
-    def get_data(self) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> List[Any]:
         pass
 
 
@@ -20,6 +20,7 @@ TEvent = TypeVar("TEvent", bound=Event)
 class Events(ABC, Generic[TEvent]):
     format_: str
     id_: EventsType
+    magic_number: MagicNumber
     _events: List[TEvent]
 
     @abstractmethod
