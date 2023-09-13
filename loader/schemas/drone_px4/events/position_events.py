@@ -9,7 +9,7 @@ from .events_order import EventsType
 
 @dataclass(frozen=True)
 class PositionEvent(Event):
-    timecode: int  # time frame associate to the "fps_px4" parameter
+    frame: int  # time frame associate to the "fps_px4" parameter
     x: int  # x relative coordinate in NED and centimeter
     y: int  # y relative coordinate in NED and centimeter
     z: int  # z relative coordinate in NED and centimeter
@@ -20,7 +20,12 @@ class PositionEvent(Event):
 
     @property
     def get_data(self) -> List[Any]:
-        return [self.timecode, self.x, self.y, self.z]
+        return [
+            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame),
+            self.x,
+            self.y,
+            self.z,
+        ]
 
 
 class PositionEvents(Events[PositionEvent]):
@@ -32,16 +37,14 @@ class PositionEvents(Events[PositionEvent]):
         self._events = []
 
     def add_timecode_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
-        self._events.append(
-            PositionEvent(
-                timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(frame),
-                x=xyz[0],
-                y=xyz[1],
-                z=xyz[2],
-            ),
-        )
+        self._events.append(PositionEvent(frame=frame, x=xyz[0], y=xyz[1], z=xyz[2]))
 
     def add_data(self, data: List[Any]) -> None:
         self._events.append(
-            PositionEvent(timecode=data[0], x=data[1], y=data[2], z=data[3]),
+            PositionEvent(
+                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0]),
+                x=data[1],
+                y=data[2],
+                z=data[3],
+            ),
         )

@@ -2,8 +2,8 @@ from loader.schemas.drone_px4.events import PositionEvent, PositionEvents
 
 
 def test_position_event_standard_case_and_method() -> None:
-    position_event = PositionEvent(timecode=0, x=1, y=2, z=3)
-    assert position_event.timecode == 0
+    position_event = PositionEvent(frame=0, x=1, y=2, z=3)
+    assert position_event.frame == 0
     assert position_event.x == 1
     assert position_event.y == 2
     assert position_event.z == 3
@@ -18,7 +18,7 @@ def test_position_events_standard_case_and_method() -> None:
     assert position_events.format_ == ">Ihhh"
     assert position_events.id_ == 0
     first_position_event = position_events[0]
-    assert first_position_event.timecode == 0
+    assert first_position_event.frame == 0
     assert first_position_event.x == 1
     assert first_position_event.y == 2
     assert first_position_event.z == 3
@@ -26,7 +26,7 @@ def test_position_events_standard_case_and_method() -> None:
     assert first_position_event.get_data == [0, 1, 2, 3]
 
     second_position_event = position_events[1]
-    assert second_position_event.timecode == 42
+    assert second_position_event.frame == 1
     assert second_position_event.x == 4
     assert second_position_event.y == 5
     assert second_position_event.z == 6

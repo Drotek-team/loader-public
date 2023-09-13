@@ -9,7 +9,7 @@ from .events_order import EventsType
 
 @dataclass(frozen=True)
 class FireEvent(Event):
-    timecode: int  # time frame associate to the "fps_px4" parameter
+    frame: int  # time frame associate to the "fps_px4" parameter
     channel: int  # channel of the fire event
     duration: int  # duration of the fire event in milliseconds
 
@@ -19,7 +19,11 @@ class FireEvent(Event):
 
     @property
     def get_data(self) -> List[Any]:
-        return [self.timecode, self.channel, self.duration]
+        return [
+            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame),
+            self.channel,
+            self.duration,
+        ]
 
 
 class FireEvents(Events[FireEvent]):
@@ -36,15 +40,13 @@ class FireEvents(Events[FireEvent]):
         channel: int,
         duration: int,
     ) -> None:
-        self._events.append(
-            FireEvent(
-                timecode=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(frame),
-                channel=channel,
-                duration=duration,
-            ),
-        )
+        self._events.append(FireEvent(frame=frame, channel=channel, duration=duration))
 
     def add_data(self, data: List[Any]) -> None:
         self._events.append(
-            FireEvent(timecode=data[0], channel=data[1], duration=data[2]),
+            FireEvent(
+                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0]),
+                channel=data[1],
+                duration=data[2],
+            ),
         )

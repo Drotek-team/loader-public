@@ -6,7 +6,7 @@ from .events_order import EventsType
 
 
 class Event(ABC):
-    timecode: int
+    frame: int
 
     @property
     @abstractmethod

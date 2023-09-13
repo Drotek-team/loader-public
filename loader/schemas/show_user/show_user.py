@@ -97,25 +97,19 @@ class DroneUser(BaseModel):
     def from_drone_px4(self, drone_px4: DronePx4) -> None:
         for position_event_px4 in drone_px4.position_events:
             self.add_position_event(
-                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                    position_event_px4.timecode,
-                ),
+                frame=position_event_px4.frame,
                 xyz=JSON_BINARY_PARAMETERS.from_px4_xyz_to_user_xyz(position_event_px4.xyz),
             )
 
         for color_event_px4 in drone_px4.color_events:
             self.add_color_event(
-                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                    color_event_px4.timecode,
-                ),
+                frame=color_event_px4.frame,
                 rgbw=JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(color_event_px4.rgbw),
             )
 
         for fire_event_px4 in drone_px4.fire_events:
             self.add_fire_event(
-                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                    fire_event_px4.timecode,
-                ),
+                frame=fire_event_px4.frame,
                 channel=fire_event_px4.channel,
                 duration=fire_event_px4.duration,
             )

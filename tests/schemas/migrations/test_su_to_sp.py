@@ -33,10 +33,10 @@ def test_add_position_events_user_standard_case() -> None:
     ]
     add_position_events_user(drone_px4, position_events_user)
     first_position_event = drone_px4.position_events[0]
-    assert first_position_event.timecode == 0
+    assert first_position_event.frame == 0
     assert first_position_event.xyz == (100, 0, -200)
     second_position_event = drone_px4.position_events[1]
-    assert second_position_event.timecode == 42
+    assert second_position_event.frame == 1
     assert second_position_event.xyz == (400, 300, -500)
 
 
@@ -54,10 +54,10 @@ def test_add_color_events_user_standard_case() -> None:
     ]
     add_color_events_user(drone_px4, color_events_user)
     first_color_event = drone_px4.color_events[0]
-    assert first_color_event.timecode == 0
+    assert first_color_event.frame == 0
     assert first_color_event.rgbw == (0, 255, 0, 255)
     second_color_event = drone_px4.color_events[1]
-    assert second_color_event.timecode == 42
+    assert second_color_event.frame == 1
     assert second_color_event.rgbw == (255, 0, 255, 0)
 
 
@@ -69,10 +69,10 @@ def test_add_fire_events_user_standard_case() -> None:
     ]
     add_fire_events_user(drone_px4, fire_events_user)
     first_fire_event = drone_px4.fire_events[0]
-    assert first_fire_event.timecode == 0
+    assert first_fire_event.frame == 0
     assert first_fire_event.channel_duration == (0, 42)
     second_fire_event = drone_px4.fire_events[1]
-    assert second_fire_event.timecode == 42
+    assert second_fire_event.frame == 1
     assert second_fire_event.channel_duration == (1, 83)
 
 
@@ -85,11 +85,11 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
     )
     drone_px4 = drone_user_to_drone_px4(drone_user)
     assert drone_px4.index == 0
-    assert drone_px4.position_events[0].timecode == 0
+    assert drone_px4.position_events[0].frame == 0
     assert drone_px4.position_events[0].xyz == (100, 0, -200)
-    assert drone_px4.color_events[0].timecode == 0
+    assert drone_px4.color_events[0].frame == 0
     assert drone_px4.color_events[0].rgbw == (0, 255, 0, 255)
-    assert drone_px4.fire_events[0].timecode == 0
+    assert drone_px4.fire_events[0].frame == 0
     assert drone_px4.fire_events[0].channel_duration == (0, 42)
 
 

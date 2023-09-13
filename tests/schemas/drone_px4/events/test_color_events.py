@@ -2,8 +2,8 @@ from loader.schemas.drone_px4.events import ColorEvent, ColorEvents
 
 
 def test_color_event_standard_case_and_method() -> None:
-    color_event = ColorEvent(timecode=0, r=1, g=2, b=3, w=4)
-    assert color_event.timecode == 0
+    color_event = ColorEvent(frame=0, r=1, g=2, b=3, w=4)
+    assert color_event.frame == 0
     assert color_event.r == 1
     assert color_event.g == 2
     assert color_event.b == 3
@@ -19,7 +19,7 @@ def test_color_events_standard_case_and_method() -> None:
     assert color_events.format_ == ">IBBBB"
     assert color_events.id_ == 1
     first_color_event = color_events[0]
-    assert first_color_event.timecode == 0
+    assert first_color_event.frame == 0
     assert first_color_event.r == 1
     assert first_color_event.g == 2
     assert first_color_event.b == 3
@@ -28,7 +28,7 @@ def test_color_events_standard_case_and_method() -> None:
     assert first_color_event.get_data == [0, 1, 2, 3, 4]
 
     second_color_event = color_events[1]
-    assert second_color_event.timecode == 42
+    assert second_color_event.frame == 1
     assert second_color_event.r == 5
     assert second_color_event.g == 6
     assert second_color_event.b == 7

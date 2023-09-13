@@ -6,11 +6,11 @@ from loader.schemas.drone_px4.events.events_order import EventsType
 
 class DummyEvent(Event):  # pragma: no cover
     def __init__(self) -> None:
-        self.timecode = 5
+        self.frame = 5
 
     @property
     def get_data(self) -> List[Any]:
-        return [self.timecode]
+        return [self.frame]
 
 
 class DummyEvents(Events[DummyEvent]):  # pragma: no cover
