@@ -25,8 +25,8 @@ def main() -> None:
     )
     for drone_user in dance_size_show_user.drones_user:
         xyz = drone_user.position_events[-1].xyz
-        for i in range(10000):
-            drone_user.add_position_event(1000 + 42 * i, xyz)
+        for i in range(12500):
+            drone_user.add_position_event(1000 + i, xyz)
 
     for name, show_user in [
         ("valid", valid_show_user),

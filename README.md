@@ -206,17 +206,17 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
               "drone_indices": "0",
               "min_dance_size_infraction": {
                   "drone_index": 0,
-                  "dance_size": 100106,
-                  "position_percent": 100.03,
+                  "dance_size": 100088,
+                  "position_percent": 100.02,
                   "color_percent": 0.02,
-                  "fire_percent": 0.02
+                  "fire_percent": 0.01
               },
               "max_dance_size_infraction": {
                   "drone_index": 0,
-                  "dance_size": 100106,
-                  "position_percent": 100.03,
+                  "dance_size": 100088,
+                  "position_percent": 100.02,
                   "color_percent": 0.02,
-                  "fire_percent": 0.02
+                  "fire_percent": 0.01
               }
           }
       },
@@ -344,10 +344,10 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
   dance_size_infractions = [
       DanceSizeInfraction(
           drone_index=0,
-          dance_size=100106,
-          position_percent=100.03,
+          dance_size=100088,
+          position_percent=100.02,
           color_percent=0.02,
-          fire_percent=0.02,
+          fire_percent=0.01,
       )
   ]
   """

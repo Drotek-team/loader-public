@@ -273,7 +273,7 @@ def drone_user_to_drone_px4(
     drone_user: "DroneUser",
 ) -> DronePx4:
     # TODO(jonathan): switch to new magic number by default # noqa: FIX002
-    drone_px4 = DronePx4(drone_user.index, MagicNumber.old)
+    drone_px4 = DronePx4(drone_user.index, MagicNumber.new)
     add_position_events_user(drone_px4, drone_user.position_events)
     add_color_events_user(
         drone_px4,
