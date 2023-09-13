@@ -24,7 +24,7 @@ class ColorEvent(Event):
         return [self.timecode, self.r, self.g, self.b, self.w]
 
 
-class ColorEvents(Events):
+class ColorEvents(Events[ColorEvent]):
     def __init__(self) -> None:
         self.id_ = EventsType.color
         self.format_ = JSON_BINARY_PARAMETERS.color_event_format

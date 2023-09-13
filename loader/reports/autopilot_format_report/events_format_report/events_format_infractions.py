@@ -1,7 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 from collections import defaultdict
 from enum import Enum
-from typing import DefaultDict, List, Optional
+from typing import Any, DefaultDict, List, Optional
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound
 from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
@@ -42,7 +42,7 @@ class IncreasingFrameInfraction(BaseInfraction):
     @classmethod
     def generate(
         cls,
-        events: Events,
+        events: Events[Any],
     ) -> List["IncreasingFrameInfraction"]:
         frames = [
             JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(event.timecode)
@@ -103,7 +103,7 @@ class BoundaryInfraction(BaseInfraction):
     @classmethod
     def generate(
         cls,
-        events: Events,
+        events: Events[Any],
     ) -> DefaultDict[str, List["BoundaryInfraction"]]:
         if isinstance(events, PositionEvents):
             boundary_kinds = [

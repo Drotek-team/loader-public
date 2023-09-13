@@ -13,11 +13,11 @@ class DummyEvent(Event):  # pragma: no cover
         return [self.timecode]
 
 
-class DummyEvents(Events):  # pragma: no cover
+class DummyEvents(Events[DummyEvent]):  # pragma: no cover
     def __init__(self) -> None:
         self.format_ = ">Ihhh"
         self.id_ = EventsType.position
-        self._events: List[Event] = []
+        self._events = []
 
     def add_data(self, data: List[Any]) -> None:  # noqa: ARG002
         self._events.append(DummyEvent())

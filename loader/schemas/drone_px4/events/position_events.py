@@ -23,7 +23,7 @@ class PositionEvent(Event):
         return [self.timecode, self.x, self.y, self.z]
 
 
-class PositionEvents(Events):
+class PositionEvents(Events[PositionEvent]):
     def __init__(self) -> None:
         self.format_ = JSON_BINARY_PARAMETERS.position_event_format
         self.id_ = EventsType.position

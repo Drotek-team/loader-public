@@ -1,7 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from collections import defaultdict
-from typing import DefaultDict, List, Optional, Set
+from typing import Any, DefaultDict, List, Optional, Set
 
 from pydantic import Field, field_serializer
 from typing_extensions import Annotated
@@ -55,7 +55,7 @@ class EventsReport(BaseReport):
     @classmethod
     def generate(
         cls,
-        events: Events,
+        events: Events[Any],
     ) -> "EventsReport":
         increasing_infractions = IncreasingFrameInfraction.generate(events)
         boundary_infractions = BoundaryInfraction.generate(events)

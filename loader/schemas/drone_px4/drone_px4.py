@@ -1,5 +1,5 @@
 import struct
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, Any, List, Tuple
 
 from tqdm import tqdm
 
@@ -44,11 +44,11 @@ class DronePx4:
     def add_fire(self, frame: int, channel: int, duration: int) -> None:
         self.fire_events.add_timecode_channel_duration(frame, channel, duration)
 
-    def get_events_by_index(self, event_type: EventsType) -> Events:
+    def get_events_by_index(self, event_type: EventsType) -> Events[Any]:
         return self.events_dict[event_type]
 
     @property
-    def non_empty_events_list(self) -> List[Events]:
+    def non_empty_events_list(self) -> List[Events[Any]]:
         return [events for events in self.events_dict.values() if len(events) != 0]
 
     @classmethod
@@ -159,7 +159,7 @@ def get_header_section_header(
     return header, section_headers
 
 
-def decode_events(events: Events, byte_array: bytearray) -> None:
+def decode_events(events: Events[Any], byte_array: bytearray) -> None:
     for event_index in range(0, len(byte_array), events.event_size):
         events.add_data(
             list(
@@ -173,7 +173,7 @@ def decode_events(events: Events, byte_array: bytearray) -> None:
 
 def get_section_headers(
     encoded_events_list: List[bytearray],
-    non_empty_events_list: List[Events],
+    non_empty_events_list: List[Events[Any]],
 ) -> List[SectionHeader]:
     byte_array_start_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header) + len(
         non_empty_events_list,
@@ -219,7 +219,7 @@ def assemble_dance(
     return list(map(int, dance_binary))
 
 
-def encode_events(events: Events) -> bytearray:
+def encode_events(events: Events[Any]) -> bytearray:
     event_size = events.event_size
     binary = bytearray(event_size * len(events))
     for cpt_event, event_data in enumerate(events):

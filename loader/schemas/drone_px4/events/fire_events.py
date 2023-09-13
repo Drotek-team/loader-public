@@ -22,7 +22,7 @@ class FireEvent(Event):
         return [self.timecode, self.channel, self.duration]
 
 
-class FireEvents(Events):
+class FireEvents(Events[FireEvent]):
     def __init__(self) -> None:
         self.format_ = JSON_BINARY_PARAMETERS.fire_event_format
         self.id_ = EventsType.fire
