@@ -22,7 +22,7 @@ pre-commit = "^3.1.0"
 pydantic-to-typescript = "^1.0.10"
 pyright = "^1.1.326"
 pytest = "^7.2.1"
-pytest-clarity = { git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support" }
+pytest-clarity = {git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support"}
 pytest-cov = "^4.0.0"
 pytest-examples = "^0.0.8"
 pytest-xdist = "^3.2.0"

@@ -2,8 +2,9 @@ import struct
 
 from pydantic import BaseModel
 
+from loader.parameters.json_binary_parameters import MagicNumber
+
 from .events.events_order import EventsType
-from .events.magic_number import MagicNumber
 
 
 class BytesManager(BaseModel):

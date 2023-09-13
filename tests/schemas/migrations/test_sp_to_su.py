@@ -1,9 +1,8 @@
 from typing import List
 
 import pytest
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 from loader.schemas.drone_px4 import DronePx4
-from loader.schemas.drone_px4.events.magic_number import MagicNumber
 from loader.schemas.show_user.show_user import ShowUser
 
 ARBITRARY_POSITION_EVENT_FRAME = 9
@@ -30,8 +29,8 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 
 @pytest.fixture
-def valid_autopilot_format() -> List[DronePx4]:
-    drone_px4 = DronePx4(0, MagicNumber.old)
+def valid_autopilot_format(request: pytest.FixtureRequest) -> List[DronePx4]:
+    drone_px4 = DronePx4(0, request.param)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
 
@@ -43,7 +42,7 @@ def valid_autopilot_format() -> List[DronePx4]:
         ARBITRARY_FIRE_EVENT_DURATION,
     )
 
-    drone_px4_bis = DronePx4(1, MagicNumber.old)
+    drone_px4_bis = DronePx4(1, request.param)
 
     drone_px4_bis.add_position(
         ARBITRARY_POSITION_EVENT_FRAME_BIS,
@@ -63,6 +62,7 @@ def valid_autopilot_format() -> List[DronePx4]:
     return [drone_px4, drone_px4_bis]
 
 
+@pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[DronePx4]) -> None:
     show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
     drone_users = show_user.drones_user
@@ -79,6 +79,7 @@ def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[Dr
     )
 
 
+@pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_color_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
@@ -86,15 +87,18 @@ def test_drone_px4_to_drone_user_color_events(
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
+    assert drone_users[0].color_events[0].frame == ARBITRARY_COLOR_EVENT_FRAME
     assert drone_users[0].color_events[0].rgbw == JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW,
     )
     assert len(drone_users[1].color_events) == 1
+    assert drone_users[1].color_events[0].frame == ARBITRARY_COLOR_EVENT_FRAME_BIS
     assert drone_users[1].color_events[0].rgbw == JSON_BINARY_PARAMETERS.from_px4_rgbw_to_user_rgbw(
         ARBITRARY_COLOR_EVENT_RGBW_BIS,
     )
 
 
+@pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_fire_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
@@ -102,9 +106,11 @@ def test_drone_px4_to_drone_user_fire_events(
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1
+    assert drone_users[0].fire_events[0].frame == ARBITRARY_FIRE_EVENT_FRAME
     assert drone_users[0].fire_events[0].channel == ARBITRARY_FIRE_EVENT_CHANEL
     assert drone_users[0].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION
 
     assert len(drone_users[1].fire_events) == 1
+    assert drone_users[1].fire_events[0].frame == ARBITRARY_FIRE_EVENT_FRAME_BIS
     assert drone_users[1].fire_events[0].channel == ARBITRARY_FIRE_EVENT_CHANEL_BIS
     assert drone_users[1].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION_BIS

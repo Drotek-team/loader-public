@@ -1,8 +1,8 @@
 from typing import Any, List
 
+from loader.parameters.json_binary_parameters import MagicNumber
 from loader.schemas.drone_px4.events import Event, Events
 from loader.schemas.drone_px4.events.events_order import EventsType
-from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 class DummyEvent(Event):  # pragma: no cover

@@ -3,11 +3,10 @@ from typing import TYPE_CHECKING, Any, List, Tuple
 
 from tqdm import tqdm
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 
 from .binary import Header, SectionHeader
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
-from .events.magic_number import MagicNumber
 
 if TYPE_CHECKING:
     from loader.schemas.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs

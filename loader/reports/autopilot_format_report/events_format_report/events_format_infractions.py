@@ -3,13 +3,13 @@ from collections import defaultdict
 from enum import Enum
 from typing import Any, DefaultDict, List, Optional
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound, MagicNumber
 from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
 from loader.schemas.drone_px4.events import ColorEvents, Events, FireEvents, PositionEvents
 
 
 class BoundaryKind(Enum):
-    TIMECODE = "timecode"
+    TIME = "time"
     NORTH = "north"
     EAST = "east"
     DOWN = "down"
@@ -20,9 +20,9 @@ class BoundaryKind(Enum):
     CHANNEL = "channel"
     DURATION = "duration"
 
-    def get_bound(self) -> Bound:
-        if self == self.TIMECODE:
-            return JSON_BINARY_PARAMETERS.timecode_value_bound
+    def get_bound(self, magic_number: MagicNumber) -> Bound:
+        if self == self.TIME:
+            return JSON_BINARY_PARAMETERS.time_value_bound(magic_number)
         if self in [self.NORTH, self.EAST, self.DOWN]:
             return JSON_BINARY_PARAMETERS.coordinate_value_bound
         if self in [self.RED, self.GREEN, self.BLUE, self.WHITE]:
@@ -104,25 +104,25 @@ class BoundaryInfraction(BaseInfraction):
     ) -> DefaultDict[str, List["BoundaryInfraction"]]:
         if isinstance(events, PositionEvents):
             boundary_kinds = [
-                BoundaryKind.TIMECODE,
+                BoundaryKind.TIME,
                 BoundaryKind.NORTH,
                 BoundaryKind.EAST,
                 BoundaryKind.DOWN,
             ]
         elif isinstance(events, ColorEvents):
             boundary_kinds = [
-                BoundaryKind.TIMECODE,
+                BoundaryKind.TIME,
                 BoundaryKind.RED,
                 BoundaryKind.GREEN,
                 BoundaryKind.BLUE,
                 BoundaryKind.WHITE,
             ]
         elif isinstance(events, FireEvents):
-            boundary_kinds = [BoundaryKind.TIMECODE, BoundaryKind.CHANNEL, BoundaryKind.DURATION]
+            boundary_kinds = [BoundaryKind.TIME, BoundaryKind.CHANNEL, BoundaryKind.DURATION]
         else:
             raise NotImplementedError
 
-        bounds = [kind.get_bound() for kind in boundary_kinds]
+        bounds = [kind.get_bound(events.magic_number) for kind in boundary_kinds]
         infractions: DefaultDict[str, List[BoundaryInfraction]] = defaultdict(list)
         for event_index, event in enumerate(events):
             for kind, bound, value in zip(

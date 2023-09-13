@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 from typing import Any, List, Tuple
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 
 from .events import Event, Events
 from .events_order import EventsType
-from .magic_number import MagicNumber
 
 
 @dataclass(frozen=True)
@@ -18,9 +17,13 @@ class FireEvent(Event):
     def channel_duration(self) -> Tuple[int, int]:
         return (self.channel, self.duration)
 
-    def get_data(self, magic_number: MagicNumber) -> List[Any]:  # noqa: ARG002
+    def get_data(self, magic_number: MagicNumber) -> List[Any]:
         return [
-            JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame),
+            (
+                JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
+                if magic_number == MagicNumber.old
+                else self.frame
+            ),
             self.channel,
             self.duration,
         ]
@@ -28,7 +31,7 @@ class FireEvent(Event):
 
 class FireEvents(Events[FireEvent]):
     def __init__(self, magic_number: MagicNumber) -> None:
-        self.format_ = JSON_BINARY_PARAMETERS.fire_event_format
+        self.format_ = JSON_BINARY_PARAMETERS.fire_event_format(magic_number)
         self.id_ = EventsType.fire
         self.magic_number = magic_number
         # Had to pass with the init because python mutable defaults are the source of all evil
@@ -46,7 +49,11 @@ class FireEvents(Events[FireEvent]):
     def add_data(self, data: List[Any]) -> None:
         self._events.append(
             FireEvent(
-                frame=JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0]),
+                frame=(
+                    JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0])
+                    if self.magic_number == MagicNumber.old
+                    else data[0]
+                ),
                 channel=data[1],
                 duration=data[2],
             ),

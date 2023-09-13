@@ -2,8 +2,9 @@ import struct
 from abc import ABC, abstractmethod
 from typing import Any, Generic, Iterator, List, TypeVar
 
+from loader.parameters.json_binary_parameters import MagicNumber
+
 from .events_order import EventsType
-from .magic_number import MagicNumber
 
 
 class Event(ABC):

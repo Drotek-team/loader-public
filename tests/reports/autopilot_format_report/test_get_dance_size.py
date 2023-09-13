@@ -1,14 +1,7 @@
-import struct
-
+import pytest
+from loader.parameters.json_binary_parameters import MagicNumber
 from loader.reports import DanceSizeInfraction
 from loader.schemas.drone_px4 import DronePx4
-from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
-from loader.schemas.drone_px4.events.magic_number import MagicNumber
-
-DANCE_BASIC_SIZE = 34
-POSITION_EVENT_SIZE = struct.calcsize(PositionEvents(MagicNumber.old).format_)
-COLOR_EVENT_SIZE = struct.calcsize(ColorEvents(MagicNumber.old).format_)
-FIRE_EVENT_SIZE = struct.calcsize(FireEvents(MagicNumber.old).format_)
 
 
 def test_dance_size_information_standard_case() -> None:
@@ -22,8 +15,23 @@ def test_dance_size_information_standard_case() -> None:
     assert dance_size_information.total_percent == 72
 
 
-def test_get_dance_size_information_standard_case() -> None:
-    empty_drone_px4 = DronePx4(0, MagicNumber.old)
+@pytest.mark.parametrize(
+    "magic_number, position_percent, color_percent, fire_percent, dance_size_after_position, dance_size_after_color, dance_size_after_fire",
+    [
+        (MagicNumber.old, 10, 8, 6, 10_016, 18_025, 24_034),
+        (MagicNumber.new, 8, 6, 4, 8016, 14025, 18034),
+    ],
+)
+def test_get_dance_size_information_standard_case(
+    magic_number: MagicNumber,
+    position_percent: int,
+    color_percent: int,
+    fire_percent: int,
+    dance_size_after_position: int,
+    dance_size_after_color: int,
+    dance_size_after_fire: int,
+) -> None:
+    empty_drone_px4 = DronePx4(0, magic_number)
 
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
@@ -37,8 +45,8 @@ def test_get_dance_size_information_standard_case() -> None:
         empty_drone_px4.add_position(0, (0, 0, 0))
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
-        dance_size=10_016,
-        position_percent=10,
+        dance_size=dance_size_after_position,
+        position_percent=position_percent,
         color_percent=0,
         fire_percent=0,
     )
@@ -47,9 +55,9 @@ def test_get_dance_size_information_standard_case() -> None:
         empty_drone_px4.add_color(0, (0, 0, 0, 0))
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
-        dance_size=18_025,
-        position_percent=10,
-        color_percent=8,
+        dance_size=dance_size_after_color,
+        position_percent=position_percent,
+        color_percent=color_percent,
         fire_percent=0,
     )
 
@@ -57,8 +65,8 @@ def test_get_dance_size_information_standard_case() -> None:
         empty_drone_px4.add_fire(0, 0, 0)
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
-        dance_size=24_034,
-        position_percent=10,
-        color_percent=8,
-        fire_percent=6,
+        dance_size=dance_size_after_fire,
+        position_percent=position_percent,
+        color_percent=color_percent,
+        fire_percent=fire_percent,
     )

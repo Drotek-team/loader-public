@@ -1,24 +1,21 @@
 import pytest
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 from loader.reports import BoundaryInfraction, EventsReport
 from loader.schemas.drone_px4.events import PositionEvents
-from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 @pytest.fixture
-def valid_position_events() -> PositionEvents:
-    position_events = PositionEvents(MagicNumber.old)
+def valid_position_events(request: pytest.FixtureRequest) -> PositionEvents:
+    position_events = PositionEvents(request.param)
     position_events.add_timecode_xyz(
         JSON_BINARY_PARAMETERS.show_start_frame,
         (0, 0, 0),
     )
     position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETERS.show_start_frame
-            + FRAME_PARAMETERS.from_second_to_frame(
-                TAKEOFF_PARAMETERS.takeoff_duration_second,
-            ),
+        JSON_BINARY_PARAMETERS.show_start_frame
+        + FRAME_PARAMETERS.from_second_to_frame(
+            TAKEOFF_PARAMETERS.takeoff_duration_second,
         ),
         (
             0,
@@ -29,6 +26,7 @@ def valid_position_events() -> PositionEvents:
     return position_events
 
 
+@pytest.mark.parametrize("valid_position_events", list(MagicNumber), indirect=True)
 def test_valid_position_events_report(
     valid_position_events: PositionEvents,
 ) -> None:
@@ -38,13 +36,12 @@ def test_valid_position_events_report(
     assert not len(position_events_report)
 
 
+@pytest.mark.parametrize("valid_position_events", list(MagicNumber), indirect=True)
 def test_invalid_position_events_xyz_value_report(
     valid_position_events: PositionEvents,
 ) -> None:
     valid_position_events.add_timecode_xyz(
-        JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-            JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
-        ),
+        1000,
         (
             JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,
             JSON_BINARY_PARAMETERS.coordinate_value_bound.maximal + 1,

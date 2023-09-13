@@ -1,8 +1,16 @@
 import struct
 from dataclasses import dataclass
+from enum import IntEnum
 from typing import Tuple
 
 from loader.parameters import FRAME_PARAMETERS
+
+
+class MagicNumber(IntEnum):
+    """The magic number to identify the version of the schema."""
+
+    old = 0xAA55
+    new = 0xAA66
 
 
 @dataclass(frozen=True)
@@ -16,6 +24,7 @@ class JsonBinaryParameters:
     fmt_header: str = ">HIB"  # Size in bits of the header
     fmt_section_header: str = ">BII"  # Size in bits of the section header
     timecode_format: str = "I"
+    frame_format: str = "H"
     coordinate_format: str = "h"
     chrome_format: str = "B"
     fire_channel_format: str = "B"
@@ -23,27 +32,28 @@ class JsonBinaryParameters:
     dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octect
     fire_channel_number: int = 3
 
-    @property
-    def position_event_format(self) -> str:
-        return f">{self.timecode_format}{self.coordinate_format}{self.coordinate_format}{self.coordinate_format}"
+    def time_format(self, magic_number: MagicNumber) -> str:
+        return self.timecode_format if magic_number == MagicNumber.old else self.frame_format
 
-    @property
-    def color_event_format(self) -> str:
-        return f">{self.timecode_format}{self.chrome_format}{self.chrome_format}{self.chrome_format}{self.chrome_format}"
+    def position_event_format(self, magic_number: MagicNumber) -> str:
+        return f">{self.time_format(magic_number)}{self.coordinate_format}{self.coordinate_format}{self.coordinate_format}"
 
-    @property
-    def fire_event_format(self) -> str:
-        return f">{self.timecode_format}{self.fire_channel_format}{self.fire_duration_format}"
+    def color_event_format(self, magic_number: MagicNumber) -> str:
+        return f">{self.time_format(magic_number)}{self.chrome_format}{self.chrome_format}{self.chrome_format}{self.chrome_format}"
+
+    def fire_event_format(self, magic_number: MagicNumber) -> str:
+        return f">{self.time_format(magic_number)}{self.fire_channel_format}{self.fire_duration_format}"
 
     @staticmethod
     def _binary_format_size(binary_format: str) -> int:
         return 2 ** (8 * struct.calcsize(f">{binary_format}"))
 
-    @property
-    def timecode_value_bound(self) -> Bound:
+    def time_value_bound(self, magic_number: MagicNumber) -> Bound:
         return Bound(
             0,
-            self._binary_format_size(self.timecode_format) - 1,
+            self._binary_format_size(self.timecode_format) - 1
+            if magic_number == MagicNumber.old
+            else self._binary_format_size(self.frame_format) - 1,
         )
 
     @property

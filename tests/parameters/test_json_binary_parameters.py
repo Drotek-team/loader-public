@@ -1,12 +1,16 @@
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound, MagicNumber
 
 
 def test_json_binary_parameters_standard_case() -> None:
-    assert JSON_BINARY_PARAMETERS.position_event_format == ">Ihhh"
-    assert JSON_BINARY_PARAMETERS.color_event_format == ">IBBBB"
-    assert JSON_BINARY_PARAMETERS.fire_event_format == ">IBB"
+    assert JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.old) == ">Ihhh"
+    assert JSON_BINARY_PARAMETERS.color_event_format(MagicNumber.old) == ">IBBBB"
+    assert JSON_BINARY_PARAMETERS.fire_event_format(MagicNumber.old) == ">IBB"
+    assert JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.new) == ">Hhhh"
+    assert JSON_BINARY_PARAMETERS.color_event_format(MagicNumber.new) == ">HBBBB"
+    assert JSON_BINARY_PARAMETERS.fire_event_format(MagicNumber.new) == ">HBB"
 
-    assert JSON_BINARY_PARAMETERS.timecode_value_bound == Bound(0, 2**32 - 1)
+    assert JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.old) == Bound(0, 2**32 - 1)
+    assert JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.new) == Bound(0, 2**16 - 1)
     assert JSON_BINARY_PARAMETERS.coordinate_value_bound == Bound(
         -(2**15),
         2**15 - 1,

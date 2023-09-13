@@ -39,13 +39,13 @@ class DanceSizeInfraction(BaseInfraction):
             JSON_BINARY_PARAMETERS.fmt_section_header,
         )
         position_size = len(drone_px4.position_events) * struct.calcsize(
-            JSON_BINARY_PARAMETERS.position_event_format,
+            JSON_BINARY_PARAMETERS.position_event_format(drone_px4.magic_number),
         )
         color_size = len(drone_px4.color_events) * struct.calcsize(
-            JSON_BINARY_PARAMETERS.color_event_format,
+            JSON_BINARY_PARAMETERS.color_event_format(drone_px4.magic_number),
         )
         fire_size = len(drone_px4.fire_events) * struct.calcsize(
-            JSON_BINARY_PARAMETERS.fire_event_format,
+            JSON_BINARY_PARAMETERS.fire_event_format(drone_px4.magic_number),
         )
         dance_size = header_size + header_section_size + position_size + color_size + fire_size
 

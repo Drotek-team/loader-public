@@ -1,40 +1,34 @@
 import pytest
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 from loader.reports import EventsReport
 from loader.reports.autopilot_format_report.events_format_report.events_format_infractions import (
     BoundaryInfraction,
 )
 from loader.schemas.drone_px4.events import FireEvents
-from loader.schemas.drone_px4.events.magic_number import MagicNumber
 
 
 @pytest.fixture
-def valid_fire_events() -> FireEvents:
-    fire_events = FireEvents(MagicNumber.old)
+def valid_fire_events(request: pytest.FixtureRequest) -> FireEvents:
+    fire_events = FireEvents(request.param)
     fire_events.add_timecode_channel_duration(
-        frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETERS.show_start_frame,
-        ),
+        frame=JSON_BINARY_PARAMETERS.show_start_frame,
         channel=0,
         duration=0,
     )
     fire_events.add_timecode_channel_duration(
-        frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETERS.show_start_frame + 1,
-        ),
+        frame=JSON_BINARY_PARAMETERS.show_start_frame + 1,
         channel=1,
         duration=0,
     )
     fire_events.add_timecode_channel_duration(
-        frame=JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(
-            JSON_BINARY_PARAMETERS.show_start_frame + 2,
-        ),
+        frame=JSON_BINARY_PARAMETERS.show_start_frame + 2,
         channel=2,
         duration=0,
     )
     return fire_events
 
 
+@pytest.mark.parametrize("valid_fire_events", list(MagicNumber), indirect=True)
 def test_valid_fire_events_report(
     valid_fire_events: FireEvents,
 ) -> None:
@@ -44,13 +38,12 @@ def test_valid_fire_events_report(
     assert not len(fire_events_report)
 
 
+@pytest.mark.parametrize("valid_fire_events", list(MagicNumber), indirect=True)
 def test_invalid_fire_events_channel_value_report(
     valid_fire_events: FireEvents,
 ) -> None:
     valid_fire_events.add_timecode_channel_duration(
-        JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-            JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
-        ),
+        10,
         JSON_BINARY_PARAMETERS.fire_channel_value_bound.maximal + 1,
         0,
     )
@@ -65,13 +58,12 @@ def test_invalid_fire_events_channel_value_report(
     )
 
 
+@pytest.mark.parametrize("valid_fire_events", list(MagicNumber), indirect=True)
 def test_invalid_fire_events_duration_value_report(
     valid_fire_events: FireEvents,
 ) -> None:
     valid_fire_events.add_timecode_channel_duration(
-        JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-            JSON_BINARY_PARAMETERS.timecode_value_bound.maximal,
-        ),
+        10,
         0,
         JSON_BINARY_PARAMETERS.fire_duration_value_bound.maximal + 1,
     )
