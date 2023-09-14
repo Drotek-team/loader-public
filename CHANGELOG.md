@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.7.0 (2023-09-14)
+
+### Feat
+
+- implement the new color interpolation
+- implement the new time format
+- add MagicNumber to select the binary schema version
+
+### Refactor
+
+- use new binary format by default
+- replace Event.timecode by Event.frame
+- remove duplicate logic
+- improve Events typing
+- **drone_px4**: pass frame instead of timecode
+
 ## v0.6.0 (2023-09-11)
 
 ### Fix
