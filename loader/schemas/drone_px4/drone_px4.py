@@ -223,7 +223,7 @@ def assemble_dance(
         dance_binary.extend(section_header.bytes_data)
     for encoded_events in encoded_events_list:
         dance_binary.extend(encoded_events)
-    return list(map(int, dance_binary))
+    return list(dance_binary)
 
 
 def encode_events(events: Events[Any]) -> bytearray:
