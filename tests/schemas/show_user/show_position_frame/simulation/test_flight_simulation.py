@@ -41,7 +41,6 @@ def test_flight_simulation_standard_case() -> None:
     assert flight_simulation[420] == SimulationInfo(
         frame=420,
         position=np.array([2.0, 0.0, 0.0], dtype=np.float64),
-        in_air=False,
     )
 
 
@@ -74,7 +73,6 @@ def test_flight_simulation_takeoff_delayed() -> None:
     assert flight_simulation[takeoff_delay + 420] == SimulationInfo(
         frame=520,
         position=np.array([2.0, 0.0, 0.0], dtype=np.float64),
-        in_air=False,
     )
 
 
@@ -133,15 +131,12 @@ def test_partial_flight_simulation_standard_case() -> None:
     assert partial_flight_simulation[0] == SimulationInfo(
         frame=0,
         position=np.array([0.0, 0.0, 1.0], dtype=np.float64),
-        in_air=True,
     )
     assert partial_flight_simulation[60] == SimulationInfo(
         frame=60,
         position=np.array([1.0, 0.0, 1.0], dtype=np.float64),
-        in_air=True,
     )
     assert partial_flight_simulation[119] == SimulationInfo(
         frame=119,
         position=np.array([1.983, 0.0, 1.0], dtype=np.float64),
-        in_air=True,
     )

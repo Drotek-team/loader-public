@@ -12,8 +12,8 @@ def test_valid_show_flags() -> None:
     )
     assert len(show_position_frames) == 171
     assert np.array_equal(
-        show_position_frames[0].in_air_positions[0],
-        np.array([-0.75, 0.0, 0.0], dtype=np.float64),
+        show_position_frames[1].in_air_positions[0],
+        np.array([-0.75, 0.0, 0.083], dtype=np.float64),
     )
     assert np.array_equal(
         show_position_frames[40].in_air_positions[0],
@@ -31,16 +31,4 @@ def test_su_to_spf() -> None:
     assert len(show_position_frames) == 171
     assert [show_position_frame.frame for show_position_frame in show_position_frames] == list(
         range(0, 1022, 6),
-    )
-
-
-def test_show_position_frame_partial_show_user_in_air() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2)))
-    show_position_frames = ShowPositionFrame.from_show_user(
-        show_user,
-        is_partial=True,
-    )
-    assert all(
-        not in_air
-        for in_air in show_position_frames[0]._in_air_flags  # pyright: ignore[reportPrivateUsage]
     )

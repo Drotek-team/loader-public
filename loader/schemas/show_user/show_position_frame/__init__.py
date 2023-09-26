@@ -20,26 +20,22 @@ class ShowPositionFrame:
         self.frame = frame
         self._indices = np.array(drone_indices, dtype=np.intp)
         self._positions = np.zeros((nb_drones, 3), dtype=np.float64)
-        self._in_air_flags = np.array([False for _ in range(nb_drones)], dtype=np.bool_)
 
     def update_position_air_flag(
         self,
         index: int,
         position: "NDArray[np.float64]",
-        *,
-        in_air_flag: bool,
     ) -> None:
         index = np.where(self._indices == index)[0][0]
         self._positions[index] = position
-        self._in_air_flags[index] = in_air_flag
 
     @property
     def in_air_indices(self) -> "NDArray[np.intp]":
-        return self._indices[self._in_air_flags]
+        return self._indices[self._positions[:, 2] != 0]
 
     @property
     def in_air_positions(self) -> "NDArray[np.float64]":
-        return self._positions[self._in_air_flags]
+        return self._positions[self._positions[:, 2] != 0]
 
     def __len__(self) -> int:
         return len(self._indices)
@@ -80,8 +76,5 @@ class ShowPositionFrame:
                 show_slice.update_position_air_flag(
                     drone_index,
                     simulation_info.position,
-                    in_air_flag=(
-                        simulation_info.position[2] != 0 if is_partial else simulation_info.in_air
-                    ),
                 )
         return show_position_frames

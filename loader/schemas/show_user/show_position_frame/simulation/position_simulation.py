@@ -13,7 +13,6 @@ DECIMAL_NUMBER_TOLERANCE = 3
 class SimulationInfo:
     frame: int
     position: "NDArray[np.float64]"
-    in_air: bool
 
     def __eq__(self, other_simulation_info: object) -> bool:
         if not isinstance(other_simulation_info, SimulationInfo):
@@ -24,8 +23,7 @@ class SimulationInfo:
                 self.position,
                 other_simulation_info.position,
                 atol=10 ** (-DECIMAL_NUMBER_TOLERANCE),
-            )
-            and self.in_air == other_simulation_info.in_air,
+            ),
         )
 
 

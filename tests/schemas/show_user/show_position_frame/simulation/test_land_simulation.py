@@ -43,12 +43,10 @@ def test_land_simulation_above_land_safe_hgt(
     assert real_land_simulation_infos[0] == SimulationInfo(
         frame=frame_start,
         position=np.array(land_first_position),
-        in_air=True,
     )
     assert real_land_simulation_infos[24] == SimulationInfo(
         frame=frame_start + 24,
         position=np.array(land_middle_position),
-        in_air=True,
     )
     assert real_land_simulation_infos[-1].frame == frame_start + 203
     np.testing.assert_allclose(
@@ -56,7 +54,6 @@ def test_land_simulation_above_land_safe_hgt(
         real_land_simulation_infos[-1].position,
         atol=1e-1,
     )
-    assert real_land_simulation_infos[-1].in_air
 
 
 @given(
@@ -86,7 +83,6 @@ def test_land_simulation_under_land_safe_hgt(
     assert real_land_simulation_infos[0] == SimulationInfo(
         frame=frame_start,
         position=np.array(land_first_position),
-        in_air=True,
     )
     assert real_land_simulation_infos[-1].frame == frame_start + 119
     np.testing.assert_allclose(
@@ -94,7 +90,6 @@ def test_land_simulation_under_land_safe_hgt(
         real_land_simulation_infos[-1].position,
         atol=1e-1,
     )
-    assert real_land_simulation_infos[-1].in_air
 
 
 @given(
@@ -124,7 +119,6 @@ def test_land_simulation_in_land_safe_hgt(
     assert real_land_simulation_infos[0] == SimulationInfo(
         frame=frame_start,
         position=np.array(land_first_position),
-        in_air=True,
     )
     assert real_land_simulation_infos[-1].frame == frame_start + 179
     np.testing.assert_allclose(
@@ -132,4 +126,3 @@ def test_land_simulation_in_land_safe_hgt(
         real_land_simulation_infos[-1].position,
         atol=1e-1,
     )
-    assert real_land_simulation_infos[-1].in_air

@@ -17,7 +17,6 @@ def stand_by_simulation(
         SimulationInfo(
             frame=frame_begin + frame_index,
             position=np.array(stand_by_position, dtype=np.float64),
-            in_air=False,
         )
         for frame_index in range(frame_end - frame_begin)
     ]

@@ -54,7 +54,6 @@ def in_dance_flight_simulation(
         SimulationInfo(
             frame=desired_frame,
             position=position,
-            in_air=True,
         )
         for desired_frame, position in zip(
             desired_frames,

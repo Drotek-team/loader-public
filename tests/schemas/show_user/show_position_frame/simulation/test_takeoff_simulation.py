@@ -65,12 +65,10 @@ def test_takeoff_simulation_altitude_meter_min(takeoff_end_altitude: float) -> N
     assert takeoff_simulation_infos[0] == SimulationInfo(
         frame=0,
         position=np.array(POSITION_START),
-        in_air=True,
     )
     assert takeoff_simulation_infos[72] == SimulationInfo(
         frame=72,
         position=np.array(position_middle),
-        in_air=True,
     )
     assert takeoff_simulation_infos[239].frame == 239
     np.testing.assert_allclose(
@@ -78,4 +76,3 @@ def test_takeoff_simulation_altitude_meter_min(takeoff_end_altitude: float) -> N
         np.array(position_end),
         rtol=1e-2,
     )
-    assert takeoff_simulation_infos[239].in_air

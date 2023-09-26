@@ -60,7 +60,6 @@ def takeoff_simulation(
         SimulationInfo(
             frame=frame_begin + frame_index,
             position=takeoff_position,
-            in_air=True,
         )
         for frame_index, takeoff_position in enumerate(takeoff_positions)
     ]

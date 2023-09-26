@@ -11,33 +11,22 @@ def test_get_simulation_info___eq___simulation_info() -> None:
     simulation_info_1 = SimulationInfo(
         frame=0,
         position=np.array([0, 0, 0], dtype=np.float64),
-        in_air=False,
     )
     simulation_info_2 = SimulationInfo(
         frame=0,
         position=np.array([0, 0, 0], dtype=np.float64),
-        in_air=False,
     )
     assert simulation_info_1 == simulation_info_2
 
     simulation_info_2 = SimulationInfo(
         frame=1,
         position=np.array([0, 0, 0], dtype=np.float64),
-        in_air=False,
     )
     assert simulation_info_1 != simulation_info_2
 
     simulation_info_2 = SimulationInfo(
         frame=0,
         position=np.array([1, 0, 0], dtype=np.float64),
-        in_air=False,
-    )
-    assert simulation_info_1 != simulation_info_2
-
-    simulation_info_2 = SimulationInfo(
-        frame=0,
-        position=np.array([0, 0, 0], dtype=np.float64),
-        in_air=True,
     )
     assert simulation_info_1 != simulation_info_2
 
@@ -46,7 +35,6 @@ def test_get_simulation_info___eq___not_simulation_info() -> None:
     simulation_info = SimulationInfo(
         frame=0,
         position=np.array([0, 0, 0], dtype=np.float64),
-        in_air=False,
     )
     assert simulation_info != 0
 
