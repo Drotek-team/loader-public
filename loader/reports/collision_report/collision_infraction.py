@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Generator, List, Optional, Set, TypeVar
 
 import numpy as np
 from pydantic import field_serializer
+from scipy.spatial.distance import cdist
 from tqdm import tqdm
 
 from loader.parameters import IOSTAR_PHYSIC_PARAMETERS_MAX
@@ -23,10 +24,7 @@ def get_couple_distance_matrix(
     positions_numpy: "NDArray[np.float64]",
 ) -> "NDArray[np.float64]":
     config_matrix = np.tril(1e8 * np.ones((len(positions_numpy), len(positions_numpy))))
-    return config_matrix + np.linalg.norm(
-        positions_numpy[:, None, :] - positions_numpy[None, :, :],
-        axis=-1,
-    )
+    return config_matrix + cdist(positions_numpy, positions_numpy)
 
 
 class CollisionInfraction(BaseInfraction):
