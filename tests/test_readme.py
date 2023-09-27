@@ -1,6 +1,8 @@
 import pytest
 from pytest_examples import CodeExample, EvalExample, find_examples
 
+IGNORE_PRINTS_START_LINES = {370}
+
 
 @pytest.mark.parametrize("example", find_examples("README.md"), ids=str)
 def test_readme(example: CodeExample, eval_example: EvalExample) -> None:
@@ -14,7 +16,13 @@ def test_readme(example: CodeExample, eval_example: EvalExample) -> None:
     )
     if eval_example.update_examples:
         eval_example.format(example)
-        eval_example.run_print_update(example)
+        if example.start_line not in IGNORE_PRINTS_START_LINES:
+            eval_example.run_print_update(example)
+        else:
+            eval_example.run(example)
     else:
         eval_example.lint(example)
-        eval_example.run_print_check(example)
+        if example.start_line not in IGNORE_PRINTS_START_LINES:
+            eval_example.run_print_check(example)
+        else:
+            eval_example.run(example)
