@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.7.1 (2023-09-27)
+
+### Perf
+
+- use list(dance_binary) instead of list(map(int, dance_binary))
+- remove in_air flag
+- improve in_dance_flight_simulation() numpy use
+- use np.arange instead of np.array(list(range()))
+- use scipy.spatial.distance.cdist
+
 ## v0.7.0 (2023-09-14)
 
 ### Feat
