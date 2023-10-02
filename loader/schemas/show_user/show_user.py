@@ -1,3 +1,9 @@
+"""Show user schema.
+
+This module contains the show user schema and its related schemas.
+This is the schema to be used to create, modify and check a show.
+"""
+
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, List, Optional, Tuple, cast
 
@@ -25,15 +31,22 @@ if TYPE_CHECKING:
 
 
 class EventUserBase(BaseModel):
-    frame: StrictInt  # 24 fps
+    """Base event schema."""
+
+    frame: StrictInt
+    """Frame of the event (24 FPS)."""
 
     @property
     def absolute_time(self) -> float:
+        """Absolute time of the event in second."""
         return FRAME_PARAMETERS.from_frame_to_second(self.frame)
 
 
 class PositionEventUser(EventUserBase):
-    xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]  # ENU and meter
+    """Position event schema."""
+
+    xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]
+    """Position of the drone in meter and ENU coordinate system."""
 
     def apply_horizontal_rotation(self, angle: float) -> None:
         c, s = np.cos(angle), np.sin(angle)
@@ -44,22 +57,37 @@ class PositionEventUser(EventUserBase):
 
 
 class ColorEventUser(EventUserBase):
-    rgbw: Tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]  # between 0 and 1
-    interpolate: bool = False  # If true, linearly interpolate between this color and the next one
+    """Color event schema."""
+
+    rgbw: Tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]
+    """Color of the drone in RGBW format (between 0 and 1)."""
+    interpolate: bool = False
+    """If true, linearly interpolate between this color and the next one."""
 
 
 class FireEventUser(EventUserBase):
-    channel: StrictInt  # Chanel of the drone between 0 and 2
-    duration: StrictInt  # Duration of the event in millisecond
+    """Fire event schema."""
+
+    channel: StrictInt
+    """Fire event channel (0, 1 or 2)."""
+    duration: StrictInt
+    """Duration of the event in millisecond"""
 
 
 class DroneUser(BaseModel):
+    """Drone class to be used by the user."""
+
     index: int
+    """Index of the drone in the show (0, 1, 2, ...)."""
     position_events: List[PositionEventUser]
+    """List of the position events of the drone."""
     color_events: List[ColorEventUser]
+    """List of the color events of the drone."""
     fire_events: List[FireEventUser]
+    """List of the fire events of the drone."""
 
     def add_position_event(self, frame: int, xyz: Tuple[float, float, float]) -> None:
+        """Add a position event to the drone."""
         self.position_events.append(PositionEventUser(frame=frame, xyz=xyz))
 
     def add_color_event(
@@ -69,35 +97,35 @@ class DroneUser(BaseModel):
         *,
         interpolate: bool = False,
     ) -> None:
+        """Add a color event to the drone."""
         self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw, interpolate=interpolate))
 
-    def add_fire_event(
-        self,
-        frame: int,
-        channel: int,
-        duration: int,
-    ) -> None:
-        self.fire_events.append(
-            FireEventUser(frame=frame, channel=channel, duration=duration),
-        )
+    def add_fire_event(self, frame: int, channel: int, duration: int) -> None:
+        """Add a fire event to the drone."""
+        self.fire_events.append(FireEventUser(frame=frame, channel=channel, duration=duration))
 
     @property
     def flight_positions(self) -> List[PositionEventUser]:
+        """List of the position events of the drone during the flight."""
         return self.position_events[1:]
 
     @property
     def last_frame(self) -> int:
+        """Last frame of the drone."""
         return self.position_events[-1].frame
 
     @property
     def last_height(self) -> float:
+        """Last height of the drone in meter."""
         return self.position_events[-1].xyz[2]
 
     def apply_horizontal_rotation(self, angle: float) -> None:
+        """Apply a horizontal rotation to the drone."""
         for position in self.position_events:
             position.apply_horizontal_rotation(angle)
 
     def from_drone_px4(self, drone_px4: DronePx4) -> None:
+        """Convert from the DronePx4 schema to the DroneUser schema."""
         for position_event_px4 in drone_px4.position_events:
             self.add_position_event(
                 frame=position_event_px4.frame,
@@ -120,11 +148,18 @@ class DroneUser(BaseModel):
 
 
 class ShowUser(BaseModel):
+    """Show class to be used by the user."""
+
     drones_user: List[DroneUser]
-    angle_takeoff: float  # Angle of the takeoff grid in radian
-    step: float  # Distance separating the families during the takeoff in meter
+    """List of the drones of the show."""
+    angle_takeoff: float
+    """Angle of the takeoff grid in radian."""
+    step: float
+    """Distance separating the families during the takeoff in meter."""
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
+    """Physic parameters of the show."""
     metadata: Metadata = Metadata()
+    """Metadata of the show."""
 
     @classmethod
     def create(
@@ -135,6 +170,16 @@ class ShowUser(BaseModel):
         step: float,
         metadata: Optional[Metadata] = None,
     ) -> "ShowUser":
+        """Create a show user.
+
+        Args:
+            nb_drones: Number of drones in the show.
+            angle_takeoff: Angle of the takeoff grid in radian.
+            step: Distance separating the families during the takeoff in meter.
+            metadata: Metadata of the show.
+        Raises:
+            ValueError: If `nb_drones` is invalid.
+        """
         if nb_drones <= 0:
             msg = f"nb_drones must be positive, not {nb_drones}"
             raise ValueError(msg)
@@ -161,9 +206,17 @@ class ShowUser(BaseModel):
 
     @property
     def nb_drones(self) -> int:
+        """Number of drones in the show."""
         return len(self.drones_user)
 
     def update_drones_user_indices(self, indices: List[int]) -> None:
+        """Update the indices of the drones.
+
+        Args:
+            indices: New indices of the drones, in the same order as the drones.
+        Raises:
+            ValueError: If `indices` is invalid.
+        """
         if len(indices) != len(self.drones_user):
             msg = f"New indices: {len(indices)} must have the same length as the number of drones: {len(self.drones_user)}"
             raise ValueError(msg)
@@ -174,9 +227,8 @@ class ShowUser(BaseModel):
             drone_user.index = index
 
     @property
-    def last_frame(
-        self,
-    ) -> int:
+    def last_frame(self) -> int:
+        """Last frame of the show."""
         return max(
             drone_user.last_frame
             + FRAME_PARAMETERS.from_second_to_frame(
@@ -222,14 +274,17 @@ class ShowUser(BaseModel):
 
     @property
     def nb_x(self) -> int:
+        """Number of columns of the matrix."""
         return self.matrix.shape[1]
 
     @property
     def nb_y(self) -> int:
+        """Number of rows of the matrix."""
         return self.matrix.shape[0]
 
     @property
     def nb_drones_per_family(self) -> int:
+        """Number of drones per family."""
         return self.matrix.max()  # pyright: ignore[reportUnknownMemberType]
 
     @property
@@ -239,6 +294,7 @@ class ShowUser(BaseModel):
         return grid_infos.drones_user_in_matrix
 
     def apply_horizontal_rotation(self, angle: float) -> None:
+        """Apply a horizontal rotation to the show."""
         self.angle_takeoff += angle
         for drone_user in tqdm(self.drones_user, desc="Applying horizontal rotation", unit="drone"):
             drone_user.apply_horizontal_rotation(angle)
@@ -250,6 +306,7 @@ class ShowUser(BaseModel):
         angle_takeoff: float,
         step: float,
     ) -> "ShowUser":
+        """Convert from the autopilot format schema to the show user schema."""
         show_user = ShowUser.create(
             nb_drones=len(autopilot_format),
             angle_takeoff=angle_takeoff,
@@ -266,6 +323,7 @@ class ShowUser(BaseModel):
 
     @classmethod
     def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> "ShowUser":
+        """Convert from the iostar json gcs schema to the show user schema."""
         show_user = ShowUser.from_autopilot_format(
             DronePx4.from_iostar_json_gcs(iostar_json_gcs),
             angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
@@ -310,6 +368,7 @@ class ShowUser(BaseModel):
 
 # https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point
 def is_angles_equal(first_angle: float, second_angle: float) -> bool:
+    """Check if two angles are equal."""
     distance = abs((second_angle - first_angle + np.pi) % (2 * np.pi) - np.pi)
     return distance < 1e-2
 
@@ -317,13 +376,21 @@ def is_angles_equal(first_angle: float, second_angle: float) -> bool:
 @dataclass
 class MatrixInfos:
     matrix: "NDArray[np.intp]"
+    """Matrix containing the number of drones in each family."""
     drones_user_in_matrix: List[List[List[DroneUser]]]
+    """Matrix containing the list of drones in each family."""
     nb_x: int
+    """Number of columns of the matrix."""
     nb_y: int
+    """Number of rows of the matrix."""
     x_min: float
+    """Minimum x coordinate of the matrix."""
     x_max: float
+    """Maximum x coordinate of the matrix."""
     y_min: float
+    """Minimum y coordinate of the matrix."""
     y_max: float
+    """Maximum y coordinate of the matrix."""
 
     @classmethod
     def from_show_user(cls, show_user: ShowUser) -> "MatrixInfos":

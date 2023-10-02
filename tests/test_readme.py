@@ -1,7 +1,7 @@
 import pytest
 from pytest_examples import CodeExample, EvalExample, find_examples
 
-IGNORE_PRINTS_START_LINES = {388}
+IGNORE_PRINTS_START_LINES = {386}
 
 
 @pytest.mark.parametrize("example", find_examples("README.md"), ids=str)

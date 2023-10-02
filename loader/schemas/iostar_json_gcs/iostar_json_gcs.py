@@ -1,3 +1,8 @@
+"""IO Star JSON GCS schema.
+
+This schema should be used for converting to and from the Show User schema.
+"""
+
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import numpy as np
@@ -15,14 +20,19 @@ if TYPE_CHECKING:
 
 
 class Dance(BaseModel):
-    dance: List[int]  # List of integer symbolising the list of octect
+    dance: List[int]
+    """List of integer symbolising the list of octect."""
 
 
 class Family(BaseModel):
-    drones: List[Dance]  # List of the drone composing a family
-    x: int  # X relative position (NED) of the family in centimeter
-    y: int  # Y relative position (NED) of the family in centimeter
-    z: int  # Z relative position (NED) of the family in centimeter
+    drones: List[Dance]
+    """List of the drone composing a family."""
+    x: int
+    """X relative position (NED) of the family in centimeter."""
+    y: int
+    """Y relative position (NED) of the family in centimeter."""
+    z: int
+    """Z relative position (NED) of the family in centimeter."""
 
     @classmethod
     def from_drone_px4(
@@ -49,32 +59,40 @@ class Family(BaseModel):
 
 
 class Show(BaseModel):
-    families: List[Family]  # List of the families composing the show
-    nb_x: int  # Number of families on the y-axis during the takeoff
-    nb_y: int  # Number of families on the x-axis during the takeoff
-    step: int  # Distance separating the families during the takeoff in centimeter
-    angle_takeoff: int  # Angle of the takeoff grid
-    duration: int  # Duration of the show in millisecond
-    hull: List[
-        Tuple[int, int]
-    ]  # List of the relative coordinate (XY in NED and centimeter) symbolysing a convex hull of a show
-    altitude_range: Tuple[
-        int,
-        int,
-    ]  # Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis
+    families: List[Family]
+    """List of the families composing the show."""
+    nb_x: int
+    """Number of families on the y-axis during the takeoff."""
+    nb_y: int
+    """Number of families on the x-axis during the takeoff."""
+    step: int
+    """Distance separating the families during the takeoff in centimeter."""
+    angle_takeoff: int
+    """Angle of the takeoff grid."""
+    duration: int
+    """Duration of the show in millisecond."""
+    hull: List[Tuple[int, int]]
+    """List of the relative coordinate (XY in NED and centimeter) symbolysing a convex hull of a show."""
+    altitude_range: Tuple[int, int]
+    """Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis."""
 
 
 class IostarJsonGcs(BaseModel):
     show: Show
+    """Data of the show."""
     physic_parameters: Optional[IostarPhysicParameters] = None
+    """Physic parameters of the show."""
     metadata: Metadata = Metadata()
+    """Metadata of the show."""
 
     @property
     def nb_drones_per_family(self) -> int:
+        """Return the number of drones per family."""
         return max(len(family.drones) for family in self.show.families)
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
+        """Convert from the ShowUser schema to the IostarJsonGcs schema."""
         step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
         angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))
         duration = from_user_duration_to_px4_duration(show_user.duration)
