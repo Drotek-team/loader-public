@@ -63,6 +63,8 @@ dance_path = Path("iostar_json_gcs_valid.json")
 iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
 show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 report = GlobalReport.generate(show_user)
+print(f"The global report has {len(report)} errors")
+#> The global report has 0 errors
 print(report.summarize().model_dump_json(indent=4))
 """
 {
@@ -90,6 +92,8 @@ dance_path = Path("iostar_json_gcs_collision.json")
 iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
 show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 report = GlobalReport.generate(show_user)
+print(f"The global report has {len(report)} errors")
+#> The global report has 676 errors
 print(report.summarize().model_dump_json(indent=4))
 """
 {
@@ -146,6 +150,8 @@ dance_path = Path("iostar_json_gcs_performance.json")
 iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
 show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 report = GlobalReport.generate(show_user)
+print(f"The global report has {len(report)} errors")
+#> The global report has 4 errors
 print(report.summarize().model_dump_json(indent=4))
 """
 {
@@ -204,6 +210,8 @@ dance_path = Path("iostar_json_gcs_dance_size.json")
 iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
 show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 report = GlobalReport.generate(show_user)
+print(f"The global report has {len(report)} errors")
+#> The global report has 1 errors
 print(report.summarize().model_dump_json(indent=4))
 """
 {
@@ -261,6 +269,8 @@ iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
 show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
 performance_report = PerformanceReport.generate(show_user)
+print(f"The performance report has {len(performance_report)} errors")
+#> The performance report has 4 errors
 print(performance_report)
 """
 performance_infractions = [
@@ -293,6 +303,8 @@ performance_infractions = [
 
 show_user.physic_parameters = IostarPhysicParameters(acceleration_max=2)
 performance_report = PerformanceReport.generate(show_user)
+print(f"The performance report has {len(performance_report)} errors")
+#> The performance report has 0 errors
 print(performance_report)
 #> performance_infractions=[]
 ```
@@ -311,6 +323,8 @@ iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
 show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 
 collision_report = CollisionReport.generate(show_user)
+print(f"The collision report has {len(collision_report)} errors")
+#> The collision report has 676 errors
 print(collision_report.collision_infractions[:10])
 """
 [
@@ -329,6 +343,8 @@ print(collision_report.collision_infractions[:10])
 
 show_user.physic_parameters = IostarPhysicParameters(minimum_distance=1.0)
 collision_report = CollisionReport.generate(show_user)
+print(f"The collision report has {len(collision_report)} errors")
+#> The collision report has 0 errors
 print(collision_report)
 #> collision_infractions=[]
 ```
@@ -347,6 +363,8 @@ show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
 autopilot_format = DronePx4.from_show_user(show_user)
 
 dance_size_report = DanceSizeReport.generate(autopilot_format)
+print(f"The dance size report has {len(dance_size_report)} errors")
+#> The dance size report has 1 errors
 print(dance_size_report)
 """
 dance_size_infractions = [
@@ -394,4 +412,46 @@ for y_index, row in enumerate(show_user.drones_user_in_matrix):
                 print("\tFires")
             for fire in drone.fire_events:
                 print(f"\t\t{fire}")
+```
+
+## Rotate an existing show
+
+```python
+from pathlib import Path
+from sys import exit
+
+import numpy as np
+from loader.reports import GlobalReport
+from loader.schemas import IostarJsonGcs, ShowUser
+
+# Angle to rotate the show by (in degrees) (counterclockwise)
+ANGLE_TO_ROTATE = 20
+
+# Path to the show
+dance_path = Path("iostar_json_gcs_valid.json")
+dance_report_path = dance_path.with_name(dance_path.stem + "_report.json")
+new_dance_path = dance_path.with_name(dance_path.stem + "_rotated.json")
+
+# Import the show
+iostar_json_gcs = IostarJsonGcs.model_validate_json(dance_path.read_text())
+show_user = ShowUser.from_iostar_json_gcs(iostar_json_gcs)
+# Rotate the show
+show_user.apply_horizontal_rotation(
+    # Convert to radians
+    np.deg2rad(ANGLE_TO_ROTATE)
+    # Remove the current angle to rotate from angle 0°
+    - show_user.angle_takeoff,  # Comment this line to rotate from the current angle
+)
+
+# Check the show
+global_report = GlobalReport.generate(show_user)
+# If there are errors, dump the report and exit
+if len(global_report):
+    dance_report_path.write_text(global_report.summarize().model_dump_json(indent=2))
+    exit(1)
+
+# Export the rotated show
+new_iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
+new_iostar_json_gcs.model_dump_json()
+new_dance_path.write_text(new_iostar_json_gcs.model_dump_json())
 ```

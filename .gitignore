@@ -4,4 +4,8 @@
 *.xml
 .cache
 .pythonuserbase
-show.json
+*.json
+!iostar_json_gcs_collision.json
+!iostar_json_gcs_dance_size.json
+!iostar_json_gcs_performance.json
+!iostar_json_gcs_valid.json
