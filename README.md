@@ -79,7 +79,7 @@ print(report.summarize().model_dump_json(indent=4))
         "minimum_distance": 1.5
     },
     "metadata": {
-        "loader_version": "0.7.1",
+        "loader_version": "0.7.2",
         "lightshow_creator_version": null,
         "blender_version": null
     }
@@ -137,7 +137,7 @@ print(report.summarize().model_dump_json(indent=4))
         "minimum_distance": 1.5
     },
     "metadata": {
-        "loader_version": "0.7.1",
+        "loader_version": "0.7.2",
         "lightshow_creator_version": null,
         "blender_version": null
     }
@@ -197,7 +197,7 @@ print(report.summarize().model_dump_json(indent=4))
         "minimum_distance": 1.5
     },
     "metadata": {
-        "loader_version": "0.7.1",
+        "loader_version": "0.7.2",
         "lightshow_creator_version": null,
         "blender_version": null
     }
@@ -245,7 +245,7 @@ print(report.summarize().model_dump_json(indent=4))
         "minimum_distance": 1.5
     },
     "metadata": {
-        "loader_version": "0.7.1",
+        "loader_version": "0.7.2",
         "lightshow_creator_version": null,
         "blender_version": null
     }

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.7.2 (2023-10-30)
+
+### Fix
+
+- pyright errors
+
 ## v0.7.1 (2023-09-27)
 
 ### Perf
