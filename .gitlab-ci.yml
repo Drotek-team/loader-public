@@ -48,7 +48,7 @@ ruff:
   stage: lint
   script:
     - mkdir reports
-    - ruff check . --format gitlab > reports/ruff.json
+    - ruff check . --output-format gitlab > reports/ruff.json
   artifacts:
     reports:
       codequality: reports/ruff.json

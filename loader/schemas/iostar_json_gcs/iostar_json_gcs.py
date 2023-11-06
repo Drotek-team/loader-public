@@ -127,18 +127,24 @@ class IostarJsonGcs(BaseModel):
 def from_user_altitude_range_to_px4_altitude_range(
     altitude_range: Tuple[float, float],
 ) -> Tuple[int, int]:
-    user_minimal_coordinate, user_maximal_coordinate = (0.0, 0.0, altitude_range[0]), (
-        0.0,
-        0.0,
-        altitude_range[1],
+    user_minimal_coordinate, user_maximal_coordinate = (
+        (0.0, 0.0, altitude_range[0]),
+        (
+            0.0,
+            0.0,
+            altitude_range[1],
+        ),
     )
     (
         px4_minimal_coordinate,
         px4_maximal_coordinate,
-    ) = JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
-        user_minimal_coordinate,
-    ), JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
-        user_maximal_coordinate,
+    ) = (
+        JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
+            user_minimal_coordinate,
+        ),
+        JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(
+            user_maximal_coordinate,
+        ),
     )
     return (px4_maximal_coordinate[2], px4_minimal_coordinate[2])
 

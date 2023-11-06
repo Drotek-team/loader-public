@@ -150,8 +150,7 @@ def get_header_section_header(
         section_header_data = struct.unpack(
             JSON_BINARY_PARAMETERS.fmt_section_header,
             byte_array[
-                byte_begin_index
-                + byte_step_index * event_index : byte_begin_index
+                byte_begin_index + byte_step_index * event_index : byte_begin_index
                 + byte_step_index * (event_index + 1)
             ],
         )

@@ -49,19 +49,19 @@ repos:
 
   - repo: local
     hooks:
-      - id: ruff
-        name: ruff
+      - id: ruff-check
+        name: ruff-check
         description: Run 'ruff' for extremely fast Python linting
-        entry: poetry run ruff --force-exclude --fix --exit-non-zero-on-fix --show-fixes
+        entry: poetry run ruff check --force-exclude --fix --exit-non-zero-on-fix --show-fixes
         args:
           - --extend-select=B007,B021,ERA001,F401,F541,F841,RUF100,T20
         language: system
         types_or: [python, pyi]
         require_serial: true
-      - id: black
-        name: black
-        description: "Black: The uncompromising Python code formatter"
-        entry: poetry run black
+      - id: ruff-format
+        name: ruff-format
+        description: "Run 'ruff format' for extremely fast Python formatting"
+        entry: poetry run ruff format
         language: system
         types_or: [python, pyi]
         require_serial: true
