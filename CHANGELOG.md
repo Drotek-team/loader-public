@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.0 (2023-12-04)
+
+### Feat
+
+- add scale support
+
 ## v0.7.2 (2023-10-30)
 
 ### Fix
