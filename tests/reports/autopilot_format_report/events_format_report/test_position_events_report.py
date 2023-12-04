@@ -7,7 +7,7 @@ from loader.schemas.drone_px4.events import PositionEvents
 
 @pytest.fixture
 def valid_position_events(request: pytest.FixtureRequest) -> PositionEvents:
-    position_events = PositionEvents(request.param)
+    position_events = PositionEvents(request.param, scale=1)
     position_events.add_timecode_xyz(
         JSON_BINARY_PARAMETERS.show_start_frame,
         (0, 0, 0),

@@ -30,7 +30,7 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 @pytest.fixture
 def valid_autopilot_format(request: pytest.FixtureRequest) -> List[DronePx4]:
-    drone_px4 = DronePx4(0, request.param)
+    drone_px4 = DronePx4(0, request.param, scale=1)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
 
@@ -42,7 +42,7 @@ def valid_autopilot_format(request: pytest.FixtureRequest) -> List[DronePx4]:
         ARBITRARY_FIRE_EVENT_DURATION,
     )
 
-    drone_px4_bis = DronePx4(1, request.param)
+    drone_px4_bis = DronePx4(1, request.param, scale=1)
 
     drone_px4_bis.add_position(
         ARBITRARY_POSITION_EVENT_FRAME_BIS,
@@ -64,7 +64,9 @@ def valid_autopilot_format(request: pytest.FixtureRequest) -> List[DronePx4]:
 
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[DronePx4]) -> None:
-    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
+    show_user = ShowUser.from_autopilot_format(
+        valid_autopilot_format, angle_takeoff=0, step=1, scale=1
+    )
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
     assert drone_users[0].position_events[0].frame == ARBITRARY_POSITION_EVENT_FRAME
@@ -83,7 +85,9 @@ def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[Dr
 def test_drone_px4_to_drone_user_color_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
+    show_user = ShowUser.from_autopilot_format(
+        valid_autopilot_format, angle_takeoff=0, step=1, scale=1
+    )
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].color_events) == 1
@@ -102,7 +106,9 @@ def test_drone_px4_to_drone_user_color_events(
 def test_drone_px4_to_drone_user_fire_events(
     valid_autopilot_format: List[DronePx4],
 ) -> None:
-    show_user = ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1)
+    show_user = ShowUser.from_autopilot_format(
+        valid_autopilot_format, angle_takeoff=0, step=1, scale=1
+    )
     drone_users = show_user.drones_user
 
     assert len(drone_users[0].fire_events) == 1
@@ -114,3 +120,11 @@ def test_drone_px4_to_drone_user_fire_events(
     assert drone_users[1].fire_events[0].frame == ARBITRARY_FIRE_EVENT_FRAME_BIS
     assert drone_users[1].fire_events[0].channel == ARBITRARY_FIRE_EVENT_CHANEL_BIS
     assert drone_users[1].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION_BIS
+
+
+@pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
+def test_show_user_scale_different_from_autopilot_format(
+    valid_autopilot_format: List[DronePx4],
+) -> None:
+    with pytest.raises(ValueError, match="All the drones must have the same scale"):
+        ShowUser.from_autopilot_format(valid_autopilot_format, angle_takeoff=0, step=1, scale=2)

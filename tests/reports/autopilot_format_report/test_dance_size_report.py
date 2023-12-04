@@ -11,9 +11,9 @@ NEW_MAGIC_BREAKER_NUMBER = 16663
 
 @pytest.fixture
 def valid_drone_dance_size(request: pytest.FixtureRequest) -> List[DronePx4]:
-    autopilot_format = [DronePx4(i, request.param) for i in range(2)]
+    autopilot_format = [DronePx4(i, request.param, 1) for i in range(2)]
     magic_number_breaker = (
-        MAGIC_BREAKER_NUMBER if request.param == MagicNumber.old else NEW_MAGIC_BREAKER_NUMBER
+        MAGIC_BREAKER_NUMBER if request.param == MagicNumber.v1 else NEW_MAGIC_BREAKER_NUMBER
     )
     for drone in autopilot_format:
         for _ in range(magic_number_breaker):
@@ -23,9 +23,9 @@ def valid_drone_dance_size(request: pytest.FixtureRequest) -> List[DronePx4]:
 
 @pytest.fixture
 def invalid_drone_dance_size(request: pytest.FixtureRequest) -> List[DronePx4]:
-    autopilot_format = [DronePx4(i, request.param) for i in range(2)]
+    autopilot_format = [DronePx4(i, request.param, 1) for i in range(2)]
     magic_number_breaker = (
-        MAGIC_BREAKER_NUMBER if request.param == MagicNumber.old else NEW_MAGIC_BREAKER_NUMBER
+        MAGIC_BREAKER_NUMBER if request.param == MagicNumber.v1 else NEW_MAGIC_BREAKER_NUMBER
     )
     for drone in autopilot_format:
         for _ in range(magic_number_breaker + 1):

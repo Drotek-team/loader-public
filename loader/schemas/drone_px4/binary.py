@@ -2,7 +2,7 @@ import struct
 
 from pydantic import BaseModel
 
-from loader.parameters.json_binary_parameters import MagicNumber
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 
 from .events.events_order import EventsType
 
@@ -14,7 +14,6 @@ class BytesManager(BaseModel):
 
 
 class Header(BytesManager):
-    fmt_header: str  # binary format of the header
     magic_number: MagicNumber  # Magic number with no purpose for the moment
     dance_size: int  # Dance size in bytes
     number_non_empty_events: int  # number of the events which contain at least one drone
@@ -22,13 +21,40 @@ class Header(BytesManager):
     @property
     def bytes_data(self) -> bytes:
         return struct.pack(
-            self.fmt_header,
-            *[self.magic_number, self.dance_size, self.number_non_empty_events],
+            JSON_BINARY_PARAMETERS.fmt_header,
+            self.magic_number,
+            self.dance_size,
+            self.number_non_empty_events,
+        )
+
+    @classmethod
+    def from_bytes_data(cls, byte_array: bytearray) -> "Header":
+        (
+            magic_number,
+            dance_size,
+            number_non_empty_events,
+        ) = struct.unpack(JSON_BINARY_PARAMETERS.fmt_header, byte_array)
+        return cls(
+            magic_number=MagicNumber(magic_number),
+            dance_size=dance_size,
+            number_non_empty_events=number_non_empty_events,
         )
 
 
+class Config(BytesManager):
+    scale: int
+
+    @property
+    def bytes_data(self) -> bytes:
+        return struct.pack(JSON_BINARY_PARAMETERS.fmt_config, self.scale)
+
+    @classmethod
+    def from_bytes_data(cls, byte_array: bytearray) -> "Config":
+        (scale,) = struct.unpack(JSON_BINARY_PARAMETERS.fmt_config, byte_array)
+        return cls(scale=scale)
+
+
 class SectionHeader(BytesManager):
-    fmt_section_header: str  # binary format of the section header
     event_id: EventsType  # index associate to the type of events
     byte_array_start_index: int  # index which indicates the start of the section in the binary
     byte_array_end_index: int  # index which indicates the end of the section in the binary
@@ -36,6 +62,21 @@ class SectionHeader(BytesManager):
     @property
     def bytes_data(self) -> bytes:
         return struct.pack(
-            self.fmt_section_header,
-            *[self.event_id, self.byte_array_start_index, self.byte_array_end_index],
+            JSON_BINARY_PARAMETERS.fmt_section_header,
+            self.event_id,
+            self.byte_array_start_index,
+            self.byte_array_end_index,
+        )
+
+    @classmethod
+    def from_bytes_data(cls, byte_array: bytearray) -> "SectionHeader":
+        (
+            event_id,
+            byte_array_start_index,
+            byte_array_end_index,
+        ) = struct.unpack(JSON_BINARY_PARAMETERS.fmt_section_header, byte_array)
+        return cls(
+            event_id=EventsType(event_id),
+            byte_array_start_index=byte_array_start_index,
+            byte_array_end_index=byte_array_end_index,
         )

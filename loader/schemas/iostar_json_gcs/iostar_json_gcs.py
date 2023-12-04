@@ -6,7 +6,7 @@ This schema should be used for converting to and from the Show User schema.
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import numpy as np
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from tqdm import tqdm
 
 from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
@@ -75,6 +75,8 @@ class Show(BaseModel):
     """List of the relative coordinate (XY in NED and centimeter) symbolysing a convex hull of a show."""
     altitude_range: Tuple[int, int]
     """Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis."""
+    scale: int = Field(1, ge=1, le=4)
+    """Position scale of the show."""
 
 
 class IostarJsonGcs(BaseModel):
@@ -118,6 +120,7 @@ class IostarJsonGcs(BaseModel):
                 nb_x=show_user.nb_x,
                 nb_y=show_user.nb_y,
                 angle_takeoff=angle_takeoff,
+                scale=show_user.scale,
             ),
             physic_parameters=show_user.physic_parameters,
             metadata=show_user.metadata,

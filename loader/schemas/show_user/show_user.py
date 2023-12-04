@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, List, Optional, Tuple, cast
 
 import numpy as np
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pydantic.types import StrictFloat, StrictInt
 from tqdm import tqdm
 
@@ -156,6 +156,8 @@ class ShowUser(BaseModel):
     """Angle of the takeoff grid in radian."""
     step: float
     """Distance separating the families during the takeoff in meter."""
+    scale: int = Field(1, ge=1, le=4)
+    """Position scale of the show, multiply the position of the drones by this value."""
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
     """Physic parameters of the show."""
     metadata: Metadata = Metadata()
@@ -196,6 +198,7 @@ class ShowUser(BaseModel):
             angle_takeoff=angle_takeoff,
             step=round(step, 2),
             metadata=metadata or Metadata(),
+            scale=1,
         )
 
     def __getitem__(self, drone_user_index: int) -> DroneUser:
@@ -305,6 +308,7 @@ class ShowUser(BaseModel):
         autopilot_format: List[DronePx4],
         angle_takeoff: float,
         step: float,
+        scale: int,
     ) -> "ShowUser":
         """Convert from the autopilot format schema to the show user schema."""
         show_user = ShowUser.create(
@@ -319,6 +323,13 @@ class ShowUser(BaseModel):
             unit="drone",
         ):
             drone_user.from_drone_px4(drone_px4)
+
+        if not all(drone_px4.scale == scale for drone_px4 in autopilot_format):
+            msg = "All the drones must have the same scale"
+            raise ValueError(msg)
+
+        show_user.scale = scale
+
         return show_user
 
     @classmethod
@@ -328,12 +339,13 @@ class ShowUser(BaseModel):
             DronePx4.from_iostar_json_gcs(iostar_json_gcs),
             angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
             step=iostar_json_gcs.show.step / 100,
+            scale=iostar_json_gcs.show.scale,
         )
         if iostar_json_gcs.physic_parameters is not None:
             show_user.physic_parameters = iostar_json_gcs.physic_parameters
         return show_user
 
-    def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911
+    def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911, PLR0912
         if not isinstance(other, ShowUser):
             return False
 
@@ -341,6 +353,9 @@ class ShowUser(BaseModel):
             return False
 
         if not np.allclose(self.step, other.step, atol=1e-2):
+            return False
+
+        if self.scale != other.scale:
             return False
 
         if len(self.drones_user) != len(other.drones_user):
@@ -357,7 +372,11 @@ class ShowUser(BaseModel):
             ):
                 if position_event.frame != new_position_event.frame:
                     return False
-                if not np.allclose(position_event.xyz, new_position_event.xyz, atol=1e-2):
+                if not np.allclose(
+                    position_event.xyz,
+                    new_position_event.xyz,
+                    atol=1e-2 * self.scale,
+                ):
                     return False
             if drone_user.color_events != new_drone_user.color_events:
                 return False

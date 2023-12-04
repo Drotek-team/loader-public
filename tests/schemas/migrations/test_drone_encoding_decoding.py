@@ -3,7 +3,7 @@ from hypothesis import strategies as st
 from loader.parameters.json_binary_parameters import MagicNumber
 from loader.schemas.drone_px4 import DronePx4
 
-from tests.strategies import slow
+from tests.strategies import slow, st_scale
 
 
 @given(
@@ -30,6 +30,7 @@ from tests.strategies import slow
     second_channel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
     magic_number=st.sampled_from(MagicNumber),
+    scale=st_scale,
 )
 @slow
 def test_encode_decode_drone(
@@ -55,9 +56,10 @@ def test_encode_decode_drone(
     second_interpolate: bool,  # noqa: FBT001
     second_channel: int,
     second_duration: int,
+    scale: int,
     magic_number: MagicNumber,
 ) -> None:
-    drone_px4 = DronePx4(0, magic_number)
+    drone_px4 = DronePx4(0, magic_number, scale)
 
     drone_px4.add_position(first_frame, (first_x, first_y, first_z))
     drone_px4.add_color(

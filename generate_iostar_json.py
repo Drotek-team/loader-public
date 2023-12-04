@@ -8,6 +8,7 @@ from tests.test_editor import VALID_SHOW_CONFIGURATION
 
 def main() -> None:
     valid_show_user = get_valid_show_user(VALID_SHOW_CONFIGURATION)
+    valid_show_user.scale = 2
 
     collision_show_user = get_valid_show_user(
         ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=1.25),

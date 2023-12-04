@@ -60,3 +60,4 @@ def st_matrix_with_shape(draw: st.DrawFn) -> Tuple["NDArray[np.intp]", int, int,
 
 st_step_takeoff = st.floats(1, 10)
 st_angle_takeoff = st.floats(0, 2 * np.pi)
+st_scale = st.integers(1, 4)

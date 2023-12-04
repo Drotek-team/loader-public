@@ -24,6 +24,9 @@ class Events(ABC, Generic[TEvent]):
     magic_number: MagicNumber
     _events: List[TEvent]
 
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"{self.__class__.__name__}({self._events})"
+
     @abstractmethod
     def add_data(self, data: List[Any]) -> None:
         pass

@@ -9,8 +9,9 @@ from loader.parameters import FRAME_PARAMETERS
 class MagicNumber(IntEnum):
     """The magic number to identify the version of the schema."""
 
-    old = 0xAA55
-    new = 0xAA66
+    v1 = 0xAA55
+    v2 = 0xAA66
+    v3 = 0xAA77
 
 
 @dataclass(frozen=True)
@@ -23,6 +24,7 @@ class Bound:
 class JsonBinaryParameters:
     fmt_header: str = ">HIB"  # Size in bits of the header
     fmt_section_header: str = ">BII"  # Size in bits of the section header
+    fmt_config: str = ">B"  # Size in bits of the config
     timecode_format: str = "I"
     frame_format: str = "H"
     coordinate_format: str = "h"
@@ -33,7 +35,7 @@ class JsonBinaryParameters:
     fire_channel_number: int = 3
 
     def time_format(self, magic_number: MagicNumber) -> str:
-        return self.timecode_format if magic_number == MagicNumber.old else self.frame_format
+        return self.timecode_format if magic_number == MagicNumber.v1 else self.frame_format
 
     def position_event_format(self, magic_number: MagicNumber) -> str:
         return f">{self.time_format(magic_number)}{self.coordinate_format}{self.coordinate_format}{self.coordinate_format}"
@@ -52,7 +54,7 @@ class JsonBinaryParameters:
         return Bound(
             0,
             self._binary_format_size(self.timecode_format) - 1
-            if magic_number == MagicNumber.old
+            if magic_number == MagicNumber.v1
             else self._binary_format_size(self.frame_format) - 1,
         )
 

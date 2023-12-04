@@ -21,7 +21,7 @@ class ColorEvent(Event):
         return (self.r, self.g, self.b, self.w)
 
     def get_data(self, magic_number: MagicNumber) -> List[Any]:
-        if magic_number == MagicNumber.old:
+        if magic_number == MagicNumber.v1:
             time = JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
             w = self.w
         else:
@@ -61,12 +61,12 @@ class ColorEvents(Events[ColorEvent]):
                 g=rgbw[1],
                 b=rgbw[2],
                 w=rgbw[3],
-                interpolate=False if self.magic_number == MagicNumber.old else interpolate,
+                interpolate=False if self.magic_number == MagicNumber.v1 else interpolate,
             ),
         )
 
     def add_data(self, data: List[Any]) -> None:
-        if self.magic_number == MagicNumber.old:
+        if self.magic_number == MagicNumber.v1:
             frame = JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0])
             w = data[4]
             # The interpolation flag is set to False because it is not stored in the old format

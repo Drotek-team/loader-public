@@ -41,6 +41,11 @@ show_user.drones_user[0].add_color_event(frame=300, rgbw=(0.0, 0.0, 1.0, 0.0))
 show_user.drones_user[0].add_fire_event(frame=210, channel=0, duration=0)
 show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
 
+# Set the position scale
+# The range is multiplied by the scale
+# The default value is 1
+show_user.scale = 2
+
 # Export the show user to the iostar json gcs format and save it in a file
 iostart_json_gcs_string = IostarJsonGcs.from_show_user(show_user).model_dump_json()
 show_path = Path("show.json")

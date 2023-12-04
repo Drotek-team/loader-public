@@ -6,7 +6,7 @@ from loader.schemas.drone_px4.events import PositionEvents
 
 @pytest.fixture
 def standard_position_events(request: pytest.FixtureRequest) -> PositionEvents:
-    position_events = PositionEvents(request.param)
+    position_events = PositionEvents(request.param, scale=1)
     position_events.add_timecode_xyz(0, (0, 0, 0))
     position_events.add_timecode_xyz(1, (0, 0, 0))
     position_events.add_timecode_xyz(2, (0, 0, 0))
@@ -29,17 +29,17 @@ def test_get_timecode_report_standard_case(
         list(MagicNumber),
         [
             JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.old).minimal,
+                JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v1).minimal,
             )
             - 1,
-            JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.new).minimal - 1,
+            JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v2).minimal - 1,
         ],
         [
             JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
-                JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.old).maximal,
+                JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v1).maximal,
             )
             + 1,
-            JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.new).maximal + 1,
+            JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v2).maximal + 1,
         ],
         [
             -42,

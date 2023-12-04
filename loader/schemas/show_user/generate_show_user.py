@@ -20,6 +20,7 @@ class ShowUserConfiguration:
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
     duration_before_takeoff: float = 0.0
+    scale: int = 1
 
     def __post_init__(self) -> None:
         if self.show_duration_absolute_time <= 0.0:
@@ -176,6 +177,7 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
         angle_takeoff=show_user_configuration.angle_takeoff,
         step=show_user_configuration.step,
     )
+    show_user.scale = show_user_configuration.scale
     drone_index = 0
     for index_y, column in enumerate(show_user_configuration.matrix):
         for index_x, nb_drones_per_family in enumerate(column):

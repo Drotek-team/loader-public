@@ -17,7 +17,7 @@ def test_color_event_standard_case_and_method(magic_number: MagicNumber) -> None
         1,
         2,
         3,
-        4 if magic_number == MagicNumber.old else 2,
+        4 if magic_number == MagicNumber.v1 else 2,
     ]
 
 
@@ -39,7 +39,7 @@ def test_color_events_standard_case_and_method(magic_number: MagicNumber) -> Non
         1,
         2,
         3,
-        4 if magic_number == MagicNumber.old else 2,
+        4 if magic_number == MagicNumber.v1 else 2,
     ]
 
     second_color_event = color_events[1]
@@ -50,9 +50,9 @@ def test_color_events_standard_case_and_method(magic_number: MagicNumber) -> Non
     assert second_color_event.w == 8
     assert second_color_event.rgbw == (5, 6, 7, 8)
     assert second_color_event.get_data(magic_number) == [
-        42 if magic_number == MagicNumber.old else 1,
+        42 if magic_number == MagicNumber.v1 else 1,
         5,
         6,
         7,
-        8 if magic_number == MagicNumber.old else 4,
+        8 if magic_number == MagicNumber.v1 else 4,
     ]

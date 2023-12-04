@@ -239,7 +239,9 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
 
 # WARNING: this test is fondamental as it is the only one which proves that the loader is compatible with px4 and the gcs
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
-    iostar_json_gcs = IostarJsonGcs.from_show_user(get_valid_show_user(VALID_SHOW_CONFIGURATION))
+    show_configuration = VALID_SHOW_CONFIGURATION
+    show_configuration.scale = 2
+    iostar_json_gcs = IostarJsonGcs.from_show_user(get_valid_show_user(show_configuration))
     assert iostar_json_gcs == IostarJsonGcs.model_validate_json(
         Path("iostar_json_gcs_valid.json").read_text(),
     )

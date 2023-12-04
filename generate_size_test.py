@@ -24,13 +24,13 @@ NB_FRAMES = (
         - struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
         - struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header) * 2
         - struct.calcsize(
-            JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.new),
+            JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.v2),
         )
         * 2
     )
     // (
-        struct.calcsize(JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.new))
-        + struct.calcsize(JSON_BINARY_PARAMETERS.color_event_format(MagicNumber.new)) * 6
+        struct.calcsize(JSON_BINARY_PARAMETERS.position_event_format(MagicNumber.v2))
+        + struct.calcsize(JSON_BINARY_PARAMETERS.color_event_format(MagicNumber.v2)) * 6
     )
     * 6
 )

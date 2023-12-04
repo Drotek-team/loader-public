@@ -14,7 +14,7 @@ from loader.schemas.show_user import ColorEventUser, DroneUser, FireEventUser, P
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import ShowUser
 
-from tests.strategies import slow, st_angle_takeoff, st_matrix
+from tests.strategies import slow, st_angle_takeoff, st_matrix, st_scale
 
 if TYPE_CHECKING:
     import numpy as np
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 @pytest.mark.parametrize("magic_number", list(MagicNumber))
 def test_add_position_events_user_standard_case(magic_number: MagicNumber) -> None:
-    drone_px4 = DronePx4(0, magic_number)
+    drone_px4 = DronePx4(0, magic_number, scale=1)
     position_events_user = [
         PositionEventUser(
             frame=0,
@@ -45,7 +45,7 @@ def test_add_position_events_user_standard_case(magic_number: MagicNumber) -> No
 
 @pytest.mark.parametrize("magic_number", list(MagicNumber))
 def test_add_color_events_user_standard_case(magic_number: MagicNumber) -> None:
-    drone_px4 = DronePx4(0, magic_number)
+    drone_px4 = DronePx4(0, magic_number, scale=1)
     color_events_user = [
         ColorEventUser(
             frame=0,
@@ -67,7 +67,7 @@ def test_add_color_events_user_standard_case(magic_number: MagicNumber) -> None:
 
 @pytest.mark.parametrize("magic_number", list(MagicNumber))
 def test_add_fire_events_user_standard_case(magic_number: MagicNumber) -> None:
-    drone_px4 = DronePx4(0, magic_number)
+    drone_px4 = DronePx4(0, magic_number, scale=1)
     fire_events_user = [
         FireEventUser(frame=0, channel=0, duration=42),
         FireEventUser(frame=1, channel=1, duration=83),
@@ -88,7 +88,7 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
         color_events=[ColorEventUser(frame=0, rgbw=(0.0, 1.0, 0.0, 1.0))],
         fire_events=[FireEventUser(frame=0, channel=0, duration=42)],
     )
-    drone_px4 = drone_user_to_drone_px4(drone_user)
+    drone_px4 = drone_user_to_drone_px4(drone_user, scale=1)
     assert drone_px4.index == 0
     assert drone_px4.position_events[0].frame == 0
     assert drone_px4.position_events[0].xyz == (100, 0, -200)
@@ -101,18 +101,22 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
 @given(
     matrix=st_matrix(),
     angle_takeoff=st_angle_takeoff,
+    scale=st_scale,
 )
 @slow
 def test_su_to_sp_standard_case(
     matrix: "NDArray[np.intp]",
     angle_takeoff: float,
+    scale: int,
 ) -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(matrix=matrix, angle_takeoff=angle_takeoff),
     )
+    show_user.scale = scale
     new_show_user = ShowUser.from_autopilot_format(
         DronePx4.from_show_user(show_user),
         angle_takeoff=show_user.angle_takeoff,
         step=show_user.step,
+        scale=show_user.scale,
     )
     assert show_user == new_show_user

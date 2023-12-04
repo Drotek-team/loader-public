@@ -4,7 +4,7 @@ from loader.parameters.json_binary_parameters import MagicNumber
 from loader.schemas.drone_px4.drone_px4 import decode_events, encode_events
 from loader.schemas.drone_px4.events import ColorEvents, FireEvents, PositionEvents
 
-from tests.strategies import slow
+from tests.strategies import slow, st_scale
 
 
 @given(
@@ -17,6 +17,7 @@ from tests.strategies import slow
     second_y=st.integers(-3, 3),
     second_z=st.integers(-3, 3),
     magic_number=st.sampled_from(MagicNumber),
+    scale=st_scale,
 )
 @slow
 def test_encode_decode_position_events(
@@ -29,8 +30,9 @@ def test_encode_decode_position_events(
     second_y: int,
     second_z: int,
     magic_number: MagicNumber,
+    scale: int,
 ) -> None:
-    position_events = PositionEvents(magic_number)
+    position_events = PositionEvents(magic_number, scale)
     position_events.add_timecode_xyz(
         frame=first_timecode,
         xyz=(first_x, first_y, first_z),
@@ -39,7 +41,7 @@ def test_encode_decode_position_events(
         frame=second_timecode,
         xyz=(second_x, second_y, second_z),
     )
-    new_position_events = PositionEvents(magic_number)
+    new_position_events = PositionEvents(magic_number, scale)
     decode_events(new_position_events, encode_events(position_events))
     assert position_events == new_position_events
 

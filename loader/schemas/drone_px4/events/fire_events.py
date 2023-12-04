@@ -21,7 +21,7 @@ class FireEvent(Event):
         return [
             (
                 JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
-                if magic_number == MagicNumber.old
+                if magic_number == MagicNumber.v1
                 else self.frame
             ),
             self.channel,
@@ -51,7 +51,7 @@ class FireEvents(Events[FireEvent]):
             FireEvent(
                 frame=(
                     JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0])
-                    if self.magic_number == MagicNumber.old
+                    if self.magic_number == MagicNumber.v1
                     else data[0]
                 ),
                 channel=data[1],

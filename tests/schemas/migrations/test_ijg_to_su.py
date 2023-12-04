@@ -8,7 +8,7 @@ from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
 from loader.schemas.show_user.show_user import is_angles_equal
 
-from tests.strategies import slow, st_angle_takeoff, st_matrix_with_shape, st_step_takeoff
+from tests.strategies import slow, st_angle_takeoff, st_matrix_with_shape, st_scale, st_step_takeoff
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -18,12 +18,14 @@ if TYPE_CHECKING:
     matrix_with_shape=st_matrix_with_shape(),
     step_takeoff=st_step_takeoff,
     angle_takeoff=st_angle_takeoff,
+    scale=st_scale,
 )
 @slow
 def test_ijg_to_su(
     matrix_with_shape: Tuple["NDArray[np.intp]", int, int, int],
     step_takeoff: float,
     angle_takeoff: float,
+    scale: int,
 ) -> None:
     matrix, nb_x, nb_y, nb_drones_per_family = matrix_with_shape
     show_user = get_valid_show_user(
@@ -33,6 +35,7 @@ def test_ijg_to_su(
             angle_takeoff=angle_takeoff,
         ),
     )
+    show_user.scale = scale
     iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
     iostar_json_gcs_angle_takeoff_rad = -np.deg2rad(iostar_json_gcs.show.angle_takeoff)
     assert is_angles_equal(show_user.angle_takeoff, iostar_json_gcs_angle_takeoff_rad)

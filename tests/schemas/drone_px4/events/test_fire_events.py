@@ -32,7 +32,7 @@ def test_fire_events_standard_case_and_method(magic_number: MagicNumber) -> None
     assert second_fire_event.duration == 4
     assert second_fire_event.channel_duration == (3, 4)
     assert second_fire_event.get_data(magic_number) == [
-        42 if magic_number == MagicNumber.old else 1,
+        42 if magic_number == MagicNumber.v1 else 1,
         3,
         4,
     ]
