@@ -5,7 +5,7 @@ from typing import List, Optional, Set, Union
 from pydantic import field_serializer
 from tqdm import tqdm
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 from loader.reports.base import (
     BaseInfraction,
     BaseInfractionsSummary,
@@ -35,6 +35,11 @@ class DanceSizeInfraction(BaseInfraction):
         drone_px4: DronePx4,
     ) -> "DanceSizeInfraction":
         header_size = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
+        config_size = (
+            struct.calcsize(JSON_BINARY_PARAMETERS.fmt_config)
+            if drone_px4.magic_number == MagicNumber.v3
+            else 0
+        )
         header_section_size = len(drone_px4.non_empty_events_list) * struct.calcsize(
             JSON_BINARY_PARAMETERS.fmt_section_header,
         )
@@ -47,7 +52,9 @@ class DanceSizeInfraction(BaseInfraction):
         fire_size = len(drone_px4.fire_events) * struct.calcsize(
             JSON_BINARY_PARAMETERS.fire_event_format(drone_px4.magic_number),
         )
-        dance_size = header_size + header_section_size + position_size + color_size + fire_size
+        dance_size = (
+            header_size + config_size + header_section_size + position_size + color_size + fire_size
+        )
 
         return DanceSizeInfraction(
             drone_index=drone_px4.index,
