@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.1 (2023-12-05)
+
+### Fix
+
+- **check**: update DanceSizeInfraction for scale support
+
 ## v0.8.0 (2023-12-04)
 
 ### Feat
