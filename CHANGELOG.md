@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.2 (2023-12-07)
+
+### Feat
+
+- add land type support
+
 ## v0.8.1 (2023-12-05)
 
 ### Fix
