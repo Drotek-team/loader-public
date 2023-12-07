@@ -6,6 +6,7 @@ from .iostar_physic_parameters import (
     IostarPhysicParameters,
 )
 from .iostar_takeoff_parameters import TAKEOFF_PARAMETERS
+from .json_binary_parameters import LandType
 
 __all__ = (
     "FRAME_PARAMETERS",
@@ -14,4 +15,5 @@ __all__ = (
     "IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION",
     "IostarPhysicParameters",
     "TAKEOFF_PARAMETERS",
+    "LandType",
 )

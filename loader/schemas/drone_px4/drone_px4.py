@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, List, Tuple
 
 from tqdm import tqdm
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType, MagicNumber
 
 from .binary import Config, Header, SectionHeader
 from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
@@ -20,9 +20,20 @@ if TYPE_CHECKING:
 
 
 class DronePx4:
-    def __init__(self, index: int, magic_number: MagicNumber, scale: int) -> None:
+    def __init__(
+        self,
+        index: int,
+        magic_number: MagicNumber,
+        scale: int,
+        land_type: LandType,
+    ) -> None:
         self.index = index
-        self.scale = scale if magic_number == MagicNumber.v3 else 1
+        if magic_number == MagicNumber.v3:
+            self.scale = scale
+            self.land_type = land_type
+        else:
+            self.scale = 1
+            self.land_type = LandType.Land
         self.position_events = PositionEvents(magic_number, self.scale)
         self.color_events = ColorEvents(magic_number)
         self.fire_events = FireEvents(magic_number)
@@ -33,7 +44,7 @@ class DronePx4:
         self.magic_number = magic_number
 
     def __repr__(self) -> str:  # pragma: no cover
-        return f"DronePx4(index={self.index}, position_events={self.position_events}, color_events={self.color_events}, fire_events={self.fire_events}, magic_number={self.magic_number}, scale={self.scale})"
+        return f"DronePx4(index={self.index}, position_events={self.position_events}, color_events={self.color_events}, fire_events={self.fire_events}, magic_number={self.magic_number}, scale={self.scale}), land_type={self.land_type})"
 
     def __eq__(self, other_drone_px4: object) -> bool:
         if not isinstance(other_drone_px4, DronePx4):
@@ -43,6 +54,7 @@ class DronePx4:
             and self.events_dict == other_drone_px4.events_dict
             and self.magic_number == other_drone_px4.magic_number
             and self.scale == other_drone_px4.scale
+            and self.land_type == other_drone_px4.land_type
         )
 
     def add_position(self, frame: int, xyz: Tuple[int, int, int]) -> None:
@@ -71,7 +83,7 @@ class DronePx4:
     def from_binary(cls, index: int, binary: List[int]) -> "DronePx4":
         byte_array = bytearray(binary)
         header, config, section_headers = get_header_section_header(byte_array)
-        drone_px4 = DronePx4(index, header.magic_number, config.scale)
+        drone_px4 = DronePx4(index, header.magic_number, config.scale, config.land_type)
         for section_header in section_headers:
             decode_events(
                 drone_px4.get_events_by_index(section_header.event_id),
@@ -97,13 +109,13 @@ class DronePx4:
             dance_size=dance_size(drone_px4.magic_number, section_headers, encoded_events_list),
             number_non_empty_events=len(non_empty_events_list),
         )
-        config = Config(scale=drone_px4.scale)
+        config = Config(scale=drone_px4.scale, land_type=drone_px4.land_type)
         return assemble_dance(header, config, section_headers, encoded_events_list)
 
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> List["DronePx4"]:
         return [
-            drone_user_to_drone_px4(drone_user, show_user.scale)
+            drone_user_to_drone_px4(drone_user, show_user.scale, show_user.land_type)
             for drone_user in tqdm(
                 show_user.drones_user,
                 desc="Converting show user to autopilot format",
@@ -116,7 +128,7 @@ class DronePx4:
         return [
             [
                 [
-                    drone_user_to_drone_px4(drone_user, show_user.scale)
+                    drone_user_to_drone_px4(drone_user, show_user.scale, show_user.land_type)
                     for drone_user in family_drones_user
                 ]
                 for family_drones_user in row
@@ -158,7 +170,7 @@ def get_header_section_header(
         config = Config.from_bytes_data(byte_array[header_end_index:config_end_index])
     else:
         config_end_index = header_end_index
-        config = Config(scale=1)
+        config = Config(scale=1, land_type=LandType.Land)
 
     section_headers: List[SectionHeader] = []
     byte_begin_index = config_end_index
@@ -299,11 +311,8 @@ def add_fire_events_user(
         )
 
 
-def drone_user_to_drone_px4(
-    drone_user: "DroneUser",
-    scale: int,
-) -> DronePx4:
-    drone_px4 = DronePx4(drone_user.index, MagicNumber.v3, scale)
+def drone_user_to_drone_px4(drone_user: "DroneUser", scale: int, land_type: LandType) -> DronePx4:
+    drone_px4 = DronePx4(drone_user.index, MagicNumber.v3, scale, land_type)
     add_position_events_user(drone_px4, drone_user.position_events)
     add_color_events_user(
         drone_px4,

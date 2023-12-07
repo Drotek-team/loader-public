@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 from loader.parameters import IostarPhysicParameters
 from loader.parameters.iostar_physic_parameters import IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
+from loader.parameters.json_binary_parameters import LandType
 from loader.reports import (
     AutopilotFormatReport,
     CollisionReport,
@@ -104,7 +105,7 @@ def test_get_dance_size_informations() -> None:
     ):
         assert dance_size_infraction == DanceSizeInfraction(
             drone_index=drone_user.index,
-            dance_size=89,
+            dance_size=90,
             position_percent=0.02,
             color_percent=0.02,
             fire_percent=0.01,
@@ -241,6 +242,7 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
 def test_convert_show_user_to_iostar_json_gcs_standard_case() -> None:
     show_configuration = VALID_SHOW_CONFIGURATION
     show_configuration.scale = 2
+    show_configuration.land_type = LandType.RTL
     iostar_json_gcs = IostarJsonGcs.from_show_user(get_valid_show_user(show_configuration))
     assert iostar_json_gcs == IostarJsonGcs.model_validate_json(
         Path("iostar_json_gcs_valid.json").read_text(),

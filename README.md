@@ -19,6 +19,7 @@ python -m pip install <path_to_the_loader>
 ```python
 from pathlib import Path
 
+from loader.parameters import LandType
 from loader.schemas import IostarJsonGcs, ShowUser
 
 # Create an empty show user
@@ -45,6 +46,11 @@ show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
 # The range is multiplied by the scale
 # The default value is 1
 show_user.scale = 2
+
+# Set the land type at the end of the show
+# The default value is LandType.Land
+# Use LandType.RTL to return to the takeoff position precisely
+show_user.land_type = LandType.RTL
 
 # Export the show user to the iostar json gcs format and save it in a file
 iostart_json_gcs_string = IostarJsonGcs.from_show_user(show_user).model_dump_json()
@@ -226,14 +232,14 @@ print(report.summarize().model_dump_json(indent=4))
             "drone_indices": "0",
             "min_dance_size_infraction": {
                 "drone_index": 0,
-                "dance_size": 100089,
+                "dance_size": 100090,
                 "position_percent": 100.02,
                 "color_percent": 0.02,
                 "fire_percent": 0.01
             },
             "max_dance_size_infraction": {
                 "drone_index": 0,
-                "dance_size": 100089,
+                "dance_size": 100090,
                 "position_percent": 100.02,
                 "color_percent": 0.02,
                 "fire_percent": 0.01
@@ -373,7 +379,7 @@ print(dance_size_report)
 dance_size_infractions = [
     DanceSizeInfraction(
         drone_index=0,
-        dance_size=100089,
+        dance_size=100090,
         position_percent=100.02,
         color_percent=0.02,
         fire_percent=0.01,

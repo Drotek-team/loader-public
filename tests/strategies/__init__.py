@@ -6,6 +6,7 @@ import numpy as np
 from hypothesis import assume, settings
 from hypothesis import strategies as st
 from hypothesis.extra.numpy import arrays  # pyright: ignore[reportUnknownVariableType]
+from loader.parameters.json_binary_parameters import LandType
 
 if sys.version_info < (3, 10):  # pragma: no cover
     from typing_extensions import ParamSpec
@@ -61,3 +62,4 @@ def st_matrix_with_shape(draw: st.DrawFn) -> Tuple["NDArray[np.intp]", int, int,
 st_step_takeoff = st.floats(1, 10)
 st_angle_takeoff = st.floats(0, 2 * np.pi)
 st_scale = st.integers(1, 4)
+st_land_type = st.sampled_from(LandType)

@@ -18,7 +18,7 @@ from loader.parameters import (
     LAND_PARAMETERS,
     IostarPhysicParameters,
 )
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType
 from loader.schemas.drone_px4.drone_px4 import DronePx4
 from loader.schemas.metadata import Metadata
 
@@ -158,6 +158,8 @@ class ShowUser(BaseModel):
     """Distance separating the families during the takeoff in meter."""
     scale: int = Field(1, ge=1, le=4)
     """Position scale of the show, multiply the position of the drones by this value."""
+    land_type: LandType = LandType.Land
+    """Type of landing at the end of the show."""
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
     """Physic parameters of the show."""
     metadata: Metadata = Metadata()
@@ -309,6 +311,7 @@ class ShowUser(BaseModel):
         angle_takeoff: float,
         step: float,
         scale: int,
+        land_type: LandType,
     ) -> "ShowUser":
         """Convert from the autopilot format schema to the show user schema."""
         show_user = ShowUser.create(
@@ -328,7 +331,12 @@ class ShowUser(BaseModel):
             msg = "All the drones must have the same scale"
             raise ValueError(msg)
 
+        if not all(drone_px4.land_type == land_type for drone_px4 in autopilot_format):
+            msg = "All the drones must have the same land type"
+            raise ValueError(msg)
+
         show_user.scale = scale
+        show_user.land_type = land_type
 
         return show_user
 
@@ -340,6 +348,7 @@ class ShowUser(BaseModel):
             angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
             step=iostar_json_gcs.show.step / 100,
             scale=iostar_json_gcs.show.scale,
+            land_type=iostar_json_gcs.show.land_type,
         )
         if iostar_json_gcs.physic_parameters is not None:
             show_user.physic_parameters = iostar_json_gcs.physic_parameters
@@ -356,6 +365,9 @@ class ShowUser(BaseModel):
             return False
 
         if self.scale != other.scale:
+            return False
+
+        if self.land_type != other.land_type:
             return False
 
         if len(self.drones_user) != len(other.drones_user):

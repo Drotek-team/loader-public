@@ -1,7 +1,7 @@
 from typing import List
 
 import pytest
-from loader.parameters.json_binary_parameters import MagicNumber
+from loader.parameters.json_binary_parameters import LandType, MagicNumber
 from loader.reports import DanceSizeReport
 from loader.schemas.drone_px4 import DronePx4
 
@@ -11,7 +11,7 @@ NEW_MAGIC_BREAKER_NUMBER = 16663
 
 @pytest.fixture
 def valid_drone_dance_size(request: pytest.FixtureRequest) -> List[DronePx4]:
-    autopilot_format = [DronePx4(i, request.param, 1) for i in range(2)]
+    autopilot_format = [DronePx4(i, request.param, 1, LandType.Land) for i in range(2)]
     magic_number_breaker = (
         MAGIC_BREAKER_NUMBER if request.param == MagicNumber.v1 else NEW_MAGIC_BREAKER_NUMBER
     )
@@ -23,7 +23,7 @@ def valid_drone_dance_size(request: pytest.FixtureRequest) -> List[DronePx4]:
 
 @pytest.fixture
 def invalid_drone_dance_size(request: pytest.FixtureRequest) -> List[DronePx4]:
-    autopilot_format = [DronePx4(i, request.param, 1) for i in range(2)]
+    autopilot_format = [DronePx4(i, request.param, 1, LandType.Land) for i in range(2)]
     magic_number_breaker = (
         MAGIC_BREAKER_NUMBER if request.param == MagicNumber.v1 else NEW_MAGIC_BREAKER_NUMBER
     )

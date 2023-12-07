@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from loader.parameters.json_binary_parameters import LandType
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
@@ -262,6 +263,10 @@ def test_show_user___eq__() -> None:
 
     other_show_user = show_user.model_copy()
     other_show_user.scale = 2
+    assert show_user != other_show_user
+
+    other_show_user = show_user.model_copy()
+    other_show_user.land_type = LandType.RTL
     assert show_user != other_show_user
 
     assert show_user == show_user  # noqa: PLR0124

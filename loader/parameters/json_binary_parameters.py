@@ -1,6 +1,6 @@
 import struct
 from dataclasses import dataclass
-from enum import IntEnum
+from enum import Enum, IntEnum
 from typing import Tuple
 
 from loader.parameters import FRAME_PARAMETERS
@@ -14,6 +14,29 @@ class MagicNumber(IntEnum):
     v3 = 0xAA77
 
 
+class LandType(Enum):
+    """The type of the land at the end of the show."""
+
+    Land = "Land"
+    """The drone land vertically from the last position."""
+    RTL = "RTL"
+    """The drone will RTL (Return To Land) from the last position."""
+
+    @classmethod
+    def from_int(cls, value: int) -> "LandType":
+        if value == 0:
+            return cls.Land
+        if value == 1:
+            return cls.RTL
+        msg = f"LandType value must be 0 or 1, not {value}"
+        raise ValueError(msg)
+
+    def to_int(self) -> int:
+        if self == self.Land:
+            return 0
+        return 1
+
+
 @dataclass(frozen=True)
 class Bound:
     minimal: int
@@ -24,7 +47,7 @@ class Bound:
 class JsonBinaryParameters:
     fmt_header: str = ">HIB"  # Size in bits of the header
     fmt_section_header: str = ">BII"  # Size in bits of the section header
-    fmt_config: str = ">B"  # Size in bits of the config
+    fmt_config: str = ">BB"  # Size in bits of the config
     timecode_format: str = "I"
     frame_format: str = "H"
     coordinate_format: str = "h"

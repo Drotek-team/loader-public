@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Tuple
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
+from loader.parameters.json_binary_parameters import LandType
 from loader.schemas.matrix import get_matrix
 
 from .show_user import DroneUser, ShowUser
@@ -21,6 +22,7 @@ class ShowUserConfiguration:
     takeoff_altitude: float = TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
     duration_before_takeoff: float = 0.0
     scale: int = 1
+    land_type: LandType = LandType.Land
 
     def __post_init__(self) -> None:
         if self.show_duration_absolute_time <= 0.0:
@@ -178,6 +180,7 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
         step=show_user_configuration.step,
     )
     show_user.scale = show_user_configuration.scale
+    show_user.land_type = show_user_configuration.land_type
     drone_index = 0
     for index_y, column in enumerate(show_user_configuration.matrix):
         for index_x, nb_drones_per_family in enumerate(column):

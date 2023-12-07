@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 from tqdm import tqdm
 
 from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType
 from loader.schemas.drone_px4 import DronePx4
 from loader.schemas.metadata import Metadata
 from loader.schemas.show_user.convex_hull import calculate_convex_hull
@@ -77,6 +77,8 @@ class Show(BaseModel):
     """Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis."""
     scale: int = Field(1, ge=1, le=4)
     """Position scale of the show."""
+    land_type: LandType = LandType.Land
+    """Type of landing at the end of the show."""
 
 
 class IostarJsonGcs(BaseModel):
@@ -121,6 +123,7 @@ class IostarJsonGcs(BaseModel):
                 nb_y=show_user.nb_y,
                 angle_takeoff=angle_takeoff,
                 scale=show_user.scale,
+                land_type=show_user.land_type,
             ),
             physic_parameters=show_user.physic_parameters,
             metadata=show_user.metadata,

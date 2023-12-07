@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from loader.parameters import LandType
 from loader.schemas import IostarJsonGcs
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
@@ -9,6 +10,7 @@ from tests.test_editor import VALID_SHOW_CONFIGURATION
 def main() -> None:
     valid_show_user = get_valid_show_user(VALID_SHOW_CONFIGURATION)
     valid_show_user.scale = 2
+    valid_show_user.land_type = LandType.RTL
 
     collision_show_user = get_valid_show_user(
         ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=1.25),

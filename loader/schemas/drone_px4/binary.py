@@ -2,7 +2,7 @@ import struct
 
 from pydantic import BaseModel
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType, MagicNumber
 
 from .events.events_order import EventsType
 
@@ -43,15 +43,16 @@ class Header(BytesManager):
 
 class Config(BytesManager):
     scale: int
+    land_type: LandType
 
     @property
     def bytes_data(self) -> bytes:
-        return struct.pack(JSON_BINARY_PARAMETERS.fmt_config, self.scale)
+        return struct.pack(JSON_BINARY_PARAMETERS.fmt_config, self.scale, self.land_type.to_int())
 
     @classmethod
     def from_bytes_data(cls, byte_array: bytearray) -> "Config":
-        (scale,) = struct.unpack(JSON_BINARY_PARAMETERS.fmt_config, byte_array)
-        return cls(scale=scale)
+        scale, land_type = struct.unpack(JSON_BINARY_PARAMETERS.fmt_config, byte_array)
+        return cls(scale=scale, land_type=LandType.from_int(land_type))
 
 
 class SectionHeader(BytesManager):

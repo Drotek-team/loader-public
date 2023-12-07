@@ -1,4 +1,25 @@
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound, MagicNumber
+import pytest
+from loader.parameters.json_binary_parameters import (
+    JSON_BINARY_PARAMETERS,
+    Bound,
+    LandType,
+    MagicNumber,
+)
+
+
+def test_land_type_from_int() -> None:
+    assert LandType.from_int(0) == LandType.Land
+    assert LandType.from_int(1) == LandType.RTL
+
+
+def test_land_type_from_int_error() -> None:
+    with pytest.raises(ValueError, match="LandType value must be 0 or 1, not 2"):
+        LandType.from_int(2)
+
+
+def test_land_type_to_int() -> None:
+    assert LandType.Land.to_int() == 0
+    assert LandType.RTL.to_int() == 1
 
 
 def test_json_binary_parameters_standard_case() -> None:

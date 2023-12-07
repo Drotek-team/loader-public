@@ -1,9 +1,10 @@
 from hypothesis import given
 from hypothesis import strategies as st
+from loader.parameters import LandType
 from loader.parameters.json_binary_parameters import MagicNumber
 from loader.schemas.drone_px4 import DronePx4
 
-from tests.strategies import slow, st_scale
+from tests.strategies import slow, st_land_type, st_scale
 
 
 @given(
@@ -29,8 +30,9 @@ from tests.strategies import slow, st_scale
     second_interpolate=st.booleans(),
     second_channel=st.integers(0, 3),
     second_duration=st.integers(0, 3),
-    magic_number=st.sampled_from(MagicNumber),
     scale=st_scale,
+    land_type=st_land_type,
+    magic_number=st.sampled_from(MagicNumber),
 )
 @slow
 def test_encode_decode_drone(
@@ -57,9 +59,10 @@ def test_encode_decode_drone(
     second_channel: int,
     second_duration: int,
     scale: int,
+    land_type: LandType,
     magic_number: MagicNumber,
 ) -> None:
-    drone_px4 = DronePx4(0, magic_number, scale)
+    drone_px4 = DronePx4(0, magic_number, scale, land_type)
 
     drone_px4.add_position(first_frame, (first_x, first_y, first_z))
     drone_px4.add_color(

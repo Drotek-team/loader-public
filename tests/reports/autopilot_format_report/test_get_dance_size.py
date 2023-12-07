@@ -1,5 +1,5 @@
 import pytest
-from loader.parameters.json_binary_parameters import MagicNumber
+from loader.parameters.json_binary_parameters import LandType, MagicNumber
 from loader.reports import DanceSizeInfraction
 from loader.schemas.drone_px4 import DronePx4
 
@@ -31,7 +31,7 @@ def test_get_dance_size_information_standard_case(
     dance_size_after_color: int,
     dance_size_after_fire: int,
 ) -> None:
-    empty_drone_px4 = DronePx4(0, magic_number, 1)
+    empty_drone_px4 = DronePx4(0, magic_number, 1, LandType.Land)
 
     assert DanceSizeInfraction.generate(empty_drone_px4) == DanceSizeInfraction(
         drone_index=0,
