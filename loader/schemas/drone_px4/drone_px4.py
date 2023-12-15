@@ -115,7 +115,12 @@ class DronePx4:
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> List["DronePx4"]:
         return [
-            drone_user_to_drone_px4(drone_user, show_user.scale, show_user.land_type)
+            drone_user_to_drone_px4(
+                drone_user,
+                show_user.scale,
+                show_user.land_type,
+                show_user.magic_number,
+            )
             for drone_user in tqdm(
                 show_user.drones_user,
                 desc="Converting show user to autopilot format",
@@ -128,7 +133,12 @@ class DronePx4:
         return [
             [
                 [
-                    drone_user_to_drone_px4(drone_user, show_user.scale, show_user.land_type)
+                    drone_user_to_drone_px4(
+                        drone_user,
+                        show_user.scale,
+                        show_user.land_type,
+                        show_user.magic_number,
+                    )
                     for drone_user in family_drones_user
                 ]
                 for family_drones_user in row
@@ -311,8 +321,13 @@ def add_fire_events_user(
         )
 
 
-def drone_user_to_drone_px4(drone_user: "DroneUser", scale: int, land_type: LandType) -> DronePx4:
-    drone_px4 = DronePx4(drone_user.index, MagicNumber.v3, scale, land_type)
+def drone_user_to_drone_px4(
+    drone_user: "DroneUser",
+    scale: int,
+    land_type: LandType,
+    magic_number: MagicNumber,
+) -> DronePx4:
+    drone_px4 = DronePx4(drone_user.index, magic_number, scale, land_type)
     add_position_events_user(drone_px4, drone_user.position_events)
     add_color_events_user(
         drone_px4,

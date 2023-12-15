@@ -88,7 +88,12 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
         color_events=[ColorEventUser(frame=0, rgbw=(0.0, 1.0, 0.0, 1.0))],
         fire_events=[FireEventUser(frame=0, channel=0, duration=42)],
     )
-    drone_px4 = drone_user_to_drone_px4(drone_user, scale=1, land_type=LandType.Land)
+    drone_px4 = drone_user_to_drone_px4(
+        drone_user,
+        scale=1,
+        land_type=LandType.Land,
+        magic_number=MagicNumber.v3,
+    )
     assert drone_px4.index == 0
     assert drone_px4.position_events[0].frame == 0
     assert drone_px4.position_events[0].xyz == (100, 0, -200)

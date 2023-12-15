@@ -18,7 +18,7 @@ from loader.parameters import (
     LAND_PARAMETERS,
     IostarPhysicParameters,
 )
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType, MagicNumber
 from loader.schemas.drone_px4.drone_px4 import DronePx4
 from loader.schemas.metadata import Metadata
 
@@ -160,6 +160,8 @@ class ShowUser(BaseModel):
     """Position scale of the show, multiply the position of the drones by this value."""
     land_type: LandType = LandType.Land
     """Type of landing at the end of the show."""
+    magic_number: MagicNumber = MagicNumber.v3
+    """Version of the binary format."""
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
     """Physic parameters of the show."""
     metadata: Metadata = Metadata()
