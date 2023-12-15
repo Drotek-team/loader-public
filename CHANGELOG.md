@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.3 (2023-12-15)
+
+### Refactor
+
+- **binary**: add ShowUser.magic_number to choose the binary format version
+
 ## v0.8.2 (2023-12-07)
 
 ### Feat
