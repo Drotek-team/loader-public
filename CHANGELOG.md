@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9.0 (2023-12-28)
+
+### Feat
+
+- **vviz**: add conversion to vviz
+
 ## v0.8.3 (2023-12-15)
 
 ### Refactor
