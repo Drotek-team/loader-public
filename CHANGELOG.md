@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.10.0 (2024-01-19)
+
+### Feat
+
+- **vviz**: add conversion to vviz
+
+### Refactor
+
+- update to python 3.10 synthax
+
 ## v0.9.0 (2023-12-28)
 
 ### Feat
