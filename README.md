@@ -1,7 +1,7 @@
 # Loader
 
 This project provides standard tools for the creation and verification of Drotek dance file.
-The Loader minimum supported version is Python 3.8.
+The Loader minimum supported version is Python 3.10.
 
 ## Installation
 
