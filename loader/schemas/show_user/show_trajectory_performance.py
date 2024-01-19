@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 import numpy as np
 from tqdm import tqdm
@@ -12,9 +12,9 @@ if TYPE_CHECKING:
 
 
 def get_velocities_from_positions(
-    frames: List["int"],
-    positions: List["NDArray[np.float64]"],
-) -> List["NDArray[np.float64]"]:
+    frames: list["int"],
+    positions: list["NDArray[np.float64]"],
+) -> list["NDArray[np.float64]"]:
     if len(positions) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
     velocities = [
@@ -29,9 +29,9 @@ def get_velocities_from_positions(
 
 
 def get_accelerations_from_velocities(
-    frames: List["int"],
-    velocities: List["NDArray[np.float64]"],
-) -> List["NDArray[np.float64]"]:
+    frames: list["int"],
+    velocities: list["NDArray[np.float64]"],
+) -> list["NDArray[np.float64]"]:
     if len(velocities) == 1:
         return [np.array([0, 0, 0], dtype=np.float64)]
     accelerations = [
@@ -46,8 +46,8 @@ def get_accelerations_from_velocities(
 
 
 def get_trajectory_performance_info_from_position_events(
-    position_events_user: List["PositionEventUser"],
-) -> List["TrajectoryPerformanceInfo"]:
+    position_events_user: list["PositionEventUser"],
+) -> list["TrajectoryPerformanceInfo"]:
     frames = [position_event.frame for position_event in position_events_user]
     positions = [
         np.array(position_event.xyz, dtype=np.float64) for position_event in position_events_user
@@ -66,6 +66,7 @@ def get_trajectory_performance_info_from_position_events(
             positions,
             velocities,
             accelerations,
+            strict=True,
         )
     ]
 
@@ -99,7 +100,7 @@ class DroneTrajectoryPerformance:
     def __init__(
         self,
         index: int,
-        trajectory_performance_infos: List["TrajectoryPerformanceInfo"],
+        trajectory_performance_infos: list["TrajectoryPerformanceInfo"],
     ) -> None:
         self.index = index
         self.trajectory_performance_infos = trajectory_performance_infos
@@ -108,7 +109,7 @@ class DroneTrajectoryPerformance:
     def from_show_user(
         cls,
         show_user: ShowUser,
-    ) -> List["DroneTrajectoryPerformance"]:
+    ) -> list["DroneTrajectoryPerformance"]:
         return [
             cls(
                 drone_user.index,

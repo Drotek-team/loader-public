@@ -1,6 +1,6 @@
 # ruff: noqa: A003, N815
 from enum import Enum
-from typing import TYPE_CHECKING, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel
 
@@ -14,8 +14,8 @@ class ExportType(Enum):
 
     def convert_enu_coordinates(
         self,
-        xyz: Tuple[float, float, float],
-    ) -> Tuple[float, float, float]:  # pragma: no cover
+        xyz: tuple[float, float, float],
+    ) -> tuple[float, float, float]:  # pragma: no cover
         if self == ExportType.VVIZ:
             return xyz[0], xyz[2], xyz[1]
         if self == ExportType.Finale3D:
@@ -31,7 +31,7 @@ class GlobalReferenceFrame(BaseModel):
 
 
 class PositionDeltaSample(BaseModel):
-    dt: Optional[float] = None
+    dt: float | None = None
     dx: float
     dy: float
     dz: float
@@ -42,13 +42,13 @@ class AgentDescription(BaseModel):
     homeY: float
     homeZ: float
     airframe: str
-    agentTraversal: List[PositionDeltaSample]
+    agentTraversal: list[PositionDeltaSample]
 
     @classmethod
     def from_position_events(
-        cls, positions: List["PositionEventUser"], airframe: str, export_type: ExportType
+        cls, positions: list["PositionEventUser"], airframe: str, export_type: ExportType
     ) -> "AgentDescription":
-        agent_traversal: List[PositionDeltaSample] = []
+        agent_traversal: list[PositionDeltaSample] = []
         if positions[0].frame != 0:
             agent_traversal.append(
                 PositionDeltaSample(
@@ -91,7 +91,7 @@ class LightSample(BaseModel):
     g: int
     b: int
     w: int
-    frames: Optional[int] = None
+    frames: int | None = None
 
 
 class LigthPayloadDescription(BaseModel):
@@ -100,16 +100,16 @@ class LigthPayloadDescription(BaseModel):
     lumens: float
     colorType: str = "RGBW"
     sourceType: str
-    payloadActions: List[LightSample]
+    payloadActions: list[LightSample]
 
     @classmethod
     def from_color_events(
         cls,
-        colors: List["ColorEventUser"],
+        colors: list["ColorEventUser"],
         lumens: float,
         source_type: str,
     ) -> "LigthPayloadDescription":
-        payload_actions: List[LightSample] = []
+        payload_actions: list[LightSample] = []
         if colors[0].frame != 0:
             payload_actions.append(
                 LightSample(
@@ -150,9 +150,9 @@ class PyroPayloadDescription(BaseModel):
     @classmethod
     def from_fire_events(
         cls,
-        fires: List["FireEventUser"],
+        fires: list["FireEventUser"],
         vdl: str,
-    ) -> List["PyroPayloadDescription"]:
+    ) -> list["PyroPayloadDescription"]:
         return [
             PyroPayloadDescription(id=index + 1, eventTime=24 * fire.frame, vdl=vdl)
             for index, fire in enumerate(fires)
@@ -162,7 +162,7 @@ class PyroPayloadDescription(BaseModel):
 class Performance(BaseModel):
     id: int
     agentDescription: AgentDescription
-    payloadDescription: List[Union[LigthPayloadDescription, PyroPayloadDescription]]
+    payloadDescription: list[LigthPayloadDescription | PyroPayloadDescription]
 
     @classmethod
     def from_drone_user(
@@ -192,10 +192,10 @@ class Vviz(BaseModel):
     version: str = "1.0"
     performanceName: str
     coordinateFrame: str = "ogl"
-    globalReferenceFrame: Optional[GlobalReferenceFrame] = None
+    globalReferenceFrame: GlobalReferenceFrame | None = None
     defaultPositionRate: float = 4
     defaultColorRate: float = 24
-    performances: List[Performance]
+    performances: list[Performance]
 
     @classmethod
     def from_show_user(
@@ -203,9 +203,9 @@ class Vviz(BaseModel):
         show_user: "ShowUser",
         *,
         performance_name: str,
-        lat: Optional[float] = None,
-        lon: Optional[float] = None,
-        alt: Optional[float] = None,
+        lat: float | None = None,
+        lon: float | None = None,
+        alt: float | None = None,
         export_type: ExportType,
         airframe: str = "IOStar",
         lumens: float = 900.0,

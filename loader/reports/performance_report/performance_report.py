@@ -1,11 +1,10 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from collections import defaultdict
-from typing import DefaultDict, List, Set
+from typing import Annotated
 
 from pydantic import Field, field_serializer
 from tqdm import tqdm
-from typing_extensions import Annotated
 
 from loader.reports.base import BaseReport, BaseReportSummary
 from loader.reports.ranges import get_ranges_from_drone_indices
@@ -15,8 +14,8 @@ from .performance_infraction import PerformanceInfraction, PerformanceInfraction
 
 
 class PerformanceReportSummary(BaseReportSummary):
-    drone_indices: Set[int] = set()
-    performance_infractions_summary: DefaultDict[
+    drone_indices: set[int] = set()
+    performance_infractions_summary: defaultdict[
         str,
         Annotated[
             PerformanceInfractionsSummary,
@@ -45,12 +44,12 @@ class PerformanceReportSummary(BaseReportSummary):
         )
 
     @field_serializer("drone_indices")
-    def _serialize_drone_indices(self, value: Set[int]) -> str:
+    def _serialize_drone_indices(self, value: set[int]) -> str:
         return get_ranges_from_drone_indices(value)
 
 
 class PerformanceReport(BaseReport):
-    performance_infractions: List[PerformanceInfraction] = []
+    performance_infractions: list[PerformanceInfraction] = []
 
     @classmethod
     def generate(

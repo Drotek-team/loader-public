@@ -1,6 +1,5 @@
 # pyright: reportIncompatibleMethodOverride=false
 import struct
-from typing import List, Optional, Set, Union
 
 from pydantic import field_serializer
 from tqdm import tqdm
@@ -77,9 +76,9 @@ class DanceSizeInfraction(BaseInfraction):
 
 
 class DanceSizeInfractionsSummary(BaseInfractionsSummary):
-    drone_indices: Set[int] = set()
-    min_dance_size_infraction: Optional[DanceSizeInfraction] = None
-    max_dance_size_infraction: Optional[DanceSizeInfraction] = None
+    drone_indices: set[int] = set()
+    min_dance_size_infraction: DanceSizeInfraction | None = None
+    max_dance_size_infraction: DanceSizeInfraction | None = None
 
     def __add__(self, other: "DanceSizeInfractionsSummary") -> "DanceSizeInfractionsSummary":
         return DanceSizeInfractionsSummary(
@@ -98,21 +97,21 @@ class DanceSizeInfractionsSummary(BaseInfractionsSummary):
         )
 
     @field_serializer("drone_indices")
-    def _serialize_drone_indices(self, value: Set[int]) -> str:
+    def _serialize_drone_indices(self, value: set[int]) -> str:
         return get_ranges_from_drone_indices(value)
 
 
 class DanceSizeReportSummary(BaseReportSummary):
-    dance_size_infractions_summary: Optional[DanceSizeInfractionsSummary]
+    dance_size_infractions_summary: DanceSizeInfractionsSummary | None
 
 
 class DanceSizeReport(BaseReport):
-    dance_size_infractions: List[DanceSizeInfraction] = []
+    dance_size_infractions: list[DanceSizeInfraction] = []
 
     @classmethod
     def generate(
         cls,
-        show_user_or_autopilot_format: Union[ShowUser, List[DronePx4]],
+        show_user_or_autopilot_format: ShowUser | list[DronePx4],
     ) -> "DanceSizeReport":
         if isinstance(show_user_or_autopilot_format, ShowUser):
             autopilot_format = DronePx4.from_show_user(show_user_or_autopilot_format)

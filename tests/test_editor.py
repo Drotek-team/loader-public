@@ -102,6 +102,7 @@ def test_get_dance_size_informations() -> None:
     for drone_user, dance_size_infraction in zip(
         show_user.drones_user,
         dance_size_report.dance_size_infractions,
+        strict=True,
     ):
         assert dance_size_infraction == DanceSizeInfraction(
             drone_index=drone_user.index,

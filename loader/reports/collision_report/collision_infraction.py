@@ -1,7 +1,8 @@
 # pyright: reportIncompatibleMethodOverride=false
 
 import itertools
-from typing import TYPE_CHECKING, Generator, List, Optional, Set, TypeVar
+from collections.abc import Generator
+from typing import TYPE_CHECKING, TypeVar
 
 import numpy as np
 from pydantic import field_serializer
@@ -80,7 +81,7 @@ class CollisionInfraction(BaseInfraction):
         show_user: ShowUser,
         *,
         is_partial: bool = False,
-    ) -> List["CollisionInfraction"]:
+    ) -> list["CollisionInfraction"]:
         show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
         collision_distance = show_user.physic_parameters.minimum_distance
         if collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance:
@@ -119,11 +120,11 @@ class CollisionInfraction(BaseInfraction):
 
 
 class CollisionInfractionsSummary(BaseInfractionsSummary):
-    drone_indices: Set[int] = set()
-    min_collision_infraction: Optional[CollisionInfraction] = None
-    max_collision_infraction: Optional[CollisionInfraction] = None
-    first_collision_infraction: Optional[CollisionInfraction] = None
-    last_collision_infraction: Optional[CollisionInfraction] = None
+    drone_indices: set[int] = set()
+    min_collision_infraction: CollisionInfraction | None = None
+    max_collision_infraction: CollisionInfraction | None = None
+    first_collision_infraction: CollisionInfraction | None = None
+    last_collision_infraction: CollisionInfraction | None = None
 
     def __add__(self, other: "CollisionInfractionsSummary") -> "CollisionInfractionsSummary":
         return CollisionInfractionsSummary(
@@ -154,7 +155,7 @@ class CollisionInfractionsSummary(BaseInfractionsSummary):
         )
 
     @field_serializer("drone_indices")
-    def _serialize_drone_indices(self, value: Set[int]) -> str:
+    def _serialize_drone_indices(self, value: set[int]) -> str:
         return get_ranges_from_drone_indices(value)
 
 
@@ -189,6 +190,6 @@ def get_border_indices(
 
 
 def get_unique_list_from_list(
-    non_unique_list: List[T],
-) -> List[T]:
+    non_unique_list: list[T],
+) -> list[T]:
     return list(set(non_unique_list))

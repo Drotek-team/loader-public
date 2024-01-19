@@ -1,4 +1,5 @@
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, cast
+from collections.abc import Callable
+from typing import Any, TypeVar, cast
 
 from pydantic import BaseModel
 from pydantic.fields import FieldInfo
@@ -14,10 +15,10 @@ T = TypeVar("T")
 
 
 def apply_func_on_optional_pair(
-    optional1: Optional[T],
-    optional2: Optional[T],
+    optional1: T | None,
+    optional2: T | None,
     func: Callable[[T, T], T],
-) -> Optional[T]:
+) -> T | None:
     if optional1 is None:
         return optional2
     if optional2 is None:
@@ -48,7 +49,7 @@ class BaseMessage(BaseModel):
                 pass
             elif isinstance(field_value, BaseMessage):
                 nb_errors += len(field_value)
-            elif isinstance(field_value, (list, dict)):
+            elif isinstance(field_value, list | dict):
                 nb_errors += self._get_nb_errors_list_or_dict(field_name, field)
             else:
                 msg = f"Report type not supported: {field.annotation} for {self.__class__.__name__}.{field_name}"
@@ -66,10 +67,10 @@ class BaseMessage(BaseModel):
         assert field.annotation is not None
         if isinstance(field_value, dict):
             reports_or_infractions = list(
-                cast(Dict[Any, BaseMessage], field_value).values(),
+                cast(dict[Any, BaseMessage], field_value).values(),
             )
         else:
-            reports_or_infractions = cast(List[BaseMessage], field_value)
+            reports_or_infractions = cast(list[BaseMessage], field_value)
 
         if len(reports_or_infractions) == 0:
             pass
@@ -106,10 +107,10 @@ class BaseInfraction(BaseMessage):
 
     @classmethod
     def generate(
-        cls: Type[TBaseInfraction],
+        cls: type[TBaseInfraction],
         *args: Any,  # noqa: ANN401
         **kwargs: Any,  # noqa: ANN401
-    ) -> Optional[TBaseInfraction]:
+    ) -> TBaseInfraction | None:
         raise NotImplementedError
 
     def summarize(self) -> BaseInfractionsSummary:
@@ -118,15 +119,15 @@ class BaseInfraction(BaseMessage):
 
 class BaseReport(BaseMessage):
     @classmethod
-    def generate(cls: Type[TBaseReport], *args: Any, **kwargs: Any) -> TBaseReport:  # noqa: ANN401
+    def generate(cls: type[TBaseReport], *args: Any, **kwargs: Any) -> TBaseReport:  # noqa: ANN401
         raise NotImplementedError
 
     @classmethod
     def generate_or_none(
-        cls: Type[TBaseReport],
+        cls: type[TBaseReport],
         *args: Any,  # noqa: ANN401
         **kwargs: Any,  # noqa: ANN401
-    ) -> Optional[TBaseReport]:
+    ) -> TBaseReport | None:
         report = cls.generate(*args, **kwargs)
         return report if len(report) else None
 

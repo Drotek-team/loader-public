@@ -3,7 +3,7 @@
 This schema should be used for converting to and from the Show User schema.
 """
 
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 from pydantic import BaseModel, Field
@@ -20,12 +20,12 @@ if TYPE_CHECKING:
 
 
 class Dance(BaseModel):
-    dance: List[int]
+    dance: list[int]
     """List of integer symbolising the list of octect."""
 
 
 class Family(BaseModel):
-    drones: List[Dance]
+    drones: list[Dance]
     """List of the drone composing a family."""
     x: int
     """X relative position (NED) of the family in centimeter."""
@@ -37,7 +37,7 @@ class Family(BaseModel):
     @classmethod
     def from_drone_px4(
         cls,
-        autopilot_format_family: List[DronePx4],
+        autopilot_format_family: list[DronePx4],
     ) -> "Family":
         x, y, z = (
             sum(
@@ -59,7 +59,7 @@ class Family(BaseModel):
 
 
 class Show(BaseModel):
-    families: List[Family]
+    families: list[Family]
     """List of the families composing the show."""
     nb_x: int
     """Number of families on the y-axis during the takeoff."""
@@ -71,9 +71,9 @@ class Show(BaseModel):
     """Angle of the takeoff grid."""
     duration: int
     """Duration of the show in millisecond."""
-    hull: List[Tuple[int, int]]
+    hull: list[tuple[int, int]]
     """List of the relative coordinate (XY in NED and centimeter) symbolysing a convex hull of a show."""
-    altitude_range: Tuple[int, int]
+    altitude_range: tuple[int, int]
     """Relative coordinate ( z_min and z_max in NED and centimeter) symbolising the range of the z-axis."""
     scale: int = Field(1, ge=1, le=4)
     """Position scale of the show."""
@@ -84,7 +84,7 @@ class Show(BaseModel):
 class IostarJsonGcs(BaseModel):
     show: Show
     """Data of the show."""
-    physic_parameters: Optional[IostarPhysicParameters] = None
+    physic_parameters: IostarPhysicParameters | None = None
     """Physic parameters of the show."""
     metadata: Metadata = Metadata()
     """Metadata of the show."""
@@ -131,8 +131,8 @@ class IostarJsonGcs(BaseModel):
 
 
 def from_user_altitude_range_to_px4_altitude_range(
-    altitude_range: Tuple[float, float],
-) -> Tuple[int, int]:
+    altitude_range: tuple[float, float],
+) -> tuple[int, int]:
     user_minimal_coordinate, user_maximal_coordinate = (
         (0.0, 0.0, altitude_range[0]),
         (
@@ -162,8 +162,8 @@ def from_user_duration_to_px4_duration(duration: float) -> int:
 
 
 def from_user_hull_to_px4_hull(
-    user_hull: List[Tuple[float, float]],
-) -> List[Tuple[int, int]]:
+    user_hull: list[tuple[float, float]],
+) -> list[tuple[int, int]]:
     user_coordinates = [(user_point[0], user_point[1], 0.0) for user_point in user_hull]
     px4_coordinates = [
         (JSON_BINARY_PARAMETERS.from_user_xyz_to_px4_xyz(user_coordinate))

@@ -1,7 +1,7 @@
 # pyright: reportIncompatibleMethodOverride=false
 from collections import defaultdict
 from enum import Enum
-from typing import Any, DefaultDict, List, Optional
+from typing import Any
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound, MagicNumber
 from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
@@ -43,7 +43,7 @@ class IncreasingFrameInfraction(BaseInfraction):
     def generate(
         cls,
         events: Events[Any],
-    ) -> List["IncreasingFrameInfraction"]:
+    ) -> list["IncreasingFrameInfraction"]:
         frames = [event.frame for event in events]
         return [
             IncreasingFrameInfraction(
@@ -64,8 +64,8 @@ class IncreasingFrameInfraction(BaseInfraction):
 
 
 class IncreasingFrameInfractionsSummary(BaseInfractionsSummary):
-    first: Optional[IncreasingFrameInfraction] = None
-    last: Optional[IncreasingFrameInfraction] = None
+    first: IncreasingFrameInfraction | None = None
+    last: IncreasingFrameInfraction | None = None
 
     def __add__(
         self,
@@ -101,7 +101,7 @@ class BoundaryInfraction(BaseInfraction):
     def generate(
         cls,
         events: Events[Any],
-    ) -> DefaultDict[str, List["BoundaryInfraction"]]:
+    ) -> defaultdict[str, list["BoundaryInfraction"]]:
         if isinstance(events, PositionEvents):
             boundary_kinds = [
                 BoundaryKind.TIME,
@@ -123,12 +123,13 @@ class BoundaryInfraction(BaseInfraction):
             raise NotImplementedError
 
         bounds = [kind.get_bound(events.magic_number) for kind in boundary_kinds]
-        infractions: DefaultDict[str, List[BoundaryInfraction]] = defaultdict(list)
+        infractions: defaultdict[str, list[BoundaryInfraction]] = defaultdict(list)
         for event_index, event in enumerate(events):
             for kind, bound, value in zip(
                 boundary_kinds,
                 bounds,
                 event.get_data(events.magic_number),
+                strict=True,
             ):
                 if not (
                     check_integer_bound(
@@ -151,10 +152,10 @@ class BoundaryInfraction(BaseInfraction):
 
 
 class BoundaryInfractionsSummary(BaseInfractionsSummary):
-    min_boundary_infraction: Optional[BoundaryInfraction] = None
-    max_boundary_infraction: Optional[BoundaryInfraction] = None
-    first_boundary_infraction: Optional[BoundaryInfraction] = None
-    last_boundary_infraction: Optional[BoundaryInfraction] = None
+    min_boundary_infraction: BoundaryInfraction | None = None
+    max_boundary_infraction: BoundaryInfraction | None = None
+    first_boundary_infraction: BoundaryInfraction | None = None
+    last_boundary_infraction: BoundaryInfraction | None = None
 
     def __add__(self, other: "BoundaryInfractionsSummary") -> "BoundaryInfractionsSummary":
         min_value = apply_func_on_optional_pair(

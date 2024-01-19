@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 import numpy as np
 from tqdm import tqdm
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 class ShowPositionFrame:
-    def __init__(self, frame: int, drone_indices: List["int"]) -> None:
+    def __init__(self, frame: int, drone_indices: list["int"]) -> None:
         nb_drones = len(drone_indices)
 
         self.frame = frame
@@ -46,7 +46,7 @@ class ShowPositionFrame:
         show_user: ShowUser,
         *,
         is_partial: bool,
-    ) -> List["ShowPositionFrame"]:
+    ) -> list["ShowPositionFrame"]:
         drone_indices = [drone_user.index for drone_user in show_user.drones_user]
         flight_simulations = [
             get_partial_flight_simulation(drone_user)
@@ -67,12 +67,14 @@ class ShowPositionFrame:
             )
         ]
         for drone_index, flight_simulation in tqdm(
-            zip(drone_indices, flight_simulations),
+            zip(drone_indices, flight_simulations, strict=True),
             desc="Computing show position frames",
             total=len(drone_indices),
             unit="drone",
         ):
-            for show_slice, simulation_info in zip(show_position_frames, flight_simulation[::6]):
+            for show_slice, simulation_info in zip(
+                show_position_frames, flight_simulation[::6], strict=False
+            ):
                 show_slice.update_position_air_flag(
                     drone_index,
                     simulation_info.position,

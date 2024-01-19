@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 import pytest
 from loader.reports.base import BaseInfraction, BaseReport
 
@@ -13,17 +11,17 @@ class DummierBaseInfraction(BaseInfraction):
 
 
 class DummyReport(BaseReport):
-    dummy_infraction: Optional[DummyBaseInfraction]
+    dummy_infraction: DummyBaseInfraction | None
 
 
 class DummyBaseReport(BaseReport):
-    dummy_report: Optional[DummyReport]
+    dummy_report: DummyReport | None
 
 
 class DummestBaseReport(BaseReport):
-    dummy_base_infraction: Optional[DummyBaseInfraction]
-    dummier_base_infraction: List[DummierBaseInfraction]
-    dummy_base_reports: List[DummyBaseReport]
+    dummy_base_infraction: DummyBaseInfraction | None
+    dummier_base_infraction: list[DummierBaseInfraction]
+    dummy_base_reports: list[DummyBaseReport]
 
 
 DUMMEST_BASE_REPORT = DummestBaseReport(
@@ -59,11 +57,11 @@ def test_base_report_get_nb_errors_no_fields() -> None:
 
 def test_base_report_get_nb_errors_list_unsupported_type() -> None:
     class DummyListUnsuportedType(BaseReport):
-        dummy_list: List[int]
+        dummy_list: list[int]
 
     with pytest.raises(
         TypeError,
-        match=r"^Report type not supported: typing.List\[int\] for DummyListUnsuportedType.dummy_list$",
+        match=r"^Report type not supported: list\[int\] for DummyListUnsuportedType.dummy_list$",
     ):
         len(DummyListUnsuportedType(dummy_list=[1, 2, 3]))
 
@@ -87,7 +85,7 @@ def test_base_report_get_nb_errors_report_width_drone_index() -> None:
 
 
 class CleverBaseReport(BaseReport):
-    clever_base_infractions: List[DummierBaseInfraction]
+    clever_base_infractions: list[DummierBaseInfraction]
 
 
 def test_get_base_report_validation() -> None:

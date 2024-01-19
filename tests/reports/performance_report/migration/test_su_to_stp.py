@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING
 
 from loader.schemas.show_user import PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 def from_ca_to_ct(
     coordinate_array: "NDArray[np.float64]",
-) -> Tuple[float, float, float]:
+) -> tuple[float, float, float]:
     return (coordinate_array[0], coordinate_array[1], coordinate_array[2])
 
 

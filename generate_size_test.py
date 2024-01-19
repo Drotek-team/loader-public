@@ -51,7 +51,7 @@ if __name__ == "__main__":
     show_user = ShowUser.create(nb_drones=NB_X * NB_Y, angle_takeoff=ANGLE, step=STEP)
 
     for drone, position in tqdm(
-        zip(show_user.drones_user, positions),
+        zip(show_user.drones_user, positions, strict=True),
         desc="Generating events",
         total=NB_X * NB_Y,
         unit="drone",

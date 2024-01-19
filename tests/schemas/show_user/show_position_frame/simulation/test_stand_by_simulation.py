@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import numpy as np
 import pytest
 from loader.schemas.show_user import PositionEventUser
@@ -12,7 +10,7 @@ from loader.schemas.show_user.show_position_frame.simulation.stand_by_simulation
 
 
 @pytest.fixture
-def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
+def valid_position_events_user() -> tuple[PositionEventUser, PositionEventUser]:
     return PositionEventUser(frame=0, xyz=(0.0, 0.0, 10.0)), PositionEventUser(
         frame=3,
         xyz=(0.0, 0.0, 10.0),
@@ -20,7 +18,7 @@ def valid_position_events_user() -> Tuple[PositionEventUser, PositionEventUser]:
 
 
 def test_stand_by_simulation(
-    valid_position_events_user: Tuple[PositionEventUser, PositionEventUser],
+    valid_position_events_user: tuple[PositionEventUser, PositionEventUser],
 ) -> None:
     first_position_event, second_position_event = (
         valid_position_events_user[0],
@@ -47,7 +45,7 @@ def test_stand_by_simulation(
 
 
 def test_stand_by_simulation_frame_begin_superior_to_frame_end(
-    valid_position_events_user: Tuple[PositionEventUser, PositionEventUser],
+    valid_position_events_user: tuple[PositionEventUser, PositionEventUser],
 ) -> None:
     first_position_event, second_position_event = (
         valid_position_events_user[0],

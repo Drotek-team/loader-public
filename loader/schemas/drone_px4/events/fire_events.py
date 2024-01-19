@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, List, Tuple
+from typing import Any
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 
@@ -14,10 +14,10 @@ class FireEvent(Event):
     duration: int  # duration of the fire event in milliseconds
 
     @property
-    def channel_duration(self) -> Tuple[int, int]:
+    def channel_duration(self) -> tuple[int, int]:
         return (self.channel, self.duration)
 
-    def get_data(self, magic_number: MagicNumber) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> list[Any]:
         return [
             (
                 JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
@@ -46,7 +46,7 @@ class FireEvents(Events[FireEvent]):
     ) -> None:
         self._events.append(FireEvent(frame=frame, channel=channel, duration=duration))
 
-    def add_data(self, data: List[Any]) -> None:
+    def add_data(self, data: list[Any]) -> None:
         self._events.append(
             FireEvent(
                 frame=(

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, List, Tuple
+from typing import Any
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 
@@ -17,10 +17,10 @@ class ColorEvent(Event):
     interpolate: bool = False  # if the event is interpolated
 
     @property
-    def rgbw(self) -> Tuple[int, int, int, int]:
+    def rgbw(self) -> tuple[int, int, int, int]:
         return (self.r, self.g, self.b, self.w)
 
-    def get_data(self, magic_number: MagicNumber) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> list[Any]:
         if magic_number == MagicNumber.v1:
             time = JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
             w = self.w
@@ -50,7 +50,7 @@ class ColorEvents(Events[ColorEvent]):
     def add_timecode_rgbw(
         self,
         frame: int,
-        rgbw: Tuple[int, int, int, int],
+        rgbw: tuple[int, int, int, int],
         *,
         interpolate: bool = False,
     ) -> None:
@@ -65,7 +65,7 @@ class ColorEvents(Events[ColorEvent]):
             ),
         )
 
-    def add_data(self, data: List[Any]) -> None:
+    def add_data(self, data: list[Any]) -> None:
         if self.magic_number == MagicNumber.v1:
             frame = JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(data[0])
             w = data[4]

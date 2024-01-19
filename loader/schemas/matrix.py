@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Optional, Sequence, overload
+from collections.abc import Sequence
+from typing import TYPE_CHECKING, overload
 
 import numpy as np
 
@@ -23,7 +24,7 @@ def get_matrix(
 
 def get_matrix(
     *,
-    matrix: Optional[Sequence[Sequence[int]]] = None,
+    matrix: Sequence[Sequence[int]] | None = None,
     nb_x: int = 1,
     nb_y: int = 1,
     nb_drones_per_family: int = 1,

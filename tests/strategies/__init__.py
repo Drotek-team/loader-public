@@ -1,17 +1,12 @@
 import os
-import sys
-from typing import TYPE_CHECKING, Callable, Tuple, TypeVar, cast
+from collections.abc import Callable
+from typing import TYPE_CHECKING, ParamSpec, TypeVar, cast
 
 import numpy as np
 from hypothesis import assume, settings
 from hypothesis import strategies as st
 from hypothesis.extra.numpy import arrays  # pyright: ignore[reportUnknownVariableType]
 from loader.parameters.json_binary_parameters import LandType
-
-if sys.version_info < (3, 10):  # pragma: no cover
-    from typing_extensions import ParamSpec
-else:  # pragma: no cover
-    from typing import ParamSpec
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -38,7 +33,7 @@ def st_matrix(draw: st.DrawFn) -> "NDArray[np.intp]":
 
 
 @st.composite
-def st_matrix_with_shape(draw: st.DrawFn) -> Tuple["NDArray[np.intp]", int, int, int]:
+def st_matrix_with_shape(draw: st.DrawFn) -> tuple["NDArray[np.intp]", int, int, int]:
     nb_x = draw(st.integers(1, 3))
     nb_y = draw(st.integers(1, 3))
     st_nb_drones_per_family = st.integers(0, 3)

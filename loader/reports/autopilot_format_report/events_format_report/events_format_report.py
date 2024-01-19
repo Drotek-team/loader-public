@@ -1,10 +1,9 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from collections import defaultdict
-from typing import Any, DefaultDict, List, Optional, Set
+from typing import Annotated, Any
 
 from pydantic import Field, field_serializer
-from typing_extensions import Annotated
 
 from loader.reports.base import BaseReport, BaseReportSummary, apply_func_on_optional_pair
 from loader.reports.ranges import get_ranges_from_drone_indices
@@ -23,7 +22,7 @@ class EventsReportSummary(BaseReportSummary):
     increasing_frame_infractions_summary: IncreasingFrameInfractionsSummary = (
         IncreasingFrameInfractionsSummary()
     )
-    boundary_infractions_summary: DefaultDict[
+    boundary_infractions_summary: defaultdict[
         str,
         Annotated[BoundaryInfractionsSummary, Field(default_factory=BoundaryInfractionsSummary)],
     ] = defaultdict(BoundaryInfractionsSummary)
@@ -49,8 +48,8 @@ class EventsReportSummary(BaseReportSummary):
 
 
 class EventsReport(BaseReport):
-    increasing_frame_infractions: List[IncreasingFrameInfraction]
-    boundary_infractions: DefaultDict[str, List[BoundaryInfraction]]
+    increasing_frame_infractions: list[IncreasingFrameInfraction]
+    boundary_infractions: defaultdict[str, list[BoundaryInfraction]]
 
     @classmethod
     def generate(
@@ -90,10 +89,10 @@ class EventsReport(BaseReport):
 
 
 class EventsFormatReportSummary(BaseReportSummary):
-    drone_indices: Set[int] = set()
-    position_events_report_summary: Optional[EventsReportSummary] = None
-    color_events_report_summary: Optional[EventsReportSummary] = None
-    fire_events_report_summary: Optional[EventsReportSummary] = None
+    drone_indices: set[int] = set()
+    position_events_report_summary: EventsReportSummary | None = None
+    color_events_report_summary: EventsReportSummary | None = None
+    fire_events_report_summary: EventsReportSummary | None = None
 
     def __add__(self, other: "EventsFormatReportSummary") -> "EventsFormatReportSummary":
         return EventsFormatReportSummary(
@@ -116,15 +115,15 @@ class EventsFormatReportSummary(BaseReportSummary):
         )
 
     @field_serializer("drone_indices")
-    def _serialize_drone_indices(self, value: Set[int]) -> str:
+    def _serialize_drone_indices(self, value: set[int]) -> str:
         return get_ranges_from_drone_indices(value)
 
 
 class EventsFormatReport(BaseReport):
     drone_index: int
-    position_events_report: Optional[EventsReport]
-    color_events_report: Optional[EventsReport]
-    fire_events_report: Optional[EventsReport]
+    position_events_report: EventsReport | None
+    color_events_report: EventsReport | None
+    fire_events_report: EventsReport | None
 
     @classmethod
     def generate(

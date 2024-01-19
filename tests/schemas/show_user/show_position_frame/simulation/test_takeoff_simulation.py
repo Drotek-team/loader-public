@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import numpy as np
 from hypothesis import example, given
 from hypothesis import strategies as st
@@ -23,7 +21,7 @@ POSITION_START = (0.0, 0.0, 0.0)
 
 def get_valid_position_events_user(
     takeoff_end_altitude: float,
-) -> Tuple[PositionEventUser, PositionEventUser]:
+) -> tuple[PositionEventUser, PositionEventUser]:
     return PositionEventUser(frame=FRAME_START, xyz=POSITION_START), PositionEventUser(
         frame=FRAME_END,
         xyz=(

@@ -1,7 +1,6 @@
 import struct
 from dataclasses import dataclass
 from enum import Enum, IntEnum
-from typing import Tuple
 
 from loader.parameters import FRAME_PARAMETERS
 
@@ -152,8 +151,8 @@ class JsonBinaryParameters:
 
     def from_user_xyz_to_px4_xyz(
         self,
-        user_xyz: Tuple[float, float, float],
-    ) -> Tuple[int, int, int]:
+        user_xyz: tuple[float, float, float],
+    ) -> tuple[int, int, int]:
         return (
             self.from_user_position_to_px4_position(user_xyz[1]),
             self.from_user_position_to_px4_position(user_xyz[0]),
@@ -165,8 +164,8 @@ class JsonBinaryParameters:
 
     def from_px4_xyz_to_user_xyz(
         self,
-        px4_xyz: Tuple[int, int, int],
-    ) -> Tuple[float, float, float]:
+        px4_xyz: tuple[int, int, int],
+    ) -> tuple[float, float, float]:
         return (
             self.from_px4_position_to_user_position(px4_xyz[1]),
             self.from_px4_position_to_user_position(px4_xyz[0]),
@@ -175,8 +174,8 @@ class JsonBinaryParameters:
 
     def from_user_rgbw_to_px4_rgbw(
         self,
-        user_rgbw: Tuple[float, float, float, float],
-    ) -> Tuple[int, int, int, int]:
+        user_rgbw: tuple[float, float, float, float],
+    ) -> tuple[int, int, int, int]:
         return (
             self._unit_to_octect(user_rgbw[0]),
             self._unit_to_octect(user_rgbw[1]),
@@ -186,8 +185,8 @@ class JsonBinaryParameters:
 
     def from_px4_rgbw_to_user_rgbw(
         self,
-        px4_rgbw: Tuple[int, int, int, int],
-    ) -> Tuple[float, float, float, float]:
+        px4_rgbw: tuple[int, int, int, int],
+    ) -> tuple[float, float, float, float]:
         return (
             self._octect_to_unit(px4_rgbw[0]),
             self._octect_to_unit(px4_rgbw[1]),

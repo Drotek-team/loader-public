@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, List, Tuple
+from typing import Any
 
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
 
@@ -16,10 +16,10 @@ class PositionEvent(Event):
     scale: int  # position scale
 
     @property
-    def xyz(self) -> Tuple[int, int, int]:
+    def xyz(self) -> tuple[int, int, int]:
         return (self.x, self.y, self.z)
 
-    def get_data(self, magic_number: MagicNumber) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> list[Any]:
         return [
             (
                 JSON_BINARY_PARAMETERS.from_user_frame_to_px4_timecode(self.frame)
@@ -53,12 +53,12 @@ class PositionEvents(Events[PositionEvent]):
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []
 
-    def add_timecode_xyz(self, frame: int, xyz: Tuple[int, int, int]) -> None:
+    def add_timecode_xyz(self, frame: int, xyz: tuple[int, int, int]) -> None:
         self._events.append(
             PositionEvent(frame=frame, x=xyz[0], y=xyz[1], z=xyz[2], scale=self.scale)
         )
 
-    def add_data(self, data: List[Any]) -> None:
+    def add_data(self, data: list[Any]) -> None:
         self._events.append(
             PositionEvent(
                 frame=(

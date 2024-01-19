@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 from loader.parameters.json_binary_parameters import MagicNumber
 from loader.schemas.drone_px4.events import Event, Events
@@ -9,7 +9,7 @@ class DummyEvent(Event):  # pragma: no cover
     def __init__(self) -> None:
         self.frame = 5
 
-    def get_data(self, magic_number: MagicNumber) -> List[Any]:  # noqa: ARG002
+    def get_data(self, magic_number: MagicNumber) -> list[Any]:  # noqa: ARG002
         return [self.frame]
 
 
@@ -19,7 +19,7 @@ class DummyEvents(Events[DummyEvent]):  # pragma: no cover
         self.id_ = EventsType.position
         self._events = []
 
-    def add_data(self, data: List[Any]) -> None:  # noqa: ARG002
+    def add_data(self, data: list[Any]) -> None:  # noqa: ARG002
         self._events.append(DummyEvent())
 
 

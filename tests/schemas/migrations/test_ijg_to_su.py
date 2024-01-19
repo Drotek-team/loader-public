@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 from hypothesis import given
@@ -34,7 +34,7 @@ if TYPE_CHECKING:
 )
 @slow
 def test_ijg_to_su(
-    matrix_with_shape: Tuple["NDArray[np.intp]", int, int, int],
+    matrix_with_shape: tuple["NDArray[np.intp]", int, int, int],
     step_takeoff: float,
     angle_takeoff: float,
     scale: int,

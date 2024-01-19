@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING
 
 from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
 from loader.parameters.json_binary_parameters import LandType
@@ -51,9 +51,9 @@ class ShowUserConfiguration:
 
 
 def rotated_horizontal_coordinates(
-    xyz: Tuple[float, float, float],
+    xyz: tuple[float, float, float],
     angle_radian: float,
-) -> Tuple[float, float, float]:
+) -> tuple[float, float, float]:
     x_rotated = xyz[0] * math.cos(angle_radian) - xyz[1] * math.sin(angle_radian)
     y_rotated = xyz[0] * math.sin(angle_radian) + xyz[1] * math.cos(angle_radian)
     return (x_rotated, y_rotated, xyz[2])

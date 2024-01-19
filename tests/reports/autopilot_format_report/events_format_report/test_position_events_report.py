@@ -57,6 +57,7 @@ def test_invalid_position_events_xyz_value_report(
     for (axis, coordinate_infraction), expected_axis in zip(
         coordinate_infractions.items(),
         ["north", "east", "down"],
+        strict=True,
     ):
         assert axis == expected_axis
         assert coordinate_infraction == [

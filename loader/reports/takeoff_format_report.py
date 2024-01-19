@@ -1,5 +1,5 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import List, Optional, Set, Tuple
+from typing import Optional
 
 import numpy as np
 from pydantic import field_serializer
@@ -53,10 +53,10 @@ class TakeoffDurationInfraction(BaseInfraction):
 
 
 class TakeoffDurationInfractionsSummary(BaseInfractionsSummary):
-    min_duration_infraction: Optional[TakeoffDurationInfraction] = None
-    max_duration_infraction: Optional[TakeoffDurationInfraction] = None
-    first_duration_infraction: Optional[TakeoffDurationInfraction] = None
-    last_duration_infraction: Optional[TakeoffDurationInfraction] = None
+    min_duration_infraction: TakeoffDurationInfraction | None = None
+    max_duration_infraction: TakeoffDurationInfraction | None = None
+    first_duration_infraction: TakeoffDurationInfraction | None = None
+    last_duration_infraction: TakeoffDurationInfraction | None = None
 
     def __add__(
         self,
@@ -88,8 +88,8 @@ class TakeoffDurationInfractionsSummary(BaseInfractionsSummary):
 
 
 class TakeoffPositionInfraction(BaseInfraction):
-    start_position: Tuple[float, float, float]
-    end_position: Tuple[float, float, float]
+    start_position: tuple[float, float, float]
+    end_position: tuple[float, float, float]
 
     @classmethod
     def generate(
@@ -121,16 +121,16 @@ class TakeoffPositionInfraction(BaseInfraction):
 
 
 class TakeoffPositionInfractionsSummary(BaseInfractionsSummary):
-    min_position_infraction: Optional[TakeoffPositionInfraction] = None
-    max_position_infraction: Optional[TakeoffPositionInfraction] = None
+    min_position_infraction: TakeoffPositionInfraction | None = None
+    max_position_infraction: TakeoffPositionInfraction | None = None
 
     def __add__(
         self,
         other: "TakeoffPositionInfractionsSummary",
     ) -> "TakeoffPositionInfractionsSummary":
         def get_distance(
-            position1: Tuple[float, float, float],
-            position2: Tuple[float, float, float],
+            position1: tuple[float, float, float],
+            position2: tuple[float, float, float],
         ) -> np.float64:
             return np.linalg.norm(np.array(position1) - np.array(position2))
 
@@ -140,24 +140,24 @@ class TakeoffPositionInfractionsSummary(BaseInfractionsSummary):
                 self.min_position_infraction,
                 other.min_position_infraction,
                 lambda x, y: x
-                if get_distance(x.start_position, x.end_position)
-                < get_distance(y.start_position, y.end_position)
+                if get_distance(x.start_position, x.end_position)  # pyright: ignore[reportGeneralTypeIssues]
+                < get_distance(y.start_position, y.end_position)  # pyright: ignore[reportGeneralTypeIssues]
                 else y,
             ),
             max_position_infraction=apply_func_on_optional_pair(
                 self.max_position_infraction,
                 other.max_position_infraction,
                 lambda x, y: x
-                if get_distance(x.start_position, x.end_position)
-                > get_distance(y.start_position, y.end_position)
+                if get_distance(x.start_position, x.end_position)  # pyright: ignore[reportGeneralTypeIssues]
+                > get_distance(y.start_position, y.end_position)  # pyright: ignore[reportGeneralTypeIssues]
                 else y,
             ),
         )
 
 
 class TakeoffReport(BaseReport):
-    duration_infraction: Optional[TakeoffDurationInfraction] = None
-    position_infraction: Optional[TakeoffPositionInfraction] = None
+    duration_infraction: TakeoffDurationInfraction | None = None
+    position_infraction: TakeoffPositionInfraction | None = None
 
     @classmethod
     def generate(
@@ -187,8 +187,8 @@ class TakeoffReport(BaseReport):
 
 
 class TakeoffReportSummary(BaseReportSummary):
-    duration_infractions_summary: Optional[TakeoffDurationInfractionsSummary] = None
-    position_infractions_summary: Optional[TakeoffPositionInfractionsSummary] = None
+    duration_infractions_summary: TakeoffDurationInfractionsSummary | None = None
+    position_infractions_summary: TakeoffPositionInfractionsSummary | None = None
 
     def __add__(self, other: "TakeoffReportSummary") -> "TakeoffReportSummary":
         return TakeoffReportSummary(
@@ -228,8 +228,8 @@ class MinimumPositionEventsInfraction(BaseInfraction):
 
 
 class MinimumPositionEventsInfractionsSummary(BaseInfractionsSummary):
-    min_position_events_infraction: Optional[MinimumPositionEventsInfraction] = None
-    max_position_events_infraction: Optional[MinimumPositionEventsInfraction] = None
+    min_position_events_infraction: MinimumPositionEventsInfraction | None = None
+    max_position_events_infraction: MinimumPositionEventsInfraction | None = None
 
     def __add__(
         self,
@@ -252,8 +252,8 @@ class MinimumPositionEventsInfractionsSummary(BaseInfractionsSummary):
 
 class DroneUserReport(BaseReport):
     drone_index: int
-    minimal_position_event: Optional[MinimumPositionEventsInfraction] = None
-    takeoff: Optional[TakeoffReport] = None
+    minimal_position_event: MinimumPositionEventsInfraction | None = None
+    takeoff: TakeoffReport | None = None
 
     @classmethod
     def generate(
@@ -282,11 +282,11 @@ class DroneUserReport(BaseReport):
 
 
 class DroneUserReportSummary(BaseReportSummary):
-    drone_indices: Set[int] = set()
-    minimal_position_events_infractions_summary: Optional[
-        MinimumPositionEventsInfractionsSummary
-    ] = None
-    takeoff_report_summary: Optional[TakeoffReportSummary] = None
+    drone_indices: set[int] = set()
+    minimal_position_events_infractions_summary: MinimumPositionEventsInfractionsSummary | None = (
+        None
+    )
+    takeoff_report_summary: TakeoffReportSummary | None = None
 
     def __add__(
         self,
@@ -307,12 +307,12 @@ class DroneUserReportSummary(BaseReportSummary):
         )
 
     @field_serializer("drone_indices")
-    def _serialize_drone_indices(self, value: Set[int]) -> str:
+    def _serialize_drone_indices(self, value: set[int]) -> str:
         return get_ranges_from_drone_indices(value)
 
 
 class TakeoffFormatReport(BaseReport):
-    drone_users: List[DroneUserReport] = []
+    drone_users: list[DroneUserReport] = []
 
     @classmethod
     def generate(
@@ -343,4 +343,4 @@ class TakeoffFormatReport(BaseReport):
 
 
 class TakeoffFormatReportSummary(BaseReportSummary):
-    drone_user_report_summary: Optional[DroneUserReportSummary] = None
+    drone_user_report_summary: DroneUserReportSummary | None = None

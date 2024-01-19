@@ -1,5 +1,5 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import List, Optional
+from typing import Optional
 
 from tqdm import tqdm
 
@@ -14,7 +14,7 @@ class CollisionReportSummary(BaseReportSummary):
 
 
 class CollisionReport(BaseReport):
-    collision_infractions: List[CollisionInfraction] = []
+    collision_infractions: list[CollisionInfraction] = []
 
     @classmethod
     def generate(

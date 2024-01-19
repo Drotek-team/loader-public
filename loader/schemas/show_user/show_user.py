@@ -5,7 +5,7 @@ This is the schema to be used to create, modify and check a show.
 """
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Optional, Tuple, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 from pydantic import BaseModel, Field
@@ -45,13 +45,13 @@ class EventUserBase(BaseModel):
 class PositionEventUser(EventUserBase):
     """Position event schema."""
 
-    xyz: Tuple[StrictFloat, StrictFloat, StrictFloat]
+    xyz: tuple[StrictFloat, StrictFloat, StrictFloat]
     """Position of the drone in meter and ENU coordinate system."""
 
     def apply_horizontal_rotation(self, angle: float) -> None:
         c, s = np.cos(angle), np.sin(angle)
         self.xyz = cast(
-            Tuple[float, float, float],
+            tuple[float, float, float],
             tuple(np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]]) @ np.array(self.xyz)),
         )
 
@@ -59,7 +59,7 @@ class PositionEventUser(EventUserBase):
 class ColorEventUser(EventUserBase):
     """Color event schema."""
 
-    rgbw: Tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]
+    rgbw: tuple[StrictFloat, StrictFloat, StrictFloat, StrictFloat]
     """Color of the drone in RGBW format (between 0 and 1)."""
     interpolate: bool = False
     """If true, linearly interpolate between this color and the next one."""
@@ -79,21 +79,21 @@ class DroneUser(BaseModel):
 
     index: int
     """Index of the drone in the show (0, 1, 2, ...)."""
-    position_events: List[PositionEventUser]
+    position_events: list[PositionEventUser]
     """List of the position events of the drone."""
-    color_events: List[ColorEventUser]
+    color_events: list[ColorEventUser]
     """List of the color events of the drone."""
-    fire_events: List[FireEventUser]
+    fire_events: list[FireEventUser]
     """List of the fire events of the drone."""
 
-    def add_position_event(self, frame: int, xyz: Tuple[float, float, float]) -> None:
+    def add_position_event(self, frame: int, xyz: tuple[float, float, float]) -> None:
         """Add a position event to the drone."""
         self.position_events.append(PositionEventUser(frame=frame, xyz=xyz))
 
     def add_color_event(
         self,
         frame: int,
-        rgbw: Tuple[float, float, float, float],
+        rgbw: tuple[float, float, float, float],
         *,
         interpolate: bool = False,
     ) -> None:
@@ -105,7 +105,7 @@ class DroneUser(BaseModel):
         self.fire_events.append(FireEventUser(frame=frame, channel=channel, duration=duration))
 
     @property
-    def flight_positions(self) -> List[PositionEventUser]:
+    def flight_positions(self) -> list[PositionEventUser]:
         """List of the position events of the drone during the flight."""
         return self.position_events[1:]
 
@@ -150,7 +150,7 @@ class DroneUser(BaseModel):
 class ShowUser(BaseModel):
     """Show class to be used by the user."""
 
-    drones_user: List[DroneUser]
+    drones_user: list[DroneUser]
     """List of the drones of the show."""
     angle_takeoff: float
     """Angle of the takeoff grid in radian."""
@@ -174,7 +174,7 @@ class ShowUser(BaseModel):
         nb_drones: int,
         angle_takeoff: float,
         step: float,
-        metadata: Optional[Metadata] = None,
+        metadata: Metadata | None = None,
     ) -> "ShowUser":
         """Create a show user.
 
@@ -216,7 +216,7 @@ class ShowUser(BaseModel):
         """Number of drones in the show."""
         return len(self.drones_user)
 
-    def update_drones_user_indices(self, indices: List[int]) -> None:
+    def update_drones_user_indices(self, indices: list[int]) -> None:
         """Update the indices of the drones.
 
         Args:
@@ -230,7 +230,7 @@ class ShowUser(BaseModel):
         if len(set(indices)) != len(indices):
             msg = f"Indices: {indices} are not unique"
             raise ValueError(msg)
-        for drone_user, index in zip(self.drones_user, indices):
+        for drone_user, index in zip(self.drones_user, indices, strict=True):
             drone_user.index = index
 
     @property
@@ -251,7 +251,7 @@ class ShowUser(BaseModel):
         return FRAME_PARAMETERS.from_frame_to_second(self.last_frame)
 
     @property
-    def convex_hull(self) -> List[Tuple[float, float]]:
+    def convex_hull(self) -> list[tuple[float, float]]:
         """List of the relative coordinate (ENU and meter) symbolysing a convex hull of a show."""
         return calculate_convex_hull(
             list(
@@ -264,7 +264,7 @@ class ShowUser(BaseModel):
         )
 
     @property
-    def altitude_range(self) -> Tuple[float, float]:
+    def altitude_range(self) -> tuple[float, float]:
         """Relative coordinate (ENU and meter) symbolising the range of the z-axis."""
         z_positions = [
             position_event.xyz[2]
@@ -295,7 +295,7 @@ class ShowUser(BaseModel):
         return self.matrix.max()  # pyright: ignore[reportUnknownMemberType]
 
     @property
-    def drones_user_in_matrix(self) -> List[List[List[DroneUser]]]:
+    def drones_user_in_matrix(self) -> list[list[list[DroneUser]]]:
         """Get the drones_user in the matrix."""
         grid_infos = MatrixInfos.from_show_user(self)
         return grid_infos.drones_user_in_matrix
@@ -309,7 +309,7 @@ class ShowUser(BaseModel):
     @classmethod
     def from_autopilot_format(
         cls,
-        autopilot_format: List[DronePx4],
+        autopilot_format: list[DronePx4],
         angle_takeoff: float,
         step: float,
         scale: int,
@@ -322,7 +322,7 @@ class ShowUser(BaseModel):
             step=step,
         )
         for drone_user, drone_px4 in tqdm(
-            zip(show_user.drones_user, autopilot_format),
+            zip(show_user.drones_user, autopilot_format, strict=True),
             desc="Converting autopilot format to show user",
             total=len(autopilot_format),
             unit="drone",
@@ -375,7 +375,7 @@ class ShowUser(BaseModel):
         if len(self.drones_user) != len(other.drones_user):
             return False
 
-        for drone_user, new_drone_user in zip(self.drones_user, other.drones_user):
+        for drone_user, new_drone_user in zip(self.drones_user, other.drones_user, strict=True):
             if drone_user.index != new_drone_user.index:
                 return False
             if len(drone_user.position_events) != len(new_drone_user.position_events):
@@ -383,6 +383,7 @@ class ShowUser(BaseModel):
             for position_event, new_position_event in zip(
                 drone_user.position_events,
                 new_drone_user.position_events,
+                strict=True,
             ):
                 if position_event.frame != new_position_event.frame:
                     return False
@@ -410,7 +411,7 @@ def is_angles_equal(first_angle: float, second_angle: float) -> bool:
 class MatrixInfos:
     matrix: "NDArray[np.intp]"
     """Matrix containing the number of drones in each family."""
-    drones_user_in_matrix: List[List[List[DroneUser]]]
+    drones_user_in_matrix: list[list[list[DroneUser]]]
     """Matrix containing the list of drones in each family."""
     nb_x: int
     """Number of columns of the matrix."""
@@ -441,10 +442,12 @@ class MatrixInfos:
         nb_y = int(round((y_max - y_min) / show_user.step) + 1)
 
         matrix = np.zeros((nb_y, nb_x), dtype=np.intp)
-        drones_user_in_matrix: List[List[List[DroneUser]]] = [
+        drones_user_in_matrix: list[list[list[DroneUser]]] = [
             [[] for _ in range(nb_x)] for _ in range(nb_y)
         ]
-        for position_event, drone_user in zip(first_position_events, show_user.drones_user):
+        for position_event, drone_user in zip(
+            first_position_events, show_user.drones_user, strict=True
+        ):
             x_index = int(round((position_event.xyz[0] - x_min) / show_user.step))
             y_index = int(round((position_event.xyz[1] - y_min) / show_user.step))
             matrix[y_index, x_index] += 1

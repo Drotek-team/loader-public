@@ -53,7 +53,9 @@ def to_second(frame: int) -> float:
 
 if __name__ == "__main__":
     for altitude in ALTITUDES:
-        for delta_position, direction in zip(POSITION_DELTAS, ["east", "west", "north", "south"]):
+        for delta_position, direction in zip(
+            POSITION_DELTAS, ["east", "west", "north", "south"], strict=True
+        ):
             show_user = ShowUser.create(nb_drones=1, angle_takeoff=0, step=1)
 
             drone = show_user.drones_user[0]

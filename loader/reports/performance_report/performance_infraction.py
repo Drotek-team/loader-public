@@ -1,7 +1,6 @@
 # pyright: reportIncompatibleMethodOverride=false
 import itertools
 from enum import Enum
-from typing import List, Optional, Tuple
 
 import numpy as np
 from tqdm import tqdm
@@ -26,7 +25,7 @@ class PerformanceKind(Enum):
         physic_parameters: IostarPhysicParameters,
         performance: Performance,
         tolerance_percentage: float,
-    ) -> Tuple[bool, float]:
+    ) -> tuple[bool, float]:
         """Check if the performance is above the threshold."""
         if self == PerformanceKind.HORIZONTAL_VELOCITY:
             threshold = physic_parameters.horizontal_velocity_max
@@ -61,8 +60,8 @@ class PerformanceInfraction(BaseInfraction):
         performance: Performance,
         physic_parameters: IostarPhysicParameters,
         tolerance_percentage: float,
-    ) -> List["PerformanceInfraction"]:
-        performance_infractions: List[PerformanceInfraction] = []
+    ) -> list["PerformanceInfraction"]:
+        performance_infractions: list[PerformanceInfraction] = []
         for performance_kind in PerformanceKind:
             is_infraction, value = performance_kind.check(
                 physic_parameters,
@@ -86,7 +85,7 @@ class PerformanceInfraction(BaseInfraction):
         drone_trajectory_performance: DroneTrajectoryPerformance,
         physic_parameters: IostarPhysicParameters,
         tolerance_percentage: float,
-    ) -> List["PerformanceInfraction"]:
+    ) -> list["PerformanceInfraction"]:
         return list(
             itertools.chain.from_iterable(
                 cls._get_performance_infractions_from_performance(
@@ -109,7 +108,7 @@ class PerformanceInfraction(BaseInfraction):
         *,
         is_partial: bool,
         is_import: bool,
-    ) -> List["PerformanceInfraction"]:
+    ) -> list["PerformanceInfraction"]:
         show_trajectory_performance = DroneTrajectoryPerformance.from_show_user(show_user)
         physic_parameters = show_user.physic_parameters
         if (
@@ -161,10 +160,10 @@ class PerformanceInfraction(BaseInfraction):
 
 
 class PerformanceInfractionsSummary(BaseInfractionsSummary):
-    min_performance_infraction: Optional[PerformanceInfraction] = None
-    max_performance_infraction: Optional[PerformanceInfraction] = None
-    first_performance_infraction: Optional[PerformanceInfraction] = None
-    last_performance_infraction: Optional[PerformanceInfraction] = None
+    min_performance_infraction: PerformanceInfraction | None = None
+    max_performance_infraction: PerformanceInfraction | None = None
+    first_performance_infraction: PerformanceInfraction | None = None
+    last_performance_infraction: PerformanceInfraction | None = None
 
     def __add__(self, other: "PerformanceInfractionsSummary") -> "PerformanceInfractionsSummary":
         return PerformanceInfractionsSummary(

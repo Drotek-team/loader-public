@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 import pytest
 from hypothesis import assume, example, given
 from hypothesis import strategies as st
@@ -20,7 +18,7 @@ st_position = st.tuples(st_coordinate, st_coordinate)
 
 
 @st.composite
-def st_positions_tuple(draw: st.DrawFn) -> List[Tuple[float, float]]:
+def st_positions_tuple(draw: st.DrawFn) -> list[tuple[float, float]]:
     positions_tuple = draw(st.lists(st_position, min_size=1, max_size=100))
     # assume that all points are not collinear
     if len(positions_tuple) >= 3:
@@ -73,7 +71,7 @@ def st_positions_tuple(draw: st.DrawFn) -> List[Tuple[float, float]]:
     ],
 )
 @slow
-def test_calculate_convex_hull(positions_tuple: List[Tuple[float, float]]) -> None:
+def test_calculate_convex_hull(positions_tuple: list[tuple[float, float]]) -> None:
     calculated_convex_hull = calculate_convex_hull(positions_tuple)
     if len(positions_tuple) < 3:
         assert set(calculated_convex_hull) == set(positions_tuple)
@@ -92,7 +90,7 @@ def test_calculate_convex_hull(positions_tuple: List[Tuple[float, float]]) -> No
         ([(-2, 3), (-5, 8), (4, -2), (7, -2)], (4, -2)),
     ],
 )
-def test_get_p0(positions: List[Tuple[float, float]], p0: Tuple[float, float]) -> None:
+def test_get_p0(positions: list[tuple[float, float]], p0: tuple[float, float]) -> None:
     assert get_p0(positions) == p0
     assert get_p0(reversed(positions)) == p0
 
@@ -125,9 +123,9 @@ def test_get_p0(positions: List[Tuple[float, float]], p0: Tuple[float, float]) -
     ],
 )
 def test_calculate_angle(
-    p0: Tuple[float, float],
-    p: Tuple[float, float],
-    expected: Tuple[float, int],
+    p0: tuple[float, float],
+    p: tuple[float, float],
+    expected: tuple[float, int],
 ) -> None:
     assert calculate_angle(p0, p) == expected
 
@@ -146,8 +144,8 @@ def test_calculate_angle(
     ],
 )
 def test_calculate_angle_out_of_bounds(
-    p0: Tuple[float, float],
-    p: Tuple[float, float],
+    p0: tuple[float, float],
+    p: tuple[float, float],
 ) -> None:
     with pytest.raises(AngleOutOfBoundsError):
         calculate_angle(p0, p)
@@ -203,8 +201,8 @@ def test_calculate_angle_out_of_bounds(
     ],
 )
 def test_sort_positions(
-    positions: List[Tuple[float, float]],
-    sorted_positions: List[Tuple[float, float]],
+    positions: list[tuple[float, float]],
+    sorted_positions: list[tuple[float, float]],
 ) -> None:
     assert sort_positions(positions) == sorted_positions
 
@@ -281,7 +279,7 @@ def test_cross_product() -> None:
     ],
 )
 def test_calculate_convex_hull_(
-    positions: List[Tuple[float, float]],
-    convex_hull: List[Tuple[float, float]],
+    positions: list[tuple[float, float]],
+    convex_hull: list[tuple[float, float]],
 ) -> None:
     assert calculate_convex_hull(positions) == convex_hull

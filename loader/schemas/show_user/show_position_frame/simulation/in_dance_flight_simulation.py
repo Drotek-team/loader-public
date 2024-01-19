@@ -1,5 +1,3 @@
-from typing import List
-
 import numpy as np
 
 from loader.schemas.show_user import PositionEventUser
@@ -8,8 +6,8 @@ from .position_simulation import SimulationInfo, apply_decimal_number_tolerance
 
 
 def in_dance_flight_simulation(
-    position_events_user: List[PositionEventUser],
-) -> List[SimulationInfo]:
+    position_events_user: list[PositionEventUser],
+) -> list[SimulationInfo]:
     position_events_user_frame = [
         position_event_user.frame for position_event_user in position_events_user
     ]
@@ -58,5 +56,6 @@ def in_dance_flight_simulation(
         for desired_frame, position in zip(
             desired_frames,
             flight_positions,
+            strict=True,
         )
     ]

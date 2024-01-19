@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -37,10 +37,10 @@ def apply_decimal_number_tolerance(
 
 
 def linear_interpolation(
-    position_begin: Tuple[float, float, float],
-    position_end: Tuple[float, float, float],
+    position_begin: tuple[float, float, float],
+    position_end: tuple[float, float, float],
     nb_points: int,
-) -> List["NDArray[np.float64]"]:
+) -> list["NDArray[np.float64]"]:
     if nb_points < 0:
         msg = f"nb_points must be positive: nb_points = {nb_points}"
         raise ValueError(msg)

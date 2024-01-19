@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import pytest
 from loader.parameters import TAKEOFF_PARAMETERS
 from loader.reports import (
@@ -50,8 +48,8 @@ def test_drone_user_report_generate_minimal_position_event_report() -> None:
     ],
 )
 def test_takeoff_position_infraction_generate_horizontal(
-    first_position: Tuple[float, float, float],
-    second_position: Tuple[float, float, float],
+    first_position: tuple[float, float, float],
+    second_position: tuple[float, float, float],
 ) -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=1)))
 

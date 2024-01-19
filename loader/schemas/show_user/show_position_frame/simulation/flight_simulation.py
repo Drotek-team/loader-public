@@ -1,5 +1,3 @@
-from typing import List
-
 from loader.parameters import FRAME_PARAMETERS
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.schemas.show_user import DroneUser
@@ -18,11 +16,11 @@ def get_last_frame_stand_by(drone_user: DroneUser) -> int:
 def get_flight_simulation(
     drone_user: DroneUser,
     last_frame: int = -1,
-) -> List[SimulationInfo]:
+) -> list[SimulationInfo]:
     if len(drone_user.position_events) < 2:
         msg = "Drone user must have at least 2 position events"
         raise ValueError(msg)
-    simulation_infos: List[SimulationInfo] = []
+    simulation_infos: list[SimulationInfo] = []
     last_frame_stand_by = get_last_frame_stand_by(drone_user)
     if last_frame_stand_by != 0:
         simulation_infos += stand_by_simulation(
@@ -55,5 +53,5 @@ def get_flight_simulation(
     return simulation_infos
 
 
-def get_partial_flight_simulation(drone_user: DroneUser) -> List[SimulationInfo]:
+def get_partial_flight_simulation(drone_user: DroneUser) -> list[SimulationInfo]:
     return in_dance_flight_simulation(drone_user.position_events)

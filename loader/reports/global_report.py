@@ -1,5 +1,4 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import Optional
 
 from loader.parameters import IostarPhysicParameters
 from loader.schemas import DronePx4, Metadata, ShowUser
@@ -13,22 +12,22 @@ from .takeoff_format_report import TakeoffFormatReport, TakeoffFormatReportSumma
 
 
 class GlobalReportSummary(BaseReportSummary):
-    takeoff_format_summary: Optional[TakeoffFormatReportSummary] = None
-    autopilot_format_summary: Optional[AutopilotFormatReportSummary] = None
-    dance_size_summary: Optional[DanceSizeReportSummary] = None
-    performance_summary: Optional[PerformanceReportSummary] = None
-    collision_summary: Optional[CollisionReportSummary] = None
-    physic_parameters: Optional[IostarPhysicParameters] = None
+    takeoff_format_summary: TakeoffFormatReportSummary | None = None
+    autopilot_format_summary: AutopilotFormatReportSummary | None = None
+    dance_size_summary: DanceSizeReportSummary | None = None
+    performance_summary: PerformanceReportSummary | None = None
+    collision_summary: CollisionReportSummary | None = None
+    physic_parameters: IostarPhysicParameters | None = None
     metadata: Metadata = Metadata()
 
 
 class GlobalReport(BaseReport):
-    takeoff_format: Optional[TakeoffFormatReport] = None
-    autopilot_format: Optional[AutopilotFormatReport] = None
-    dance_size: Optional[DanceSizeReport] = None
-    performance: Optional[PerformanceReport] = None
-    collision: Optional[CollisionReport] = None
-    physic_parameters: Optional[IostarPhysicParameters] = None
+    takeoff_format: TakeoffFormatReport | None = None
+    autopilot_format: AutopilotFormatReport | None = None
+    dance_size: DanceSizeReport | None = None
+    performance: PerformanceReport | None = None
+    collision: CollisionReport | None = None
+    physic_parameters: IostarPhysicParameters | None = None
     metadata: Metadata = Metadata()
 
     def summarize(self) -> GlobalReportSummary:

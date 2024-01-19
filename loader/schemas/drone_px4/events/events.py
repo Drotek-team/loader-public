@@ -1,6 +1,7 @@
 import struct
 from abc import ABC, abstractmethod
-from typing import Any, Generic, Iterator, List, TypeVar
+from collections.abc import Iterator
+from typing import Any, Generic, TypeVar
 
 from loader.parameters.json_binary_parameters import MagicNumber
 
@@ -11,7 +12,7 @@ class Event(ABC):
     frame: int
 
     @abstractmethod
-    def get_data(self, magic_number: MagicNumber) -> List[Any]:
+    def get_data(self, magic_number: MagicNumber) -> list[Any]:
         pass
 
 
@@ -22,13 +23,13 @@ class Events(ABC, Generic[TEvent]):
     format_: str
     id_: EventsType
     magic_number: MagicNumber
-    _events: List[TEvent]
+    _events: list[TEvent]
 
     def __repr__(self) -> str:  # pragma: no cover
         return f"{self.__class__.__name__}({self._events})"
 
     @abstractmethod
-    def add_data(self, data: List[Any]) -> None:
+    def add_data(self, data: list[Any]) -> None:
         pass
 
     def __iter__(self) -> Iterator[TEvent]:

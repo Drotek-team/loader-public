@@ -1,5 +1,4 @@
 # pyright: reportIncompatibleMethodOverride=false
-from typing import List, Union
 
 from tqdm import tqdm
 
@@ -15,12 +14,12 @@ class AutopilotFormatReportSummary(BaseReportSummary):
 
 
 class AutopilotFormatReport(BaseReport):
-    events_format_reports: List[EventsFormatReport] = []
+    events_format_reports: list[EventsFormatReport] = []
 
     @classmethod
     def generate(
         cls,
-        show_user_or_autopilot_format: Union[ShowUser, List[DronePx4]],
+        show_user_or_autopilot_format: ShowUser | list[DronePx4],
     ) -> "AutopilotFormatReport":
         if isinstance(show_user_or_autopilot_format, ShowUser):
             autopilot_format = DronePx4.from_show_user(show_user_or_autopilot_format)

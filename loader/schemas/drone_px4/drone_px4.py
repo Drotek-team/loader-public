@@ -1,5 +1,5 @@
 import struct
-from typing import TYPE_CHECKING, Any, List, Tuple
+from typing import TYPE_CHECKING, Any
 
 from tqdm import tqdm
 
@@ -57,13 +57,13 @@ class DronePx4:
             and self.land_type == other_drone_px4.land_type
         )
 
-    def add_position(self, frame: int, xyz: Tuple[int, int, int]) -> None:
+    def add_position(self, frame: int, xyz: tuple[int, int, int]) -> None:
         self.position_events.add_timecode_xyz(frame, xyz)
 
     def add_color(
         self,
         frame: int,
-        rgbw: Tuple[int, int, int, int],
+        rgbw: tuple[int, int, int, int],
         *,
         interpolate: bool = False,
     ) -> None:
@@ -76,11 +76,11 @@ class DronePx4:
         return self.events_dict[event_type]
 
     @property
-    def non_empty_events_list(self) -> List[Events[Any]]:
+    def non_empty_events_list(self) -> list[Events[Any]]:
         return [events for events in self.events_dict.values() if len(events) != 0]
 
     @classmethod
-    def from_binary(cls, index: int, binary: List[int]) -> "DronePx4":
+    def from_binary(cls, index: int, binary: list[int]) -> "DronePx4":
         byte_array = bytearray(binary)
         header, config, section_headers = get_header_section_header(byte_array)
         drone_px4 = DronePx4(index, header.magic_number, config.scale, config.land_type)
@@ -94,7 +94,7 @@ class DronePx4:
         return drone_px4
 
     @classmethod
-    def to_binary(cls, drone_px4: "DronePx4") -> List[int]:
+    def to_binary(cls, drone_px4: "DronePx4") -> list[int]:
         non_empty_events_list = drone_px4.non_empty_events_list
         encoded_events_list = [
             encode_events(non_empty_events) for non_empty_events in non_empty_events_list
@@ -113,7 +113,7 @@ class DronePx4:
         return assemble_dance(header, config, section_headers, encoded_events_list)
 
     @classmethod
-    def from_show_user(cls, show_user: "ShowUser") -> List["DronePx4"]:
+    def from_show_user(cls, show_user: "ShowUser") -> list["DronePx4"]:
         return [
             drone_user_to_drone_px4(
                 drone_user,
@@ -129,7 +129,7 @@ class DronePx4:
         ]
 
     @classmethod
-    def from_show_user_in_matrix(cls, show_user: "ShowUser") -> List[List[List["DronePx4"]]]:
+    def from_show_user_in_matrix(cls, show_user: "ShowUser") -> list[list[list["DronePx4"]]]:
         return [
             [
                 [
@@ -151,7 +151,7 @@ class DronePx4:
         ]
 
     @classmethod
-    def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> List["DronePx4"]:
+    def from_iostar_json_gcs(cls, iostar_json_gcs: "IostarJsonGcs") -> list["DronePx4"]:
         return [
             DronePx4.from_binary(
                 family_index * iostar_json_gcs.nb_drones_per_family + drone_index,
@@ -169,7 +169,7 @@ class DronePx4:
 
 def get_header_section_header(
     byte_array: bytearray,
-) -> Tuple[Header, Config, List[SectionHeader]]:
+) -> tuple[Header, Config, list[SectionHeader]]:
     header = Header.from_bytes_data(
         byte_array[: struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)]
     )
@@ -182,7 +182,7 @@ def get_header_section_header(
         config_end_index = header_end_index
         config = Config(scale=1, land_type=LandType.Land)
 
-    section_headers: List[SectionHeader] = []
+    section_headers: list[SectionHeader] = []
     byte_begin_index = config_end_index
     byte_step_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
     for event_index in range(header.number_non_empty_events):
@@ -209,10 +209,10 @@ def decode_events(events: Events[Any], byte_array: bytearray) -> None:
 
 
 def get_section_headers(
-    encoded_events_list: List[bytearray],
-    non_empty_events_list: List[Events[Any]],
+    encoded_events_list: list[bytearray],
+    non_empty_events_list: list[Events[Any]],
     magic_number: MagicNumber,
-) -> List[SectionHeader]:
+) -> list[SectionHeader]:
     byte_array_start_index = (
         struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
         + (
@@ -222,10 +222,11 @@ def get_section_headers(
         )
         + len(non_empty_events_list) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
     )
-    section_headers: List[SectionHeader] = []
+    section_headers: list[SectionHeader] = []
     for non_empty_events, encoded_events in zip(
         non_empty_events_list,
         encoded_events_list,
+        strict=True,
     ):
         section_header = SectionHeader(
             event_id=non_empty_events.id_,
@@ -239,8 +240,8 @@ def get_section_headers(
 
 def dance_size(
     magic_number: MagicNumber,
-    section_headers: List[SectionHeader],
-    encoded_events_list: List[bytearray],
+    section_headers: list[SectionHeader],
+    encoded_events_list: list[bytearray],
 ) -> int:
     return (
         struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
@@ -257,9 +258,9 @@ def dance_size(
 def assemble_dance(
     header: Header,
     config: Config,
-    section_headers: List[SectionHeader],
-    encoded_events_list: List[bytearray],
-) -> List[int]:
+    section_headers: list[SectionHeader],
+    encoded_events_list: list[bytearray],
+) -> list[int]:
     dance_binary = bytearray()
     dance_binary.extend(header.bytes_data)
     if header.magic_number == MagicNumber.v3:
@@ -284,7 +285,7 @@ def encode_events(events: Events[Any]) -> bytearray:
 
 def add_position_events_user(
     drone_px4: DronePx4,
-    position_events_user: List["PositionEventUser"],
+    position_events_user: list["PositionEventUser"],
 ) -> None:
     for position_event_user in position_events_user:
         drone_px4.add_position(
@@ -297,7 +298,7 @@ def add_position_events_user(
 
 def add_color_events_user(
     drone_px4: DronePx4,
-    color_events_user: List["ColorEventUser"],
+    color_events_user: list["ColorEventUser"],
 ) -> None:
     for color_event_user in color_events_user:
         drone_px4.add_color(
@@ -311,7 +312,7 @@ def add_color_events_user(
 
 def add_fire_events_user(
     drone_px4: DronePx4,
-    fire_events_user: List["FireEventUser"],
+    fire_events_user: list["FireEventUser"],
 ) -> None:
     for fire_event_user in fire_events_user:
         drone_px4.add_fire(

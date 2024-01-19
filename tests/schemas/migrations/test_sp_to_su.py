@@ -1,5 +1,3 @@
-from typing import List
-
 import pytest
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType, MagicNumber
 from loader.schemas.drone_px4 import DronePx4
@@ -29,7 +27,7 @@ ARBITRARY_FIRE_EVENT_DURATION_BIS = 68435
 
 
 @pytest.fixture
-def valid_autopilot_format(request: pytest.FixtureRequest) -> List[DronePx4]:
+def valid_autopilot_format(request: pytest.FixtureRequest) -> list[DronePx4]:
     drone_px4 = DronePx4(0, request.param, scale=1, land_type=LandType.Land)
 
     drone_px4.add_position(ARBITRARY_POSITION_EVENT_FRAME, ARBITRARY_POSITION_EVENT_XYZ)
@@ -63,7 +61,7 @@ def valid_autopilot_format(request: pytest.FixtureRequest) -> List[DronePx4]:
 
 
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
-def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[DronePx4]) -> None:
+def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: list[DronePx4]) -> None:
     show_user = ShowUser.from_autopilot_format(
         valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.Land
     )
@@ -83,7 +81,7 @@ def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: List[Dr
 
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_color_events(
-    valid_autopilot_format: List[DronePx4],
+    valid_autopilot_format: list[DronePx4],
 ) -> None:
     show_user = ShowUser.from_autopilot_format(
         valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.Land
@@ -104,7 +102,7 @@ def test_drone_px4_to_drone_user_color_events(
 
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_fire_events(
-    valid_autopilot_format: List[DronePx4],
+    valid_autopilot_format: list[DronePx4],
 ) -> None:
     show_user = ShowUser.from_autopilot_format(
         valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.Land
@@ -124,7 +122,7 @@ def test_drone_px4_to_drone_user_fire_events(
 
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_show_user_scale_different_from_autopilot_format(
-    valid_autopilot_format: List[DronePx4],
+    valid_autopilot_format: list[DronePx4],
 ) -> None:
     with pytest.raises(ValueError, match="All the drones must have the same scale"):
         ShowUser.from_autopilot_format(
@@ -134,7 +132,7 @@ def test_show_user_scale_different_from_autopilot_format(
 
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_show_user_land_type_different_from_autopilot_format(
-    valid_autopilot_format: List[DronePx4],
+    valid_autopilot_format: list[DronePx4],
 ) -> None:
     with pytest.raises(ValueError, match="All the drones must have the same land type"):
         ShowUser.from_autopilot_format(
