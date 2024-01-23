@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.10.1 (2024-01-23)
+
+### Fix
+
+- **vviz**: remove Export Type
+
 ## v0.10.0 (2024-01-19)
 
 ### Feat
