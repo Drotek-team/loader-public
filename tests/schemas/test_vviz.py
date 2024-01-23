@@ -1,16 +1,10 @@
 import pytest
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.schemas.vviz import ExportType, Vviz
+from loader.schemas.vviz import Vviz
 
 
-@pytest.mark.parametrize(
-    "export_type, duration_before_takeoff",
-    [
-        (ExportType.VVIZ, 0.0),
-        (ExportType.Finale3D, 1.0),
-    ],
-)
-def test_vviz(export_type: ExportType, duration_before_takeoff: float) -> None:
+@pytest.mark.parametrize("duration_before_takeoff", [0.0, 1.0])
+def test_vviz(duration_before_takeoff: float) -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(duration_before_takeoff=duration_before_takeoff)
     )
@@ -20,7 +14,6 @@ def test_vviz(export_type: ExportType, duration_before_takeoff: float) -> None:
         lat=39.905963,
         lon=-75.166393,
         alt=0.0,
-        export_type=export_type,
         airframe="IOStar",
         lumens=900.0,
         source_type="Dome",

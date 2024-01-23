@@ -1,5 +1,4 @@
 # ruff: noqa: A003, N815
-from enum import Enum
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel
@@ -8,20 +7,8 @@ if TYPE_CHECKING:
     from . import ColorEventUser, DroneUser, FireEventUser, PositionEventUser, ShowUser
 
 
-class ExportType(Enum):
-    VVIZ = "VVIZ"
-    Finale3D = "Finale 3D"
-
-    def convert_enu_coordinates(
-        self,
-        xyz: tuple[float, float, float],
-    ) -> tuple[float, float, float]:  # pragma: no cover
-        if self == ExportType.VVIZ:
-            return xyz[0], xyz[2], xyz[1]
-        if self == ExportType.Finale3D:
-            return xyz[0], xyz[2], -xyz[1]
-        msg = f"Unknown export type {self}"
-        raise NotImplementedError(msg)
+def convert_enu_to_vviz(xyz: tuple[float, float, float]) -> tuple[float, float, float]:
+    return xyz[0], xyz[2], xyz[1]
 
 
 class GlobalReferenceFrame(BaseModel):
@@ -46,7 +33,7 @@ class AgentDescription(BaseModel):
 
     @classmethod
     def from_position_events(
-        cls, positions: list["PositionEventUser"], airframe: str, export_type: ExportType
+        cls, positions: list["PositionEventUser"], airframe: str
     ) -> "AgentDescription":
         agent_traversal: list[PositionDeltaSample] = []
         if positions[0].frame != 0:
@@ -64,7 +51,7 @@ class AgentDescription(BaseModel):
             dx = position.xyz[0] - last_xyz[0]
             dy = position.xyz[1] - last_xyz[1]
             dz = position.xyz[2] - last_xyz[2]
-            dx, dy, dz = export_type.convert_enu_coordinates((dx, dy, dz))
+            dx, dy, dz = convert_enu_to_vviz((dx, dy, dz))
             dt = (position.frame - last_frame) / 24
             last_frame = position.frame
             last_xyz = position.xyz
@@ -76,7 +63,7 @@ class AgentDescription(BaseModel):
                     dz=dz,
                 )
             )
-        home_x, home_y, home_z = export_type.convert_enu_coordinates(positions[0].xyz)
+        home_x, home_y, home_z = convert_enu_to_vviz(positions[0].xyz)
         return AgentDescription(
             homeX=home_x,
             homeY=home_y,
@@ -168,7 +155,6 @@ class Performance(BaseModel):
     def from_drone_user(
         cls,
         drone_user: "DroneUser",
-        export_type: ExportType,
         airframe: str,
         lumens: float,
         source_type: str,
@@ -177,7 +163,7 @@ class Performance(BaseModel):
         return Performance(
             id=drone_user.index,
             agentDescription=AgentDescription.from_position_events(
-                drone_user.position_events, airframe, export_type
+                drone_user.position_events, airframe
             ),
             payloadDescription=[
                 LigthPayloadDescription.from_color_events(
@@ -206,7 +192,6 @@ class Vviz(BaseModel):
         lat: float | None = None,
         lon: float | None = None,
         alt: float | None = None,
-        export_type: ExportType,
         airframe: str = "IOStar",
         lumens: float = 900.0,
         source_type: str = "Dome",
@@ -218,7 +203,7 @@ class Vviz(BaseModel):
             else None
         )
         performances = [
-            Performance.from_drone_user(drone_user, export_type, airframe, lumens, source_type, vdl)
+            Performance.from_drone_user(drone_user, airframe, lumens, source_type, vdl)
             for drone_user in show_user.drones_user
         ]
         return Vviz(
