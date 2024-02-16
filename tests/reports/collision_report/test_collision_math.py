@@ -56,13 +56,10 @@ def test_get_unique_list_from_list_non_unique() -> None:
 
 def test_get_optimized_collision_infractions() -> None:
     nb_x, nb_y = 2, 2
-    local_indices = np.arange(  # pyright: ignore[reportUnknownMemberType]
-        0,
-        nb_x * nb_y,
-    )
+    local_indices = np.arange(0, nb_x * nb_y)
     assert len(
         list(
-            CollisionInfraction._get_collision_infractions(  # pyright: ignore[reportPrivateUsage]
+            CollisionInfraction._get_collision_infractions(
                 0,
                 local_indices,
                 get_numpy_grid(nb_x, nb_y),
@@ -76,15 +73,12 @@ def test_get_optimized_collision_infractions() -> None:
 # It is neutralized for the moment
 def test_get_optimized_collision_infractions_big_number() -> None:
     nb_x, nb_y = 16, 20
-    local_indices = np.arange(  # pyright: ignore[reportUnknownMemberType]
-        0,
-        nb_x * nb_y,
-    )
+    local_indices = np.arange(0, nb_x * nb_y)
     normal_value = (nb_x - 1) * nb_y + nb_x * (nb_y - 1)
     assert (
         len(
             list(
-                CollisionInfraction._get_collision_infractions(  # pyright: ignore[reportPrivateUsage]
+                CollisionInfraction._get_collision_infractions(
                     0,
                     local_indices,
                     get_numpy_grid(nb_x, nb_y),

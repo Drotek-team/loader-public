@@ -30,10 +30,7 @@ class SimulationInfo:
 def apply_decimal_number_tolerance(
     position_array: "NDArray[np.float64]",
 ) -> "NDArray[np.float64]":
-    return np.round(  # pyright: ignore[reportUnknownMemberType]
-        position_array,
-        DECIMAL_NUMBER_TOLERANCE,
-    )
+    return np.round(position_array, DECIMAL_NUMBER_TOLERANCE)
 
 
 def linear_interpolation(
@@ -51,10 +48,5 @@ def linear_interpolation(
             np.array(position_begin, dtype=np.float64) * (1 - percentile)
             + np.array(position_end, dtype=np.float64) * percentile,
         )
-        for percentile in np.linspace(
-            0,
-            1,
-            nb_points,
-            endpoint=False,
-        )
+        for percentile in np.linspace(0, 1, nb_points, endpoint=False)
     ]

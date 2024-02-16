@@ -43,7 +43,7 @@ class CollisionInfraction(BaseInfraction):
         endangered_distance: float,
     ) -> Generator["CollisionInfraction", None, None]:
         nb_drones_local = len(local_drone_indices)
-        couples_distance_matrix_indices = np.arange(  # pyright: ignore[reportUnknownMemberType]
+        couples_distance_matrix_indices = np.arange(
             nb_drones_local * nb_drones_local,
             dtype=np.intp,
         )
@@ -175,7 +175,7 @@ def get_border_indices(
     middle_position_numpy: NDArray[np.float64] = sorted_positions_numpy[
         len(sorted_positions_numpy) // 2
     ]
-    return np.arange(  # pyright: ignore[reportUnknownMemberType]
+    return np.arange(
         np.searchsorted(
             sorted_positions_numpy,
             middle_position_numpy - endangered_distance,

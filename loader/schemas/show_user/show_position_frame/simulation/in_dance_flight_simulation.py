@@ -20,27 +20,24 @@ def in_dance_flight_simulation(
     position_events_user_z = [
         position_event_user.xyz[2] for position_event_user in position_events_user
     ]
-    desired_frames = np.arange(  # pyright: ignore[reportUnknownMemberType]
-        position_events_user[0].frame,
-        position_events_user[-1].frame,
-    )
-    flight_positions_x = np.interp(  # pyright: ignore[reportUnknownMemberType]
+    desired_frames = np.arange(position_events_user[0].frame, position_events_user[-1].frame)
+    flight_positions_x = np.interp(
         desired_frames,
         position_events_user_frame,
         position_events_user_x,
     )
-    flight_positions_y = np.interp(  # pyright: ignore[reportUnknownMemberType]
+    flight_positions_y = np.interp(
         desired_frames,
         position_events_user_frame,
         position_events_user_y,
     )
-    flight_positions_z = np.interp(  # pyright: ignore[reportUnknownMemberType]
+    flight_positions_z = np.interp(
         desired_frames,
         position_events_user_frame,
         position_events_user_z,
     )
     flight_positions = apply_decimal_number_tolerance(
-        np.column_stack(  # pyright: ignore[reportUnknownMemberType]
+        np.column_stack(
             (
                 flight_positions_x,
                 flight_positions_y,

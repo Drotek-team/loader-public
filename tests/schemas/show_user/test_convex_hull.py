@@ -9,7 +9,7 @@ from loader.schemas.show_user.convex_hull import (
     get_p0,
     sort_positions,
 )
-from shapely.geometry.polygon import Polygon  # pyright: ignore[reportUnknownVariableType]
+from shapely.geometry.polygon import Polygon
 
 from tests.strategies import slow
 

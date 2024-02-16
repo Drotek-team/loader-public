@@ -20,12 +20,12 @@ commitizen = "^3.13.0"
 hypothesis = "^6.96.1"
 pre-commit = "^3.6.0"
 pydantic-to-typescript = "^1.0.10"
-pyright = "1.1.336"
+pyright = "1.1.348"
 pytest = "^7.4.4"
 pytest-clarity = {git = "https://github.com/JonathanPlasse/pytest-clarity.git", rev = "pydantic-basemodel-support"}
 pytest-cov = "^4.1.0"
 pytest-examples = "^0.0.10"
-ruff = "^0.1.13"
+ruff = "^0.2.1"
 scalene = "^1.5.33.1"
 shapely = "^2.0.1"
 
@@ -48,6 +48,7 @@ reportMissingTypeStubs = false
 reportUnusedExpression = false
 reportUnusedImport = false
 reportUnusedVariable = false
+reportPrivateUsage = false
 pythonVersion = "3.10"
 exclude = ["**/__pycache__", "**/.*", "tests/test_readme.py"]
 

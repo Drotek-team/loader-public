@@ -47,11 +47,11 @@ def st_matrix_with_shape(draw: st.DrawFn) -> tuple["NDArray[np.intp]", int, int,
             ),
         ),
     )
-    assume(matrix[0, :].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
-    assume(matrix[-1, :].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
-    assume(matrix[:, 0].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
-    assume(matrix[:, -1].sum() > 0)  # pyright: ignore[reportUnknownMemberType]
-    return matrix, nb_x, nb_y, matrix.max()  # pyright: ignore[reportUnknownMemberType]
+    assume(matrix[0, :].sum() > 0)
+    assume(matrix[-1, :].sum() > 0)
+    assume(matrix[:, 0].sum() > 0)
+    assume(matrix[:, -1].sum() > 0)
+    return matrix, nb_x, nb_y, matrix.max()
 
 
 st_step_takeoff = st.floats(1, 10)

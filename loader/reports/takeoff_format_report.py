@@ -140,16 +140,16 @@ class TakeoffPositionInfractionsSummary(BaseInfractionsSummary):
                 self.min_position_infraction,
                 other.min_position_infraction,
                 lambda x, y: x
-                if get_distance(x.start_position, x.end_position)  # pyright: ignore[reportGeneralTypeIssues]
-                < get_distance(y.start_position, y.end_position)  # pyright: ignore[reportGeneralTypeIssues]
+                if get_distance(x.start_position, x.end_position)
+                < get_distance(y.start_position, y.end_position)
                 else y,
             ),
             max_position_infraction=apply_func_on_optional_pair(
                 self.max_position_infraction,
                 other.max_position_infraction,
                 lambda x, y: x
-                if get_distance(x.start_position, x.end_position)  # pyright: ignore[reportGeneralTypeIssues]
-                > get_distance(y.start_position, y.end_position)  # pyright: ignore[reportGeneralTypeIssues]
+                if get_distance(x.start_position, x.end_position)
+                > get_distance(y.start_position, y.end_position)
                 else y,
             ),
         )

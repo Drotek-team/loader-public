@@ -292,7 +292,7 @@ class ShowUser(BaseModel):
     @property
     def nb_drones_per_family(self) -> int:
         """Number of drones per family."""
-        return self.matrix.max()  # pyright: ignore[reportUnknownMemberType]
+        return self.matrix.max()
 
     @property
     def drones_user_in_matrix(self) -> list[list[list[DroneUser]]]:

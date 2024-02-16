@@ -175,7 +175,7 @@ def get_valid_fire_events(
 def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowUser:
     matrix = show_user_configuration.matrix
     show_user = ShowUser.create(
-        nb_drones=matrix.sum(),  # pyright: ignore[reportUnknownMemberType]
+        nb_drones=matrix.sum(),
         angle_takeoff=show_user_configuration.angle_takeoff,
         step=show_user_configuration.step,
     )
