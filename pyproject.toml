@@ -56,6 +56,8 @@ exclude = ["**/__pycache__", "**/.*", "tests/test_readme.py"]
 target-version = "py310"
 line-length = 100
 src = ["loader"]
+
+[tool.ruff.lint]
 select = ["ALL"]
 ignore = [
     "ANN101",  # missing-type-self
@@ -84,21 +86,21 @@ ignore = [
     "ISC001",
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 split-on-trailing-comma = false
 
-[tool.ruff.pep8-naming]
+[tool.ruff.lint.pep8-naming]
 classmethod-decorators = ["pydantic.root_validator", "pydantic.validator"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "pep257"
 
-[tool.ruff.flake8-pytest-style]
+[tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false
 mark-parentheses = false
 parametrize-names-type = "csv"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/*.py" = ["SLF001"]
 
 [tool.pytest.ini_options]
