@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.10.2 (2024-03-08)
+
+### Fix
+
+- **vviz**: allow missing payloadDescription and agentTraversal
+- **vviz**: PyroPayloadDescription.eventTime calculation
+
+### Refactor
+
+- update Ruff and Pyright
+- remove test show generation
+
 ## v0.10.1 (2024-01-23)
 
 ### Fix
