@@ -29,7 +29,7 @@ class AgentDescription(BaseModel):
     homeY: float
     homeZ: float
     airframe: str
-    agentTraversal: list[PositionDeltaSample]
+    agentTraversal: list[PositionDeltaSample] = []
 
     @classmethod
     def from_position_events(
@@ -149,7 +149,7 @@ class PyroPayloadDescription(BaseModel):
 class Performance(BaseModel):
     id: int
     agentDescription: AgentDescription
-    payloadDescription: list[LigthPayloadDescription | PyroPayloadDescription]
+    payloadDescription: list[LigthPayloadDescription | PyroPayloadDescription] = []
 
     @classmethod
     def from_drone_user(
