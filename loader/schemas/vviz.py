@@ -141,7 +141,7 @@ class PyroPayloadDescription(BaseModel):
         vdl: str,
     ) -> list["PyroPayloadDescription"]:
         return [
-            PyroPayloadDescription(id=index + 1, eventTime=24 * fire.frame, vdl=vdl)
+            PyroPayloadDescription(id=index + 1, eventTime=fire.frame / 24, vdl=vdl)
             for index, fire in enumerate(fires)
         ]
 
