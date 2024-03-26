@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.11.0 (2024-03-26)
+
+### Feat
+
+- add drone index in binary v4
+
 ## v0.10.2 (2024-03-08)
 
 ### Fix
