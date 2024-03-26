@@ -28,12 +28,13 @@ class DronePx4:
         land_type: LandType,
     ) -> None:
         self.index = index
-        if magic_number == MagicNumber.v3:
-            self.scale = scale
-            self.land_type = land_type
-        else:
-            self.scale = 1
-            self.land_type = LandType.Land
+        match magic_number:
+            case MagicNumber.v1 | MagicNumber.v2:
+                self.scale = 1
+                self.land_type = LandType.Land
+            case MagicNumber.v3 | MagicNumber.v4:
+                self.scale = scale
+                self.land_type = land_type
         self.position_events = PositionEvents(magic_number, self.scale)
         self.color_events = ColorEvents(magic_number)
         self.fire_events = FireEvents(magic_number)
@@ -109,7 +110,7 @@ class DronePx4:
             dance_size=dance_size(drone_px4.magic_number, section_headers, encoded_events_list),
             number_non_empty_events=len(non_empty_events_list),
         )
-        config = Config(scale=drone_px4.scale, land_type=drone_px4.land_type)
+        config = Config(scale=drone_px4.scale, land_type=drone_px4.land_type, index=drone_px4.index)
         return assemble_dance(header, config, section_headers, encoded_events_list)
 
     @classmethod
@@ -175,12 +176,13 @@ def get_header_section_header(
     )
 
     header_end_index = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
-    if header.magic_number == MagicNumber.v3:
-        config_end_index = header_end_index + struct.calcsize(JSON_BINARY_PARAMETERS.fmt_config)
-        config = Config.from_bytes_data(byte_array[header_end_index:config_end_index])
-    else:
-        config_end_index = header_end_index
-        config = Config(scale=1, land_type=LandType.Land)
+    config_end_index = header_end_index + struct.calcsize(
+        JSON_BINARY_PARAMETERS.config_format(header.magic_number)
+    )
+    config = Config.from_bytes_data(
+        byte_array[header_end_index:config_end_index],
+        header.magic_number,
+    )
 
     section_headers: list[SectionHeader] = []
     byte_begin_index = config_end_index
@@ -215,11 +217,7 @@ def get_section_headers(
 ) -> list[SectionHeader]:
     byte_array_start_index = (
         struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
-        + (
-            struct.calcsize(JSON_BINARY_PARAMETERS.fmt_config)
-            if magic_number == MagicNumber.v3
-            else 0
-        )
+        + struct.calcsize(JSON_BINARY_PARAMETERS.config_format(magic_number))
         + len(non_empty_events_list) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
     )
     section_headers: list[SectionHeader] = []
@@ -245,11 +243,7 @@ def dance_size(
 ) -> int:
     return (
         struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
-        + (
-            struct.calcsize(JSON_BINARY_PARAMETERS.fmt_config)
-            if magic_number == MagicNumber.v3
-            else 0
-        )
+        + struct.calcsize(JSON_BINARY_PARAMETERS.config_format(magic_number))
         + len(section_headers) * struct.calcsize(JSON_BINARY_PARAMETERS.fmt_section_header)
         + sum(len(encoded_events) for encoded_events in encoded_events_list)
     )
@@ -262,11 +256,10 @@ def assemble_dance(
     encoded_events_list: list[bytearray],
 ) -> list[int]:
     dance_binary = bytearray()
-    dance_binary.extend(header.bytes_data)
-    if header.magic_number == MagicNumber.v3:
-        dance_binary.extend(config.bytes_data)
+    dance_binary.extend(header.bytes_data())
+    dance_binary.extend(config.bytes_data(header.magic_number))
     for section_header in section_headers:
-        dance_binary.extend(section_header.bytes_data)
+        dance_binary.extend(section_header.bytes_data())
     for encoded_events in encoded_events_list:
         dance_binary.extend(encoded_events)
     return list(dance_binary)

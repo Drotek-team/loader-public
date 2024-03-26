@@ -7,18 +7,11 @@ from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Lan
 from .events.events_order import EventsType
 
 
-class BytesManager(BaseModel):
-    @property
-    def bytes_data(self) -> bytes:
-        raise NotImplementedError
-
-
-class Header(BytesManager):
+class Header(BaseModel):
     magic_number: MagicNumber  # Magic number with no purpose for the moment
     dance_size: int  # Dance size in bytes
     number_non_empty_events: int  # number of the events which contain at least one drone
 
-    @property
     def bytes_data(self) -> bytes:
         return struct.pack(
             JSON_BINARY_PARAMETERS.fmt_header,
@@ -41,26 +34,53 @@ class Header(BytesManager):
         )
 
 
-class Config(BytesManager):
+class Config(BaseModel):
     scale: int
     land_type: LandType
+    index: int | None
 
-    @property
-    def bytes_data(self) -> bytes:
-        return struct.pack(JSON_BINARY_PARAMETERS.fmt_config, self.scale, self.land_type.to_int())
+    def bytes_data(self, magic_number: MagicNumber) -> bytes:
+        match magic_number:
+            case MagicNumber.v1 | MagicNumber.v2:
+                return b""
+            case MagicNumber.v3:
+                return struct.pack(
+                    JSON_BINARY_PARAMETERS.config_format(magic_number),
+                    self.scale,
+                    self.land_type.to_int(),
+                )
+            case MagicNumber.v4:
+                return struct.pack(
+                    JSON_BINARY_PARAMETERS.config_format(magic_number),
+                    self.scale,
+                    self.land_type.to_int(),
+                    self.index,
+                )
 
     @classmethod
-    def from_bytes_data(cls, byte_array: bytearray) -> "Config":
-        scale, land_type = struct.unpack(JSON_BINARY_PARAMETERS.fmt_config, byte_array)
-        return cls(scale=scale, land_type=LandType.from_int(land_type))
+    def from_bytes_data(cls, byte_array: bytearray, magic_number: MagicNumber) -> "Config":
+        match magic_number:
+            case MagicNumber.v1 | MagicNumber.v2:
+                scale = 1
+                land_type = 0
+                index = None
+            case MagicNumber.v3:
+                scale, land_type = struct.unpack(
+                    JSON_BINARY_PARAMETERS.config_format(magic_number), byte_array
+                )
+                index = None
+            case MagicNumber.v4:
+                scale, land_type, index = struct.unpack(
+                    JSON_BINARY_PARAMETERS.config_format(magic_number), byte_array
+                )
+        return cls(scale=scale, land_type=LandType.from_int(land_type), index=index)
 
 
-class SectionHeader(BytesManager):
+class SectionHeader(BaseModel):
     event_id: EventsType  # index associate to the type of events
     byte_array_start_index: int  # index which indicates the start of the section in the binary
     byte_array_end_index: int  # index which indicates the end of the section in the binary
 
-    @property
     def bytes_data(self) -> bytes:
         return struct.pack(
             JSON_BINARY_PARAMETERS.fmt_section_header,

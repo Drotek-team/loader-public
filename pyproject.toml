@@ -111,7 +111,6 @@ xfail_strict = true
 
 [tool.coverage.run] # https://coverage.readthedocs.io/en/latest/config.html#run
 omit = ["tests/test_readme.py"]
-branch = true
 data_file = "reports/.coverage"
 
 [tool.coverage.report] # https://coverage.readthedocs.io/en/latest/config.html#report

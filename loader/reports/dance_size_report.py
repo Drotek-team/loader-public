@@ -4,7 +4,7 @@ import struct
 from pydantic import field_serializer
 from tqdm import tqdm
 
-from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, MagicNumber
+from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS
 from loader.reports.base import (
     BaseInfraction,
     BaseInfractionsSummary,
@@ -34,11 +34,7 @@ class DanceSizeInfraction(BaseInfraction):
         drone_px4: DronePx4,
     ) -> "DanceSizeInfraction":
         header_size = struct.calcsize(JSON_BINARY_PARAMETERS.fmt_header)
-        config_size = (
-            struct.calcsize(JSON_BINARY_PARAMETERS.fmt_config)
-            if drone_px4.magic_number == MagicNumber.v3
-            else 0
-        )
+        config_size = struct.calcsize(JSON_BINARY_PARAMETERS.config_format(drone_px4.magic_number))
         header_section_size = len(drone_px4.non_empty_events_list) * struct.calcsize(
             JSON_BINARY_PARAMETERS.fmt_section_header,
         )

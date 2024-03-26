@@ -34,6 +34,7 @@ def test_get_timecode_report_standard_case(
             - 1,
             JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v2).minimal - 1,
             JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v3).minimal - 1,
+            JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v4).minimal - 1,
         ],
         [
             JSON_BINARY_PARAMETERS.from_px4_timecode_to_user_frame(
@@ -42,14 +43,17 @@ def test_get_timecode_report_standard_case(
             + 1,
             JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v2).maximal + 1,
             JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v3).maximal + 1,
+            JSON_BINARY_PARAMETERS.time_value_bound(MagicNumber.v4).maximal + 1,
         ],
         [
             -42,
             -1,
             -1,
+            -1,
         ],
         [
             4294967333,
+            65536,
             65536,
             65536,
         ],

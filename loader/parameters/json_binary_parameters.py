@@ -11,6 +11,7 @@ class MagicNumber(IntEnum):
     v1 = 0xAA55
     v2 = 0xAA66
     v3 = 0xAA77
+    v4 = 0xAA88
 
 
 class LandType(Enum):
@@ -46,7 +47,6 @@ class Bound:
 class JsonBinaryParameters:
     fmt_header: str = ">HIB"  # Size in bits of the header
     fmt_section_header: str = ">BII"  # Size in bits of the section header
-    fmt_config: str = ">BB"  # Size in bits of the config
     timecode_format: str = "I"
     frame_format: str = "H"
     coordinate_format: str = "h"
@@ -67,6 +67,16 @@ class JsonBinaryParameters:
 
     def fire_event_format(self, magic_number: MagicNumber) -> str:
         return f">{self.time_format(magic_number)}{self.fire_channel_format}{self.fire_duration_format}"
+
+    def config_format(self, magic_number: MagicNumber) -> str:
+        """Return the format of the config section."""
+        match magic_number:
+            case MagicNumber.v1 | MagicNumber.v2:
+                return ""
+            case MagicNumber.v3:
+                return ">BB"
+            case MagicNumber.v4:
+                return ">BBH"
 
     @staticmethod
     def _binary_format_size(binary_format: str) -> int:

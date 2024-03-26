@@ -47,3 +47,4 @@ jobs:
         run: poetry run pre-commit run --all-files --show-diff-on-failure
         env:
           SKIP: ruff-check
+          HYPOTHESIS_SLOW: 1
