@@ -80,6 +80,9 @@ class YawEventUser(EventUserBase):
     angle: StrictInt
     """Angle of the yaw event in degrees."""
 
+    def apply_horizontal_rotation(self, angle: float) -> None:
+        self.angle = round((self.angle + np.rad2deg(angle)) % 360)
+
 
 class DroneUser(BaseModel):
     """Drone class to be used by the user."""
@@ -136,6 +139,8 @@ class DroneUser(BaseModel):
         """Apply a horizontal rotation to the drone."""
         for position in self.position_events:
             position.apply_horizontal_rotation(angle)
+        for yaw_event in self.yaw_events:
+            yaw_event.apply_horizontal_rotation(angle)
 
     def from_drone_px4(self, drone_px4: DronePx4) -> None:
         """Convert from the DronePx4 schema to the DroneUser schema."""

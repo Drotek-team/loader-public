@@ -16,6 +16,7 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser) -> None:
         frame=1,
         xyz=(1.0, 2.0, 3.0),
     )
+    empty_drone_user.add_yaw_event(1, 90)
     assert empty_drone_user.position_events[0].frame == 1
     assert empty_drone_user.position_events[0].xyz == (1.0, 2.0, 3.0)
     empty_drone_user.apply_horizontal_rotation(np.pi / 2)
@@ -23,6 +24,8 @@ def test_position_event_user_standard_case(empty_drone_user: DroneUser) -> None:
         np.array(empty_drone_user.position_events[0].xyz),
         np.array((-2.0, 1.0, 3.0)),
     )
+    assert empty_drone_user.yaw_events[0].frame == 1
+    assert empty_drone_user.yaw_events[0].angle == 180
 
 
 def test_color_event_user_standard_case(empty_drone_user: DroneUser) -> None:
