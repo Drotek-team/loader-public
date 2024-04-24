@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.1 (2024-04-24)
+
+### Fix
+
+- apply horizontal rotation on yaw
+
 ## v0.12.0 (2024-04-24)
 
 ### Feat
