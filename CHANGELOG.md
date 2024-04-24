@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.0 (2024-04-24)
+
+### Feat
+
+- add yaw event
+
 ## v0.11.0 (2024-03-26)
 
 ### Feat
