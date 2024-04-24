@@ -74,6 +74,13 @@ class FireEventUser(EventUserBase):
     """Duration of the event in millisecond"""
 
 
+class YawEventUser(EventUserBase):
+    """Yaw event schema."""
+
+    angle: StrictInt
+    """Angle of the yaw event in degrees."""
+
+
 class DroneUser(BaseModel):
     """Drone class to be used by the user."""
 
@@ -85,6 +92,8 @@ class DroneUser(BaseModel):
     """List of the color events of the drone."""
     fire_events: list[FireEventUser]
     """List of the fire events of the drone."""
+    yaw_events: list[YawEventUser]
+    """List of the yaw events of the drone."""
 
     def add_position_event(self, frame: int, xyz: tuple[float, float, float]) -> None:
         """Add a position event to the drone."""
@@ -103,6 +112,10 @@ class DroneUser(BaseModel):
     def add_fire_event(self, frame: int, channel: int, duration: int) -> None:
         """Add a fire event to the drone."""
         self.fire_events.append(FireEventUser(frame=frame, channel=channel, duration=duration))
+
+    def add_yaw_event(self, frame: int, angle: int) -> None:
+        """Add a yaw event to the drone."""
+        self.yaw_events.append(YawEventUser(frame=frame, angle=angle))
 
     @property
     def flight_positions(self) -> list[PositionEventUser]:
@@ -144,6 +157,12 @@ class DroneUser(BaseModel):
                 frame=fire_event_px4.frame,
                 channel=fire_event_px4.channel,
                 duration=fire_event_px4.duration,
+            )
+
+        for yaw_event_px4 in drone_px4.yaw_events:
+            self.add_yaw_event(
+                frame=yaw_event_px4.frame,
+                angle=yaw_event_px4.angle,
             )
 
 
@@ -196,6 +215,7 @@ class ShowUser(BaseModel):
                     position_events=[],
                     color_events=[],
                     fire_events=[],
+                    yaw_events=[],
                 )
                 for drone_index in range(nb_drones)
             ],
@@ -396,6 +416,8 @@ class ShowUser(BaseModel):
             if drone_user.color_events != new_drone_user.color_events:
                 return False
             if drone_user.fire_events != new_drone_user.fire_events:
+                return False
+            if drone_user.yaw_events != new_drone_user.yaw_events:
                 return False
         return True
 

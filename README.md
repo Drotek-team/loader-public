@@ -232,17 +232,19 @@ print(report.summarize().model_dump_json(indent=4))
             "drone_indices": "0",
             "min_dance_size_infraction": {
                 "drone_index": 0,
-                "dance_size": 100090,
+                "dance_size": 100111,
                 "position_percent": 100.02,
                 "color_percent": 0.02,
-                "fire_percent": 0.01
+                "fire_percent": 0.01,
+                "yaw_percent": 0.01
             },
             "max_dance_size_infraction": {
                 "drone_index": 0,
-                "dance_size": 100090,
+                "dance_size": 100111,
                 "position_percent": 100.02,
                 "color_percent": 0.02,
-                "fire_percent": 0.01
+                "fire_percent": 0.01,
+                "yaw_percent": 0.01
             }
         }
     },
@@ -379,10 +381,11 @@ print(dance_size_report)
 dance_size_infractions = [
     DanceSizeInfraction(
         drone_index=0,
-        dance_size=100090,
+        dance_size=100111,
         position_percent=100.02,
         color_percent=0.02,
         fire_percent=0.01,
+        yaw_percent=0.01,
     )
 ]
 """

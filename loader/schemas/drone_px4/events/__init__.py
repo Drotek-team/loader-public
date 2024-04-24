@@ -3,6 +3,7 @@ from .events import Event, Events
 from .events_order import EventsType
 from .fire_events import FireEvent, FireEvents
 from .position_events import PositionEvent, PositionEvents
+from .yaw_events import YawEvent, YawEvents
 
 __all__ = (
     "ColorEvent",
@@ -14,4 +15,6 @@ __all__ = (
     "FireEvents",
     "PositionEvent",
     "PositionEvents",
+    "YawEvent",
+    "YawEvents",
 )

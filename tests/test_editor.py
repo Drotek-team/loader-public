@@ -106,10 +106,11 @@ def test_get_dance_size_informations() -> None:
     ):
         assert dance_size_infraction == DanceSizeInfraction(
             drone_index=drone_user.index,
-            dance_size=90,
+            dance_size=111,
             position_percent=0.02,
             color_percent=0.02,
             fire_percent=0.01,
+            yaw_percent=0.01,
         )
 
 

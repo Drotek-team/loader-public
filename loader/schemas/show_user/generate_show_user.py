@@ -172,6 +172,33 @@ def get_valid_fire_events(
     )
 
 
+def get_valid_yaw_events(
+    show_user_configuration: ShowUserConfiguration,
+    drone_user: DroneUser,
+) -> None:
+    drone_user.add_yaw_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff,
+        ),
+        angle=0,
+    )
+    drone_user.add_yaw_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second,
+        ),
+        angle=90,
+    )
+    drone_user.add_yaw_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_duration_second
+            + show_user_configuration.show_duration_absolute_time,
+        ),
+        angle=0,
+    )
+
+
 def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowUser:
     matrix = show_user_configuration.matrix
     show_user = ShowUser.create(
@@ -194,5 +221,6 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
                 )
                 get_valid_color_events_user(show_user_configuration, drone_user)
                 get_valid_fire_events(show_user_configuration, drone_user)
+                get_valid_yaw_events(show_user_configuration, drone_user)
                 drone_index += 1
     return show_user

@@ -19,7 +19,13 @@ from loader.schemas.show_user.show_position_frame.simulation.takeoff_simulation 
 
 
 def test_flight_simulation_standard_case() -> None:
-    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(
+        index=0,
+        position_events=[],
+        color_events=[],
+        fire_events=[],
+        yaw_events=[],
+    )
     drone_user.add_position_event(0, (0.0, 0.0, 0.0))
     drone_user.add_position_event(240, (0.0, 0.0, 1.0))
     drone_user.add_position_event(360, (2.0, 0.0, 1.0))
@@ -46,7 +52,13 @@ def test_flight_simulation_standard_case() -> None:
 
 def test_flight_simulation_takeoff_delayed() -> None:
     takeoff_delay = 100
-    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(
+        index=0,
+        position_events=[],
+        color_events=[],
+        fire_events=[],
+        yaw_events=[],
+    )
     drone_user.add_position_event(takeoff_delay + 0, (0.0, 0.0, 0.0))
     drone_user.add_position_event(takeoff_delay + 240, (0.0, 0.0, 1.0))
     drone_user.add_position_event(takeoff_delay + 360, (2.0, 0.0, 1.0))
@@ -78,7 +90,13 @@ def test_flight_simulation_takeoff_delayed() -> None:
 
 def test_flight_simulation_last_frame_delayed() -> None:
     last_frame_delayed = 1000
-    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(
+        index=0,
+        position_events=[],
+        color_events=[],
+        fire_events=[],
+        yaw_events=[],
+    )
     drone_user.add_position_event(0, (0.0, 0.0, 0.0))
     drone_user.add_position_event(240, (0.0, 0.0, 1.0))
     drone_user.add_position_event(360, (2.0, 0.0, 1.0))
@@ -106,7 +124,13 @@ def test_flight_simulation_last_frame_delayed() -> None:
 
 
 def test_flight_simulation_non_takeoff() -> None:
-    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(
+        index=0,
+        position_events=[],
+        color_events=[],
+        fire_events=[],
+        yaw_events=[],
+    )
     with pytest.raises(
         ValueError,
         match="Drone user must have at least 2 position events",
@@ -122,7 +146,13 @@ def test_flight_simulation_non_takeoff() -> None:
 
 
 def test_partial_flight_simulation_standard_case() -> None:
-    drone_user = DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    drone_user = DroneUser(
+        index=0,
+        position_events=[],
+        color_events=[],
+        fire_events=[],
+        yaw_events=[],
+    )
     drone_user.add_position_event(0, (0.0, 0.0, 1.0))
     drone_user.add_position_event(120, (2.0, 0.0, 1.0))
 

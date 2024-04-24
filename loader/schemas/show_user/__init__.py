@@ -1,4 +1,11 @@
-from .show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser, ShowUser
+from .show_user import (
+    ColorEventUser,
+    DroneUser,
+    FireEventUser,
+    PositionEventUser,
+    ShowUser,
+    YawEventUser,
+)
 
 __all__ = (
     "ColorEventUser",
@@ -6,4 +13,5 @@ __all__ = (
     "FireEventUser",
     "PositionEventUser",
     "ShowUser",
+    "YawEventUser",
 )

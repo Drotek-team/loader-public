@@ -12,7 +12,7 @@ from loader.schemas.drone_px4.drone_px4 import (
 )
 from loader.schemas.show_user import ColorEventUser, DroneUser, FireEventUser, PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.schemas.show_user.show_user import ShowUser
+from loader.schemas.show_user.show_user import ShowUser, YawEventUser
 
 from tests.strategies import slow, st_angle_takeoff, st_land_type, st_matrix, st_scale
 
@@ -87,6 +87,7 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
         position_events=[PositionEventUser(frame=0, xyz=(0.0, 1.0, 2.0))],
         color_events=[ColorEventUser(frame=0, rgbw=(0.0, 1.0, 0.0, 1.0))],
         fire_events=[FireEventUser(frame=0, channel=0, duration=42)],
+        yaw_events=[YawEventUser(frame=0, angle=42)],
     )
     drone_px4 = drone_user_to_drone_px4(
         drone_user,
@@ -101,6 +102,8 @@ def test_drone_user_to_drone_px4_standard_case() -> None:
     assert drone_px4.color_events[0].rgbw == (0, 255, 0, 255)
     assert drone_px4.fire_events[0].frame == 0
     assert drone_px4.fire_events[0].channel_duration == (0, 42)
+    assert drone_px4.yaw_events[0].frame == 0
+    assert drone_px4.yaw_events[0].angle == 42
 
 
 @given(

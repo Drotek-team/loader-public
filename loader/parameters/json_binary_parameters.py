@@ -53,6 +53,7 @@ class JsonBinaryParameters:
     chrome_format: str = "B"
     fire_channel_format: str = "B"
     fire_duration_format: str = "B"
+    angle_format: str = "H"
     dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octect
     fire_channel_number: int = 3
 
@@ -67,6 +68,9 @@ class JsonBinaryParameters:
 
     def fire_event_format(self, magic_number: MagicNumber) -> str:
         return f">{self.time_format(magic_number)}{self.fire_channel_format}{self.fire_duration_format}"
+
+    def yaw_event_format(self, magic_number: MagicNumber) -> str:
+        return f">{self.time_format(magic_number)}{self.angle_format}"
 
     def config_format(self, magic_number: MagicNumber) -> str:
         """Return the format of the config section."""
@@ -116,6 +120,13 @@ class JsonBinaryParameters:
         return Bound(
             0,
             self._binary_format_size(self.fire_duration_format) - 1,
+        )
+
+    @property
+    def angle_value_bound(self) -> Bound:
+        return Bound(
+            0,
+            self._binary_format_size(self.angle_format) - 1,
         )
 
     @property

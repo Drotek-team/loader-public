@@ -6,7 +6,7 @@ from tqdm import tqdm
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, LandType, MagicNumber
 
 from .binary import Config, Header, SectionHeader
-from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents
+from .events import ColorEvents, Events, EventsType, FireEvents, PositionEvents, YawEvents
 
 if TYPE_CHECKING:
     from loader.schemas.iostar_json_gcs.iostar_json_gcs import IostarJsonGcs
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
         FireEventUser,
         PositionEventUser,
         ShowUser,
+        YawEventUser,
     )
 
 
@@ -38,14 +39,20 @@ class DronePx4:
         self.position_events = PositionEvents(magic_number, self.scale)
         self.color_events = ColorEvents(magic_number)
         self.fire_events = FireEvents(magic_number)
+        self.yaw_events = YawEvents(magic_number)
         self.events_dict = {
             events.id_: events
-            for events in [self.position_events, self.color_events, self.fire_events]
+            for events in [
+                self.position_events,
+                self.color_events,
+                self.fire_events,
+                self.yaw_events,
+            ]
         }
         self.magic_number = magic_number
 
     def __repr__(self) -> str:  # pragma: no cover
-        return f"DronePx4(index={self.index}, position_events={self.position_events}, color_events={self.color_events}, fire_events={self.fire_events}, magic_number={self.magic_number}, scale={self.scale}), land_type={self.land_type})"
+        return f"DronePx4(index={self.index}, position_events={self.position_events}, color_events={self.color_events}, fire_events={self.fire_events}, yaw_events={self.yaw_events}, magic_number={self.magic_number}, scale={self.scale}), land_type={self.land_type})"
 
     def __eq__(self, other_drone_px4: object) -> bool:
         if not isinstance(other_drone_px4, DronePx4):
@@ -72,6 +79,9 @@ class DronePx4:
 
     def add_fire(self, frame: int, channel: int, duration: int) -> None:
         self.fire_events.add_timecode_channel_duration(frame, channel, duration)
+
+    def add_yaw(self, frame: int, angle: int) -> None:
+        self.yaw_events.add_timecode_angle(frame, angle)
 
     def get_events_by_index(self, event_type: EventsType) -> Events[Any]:
         return self.events_dict[event_type]
@@ -315,6 +325,17 @@ def add_fire_events_user(
         )
 
 
+def add_yaw_events_user(
+    drone_px4: DronePx4,
+    yaw_events_user: list["YawEventUser"],
+) -> None:
+    for yaw_event_user in yaw_events_user:
+        drone_px4.add_yaw(
+            yaw_event_user.frame,
+            yaw_event_user.angle,
+        )
+
+
 def drone_user_to_drone_px4(
     drone_user: "DroneUser",
     scale: int,
@@ -330,5 +351,9 @@ def drone_user_to_drone_px4(
     add_fire_events_user(
         drone_px4,
         drone_user.fire_events,
+    )
+    add_yaw_events_user(
+        drone_px4,
+        drone_user.yaw_events,
     )
     return drone_px4

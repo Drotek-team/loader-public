@@ -93,6 +93,7 @@ class EventsFormatReportSummary(BaseReportSummary):
     position_events_report_summary: EventsReportSummary | None = None
     color_events_report_summary: EventsReportSummary | None = None
     fire_events_report_summary: EventsReportSummary | None = None
+    yaw_events_report_summary: EventsReportSummary | None = None
 
     def __add__(self, other: "EventsFormatReportSummary") -> "EventsFormatReportSummary":
         return EventsFormatReportSummary(
@@ -112,6 +113,11 @@ class EventsFormatReportSummary(BaseReportSummary):
                 other.fire_events_report_summary,
                 lambda x, y: x + y,
             ),
+            yaw_events_report_summary=apply_func_on_optional_pair(
+                self.yaw_events_report_summary,
+                other.yaw_events_report_summary,
+                lambda x, y: x + y,
+            ),
         )
 
     @field_serializer("drone_indices")
@@ -124,6 +130,7 @@ class EventsFormatReport(BaseReport):
     position_events_report: EventsReport | None
     color_events_report: EventsReport | None
     fire_events_report: EventsReport | None
+    yaw_events_report: EventsReport | None
 
     @classmethod
     def generate(
@@ -133,11 +140,13 @@ class EventsFormatReport(BaseReport):
         position_events_report = EventsReport.generate_or_none(drone_px4.position_events)
         color_events_report = EventsReport.generate_or_none(drone_px4.color_events)
         fire_events_report = EventsReport.generate_or_none(drone_px4.fire_events)
+        yaw_events_report = EventsReport.generate_or_none(drone_px4.yaw_events)
         return EventsFormatReport(
             drone_index=drone_px4.index,
             position_events_report=position_events_report,
             color_events_report=color_events_report,
             fire_events_report=fire_events_report,
+            yaw_events_report=yaw_events_report,
         )
 
     def summarize(self) -> EventsFormatReportSummary:
@@ -151,5 +160,8 @@ class EventsFormatReport(BaseReport):
             else None,
             fire_events_report_summary=self.fire_events_report.summarize()
             if self.fire_events_report
+            else None,
+            yaw_events_report_summary=self.yaw_events_report.summarize()
+            if self.yaw_events_report
             else None,
         )

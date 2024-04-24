@@ -8,7 +8,7 @@ from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, g
 
 @pytest.fixture
 def empty_drone_user() -> DroneUser:
-    return DroneUser(index=0, position_events=[], color_events=[], fire_events=[])
+    return DroneUser(index=0, position_events=[], color_events=[], fire_events=[], yaw_events=[])
 
 
 def test_position_event_user_standard_case(empty_drone_user: DroneUser) -> None:
@@ -258,6 +258,11 @@ def test_show_user___eq__() -> None:
 
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     show_user.drones_user[0].add_fire_event(frame=1, channel=1, duration=1)
+    other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
+    assert show_user != other_show_user
+
+    show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
+    show_user.drones_user[0].add_yaw_event(frame=1, angle=1)
     other_show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     assert show_user != other_show_user
 

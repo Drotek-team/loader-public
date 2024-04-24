@@ -23,10 +23,11 @@ class DanceSizeInfraction(BaseInfraction):
     position_percent: float
     color_percent: float
     fire_percent: float
+    yaw_percent: float
 
     @property
     def total_percent(self) -> float:
-        return self.position_percent + self.color_percent + self.fire_percent
+        return self.position_percent + self.color_percent + self.fire_percent + self.yaw_percent
 
     @classmethod
     def generate(
@@ -47,8 +48,17 @@ class DanceSizeInfraction(BaseInfraction):
         fire_size = len(drone_px4.fire_events) * struct.calcsize(
             JSON_BINARY_PARAMETERS.fire_event_format(drone_px4.magic_number),
         )
+        yaw_size = len(drone_px4.yaw_events) * struct.calcsize(
+            JSON_BINARY_PARAMETERS.yaw_event_format(drone_px4.magic_number),
+        )
         dance_size = (
-            header_size + config_size + header_section_size + position_size + color_size + fire_size
+            header_size
+            + config_size
+            + header_section_size
+            + position_size
+            + color_size
+            + fire_size
+            + yaw_size
         )
 
         return DanceSizeInfraction(
@@ -57,6 +67,7 @@ class DanceSizeInfraction(BaseInfraction):
             position_percent=round(100 * position_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
             color_percent=round(100 * color_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
             fire_percent=round(100 * fire_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
+            yaw_percent=round(100 * yaw_size / JSON_BINARY_PARAMETERS.dance_size_max, 2),
         )
 
     def __len__(self) -> int:

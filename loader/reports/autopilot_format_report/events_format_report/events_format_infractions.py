@@ -6,6 +6,7 @@ from typing import Any
 from loader.parameters.json_binary_parameters import JSON_BINARY_PARAMETERS, Bound, MagicNumber
 from loader.reports.base import BaseInfraction, BaseInfractionsSummary, apply_func_on_optional_pair
 from loader.schemas.drone_px4.events import ColorEvents, Events, FireEvents, PositionEvents
+from loader.schemas.drone_px4.events.yaw_events import YawEvents
 
 
 class BoundaryKind(Enum):
@@ -19,6 +20,7 @@ class BoundaryKind(Enum):
     WHITE = "white"
     CHANNEL = "channel"
     DURATION = "duration"
+    YAW = "yaw"
 
     def get_bound(self, magic_number: MagicNumber) -> Bound:
         if self == self.TIME:
@@ -31,6 +33,8 @@ class BoundaryKind(Enum):
             return JSON_BINARY_PARAMETERS.fire_channel_value_bound
         if self == self.DURATION:
             return JSON_BINARY_PARAMETERS.fire_duration_value_bound
+        if self == self.YAW:
+            return JSON_BINARY_PARAMETERS.angle_value_bound
         raise NotImplementedError
 
 
@@ -119,6 +123,8 @@ class BoundaryInfraction(BaseInfraction):
             ]
         elif isinstance(events, FireEvents):
             boundary_kinds = [BoundaryKind.TIME, BoundaryKind.CHANNEL, BoundaryKind.DURATION]
+        elif isinstance(events, YawEvents):
+            boundary_kinds = [BoundaryKind.TIME, BoundaryKind.YAW]
         else:
             raise NotImplementedError
 
