@@ -53,7 +53,7 @@ class JsonBinaryParameters:
     chrome_format: str = "B"
     fire_channel_format: str = "B"
     fire_duration_format: str = "B"
-    angle_format: str = "H"
+    angle_format: str = "h"
     dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octect
     fire_channel_number: int = 3
 
@@ -125,8 +125,8 @@ class JsonBinaryParameters:
     @property
     def angle_value_bound(self) -> Bound:
         return Bound(
-            0,
-            self._binary_format_size(self.angle_format) - 1,
+            -self._binary_format_size(self.angle_format) // 2,
+            self._binary_format_size(self.angle_format) // 2 - 1,
         )
 
     @property

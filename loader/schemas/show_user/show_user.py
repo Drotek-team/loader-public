@@ -81,7 +81,7 @@ class YawEventUser(EventUserBase):
     """Angle of the yaw event in degrees."""
 
     def apply_horizontal_rotation(self, angle: float) -> None:
-        self.angle = round((self.angle + np.rad2deg(angle)) % 360)
+        self.angle = round(self.angle + np.rad2deg(angle))
 
 
 class DroneUser(BaseModel):
