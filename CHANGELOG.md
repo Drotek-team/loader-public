@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.2 (2024-04-25)
+
+### Refactor
+
+- export yaw angle without modulo wrapping
+
 ## v0.12.1 (2024-04-24)
 
 ### Fix
