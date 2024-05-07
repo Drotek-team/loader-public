@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.4 (2024-05-07)
+
+### Refactor
+
+- use individual VDL for each pyro event
+
 ## v0.12.3 (2024-05-07)
 
 ### Fix
