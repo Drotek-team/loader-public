@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.3 (2024-05-07)
+
+### Fix
+
+- round delta position float precision in VVIZ
+
 ## v0.12.2 (2024-04-25)
 
 ### Refactor
