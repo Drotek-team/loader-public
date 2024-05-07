@@ -138,10 +138,9 @@ class PyroPayloadDescription(BaseModel):
     def from_fire_events(
         cls,
         fires: list["FireEventUser"],
-        vdl: str,
     ) -> list["PyroPayloadDescription"]:
         return [
-            PyroPayloadDescription(id=index + 1, eventTime=fire.frame / 24, vdl=vdl)
+            PyroPayloadDescription(id=index + 1, eventTime=fire.frame / 24, vdl=fire.vdl)
             for index, fire in enumerate(fires)
         ]
 
@@ -158,7 +157,6 @@ class Performance(BaseModel):
         airframe: str,
         lumens: float,
         source_type: str,
-        vdl: str,
     ) -> "Performance":
         return Performance(
             id=drone_user.index,
@@ -169,7 +167,7 @@ class Performance(BaseModel):
                 LigthPayloadDescription.from_color_events(
                     drone_user.color_events, lumens, source_type
                 ),
-                *PyroPayloadDescription.from_fire_events(drone_user.fire_events, vdl),
+                *PyroPayloadDescription.from_fire_events(drone_user.fire_events),
             ],
         )
 
@@ -195,7 +193,6 @@ class Vviz(BaseModel):
         airframe: str = "IOStar",
         lumens: float = 900.0,
         source_type: str = "Dome",
-        vdl: str = "10s Gold Glittering Gerb",
     ) -> "Vviz":
         global_reference_frame = (
             GlobalReferenceFrame(lat=lat, lon=lon, alt=alt)
@@ -203,7 +200,7 @@ class Vviz(BaseModel):
             else None
         )
         performances = [
-            Performance.from_drone_user(drone_user, airframe, lumens, source_type, vdl)
+            Performance.from_drone_user(drone_user, airframe, lumens, source_type)
             for drone_user in show_user.drones_user
         ]
         return Vviz(

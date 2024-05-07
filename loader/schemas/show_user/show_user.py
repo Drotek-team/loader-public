@@ -72,6 +72,8 @@ class FireEventUser(EventUserBase):
     """Fire event channel (0, 1 or 2)."""
     duration: StrictInt
     """Duration of the event in millisecond"""
+    vdl: str = ""
+    """VDL of the event."""
 
 
 class YawEventUser(EventUserBase):
@@ -112,9 +114,11 @@ class DroneUser(BaseModel):
         """Add a color event to the drone."""
         self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw, interpolate=interpolate))
 
-    def add_fire_event(self, frame: int, channel: int, duration: int) -> None:
+    def add_fire_event(self, frame: int, channel: int, duration: int, vdl: str = "") -> None:
         """Add a fire event to the drone."""
-        self.fire_events.append(FireEventUser(frame=frame, channel=channel, duration=duration))
+        self.fire_events.append(
+            FireEventUser(frame=frame, channel=channel, duration=duration, vdl=vdl)
+        )
 
     def add_yaw_event(self, frame: int, angle: int) -> None:
         """Add a yaw event to the drone."""

@@ -17,5 +17,4 @@ def test_vviz(duration_before_takeoff: float) -> None:
         airframe="IOStar",
         lumens=900.0,
         source_type="Dome",
-        vdl="10s Gold Glittering Gerb",
     )
