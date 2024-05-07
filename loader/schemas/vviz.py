@@ -58,9 +58,9 @@ class AgentDescription(BaseModel):
             agent_traversal.append(
                 PositionDeltaSample(
                     dt=dt if dt != 1 / 4 else None,
-                    dx=dx,
-                    dy=dy,
-                    dz=dz,
+                    dx=round(dx, 2),
+                    dy=round(dy, 2),
+                    dz=round(dz, 2),
                 )
             )
         home_x, home_y, home_z = convert_enu_to_vviz(positions[0].xyz)
