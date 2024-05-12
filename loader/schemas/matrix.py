@@ -8,8 +8,7 @@ if TYPE_CHECKING:
 
 
 @overload
-def get_matrix(*, matrix: Sequence[Sequence[int]]) -> "NDArray[np.intp]":
-    ...
+def get_matrix(*, matrix: Sequence[Sequence[int]]) -> "NDArray[np.intp]": ...
 
 
 @overload
@@ -18,8 +17,7 @@ def get_matrix(
     nb_x: int = 1,
     nb_y: int = 1,
     nb_drones_per_family: int = 1,
-) -> "NDArray[np.intp]":
-    ...
+) -> "NDArray[np.intp]": ...
 
 
 def get_matrix(

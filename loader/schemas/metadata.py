@@ -1,6 +1,5 @@
 """Metadata of the show."""
 
-
 from pydantic import BaseModel
 
 from loader import __version__
