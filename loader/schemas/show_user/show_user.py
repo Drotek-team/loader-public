@@ -5,10 +5,10 @@ This is the schema to be used to create, modify and check a show.
 """
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 from pydantic.types import StrictFloat, StrictInt
 from tqdm import tqdm
 
@@ -182,7 +182,7 @@ class ShowUser(BaseModel):
     """List of the drones of the show."""
     angle_takeoff: float
     """Angle of the takeoff grid in radian."""
-    angle_show: float
+    angle_show: float | None = None
     """Angle of the show in radian."""
     step: float
     """Distance separating the families during the takeoff in meter."""
@@ -196,15 +196,6 @@ class ShowUser(BaseModel):
     """Physic parameters of the show."""
     metadata: Metadata = Metadata()
     """Metadata of the show."""
-
-    @model_validator(mode="before")  # pyright: ignore[reportArgumentType]
-    @classmethod
-    def validate_angle_show(cls, values: Any) -> Any:  # noqa: ANN401
-        """Validate the angle_show."""
-        angle_show = values.get("angle_show")
-        if angle_show is None:
-            values["angle_show"] = values["angle_takeoff"]
-        return values
 
     @classmethod
     def create(
@@ -241,7 +232,7 @@ class ShowUser(BaseModel):
                 for drone_index in range(nb_drones)
             ],
             angle_takeoff=angle_takeoff,
-            angle_show=angle_show if angle_show is not None else angle_takeoff,
+            angle_show=angle_show,
             step=round(step, 2),
             metadata=metadata or Metadata(),
             scale=1,
@@ -345,7 +336,8 @@ class ShowUser(BaseModel):
     def apply_horizontal_rotation(self, angle: float) -> None:
         """Apply a horizontal rotation to the show."""
         self.angle_takeoff += angle
-        self.angle_show += angle
+        if self.angle_show is not None:
+            self.angle_show += angle
         for drone_user in tqdm(self.drones_user, desc="Applying horizontal rotation", unit="drone"):
             drone_user.apply_horizontal_rotation(angle)
 
@@ -393,7 +385,11 @@ class ShowUser(BaseModel):
         show_user = ShowUser.from_autopilot_format(
             DronePx4.from_iostar_json_gcs(iostar_json_gcs),
             angle_takeoff=-np.deg2rad(iostar_json_gcs.show.angle_takeoff),
-            angle_show=-np.deg2rad(iostar_json_gcs.show.angle_show),
+            angle_show=(
+                -np.deg2rad(iostar_json_gcs.show.angle_show)
+                if iostar_json_gcs.show.angle_show is not None
+                else None
+            ),
             step=iostar_json_gcs.show.step / 100,
             scale=iostar_json_gcs.show.scale,
             land_type=iostar_json_gcs.show.land_type,
@@ -409,7 +405,15 @@ class ShowUser(BaseModel):
         if not is_angles_equal(self.angle_takeoff, other.angle_takeoff):
             return False
 
-        if not is_angles_equal(self.angle_show, other.angle_show):
+        if (
+            (self.angle_show is not None and other.angle_show is None)
+            or (self.angle_show is None and other.angle_show is not None)
+            or (
+                self.angle_show is not None
+                and other.angle_show is not None
+                and not is_angles_equal(self.angle_show, other.angle_show)
+            )
+        ):
             return False
 
         if not np.allclose(self.step, other.step, atol=1e-2):

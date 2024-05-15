@@ -10,11 +10,3 @@ def test_iostar_json_gcs_standard_case_and_method() -> None:
         get_valid_show_user(ShowUserConfiguration(get_matrix(nb_drones_per_family=3))),
     )
     assert iostar_json_gcs.nb_drones_per_family == 3
-
-
-def test_iostar_json_gcs_missing_angle_show() -> None:
-    iostar_json_gcs = IostarJsonGcs.from_show_user(
-        get_valid_show_user(ShowUserConfiguration())
-    ).model_dump()
-    del iostar_json_gcs["show"]["angle_show"]
-    IostarJsonGcs(**iostar_json_gcs)

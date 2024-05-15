@@ -3,10 +3,10 @@
 This schema should be used for converting to and from the Show User schema.
 """
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import numpy as np
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 from tqdm import tqdm
 
 from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
@@ -69,7 +69,7 @@ class Show(BaseModel):
     """Distance separating the families during the takeoff in centimeter."""
     angle_takeoff: int
     """Angle of the takeoff grid."""
-    angle_show: int
+    angle_show: int | None = None
     """Angle of the show."""
     duration: int
     """Duration of the show in millisecond."""
@@ -81,15 +81,6 @@ class Show(BaseModel):
     """Position scale of the show."""
     land_type: LandType = LandType.Land
     """Type of landing at the end of the show."""
-
-    @model_validator(mode="before")  # pyright: ignore[reportArgumentType]
-    @classmethod
-    def validate_angle_show(cls, values: Any) -> Any:  # noqa: ANN401
-        """Validate the angle_show."""
-        angle_show = values.get("angle_show")
-        if angle_show is None:
-            values["angle_show"] = values["angle_takeoff"]
-        return values
 
 
 class IostarJsonGcs(BaseModel):
@@ -110,7 +101,9 @@ class IostarJsonGcs(BaseModel):
         """Convert from the ShowUser schema to the IostarJsonGcs schema."""
         step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
         angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))
-        angle_show = -round(np.rad2deg(show_user.angle_show))
+        angle_show = (
+            -round(np.rad2deg(show_user.angle_show)) if show_user.angle_show is not None else None
+        )
         duration = from_user_duration_to_px4_duration(show_user.duration)
         hull = from_user_hull_to_px4_hull(show_user.convex_hull)
         altitude_range = from_user_altitude_range_to_px4_altitude_range(show_user.altitude_range)

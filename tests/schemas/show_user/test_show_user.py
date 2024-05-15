@@ -4,7 +4,6 @@ from loader.parameters.json_binary_parameters import LandType
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.schemas.show_user.show_user import ShowUser
 
 
 @pytest.fixture
@@ -137,6 +136,7 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
     )
+    show_user.angle_show = 0
 
     assert show_user.drones_user[0].position_events[0].xyz == (-1.0, -1.0, 0.0)
     assert show_user.drones_user[1].position_events[0].xyz == (1.0, -1.0, 0.0)
@@ -286,9 +286,3 @@ def test_show_user___eq__() -> None:  # noqa: PLR0915
     assert show_user != other_show_user
 
     assert show_user == show_user  # noqa: PLR0124
-
-
-def test_show_user_missing_angle_show() -> None:
-    show_user = get_valid_show_user(ShowUserConfiguration()).model_dump()
-    del show_user["angle_show"]
-    ShowUser(**show_user)
