@@ -19,8 +19,8 @@ def test_takeoff_format_report_generate_standard_case() -> None:
 def test_drone_user_report_generate_minimal_position_event_report() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=1)))
 
-    show_user.drones_user[0].position_events[1:] = []  # pyright: ignore[reportUnknownArgumentType]
-    show_user.drones_user[1].position_events[1:] = []  # pyright: ignore[reportUnknownArgumentType]
+    show_user.drones_user[0].position_events[1:] = []
+    show_user.drones_user[1].position_events[1:] = []
     drone_user_report = DroneUserReport.generate(show_user.drones_user[0])
     assert drone_user_report == DroneUserReport(
         drone_index=0,

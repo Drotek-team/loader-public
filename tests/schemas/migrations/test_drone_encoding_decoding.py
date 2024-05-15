@@ -1,4 +1,4 @@
-from hypothesis import given
+from hypothesis import example, given
 from hypothesis import strategies as st
 from loader.parameters import LandType
 from loader.parameters.json_binary_parameters import MagicNumber
@@ -35,6 +35,33 @@ from tests.strategies import slow, st_land_type, st_scale
     magic_number=st.sampled_from(MagicNumber),
 )
 @slow
+@example(
+    first_frame=0,
+    first_x=0,
+    first_y=0,
+    first_z=0,
+    first_r=0,
+    first_g=0,
+    first_b=0,
+    first_w=0,
+    first_interpolate=False,
+    first_channel=0,
+    first_duration=0,
+    second_frame=0,
+    second_x=0,
+    second_y=0,
+    second_z=0,
+    second_r=0,
+    second_g=0,
+    second_b=0,
+    second_w=0,
+    second_interpolate=False,
+    second_channel=0,
+    second_duration=0,
+    scale=1,
+    land_type=LandType.Land,
+    magic_number=MagicNumber.v4,
+)
 def test_encode_decode_drone(
     first_frame: int,
     first_x: int,

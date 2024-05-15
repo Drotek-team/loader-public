@@ -49,6 +49,7 @@ reportUnusedExpression = false
 reportUnusedImport = false
 reportUnusedVariable = false
 reportPrivateUsage = false
+reportUnnecessaryTypeIgnoreComment = true
 pythonVersion = "3.10"
 exclude = ["**/__pycache__", "**/.*", "tests/test_readme.py"]
 
