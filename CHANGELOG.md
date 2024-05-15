@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.13.0 (2024-05-15)
+
+### Feat
+
+- add angle_show in show schemas
+
+### Refactor
+
+- make angle_show in schemas optional
+
 ## v0.12.4 (2024-05-07)
 
 ### Refactor
