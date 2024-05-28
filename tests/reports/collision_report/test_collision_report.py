@@ -29,7 +29,7 @@ def test_collision_report_invalid() -> None:
     collision_report = CollisionReport.generate(invalid_show_user_on_ground, is_partial=True)
     assert len(collision_report)
     collision_infractions = collision_report.collision_infractions
-    assert len(collision_infractions) == 204
+    assert len(collision_infractions) == 196
 
     invalid_show_user_on_ground.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
     collision_report = CollisionReport.generate(invalid_show_user_on_ground)

@@ -31,11 +31,11 @@ class ShowPositionFrame:
 
     @property
     def in_air_indices(self) -> "NDArray[np.intp]":
-        return self._indices[self._positions[:, 2] != 0]
+        return self._indices[~np.isclose(self._positions[:, 2], 0, atol=5e-2)]
 
     @property
     def in_air_positions(self) -> "NDArray[np.float64]":
-        return self._positions[self._positions[:, 2] != 0]
+        return self._positions[~np.isclose(self._positions[:, 2], 0, atol=5e-2)]
 
     def __len__(self) -> int:
         return len(self._indices)
