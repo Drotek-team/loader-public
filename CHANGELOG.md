@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.13.1 (2024-05-28)
+
+### Fix
+
+- collision false positive link to land detection
+
 ## v0.13.0 (2024-05-15)
 
 ### Feat
