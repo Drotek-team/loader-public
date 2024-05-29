@@ -192,6 +192,8 @@ class ShowUser(BaseModel):
     """Type of landing at the end of the show."""
     magic_number: MagicNumber = MagicNumber.v3
     """Version of the binary format."""
+    rtl_start_frame: int | None = None
+    """Frame at which the automatic RTL starts."""
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
     """Physic parameters of the show."""
     metadata: Metadata = Metadata()
@@ -394,6 +396,7 @@ class ShowUser(BaseModel):
             scale=iostar_json_gcs.show.scale,
             land_type=iostar_json_gcs.show.land_type,
         )
+        show_user.rtl_start_frame = iostar_json_gcs.show.rtl_start_frame
         if iostar_json_gcs.physic_parameters is not None:
             show_user.physic_parameters = iostar_json_gcs.physic_parameters
         return show_user

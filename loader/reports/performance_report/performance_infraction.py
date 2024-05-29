@@ -134,20 +134,29 @@ class PerformanceInfraction(BaseInfraction):
         else:
             tolerance_percentage = 1.05
 
-        return list(
-            itertools.chain.from_iterable(
-                cls._get_performance_infractions_from_drone_performance(
-                    drone_trajectory_performance,
-                    physic_parameters,
-                    tolerance_percentage,
-                )
-                for drone_trajectory_performance in tqdm(
-                    show_trajectory_performance,
-                    desc="Checking speed profiles",
-                    unit="drone",
-                )
-            ),
+        infractions = itertools.chain.from_iterable(
+            cls._get_performance_infractions_from_drone_performance(
+                drone_trajectory_performance,
+                physic_parameters,
+                tolerance_percentage,
+            )
+            for drone_trajectory_performance in tqdm(
+                show_trajectory_performance,
+                desc="Checking speed profiles",
+                unit="drone",
+            )
         )
+        if show_user.rtl_start_frame is None:
+            return list(infractions)
+
+        return [
+            infraction
+            for infraction in infractions
+            if not (
+                infraction.performance_name == PerformanceKind.ACCELERATION.value
+                and infraction.frame >= show_user.rtl_start_frame
+            )
+        ]
 
     def summarize(self) -> "PerformanceInfractionsSummary":
         return PerformanceInfractionsSummary(

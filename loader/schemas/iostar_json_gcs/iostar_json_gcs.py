@@ -81,6 +81,8 @@ class Show(BaseModel):
     """Position scale of the show."""
     land_type: LandType = LandType.Land
     """Type of landing at the end of the show."""
+    rtl_start_frame: int | None = None
+    """Frame at which the automatic RTL starts."""
 
 
 class IostarJsonGcs(BaseModel):
@@ -130,6 +132,7 @@ class IostarJsonGcs(BaseModel):
                 angle_show=angle_show,
                 scale=show_user.scale,
                 land_type=show_user.land_type,
+                rtl_start_frame=show_user.rtl_start_frame,
             ),
             physic_parameters=show_user.physic_parameters,
             metadata=show_user.metadata,

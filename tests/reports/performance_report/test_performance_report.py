@@ -311,3 +311,28 @@ def test_valid_physic_parameters() -> None:
         kind.value in [infractions.performance_name for infractions in performance_infractions]
         for kind in PerformanceKind
     )
+
+
+def test_valid_show_user_acceleration_rtl() -> None:
+    valid_show_user = get_valid_show_user(ShowUserConfiguration())
+    last_position_event = valid_show_user.drones_user[0].position_events[-1]
+    valid_show_user.rtl_start_frame = last_position_event.frame + 48
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 24,
+        xyz=(
+            last_position_event.xyz[0],
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    valid_show_user.drones_user[0].add_position_event(
+        frame=last_position_event.frame + 48,
+        xyz=(
+            last_position_event.xyz[0] + IOSTAR_PHYSIC_PARAMETERS_MAX.acceleration_max,
+            last_position_event.xyz[1],
+            last_position_event.xyz[2],
+        ),
+    )
+    valid_show_user.physic_parameters = IOSTAR_PHYSIC_PARAMETERS_MAX
+    performance_report = PerformanceReport.generate(valid_show_user)
+    assert not len(performance_report)

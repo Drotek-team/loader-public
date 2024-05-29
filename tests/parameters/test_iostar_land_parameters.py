@@ -14,3 +14,4 @@ def test_land_parameters_methods_values() -> None:
 
     assert LAND_PARAMETERS.get_land_second_delta(6.0) == 8.5
     assert LAND_PARAMETERS.get_land_frame_delta(6.0) == 204
+    assert LAND_PARAMETERS.get_rtl_reposition_frame_delta() == 24
