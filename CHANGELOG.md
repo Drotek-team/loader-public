@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.14.0 (2024-05-29)
+
+### Feat
+
+- add RTL support
+
 ## v0.13.1 (2024-05-28)
 
 ### Fix
