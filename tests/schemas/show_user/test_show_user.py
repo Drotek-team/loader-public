@@ -4,6 +4,7 @@ from loader.parameters.json_binary_parameters import LandType
 from loader.schemas.matrix import get_matrix
 from loader.schemas.show_user import DroneUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
+from loader.schemas.show_user.show_user import ColorEventUser, PositionEventUser
 
 
 @pytest.fixture
@@ -286,3 +287,230 @@ def test_show_user___eq__() -> None:  # noqa: PLR0915
     assert show_user != other_show_user
 
     assert show_user == show_user  # noqa: PLR0124
+
+
+XYZ1 = (1.0, 2.0, 3.0)
+XYZ2 = (4.0, 5.0, 6.0)
+XYZ3 = (7.0, 8.0, 9.0)
+
+
+@pytest.mark.parametrize(
+    "position_events,cleaned_position_events",
+    [
+        ([], []),
+        (
+            [PositionEventUser(frame=1, xyz=XYZ1)],
+            [PositionEventUser(frame=1, xyz=XYZ1)],
+        ),
+        (
+            [
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+            ],
+            [
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+            ],
+        ),
+        (
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+            ],
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+            ],
+        ),
+        (
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ2),
+            ],
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ2),
+            ],
+        ),
+        (
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+                PositionEventUser(frame=3, xyz=XYZ2),
+            ],
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+                PositionEventUser(frame=3, xyz=XYZ2),
+            ],
+        ),
+        (
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=1, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+                PositionEventUser(frame=3, xyz=XYZ2),
+                PositionEventUser(frame=4, xyz=XYZ2),
+                PositionEventUser(frame=5, xyz=XYZ2),
+                PositionEventUser(frame=6, xyz=XYZ3),
+                PositionEventUser(frame=7, xyz=XYZ3),
+                PositionEventUser(frame=8, xyz=XYZ3),
+            ],
+            [
+                PositionEventUser(frame=0, xyz=XYZ1),
+                PositionEventUser(frame=2, xyz=XYZ1),
+                PositionEventUser(frame=3, xyz=XYZ2),
+                PositionEventUser(frame=5, xyz=XYZ2),
+                PositionEventUser(frame=6, xyz=XYZ3),
+                PositionEventUser(frame=8, xyz=XYZ3),
+            ],
+        ),
+    ],
+)
+def test_drone_user_clean_position_events(
+    position_events: list[PositionEventUser], cleaned_position_events: list[PositionEventUser]
+) -> None:
+    drone_user = DroneUser(
+        index=0, position_events=position_events, color_events=[], fire_events=[], yaw_events=[]
+    )
+    drone_user.clean_position_events()
+    assert drone_user.position_events == cleaned_position_events
+
+
+RGBW1 = (1.0, 2.0, 3.0, 0.1)
+RGBW2 = (4.0, 5.0, 6.0, 0.2)
+RGBW3 = (7.0, 8.0, 9.0, 0.3)
+
+
+@pytest.mark.parametrize(
+    "color_events,cleaned_color_events",
+    [
+        ([], []),
+        (
+            [ColorEventUser(frame=1, rgbw=RGBW1)],
+            [ColorEventUser(frame=1, rgbw=RGBW1)],
+        ),
+        (
+            [
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+            ],
+            [
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+                ColorEventUser(frame=3, rgbw=RGBW2),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=3, rgbw=RGBW2),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+                ColorEventUser(frame=3, rgbw=RGBW2),
+                ColorEventUser(frame=4, rgbw=RGBW2),
+                ColorEventUser(frame=5, rgbw=RGBW2),
+                ColorEventUser(frame=6, rgbw=RGBW3),
+                ColorEventUser(frame=7, rgbw=RGBW3),
+                ColorEventUser(frame=8, rgbw=RGBW3),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=3, rgbw=RGBW2),
+                ColorEventUser(frame=6, rgbw=RGBW3),
+                ColorEventUser(frame=8, rgbw=RGBW3),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=1, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=1, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=1, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=2, rgbw=RGBW2),
+            ],
+        ),
+        (
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=1, rgbw=RGBW1, interpolate=True),
+                ColorEventUser(frame=2, rgbw=RGBW1),
+                ColorEventUser(frame=3, rgbw=RGBW2),
+            ],
+            [
+                ColorEventUser(frame=0, rgbw=RGBW1),
+                ColorEventUser(frame=3, rgbw=RGBW2),
+            ],
+        ),
+    ],
+)
+def test_drone_user_clean_color_events(
+    color_events: list[ColorEventUser], cleaned_color_events: list[ColorEventUser]
+) -> None:
+    drone_user = DroneUser(
+        index=0, position_events=[], color_events=color_events, fire_events=[], yaw_events=[]
+    )
+    drone_user.clean_color_events()
+    assert drone_user.color_events == cleaned_color_events

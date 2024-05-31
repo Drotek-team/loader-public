@@ -5,6 +5,7 @@ This is the schema to be used to create, modify and check a show.
 """
 
 from dataclasses import dataclass
+from itertools import pairwise
 from typing import TYPE_CHECKING, cast
 
 import numpy as np
@@ -104,6 +105,21 @@ class DroneUser(BaseModel):
         """Add a position event to the drone."""
         self.position_events.append(PositionEventUser(frame=frame, xyz=xyz))
 
+    def clean_position_events(self) -> None:
+        """Remove unnecessary position events."""
+        new_position_events: list[PositionEventUser] = []
+        last_event: PositionEventUser | None = None
+
+        for event, next_event in pairwise(self.position_events):
+            if last_event is None or last_event.xyz != event.xyz or event.xyz != next_event.xyz:
+                last_event = event
+                new_position_events.append(event)
+
+        if len(self.position_events) >= 1:
+            new_position_events.append(self.position_events[-1])
+
+        self.position_events = new_position_events
+
     def add_color_event(
         self,
         frame: int,
@@ -113,6 +129,30 @@ class DroneUser(BaseModel):
     ) -> None:
         """Add a color event to the drone."""
         self.color_events.append(ColorEventUser(frame=frame, rgbw=rgbw, interpolate=interpolate))
+
+    def clean_color_events(self) -> None:
+        """Remove unnecessary color events.
+
+        Also update the interpolation information if it allows to remove more events.
+        """
+        new_color_events: list[ColorEventUser] = []
+        last_event: ColorEventUser | None = None
+
+        for event, next_event in pairwise(self.color_events):
+            if (
+                last_event is None
+                or last_event.rgbw != event.rgbw
+                or (event.interpolate and event.rgbw != next_event.rgbw)
+            ):
+                last_event = event
+                new_color_events.append(event)
+            elif last_event.interpolate:
+                last_event.interpolate = False
+
+        if len(self.color_events) >= 1:
+            new_color_events.append(self.color_events[-1])
+
+        self.color_events = new_color_events
 
     def add_fire_event(self, frame: int, channel: int, duration: int, vdl: str = "") -> None:
         """Add a fire event to the drone."""
