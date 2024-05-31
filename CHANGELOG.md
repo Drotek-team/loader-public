@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.14.1 (2024-05-31)
+
+### Refactor
+
+- add position and color event clean methods
+
 ## v0.14.0 (2024-05-29)
 
 ### Feat
