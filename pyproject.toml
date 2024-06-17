@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "loader"
-version = "0.14.1"
+version = "0.14.2"
 description = ""
 authors = [
     "Thomas PERRIN <thomas.perrin@drotek.com>",

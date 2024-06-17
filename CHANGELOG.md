@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.14.2 (2024-06-17)
+
+### Refactor
+
+- keep magic number when converting from IostarJsonGcs to ShowUser
+
 ## v0.14.1 (2024-05-31)
 
 ### Refactor
