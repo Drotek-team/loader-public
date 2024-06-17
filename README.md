@@ -19,7 +19,7 @@ python -m pip install <path_to_the_loader>
 ```python
 from pathlib import Path
 
-from loader.parameters import LandType
+from loader.parameters import LandType, MagicNumber
 from loader.schemas import IostarJsonGcs, ShowUser
 
 # Create an empty show user
@@ -41,6 +41,12 @@ show_user.drones_user[0].add_color_event(frame=300, rgbw=(0.0, 0.0, 1.0, 0.0))
 # Add fire events
 show_user.drones_user[0].add_fire_event(frame=210, channel=0, duration=0)
 show_user.drones_user[0].add_fire_event(frame=280, channel=1, duration=0)
+
+# Set the magic number of the binary format
+# The default value is MagicNumber.v3 and is compatible only with IO-Star v2
+# Use MagicNumber.v2 to be compatible with both IO-Star v1 and v2
+# MagicNumber.v2 does not allow specifying a scale and a land type
+show_user.magic_number = MagicNumber.v3
 
 # Set the position scale
 # The range is multiplied by the scale

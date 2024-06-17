@@ -9,9 +9,21 @@ class MagicNumber(IntEnum):
     """The magic number to identify the version of the schema."""
 
     v1 = 0xAA55
+    """First version of the binary format (outdated)."""
     v2 = 0xAA66
+    """Second version of the binary format.
+
+    This version is compatible with both IO-Star v1 and v2.
+    This format is more compact than the first one.
+    """
     v3 = 0xAA77
+    """Third version of the binary format.
+
+    This version is only compatible with IO-Star v2.
+    This format allow specifying a scale and a land type.
+    """
     v4 = 0xAA88
+    """Fourth version of the binary format (In development, DO NOT USE)."""
 
 
 class LandType(Enum):
