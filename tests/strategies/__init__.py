@@ -6,7 +6,7 @@ import numpy as np
 from hypothesis import assume, settings
 from hypothesis import strategies as st
 from hypothesis.extra.numpy import arrays  # pyright: ignore[reportUnknownVariableType]
-from loader.parameters.json_binary_parameters import LandType
+from loader.parameters.json_binary_parameters import LandType, MagicNumber
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -58,3 +58,4 @@ st_step_takeoff = st.floats(1, 10)
 st_angle_takeoff = st.floats(0, 2 * np.pi)
 st_scale = st.integers(1, 4)
 st_land_type = st.sampled_from(LandType)
+st_magic_number = st.sampled_from(MagicNumber)

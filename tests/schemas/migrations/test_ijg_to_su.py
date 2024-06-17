@@ -6,6 +6,7 @@ from loader.parameters import (
     IOSTAR_PHYSIC_PARAMETERS_MAX,
     IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
     LandType,
+    MagicNumber,
 )
 from loader.schemas import IostarJsonGcs, ShowUser
 from loader.schemas.matrix import get_matrix
@@ -16,6 +17,7 @@ from tests.strategies import (
     slow,
     st_angle_takeoff,
     st_land_type,
+    st_magic_number,
     st_matrix_with_shape,
     st_scale,
     st_step_takeoff,
@@ -29,6 +31,7 @@ if TYPE_CHECKING:
     matrix_with_shape=st_matrix_with_shape(),
     step_takeoff=st_step_takeoff,
     angle_takeoff=st_angle_takeoff,
+    magic_number=st_magic_number,
     scale=st_scale,
     land_type=st_land_type,
 )
@@ -37,6 +40,7 @@ def test_ijg_to_su(
     matrix_with_shape: tuple["NDArray[np.intp]", int, int, int],
     step_takeoff: float,
     angle_takeoff: float,
+    magic_number: MagicNumber,
     scale: int,
     land_type: LandType,
 ) -> None:
@@ -46,10 +50,12 @@ def test_ijg_to_su(
             matrix=matrix,
             step=step_takeoff,
             angle_takeoff=angle_takeoff,
+            magic_number=magic_number,
         ),
     )
-    show_user.scale = scale
-    show_user.land_type = land_type
+    if magic_number >= MagicNumber.v3:  # pragma: no cover
+        show_user.scale = scale
+        show_user.land_type = land_type
     iostar_json_gcs = IostarJsonGcs.from_show_user(show_user)
     iostar_json_gcs_angle_takeoff_rad = -np.deg2rad(iostar_json_gcs.show.angle_takeoff)
     assert is_angles_equal(show_user.angle_takeoff, iostar_json_gcs_angle_takeoff_rad)

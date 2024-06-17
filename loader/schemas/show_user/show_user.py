@@ -408,6 +408,12 @@ class ShowUser(BaseModel):
         ):
             drone_user.from_drone_px4(drone_px4)
 
+        magic_number = autopilot_format[0].magic_number
+
+        if not all(drone_px4.magic_number == magic_number for drone_px4 in autopilot_format):
+            msg = "All the drones must have the same magic number"
+            raise ValueError(msg)
+
         if not all(drone_px4.scale == scale for drone_px4 in autopilot_format):
             msg = "All the drones must have the same scale"
             raise ValueError(msg)
@@ -416,6 +422,7 @@ class ShowUser(BaseModel):
             msg = "All the drones must have the same land type"
             raise ValueError(msg)
 
+        show_user.magic_number = magic_number
         show_user.scale = scale
         show_user.land_type = land_type
 
@@ -443,6 +450,9 @@ class ShowUser(BaseModel):
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911, PLR0912
         if not isinstance(other, ShowUser):
+            return False
+
+        if self.magic_number != other.magic_number:
             return False
 
         if not is_angles_equal(self.angle_takeoff, other.angle_takeoff):

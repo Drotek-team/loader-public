@@ -2,8 +2,7 @@ import math
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.parameters.json_binary_parameters import LandType
+from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS, LandType, MagicNumber
 from loader.schemas.matrix import get_matrix
 
 from .show_user import DroneUser, ShowUser
@@ -21,6 +20,7 @@ class ShowUserConfiguration:
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
     duration_before_takeoff: float = 0.0
+    magic_number: MagicNumber = MagicNumber.v3
     scale: int = 1
     land_type: LandType = LandType.Land
 
@@ -206,6 +206,7 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
         angle_takeoff=show_user_configuration.angle_takeoff,
         step=show_user_configuration.step,
     )
+    show_user.magic_number = show_user_configuration.magic_number
     show_user.scale = show_user_configuration.scale
     show_user.land_type = show_user_configuration.land_type
     drone_index = 0

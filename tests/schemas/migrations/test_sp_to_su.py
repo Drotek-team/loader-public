@@ -120,6 +120,22 @@ def test_drone_px4_to_drone_user_fire_events(
     assert drone_users[1].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION_BIS
 
 
+@pytest.mark.parametrize(
+    "valid_autopilot_format, bad_magic_number",
+    zip(list(MagicNumber), [*list(MagicNumber)[1:], MagicNumber.v1], strict=True),
+    indirect=["valid_autopilot_format"],
+)
+def test_show_user_magic_number_different_from_autopilot_format(
+    valid_autopilot_format: list[DronePx4],
+    bad_magic_number: MagicNumber,
+) -> None:
+    valid_autopilot_format[0].magic_number = bad_magic_number
+    with pytest.raises(ValueError, match="All the drones must have the same magic number"):
+        ShowUser.from_autopilot_format(
+            valid_autopilot_format, angle_takeoff=0, step=1, scale=2, land_type=LandType.Land
+        )
+
+
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_show_user_scale_different_from_autopilot_format(
     valid_autopilot_format: list[DronePx4],

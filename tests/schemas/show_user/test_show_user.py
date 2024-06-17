@@ -1,10 +1,9 @@
 import numpy as np
 import pytest
-from loader.parameters.json_binary_parameters import LandType
+from loader.parameters import LandType, MagicNumber
 from loader.schemas.matrix import get_matrix
-from loader.schemas.show_user import DroneUser
+from loader.schemas.show_user import ColorEventUser, DroneUser, PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.schemas.show_user.show_user import ColorEventUser, PositionEventUser
 
 
 @pytest.fixture
@@ -212,6 +211,10 @@ def test_update_drones_user_indices_not_unique() -> None:
 def test_show_user___eq__() -> None:  # noqa: PLR0915
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user = 1
+    assert show_user != other_show_user
+
+    other_show_user = show_user.model_copy()
+    other_show_user.magic_number = MagicNumber.v2
     assert show_user != other_show_user
 
     show_user = get_valid_show_user(
