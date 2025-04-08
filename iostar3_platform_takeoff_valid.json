@@ -1,0 +1,383 @@
+{
+  "drones": [
+    {
+      "index": 0,
+      "position_events": [
+        { "frame": 1, "xyz": [-1.1799999475479126, -0.5600000023841858, 0.0] },
+        { "frame": 218, "xyz": [-0.75, -0.75, 14.0] },
+        { "frame": 1156, "xyz": [-0.75, -0.75, 14.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1114, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 1,
+      "position_events": [
+        {
+          "frame": 101,
+          "xyz": [-0.8299999833106995, -0.5600000023841858, 0.0]
+        },
+        { "frame": 304, "xyz": [-0.75, -0.75, 12.0] },
+        { "frame": 1056, "xyz": [-0.75, -0.75, 12.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1131, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 2,
+      "position_events": [
+        {
+          "frame": 201,
+          "xyz": [-0.47999998927116394, -0.5600000023841858, 0.0]
+        },
+        { "frame": 391, "xyz": [-0.75, -0.75, 10.0] },
+        { "frame": 956, "xyz": [-0.75, -0.75, 10.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1124, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 3,
+      "position_events": [
+        {
+          "frame": 301,
+          "xyz": [-1.1799999475479126, -0.20999999344348907, 0.0]
+        },
+        { "frame": 477, "xyz": [-0.75, -0.75, 8.0] },
+        { "frame": 856, "xyz": [-0.75, -0.75, 8.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1000, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 4,
+      "position_events": [
+        {
+          "frame": 401,
+          "xyz": [-0.8299999833106995, -0.20999999344348907, 0.0]
+        },
+        { "frame": 561, "xyz": [-0.75, -0.75, 6.0] },
+        { "frame": 756, "xyz": [-0.75, -0.75, 6.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 876, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 5,
+      "position_events": [
+        {
+          "frame": 501,
+          "xyz": [-0.47999998927116394, -0.20999999344348907, 0.0]
+        },
+        { "frame": 641, "xyz": [-0.75, -0.75, 4.0] },
+        { "frame": 656, "xyz": [-0.75, -0.75, 4.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 752, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 6,
+      "position_events": [
+        { "frame": 1, "xyz": [0.47999998927116394, -0.5600000023841858, 0.0] },
+        { "frame": 218, "xyz": [0.75, -0.75, 14.0] },
+        { "frame": 1156, "xyz": [0.75, -0.75, 14.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1114, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 7,
+      "position_events": [
+        { "frame": 101, "xyz": [0.8299999833106995, -0.5600000023841858, 0.0] },
+        { "frame": 304, "xyz": [0.75, -0.75, 12.0] },
+        { "frame": 1056, "xyz": [0.75, -0.75, 12.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1131, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 8,
+      "position_events": [
+        { "frame": 201, "xyz": [1.1799999475479126, -0.5600000023841858, 0.0] },
+        { "frame": 391, "xyz": [0.75, -0.75, 10.0] },
+        { "frame": 956, "xyz": [0.75, -0.75, 10.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1124, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 9,
+      "position_events": [
+        {
+          "frame": 301,
+          "xyz": [0.47999998927116394, -0.20999999344348907, 0.0]
+        },
+        { "frame": 477, "xyz": [0.75, -0.75, 8.0] },
+        { "frame": 856, "xyz": [0.75, -0.75, 8.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1000, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 10,
+      "position_events": [
+        {
+          "frame": 401,
+          "xyz": [0.8299999833106995, -0.20999999344348907, 0.0]
+        },
+        { "frame": 561, "xyz": [0.75, -0.75, 6.0] },
+        { "frame": 756, "xyz": [0.75, -0.75, 6.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 876, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 11,
+      "position_events": [
+        {
+          "frame": 501,
+          "xyz": [1.1799999475479126, -0.20999999344348907, 0.0]
+        },
+        { "frame": 641, "xyz": [0.75, -0.75, 4.0] },
+        { "frame": 656, "xyz": [0.75, -0.75, 4.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 752, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 12,
+      "position_events": [
+        { "frame": 1, "xyz": [-1.1799999475479126, 0.20999999344348907, 0.0] },
+        { "frame": 218, "xyz": [-0.75, 0.75, 14.0] },
+        { "frame": 1156, "xyz": [-0.75, 0.75, 14.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1114, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 13,
+      "position_events": [
+        {
+          "frame": 101,
+          "xyz": [-0.8299999833106995, 0.20999999344348907, 0.0]
+        },
+        { "frame": 304, "xyz": [-0.75, 0.75, 12.0] },
+        { "frame": 1056, "xyz": [-0.75, 0.75, 12.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1131, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 14,
+      "position_events": [
+        {
+          "frame": 201,
+          "xyz": [-0.47999998927116394, 0.20999999344348907, 0.0]
+        },
+        { "frame": 391, "xyz": [-0.75, 0.75, 10.0] },
+        { "frame": 956, "xyz": [-0.75, 0.75, 10.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1124, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 15,
+      "position_events": [
+        { "frame": 301, "xyz": [-1.1799999475479126, 0.5600000023841858, 0.0] },
+        { "frame": 477, "xyz": [-0.75, 0.75, 8.0] },
+        { "frame": 856, "xyz": [-0.75, 0.75, 8.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1000, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 16,
+      "position_events": [
+        { "frame": 401, "xyz": [-0.8299999833106995, 0.5600000023841858, 0.0] },
+        { "frame": 561, "xyz": [-0.75, 0.75, 6.0] },
+        { "frame": 756, "xyz": [-0.75, 0.75, 6.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 876, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 17,
+      "position_events": [
+        {
+          "frame": 501,
+          "xyz": [-0.47999998927116394, 0.5600000023841858, 0.0]
+        },
+        { "frame": 641, "xyz": [-0.75, 0.75, 4.0] },
+        { "frame": 656, "xyz": [-0.75, 0.75, 4.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 752, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 18,
+      "position_events": [
+        { "frame": 1, "xyz": [0.47999998927116394, 0.20999999344348907, 0.0] },
+        { "frame": 218, "xyz": [0.75, 0.75, 14.0] },
+        { "frame": 1156, "xyz": [0.75, 0.75, 14.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1114, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 19,
+      "position_events": [
+        { "frame": 101, "xyz": [0.8299999833106995, 0.20999999344348907, 0.0] },
+        { "frame": 304, "xyz": [0.75, 0.75, 12.0] },
+        { "frame": 1056, "xyz": [0.75, 0.75, 12.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1131, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": true }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 20,
+      "position_events": [
+        { "frame": 201, "xyz": [1.1799999475479126, 0.20999999344348907, 0.0] },
+        { "frame": 391, "xyz": [0.75, 0.75, 10.0] },
+        { "frame": 956, "xyz": [0.75, 0.75, 10.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1124, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 21,
+      "position_events": [
+        { "frame": 301, "xyz": [0.47999998927116394, 0.5600000023841858, 0.0] },
+        { "frame": 477, "xyz": [0.75, 0.75, 8.0] },
+        { "frame": 856, "xyz": [0.75, 0.75, 8.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 1000, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 22,
+      "position_events": [
+        { "frame": 401, "xyz": [0.8299999833106995, 0.5600000023841858, 0.0] },
+        { "frame": 561, "xyz": [0.75, 0.75, 6.0] },
+        { "frame": 756, "xyz": [0.75, 0.75, 6.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 876, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    },
+    {
+      "index": 23,
+      "position_events": [
+        { "frame": 501, "xyz": [1.1799999475479126, 0.5600000023841858, 0.0] },
+        { "frame": 641, "xyz": [0.75, 0.75, 4.0] },
+        { "frame": 656, "xyz": [0.75, 0.75, 4.0] }
+      ],
+      "color_events": [
+        { "frame": 1, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false },
+        { "frame": 752, "rgbw": [0.0, 0.0, 0.0, 0.0], "interpolate": false }
+      ],
+      "fire_events": [],
+      "yaw_events": []
+    }
+  ],
+  "other_parameters": {
+    "angle_takeoff": 0.0,
+    "angle_show": null,
+    "step_x": 1.66,
+    "step_y": 0.77,
+    "scale": 1,
+    "land_type": "LandType.RTL",
+    "rtl_start_frame": 656,
+    "takeoff_end_frame": 643
+  }
+}
