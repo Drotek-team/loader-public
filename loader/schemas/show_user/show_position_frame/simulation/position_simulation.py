@@ -14,6 +14,9 @@ class SimulationInfo:
     frame: int
     position: "NDArray[np.float64]"
 
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"SimulationInfo frame={self.frame}, position={self.position}"
+
     def __eq__(self, other_simulation_info: object) -> bool:
         if not isinstance(other_simulation_info, SimulationInfo):
             return False

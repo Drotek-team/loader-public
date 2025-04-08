@@ -1,9 +1,9 @@
+import json
 import math
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS
-from loader.parameters.json_binary_parameters import LandType
+from loader.parameters import FRAME_PARAMETERS, TAKEOFF_PARAMETERS, LandType, MagicNumber
 from loader.schemas.matrix import get_matrix
 
 from .show_user import DroneUser, ShowUser
@@ -16,11 +16,13 @@ if TYPE_CHECKING:
 @dataclass()
 class ShowUserConfiguration:
     matrix: "NDArray[np.intp]" = field(default_factory=get_matrix)
-    step: float = 1.5
+    step_x: float = 1.5
+    step_y: float = 1.5
     angle_takeoff: float = 0.0
     show_duration_absolute_time: float = 30.0
     takeoff_altitude: float = TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
     duration_before_takeoff: float = 0.0
+    magic_number: MagicNumber = MagicNumber.v3
     scale: int = 1
     land_type: LandType = LandType.Land
 
@@ -67,9 +69,10 @@ def get_valid_position_events_user(
 ) -> None:
     nb_x = show_user_configuration.nb_x
     nb_y = show_user_configuration.nb_y
-    step = show_user_configuration.step
-    index_bias_x = 0.5 * (nb_x - 1) * step
-    index_bias_y = 0.5 * (nb_y - 1) * step
+    step_x = show_user_configuration.step_x
+    step_y = show_user_configuration.step_y
+    index_bias_x = 0.5 * (nb_x - 1) * step_x
+    index_bias_y = 0.5 * (nb_y - 1) * step_y
 
     drone_user.add_position_event(
         frame=FRAME_PARAMETERS.from_second_to_frame(
@@ -77,8 +80,8 @@ def get_valid_position_events_user(
         ),
         xyz=rotated_horizontal_coordinates(
             (
-                show_user_configuration.step * index_x - index_bias_x,
-                show_user_configuration.step * index_y - index_bias_y,
+                show_user_configuration.step_x * index_x - index_bias_x,
+                show_user_configuration.step_y * index_y - index_bias_y,
                 0.0,
             ),
             show_user_configuration.angle_takeoff,
@@ -91,8 +94,8 @@ def get_valid_position_events_user(
         ),
         xyz=rotated_horizontal_coordinates(
             (
-                show_user_configuration.step * index_x - index_bias_x,
-                show_user_configuration.step * index_y - index_bias_y,
+                show_user_configuration.step_x * index_x - index_bias_x,
+                show_user_configuration.step_y * index_y - index_bias_y,
                 show_user_configuration.takeoff_altitude,
             ),
             show_user_configuration.angle_takeoff,
@@ -106,8 +109,8 @@ def get_valid_position_events_user(
         ),
         xyz=rotated_horizontal_coordinates(
             (
-                show_user_configuration.step * index_x - index_bias_x,
-                show_user_configuration.step * index_y - index_bias_y,
+                show_user_configuration.step_x * index_x - index_bias_x,
+                show_user_configuration.step_y * index_y - index_bias_y,
                 show_user_configuration.takeoff_altitude,
             ),
             show_user_configuration.angle_takeoff,
@@ -204,8 +207,10 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
     show_user = ShowUser.create(
         nb_drones=matrix.sum(),
         angle_takeoff=show_user_configuration.angle_takeoff,
-        step=show_user_configuration.step,
+        step_x=show_user_configuration.step_x,
+        step_y=show_user_configuration.step_y,
     )
+    show_user.magic_number = show_user_configuration.magic_number
     show_user.scale = show_user_configuration.scale
     show_user.land_type = show_user_configuration.land_type
     drone_index = 0
@@ -224,3 +229,40 @@ def get_valid_show_user(show_user_configuration: ShowUserConfiguration) -> ShowU
                 get_valid_yaw_events(show_user_configuration, drone_user)
                 drone_index += 1
     return show_user
+
+
+def get_valid_platform_takeoff(json_path: str) -> ShowUser:
+    with open(json_path) as file:  # noqa: PTH123
+        data = json.load(file)
+
+    drones_user: list[DroneUser] = []
+    for drone_user_dict in data["drones"]:
+        drone_user = DroneUser(
+            index=drone_user_dict["index"],
+            position_events=[],
+            color_events=[],
+            fire_events=[],
+            yaw_events=[],
+        )
+        for position_event_dict in drone_user_dict["position_events"]:
+            drone_user.add_position_event(position_event_dict["frame"], position_event_dict["xyz"])
+        for color_event_dict in drone_user_dict["color_events"]:
+            drone_user.add_color_event(color_event_dict["frame"], color_event_dict["rgbw"])
+        if drone_user_dict["fire_events"]:
+            raise NotImplementedError
+        if drone_user_dict["yaw_events"]:
+            raise NotImplementedError
+        drones_user.append(drone_user)
+    return ShowUser(
+        drones_user=drones_user,
+        angle_takeoff=data["other_parameters"]["angle_takeoff"],
+        angle_show=data["other_parameters"]["angle_show"],
+        step_x=data["other_parameters"]["step_x"],
+        step_y=data["other_parameters"]["step_y"],
+        scale=data["other_parameters"]["scale"],
+        land_type=LandType.RTL
+        if data["other_parameters"]["land_type"] == "LandType.RTL"
+        else LandType.Land,
+        rtl_start_frame=data["other_parameters"]["rtl_start_frame"],
+        takeoff_end_frame=data["other_parameters"]["takeoff_end_frame"],
+    )

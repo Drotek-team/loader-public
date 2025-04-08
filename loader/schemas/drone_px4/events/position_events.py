@@ -15,6 +15,9 @@ class PositionEvent(Event):
     z: int  # z relative coordinate in NED and centimeter
     scale: int  # position scale
 
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"{self.__class__.__name__}(frame={self.frame}, x={self.x}, y={self.y}, z={self.z}, scale={self.scale})"
+
     @property
     def xyz(self) -> tuple[int, int, int]:
         return (self.x, self.y, self.z)
@@ -53,7 +56,14 @@ class PositionEvents(Events[PositionEvent]):
         # https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-source-of-all-evil/
         self._events = []
 
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"{self.__class__.__name__} (magic_number={self.magic_number}, scale={self.scale}, events={self._events})"
+
     def add_timecode_xyz(self, frame: int, xyz: tuple[int, int, int]) -> None:
+        if self._events and frame <= self._events[-1].frame:
+            print(  # noqa: T201
+                f"\033[91mPosition event frame {frame} must be greater than the previous frame {self._events[-1].frame}\033[00m"
+            )
         self._events.append(
             PositionEvent(frame=frame, x=xyz[0], y=xyz[1], z=xyz[2], scale=self.scale)
         )

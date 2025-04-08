@@ -9,6 +9,7 @@ class LandParameters:
     land_low_speed: float = 0.4
     land_safe_hgt: float = 3.0
     rtl_reposition_duration: float = 1
+    rtl_speed: float = 2.0
 
     def get_first_land_second_delta(self, drone_hgt_meter: float) -> float:
         if drone_hgt_meter < self.land_safe_hgt:

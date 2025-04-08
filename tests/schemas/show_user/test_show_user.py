@@ -1,10 +1,9 @@
 import numpy as np
 import pytest
-from loader.parameters.json_binary_parameters import LandType
+from loader.parameters import LandType, MagicNumber
 from loader.schemas.matrix import get_matrix
-from loader.schemas.show_user import DroneUser
+from loader.schemas.show_user import ColorEventUser, DroneUser, PositionEventUser
 from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, get_valid_show_user
-from loader.schemas.show_user.show_user import ColorEventUser, PositionEventUser
 
 
 @pytest.fixture
@@ -79,7 +78,7 @@ def test_show_user_convex_hull_standard_case() -> None:
     show_user = get_valid_show_user(ShowUserConfiguration())
     assert show_user.convex_hull == [(0.0, 0.0)]
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2.0, step_y=2.0),
     )
     assert show_user.convex_hull == [(-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)]
 
@@ -107,7 +106,7 @@ def test_show_user_configuration_show_duration_absolute_time_must_be_strictly_po
 
 @pytest.mark.parametrize(
     "takeoff_altitude",
-    [-1, 0, 9, 10],
+    [-1, 0, 21, 50],
 )
 def test_show_user_configuration_takeoff_altitude_must_be_in_range(
     takeoff_altitude: int,
@@ -135,7 +134,7 @@ def test_show_user_configuration_duration_before_takeoff_must_be_positive(
 
 def test_show_user_configuration_apply_horizontal_rotation() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2.0, step_y=2.0),
     )
     show_user.angle_show = 0
 
@@ -175,7 +174,7 @@ def test_show_user_configuration_apply_horizontal_rotation() -> None:
 
 def test_update_drones_user_indices_standard_case() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2.0, step_y=2.0),
     )
     assert [drone_user.index for drone_user in show_user.drones_user] == list(
         range(show_user.nb_drones),
@@ -187,7 +186,7 @@ def test_update_drones_user_indices_standard_case() -> None:
 
 def test_update_drones_user_indices_wrong_length() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2.0, step_y=2.0),
     )
     new_indices = [3, 2, 1]
     with pytest.raises(
@@ -199,7 +198,7 @@ def test_update_drones_user_indices_wrong_length() -> None:
 
 def test_update_drones_user_indices_not_unique() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2.0),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2.0, step_y=2.0),
     )
     new_indices = [3, 2, 1, 1]
     with pytest.raises(
@@ -212,6 +211,10 @@ def test_update_drones_user_indices_not_unique() -> None:
 def test_show_user___eq__() -> None:  # noqa: PLR0915
     show_user = get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2)))
     other_show_user = 1
+    assert show_user != other_show_user
+
+    other_show_user = show_user.model_copy()
+    other_show_user.magic_number = MagicNumber.v2
     assert show_user != other_show_user
 
     show_user = get_valid_show_user(
@@ -230,10 +233,10 @@ def test_show_user___eq__() -> None:  # noqa: PLR0915
     assert show_user != other_show_user
 
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2, step_y=2),
     )
     other_show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=1),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=1, step_y=1),
     )
     assert show_user != other_show_user
 
