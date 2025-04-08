@@ -21,6 +21,9 @@ class ShowPositionFrame:
         self._indices = np.array(drone_indices, dtype=np.intp)
         self._positions = np.zeros((nb_drones, 3), dtype=np.float64)
 
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"ShowPositionFrame frame={self.frame}, positions={self._positions}..."
+
     def update_position_air_flag(
         self,
         index: int,
@@ -51,7 +54,7 @@ class ShowPositionFrame:
         flight_simulations = [
             get_partial_flight_simulation(drone_user)
             if is_partial
-            else get_flight_simulation(drone_user, show_user.last_frame)
+            else get_flight_simulation(drone_user, show_user.last_frame, show_user.land_type)
             for drone_user in tqdm(
                 show_user.drones_user,
                 desc="Computing flight simulations",

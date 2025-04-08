@@ -1,6 +1,5 @@
 # pyright: reportIncompatibleMethodOverride=false
 
-import itertools
 from collections.abc import Generator
 from typing import TYPE_CHECKING, TypeVar
 
@@ -84,29 +83,45 @@ class CollisionInfraction(BaseInfraction):
     ) -> list["CollisionInfraction"]:
         show_position_frames = ShowPositionFrame.from_show_user(show_user, is_partial=is_partial)
         collision_distance = show_user.physic_parameters.minimum_distance
+        collision_distance_for_platform_takeoff_and_land = (
+            min(show_user.step_x, show_user.step_y) - 1e-2
+        )  # tolerance
         if collision_distance < IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance:
             msg = (
                 f"collision_distance ({collision_distance}) should be greater than or equal to "
                 f"minimum_distance ({IOSTAR_PHYSIC_PARAMETERS_MAX.minimum_distance})",
             )
             raise ValueError(msg)
-        if not is_partial:
-            collision_distance *= 0.95
-        return list(
-            itertools.chain.from_iterable(
+
+        collision_infractions: list[CollisionInfraction] = []
+        for show_position_frame in tqdm(
+            show_position_frames, desc="Checking collisions", unit="frame"
+        ):
+            collision_distance_to_use = collision_distance
+            if collision_distance_for_platform_takeoff_and_land < collision_distance and (
+                (
+                    show_user.takeoff_end_frame is not None
+                    and show_position_frame.frame < show_user.takeoff_end_frame
+                )
+                or (
+                    show_user.rtl_start_frame is not None
+                    and show_user.rtl_start_frame < show_position_frame.frame
+                )
+            ):
+                collision_distance_to_use = collision_distance_for_platform_takeoff_and_land
+
+            if not is_partial:
+                collision_distance_to_use *= 0.95
+
+            collision_infractions.extend(
                 cls._get_collision_infractions(
                     show_position_frame.frame,
                     show_position_frame.in_air_indices,
                     show_position_frame.in_air_positions,
-                    collision_distance,
+                    collision_distance_to_use,
                 )
-                for show_position_frame in tqdm(
-                    show_position_frames,
-                    desc="Checking collisions",
-                    unit="frame",
-                )
-            ),
-        )
+            )
+        return collision_infractions
 
     def summarize(self) -> "CollisionInfractionsSummary":
         return CollisionInfractionsSummary(

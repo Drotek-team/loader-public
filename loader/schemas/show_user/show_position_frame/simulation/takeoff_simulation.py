@@ -25,20 +25,21 @@ def generate_takeoff_first_part(
 def generate_takeoff_second_part(
     takeoff_middle_position: tuple[float, float, float],
     takeoff_end_position: tuple[float, float, float],
+    frame_middle_takeoff: int,
+    frame_end_takeoff: int,
 ) -> list["NDArray[np.float64]"]:
     return linear_interpolation(
         takeoff_middle_position,
         takeoff_end_position,
-        FRAME_PARAMETERS.from_second_to_frame(
-            TAKEOFF_PARAMETERS.takeoff_stabilisation_duration_second,
-        ),
+        frame_end_takeoff - frame_middle_takeoff,
     )
 
 
 def takeoff_simulation(
     takeoff_start_position: tuple[float, float, float],
-    takeoff_end_altitude: float,
+    takeoff_end_position: tuple[float, float, float],
     frame_begin: int,
+    frame_end: int,
 ) -> list["SimulationInfo"]:
     takeoff_middle_position = (
         takeoff_start_position[0],
@@ -46,16 +47,14 @@ def takeoff_simulation(
         takeoff_start_position[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_min,
     )
 
-    takeoff_end_position = (
-        takeoff_start_position[0],
-        takeoff_start_position[1],
-        takeoff_start_position[2] + takeoff_end_altitude,
+    takeoff_positions = generate_takeoff_first_part(takeoff_start_position, takeoff_middle_position)
+    takeoff_positions += generate_takeoff_second_part(
+        takeoff_middle_position,
+        takeoff_end_position,
+        frame_begin + len(takeoff_positions),
+        frame_end,
     )
 
-    takeoff_positions = generate_takeoff_first_part(
-        takeoff_start_position,
-        takeoff_middle_position,
-    ) + generate_takeoff_second_part(takeoff_middle_position, takeoff_end_position)
     return [
         SimulationInfo(
             frame=frame_begin + frame_index,

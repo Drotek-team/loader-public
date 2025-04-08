@@ -10,7 +10,9 @@ from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, g
 def test_get_family_from_drones_px4_standard_case() -> None:
     family_from_drone_px4 = Family.from_drone_px4(
         DronePx4.from_show_user(
-            get_valid_show_user(ShowUserConfiguration(matrix=get_matrix(nb_x=2), step=2.0)),
+            get_valid_show_user(
+                ShowUserConfiguration(matrix=get_matrix(nb_x=2), step_x=2.0, step_y=2.0)
+            ),
         )[:1],
     )
     assert len(family_from_drone_px4.drones) == 1
@@ -24,7 +26,8 @@ def test_sp_to_ijg_standard_case() -> None:
         get_valid_show_user(
             ShowUserConfiguration(
                 matrix=get_matrix(nb_x=2, nb_y=2),
-                step=2.0,
+                step_x=2.0,
+                step_y=2.0,
                 angle_takeoff=radians(-113),
             ),
         ),

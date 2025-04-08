@@ -42,12 +42,12 @@ def get_valid_position_events_user(
 @slow
 def test_takeoff_simulation_altitude_meter_min(takeoff_end_altitude: float) -> None:
     valid_position_events_user = get_valid_position_events_user(takeoff_end_altitude)
-    first_position_event = valid_position_events_user[0]
 
     takeoff_simulation_infos = takeoff_simulation(
-        first_position_event.xyz,
-        takeoff_end_altitude,
-        first_position_event.frame,
+        valid_position_events_user[0].xyz,
+        valid_position_events_user[1].xyz,
+        valid_position_events_user[0].frame,
+        valid_position_events_user[1].frame,
     )
     position_middle = (
         POSITION_START[0],

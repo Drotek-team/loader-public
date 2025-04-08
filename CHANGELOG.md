@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.15.1 (2025-03-12)
+
+### Refactor
+
+- set constant takeoff duration to 10s to match px4 takeoff behavior
+
+## v0.15.0 (2024-10-24)
+
+### Feat
+
+- add platform takeoff parameters
+- split step into step_x and step_y
+
+### Fix
+
+- takeoff time is not fixed anymore, speed is correct no error validated
+- fix tests using takeoff_simulation
+- assert to error print
+- step_x step_y compatibility
+- set default value to platform start
+- this example doesn't trigger error anymore as takeoff time isn't constant anymore
+- add tolerance
+- update takeoff simulation for platform takeoff
+- allow position x and y variation when taking off with platform (takeoff position error)
+- reduce collision distance for takeoff and land when using platform, only for the concerned frames
+- retrieve exact number of columns and rows, rounded values was wrong with new family placement
+- update .gitignore
+
+### Refactor
+
+- move min_rtl_altitude to loader.land_parameters
+- adjust takeoff speed, drones are now going to their target altitude with (almost) uniform speed
+- increase takeoff max height
+
+## v0.14.2 (2024-06-17)
+
+### Refactor
+
+- keep magic number when converting from IostarJsonGcs to ShowUser
+
 ## v0.14.1 (2024-05-31)
 
 ### Refactor

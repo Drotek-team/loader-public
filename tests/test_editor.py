@@ -20,13 +20,14 @@ from loader.schemas.show_user.generate_show_user import ShowUserConfiguration, g
 VALID_SHOW_CONFIGURATION = ShowUserConfiguration(
     matrix=get_matrix(matrix=[[1, 0, 1], [1, 1, 1]]),
     angle_takeoff=np.pi / 3,
-    step=2.0,
+    step_x=2.0,
+    step_y=2.0,
 )
 
 
 def test_create_show_user_standard_case() -> None:
     nb_drones = 5
-    show_user = ShowUser.create(nb_drones=nb_drones, angle_takeoff=0, step=1)
+    show_user = ShowUser.create(nb_drones=nb_drones, angle_takeoff=0, step_x=1, step_y=1)
     assert len(show_user) == nb_drones
     for drone_index in range(nb_drones):
         assert len(show_user[drone_index].position_events) == 0
@@ -40,7 +41,7 @@ def test_create_show_user_invalid_nb_drones(nb_drones: int) -> None:
         ValueError,
         match=f"nb_drones must be positive, not {nb_drones}",
     ):
-        ShowUser.create(nb_drones=nb_drones, angle_takeoff=0, step=1)
+        ShowUser.create(nb_drones=nb_drones, angle_takeoff=0, step_x=1, step_y=1)
 
 
 def test_get_performance_infractions() -> None:
@@ -72,7 +73,7 @@ def test_get_collisions_with_collision_distance_with_collisions() -> None:
 
 def test_get_collisions_with_collision_distance_without_collision() -> None:
     show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2, step_y=2),
     )
     show_user.physic_parameters = IostarPhysicParameters(minimum_distance=2)
     collision_report = CollisionReport.generate(show_user)
@@ -233,7 +234,8 @@ def test_get_show_configuration_from_iostar_json_gcs_string() -> None:
     assert iostar_json_gcs.show.nb_x == 2
     assert iostar_json_gcs.show.nb_y == 3
     assert iostar_json_gcs.nb_drones_per_family == 1
-    assert iostar_json_gcs.show.step == 150
+    assert iostar_json_gcs.show.step_x == 150
+    assert iostar_json_gcs.show.step_y == 150
     assert iostar_json_gcs.show.angle_takeoff == 0
     assert iostar_json_gcs.show.duration == 42542
     assert iostar_json_gcs.show.hull == [(-150, -75), (-150, 75), (150, 75), (150, -75)]
@@ -274,7 +276,8 @@ def test_get_verified_iostar_json_gcs_invalid() -> None:
     show_user = get_valid_show_user(
         ShowUserConfiguration(
             matrix=get_matrix(nb_x=2, nb_y=2),
-            step=0.3,
+            step_x=0.3,
+            step_y=0.3,
             show_duration_absolute_time=3,
         ),
     )

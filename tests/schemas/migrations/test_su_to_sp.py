@@ -127,7 +127,8 @@ def test_su_to_sp_standard_case(
     new_show_user = ShowUser.from_autopilot_format(
         DronePx4.from_show_user(show_user),
         angle_takeoff=show_user.angle_takeoff,
-        step=show_user.step,
+        step_x=show_user.step_x,
+        step_y=show_user.step_y,
         scale=show_user.scale,
         land_type=show_user.land_type,
     )

@@ -9,9 +9,21 @@ class MagicNumber(IntEnum):
     """The magic number to identify the version of the schema."""
 
     v1 = 0xAA55
+    """First version of the binary format (outdated)."""
     v2 = 0xAA66
+    """Second version of the binary format.
+
+    This version is compatible with both IO-Star v1 and v2.
+    This format is more compact than the first one.
+    """
     v3 = 0xAA77
+    """Third version of the binary format.
+
+    This version is only compatible with IO-Star v2.
+    This format allow specifying a scale and a land type.
+    """
     v4 = 0xAA88
+    """Fourth version of the binary format (In development, DO NOT USE)."""
 
 
 class LandType(Enum):
@@ -54,7 +66,7 @@ class JsonBinaryParameters:
     fire_channel_format: str = "B"
     fire_duration_format: str = "B"
     angle_format: str = "h"
-    dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octect
+    dance_size_max: int = 100_000  # Maximal size of the binary send to the drone in octet
     fire_channel_number: int = 3
 
     def time_format(self, magic_number: MagicNumber) -> str:
@@ -150,12 +162,12 @@ class JsonBinaryParameters:
         return round(1e2 * meter)
 
     @staticmethod
-    def _unit_to_octect(unit: float) -> int:
+    def _unit_to_octet(unit: float) -> int:
         return round(255 * unit)
 
     @staticmethod
-    def _octect_to_unit(octect: int) -> float:
-        return 1 / 255 * octect
+    def _octet_to_unit(octet: int) -> float:
+        return 1 / 255 * octet
 
     def from_user_frame_to_px4_timecode(self, user_frame: int) -> int:
         return self._second_to_millisecond(
@@ -198,10 +210,10 @@ class JsonBinaryParameters:
         user_rgbw: tuple[float, float, float, float],
     ) -> tuple[int, int, int, int]:
         return (
-            self._unit_to_octect(user_rgbw[0]),
-            self._unit_to_octect(user_rgbw[1]),
-            self._unit_to_octect(user_rgbw[2]),
-            self._unit_to_octect(user_rgbw[3]),
+            self._unit_to_octet(user_rgbw[0]),
+            self._unit_to_octet(user_rgbw[1]),
+            self._unit_to_octet(user_rgbw[2]),
+            self._unit_to_octet(user_rgbw[3]),
         )
 
     def from_px4_rgbw_to_user_rgbw(
@@ -209,10 +221,10 @@ class JsonBinaryParameters:
         px4_rgbw: tuple[int, int, int, int],
     ) -> tuple[float, float, float, float]:
         return (
-            self._octect_to_unit(px4_rgbw[0]),
-            self._octect_to_unit(px4_rgbw[1]),
-            self._octect_to_unit(px4_rgbw[2]),
-            self._octect_to_unit(px4_rgbw[3]),
+            self._octet_to_unit(px4_rgbw[0]),
+            self._octet_to_unit(px4_rgbw[1]),
+            self._octet_to_unit(px4_rgbw[2]),
+            self._octet_to_unit(px4_rgbw[3]),
         )
 
 

@@ -5,6 +5,10 @@ from dataclasses import dataclass
 class FrameParameters:
     _fps: float = 24
 
+    @property
+    def fps(self) -> float:
+        return self._fps
+
     def from_second_to_frame(self, time: float) -> int:
         return round(time * self._fps)
 

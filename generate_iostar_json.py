@@ -13,18 +13,18 @@ def main() -> None:
     valid_show_user.land_type = LandType.RTL
 
     collision_show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=1.25),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=1.25, step_y=1.25),
     )
 
     performance_show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step=2),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=2, nb_y=2), step_x=2, step_y=2),
     )
     for drone_user in performance_show_user.drones_user:
         x, y, _ = drone_user.position_events[-1].xyz
         drone_user.add_position_event(1000, (x, y, 6.0))
 
     dance_size_show_user = get_valid_show_user(
-        ShowUserConfiguration(matrix=get_matrix(nb_x=1, nb_y=1), step=2),
+        ShowUserConfiguration(matrix=get_matrix(nb_x=1, nb_y=1), step_x=2, step_y=2),
     )
     for drone_user in dance_size_show_user.drones_user:
         xyz = drone_user.position_events[-1].xyz

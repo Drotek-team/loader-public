@@ -7,7 +7,7 @@ FPS = 24
 
 
 def main() -> None:
-    show_user = ShowUser.create(nb_drones=1, angle_takeoff=21, step=1.5)
+    show_user = ShowUser.create(nb_drones=1, angle_takeoff=21, step_x=1.5, step_y=1.5)
     drone_user = show_user.drones_user[0]
 
     time = 0

@@ -63,7 +63,12 @@ def valid_autopilot_format(request: pytest.FixtureRequest) -> list[DronePx4]:
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_drone_px4_to_drone_user_position_events(valid_autopilot_format: list[DronePx4]) -> None:
     show_user = ShowUser.from_autopilot_format(
-        valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.Land
+        valid_autopilot_format,
+        angle_takeoff=0,
+        step_x=1,
+        step_y=1,
+        scale=1,
+        land_type=LandType.Land,
     )
     drone_users = show_user.drones_user
     assert len(drone_users[0].position_events) == 1
@@ -84,7 +89,12 @@ def test_drone_px4_to_drone_user_color_events(
     valid_autopilot_format: list[DronePx4],
 ) -> None:
     show_user = ShowUser.from_autopilot_format(
-        valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.Land
+        valid_autopilot_format,
+        angle_takeoff=0,
+        step_x=1,
+        step_y=1,
+        scale=1,
+        land_type=LandType.Land,
     )
     drone_users = show_user.drones_user
 
@@ -105,7 +115,12 @@ def test_drone_px4_to_drone_user_fire_events(
     valid_autopilot_format: list[DronePx4],
 ) -> None:
     show_user = ShowUser.from_autopilot_format(
-        valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.Land
+        valid_autopilot_format,
+        angle_takeoff=0,
+        step_x=1,
+        step_y=1,
+        scale=1,
+        land_type=LandType.Land,
     )
     drone_users = show_user.drones_user
 
@@ -120,13 +135,39 @@ def test_drone_px4_to_drone_user_fire_events(
     assert drone_users[1].fire_events[0].duration == ARBITRARY_FIRE_EVENT_DURATION_BIS
 
 
+@pytest.mark.parametrize(
+    "valid_autopilot_format, bad_magic_number",
+    zip(list(MagicNumber), [*list(MagicNumber)[1:], MagicNumber.v1], strict=True),
+    indirect=["valid_autopilot_format"],
+)
+def test_show_user_magic_number_different_from_autopilot_format(
+    valid_autopilot_format: list[DronePx4],
+    bad_magic_number: MagicNumber,
+) -> None:
+    valid_autopilot_format[0].magic_number = bad_magic_number
+    with pytest.raises(ValueError, match="All the drones must have the same magic number"):
+        ShowUser.from_autopilot_format(
+            valid_autopilot_format,
+            angle_takeoff=0,
+            step_x=1,
+            step_y=1,
+            scale=2,
+            land_type=LandType.Land,
+        )
+
+
 @pytest.mark.parametrize("valid_autopilot_format", list(MagicNumber), indirect=True)
 def test_show_user_scale_different_from_autopilot_format(
     valid_autopilot_format: list[DronePx4],
 ) -> None:
     with pytest.raises(ValueError, match="All the drones must have the same scale"):
         ShowUser.from_autopilot_format(
-            valid_autopilot_format, angle_takeoff=0, step=1, scale=2, land_type=LandType.Land
+            valid_autopilot_format,
+            angle_takeoff=0,
+            step_x=1,
+            step_y=1,
+            scale=2,
+            land_type=LandType.Land,
         )
 
 
@@ -136,5 +177,10 @@ def test_show_user_land_type_different_from_autopilot_format(
 ) -> None:
     with pytest.raises(ValueError, match="All the drones must have the same land type"):
         ShowUser.from_autopilot_format(
-            valid_autopilot_format, angle_takeoff=0, step=1, scale=1, land_type=LandType.RTL
+            valid_autopilot_format,
+            angle_takeoff=0,
+            step_x=1,
+            step_y=1,
+            scale=1,
+            land_type=LandType.RTL,
         )

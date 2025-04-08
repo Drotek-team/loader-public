@@ -3,10 +3,10 @@
 This schema should be used for converting to and from the Show User schema.
 """
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationInfo, model_validator
 from tqdm import tqdm
 
 from loader.parameters import FRAME_PARAMETERS, IostarPhysicParameters
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 class Dance(BaseModel):
     dance: list[int]
-    """List of integer symbolising the list of octect."""
+    """List of integer symbolising the list of octet."""
 
 
 class Family(BaseModel):
@@ -65,9 +65,11 @@ class Show(BaseModel):
     """Number of families on the y-axis during the takeoff."""
     nb_y: int
     """Number of families on the x-axis during the takeoff."""
-    step: int
-    """Distance separating the families during the takeoff in centimeter."""
-    angle_takeoff: int
+    step_x: int
+    """Distance separating the families during the takeoff in centimeter (x axis)."""
+    step_y: int
+    """Distance separating the families during the takeoff in centimeter (y axis)."""
+    angle_takeoff: int = 0
     """Angle of the takeoff grid."""
     angle_show: int | None = None
     """Angle of the show."""
@@ -81,8 +83,19 @@ class Show(BaseModel):
     """Position scale of the show."""
     land_type: LandType = LandType.Land
     """Type of landing at the end of the show."""
+    takeoff_end_frame: int | None = None
+    """Frame at which the takeoff ends for platform takeoffs."""
     rtl_start_frame: int | None = None
     """Frame at which the automatic RTL starts."""
+
+    # Custom validator to handle backward compatibility
+    @model_validator(mode="before")  # noqa: PGH003  # type: ignore
+    def split_name(cls: Any, __value: Any, __info: ValidationInfo) -> Any:  # noqa: N805, ANN401
+        if "step" in __value:
+            __value["step_x"] = __value["step"]
+            __value["step_y"] = __value["step"]
+            del __value["step"]
+        return __value
 
 
 class IostarJsonGcs(BaseModel):
@@ -101,7 +114,8 @@ class IostarJsonGcs(BaseModel):
     @classmethod
     def from_show_user(cls, show_user: "ShowUser") -> "IostarJsonGcs":
         """Convert from the ShowUser schema to the IostarJsonGcs schema."""
-        step = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step)
+        step_x = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step_x)
+        step_y = JSON_BINARY_PARAMETERS.from_user_position_to_px4_position(show_user.step_y)
         angle_takeoff = -round(np.rad2deg(show_user.angle_takeoff))
         angle_show = (
             -round(np.rad2deg(show_user.angle_show)) if show_user.angle_show is not None else None
@@ -125,13 +139,15 @@ class IostarJsonGcs(BaseModel):
                 duration=duration,
                 hull=hull,
                 altitude_range=altitude_range,
-                step=step,
+                step_x=step_x,
+                step_y=step_y,
                 nb_x=show_user.nb_x,
                 nb_y=show_user.nb_y,
                 angle_takeoff=angle_takeoff,
                 angle_show=angle_show,
                 scale=show_user.scale,
                 land_type=show_user.land_type,
+                takeoff_end_frame=show_user.takeoff_end_frame,
                 rtl_start_frame=show_user.rtl_start_frame,
             ),
             physic_parameters=show_user.physic_parameters,

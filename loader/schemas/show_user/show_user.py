@@ -4,6 +4,7 @@ This module contains the show user schema and its related schemas.
 This is the schema to be used to create, modify and check a show.
 """
 
+import warnings
 from dataclasses import dataclass
 from itertools import pairwise
 from typing import TYPE_CHECKING, cast
@@ -224,7 +225,9 @@ class ShowUser(BaseModel):
     """Angle of the takeoff grid in radian."""
     angle_show: float | None = None
     """Angle of the show in radian."""
-    step: float
+    step_x: float
+    """Distance separating the families during the takeoff in meter."""
+    step_y: float
     """Distance separating the families during the takeoff in meter."""
     scale: int = Field(1, ge=1, le=4)
     """Position scale of the show, multiply the position of the drones by this value."""
@@ -232,6 +235,8 @@ class ShowUser(BaseModel):
     """Type of landing at the end of the show."""
     magic_number: MagicNumber = MagicNumber.v3
     """Version of the binary format."""
+    takeoff_end_frame: int | None = None
+    """Frame at which the automatic takeoff ends."""
     rtl_start_frame: int | None = None
     """Frame at which the automatic RTL starts."""
     physic_parameters: IostarPhysicParameters = IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION
@@ -246,7 +251,8 @@ class ShowUser(BaseModel):
         nb_drones: int,
         angle_takeoff: float,
         angle_show: float | None = None,
-        step: float,
+        step_x: float,
+        step_y: float,
         metadata: Metadata | None = None,
     ) -> "ShowUser":
         """Create a show user.
@@ -254,7 +260,7 @@ class ShowUser(BaseModel):
         Args:
             nb_drones: Number of drones in the show.
             angle_takeoff: Angle of the takeoff grid in radian.
-            step: Distance separating the families during the takeoff in meter.
+            step_x and y: Distance separating the families during the takeoff in meter.
             metadata: Metadata of the show.
         Raises:
             ValueError: If `nb_drones` is invalid.
@@ -262,20 +268,16 @@ class ShowUser(BaseModel):
         if nb_drones <= 0:
             msg = f"nb_drones must be positive, not {nb_drones}"
             raise ValueError(msg)
+        drones_user = cls.init_drone_user(nb_drones)
+        assert (
+            len(drones_user) == nb_drones
+        ), f"Number of drones: {len(drones_user)} must be equal to nb_drones: {nb_drones}"
         return ShowUser(
-            drones_user=[
-                DroneUser(
-                    index=drone_index,
-                    position_events=[],
-                    color_events=[],
-                    fire_events=[],
-                    yaw_events=[],
-                )
-                for drone_index in range(nb_drones)
-            ],
+            drones_user=drones_user,
             angle_takeoff=angle_takeoff,
             angle_show=angle_show,
-            step=round(step, 2),
+            step_x=round(step_x, 2),
+            step_y=round(step_y, 2),
             metadata=metadata or Metadata(),
             scale=1,
         )
@@ -285,6 +287,19 @@ class ShowUser(BaseModel):
 
     def __len__(self) -> int:
         return len(self.drones_user)
+
+    @staticmethod
+    def init_drone_user(nb_drones: int) -> list[DroneUser]:
+        return [
+            DroneUser(
+                index=drone_index,
+                position_events=[],
+                color_events=[],
+                fire_events=[],
+                yaw_events=[],
+            )
+            for drone_index in range(nb_drones)
+        ]
 
     @property
     def nb_drones(self) -> int:
@@ -327,7 +342,7 @@ class ShowUser(BaseModel):
 
     @property
     def convex_hull(self) -> list[tuple[float, float]]:
-        """List of the relative coordinate (ENU and meter) symbolysing a convex hull of a show."""
+        """List of the relative coordinate (ENU and meter) symbolising a convex hull of a show."""
         return calculate_convex_hull(
             list(
                 {
@@ -388,7 +403,8 @@ class ShowUser(BaseModel):
         cls,
         autopilot_format: list[DronePx4],
         angle_takeoff: float,
-        step: float,
+        step_x: float,
+        step_y: float,
         scale: int,
         land_type: LandType,
         angle_show: float | None = None,
@@ -398,7 +414,8 @@ class ShowUser(BaseModel):
             nb_drones=len(autopilot_format),
             angle_takeoff=angle_takeoff,
             angle_show=angle_show,
-            step=step,
+            step_x=step_x,
+            step_y=step_y,
         )
         for drone_user, drone_px4 in tqdm(
             zip(show_user.drones_user, autopilot_format, strict=True),
@@ -408,6 +425,12 @@ class ShowUser(BaseModel):
         ):
             drone_user.from_drone_px4(drone_px4)
 
+        magic_number = autopilot_format[0].magic_number
+
+        if not all(drone_px4.magic_number == magic_number for drone_px4 in autopilot_format):
+            msg = "All the drones must have the same magic number"
+            raise ValueError(msg)
+
         if not all(drone_px4.scale == scale for drone_px4 in autopilot_format):
             msg = "All the drones must have the same scale"
             raise ValueError(msg)
@@ -416,6 +439,7 @@ class ShowUser(BaseModel):
             msg = "All the drones must have the same land type"
             raise ValueError(msg)
 
+        show_user.magic_number = magic_number
         show_user.scale = scale
         show_user.land_type = land_type
 
@@ -432,10 +456,12 @@ class ShowUser(BaseModel):
                 if iostar_json_gcs.show.angle_show is not None
                 else None
             ),
-            step=iostar_json_gcs.show.step / 100,
+            step_x=iostar_json_gcs.show.step_x / 100,
+            step_y=iostar_json_gcs.show.step_y / 100,
             scale=iostar_json_gcs.show.scale,
             land_type=iostar_json_gcs.show.land_type,
         )
+        show_user.takeoff_end_frame = iostar_json_gcs.show.takeoff_end_frame
         show_user.rtl_start_frame = iostar_json_gcs.show.rtl_start_frame
         if iostar_json_gcs.physic_parameters is not None:
             show_user.physic_parameters = iostar_json_gcs.physic_parameters
@@ -443,6 +469,9 @@ class ShowUser(BaseModel):
 
     def __eq__(self, other: object) -> bool:  # noqa: C901, PLR0911, PLR0912
         if not isinstance(other, ShowUser):
+            return False
+
+        if self.magic_number != other.magic_number:
             return False
 
         if not is_angles_equal(self.angle_takeoff, other.angle_takeoff):
@@ -459,7 +488,9 @@ class ShowUser(BaseModel):
         ):
             return False
 
-        if not np.allclose(self.step, other.step, atol=1e-2):
+        if not np.allclose(self.step_x, other.step_x, atol=1e-2) or not np.allclose(
+            self.step_y, other.step_y, atol=1e-2
+        ):
             return False
 
         if self.scale != other.scale:
@@ -505,6 +536,9 @@ def is_angles_equal(first_angle: float, second_angle: float) -> bool:
     return distance < 1e-2
 
 
+INTRA_CLASS_DISTANCES = [0, 0.35, 2 * 0.35, 0.6, 2 * 0.6]
+
+
 @dataclass
 class MatrixInfos:
     matrix: "NDArray[np.intp]"
@@ -536,8 +570,26 @@ class MatrixInfos:
         x_max = max(position.xyz[0] for position in first_position_events)
         y_min = min(position.xyz[1] for position in first_position_events)
         y_max = max(position.xyz[1] for position in first_position_events)
-        nb_x = int(round((x_max - x_min) / show_user.step) + 1)
-        nb_y = int(round((y_max - y_min) / show_user.step) + 1)
+
+        # retrieve exact number of columns and rows
+        x_values = [(x_max - x_min - dist) / show_user.step_x + 1 for dist in INTRA_CLASS_DISTANCES]
+        y_values = [(y_max - y_min - dist) / show_user.step_y + 1 for dist in INTRA_CLASS_DISTANCES]
+
+        def closest_to_integer(*values: float) -> float:
+            return min(values, key=lambda x: abs(x - round(x)))
+
+        closest_x = closest_to_integer(*x_values)
+        closest_y = closest_to_integer(*y_values)
+        nb_x = round(closest_to_integer(*x_values))
+        nb_y = round(closest_to_integer(*y_values))
+        if abs(closest_x - nb_x) > 5e-2:
+            warnings.warn(  # noqa: B028
+                f"Class number x may be wrong: {closest_x} != {nb_x}, {x_min=}, {x_max=}, {show_user.step_x=}"
+            )
+        if abs(closest_y - nb_y) > 5e-2:
+            warnings.warn(  # noqa: B028
+                f"Class number y may be wrong: {closest_y} != {nb_y}, {y_min=}, {y_max=}, {show_user.step_y=}"
+            )
 
         matrix = np.zeros((nb_y, nb_x), dtype=np.intp)
         drones_user_in_matrix: list[list[list[DroneUser]]] = [
@@ -546,8 +598,16 @@ class MatrixInfos:
         for position_event, drone_user in zip(
             first_position_events, show_user.drones_user, strict=True
         ):
-            x_index = int(round((position_event.xyz[0] - x_min) / show_user.step))
-            y_index = int(round((position_event.xyz[1] - y_min) / show_user.step))
+            x_values = [
+                (position_event.xyz[0] - x_min - dist) / show_user.step_x
+                for dist in INTRA_CLASS_DISTANCES
+            ]
+            y_values = [
+                (position_event.xyz[1] - y_min - dist) / show_user.step_y
+                for dist in INTRA_CLASS_DISTANCES
+            ]
+            x_index = round(closest_to_integer(*x_values))
+            y_index = round(closest_to_integer(*y_values))
             matrix[y_index, x_index] += 1
             drones_user_in_matrix[y_index][x_index].append(drone_user)
 
