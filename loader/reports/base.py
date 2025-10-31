@@ -30,11 +30,11 @@ class BaseMessage(BaseModel):
     def __len__(self) -> int:
         nb_errors = 0
 
-        if len(self.model_fields) == 0:
+        if len(self.__class__.model_fields) == 0:
             msg = f"Report has no fields: {self.__class__.__name__}"
             raise TypeError(msg)
 
-        for field_name, field in self.model_fields.items():
+        for field_name, field in self.__class__.model_fields.items():
             field_value = getattr(self, field_name)
             if (
                 field_value is None

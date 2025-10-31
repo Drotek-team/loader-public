@@ -33,7 +33,7 @@ class TakeoffDurationInfraction(BaseInfraction):
 
         if not np.allclose(
             duration,
-            TAKEOFF_PARAMETERS.takeoff_duration_second,
+            TAKEOFF_PARAMETERS.takeoff_elevation_duration_second,
             atol=TAKEOFF_PARAMETERS.takeoff_total_duration_tolerance,
         ):
             return TakeoffDurationInfraction(
@@ -91,31 +91,26 @@ class TakeoffDurationInfractionsSummary(BaseInfractionsSummary):
 class TakeoffPositionInfraction(BaseInfraction):
     start_position: tuple[float, float, float]
     end_position: tuple[float, float, float]
-    platform_start: bool = False
 
     @classmethod
     def generate(
         cls,
         drone_user: DroneUser,
-        *,
-        platform_start: bool = False,
     ) -> Optional["TakeoffPositionInfraction"]:
         first_position = drone_user.position_events[0].xyz
         second_position = drone_user.position_events[1].xyz
 
         position_infraction = TakeoffPositionInfraction(
-            start_position=first_position,
-            end_position=second_position,
-            platform_start=platform_start,
+            start_position=first_position, end_position=second_position
         )
-        # If the drone is on a platform, takeoff end position can be different from the start to avoid collision
-        if first_position[0] != second_position[0] and not platform_start:
+        if first_position[0] != second_position[0]:
             return position_infraction
-        if first_position[1] != second_position[1] and not platform_start:
+        if first_position[1] != second_position[1]:
             return position_infraction
-        if first_position[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_min > second_position[2]:
-            return position_infraction
-        if second_position[2] > first_position[2] + TAKEOFF_PARAMETERS.takeoff_altitude_meter_max:
+        if (
+            first_position[2] != 0
+            or second_position[2] != TAKEOFF_PARAMETERS.takeoff_altitude_meter_min
+        ):
             return position_infraction
         return None
 
@@ -170,15 +165,12 @@ class TakeoffReport(BaseReport):
     def generate(
         cls,
         drone_user: DroneUser,
-        *,
-        platform_start: bool = False,
     ) -> "TakeoffReport":
         duration_infraction = TakeoffDurationInfraction.generate(
             drone_user,
         )
         position_infraction = TakeoffPositionInfraction.generate(
             drone_user,
-            platform_start=platform_start,
         )
         return TakeoffReport(
             duration_infraction=duration_infraction,
@@ -269,8 +261,6 @@ class DroneUserReport(BaseReport):
     def generate(
         cls,
         drone_user: DroneUser,
-        *,
-        platform_start: bool = False,
     ) -> "DroneUserReport":
         minimal_position_event_report = MinimumPositionEventsInfraction.generate(
             drone_user,
@@ -280,7 +270,7 @@ class DroneUserReport(BaseReport):
                 drone_index=drone_user.index,
                 minimal_position_event=minimal_position_event_report,
             )
-        takeoff_report = TakeoffReport.generate_or_none(drone_user, platform_start=platform_start)
+        takeoff_report = TakeoffReport.generate_or_none(drone_user)
         return DroneUserReport(drone_index=drone_user.index, takeoff=takeoff_report)
 
     def summarize(self) -> "DroneUserReportSummary":
@@ -334,11 +324,7 @@ class TakeoffFormatReport(BaseReport):
         drone_user_reports = [
             drone_user_report
             for drone_user in tqdm(show_user.drones_user, desc="Checking takeoffs", unit="drone")
-            if len(
-                drone_user_report := DroneUserReport.generate(
-                    drone_user, platform_start=show_user.takeoff_end_frame is not None
-                )
-            )
+            if len(drone_user_report := DroneUserReport.generate(drone_user))
         ]
         return TakeoffFormatReport(drone_users=drone_user_reports)
 

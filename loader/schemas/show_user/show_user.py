@@ -168,7 +168,7 @@ class DroneUser(BaseModel):
     @property
     def flight_positions(self) -> list[PositionEventUser]:
         """List of the position events of the drone during the flight."""
-        return self.position_events[1:]
+        return self.position_events[2:]
 
     @property
     def last_frame(self) -> int:
@@ -582,11 +582,11 @@ class MatrixInfos:
         closest_y = closest_to_integer(*y_values)
         nb_x = round(closest_to_integer(*x_values))
         nb_y = round(closest_to_integer(*y_values))
-        if abs(closest_x - nb_x) > 5e-2:  # pragma: no cover
+        if abs(closest_x - nb_x) > 5e-2:
             warnings.warn(  # noqa: B028
                 f"Class number x may be wrong: {closest_x} != {nb_x}, {x_min=}, {x_max=}, {show_user.step_x=}"
             )
-        if abs(closest_y - nb_y) > 5e-2:  # pragma: no cover
+        if abs(closest_y - nb_y) > 5e-2:
             warnings.warn(  # noqa: B028
                 f"Class number y may be wrong: {closest_y} != {nb_y}, {y_min=}, {y_max=}, {show_user.step_y=}"
             )

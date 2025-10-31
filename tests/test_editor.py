@@ -107,12 +107,12 @@ def test_get_dance_size_informations() -> None:
     ):
         assert dance_size_infraction == DanceSizeInfraction(
             drone_index=drone_user.index,
-            dance_size=111,
-            position_percent=0.02,
+            dance_size=119,
+            position_percent=0.03,
             color_percent=0.02,
             fire_percent=0.01,
             yaw_percent=0.01,
-        )
+        ), f"{dance_size_infraction=}"
 
 
 def test_generate_report_from_show_user_standard_case() -> None:
@@ -124,7 +124,7 @@ def test_generate_report_from_show_user_standard_case() -> None:
         performance=None,
         collision=None,
         physic_parameters=IOSTAR_PHYSIC_PARAMETERS_RECOMMENDATION,
-    )
+    ), f"{global_report=}"
     global_report_summary = global_report.summarize()
     assert global_report_summary.takeoff_format_summary is None
     assert global_report_summary.autopilot_format_summary is None
@@ -176,15 +176,15 @@ def test_generate_report_from_show_user_without_takeoff_format() -> None:
     show_user.drones_user[0].position_events.insert(
         1,
         PositionEventUser(
-            frame=100,
-            xyz=show_user.drones_user[0].position_events[-1].xyz,
+            frame=50,
+            xyz=show_user.drones_user[0].position_events[1].xyz,
         ),
     )
     show_user.drones_user[1].position_events.insert(
         1,
         PositionEventUser(
-            frame=100,
-            xyz=show_user.drones_user[1].position_events[-1].xyz,
+            frame=50,
+            xyz=show_user.drones_user[1].position_events[1].xyz,
         ),
     )
     global_report = GlobalReport.generate(show_user)

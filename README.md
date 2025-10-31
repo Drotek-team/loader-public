@@ -27,6 +27,7 @@ show_user = ShowUser.create(nb_drones=1, angle_takeoff=0.0, step_x=2, step_y=2)
 
 # Add position events
 show_user.drones_user[0].add_position_event(frame=0, xyz=(0.0, 0.0, 0.0))
+show_user.drones_user[0].add_position_event(frame=72, xyz=(0.0, 0.0, 1.0))
 show_user.drones_user[0].add_position_event(frame=240, xyz=(0.0, 0.0, 10.0))
 show_user.drones_user[0].add_position_event(frame=360, xyz=(2.0, 0.0, 10.0))
 
@@ -238,16 +239,16 @@ print(report.summarize().model_dump_json(indent=4))
             "drone_indices": "0",
             "min_dance_size_infraction": {
                 "drone_index": 0,
-                "dance_size": 100111,
-                "position_percent": 100.02,
+                "dance_size": 100119,
+                "position_percent": 100.03,
                 "color_percent": 0.02,
                 "fire_percent": 0.01,
                 "yaw_percent": 0.01
             },
             "max_dance_size_infraction": {
                 "drone_index": 0,
-                "dance_size": 100111,
-                "position_percent": 100.02,
+                "dance_size": 100119,
+                "position_percent": 100.03,
                 "color_percent": 0.02,
                 "fire_percent": 0.01,
                 "yaw_percent": 0.01
@@ -387,8 +388,8 @@ print(dance_size_report)
 dance_size_infractions = [
     DanceSizeInfraction(
         drone_index=0,
-        dance_size=100111,
-        position_percent=100.02,
+        dance_size=100119,
+        position_percent=100.03,
         color_percent=0.02,
         fire_percent=0.01,
         yaw_percent=0.01,
