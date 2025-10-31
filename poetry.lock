@@ -918,12 +918,6 @@ pprintpp = ">=0.4.0"
 pytest = ">=3.5.0"
 rich = ">=8.0.0"
 
-[package.source]
-type = "git"
-url = "https://github.com/JonathanPlasse/pytest-clarity.git"
-reference = "pydantic-basemodel-support"
-resolved_reference = "a6ce87c16213a048882634499bdc08201af0a468"
-
 [[package]]
 name = "pytest-cov"
 version = "4.1.0"
