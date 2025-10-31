@@ -90,6 +90,20 @@ def get_valid_position_events_user(
     drone_user.add_position_event(
         frame=FRAME_PARAMETERS.from_second_to_frame(
             show_user_configuration.duration_before_takeoff
+            + TAKEOFF_PARAMETERS.takeoff_elevation_duration_second,
+        ),
+        xyz=rotated_horizontal_coordinates(
+            (
+                show_user_configuration.step_x * index_x - index_bias_x,
+                show_user_configuration.step_y * index_y - index_bias_y,
+                TAKEOFF_PARAMETERS.takeoff_altitude_meter_min,
+            ),
+            show_user_configuration.angle_takeoff,
+        ),
+    )
+    drone_user.add_position_event(
+        frame=FRAME_PARAMETERS.from_second_to_frame(
+            show_user_configuration.duration_before_takeoff
             + TAKEOFF_PARAMETERS.takeoff_duration_second,
         ),
         xyz=rotated_horizontal_coordinates(
